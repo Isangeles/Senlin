@@ -17,7 +17,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
+/**
+ * Class for main menu of the game
+ * @author Isangeles
+ *
+ */
 public class MainMenu extends BasicGameState
 {
     Button buttNewGame,

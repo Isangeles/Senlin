@@ -13,9 +13,19 @@ import java.util.zip.ZipInputStream;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
+/**
+ * This class provides static methods for connecting with graphic archive and other external graphics files
+ * @author Isangeles
+ *
+ */
 public class GConnector
 {
+    /**
+     * Return InputStream pointed on specific file in graphic archive
+     * @param filePath Path to file in gData
+     * @return InputStream pointed on specific file in graphic archive
+     * @throws IOException If path is wrong
+     */
     public static InputStream getInput(String filePath) throws IOException
     {
     	String pathString = new String("graphic/" + filePath);
@@ -24,6 +34,12 @@ public class GConnector
         return gArch.getInputStream(gFile);
     }
     
+    /**
+     * This static method reads file with image names in portrait folder and adds these files to Image List
+     * @return List with images
+     * @throws FileNotFoundException
+     * @throws SlickException
+     */
     public static List <Image> getPortraits() throws FileNotFoundException, SlickException
     {
     	List<Image> imgList = new ArrayList<>();

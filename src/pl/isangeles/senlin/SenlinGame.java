@@ -6,7 +6,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.states.*;
-
+/**
+ * Main game class, contains all game states
+ * @author Isangeles
+ *
+ */
 public class SenlinGame extends StateBasedGame
 {
 

@@ -34,8 +34,7 @@ public class NewGameMenu extends BasicGameState
 	private TextInput fieldName;
 	
 	private List<Image> imgPorList;
-	int imgId;
-	private Image imgPortrait;
+	private int imgId;
 	private Button buttNextPor;
 	private Button buttPrevPor;
 	
@@ -64,7 +63,6 @@ public class NewGameMenu extends BasicGameState
 			
 			imgPorList = GConnector.getPortraits();
 			imgId = 0;
-			//imgPortrait = player.getPortrait();
 			buttNextPor = new Button(GConnector.getInput("button/buttonNext.png"), "buttNP", false, "", container);
 			buttPrevPor = new Button(GConnector.getInput("button/buttonBack.png"), "buttBP", false, "", container);
 			
@@ -118,6 +116,8 @@ public class NewGameMenu extends BasicGameState
 		
 		if(fieldName.getText() != null && ptsAtributes.getValue() == 0)
 		    buttNext.setActive(true);
+		else 
+		    buttNext.setActive(false);
 	}
 
 	@Override
