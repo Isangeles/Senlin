@@ -50,6 +50,11 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 	{
 		textField.render(gc, g);
 	}
+	
+	public String getText()
+	{
+	    return textField.getText();
+	}
 
 	@Override
 	public void inputEnded() 

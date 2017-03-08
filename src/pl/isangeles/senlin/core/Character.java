@@ -54,6 +54,16 @@ public class Character
 		haste = atributes.addHaste() * value;
 	}
 	
+	public void setPortrait(Image img)
+	{
+	    portrait = img;
+	}
+	
+	public void setName(String text)
+	{
+	    name = text;
+	}
+	
 	public void drawPortrait(float x, float y)
 	{
 		portrait.draw(x, y, 50f, 70f);

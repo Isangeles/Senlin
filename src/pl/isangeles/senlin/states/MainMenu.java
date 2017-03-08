@@ -33,10 +33,10 @@ public class MainMenu extends BasicGameState
     {
         try
         {
-        	buttNewGame = new Button(GConnector.getInput("button" + File.separator + "menuButtonLong.png"), "menuButtNG", false, "New Game", container);
-        	buttLoadGame = new Button(GConnector.getInput("button" + File.separator + "menuButtonLong.png"), "menuButtLG", false, "Load Game", container);
-        	buttOptions = new Button(GConnector.getInput("button" + File.separator + "menuButtonLong.png"), "menuButtO", false, "Options", container);
-            buttExit = new Button(GConnector.getInput("button" + File.separator + "menuButtonLong.png"), "menuButtExit", false, "Exit", container);
+        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtNG", false, "New Game", container);
+        	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtLG", false, "Load Game", container);
+        	buttOptions = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtO", false, "Options", container);
+            buttExit = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtExit", false, "Exit", container);
         }catch(IOException | FontFormatException e)
         {
         	System.err.println(e.toString());
@@ -58,7 +58,10 @@ public class MainMenu extends BasicGameState
             throws SlickException
     {
     	if(newGameReq)
-    		game.enterState(1);
+    	{
+    	    newGameReq = false;
+    		game.enterState(1); 
+    	}
     	if(closeReq)
     		container.exit();
     }

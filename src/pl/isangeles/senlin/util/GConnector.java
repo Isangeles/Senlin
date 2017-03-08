@@ -18,7 +18,7 @@ public class GConnector
 {
     public static InputStream getInput(String filePath) throws IOException
     {
-    	String pathString = new String("graphic" + File.separator + filePath);
+    	String pathString = new String("graphic/" + filePath);
     	ZipFile gArch = new ZipFile("data" + File.separator + "gData");
         ZipEntry gFile = gArch.getEntry(pathString);
         return gArch.getInputStream(gFile);
@@ -30,7 +30,7 @@ public class GConnector
     	
     	File portraitsBase = new File("data" + File.separator + "portrait" + File.separator + "portraits.txt");
     	Scanner nameScann = new Scanner(portraitsBase);
-    	nameScann.useDelimiter(";\\s");
+    	nameScann.useDelimiter(";\r?\n");
     	String imgName;
     	while(nameScann.hasNext())
     	{

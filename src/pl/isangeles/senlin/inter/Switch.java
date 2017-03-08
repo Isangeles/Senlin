@@ -29,15 +29,15 @@ public final class Switch extends InterfaceObject implements MouseListener
 	
 	public Switch(GameContainer gc, String label, int value, Atribute points) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("switch" + File.separator + "switchBG.png"), "switch", false);
+		super(GConnector.getInput("switch/switchBG.png"), "switch", false);
 		this.gc = gc;
 		this.label = label;
 		this.value = value;
 		this.points = points;
 		this.gc.getInput().addMouseListener(this);
 		
-		buttPlus = new Button(GConnector.getInput("switch" + File.separator + "switchButtonPlus.png"), "switchBP", false, "", this.gc);
-		buttMinus = new Button(GConnector.getInput("switch" + File.separator + "switchButtonMinus.png"), "switchBM", false, "", this.gc);
+		buttPlus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchBP", false, "", this.gc);
+		buttMinus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchBM", false, "", this.gc);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);

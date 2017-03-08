@@ -44,7 +44,8 @@ public class NewGameMenu extends BasicGameState
 	private Button buttNext;
 	private Button buttBack;
 	
-	boolean toMainMenuReq;
+	boolean mainMenuReq;
+	boolean gameWorldReq;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException 
@@ -59,19 +60,19 @@ public class NewGameMenu extends BasicGameState
 			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes);
 			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes);
 			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes);
-			fieldAtributesPts = new PointsField(GConnector.getInput("field" + File.separator + "ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points");
+			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points");
 			
 			imgPorList = GConnector.getPortraits();
 			imgId = 0;
 			//imgPortrait = player.getPortrait();
-			buttNextPor = new Button(GConnector.getInput("button" + File.separator + "buttonNext.png"), "buttNP", false, "", container);
-			buttPrevPor = new Button(GConnector.getInput("button" + File.separator + "buttonBack.png"), "buttBP", false, "", container);
+			buttNextPor = new Button(GConnector.getInput("button/buttonNext.png"), "buttNP", false, "", container);
+			buttPrevPor = new Button(GConnector.getInput("button/buttonBack.png"), "buttBP", false, "", container);
 			
-			fieldName = new TextInput(GConnector.getInput("field" + File.separator + "textFieldBG.png"), "fieldName", false, container);
+			fieldName = new TextInput(GConnector.getInput("field/textFieldBG.png"), "fieldName", false, container);
 			
 
-			buttNext = new Button(GConnector.getInput("button" + File.separator + "buttonNext.png"), "buttN", false, "", container);
-			buttBack = new Button(GConnector.getInput("button" + File.separator + "buttonBack.png"), "buttB", false, "", container);
+			buttNext = new Button(GConnector.getInput("button/buttonNext.png"), "buttN", false, "", container);
+			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "buttB", false, "", container);
 			
 			buttNext.setActive(false);
 			
@@ -97,15 +98,26 @@ public class NewGameMenu extends BasicGameState
 		buttNextPor.draw(300, 480);
 		buttPrevPor.draw(160, 480);
 		
-		buttNext.draw(10, 1000);
-		buttBack.draw(1800, 1000);
+		buttNext.draw(1800, 1000);
+		buttBack.draw(10, 1000);
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException 
 	{
-		if(toMainMenuReq)
+		if(mainMenuReq)
+		{
+		    mainMenuReq = false;
 			game.enterState(0);
+		}
+		if(gameWorldReq)
+		{
+		    gameWorldReq = false;
+		    game.enterState(2);
+		}
+		
+		if(fieldName.getText() != null && ptsAtributes.getValue() == 0)
+		    buttNext.setActive(true);
 	}
 
 	@Override
@@ -122,8 +134,16 @@ public class NewGameMenu extends BasicGameState
 		else if(buttPrevPor.isMouseOver() && imgId > 0)
 			imgId --;
 		
+		if(buttNext.isMouseOver() && buttNext.isActive())
+		{
+		    player.setName(fieldName.getText());
+		    player.setPortrait(imgPorList.get(imgId));
+		    player.levelUp();
+		    gameWorldReq = true;
+		}
+		
 		if(buttBack.isMouseOver())
-			toMainMenuReq = true;
+		    mainMenuReq = true;
 	}
 
 }

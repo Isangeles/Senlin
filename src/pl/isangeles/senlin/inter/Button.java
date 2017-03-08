@@ -49,6 +49,8 @@ public final class Button extends InterfaceObject implements MouseListener
         
         clickArea = new MouseOverArea(gc, super.baseTex, 0, 0);
         
+        active = true;
+        
         isClicked = false;
         clickColor = new Color(73, 73, 73);
         
@@ -90,7 +92,7 @@ public final class Button extends InterfaceObject implements MouseListener
     
     public void draw(float x, float y)
     {
-    	if(!isClicked || active)
+    	if(!isClicked && active)
     		super.draw(x, y);
     	else
     		super.draw(x, y, clickColor);
@@ -113,6 +115,11 @@ public final class Button extends InterfaceObject implements MouseListener
     public boolean isMouseOver()
     {
     	return clickArea.isMouseOver();
+    }
+    
+    public boolean isActive()
+    {
+        return active;
     }
     
     public void setActive(boolean bool)
