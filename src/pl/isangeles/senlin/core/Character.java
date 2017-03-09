@@ -20,6 +20,7 @@ public class Character
 	private int level;
 	private int health;
 	private int magicka;
+	private int[] position = {0, 0};
 	private float haste;
 	private Attributes atributes;
 	private Image portrait;
@@ -100,9 +101,9 @@ public class Character
 	 * @param x Position on x axis
 	 * @param y Position on y axis
 	 */
-	public void draw(float x, float y)
+	public void draw()
 	{
-		avatar.draw(x, y);
+		avatar.draw(position[0], position[1]);
 	}
 	/**
 	 * Draws character portrait
@@ -120,6 +121,45 @@ public class Character
 	public void update(int delta)
 	{
 		avatar.update(delta);
+	}
+	
+	public boolean move(int x, int y)
+	{
+		if(position[0] == x && position[1] == y)
+		{
+			avatar.move(false);
+			return false;
+		}
+		else
+		{
+			avatar.move(true);
+			if(position[0] > x)
+			{
+				position[0] -= 1;
+				avatar.goLeft();
+			}
+			if(position[0] < x)
+			{
+				position[0] += 1;
+				avatar.goRight();
+			}
+			if(position[1] > y)
+			{
+				position[1] -= 1;
+				avatar.goUp();
+			}
+			if(position[1] < y)
+			{
+				position[1] += 1;
+				avatar.goDown();
+			}
+			return true;
+		}
+	}
+	
+	public boolean isMove()
+	{
+		return avatar.isMove();
 	}
 	
 	public int getHit()
