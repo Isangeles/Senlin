@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Atribute;
+import pl.isangeles.senlin.core.Attribute;
 
 public class NewGameMenu extends BasicGameState 
 {
@@ -29,7 +29,7 @@ public class NewGameMenu extends BasicGameState
 	private Switch intSwitch;
 	private Switch wisSwitch;
 	private PointsField fieldAtributesPts;
-	private Atribute ptsAtributes;
+	private Attribute ptsAtributes;
 	
 	private TextInput fieldName;
 	
@@ -52,7 +52,7 @@ public class NewGameMenu extends BasicGameState
 		try 
 		{
 			player = new Character();
-			ptsAtributes = new Atribute(5);
+			ptsAtributes = new Attribute(5);
 			
 			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes);
 			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes);

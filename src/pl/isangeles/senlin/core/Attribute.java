@@ -4,16 +4,16 @@ package pl.isangeles.senlin.core;
  * @author Isangeles
  *
  */
-public class Atribute 
+public class Attribute 
 {
 	int value;
 	
-	public Atribute()
+	public Attribute()
 	{
 		value = 0;
 	}
 	
-	public Atribute(int value)
+	public Attribute(int value)
 	{
 		this.value = value;
 	}

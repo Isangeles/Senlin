@@ -1,13 +1,19 @@
 package pl.isangeles.senlin.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
-
+import pl.isangeles.senlin.graphic.Avatar;
+/**
+ * Class for game characters like players, NPCs, etc.
+ * @author Isangeles
+ *
+ */
 public class Character 
 {
 	private String name;
@@ -15,29 +21,46 @@ public class Character
 	private int health;
 	private int magicka;
 	private float haste;
-	private Atributes atributes;
+	private Attributes atributes;
 	private Image portrait;
 	private boolean live;
+	private Avatar avatar;
 	private Random numberGenerator = new Random();
-	
-	public Character() throws SlickException
+	/**
+	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be used to make new character playable
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	public Character() throws SlickException, IOException
 	{
 		name = "Name";
 		level = 0;
-		atributes = new Atributes(1, 1, 1, 1, 1);
+		atributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + "default.jpg");
 		live = true;
+		avatar = new Avatar();
 	}
-	
-	public Character(String name, int level, Atributes atributes, String portraitName) throws SlickException
+	/**
+	 * This constructor provides playable character
+	 * @param name Name of character in game
+	 * @param level Character experience level
+	 * @param atributes Set of character attributes
+	 * @param portraitName Name of image file in portrait catalog
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	public Character(String name, int level, Attributes atributes, String portraitName) throws SlickException, IOException
 	{
 		this.name = name;
 		this.atributes = atributes;
 		setLevel(level);
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
 		live = true;
+		avatar = new Avatar();
 	}
-	
+	/**
+	 * Adds one level to character
+	 */
 	public void levelUp()
 	{
 		level ++;
@@ -45,7 +68,10 @@ public class Character
 		magicka = atributes.addMagicka();
 		haste = atributes.addHaste();
 	}
-	
+	/**
+	 * Adds levels to character
+	 * @param value Numbers of levels
+	 */
 	public void setLevel(int value)
 	{
 		level = value;
@@ -53,20 +79,47 @@ public class Character
 		magicka = atributes.addMagicka() * value;
 		haste = atributes.addHaste() * value;
 	}
-	
+	/**
+	 * Sets specific portrait from portrait catalog to character 
+	 * @param img
+	 */
 	public void setPortrait(Image img)
 	{
 	    portrait = img;
 	}
-	
+	/**
+	 * Sets character name
+	 * @param text String with name
+	 */
 	public void setName(String text)
 	{
 	    name = text;
 	}
-	
+	/**
+	 * Draws character avatar
+	 * @param x Position on x axis
+	 * @param y Position on y axis
+	 */
+	public void draw(float x, float y)
+	{
+		avatar.draw(x, y);
+	}
+	/**
+	 * Draws character portrait
+	 * @param x Position on x axis
+	 * @param y Position on y axis
+	 */
 	public void drawPortrait(float x, float y)
 	{
 		portrait.draw(x, y, 50f, 70f);
+	}
+	/**
+	 * Updates character avatar animation
+	 * @param delta
+	 */
+	public void update(int delta)
+	{
+		avatar.update(delta);
 	}
 	
 	public int getHit()

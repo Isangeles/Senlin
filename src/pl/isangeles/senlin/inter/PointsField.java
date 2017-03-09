@@ -9,11 +9,11 @@ import java.io.InputStream;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import pl.isangeles.senlin.core.Atribute;
+import pl.isangeles.senlin.core.Attribute;
 
 public class PointsField extends InterfaceObject 
 {
-	Atribute value;
+	Attribute value;
 	String label;
 	Font textFont;
 	TrueTypeFont textTtf;
@@ -25,7 +25,7 @@ public class PointsField extends InterfaceObject
 	private float texWidth;
 	private float texHeight;
 	
-	public PointsField(InputStream fileInput, String ref, boolean flipped, Atribute value, String label) throws SlickException, FontFormatException, IOException 
+	public PointsField(InputStream fileInput, String ref, boolean flipped, Attribute value, String label) throws SlickException, FontFormatException, IOException 
 	{
 		super(fileInput, ref, flipped);
 		this.value = value;

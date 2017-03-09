@@ -13,13 +13,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
-import pl.isangeles.senlin.core.Atribute;
+import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.util.*;
 
 public final class Switch extends InterfaceObject implements MouseListener
 {
 	int value;
-	Atribute points;
+	Attribute points;
 	Font labelFont;
 	TrueTypeFont ttf;
 	String label;
@@ -27,7 +27,7 @@ public final class Switch extends InterfaceObject implements MouseListener
 	Button buttMinus;
 	GameContainer gc;
 	
-	public Switch(GameContainer gc, String label, int value, Atribute points) throws SlickException, IOException, FontFormatException 
+	public Switch(GameContainer gc, String label, int value, Attribute points) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false);
 		this.gc = gc;

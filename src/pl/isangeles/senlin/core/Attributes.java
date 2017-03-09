@@ -1,20 +1,20 @@
 package pl.isangeles.senlin.core;
 
-public class Atributes 
+public class Attributes 
 {
-	private Atribute strenght;
-	private Atribute constitution;
-	private Atribute dexterity;
-	private Atribute intelligence;
-	private Atribute wisdom;
+	private Attribute strenght;
+	private Attribute constitution;
+	private Attribute dexterity;
+	private Attribute intelligence;
+	private Attribute wisdom;
 	
-	public Atributes(int str, int con, int dex, int inte, int wis)
+	public Attributes(int str, int con, int dex, int inte, int wis)
 	{
-		strenght = new Atribute(str);
-		constitution = new Atribute(con);
-		dexterity = new Atribute(dex);
-		intelligence = new Atribute(inte);
-		wisdom = new Atribute(wis);
+		strenght = new Attribute(str);
+		constitution = new Attribute(con);
+		dexterity = new Attribute(dex);
+		intelligence = new Attribute(inte);
+		wisdom = new Attribute(wis);
 	}
 	public int addHealth()
 	{
