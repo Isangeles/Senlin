@@ -28,7 +28,7 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 	
 	public TextInput(InputStream inputToBG, String ref, boolean flipped, GameContainer gc) throws SlickException, FontFormatException, IOException
 	{
-		super(inputToBG, ref, flipped);
+		super(inputToBG, ref, flipped, gc);
 		this.gc = gc;
 		this.gc.getInput().addMouseListener(this);
 		this.gc.getInput().addKeyListener(this);

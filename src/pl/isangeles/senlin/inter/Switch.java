@@ -29,7 +29,7 @@ public final class Switch extends InterfaceObject implements MouseListener
 	
 	public Switch(GameContainer gc, String label, int value, Attribute points) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("switch/switchBG.png"), "switch", false);
+		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc);
 		this.gc = gc;
 		this.label = label;
 		this.value = value;

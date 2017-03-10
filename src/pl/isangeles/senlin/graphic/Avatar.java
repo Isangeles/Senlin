@@ -13,7 +13,7 @@ import pl.isangeles.senlin.util.*;
  * @author Isangeles
  *
  */
-public class Avatar
+public class Avatar extends GameObject
 {
 	private Image torsoIdle,
 				  torsoIdleUp,

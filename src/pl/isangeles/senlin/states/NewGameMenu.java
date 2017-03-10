@@ -59,7 +59,7 @@ public class NewGameMenu extends BasicGameState
 			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes);
 			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes);
 			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes);
-			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points");
+			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container);
 			
 			imgPorList = GConnector.getPortraits();
 			imgId = 0;

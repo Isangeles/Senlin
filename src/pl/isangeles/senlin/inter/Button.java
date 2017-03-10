@@ -72,7 +72,7 @@ public final class Button extends InterfaceObject implements MouseListener
      */
     public Button(InputStream fileInput, String ref, boolean flipped, String buttText, GameContainer gc) throws SlickException, FontFormatException, IOException
     {
-        super(fileInput, ref, flipped);
+        super(fileInput, ref, flipped, gc);
         this.buttText = buttText;
         this.gc = gc;
         this.gc.getInput().addMouseListener(this);
@@ -97,14 +97,14 @@ public final class Button extends InterfaceObject implements MouseListener
     	else
     		super.draw(x, y, clickColor);
     	
-        clickArea.setLocation(x, y);
+        clickArea.setLocation(super.x, super.y);
         
         float buttonEndX = super.getWidth();
         float buttonEndY = super.getHeight();
         float textX = ttf.getWidth(buttText);
         float textY = ttf.getHeight(buttText);
         
-        ttf.drawString(this.getCenteredCoord(x, buttonEndX, textX), getCenteredCoord(y, buttonEndY, textY), buttText);
+        ttf.drawString(this.getCenteredCoord(super.x, buttonEndX, textX), getCenteredCoord(super.y, buttonEndY, textY), buttText);
     }
     
     public boolean clicked()

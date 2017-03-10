@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -25,9 +26,9 @@ public class PointsField extends InterfaceObject
 	private float texWidth;
 	private float texHeight;
 	
-	public PointsField(InputStream fileInput, String ref, boolean flipped, Attribute value, String label) throws SlickException, FontFormatException, IOException 
+	public PointsField(InputStream fileInput, String ref, boolean flipped, Attribute value, String label, GameContainer gc) throws SlickException, FontFormatException, IOException 
 	{
-		super(fileInput, ref, flipped);
+		super(fileInput, ref, flipped, gc);
 		this.value = value;
 		this.label = label;
 		
