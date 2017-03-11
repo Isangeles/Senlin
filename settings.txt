@@ -1,1 +1,2 @@
-polish;/n1920x1080
+english;
+1920x1080;

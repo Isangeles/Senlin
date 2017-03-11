@@ -20,12 +20,13 @@ import pl.isangeles.senlin.util.GConnector;
 
 public final class TextSwitch extends InterfaceObject implements MouseListener
 {
-    List<String> textToDraw = new ArrayList<>();
-    int lineId;
-    Font textFont;
-    TrueTypeFont textTtf;
-    Button plus;
-    Button minus;
+    private List<String> textToDraw = new ArrayList<>();
+    private int lineId;
+    private Font textFont;
+    private TrueTypeFont textTtf;
+    private Button plus;
+    private Button minus;
+    private boolean isChange;
     
     public TextSwitch(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
@@ -60,6 +61,11 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     public String getString()
     {
     	return textToDraw.get(lineId);
+    }
+    
+    public boolean isChange()
+    {
+        return isChange;
     }
 
     @Override
@@ -107,9 +113,15 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     public void mouseReleased(int button, int x, int y)
     {
         if(button == Input.MOUSE_LEFT_BUTTON && plus.isMouseOver() && lineId < textToDraw.size()-1)
+        {
+            isChange = true;
             lineId ++;
+        }
         else if(button == Input.MOUSE_LEFT_BUTTON && minus.isMouseOver() && lineId > 0)
+        {
+            isChange = true;
             lineId --;
+        }
     }
 
     @Override

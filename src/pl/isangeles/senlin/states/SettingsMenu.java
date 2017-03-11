@@ -14,6 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.inter.Button;
+import pl.isangeles.senlin.inter.Message;
 import pl.isangeles.senlin.inter.TextSwitch;
 import pl.isangeles.senlin.util.GConnector;
 
@@ -22,6 +23,7 @@ public class SettingsMenu extends BasicGameState
 	TextSwitch switchResolution;
 	TextSwitch switchLanguage;
 	Button buttBack;
+	Message message;
 	
 	boolean backReq;
 	
@@ -35,6 +37,7 @@ public class SettingsMenu extends BasicGameState
     		switchResolution = new TextSwitch(container, "1920x1080;1600x800", ";");
 			switchLanguage = new TextSwitch(container, "english;polish", ";");
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
+			message = new Message(container, "");
 		} 
     	catch (FontFormatException | IOException e) 
     	{
@@ -49,13 +52,14 @@ public class SettingsMenu extends BasicGameState
     	switchResolution.draw(700, 400);
     	switchLanguage.draw(700, 550);
     	buttBack.draw(10, 900);
+    	message.show();
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-    	if(backReq)
+    	if(backReq && !message.isOpen())
     	{
     		backReq = false;
     		File settingsFile = new File("settings.txt");
@@ -63,8 +67,9 @@ public class SettingsMenu extends BasicGameState
     		{
 				PrintWriter pw = new PrintWriter(settingsFile);
 				pw.write(switchLanguage.getString());
-				pw.write(";/n");
+				pw.write(";" + System.lineSeparator());
 				pw.write(switchResolution.getString());
+                pw.write(";" + System.lineSeparator());
 				pw.close();
 			} catch (FileNotFoundException e) 
     		{
@@ -78,7 +83,11 @@ public class SettingsMenu extends BasicGameState
     public void mouseReleased(int button, int x, int y)
     {
     	if(button == Input.MOUSE_LEFT_BUTTON && buttBack.isMouseOver())
-    		backReq = true;
+    	{
+    	    backReq = true;
+    	    if(switchResolution.isChange())
+    	        message.set("Some changes needs game restart.");
+    	}
     }
     
     @Override
