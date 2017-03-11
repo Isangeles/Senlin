@@ -13,6 +13,7 @@ import java.awt.FontFormatException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.state.BasicGameState;
@@ -30,6 +31,7 @@ public class MainMenu extends BasicGameState
 		   buttExit;
     boolean closeReq;
     boolean newGameReq;
+    boolean settingsReq;
 
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -66,6 +68,11 @@ public class MainMenu extends BasicGameState
     	    newGameReq = false;
     		game.enterState(1); 
     	}
+    	if(settingsReq)
+    	{
+    		settingsReq = false;
+    		game.enterState(3);
+    	}
     	if(closeReq)
     		container.exit();
     }
@@ -81,6 +88,8 @@ public class MainMenu extends BasicGameState
     {
     	if(buttNewGame.isMouseOver())
     		newGameReq = true;
+    	if(button == Input.MOUSE_LEFT_BUTTON && buttOptions.isMouseOver())
+    		settingsReq = true;
     	if(buttExit.isMouseOver())
     		closeReq = true;
     }

@@ -54,11 +54,11 @@ public final class Switch extends InterfaceObject implements MouseListener
         float textX = ttf.getWidth(label);
         float textY = ttf.getHeight(label);
         
-		buttPlus.draw(x+texEndX-35, y+2);
-		buttMinus.draw(x, y+2);
+		buttPlus.draw(super.x+texEndX-35, super.y+2);
+		buttMinus.draw(super.x, super.y+2);
 		
+		super.drawString(value+"", ttf);
 		ttf.drawString(super.getCenteredCoord(x, texEndX, textX), super.getCenteredCoord(y, texEndY, textY-20), label);
-		ttf.drawString(super.getCenteredCoord(x, texEndX, ttf.getWidth(value+"")), super.getCenteredCoord(y, texEndY, ttf.getHeight(value+"")), value+"");
 		
 	}
 	@Override

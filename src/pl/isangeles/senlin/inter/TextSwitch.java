@@ -16,6 +16,8 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.util.GConnector;
+
 public final class TextSwitch extends InterfaceObject implements MouseListener
 {
     List<String> textToDraw = new ArrayList<>();
@@ -25,12 +27,14 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     Button plus;
     Button minus;
     
-    public TextSwitch(InputStream fileInput, String ref, boolean flipped,
-            GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
+    public TextSwitch(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
-        super(fileInput, ref, flipped, gc);
-
-        File fontFile = new File("data" + File.separator + "font" + "SIMSUN.ttf");
+        super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
+        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
+        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
+        gc.getInput().addMouseListener(this);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
@@ -46,7 +50,16 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     public void draw(float x, float y)
     {
         super.draw(x, y);
+        
+        plus.draw(super.x+super.getWidth()-35, super.y+2);
+		minus.draw(super.x, super.y+2);
+		
         super.drawString(textToDraw.get(lineId), textTtf);
+    }
+    
+    public String getString()
+    {
+    	return textToDraw.get(lineId);
     }
 
     @Override
@@ -95,7 +108,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     {
         if(button == Input.MOUSE_LEFT_BUTTON && plus.isMouseOver() && lineId < textToDraw.size()-1)
             lineId ++;
-        else if(button == Input.MOUSE_LEFT_BUTTON && minus.isMouseOver() && lineId >= 0)
+        else if(button == Input.MOUSE_LEFT_BUTTON && minus.isMouseOver() && lineId > 0)
             lineId --;
     }
 

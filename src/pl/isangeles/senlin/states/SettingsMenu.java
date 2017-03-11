@@ -1,32 +1,86 @@
 package pl.isangeles.senlin.states;
 
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import pl.isangeles.senlin.inter.Button;
+import pl.isangeles.senlin.inter.TextSwitch;
+import pl.isangeles.senlin.util.GConnector;
+
 public class SettingsMenu extends BasicGameState
 {
-
+	TextSwitch switchResolution;
+	TextSwitch switchLanguage;
+	Button buttBack;
+	
+	boolean backReq;
+	
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
     {
+    	
+    	try 
+    	{
+    		switchResolution = new TextSwitch(container, "1920x1080;1600x800", ";");
+			switchLanguage = new TextSwitch(container, "english;polish", ";");
+			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
+		} 
+    	catch (FontFormatException | IOException e) 
+    	{
+			e.printStackTrace();
+		}
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
+    	switchResolution.draw(700, 400);
+    	switchLanguage.draw(700, 550);
+    	buttBack.draw(10, 900);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
+    	if(backReq)
+    	{
+    		backReq = false;
+    		File settingsFile = new File("settings.txt");
+    		try 
+    		{
+				PrintWriter pw = new PrintWriter(settingsFile);
+				pw.write(switchLanguage.getString());
+				pw.write(";/n");
+				pw.write(switchResolution.getString());
+				pw.close();
+			} catch (FileNotFoundException e) 
+    		{
+				e.printStackTrace();
+			}
+    		game.enterState(0);
+    	}
     }
-
+    
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+    	if(button == Input.MOUSE_LEFT_BUTTON && buttBack.isMouseOver())
+    		backReq = true;
+    }
+    
     @Override
     public int getID()
     {

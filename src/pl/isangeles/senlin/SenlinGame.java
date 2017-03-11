@@ -28,6 +28,7 @@ public class SenlinGame extends StateBasedGame
     {
         this.addState(new MainMenu());
         this.addState(new NewGameMenu());
+        this.addState(new SettingsMenu());
         this.enterState(0);
     }
 
