@@ -21,8 +21,8 @@ public abstract class InterfaceObject
     GameContainer gc;
     Image baseTex;
     float scale;
-    float x;
-    float y;
+    protected float x;
+    protected float y;
     
     public InterfaceObject(String pathToTex) throws SlickException
     {

@@ -9,13 +9,13 @@ public class Coords
         
         switch(point)
         {
-        case "UR":
+        case "TL":
             return new float[]{disX, disY};
-        case "UL":
+        case "TR":
             return new float[]{resWidth - disX, disY};
-        case "LR":
+        case "BL":
             return new float[]{disX, resHeight - disY};
-        case "LL":
+        case "BR":
             return new float[]{resWidth - disX, resHeight - disY};
         case "CE":
         {

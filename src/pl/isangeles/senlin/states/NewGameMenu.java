@@ -20,6 +20,7 @@ import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attribute;
+import pl.isangeles.senlin.states.*;
 
 public class NewGameMenu extends BasicGameState 
 {
@@ -45,7 +46,7 @@ public class NewGameMenu extends BasicGameState
 	
 	boolean mainMenuReq;
 	boolean gameWorldReq;
-	
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException 
 	{
@@ -73,6 +74,7 @@ public class NewGameMenu extends BasicGameState
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "buttB", false, "", container);
 			
 			buttNext.setActive(false);
+			
 			
 		} catch (IOException | FontFormatException e) 
 		{
@@ -112,6 +114,7 @@ public class NewGameMenu extends BasicGameState
 		{
 		    gameWorldReq = false;
 		    game.addState(new GameWorld(player));
+            game.getState(2).init(container, game);
 		    game.enterState(2);
 		}
 		
