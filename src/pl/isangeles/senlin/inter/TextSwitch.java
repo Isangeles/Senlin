@@ -17,7 +17,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.util.GConnector;
-
+/**
+ * Switch for manipulation of text values
+ * @author Isangeles
+ *
+ */
 public final class TextSwitch extends InterfaceObject implements MouseListener
 {
     private List<String> textToDraw = new ArrayList<>();
@@ -31,21 +35,13 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     public TextSwitch(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
-        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
-        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
-        gc.getInput().addMouseListener(this);
-        
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
-        
-        Scanner scann = new Scanner(textToSwitch);
-        scann.useDelimiter(delimiter);
-        while(scann.hasNext())
-        {
-            textToDraw.add(scann.next());
-        }
-        scann.close();
+        build(gc, textToSwitch, delimiter);
+    }
+    
+    public TextSwitch(GameContainer gc, String textToSwitch, String delimiter, String info) throws SlickException, FontFormatException, IOException
+    {
+        super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc, info);
+        build(gc, textToSwitch, delimiter);
     }
     
     public void draw(float x, float y)
@@ -127,6 +123,25 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     @Override
     public void mouseWheelMoved(int change)
     {
+    }
+    
+    private void build(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
+    {
+        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
+        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
+        gc.getInput().addMouseListener(this);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+        
+        Scanner scann = new Scanner(textToSwitch);
+        scann.useDelimiter(delimiter);
+        while(scann.hasNext())
+        {
+            textToDraw.add(scann.next());
+        }
+        scann.close();
     }
 
 }

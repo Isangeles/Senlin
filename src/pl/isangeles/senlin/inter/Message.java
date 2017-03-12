@@ -13,7 +13,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.util.*; 
-
+/**
+ * Class for in game messages
+ * @author Isangeles
+ *
+ */
 public class Message extends InterfaceObject implements MouseListener
 {
     private String textMessage;
