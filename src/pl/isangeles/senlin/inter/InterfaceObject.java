@@ -13,20 +13,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.util.Settings;
 
 public abstract class InterfaceObject
 {   
     GameContainer gc;
-    Image baseTex;
+    protected Image baseTex;
     float scale;
     protected float x;
     protected float y;
     
+    private InfoWindow info;
+    private boolean isInfo;
+    private MouseOverArea iObjectMOA;
+    
     public InterfaceObject(String pathToTex) throws SlickException
     {
         baseTex = new Image(pathToTex);
+        iObjectMOA = new MouseOverArea(gc, baseTex, 0, 0);
         
     }
     
@@ -35,6 +41,15 @@ public abstract class InterfaceObject
         baseTex = new Image(fileInput, ref, flipped);
         this.gc = gc;
         setProportion();
+        iObjectMOA = new MouseOverArea(gc, baseTex, 0, 0);
+    }
+    
+    public InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String textForInfo) throws SlickException, IOException, FontFormatException
+    {
+    	this(fileInput, ref, flipped, gc);
+    	isInfo = true;
+    	info = new InfoWindow(gc, textForInfo);
+    	iObjectMOA = new MouseOverArea(gc, baseTex, 0, 0);
     }
     
     protected void draw(float x, float y)
@@ -42,6 +57,12 @@ public abstract class InterfaceObject
         this.x = x * scale;
         this.y = y * scale;
         baseTex.draw(this.x, this.y, scale);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        }
     }
     
     protected void draw(float x, float y, Color filter)
@@ -49,6 +70,25 @@ public abstract class InterfaceObject
         this.x = x * scale;
         this.y = y * scale;
         baseTex.draw(this.x, this.y, scale, filter);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        }
+    }
+    
+    protected void draw(float x, float y, float width, float height)
+    {
+    	this.x = x * scale;
+        this.y = y * scale;
+        baseTex.draw(this.x, this.y, width*scale, height*scale);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        }
     }
     
     protected void drawString(String text, TrueTypeFont ttf)

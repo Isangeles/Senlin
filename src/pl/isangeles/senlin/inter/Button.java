@@ -40,24 +40,10 @@ public final class Button extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public Button(String pathToImg, String buttText, GameContainer gc) throws SlickException, FontFormatException, IOException
+    public Button(String pathToImg, String label, GameContainer gc) throws SlickException, FontFormatException, IOException
     {
         super(pathToImg);
-        this.buttText = buttText;
-        this.gc = gc;
-        this.gc.getInput().addMouseListener(this);
-        
-        clickArea = new MouseOverArea(gc, super.baseTex, 0, 0);
-        
-        active = true;
-        
-        isClicked = false;
-        clickColor = new Color(73, 73, 73);
-        
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        buttTextFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        
-        ttf = new TrueTypeFont(buttTextFont.deriveFont(12f), true);
+        build(gc, label);
     }
     /**
      * Create an button based on input stream(for zip arch)
@@ -70,24 +56,16 @@ public final class Button extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public Button(InputStream fileInput, String ref, boolean flipped, String buttText, GameContainer gc) throws SlickException, FontFormatException, IOException
+    public Button(InputStream fileInput, String ref, boolean flipped, String label, GameContainer gc) throws SlickException, FontFormatException, IOException
     {
         super(fileInput, ref, flipped, gc);
-        this.buttText = buttText;
-        this.gc = gc;
-        this.gc.getInput().addMouseListener(this);
-        
-        active = true;
-        
-        clickArea = new MouseOverArea(gc, super.baseTex, 0, 0);
-        
-        isClicked = false;
-        clickColor = new Color(73, 73, 73);
-        
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        buttTextFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        
-        ttf = new TrueTypeFont(buttTextFont.deriveFont(12f), true);
+        build(gc, label);
+    }
+    
+    public Button(InputStream fileInput, String ref, boolean flipped, String label, GameContainer gc, String textForInfo) throws SlickException, FontFormatException, IOException
+    {
+    	super(fileInput, ref, flipped, gc, textForInfo);
+    	build(gc, label);
     }
     
     public void draw(float x, float y)
@@ -185,5 +163,24 @@ public final class Button extends InterfaceObject implements MouseListener
 	public void mouseWheelMoved(int change) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void build(GameContainer gc, String text) throws FontFormatException, IOException
+	{
+		this.buttText = text;
+        this.gc = gc;
+        this.gc.getInput().addMouseListener(this);
+        
+        active = true;
+        
+        clickArea = new MouseOverArea(gc, super.baseTex, 0, 0);
+        
+        isClicked = false;
+        clickColor = new Color(73, 73, 73);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+        buttTextFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        
+        ttf = new TrueTypeFont(buttTextFont.deriveFont(12f), true);
 	}
 }

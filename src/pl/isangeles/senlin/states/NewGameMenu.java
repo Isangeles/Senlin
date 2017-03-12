@@ -18,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.states.*;
@@ -55,11 +56,11 @@ public class NewGameMenu extends BasicGameState
 			player = new Character();
 			ptsAtributes = new Attribute(5);
 			
-			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes);
-			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes);
-			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes);
-			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes);
-			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes);
+			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("textMenu.txt", "strInfo"));
+			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes, TConnector.getText("textMenu.txt", "conInfo"));
+			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes, TConnector.getText("textMenu.txt", "dexInfo"));
+			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes, TConnector.getText("textMenu.txt", "intInfo"));
+			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes, TConnector.getText("textMenu.txt", "wisInfo"));
 			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container);
 			
 			imgPorList = GConnector.getPortraits();

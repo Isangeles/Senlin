@@ -30,19 +30,13 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public Switch(GameContainer gc, String label, int value, Attribute points) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc);
-		this.gc = gc;
-		this.label = label;
-		this.value = value;
-		this.points = points;
-		this.gc.getInput().addMouseListener(this);
-		
-		buttPlus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchBP", false, "", this.gc);
-		buttMinus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchBM", false, "", this.gc);
-		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        
-        ttf = new TrueTypeFont(labelFont.deriveFont(10f), true);
+		build(gc, label, value, points);
+	}
+	
+	public Switch(GameContainer gc, String label, int value, Attribute points, String textForInfo) throws SlickException, IOException, FontFormatException
+	{
+		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc, textForInfo);
+		build(gc, label, value, points);
 	}
 	
 	public void draw(float x, float y)
@@ -113,4 +107,20 @@ public final class Switch extends InterfaceObject implements MouseListener
 	{
 	}
 
+	private void build(GameContainer gc, String label, int value, Attribute points) throws SlickException, FontFormatException, IOException
+	{
+		this.gc = gc;
+		this.label = label;
+		this.value = value;
+		this.points = points;
+		this.gc.getInput().addMouseListener(this);
+		
+		buttPlus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchBP", false, "", this.gc);
+		buttMinus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchBM", false, "", this.gc);
+		
+		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        
+        ttf = new TrueTypeFont(labelFont.deriveFont(10f), true);
+	}
 }

@@ -75,10 +75,13 @@ public class GameWorld extends BasicGameState
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if(button == Input.MOUSE_LEFT_BUTTON)
+    	if(!ui.isMouseOver())
     	{
-    		destPoint[0] = x;
-    		destPoint[1] = y;
+    		if(button == Input.MOUSE_LEFT_BUTTON)
+        	{
+        		destPoint[0] = x;
+        		destPoint[1] = y;
+        	}
     	}
     }
 

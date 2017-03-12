@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
@@ -20,6 +21,7 @@ public class BottomBar extends InterfaceObject implements MouseListener
     Button skills;
     Button map;
     Button menu;
+    MouseOverArea bBarMOA;
 
     public BottomBar(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
@@ -31,6 +33,8 @@ public class BottomBar extends InterfaceObject implements MouseListener
         skills = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc);
         map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc);
         menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc);
+        
+        bBarMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
     }
     
     public void draw(float x, float y)
@@ -41,6 +45,13 @@ public class BottomBar extends InterfaceObject implements MouseListener
         skills.draw(super.x+super.getWidth()-150, super.y+10);
         map.draw(super.x+super.getWidth()-200, super.y+10);
         menu.draw(super.x+super.getWidth()-250, super.y+10);
+        
+        bBarMOA.setLocation(x, y);
+    }
+    
+    public boolean isMouseOver()
+    {
+    	return bBarMOA.isMouseOver();
     }
 
     @Override
