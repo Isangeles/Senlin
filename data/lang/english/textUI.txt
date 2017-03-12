@@ -1,0 +1,5 @@
+questsBInfo:Your quests;
+inventoryBInfo:Inventory;
+skillsBInfo:Skills;
+mapBInfo:Map;
+menuBInfo:Menu;

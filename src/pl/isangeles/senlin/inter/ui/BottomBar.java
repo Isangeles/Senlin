@@ -13,6 +13,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 
 public class BottomBar extends InterfaceObject implements MouseListener
 {
@@ -28,11 +29,11 @@ public class BottomBar extends InterfaceObject implements MouseListener
         super(GConnector.getInput("ui/bottomBar.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
         
-        quests = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQ", false, "", gc);
-        inventory = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonI", false, "", gc);
-        skills = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc);
-        map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc);
-        menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc);
+        quests = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQ", false, "", gc, TConnector.getText("textUI.txt", "questsBInfo"));
+        inventory = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonI", false, "", gc, TConnector.getText("textUI.txt", "inventoryBInfo"));
+        skills = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc, TConnector.getText("textUI.txt", "skillsBInfo"));
+        map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("textUI.txt", "mapBInfo"));
+        menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("textUI.txt", "menuBInfo"));
         
         bBarMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
     }
@@ -40,11 +41,11 @@ public class BottomBar extends InterfaceObject implements MouseListener
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        quests.draw(super.x+super.getWidth()-50, super.y+10);
-        inventory.draw(super.x+super.getWidth()-100, super.y+10);
+        menu.draw(super.x+super.getWidth()-50, super.y+10);
+        map.draw(super.x+super.getWidth()-100, super.y+10);
         skills.draw(super.x+super.getWidth()-150, super.y+10);
-        map.draw(super.x+super.getWidth()-200, super.y+10);
-        menu.draw(super.x+super.getWidth()-250, super.y+10);
+        inventory.draw(super.x+super.getWidth()-200, super.y+10);
+        quests.draw(super.x+super.getWidth()-250, super.y+10);
         
         bBarMOA.setLocation(x, y);
     }
