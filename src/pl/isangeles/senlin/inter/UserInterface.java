@@ -29,6 +29,11 @@ public class UserInterface
         bBar.draw(Coords.get("BL", 200, 70)[0], Coords.get("BL", 100, 70)[1]);
         if(bBar.isMenuReq())
         	igMenu.draw(Coords.get("CE", -100, 0)[0], Coords.get("CE", 0, -100)[1]);
+        if(igMenu.isResumeReq() || !bBar.isMenuReq())
+        {
+        	bBar.hideMenu();
+        	igMenu.reset();
+        }
         	
     }
     

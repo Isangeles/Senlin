@@ -41,8 +41,13 @@ public class Warning extends Message
 	public void show(String textWarning)
 	{
 		super.show(textWarning);
-
-		
+	}
+	
+	@Override
+	public void close()
+	{
+		undecided = false;
+		super.close();
 	}
 	
 	@Override
@@ -72,14 +77,12 @@ public class Warning extends Message
 		if(button == Input.MOUSE_LEFT_BUTTON && abort.isMouseOver())
 		{
 			cancel = true;
-			undecided = false;
-			super.close();
+			close();
 		}
 		else if(button == Input.MOUSE_LEFT_BUTTON && super.buttonOk.isMouseOver())
 		{
 			accept = true;
-			undecided = false;
-			super.close();
+			close();
 		}
 	}
 }

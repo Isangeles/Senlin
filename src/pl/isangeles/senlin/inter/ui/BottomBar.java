@@ -63,6 +63,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     {
     	return menuReq;
     }
+    
+    public void hideMenu()
+    {
+    	menuReq = false;
+    }
 
     @Override
     public void inputEnded()

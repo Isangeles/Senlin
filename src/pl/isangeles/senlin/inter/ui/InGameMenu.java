@@ -25,6 +25,7 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 	private MouseOverArea menuMOA;
 	private Warning menuWarning;
 	
+	private boolean resumeReq;
 	private boolean exitReq;
 
 	public InGameMenu(GameContainer gc) throws SlickException, IOException, FontFormatException 
@@ -73,6 +74,18 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 			return exitReq;
 		else
 			return false;
+	}
+	
+	public boolean isResumeReq()
+	{
+		return resumeReq;
+	}
+	
+	public void reset()
+	{
+		resumeReq = false;
+		exitReq = false;
+		menuWarning.close();
 	}
 
 	@Override
@@ -124,6 +137,8 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 			exitReq = true;
 			menuWarning.open();
 		}
+		if(button == Input.MOUSE_LEFT_BUTTON && resume.isMouseOver())
+			resumeReq = true;
 	}
 
 	@Override
