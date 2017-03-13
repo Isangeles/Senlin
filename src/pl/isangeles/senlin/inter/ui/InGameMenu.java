@@ -56,7 +56,12 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		
 		if(exitReq)
 			menuWarning.show("Are you sure ?");
-	
+		if(!menuWarning.isUndecided() && menuWarning.isCancel())
+		{
+			exitReq = false;
+			menuWarning.close();
+		}
+	}
 	public boolean isMouseOver()
 	{
 		return menuMOA.isMouseOver();
@@ -115,7 +120,10 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 	public void mouseReleased(int button, int x, int y)
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON && exit.isMouseOver())
+		{
 			exitReq = true;
+			menuWarning.open();
+		}
 	}
 
 	@Override

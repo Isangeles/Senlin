@@ -20,6 +20,7 @@ public class Warning extends Message
 	
 	boolean cancel;
 	boolean accept;
+	boolean undecided;
 
 	public Warning(GameContainer gc, String textMessage) throws SlickException, IOException, FontFormatException 
 	{
@@ -33,14 +34,23 @@ public class Warning extends Message
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
-		abort.draw(super.x+100, super.y+super.getHeight()-50);
+		abort.draw(super.x+50, super.y+super.getHeight()-50);
 	}
 	
 	@Override
 	public void show(String textWarning)
 	{
 		super.show(textWarning);
+
+		
 	}
+	
+	@Override
+	public void open()
+	{
+		undecided = true;
+	}
+	
 	public boolean isCancel()
 	{
 		return cancel;
@@ -51,17 +61,24 @@ public class Warning extends Message
 		return accept;
 	}
 	
+	public boolean isUndecided()
+	{
+		return undecided;
+	}
+	
 	@Override
 	public void mouseReleased(int button, int x, int y)
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON && abort.isMouseOver())
 		{
 			cancel = true;
+			undecided = false;
 			super.close();
 		}
 		else if(button == Input.MOUSE_LEFT_BUTTON && super.buttonOk.isMouseOver())
 		{
 			accept = true;
+			undecided = false;
 			super.close();
 		}
 	}

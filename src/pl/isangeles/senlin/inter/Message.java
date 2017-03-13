@@ -66,7 +66,7 @@ public class Message extends InterfaceObject implements MouseListener
     {
         super.draw(x, y);
         textTtf.drawString(super.x+20, super.y+10, textMessage);
-        buttonOk.draw(super.x+180, super.y+super.getHeight()-50);
+        buttonOk.draw(super.x+200, super.y+super.getHeight()-50);
     }
     
     public void show(String textMessage)
