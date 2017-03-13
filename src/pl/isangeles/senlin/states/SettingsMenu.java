@@ -26,6 +26,7 @@ public class SettingsMenu extends BasicGameState
 	Message message;
 	
 	boolean backReq;
+	boolean changed;
 	
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -52,7 +53,8 @@ public class SettingsMenu extends BasicGameState
     	switchResolution.draw(700, 400);
     	switchLanguage.draw(700, 550);
     	buttBack.draw(10, 900);
-    	message.show();
+    	if(changed)
+    		message.show("Some changes needs game restart.");
     }
 
     @Override
@@ -86,7 +88,10 @@ public class SettingsMenu extends BasicGameState
     	{
     	    backReq = true;
     	    if(switchResolution.isChange())
-    	        message.set("Some changes needs game restart.");
+    	    {
+    	    	message.open();
+    	    	changed = true;
+    	    }
     	}
     }
     

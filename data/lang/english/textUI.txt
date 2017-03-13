@@ -1,5 +1,5 @@
-questsBInfo:Your quests;
-inventoryBInfo:Inventory;
-skillsBInfo:Skills;
-mapBInfo:Map;
-menuBInfo:Menu;
+questsBInfo:Journal[L];
+inventoryBInfo:Inventory[I];
+skillsBInfo:Skills[K];
+mapBInfo:Map[M];
+menuBInfo:Menu[Esc];

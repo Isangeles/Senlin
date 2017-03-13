@@ -14,19 +14,26 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.util.*; 
 /**
- * Class for in game messages
+ * Class for game messages which consist of text, background and dismiss button
  * @author Isangeles
  *
  */
 public class Message extends InterfaceObject implements MouseListener
 {
     private String textMessage;
-    private Button buttonOk;
+    protected Button buttonOk;
     private Font textFont;
     private TrueTypeFont textTtf;
     private boolean isOpen;
     
-    
+    /**
+     * Message constructor
+     * @param gc GameContainer for superclass 
+     * @param textMessage Text for message window
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public Message(GameContainer gc, String textMessage) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("field/messageBG.png"), "messageBg", false, gc);
@@ -50,23 +57,28 @@ public class Message extends InterfaceObject implements MouseListener
         isOpen = false;
     }
     
+    public void open()
+    {
+    	isOpen = true;
+    }
+    
     public void draw(float x, float y)
     {
         super.draw(x, y);
         textTtf.drawString(super.x+20, super.y+10, textMessage);
-        buttonOk.draw(super.x+130, super.y+super.getHeight()-50);
+        buttonOk.draw(super.x+180, super.y+super.getHeight()-50);
     }
     
-    public void show()
+    public void show(String textMessage)
     {
-        if(isOpen)
-            draw(Coords.get("CE", -200, -100)[0], Coords.get("CE", -100, -80)[1]);
+    	set(textMessage);
+        isOpen = true;
+        draw(Coords.get("CE", -200, -100)[0], Coords.get("CE", -100, -80)[1]);
     }
     
-    public void set(String textMessage)
+    private void set(String textMessage)
     {
         this.textMessage = textMessage;
-        isOpen = true;
     }
 
     @Override

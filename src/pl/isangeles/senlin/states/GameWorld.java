@@ -70,6 +70,9 @@ public class GameWorld extends BasicGameState
     	{
     		player.update(delta);
     	}
+    	
+    	if(ui.isExitReq())
+    		container.exit();
     }
     
     @Override
