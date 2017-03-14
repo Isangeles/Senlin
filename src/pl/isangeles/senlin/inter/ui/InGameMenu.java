@@ -145,9 +145,4 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 	public void mouseWheelMoved(int change) 
 	{
 	}
-
-	private void cancelExit()
-	{
-		exitReq = false;
-	}
 }

@@ -21,7 +21,14 @@ public class Warning extends Message
 	boolean cancel;
 	boolean accept;
 	boolean undecided;
-
+	/**
+	 * Warning constructor
+	 * @param gc Game container for superclass
+	 * @param textMessage Text for warning
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Warning(GameContainer gc, String textMessage) throws SlickException, IOException, FontFormatException 
 	{
 		super(gc, textMessage);

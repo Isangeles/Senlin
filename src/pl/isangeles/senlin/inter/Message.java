@@ -46,29 +46,41 @@ public class Message extends InterfaceObject implements MouseListener
         
         buttonOk = new Button(GConnector.getInput("button/buttonOK.png"), "buttOk", false, "", gc);
     }
-    
+    /**
+     * If message should be shown
+     * @return
+     */
     public boolean isOpen()
     {
         return isOpen;
     }
-    
+    /**
+     * Force message to close
+     */
     public void close()
     {
         isOpen = false;
     }
-    
+    /**
+     * Force message to open
+     */
     public void open()
     {
     	isOpen = true;
     }
-    
+    /**
+     * Draws message
+     */
     public void draw(float x, float y)
     {
         super.draw(x, y);
         textTtf.drawString(super.x+20, super.y+10, textMessage);
         buttonOk.draw(super.x+200, super.y+super.getHeight()-50);
     }
-    
+    /**
+     * Sets text and draws message 
+     * @param textMessage Text for message
+     */
     public void show(String textMessage)
     {
     	set(textMessage);
