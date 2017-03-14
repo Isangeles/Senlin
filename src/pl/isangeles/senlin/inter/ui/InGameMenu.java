@@ -14,7 +14,11 @@ import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.Warning;
 import pl.isangeles.senlin.util.GConnector;
-
+/**
+ * In-game menu class
+ * @author Isangeles
+ *
+ */
 public class InGameMenu extends InterfaceObject implements MouseListener
 {
 	private Button resume;
@@ -27,7 +31,13 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 	
 	private boolean resumeReq;
 	private boolean exitReq;
-
+	/**
+	 * In-game menu constructor
+	 * @param gc Game container for superclass
+	 * @throws SlickException 
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public InGameMenu(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/bgInGameMenu.png"), "bgIGMenu", false, gc);
@@ -42,7 +52,11 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		menuMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
 		menuWarning = new Warning(gc, "");
 	}
-	
+	/**
+	 * Draws menu
+	 * @param x Position on X axis
+	 * @param y Position on Y axis
+	 */
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
@@ -63,11 +77,18 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 			menuWarning.close();
 		}
 	}
+	/**
+	 * Checks if mouse is over menu
+	 * @return Boolean value
+	 */
 	public boolean isMouseOver()
 	{
 		return menuMOA.isMouseOver();
 	}
-	
+	/**
+	 * Checks if exit from game is requested
+	 * @return Boolean value
+	 */
 	public boolean isExitReq()
 	{
 		if(menuWarning.isAccept())
@@ -75,12 +96,17 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		else
 			return false;
 	}
-	
+	/**
+	 * Checks if resume game is requested
+	 * @return Boolean value
+	 */
 	public boolean isResumeReq()
 	{
 		return resumeReq;
 	}
-	
+	/**
+	 * Resets menu to default state
+	 */
 	public void reset()
 	{
 		resumeReq = false;

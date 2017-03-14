@@ -17,7 +17,11 @@ import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.Message;
 import pl.isangeles.senlin.inter.TextSwitch;
 import pl.isangeles.senlin.util.GConnector;
-
+/**
+ * Game settings state class
+ * @author Isangeles
+ *
+ */
 public class SettingsMenu extends BasicGameState
 {
 	TextSwitch switchResolution;

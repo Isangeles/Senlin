@@ -129,9 +129,9 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     		menuReq = false;
     	
     	if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && !inventoryReq)
-            menuReq = true;
+            inventoryReq = true;
         else if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && inventoryReq)
-            menuReq = false;
+            inventoryReq = false;
     }
 
     @Override

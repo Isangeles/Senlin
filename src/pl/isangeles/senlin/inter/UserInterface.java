@@ -10,7 +10,11 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.inter.ui.*;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.core.Character;
-
+/**
+ * Class containing all ui elements
+ * @author Isangeles
+ *
+ */
 public class UserInterface
 {
     Character player;
@@ -19,7 +23,14 @@ public class UserInterface
     InGameMenu igMenu;
     Inventory inventory;
     Warning uiWarning;
-    
+    /**
+     * UI constructor, calls all ui elements constructors
+     * @param gc Game container for superclass and ui elements
+     * @param player Player character 
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public UserInterface(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
         this.player = player;
@@ -30,12 +41,9 @@ public class UserInterface
         inventory = new Inventory(gc);
         uiWarning = new Warning(gc, "");
     }
-    
-    public void update(Character player)
-    {
-        this.player = player;
-    }
-    
+    /**
+     * Draws ui elements
+     */
     public void draw()
     {
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
@@ -51,17 +59,32 @@ public class UserInterface
         
         if(bBar.isInventoryReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+        
+        update();
         	
     }
-    
+    /**
+     * Checks if mouse is over one of ui elements
+     * @return
+     */
     public boolean isMouseOver()
     {
-    	return bBar.isMouseOver() || igMenu.isMouseOver();
+    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver();
     }
-    
+    /**
+     * Checks if exit game is requested
+     * @return True if game should be closed or false if not
+     */
     public boolean isExitReq()
     {
     	return igMenu.isExitReq();
+    }
+    /**
+     * Updates ui elements
+     */
+    private void update()
+    {
+        charFrame.update(player);
     }
     
 }

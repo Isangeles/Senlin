@@ -15,15 +15,18 @@ import org.newdawn.slick.gui.MouseOverArea;
 public class Bar extends InterfaceObject
 {
     String label;
+    int baseValue;
     int value;
+    float barSize;
     MouseOverArea barMOA;
     Font barFont;
     TrueTypeFont barTtf;
     
-    public Bar(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String label, int value) throws SlickException, IOException, FontFormatException
+    public Bar(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String label, int value, int baseValue) throws SlickException, IOException, FontFormatException
     {
         super(fileInput, ref, flipped, gc);
         this.value = value;
+        this.baseValue = baseValue;
         this.label = label;
         
         barMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
@@ -35,14 +38,22 @@ public class Bar extends InterfaceObject
     
     public void update(int value)
     {
+    	this.baseValue = value;
         this.value = value;
     }
     
     public void draw(float x, float y)
     {
-        super.draw(x, y);
+        super.draw(x, y, getBarSize()-5, 21f);
         barMOA.setLocation(super.x, super.y);
+        if(barMOA.isMouseOver())
+        	barTtf.drawString(super.x+20, super.y, label + value + "/" + baseValue);
         
+    }
+    
+    private float getBarSize()
+    {
+    	return (float)((baseValue * 100f) / value)*2;
     }
 
 }

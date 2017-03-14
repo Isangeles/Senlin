@@ -14,7 +14,11 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.inter.UserInterface;
-
+/**
+ * State for game world
+ * @author Isangeles
+ *
+ */
 public class GameWorld extends BasicGameState
 {
 	private TiledMap areaMap;

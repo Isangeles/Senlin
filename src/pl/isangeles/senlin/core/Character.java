@@ -19,9 +19,12 @@ public class Character
 	private String name;
 	private int level;
 	private int experience;
+	private int maxExperience;
 	private int health;
+	private int maxHealth;
 	private int magicka;
-	private int[] position = {0, 0};
+	private int maxMagicka;
+	private int[] position = {500, 250};
 	private float haste;
 	private Attributes atributes;
 	private Image portrait;
@@ -29,7 +32,7 @@ public class Character
 	private Avatar avatar;
 	private Random numberGenerator = new Random();
 	/**
-	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be used to make new character playable
+	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
 	 * @throws SlickException
 	 * @throws IOException
 	 */
@@ -51,11 +54,12 @@ public class Character
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public Character(String name, int level, Attributes atributes, String portraitName) throws SlickException, IOException
+	public Character(String name, int level, int experience, Attributes atributes, String portraitName) throws SlickException, IOException
 	{
 		this.name = name;
 		this.atributes = atributes;
-		setLevel(level);
+		addLevel(level);
+		this.experience = experience;
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
 		live = true;
 		avatar = new Avatar();
@@ -66,20 +70,23 @@ public class Character
 	public void levelUp()
 	{
 		level ++;
-		health = atributes.addHealth();
-		magicka = atributes.addMagicka();
+		maxHealth = atributes.addHealth();
+		health = maxHealth;
+		maxMagicka = atributes.addMagicka();
+		magicka = maxMagicka;
 		haste = atributes.addHaste();
+		maxExperience = 1000 * level;
 	}
 	/**
 	 * Adds levels to character
 	 * @param value Numbers of levels
 	 */
-	public void setLevel(int value)
+	public void addLevel(int value)
 	{
-		level = value;
-		health = atributes.addHealth() * value;
-		magicka = atributes.addMagicka() * value;
-		haste = atributes.addHaste() * value;
+		for(int i = 0; i < value; i ++)
+		{
+			levelUp();
+		}
 	}
 	/**
 	 * Sets specific portrait from portrait catalog to character 
@@ -123,7 +130,12 @@ public class Character
 	{
 		avatar.update(delta);
 	}
-	
+	/**
+	 * Moves character to given position if thats position is different then actual   
+	 * @param x Position on X axis
+	 * @param y Position on Y axis
+	 * @return False if given position is same as actual or true if else
+	 */
 	public boolean move(int x, int y)
 	{
 		if(position[0] == x && position[1] == y)
@@ -157,7 +169,10 @@ public class Character
 			return true;
 		}
 	}
-	
+	/**
+	 * Checks if character avatar is in move
+	 * @return True if avatar is in move false if else
+	 */
 	public boolean isMove()
 	{
 		return avatar.isMove();
@@ -179,11 +194,20 @@ public class Character
 	public int getExperience()
 	{ return experience; }
 	
+	public int getMaxExperience()
+	{ return maxExperience; }
+	
 	public int getHealth()
 	{ return health; }
 	
+	public int getMaxHealth()
+	{ return maxHealth; }
+	
 	public int getMagicka()
 	{ return magicka; }
+	
+	public int getMaxMagicka()
+	{ return maxMagicka; }
 	
 	public int getStr()
 	{ return atributes.getStr(); }
