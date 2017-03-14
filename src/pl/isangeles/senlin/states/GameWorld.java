@@ -39,7 +39,7 @@ public class GameWorld extends BasicGameState
         try 
         {
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
-            ui = new UserInterface(container);
+            ui = new UserInterface(container, player);
         } 
         catch (SlickException e) 
         {

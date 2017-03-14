@@ -27,4 +27,14 @@ public class Coords
             return new float[]{disX, disY};
         }
     }
+    
+    public static float getX(String point, float dis)
+    {
+        return get(point, dis, 0)[0];
+    }
+    
+    public static float getY(String point, float dis)
+    {
+        return get(point, 0, dis)[1];
+    }
 }

@@ -18,6 +18,7 @@ public class Character
 {
 	private String name;
 	private int level;
+	private int experience;
 	private int health;
 	private int magicka;
 	private int[] position = {0, 0};
@@ -174,6 +175,9 @@ public class Character
 	
 	public int getLevel()
 	{ return level; }
+	
+	public int getExperience()
+	{ return experience; }
 	
 	public int getHealth()
 	{ return health; }

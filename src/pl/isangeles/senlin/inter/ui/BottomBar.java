@@ -15,7 +15,11 @@ import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
-
+/**
+ * UI bottom bar class, sends requests to show various parts of ui
+ * @author Isangeles
+ *
+ */
 public class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 {
     private Button quests;
@@ -26,6 +30,7 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     private MouseOverArea bBarMOA;
     
     private boolean menuReq;
+    private boolean inventoryReq;
 
     public BottomBar(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
@@ -62,6 +67,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     public boolean isMenuReq()
     {
     	return menuReq;
+    }
+    
+    public boolean isInventoryReq()
+    {
+        return inventoryReq;
     }
     
     public void hideMenu()
@@ -117,6 +127,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     		menuReq = true;
     	else if(button == Input.MOUSE_LEFT_BUTTON && menu.isMouseOver() && menuReq)
     		menuReq = false;
+    	
+    	if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && !inventoryReq)
+            menuReq = true;
+        else if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && inventoryReq)
+            menuReq = false;
     }
 
     @Override
@@ -131,6 +146,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     		menuReq = true;
     	else if(key == Input.KEY_ESCAPE && menuReq)
     		menuReq = false;
+		
+		if(key == Input.KEY_I && !inventoryReq)
+		    inventoryReq = true ;
+		else if(key == Input.KEY_I && inventoryReq)
+            inventoryReq = false ;
 	}
 
 	@Override
