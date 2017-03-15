@@ -62,9 +62,9 @@ public class CharacterFrame extends InterfaceObject
      */
     public void update(Character player)
     {
-        health.update(player.getHealth());
-        magicka.update(player.getMagicka());
-        experience.update(player.getExperience());
+        health.update(player.getHealth(), player.getMaxHealth());
+        magicka.update(player.getMagicka(), player.getMaxMagicka());
+        experience.update(player.getExperience(), player.getMaxExperience());
         name = player.getName();
         level = player.getLevel();
     }

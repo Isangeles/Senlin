@@ -5,12 +5,16 @@ import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
- * Static class for connecting with external text files
+ * Static class giving access to external text files
  * @author Isangeles
  *
  */
-public class TConnector 
+public final class TConnector 
 {
+	/**
+	 * Private constructor to prevent initialization 
+	 */
+	private TConnector(){}
     /**
      * Static method which searches specific text file in current lang directory and return string with specific id
      * construction of text file: [text id]:[text];[new line mark]

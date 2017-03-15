@@ -14,12 +14,16 @@ import java.util.zip.ZipInputStream;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 /**
- * This class provides static methods for connecting with graphic archive and other external graphics files
+ * This class provides static methods giving access to graphic archive and other external graphics files
  * @author Isangeles
  *
  */
-public class GConnector
+public final class GConnector
 {
+	/**
+	 * Private Constructor to prevent initialization
+	 */
+	private GConnector(){}
     /**
      * Return InputStream pointed on specific file in graphic archive
      * @param filePath Path to file in gData
