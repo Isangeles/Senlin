@@ -25,6 +25,7 @@ public class GameWorld extends BasicGameState
 	private Character player;
 	private UserInterface ui;
 	private int[] destPoint = {0, 0};
+	private float[] cameraPos = {0f, 0f};
 	
 	public GameWorld(Character player)
 	{
@@ -61,15 +62,19 @@ public class GameWorld extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
-    	areaMap.render(0, 0);
-    	player.draw();
-    	ui.draw();
+        g.translate(-cameraPos[0], -cameraPos[1]);
+        areaMap.render(0, 0);
+        player.draw();
+        g.translate(cameraPos[0], cameraPos[1]);
+        ui.draw();
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
+        keyDown(container.getInput());
+        
     	if(player.move(destPoint[0], destPoint[1]))
     	{
     		player.update(delta);
@@ -91,11 +96,31 @@ public class GameWorld extends BasicGameState
         	}
     	}
     }
+    
+    @Override
+    public void keyPressed(int key, char c)
+    {
+    }
 
     @Override
     public int getID()
     {
         return 2;
+    }
+    /**
+     * KeyDown method called in update, because engine does not provide keyDown method for override  
+     * @param input Input from game container
+     */
+    private void keyDown(Input input)
+    {
+        if(input.isKeyDown(Input.KEY_W))
+            cameraPos[1] -= 10;
+        if(input.isKeyDown(Input.KEY_S))
+            cameraPos[1] += 10;
+        if(input.isKeyDown(Input.KEY_A))
+            cameraPos[0] -= 10;
+        if(input.isKeyDown(Input.KEY_D))
+            cameraPos[0] += 10;
     }
 
 }

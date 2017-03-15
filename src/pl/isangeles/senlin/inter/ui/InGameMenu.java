@@ -13,6 +13,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.Warning;
+import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 /**
  * In-game menu class
@@ -49,7 +50,7 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		settings = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Settings", gc);
 		exit = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Exit game", gc);
 		
-		menuMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
+		menuMOA = new MouseOverArea(gc, super.baseTex, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
 		menuWarning = new Warning(gc, "");
 	}
 	/**
@@ -112,6 +113,7 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		resumeReq = false;
 		exitReq = false;
 		menuWarning.close();
+		menuMOA.setLocation(Coords.getX("BR", 0), Coords.getY("BR", 0));
 	}
 
 	@Override

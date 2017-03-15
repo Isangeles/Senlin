@@ -41,7 +41,6 @@ public abstract class InterfaceObject
     {
         baseTex = new Image(pathToTex);
         iObjectMOA = new MouseOverArea(gc, baseTex, 0, 0);
-        
     }
     /**
      * Constructor for interface object without info window, implicitly scales object for current resolution

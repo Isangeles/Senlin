@@ -31,7 +31,13 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     
     private boolean menuReq;
     private boolean inventoryReq;
-
+    /**
+     * Bottom bar constructor
+     * @param gc Game container for superclass and bar buttons
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public BottomBar(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/bottomBar.png"), "uiBottomBar", false, gc);
@@ -46,7 +52,9 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
         
         bBarMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
     }
-    
+    /**
+     * Draws bar
+     */
     public void draw(float x, float y)
     {
         super.draw(x, y);
@@ -58,7 +66,10 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
         
         bBarMOA.setLocation(x, y);
     }
-    
+    /**
+     * Checks if mouse is over bar
+     * @return True if mouse is over or false otherwise
+     */
     public boolean isMouseOver()
     {
     	return bBarMOA.isMouseOver();

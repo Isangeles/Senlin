@@ -21,7 +21,7 @@ public class UserInterface
     BottomBar bBar;
     CharacterFrame charFrame;
     InGameMenu igMenu;
-    Inventory inventory;
+    InvetoryMenu inventory;
     Warning uiWarning;
     /**
      * UI constructor, calls all ui elements constructors
@@ -38,7 +38,7 @@ public class UserInterface
         bBar = new BottomBar(gc);
         charFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
-        inventory = new Inventory(gc);
+        inventory = new InvetoryMenu(gc);
         uiWarning = new Warning(gc, "");
     }
     /**
@@ -55,13 +55,13 @@ public class UserInterface
         {
         	bBar.hideMenu();
         	igMenu.reset();
+        	inventory.reset();
         }
-        
         if(bBar.isInventoryReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
         
-        update();
-        	
+        
+        update();     	
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -73,7 +73,7 @@ public class UserInterface
     }
     /**
      * Checks if exit game is requested
-     * @return True if game should be closed or false if not
+     * @return True if game should be closed or false otherwise
      */
     public boolean isExitReq()
     {

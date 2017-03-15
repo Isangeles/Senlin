@@ -15,7 +15,11 @@ import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
-
+/**
+ * Class for player character frame
+ * @author Isangeles
+ *
+ */
 public class CharacterFrame extends InterfaceObject
 {
     Image portrait;
@@ -27,7 +31,14 @@ public class CharacterFrame extends InterfaceObject
     MouseOverArea frameMOA;
     Font textFont;
     TrueTypeFont textTtf;
-    
+    /**
+     * Character frame constructor
+     * @param gc Game container for superclass and frame elements
+     * @param player Player character to display in frame
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public CharacterFrame(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/charFrameBG.png"), "uiCharFrame", false, gc);
@@ -45,7 +56,10 @@ public class CharacterFrame extends InterfaceObject
         
         frameMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
     }
-    
+    /**
+     * Updates frame
+     * @param player Player character to update frame 
+     */
     public void update(Character player)
     {
         health.update(player.getHealth());
@@ -54,7 +68,9 @@ public class CharacterFrame extends InterfaceObject
         name = player.getName();
         level = player.getLevel();
     }
-    
+    /**
+     * Draws frame
+     */
     public void draw(float x, float y)
     {
         super.draw(x, y);
@@ -67,7 +83,10 @@ public class CharacterFrame extends InterfaceObject
 
         frameMOA.setLocation(super.x, super.y);
     }
-    
+    /**
+     * Checks if mouse is over frame
+     * @return True if mouse is over false otherwise
+     */
     public boolean isMouseOver()
     {
     	return frameMOA.isMouseOver();
