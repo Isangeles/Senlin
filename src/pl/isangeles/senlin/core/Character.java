@@ -1,14 +1,18 @@
 package pl.isangeles.senlin.core;
 
+import java.awt.FontFormatException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.inter.ui.ItemTile;
 /**
  * Class for game characters like players, NPCs, etc.
  * @author Isangeles
@@ -30,6 +34,7 @@ public class Character
 	private Image portrait;
 	private boolean live;
 	private Avatar avatar;
+	private Inventory inventory;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -44,6 +49,7 @@ public class Character
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + "default.jpg");
 		live = true;
 		avatar = new Avatar();
+		inventory = new Inventory();
 	}
 	/**
 	 * This constructor provides playable character
@@ -54,7 +60,7 @@ public class Character
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public Character(String name, int level, int experience, Attributes atributes, String portraitName) throws SlickException, IOException
+	public Character(String name, int level, int experience, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException
 	{
 		this.name = name;
 		this.atributes = atributes;
@@ -63,6 +69,7 @@ public class Character
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
 		live = true;
 		avatar = new Avatar();
+		inventory = new Inventory();
 	}
 	/**
 	 * Adds one level to character
@@ -237,6 +244,13 @@ public class Character
 	{
 		return portrait;
 	}
+	/**
+	 * Returns specific item from inventory
+	 * @param itemId 
+	 * @return
+	 */
+	public Item getItem(String itemId)
+	{ return inventory.getItem(itemId); }
 	
 	public void takeHealth(int value)
 	{
@@ -279,4 +293,23 @@ public class Character
 	
 	public void addWis(int value) 
 	{ atributes.addWis(value); }
+	/**
+	 * Adds item to character inventory
+	 * @param itemId Item ID in base
+	 * @param gc Game container for item tile
+	 * @throws FontFormatException 
+	 * @throws IOException 
+	 * @throws SlickException 
+	 */
+	public void addItem(Item item)
+	{ inventory.add(item); }
+	/**
+	 * Draws all character items (called by inventory menu)
+	 * @param x Position in X axis
+	 * @param y Position in Y axis
+	 */
+	public void drawItems(float x, float y)
+	{
+		inventory.drawItems(x, y);
+	}
 }

@@ -35,7 +35,8 @@ public final class GConnector
     	String pathString = new String("graphic/" + filePath);
     	ZipFile gArch = new ZipFile("data" + File.separator + "gData");
         ZipEntry gFile = gArch.getEntry(pathString);
-        return gArch.getInputStream(gFile);
+        InputStream is = gArch.getInputStream(gFile);
+        return is;
     }
     
     /**
@@ -57,6 +58,7 @@ public final class GConnector
     		imgName = nameScann.next();
     		imgList.add(new Image("data" + File.separator + "portrait" + File.separator + imgName));
     	}
+    	nameScann.close();
     	return imgList;
     }
     

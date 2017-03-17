@@ -9,6 +9,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.core.Character;
 /**
  * Graphical representation of character inventory
  * @author Isangeles
@@ -17,10 +18,12 @@ import pl.isangeles.senlin.util.GConnector;
 public class InvetoryMenu extends InterfaceObject
 {
 	MouseOverArea inventoryMOA;
+	Character player;
 	
-    public InvetoryMenu(GameContainer gc) throws SlickException, IOException
+    public InvetoryMenu(GameContainer gc, Character player) throws SlickException, IOException
     {
         super(GConnector.getInput("ui/background/inventoryBG.png"), "uiInventory", false, gc);
+        this.player = player;
         
         inventoryMOA = new MouseOverArea(gc, super.baseTex, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
     }
@@ -28,6 +31,7 @@ public class InvetoryMenu extends InterfaceObject
     public void draw(float x, float y)
     {
         super.draw(x, y);
+        player.drawItems(super.x+45, super.y+320);
         
         inventoryMOA.setLocation(super.x, super.y);
     }

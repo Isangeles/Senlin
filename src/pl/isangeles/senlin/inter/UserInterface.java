@@ -38,7 +38,7 @@ public class UserInterface
         bBar = new BottomBar(gc);
         charFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
-        inventory = new InvetoryMenu(gc);
+        inventory = new InvetoryMenu(gc, player);
         uiWarning = new Warning(gc, "");
     }
     /**

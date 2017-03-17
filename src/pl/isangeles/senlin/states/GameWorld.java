@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.inter.UserInterface;
 /**
  * State for game world
@@ -33,18 +34,18 @@ public class GameWorld extends BasicGameState
         this.player = player;
 	}
 	
-	public void addPlayer(Character player)
-	{
-	}
-	
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
     {
         try 
         {
+        	ItemBase IB = new ItemBase(container);
+        	
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);
+            
+            player.addItem(IB.getItem("wSOHI")); //test line
         } 
         catch (SlickException e) 
         {
