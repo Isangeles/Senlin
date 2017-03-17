@@ -15,9 +15,15 @@ public final class Inventory
     List<Item> itemContainer = new LinkedList<>();
     int gold;
     
-    public void add(Item item)
+    public boolean add(Item item)
     {
-        itemContainer.add(item);
+        if(item != null)
+        {
+            itemContainer.add(item);
+            return true;
+        }
+        else 
+            return false;
     }
     
     public Item getItem(String itemId)

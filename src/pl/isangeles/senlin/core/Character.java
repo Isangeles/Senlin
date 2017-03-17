@@ -301,8 +301,8 @@ public class Character
 	 * @throws IOException 
 	 * @throws SlickException 
 	 */
-	public void addItem(Item item)
-	{ inventory.add(item); }
+	public boolean addItem(Item item)
+	{ return inventory.add(item); }
 	/**
 	 * Draws all character items (called by inventory menu)
 	 * @param x Position in X axis

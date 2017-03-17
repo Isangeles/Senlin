@@ -19,14 +19,14 @@ import pl.isangeles.senlin.util.DConnector;
  */
 public class ItemBase 
 {
-	List<Weapon> weapons;
+	public static List<Weapon> weapons;
 	
-	public ItemBase(GameContainer gc) throws SlickException, IOException, FontFormatException
+	private ItemBase(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		loadBases(gc);
 	}
 	
-	public Item getItem(String id)
+	public static Item getItem(String id)
 	{
 		for(int i = 0; i < weapons.size(); i ++)
 		{
@@ -36,7 +36,7 @@ public class ItemBase
 		return null;
 	}
 	
-	private void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException
+	public static void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		weapons = DConnector.getWeaponBase("weaponBase", gc);
 	}
