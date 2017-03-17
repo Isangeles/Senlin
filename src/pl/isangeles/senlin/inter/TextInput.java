@@ -18,11 +18,17 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.gui.TextField;
 
+import pl.isangeles.senlin.util.Coords;
+/**
+ * Class for text fields
+ * @author Isangeles
+ *
+ */
 public class TextInput extends InterfaceObject implements MouseListener, KeyListener, ComponentListener
 {
 	private Font textFont;
-	private TrueTypeFont textTtf;
-	private TextField textField;
+	protected TrueTypeFont textTtf;
+	protected TextField textField;
 	private MouseOverArea fieldMOA;
 	private GameContainer gc;
 	
@@ -35,15 +41,15 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
-		textField = new TextField(gc, textTtf, 0, 0, super.baseTex.getWidth(), super.baseTex.getHeight(), this);
+		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.baseTex.getWidth(), super.baseTex.getHeight(), this);
 		fieldMOA = new MouseOverArea(this.gc, this.baseTex, 0, 0);
 	}
 	
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
-		textField.setLocation((int)x, (int)y);
-		fieldMOA.setLocation(x, y);
+		textField.setLocation((int)super.x, (int)super.y);
+		fieldMOA.setLocation(super.x, super.y);
 	}
 	
 	public void render(Graphics g)
@@ -54,6 +60,11 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 	public String getText()
 	{
 	    return textField.getText();
+	}
+	
+	public void clear()
+	{
+	    textField.setText("");
 	}
 
 	@Override

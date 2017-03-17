@@ -67,14 +67,15 @@ public class GameWorld extends BasicGameState
         areaMap.render(0, 0);
         player.draw();
         g.translate(cameraPos[0], cameraPos[1]);
-        ui.draw();
+        ui.draw(g);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-        keyDown(container.getInput());
+        if(!isPause())
+            keyDown(container.getInput());
         
     	if(player.move(destPoint[0], destPoint[1]))
     	{
@@ -88,7 +89,7 @@ public class GameWorld extends BasicGameState
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if(!ui.isMouseOver())
+    	if(!ui.isMouseOver() && !isPause())
     	{
     		if(button == Input.MOUSE_LEFT_BUTTON)
         	{
@@ -101,12 +102,6 @@ public class GameWorld extends BasicGameState
     @Override
     public void keyPressed(int key, char c)
     {
-    }
-
-    @Override
-    public int getID()
-    {
-        return 2;
     }
     /**
      * KeyDown method called in update, because engine does not provide keyDown method for override  
@@ -123,5 +118,17 @@ public class GameWorld extends BasicGameState
         if(input.isKeyDown(Input.KEY_D))
             cameraPos[0] += 10;
     }
+    
+    private boolean isPause()
+    {
+        return ui.isPauseReq();
+    }
+
+    @Override
+    public int getID()
+    {
+        return 2;
+    }
+    
 
 }

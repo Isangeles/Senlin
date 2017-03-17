@@ -74,7 +74,10 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     {
     	return bBarMOA.isMouseOver();
     }
-    
+    /**
+     * Checks if menu should be open
+     * @return Boolean true if menu should be opened or false otherwise 
+     */
     public boolean isMenuReq()
     {
     	return menuReq;
@@ -83,6 +86,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     public boolean isInventoryReq()
     {
         return inventoryReq;
+    }
+    
+    public boolean isPauseReq()
+    {
+        return menuReq || inventoryReq;
     }
     
     public void hideMenu()

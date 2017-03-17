@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.inter.ui.*;
@@ -18,6 +19,7 @@ import pl.isangeles.senlin.core.Character;
 public class UserInterface
 {
     Character player;
+    Console gameConsole;
     BottomBar bBar;
     CharacterFrame charFrame;
     InGameMenu igMenu;
@@ -35,6 +37,7 @@ public class UserInterface
     {
         this.player = player;
         
+        gameConsole = new Console(gc, player);
         bBar = new BottomBar(gc);
         charFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
@@ -44,8 +47,10 @@ public class UserInterface
     /**
      * Draws ui elements
      */
-    public void draw()
+    public void draw(Graphics g)
     {
+        gameConsole.draw(0, 0, g);
+        
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
         
@@ -64,6 +69,13 @@ public class UserInterface
         update();     	
     }
     /**
+     * Updates ui elements
+     */
+    private void update()
+    {
+        charFrame.update(player);
+    }
+    /**
      * Checks if mouse is over one of ui elements
      * @return
      */
@@ -79,12 +91,9 @@ public class UserInterface
     {
     	return igMenu.isExitReq();
     }
-    /**
-     * Updates ui elements
-     */
-    private void update()
+    public boolean isPauseReq()
     {
-        charFrame.update(player);
+        return !gameConsole.isHidden() || bBar.isPauseReq();
     }
     
 }
