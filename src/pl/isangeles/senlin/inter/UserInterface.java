@@ -74,6 +74,7 @@ public class UserInterface
     private void update()
     {
         charFrame.update(player);
+        inventory.update();
     }
     /**
      * Checks if mouse is over one of ui elements

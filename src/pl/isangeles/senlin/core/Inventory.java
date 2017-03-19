@@ -10,16 +10,16 @@ import pl.isangeles.senlin.inter.ui.ItemTile;
  * @author Isangeles
  *
  */
-public final class Inventory
+public final class Inventory extends LinkedList<Item>
 {
-    List<Item> itemContainer = new LinkedList<>();
-    int gold;
+	private static final long serialVersionUID = 1L;
+	int gold;
     
     public boolean add(Item item)
     {
         if(item != null)
         {
-            itemContainer.add(item);
+            super.add(item);
             return true;
         }
         else 
@@ -28,19 +28,24 @@ public final class Inventory
     
     public Item getItem(String itemId)
     {
-    	for(int i = 0; i < itemContainer.size(); i ++)
+    	for(int i = 0; i < super.size(); i ++)
     	{
-    		if(itemContainer.get(i).id == itemId)
-    			return itemContainer.get(i);
+    		if(super.get(i).id == itemId)
+    			return super.get(i);
     	}
     	return null;
     }
     
+    public Item getItem(int index)
+    {
+    	return super.get(index);
+    }
+    @Deprecated 
     public void drawItems(float x, float y)
     {
-    	for(int i = 0; i < itemContainer.size(); i ++)
+    	for(int i = 0; i < super.size(); i ++)
     	{
-    		itemContainer.get(i).getTile().draw(x, y);
+    		super.get(i).getTile().draw(x, y);
     	}
     }
     

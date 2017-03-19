@@ -73,8 +73,8 @@ public class PointsField extends InterfaceObject
 	{
 		super.draw(x, y);
         
-        textTtf.drawString(this.getCenteredCoord(x, texWidth, valueWidth), getCenteredCoord(y, texHeight, valueHeight), value+"");
-        textTtf.drawString(this.getCenteredCoord(x, texWidth, labelWidth), getCenteredCoord(y, texHeight, labelHeight-20), label);
+        super.drawString(value+"", textTtf);
+        textTtf.drawString(this.getCenteredCoord(super.x, texWidth, labelWidth), getCenteredCoord(super.y, texHeight, labelHeight-20), label);
 	}
 	/**
 	 * Private method called by constructor, builds field point

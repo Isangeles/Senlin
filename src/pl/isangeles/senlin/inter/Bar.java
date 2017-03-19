@@ -69,7 +69,7 @@ public class Bar extends InterfaceObject
         super.draw(x, y, getBarSize()-5, 21f);
         barMOA.setLocation(super.x, super.y);
         if(barMOA.isMouseOver())
-        	barTtf.drawString(super.x+20, super.y, label + value + "/" + baseValue);
+        	barTtf.drawString(x+20, y, label + value + "/" + baseValue);
         
     }
     /**

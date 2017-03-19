@@ -252,6 +252,9 @@ public class Character
 	public Item getItem(String itemId)
 	{ return inventory.getItem(itemId); }
 	
+	public Item getItem(int index)
+	{ return inventory.get(index); }
+	
 	public void takeHealth(int value)
 	{
 		health -= value;

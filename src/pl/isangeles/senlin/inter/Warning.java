@@ -41,7 +41,7 @@ public class Warning extends Message
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
-		abort.draw(super.x+50, super.y+super.getHeight()-50);
+		abort.draw(x+50, y+super.getBaseHeight()-50);
 	}
 	
 	@Override

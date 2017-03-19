@@ -15,7 +15,11 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.util.*;
-
+/**
+ * Graphical switch to manipulate integers 
+ * @author Isangeles
+ *
+ */
 public final class Switch extends InterfaceObject implements MouseListener
 {
 	int value;
@@ -48,11 +52,11 @@ public final class Switch extends InterfaceObject implements MouseListener
         float textX = ttf.getWidth(label);
         float textY = ttf.getHeight(label);
         
-		buttPlus.draw(super.x+texEndX-35, super.y+2);
-		buttMinus.draw(super.x, super.y+2);
+		buttPlus.draw((x+super.getBaseWidth())-buttPlus.getWidth(), y+2);
+		buttMinus.draw(x, y+2);
 		
 		super.drawString(value+"", ttf);
-		ttf.drawString(super.getCenteredCoord(x, texEndX, textX), super.getCenteredCoord(y, texEndY, textY-20), label);
+		ttf.drawString(super.getCenteredCoord(super.x, texEndX, textX), super.getCenteredCoord(super.y, texEndY, textY-20), label);
 		
 	}
 	@Override

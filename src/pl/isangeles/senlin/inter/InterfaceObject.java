@@ -37,6 +37,7 @@ public abstract class InterfaceObject
      * @param pathToTex
      * @throws SlickException
      */
+    @Deprecated
     public InterfaceObject(String pathToTex) throws SlickException
     {
         baseTex = new Image(pathToTex);
@@ -137,12 +138,12 @@ public abstract class InterfaceObject
      */
     protected void drawString(String text, TrueTypeFont ttf)
     {
-        float buttonEndX = baseTex.getWidth();
-        float buttonEndY = baseTex.getHeight();
+        float thisEndX = getWidth();
+        float thisEndY = getHeight();
         float textX = ttf.getWidth(text);
         float textY = ttf.getHeight(text);
         
-        ttf.drawString(getCenteredCoord(x, buttonEndX, textX), getCenteredCoord(y, buttonEndY, textY), text);
+        ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text);
     }
     
     protected float getCenteredCoord(float bgCoord, float bgSize, float obSize)
@@ -150,18 +151,34 @@ public abstract class InterfaceObject
     	return (bgCoord + (bgSize/2)) - obSize/2; 
     }
     /**
-     * Returns width of object
-     * @return Width of object
+     * Returns width of object corrected by scale
+     * @return Width of object multiplied by scale
      */
     protected float getWidth()
+    {
+    	return baseTex.getWidth()*scale;
+    }
+    /**
+     * Returns base width of object
+     * @return Base width of object
+     */
+    protected float getBaseWidth()
     {
     	return baseTex.getWidth();
     }
     /**
-     * Returns height of object
-     * @return Height of object
+     * Returns height of object corrected by scale
+     * @return Height of object multiplied by scale
      */
     protected float getHeight()
+    {
+    	return baseTex.getHeight()*scale;
+    }
+    /**
+     * Returns base height of object 
+     * @return Base height of object
+     */
+    protected float getBaseHeight()
     {
     	return baseTex.getHeight();
     }

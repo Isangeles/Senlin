@@ -75,11 +75,11 @@ public class CharacterFrame extends InterfaceObject
     {
         super.draw(x, y);
         portrait.draw(super.x+40, super.y+9, 95f, 130f);
-        textTtf.drawString(super.x+150, super.y+15, name);
-        textTtf.drawString(super.x+150, super.y+110, "Level:" + level);
-        health.draw(super.x+139, super.y+36);
-        magicka.draw(super.x+139, super.y+62);
-        experience.draw(super.x+139, super.y+88);
+        textTtf.drawString(x+150, y+15, name);
+        textTtf.drawString(x+150, y+110, "Level:" + level);
+        health.draw(x+139, y+36);
+        magicka.draw(x+139, y+62);
+        experience.draw(x+139, y+88);
 
         frameMOA.setLocation(super.x, super.y);
     }
