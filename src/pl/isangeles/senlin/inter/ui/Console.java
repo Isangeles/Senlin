@@ -20,6 +20,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
+ * command syntax: [target] [command] [-prefix] [value]
  * @author Isangeles
  *
  */
@@ -73,7 +74,7 @@ public final class Console extends TextInput
         
         if(key == Input.KEY_ENTER && !hide)
         {
-            checkCommand(super.getText());
+            checkCommand();
             super.clear();
         }
     }
@@ -91,35 +92,57 @@ public final class Console extends TextInput
         return hide;
     }
     /**
-     * Checks entered command
+     * Checks entered command target, first command check   
      */
-    private void checkCommand(String command)
+    private void checkCommand()
     {
-        Scanner scann = new Scanner(command);
-        scann.useDelimiter(".");
+        Scanner scann = new Scanner(super.getText());
+        String commandTarget = scann.next();
+        String command = scann.nextLine();
+        scann.close();
         
-        if(command.equals("unlock"))
+        if(commandTarget.equals("unlock"))
             messages.add("console unlocked!");
         
-        if(scann.next().equals("player"))
-        {
-           playerCommands(scann.next());
-        }
-        scann.close();
+        if(commandTarget.equals("player"))
+           playerCommands(command);
+       
     }
-    
-    private void playerCommands(String command)
+    /**
+     * Checks entered command for player, second command check
+     * @param commandLine Rest of command line (after target) 
+     */
+    private void playerCommands(String commandLine)
     {
-        Scanner scann = new Scanner(command);
-        scann.useDelimiter(" ");
-        if(scann.next().equals("additem"))
+        Scanner scann = new Scanner(commandLine);
+        String command = scann.next();
+        String prefix = scann.nextLine();
+        scann.close();
+        
+        if(command.equals("add"))
         {
-            if(player.addItem(ItemBase.getItem(scann.next())))
+            addCommands(prefix, player);
+        }
+    }
+    /**
+     * Checks add command for target, last command check
+     * @param commandLine Rest of command line (after command)
+     * @param target Target of command
+     */
+    private void addCommands(String commandLine, Character target)
+    {
+    	Scanner scann = new Scanner(commandLine);
+    	String prefix = scann.next();
+    	String value = scann.next();
+    	scann.close();
+    	
+    	if(prefix.equals("-i"))
+    	{
+    		if(target.addItem(ItemBase.getItem(value)))
                 messages.add("item added!");
             else
-                messages.add("item do not exist");
-        }
-        scann.close();
+                messages.add("item not found");
+    	}
     }
     
 }
