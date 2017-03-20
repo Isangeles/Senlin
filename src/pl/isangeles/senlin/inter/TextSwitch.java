@@ -31,19 +31,38 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     private Button plus;
     private Button minus;
     private boolean isChange;
-    
+    /**
+     * Text switch without info window constructor 
+     * @param gc Game container
+     * @param textToSwitch String with all text value to switch
+     * @param delimiter Delimiter used in textToSwitch
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
     public TextSwitch(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
         build(gc, textToSwitch, delimiter);
     }
-    
+    /**
+     * Text switch with info window constructor 
+     * @param gc Game container
+     * @param textToSwitch textToSwitch String with all text value to switch
+     * @param delimiter Delimiter used in textToSwitch
+     * @param info Information about swith
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
     public TextSwitch(GameContainer gc, String textToSwitch, String delimiter, String info) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc, info);
         build(gc, textToSwitch, delimiter);
     }
-    
+    /**
+     * Draws switch
+     */
     public void draw(float x, float y)
     {
         super.draw(x, y);
@@ -53,12 +72,18 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 		
         super.drawString(textToDraw.get(lineId), textTtf);
     }
-    
+    /**
+     * Get actual switch value
+     * @return String with actual switch value
+     */
     public String getString()
     {
     	return textToDraw.get(lineId);
     }
-    
+    /**
+     * Checks if switch value been changed
+     * @return True if value was changed, false otherwise
+     */
     public boolean isChange()
     {
         return isChange;
@@ -124,7 +149,15 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     public void mouseWheelMoved(int change)
     {
     }
-    
+    /**
+     * Builds object, called by both constructors
+     * @param gc
+     * @param textToSwitch
+     * @param delimiter
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
     private void build(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
         plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
