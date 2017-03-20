@@ -14,9 +14,10 @@ import pl.isangeles.senlin.util.GConnector;
 
 public class InfoWindow extends InterfaceObject
 {
-	String textInfo;
-	Font textFont;
-	TrueTypeFont textTtf;
+	private String textInfo;
+	private Font textFont;
+	private TrueTypeFont textTtf;
+	private int noLines = 0;
 	
 	public InfoWindow(GameContainer gc, String textInfo) throws SlickException, IOException, FontFormatException 
 	{
@@ -27,12 +28,23 @@ public class InfoWindow extends InterfaceObject
 		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
 		
+		for(String line : textInfo.split(System.lineSeparator()))
+        {
+            noLines++;
+        }
 	}
 	
 	public void draw(float x, float y)
 	{
-		super.draw(x, y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo));
-		textTtf.drawString(super.x, super.y, textInfo);
+	    String[] lines = textInfo.split(System.lineSeparator());
+	    super.draw(x, y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
+		for(int i = 0; i < noLines; i ++)
+		{
+	        if(noLines > 1)
+	            textTtf.drawString(super.x, super.y+textTtf.getHeight(lines[i])*i, lines[i]);
+	        else
+	            textTtf.drawString(super.x, super.y, lines[i]);
+		}
 	}
 
 }
