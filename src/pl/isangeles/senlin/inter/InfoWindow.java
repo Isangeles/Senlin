@@ -11,14 +11,25 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.util.GConnector;
-
+/**
+ * Class for information windows
+ * @author Isangeles
+ *
+ */
 public class InfoWindow extends InterfaceObject
 {
 	private String textInfo;
 	private Font textFont;
 	private TrueTypeFont textTtf;
 	private int noLines = 0;
-	
+	/**
+	 * Info window constructor
+	 * @param gc Slick game container
+	 * @param textInfo Text for window
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public InfoWindow(GameContainer gc, String textInfo) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("field/infoWindowBG.png"), "infoWinBG", false, gc);
@@ -28,12 +39,14 @@ public class InfoWindow extends InterfaceObject
 		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
 		
-		for(String line : textInfo.split(System.lineSeparator()))
+		for(String line : textInfo.split(System.lineSeparator())) //counting lines 
         {
             noLines++;
         }
 	}
-	
+	/**
+	 * Draws window with information text split into lines
+	 */
 	public void draw(float x, float y)
 	{
 	    String[] lines = textInfo.split(System.lineSeparator());

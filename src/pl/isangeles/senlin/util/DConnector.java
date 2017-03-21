@@ -49,7 +49,7 @@ public final class DConnector
 			scann.useDelimiter(":|;");
 			item =  new Weapon(scann.next(), TConnector.getText("textWeapons", scann.next()), TConnector.getText("textWeapons", scann.next()), 
 					scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.next(), gc);
+					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 			scann.close();
 			return item;
 		}
@@ -66,7 +66,7 @@ public final class DConnector
 		scann.useDelimiter(":|;");
 		Item item =  new Weapon(scann.next(), TConnector.getText("textWeapons", scann.next()), TConnector.getText("textWeapons", scann.next()), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.next(), gc);
+				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 		scann.close();
 		return item;
 	}

@@ -41,7 +41,6 @@ public abstract class Item
         this.info = info;
         this.value = value;
         this.imgName = imgName;
-        itemTile = setTile(gc);
     }
     /**
      * Get item tile
@@ -60,15 +59,15 @@ public abstract class Item
     	return id;
     }
     
-    private String getInfo(String basicInfo)
+    protected String getInfo()
     {
     	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;
     	return fullInfo;
     }
     
-    private ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
+    protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id, false, gc, getInfo(info));
+    	return new ItemTile(GConnector.getInput("icon/"+imgName), id, false, gc, getInfo());
     }
     
 }
