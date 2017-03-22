@@ -23,9 +23,9 @@ import pl.isangeles.senlin.util.Settings;
  */
 public abstract class InterfaceObject
 {   
-    GameContainer gc;
+    private GameContainer gc;
     protected Image baseTex;
-    float scale;
+    private float scale;
     protected float x;
     protected float y;
     
@@ -76,6 +76,14 @@ public abstract class InterfaceObject
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     	iObjectMOA = new MouseOverArea(gc, baseTex, 0, 0);
+    }
+    /**
+     * Checks if mouse is over object
+     * @return
+     */
+    public boolean isMouseOver()
+    {
+    	return iObjectMOA.isMouseOver();
     }
     /**
      * Draws object

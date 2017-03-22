@@ -5,23 +5,60 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 /**
  * Base class for graphical representations of skills, items, etc. in ui   
  * @author Isangeles
  *
  */
-public abstract class InterfaceTile extends InterfaceObject 
+public abstract class InterfaceTile extends InterfaceObject implements MouseListener
 {
-
+	private Input gameInput;
+	private float x;
+	private float y;
+	private boolean dragged;
+	
 	public InterfaceTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(fileInput, ref, flipped, gc, info);
+		gameInput = gc.getInput();
+		gameInput.addMouseListener(this);
 	}
 	
 	public void draw(float x, float y)
 	{
-		super.draw(x, y, 45f, 40f);
+		if(!dragged)
+			super.draw(x, y, 45f, 40f);
+		else
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f);
 	}
+	
+	public void dragged(boolean dragged)
+	{
+		this.dragged = dragged;
+	}
+	
+	public void move(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public boolean isDragged()
+	{
+		return dragged;
+	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y)
+	{
+		if(button == Input.MOUSE_LEFT_BUTTON && !dragged)
+			dragged = true;
+		else if(button == Input.MOUSE_LEFT_BUTTON && dragged)
+			dragged = false;
+	}
+	
 }

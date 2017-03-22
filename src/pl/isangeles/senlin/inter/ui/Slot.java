@@ -44,6 +44,28 @@ public class Slot extends InterfaceObject
 	{
 		itemInSlot = null;
 	}
+	
+	public void moveItem(float x, float y)
+	{
+		if(itemInSlot != null)
+		{
+			itemInSlot.dragged(true);
+			itemInSlot.move(x, y);
+		}
+	}
+	
+	public void itemDragged(boolean dragged)
+	{
+		itemInSlot.dragged(dragged);
+	}
+	
+	public boolean isItemDragged()
+	{
+		if(itemInSlot != null)
+			return itemInSlot.isDragged();
+		else
+			return false;
+	}
 	/**
 	 * Checks if slot is empty
 	 * @return True if slot is empty, false otherwise
@@ -54,5 +76,10 @@ public class Slot extends InterfaceObject
 			return true;
 		else
 			return false;
+	}
+	
+	public InterfaceTile getItem()
+	{
+		return itemInSlot;
 	}
 }

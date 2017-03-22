@@ -54,9 +54,9 @@ public class InfoWindow extends InterfaceObject
 		for(int i = 0; i < noLines; i ++)
 		{
 	        if(noLines > 1)
-	            textTtf.drawString(super.x, super.y+textTtf.getHeight(lines[i])*i, lines[i]);
+	            textTtf.drawString(super.x+30, super.y+textTtf.getHeight(lines[i])*i, lines[i]);
 	        else
-	            textTtf.drawString(super.x, super.y, lines[i]);
+	            textTtf.drawString(super.x+30, super.y, lines[i]);
 		}
 	}
 

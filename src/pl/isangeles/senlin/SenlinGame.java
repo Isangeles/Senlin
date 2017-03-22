@@ -17,7 +17,6 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class SenlinGame extends StateBasedGame
 {
-
     public SenlinGame(String name)
     {
         super(name);

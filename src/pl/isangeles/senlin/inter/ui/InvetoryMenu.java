@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
@@ -17,7 +19,7 @@ import pl.isangeles.senlin.core.Character;
  * @author Isangeles
  *
  */
-public class InvetoryMenu extends InterfaceObject
+public class InvetoryMenu extends InterfaceObject implements MouseListener
 {
 	MouseOverArea inventoryMOA;
 	Character player;
@@ -34,6 +36,7 @@ public class InvetoryMenu extends InterfaceObject
     {
         super(GConnector.getInput("ui/background/inventoryBG.png"), "uiInventory", false, gc);
         this.player = player;
+        gc.getInput().addMouseListener(this);
         
         inventoryMOA = new MouseOverArea(gc, super.baseTex, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
         
@@ -81,7 +84,9 @@ public class InvetoryMenu extends InterfaceObject
     {
     	addItems();
     }
-    
+    /**
+     * Adds all player items to inventory menu 
+     */
     private void addItems()
     {
     	try
@@ -104,9 +109,80 @@ public class InvetoryMenu extends InterfaceObject
     	}
     }
     
+    public void moveItem(ItemTile it)
+    {
+    	for(Slot[] slotsLine : slots)
+		{
+			for(Slot slot : slotsLine)
+			{
+				if(slot.isMouseOver())
+					slot.insertItem(it);
+			}
+		}
+    }
+    /**
+     * Checks if specific item is in inventory menu
+     * @param indexInInventory Index of item in character inventory container
+     * @return True if item is in inventory menu, false otherwise
+     */
     private boolean isIn(int indexInInventory)
     {
     	return itemsIn.contains(indexInInventory);
     }
+	@Override
+	public void inputEnded() 
+	{
+	}
+	@Override
+	public void inputStarted() 
+	{
+	}
+	@Override
+	public boolean isAcceptingInput() 
+	{
+		return true;
+	}
+	@Override
+	public void setInput(Input input) 
+	{
+	}
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) 
+	{
+	}
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	{
+		/*
+		
+		*/
+	}
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
+	{
+	}
+	@Override
+	public void mousePressed(int button, int x, int y) 
+	{
+		for(Slot[] slotsLine : slots)
+		{
+			for(Slot slot : slotsLine)
+			{
+				if(slot.isMouseOver() && !slot.isItemDragged())
+				{
+					moveItem((ItemTile) slot.getItem());
+					slot.removeItem();
+				}
+			}
+		}
+	}
+	@Override
+	public void mouseReleased(int button, int x, int y) 
+	{
+	}
+	@Override
+	public void mouseWheelMoved(int change) 
+	{
+	}
 
 }
