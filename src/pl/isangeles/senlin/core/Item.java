@@ -16,12 +16,12 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public abstract class Item
 {
-    String id;
-    String name;
-    String info;
-    String imgName;
-    int value;
-    ItemTile itemTile;
+	protected String id;
+    protected String name;
+    protected String info;
+    protected String imgName;
+    protected int value;
+    protected ItemTile itemTile;
     /**
      * Basic item constructor
      * @param id Item ID, unique for all items
@@ -43,6 +43,15 @@ public abstract class Item
         this.imgName = imgName;
     }
     /**
+     * Draws item tile
+     * @param x Position on X axis
+     * @param y Position on Y axis
+     */
+    public void draw(float x, float y)
+    {
+    	itemTile.draw(x, y);
+    }
+    /**
      * Get item tile
      * @return ItemTile of specific item
      */
@@ -58,7 +67,10 @@ public abstract class Item
     {
     	return id;
     }
-    
+    /**
+     * Get basic info about item
+     * @return String with basic info
+     */
     protected String getInfo()
     {
     	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;

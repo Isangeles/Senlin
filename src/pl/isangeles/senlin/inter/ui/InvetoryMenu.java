@@ -14,6 +14,7 @@ import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Item;
 /**
  * Graphical representation of character inventory
  * @author Isangeles
@@ -21,9 +22,9 @@ import pl.isangeles.senlin.core.Character;
  */
 public class InvetoryMenu extends InterfaceObject implements MouseListener
 {
-	MouseOverArea inventoryMOA;
-	Character player;
-	private Slot[][] slots;
+	private MouseOverArea inventoryMOA;
+	private Character player;
+	private ItemSlot[][] slots;
 	private List<Integer> itemsIn = new ArrayList<>();
 	/**
 	 * Inventory constructor 
@@ -38,14 +39,14 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         this.player = player;
         gc.getInput().addMouseListener(this);
         
-        inventoryMOA = new MouseOverArea(gc, super.baseTex, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
+        inventoryMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
         
-        slots = new Slot[5][20];
+        slots = new ItemSlot[5][20];
         for(int i = 0; i < 5; i ++)
         {
         	for(int j = 0; j < 20; j ++)
         	{
-        		slots[i][j] = new Slot(gc);
+        		slots[i][j] = new ItemSlot(gc);
         	}
         }
     }
@@ -85,7 +86,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	addItems();
     }
     /**
-     * Adds all player items to inventory menu 
+     * Adds all player items into inventory menu 
      */
     private void addItems()
     {
@@ -97,7 +98,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
             	for(int j = 0; j < 20; j ++)
             	{
             		if(slots[i][j].isNull() && !isIn(itemId))
-            			slots[i][j].insertItem(player.getItem(itemId).getTile());
+            			slots[i][j].insertItem(player.getItem(itemId));
             		
             		itemId ++;
             	}
@@ -109,26 +110,36 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	}
     }
     
-    public void moveItem(ItemTile it)
+    public void moveItem(ItemSlot slotForItem)
     {
-    	for(Slot[] slotsLine : slots)
+    	ItemSlot is = null;
+    	
+    	for(ItemSlot[] slotsLine : slots)
 		{
-			for(Slot slot : slotsLine)
+			for(ItemSlot slot : slotsLine)
 			{
-				if(slot.isMouseOver())
-					slot.insertItem(it);
+				if(slot.isItemDragged())
+				{
+					is = slot;
+					slot.dragged(false);
+					break;
+				}
 			}
 		}
+    	
+    	try
+    	{
+    		slotForItem.insertItem(is.getItem());
+			is.removeItem();
+    	}
+    	catch(NullPointerException e)
+    	{
+    		return;
+    	}
+    	
+    	
     }
-    /**
-     * Checks if specific item is in inventory menu
-     * @param indexInInventory Index of item in character inventory container
-     * @return True if item is in inventory menu, false otherwise
-     */
-    private boolean isIn(int indexInInventory)
-    {
-    	return itemsIn.contains(indexInInventory);
-    }
+    
 	@Override
 	public void inputEnded() 
 	{
@@ -164,25 +175,34 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		for(Slot[] slotsLine : slots)
+		
+	}
+	@Override
+	public void mouseReleased(int button, int x, int y) 
+	{
+		for(ItemSlot[] slotsLine : slots)
 		{
-			for(Slot slot : slotsLine)
+			for(ItemSlot slot : slotsLine)
 			{
-				if(slot.isMouseOver() && !slot.isItemDragged())
+				if(slot.isMouseOver())
 				{
-					moveItem((ItemTile) slot.getItem());
-					slot.removeItem();
+					moveItem(slot);
+					return;
 				}
 			}
 		}
 	}
 	@Override
-	public void mouseReleased(int button, int x, int y) 
-	{
-	}
-	@Override
 	public void mouseWheelMoved(int change) 
 	{
 	}
-
+	/**
+     * Checks if specific item is in inventory menu
+     * @param indexInInventory Index of item in character inventory container
+     * @return True if item is in inventory menu, false otherwise
+     */
+    private boolean isIn(int indexInInventory)
+    {
+    	return itemsIn.contains(indexInInventory);
+    }
 }

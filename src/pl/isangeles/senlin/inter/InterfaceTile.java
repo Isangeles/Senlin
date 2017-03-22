@@ -41,12 +41,6 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 		this.dragged = dragged;
 	}
 	
-	public void move(float x, float y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-	
 	public boolean isDragged()
 	{
 		return dragged;
@@ -55,10 +49,8 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_LEFT_BUTTON && !dragged)
+		if(button == Input.MOUSE_LEFT_BUTTON && super.isMouseOver() && !dragged)
 			dragged = true;
-		else if(button == Input.MOUSE_LEFT_BUTTON && dragged)
-			dragged = false;
 	}
 	
 }

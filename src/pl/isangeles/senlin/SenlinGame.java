@@ -1,7 +1,5 @@
 package pl.isangeles.senlin;
 
-import java.io.FileNotFoundException;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.ScalableGame;
@@ -35,20 +33,14 @@ public class SenlinGame extends StateBasedGame
     {
         try 
         {
-            Settings.set();
             AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
             appGC.setDisplayMode(1920, 1080, true);
-            appGC.setMouseGrabbed(false);
             appGC.setTargetFrameRate(60);
             appGC.start();
         }
         catch(SlickException e)
         {
             System.err.println(e.getMessage());
-        } 
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
         }
     }
 

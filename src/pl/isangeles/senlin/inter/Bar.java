@@ -45,7 +45,7 @@ public class Bar extends InterfaceObject
         this.baseValue = baseValue;
         this.label = label;
         
-        barMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
+        barMOA = new MouseOverArea(gc, this, 0, 0);
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         barFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);

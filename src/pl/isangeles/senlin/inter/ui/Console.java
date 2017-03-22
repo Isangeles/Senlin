@@ -40,7 +40,7 @@ public final class Console extends TextInput
     public Console(GameContainer gc, Character player) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("ui/background/consoleBG.png"), "uiConsoleBg", false, gc);
-        super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.baseTex.getWidth(), super.baseTex.getHeight()-170, this);
+        super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
         this.player = player;
         hide = true;
         messages.add("Welcome in game console");

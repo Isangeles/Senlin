@@ -50,7 +50,7 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
         map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("textUI.txt", "mapBInfo"));
         menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("textUI.txt", "menuBInfo"));
         
-        bBarMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
+        bBarMOA = new MouseOverArea(gc, this, 0, 0);
     }
     /**
      * Draws bar
@@ -58,11 +58,11 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        menu.draw(x+super.getBaseWidth()-50, y+10);
-        map.draw(x+super.getBaseWidth()-100, y+10);
-        skills.draw(x+super.getBaseWidth()-150, y+10);
-        inventory.draw(x+super.getBaseWidth()-200, y+10);
-        quests.draw(x+super.getBaseWidth()-250, y+10);
+        menu.draw(x+super.getWidth()-50, y+10);
+        map.draw(x+super.getWidth()-100, y+10);
+        skills.draw(x+super.getWidth()-150, y+10);
+        inventory.draw(x+super.getWidth()-200, y+10);
+        quests.draw(x+super.getWidth()-250, y+10);
         
         bBarMOA.setLocation(x, y);
     }

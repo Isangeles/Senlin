@@ -22,7 +22,7 @@ import org.newdawn.slick.gui.MouseOverArea;
  */
 public final class Button extends InterfaceObject implements MouseListener
 {
-    private String buttText;
+    private String label;
     private Font buttTextFont;
     private TrueTypeFont ttf;
     private MouseOverArea clickArea;
@@ -30,9 +30,9 @@ public final class Button extends InterfaceObject implements MouseListener
     private boolean isClicked;
     private boolean active;
     private Color clickColor;
-    
+    @Deprecated
     /**
-     * Create an button based on path to file string
+     * Create an button based on path to file string ('pre-archive' constructor)
      * @param pathToImg String with path to file
      * @param buttText String with text for button 
      * @param gc Game container for click detect
@@ -77,12 +77,7 @@ public final class Button extends InterfaceObject implements MouseListener
     	
         clickArea.setLocation(super.x, super.y);
         
-        float buttonEndX = super.getWidth();
-        float buttonEndY = super.getHeight();
-        float textX = ttf.getWidth(buttText);
-        float textY = ttf.getHeight(buttText);
-        
-        ttf.drawString(this.getCenteredCoord(super.x, buttonEndX, textX), getCenteredCoord(super.y, buttonEndY, textY), buttText);
+        super.drawString(label, ttf);
     }
     
     public boolean clicked()
@@ -167,13 +162,13 @@ public final class Button extends InterfaceObject implements MouseListener
 	
 	private void build(GameContainer gc, String text) throws FontFormatException, IOException
 	{
-		this.buttText = text;
+		this.label = text;
         this.gc = gc;
         this.gc.getInput().addMouseListener(this);
         
         active = true;
         
-        clickArea = new MouseOverArea(gc, super.baseTex, 0, 0);
+        clickArea = new MouseOverArea(gc, this, 0, 0);
         
         isClicked = false;
         clickColor = new Color(73, 73, 73);

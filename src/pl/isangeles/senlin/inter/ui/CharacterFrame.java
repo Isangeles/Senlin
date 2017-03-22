@@ -54,7 +54,7 @@ public class CharacterFrame extends InterfaceObject
         textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(textFont.deriveFont(11f), true);
         
-        frameMOA = new MouseOverArea(gc, super.baseTex, 0, 0);
+        frameMOA = new MouseOverArea(gc, this, 0, 0);
     }
     /**
      * Updates frame

@@ -41,8 +41,8 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
-		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.baseTex.getWidth(), super.baseTex.getHeight(), this);
-		fieldMOA = new MouseOverArea(this.gc, this.baseTex, 0, 0);
+		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)super.getScaledWidth(), (int)super.getScaledHeight(), this);
+		fieldMOA = new MouseOverArea(this.gc, this, 0, 0);
 	}
 	
 	public void draw(float x, float y)

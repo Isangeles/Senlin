@@ -6,19 +6,20 @@ import java.io.InputStream;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Item;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.InterfaceTile;
 import pl.isangeles.senlin.util.GConnector;
 /**
- * Class for ui slots (for spells, items, etc)
+ * Class for ui item slots
  * @author Isangeles
  *
  */
-public class Slot extends InterfaceObject 
+public class ItemSlot extends InterfaceObject 
 {
-	private InterfaceTile itemInSlot;
+	private Item itemInSlot;
 	
-	public Slot(GameContainer gc) throws SlickException, IOException 
+	public ItemSlot(GameContainer gc) throws SlickException, IOException 
 	{
 		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
 	}
@@ -27,13 +28,14 @@ public class Slot extends InterfaceObject
 	{
 		if(itemInSlot != null)
 			itemInSlot.draw(x-3, y-3);
+		
 		super.draw(x, y);
 	}
 	/**
 	 * Inserts item tile in slot
 	 * @param item Item tile
 	 */
-	public void insertItem(InterfaceTile item)
+	public void insertItem(Item item)
 	{
 		itemInSlot = item; 
 	}
@@ -45,24 +47,18 @@ public class Slot extends InterfaceObject
 		itemInSlot = null;
 	}
 	
-	public void moveItem(float x, float y)
+	public void dragged(boolean dragged)
 	{
-		if(itemInSlot != null)
-		{
-			itemInSlot.dragged(true);
-			itemInSlot.move(x, y);
-		}
+		itemInSlot.getTile().dragged(dragged);
 	}
-	
-	public void itemDragged(boolean dragged)
-	{
-		itemInSlot.dragged(dragged);
-	}
-	
+	/**
+	 * Checks if tile of item in slots is dragged
+	 * @return True if slot is dragged, false otherwise
+	 */
 	public boolean isItemDragged()
 	{
 		if(itemInSlot != null)
-			return itemInSlot.isDragged();
+			return itemInSlot.getTile().isDragged();
 		else
 			return false;
 	}
@@ -78,7 +74,7 @@ public class Slot extends InterfaceObject
 			return false;
 	}
 	
-	public InterfaceTile getItem()
+	public Item getItem()
 	{
 		return itemInSlot;
 	}
