@@ -83,30 +83,30 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     
     public void update()
     {
-    	addItems();
+        addItems();
     }
     /**
      * Adds all player items into inventory menu 
      */
     private void addItems()
     {
-    	try
+        int itemID = 0;
+    	for(Item item : player.getItems())
     	{
-    		int itemId = 0;
-            for(int i = 0; i < 5; i ++)
-            {
-            	for(int j = 0; j < 20; j ++)
-            	{
-            		if(slots[i][j].isNull() && !isIn(itemId))
-            			slots[i][j].insertItem(player.getItem(itemId));
-            		
-            		itemId ++;
-            	}
-            }
-    	}
-    	catch(IndexOutOfBoundsException e)
-    	{
-    		return;
+    	    for(ItemSlot[] slotsLine : slots)
+    	    {
+    	        for(ItemSlot slot : slotsLine)
+    	        {
+    	            if(slot.isNull() && !isIn(itemID))
+    	            {
+    	                itemsIn.add(itemID);
+    	                slot.insertItem(item);
+    	                break;
+    	            }
+    	                
+    	        }
+    	    }
+    	    itemID ++;
     	}
     }
     
@@ -122,7 +122,6 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 				{
 					is = slot;
 					slot.dragged(false);
-					break;
 				}
 			}
 		}

@@ -40,6 +40,11 @@ public final class Inventory extends LinkedList<Item>
     {
     	return super.get(index);
     }
+    
+    public Item[] getItems()
+    {
+        return this.toArray(new Item[(this.size())]);
+    }
     @Deprecated 
     public void drawItems(float x, float y)
     {

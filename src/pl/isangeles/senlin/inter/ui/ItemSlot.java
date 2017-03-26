@@ -27,12 +27,12 @@ public class ItemSlot extends InterfaceObject
 	public void draw(float x, float y)
 	{
 		if(itemInSlot != null)
-			itemInSlot.draw(x-3, y-3);
+		    itemInSlot.draw(x-3, y-3);
 		
 		super.draw(x, y);
 	}
 	/**
-	 * Inserts item tile in slot
+	 * Inserts item in slot
 	 * @param item Item tile
 	 */
 	public void insertItem(Item item)
@@ -40,7 +40,7 @@ public class ItemSlot extends InterfaceObject
 		itemInSlot = item; 
 	}
 	/**
-	 * Removes item tile from slot
+	 * Removes item from slot
 	 */
 	public void removeItem()
 	{
