@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 /**
  * Class for game characters like players, NPCs, etc.

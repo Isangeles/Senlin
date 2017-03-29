@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
@@ -69,7 +68,7 @@ public class Bar extends InterfaceObject
         super.draw(x, y, getBarSize()-5, 21f);
         barMOA.setLocation(super.x, super.y);
         if(barMOA.isMouseOver())
-        	barTtf.drawString(x+20, y, label + value + "/" + baseValue);
+        	barTtf.drawString(super.x+20, super.y, label + value + "/" + baseValue);
         
     }
     /**

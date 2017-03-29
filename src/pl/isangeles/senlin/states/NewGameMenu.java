@@ -1,18 +1,13 @@
 package pl.isangeles.senlin.states;
 
-import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,8 +16,11 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attribute;
-import pl.isangeles.senlin.states.*;
-
+/**
+ * Class for new game menu used to create new character for player
+ * @author Isangeles
+ *
+ */
 public class NewGameMenu extends BasicGameState 
 {
 	private Switch strSwitch;

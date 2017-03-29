@@ -8,7 +8,6 @@ import java.awt.FontFormatException;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
@@ -42,7 +41,7 @@ public final class Button extends InterfaceObject implements MouseListener
      */
     public Button(String pathToImg, String label, GameContainer gc) throws SlickException, FontFormatException, IOException
     {
-        super(pathToImg);
+        super(pathToImg, gc);
         build(gc, label);
     }
     /**

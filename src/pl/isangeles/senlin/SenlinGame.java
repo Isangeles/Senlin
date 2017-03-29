@@ -34,7 +34,7 @@ public class SenlinGame extends StateBasedGame
         try 
         {
             AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
-            appGC.setDisplayMode(1920, 1080, true);
+            appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
             appGC.setTargetFrameRate(60);
             appGC.start();
         }

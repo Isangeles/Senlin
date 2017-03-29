@@ -17,6 +17,7 @@ import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.Message;
 import pl.isangeles.senlin.inter.TextSwitch;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Settings;
 /**
  * Game settings state class
  * @author Isangeles
@@ -39,7 +40,7 @@ public class SettingsMenu extends BasicGameState
     	
     	try 
     	{
-    		switchResolution = new TextSwitch(container, "1920x1080;1600x800", ";");
+    		switchResolution = new TextSwitch(container, Settings.getResList(), ";");
 			switchLanguage = new TextSwitch(container, "english;polish", ";");
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
 			message = new Message(container, "");

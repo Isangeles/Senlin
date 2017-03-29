@@ -18,6 +18,7 @@ import pl.isangeles.senlin.inter.ui.ItemTile;
 
 /**
  * This class provides static methods giving access to game data like items, NPCs, etc; 
+ * TODO rewrite item access methods 
  * @author Isangeles
  *
  */

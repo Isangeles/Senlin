@@ -1,7 +1,11 @@
 package pl.isangeles.senlin.core;
 
 import pl.isangeles.senlin.util.TConnector;
-
+/**
+ * Class representing bonuses(e.g. items bonuses)
+ * @author Isnageles
+ *
+ */
 public class Bonuses 
 {
 	private int strBonus;
@@ -11,11 +15,16 @@ public class Bonuses
 	private int wisBonus;
 	private int dmgBonus;
 	private float hasteBonus;
-	
-	public Bonuses()
-	{
-	}
-	
+	/**
+	 * Bonuses constructor
+	 * @param str Bonus to strength
+	 * @param con Bonus to constitution
+	 * @param dex Bonus to dexterity
+	 * @param inte Bonus to intelligence
+	 * @param wis Bonus to wisdom
+	 * @param dmg Bonus to damage 
+	 * @param haste Bonus to haste
+	 */
 	public Bonuses(int str, int con, int dex, int inte, int wis, int dmg, float haste)
 	{
 		strBonus = str;
@@ -26,7 +35,10 @@ public class Bonuses
 		dmgBonus = dmg;
 		hasteBonus = haste;
 	}
-	
+	/**
+	 * Check if any bonus occurs
+	 * @return
+	 */
 	public boolean isBonus()
 	{
 		if(strBonus != 0 || conBonus != 0 || dexBonus != 0 
@@ -36,7 +48,10 @@ public class Bonuses
 		else
 			return false;
 	}
-	
+	/**
+	 * Get full info about this specific bonus
+	 * @return String with full info about bonus
+	 */
 	public String getInfo()
 	{
 		String bonusInfo = "";

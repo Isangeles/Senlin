@@ -6,13 +6,13 @@ import java.io.File;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 /**
@@ -22,7 +22,7 @@ import pl.isangeles.senlin.core.Character;
  */
 public class CharacterFrame extends InterfaceObject
 {
-    Image portrait;
+    Portrait portrait;
     String name;
     int level;
     Bar health;
@@ -42,7 +42,7 @@ public class CharacterFrame extends InterfaceObject
     public CharacterFrame(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/charFrameBG.png"), "uiCharFrame", false, gc);
-        this.portrait = player.getPortrait();
+        this.portrait = new Portrait(player.getPortrait(), gc);
         
         health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:", player.getHealth(), player.getMaxHealth());
         magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:", player.getMagicka(), player.getMaxMagicka());
@@ -74,9 +74,9 @@ public class CharacterFrame extends InterfaceObject
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        portrait.draw(super.x+40, super.y+9, 95f, 130f);
-        textTtf.drawString(x+150, y+15, name);
-        textTtf.drawString(x+150, y+110, "Level:" + level);
+        portrait.draw(x+40, y+9, 95f, 130f);
+        textTtf.drawString(super.x+150, super.y+15, name);
+        textTtf.drawString(super.x+150, super.y+110, "Level:" + level);
         health.draw(x+139, y+36);
         magicka.draw(x+139, y+62);
         experience.draw(x+139, y+88);

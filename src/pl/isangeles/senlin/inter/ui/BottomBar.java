@@ -2,7 +2,6 @@ package pl.isangeles.senlin.inter.ui;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;

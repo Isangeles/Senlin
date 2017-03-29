@@ -61,6 +61,15 @@ public class Settings
      * Sets resolution from provided string
      * @param resString String with resolution ([width]x[height];)
      */
+    /**
+     * Returns string with all available resolutions    
+     * @return String with resolutions in format: [width]x[height];
+     */
+    public static String getResList()
+    {
+    	return "1920x1080;1600x800;1280x720";
+    }
+    
     private static void setRes(String resString)
     {
         Scanner scann = new Scanner(resString);

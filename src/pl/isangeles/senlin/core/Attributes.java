@@ -1,5 +1,9 @@
 package pl.isangeles.senlin.core;
-
+/**
+ * Class for character attributes
+ * @author Isangeles
+ *
+ */
 public class Attributes 
 {
 	private Attribute strenght;

@@ -29,14 +29,30 @@ public abstract class InterfaceObject extends Image
     private boolean isInfo;
     private MouseOverArea iObjectMOA;
     /**
-     * Old "pre-archive" constructor
-     * @param pathToTex
+     * Object constructor that uses raw path(outside graphical archive)
+     * @param pathToTex Path to image file
+     * @param gc Slick game container
      * @throws SlickException
+     * @throws FileNotFoundException 
      */
-    @Deprecated
-    public InterfaceObject(String pathToTex) throws SlickException
+    protected InterfaceObject(String pathToTex, GameContainer gc) throws SlickException, FileNotFoundException
     {
         super(pathToTex);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0);
+    }
+    /**
+     * Object constructor that uses another image
+     * @param image Slick image object
+     * @param gc Slick game container
+     * @throws FileNotFoundException
+     */
+    protected InterfaceObject(Image image, GameContainer gc) throws FileNotFoundException
+    {
+    	super(image);
+        this.gc = gc;
+        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, 0, 0);
     }
     /**
@@ -48,7 +64,7 @@ public abstract class InterfaceObject extends Image
      * @throws SlickException
      * @throws IOException
      */
-    public InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc) throws SlickException, IOException
+    protected InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc) throws SlickException, IOException
     {
         super(fileInput, ref, flipped);
         this.gc = gc;
@@ -66,7 +82,7 @@ public abstract class InterfaceObject extends Image
      * @throws IOException
      * @throws FontFormatException
      */
-    public InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String textForInfo) throws SlickException, IOException, FontFormatException
+    protected InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String textForInfo) throws SlickException, IOException, FontFormatException
     {
     	this(fileInput, ref, flipped, gc);
     	isInfo = true;
