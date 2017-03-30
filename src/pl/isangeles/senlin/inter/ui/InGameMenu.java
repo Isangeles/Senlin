@@ -60,13 +60,13 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 	 */
 	public void draw(float x, float y)
 	{
-		super.draw(x, y);
+		super.draw(x, y, false);
 		
-		resume.draw(x+30, y+30);
-		save.draw(x+30, y+80);
-		load.draw(x+30, y+130);
-		settings.draw(x+30, y+180);
-		exit.draw(x+30, y+230);
+		resume.draw(x+getDis(30), y+getDis(30), false);
+		save.draw(x+getDis(30), y+getDis(80), false);
+		load.draw(x+getDis(30), y+getDis(130), false);
+		settings.draw(x+getDis(30), y+getDis(180), false);
+		exit.draw(x+getDis(30), y+getDis(230), false);
 		
 		menuMOA.setLocation(super.x, super.y);
 		

@@ -13,6 +13,7 @@ public class Settings
     private static String langId;
     private static float resWidth;
     private static float resHeight;
+    private static float scale;
     /**
      * Private constructor to prevent initialization
      */
@@ -37,9 +38,9 @@ public class Settings
         scann.useDelimiter(";\r?\n");
         
         langId = scann.next();
-        String resString = scann.next();
-        setRes(resString);
+        setRes(scann.next());
         scann.close();
+        setScale();
     }
     /**
      * Get language ID
@@ -58,10 +59,6 @@ public class Settings
         return new float[]{resWidth, resHeight};
     }
     /**
-     * Sets resolution from provided string
-     * @param resString String with resolution ([width]x[height];)
-     */
-    /**
      * Returns string with all available resolutions    
      * @return String with resolutions in format: [width]x[height];
      */
@@ -69,13 +66,46 @@ public class Settings
     {
     	return "1920x1080;1600x800;1280x720";
     }
-    
+    /**
+     * Returns scale for current resolution
+     * @return Float scale value
+     */
+    public static float getScale()
+    {
+    	return scale;
+    }
+    /**
+     * Sets resolution from provided string
+     * @param resString String with resolution ([width]x[height];)
+     */
     private static void setRes(String resString)
     {
-        Scanner scann = new Scanner(resString);
+    	Scanner scann = new Scanner(resString);
         scann.useDelimiter("x|;");
-        resWidth = Float.parseFloat(scann.next());
-        resHeight = Float.parseFloat(scann.next());
-        scann.close();
+        try
+        {
+            resWidth = Float.parseFloat(scann.next());
+            resHeight = Float.parseFloat(scann.next());
+        }
+        catch(NumberFormatException e)
+        {
+        	resWidth = 1920;
+        	resHeight = 1080;
+        }
+        finally
+        {
+        	scann.close();
+        }
+    }
+    /**
+     * Sets scale for current resolution
+     */
+    private static void setScale()
+    {
+    	float defResWidth = 1920;
+        float defResHeight = 1080;
+        float proportionX = resWidth / defResWidth;
+        float proportionY = resHeight / defResHeight;
+        scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
     }
 }

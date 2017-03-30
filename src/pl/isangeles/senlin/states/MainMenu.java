@@ -39,7 +39,7 @@ public class MainMenu extends BasicGameState
     {
         try
         {
-            container.setMouseCursor(new Cursor(container), 10, 0);
+            container.setMouseCursor(new Cursor(container), Math.round(10 * Settings.getScale()), 0);
         	buttNewGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtNG", false, "New Game", container);
         	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtLG", false, "Load Game", container);
         	buttOptions = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtO", false, "Options", container);

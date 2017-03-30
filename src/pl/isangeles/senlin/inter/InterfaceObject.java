@@ -40,7 +40,7 @@ public abstract class InterfaceObject extends Image
         super(pathToTex);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0);
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Object constructor that uses another image
@@ -53,7 +53,7 @@ public abstract class InterfaceObject extends Image
     	super(image);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0);
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Constructor for interface object without info window, implicitly scales object for current resolution
@@ -69,7 +69,7 @@ public abstract class InterfaceObject extends Image
         super(fileInput, ref, flipped);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0);
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Constructor for interface object with info window, implicitly scales object for current resolution
@@ -87,7 +87,7 @@ public abstract class InterfaceObject extends Image
     	this(fileInput, ref, flipped, gc);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
-    	iObjectMOA = new MouseOverArea(gc, this, 0, 0);
+    	iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Checks if mouse is over object
@@ -112,7 +112,7 @@ public abstract class InterfaceObject extends Image
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     @Override
@@ -131,7 +131,7 @@ public abstract class InterfaceObject extends Image
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     @Override
@@ -151,8 +151,110 @@ public abstract class InterfaceObject extends Image
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+10, gc.getInput().getMouseY()+10);
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
+    }
+    /**
+     * Draws object with specific width and height
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @param width Width for object
+     * @param height Height for object
+     * @param scaledPos True if object position should be scaled
+     */
+    public void draw(float x, float y, float width, float height, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, width*scale, height*scale);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+        }
+    }
+    /**
+     * Draws object
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @param scaledPos True if object position should be scaled
+     */
+    public void draw(float x, float y, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, scale);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+        }
+    }
+    /**
+     * Draws object with specific color
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @param filter Color for object
+     * @param scaledPos True if object position should be scaled
+     */
+    public void draw(float x, float y, Color filter, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, scale, filter);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+        }
+    }
+    /**
+     * Returns scale based on current resolution
+     * @return Float scale value
+     */
+    public float getScale()
+    {
+    	return scale;
+    }
+    /**
+     * Draws object in default scale on unscaled position
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    protected void drawUnscaled(float x, float y, float width, float height)
+    {
+    	this.x = x;
+    	this.y = y;
+    	super.draw(x, y, width, height);
+    }
+    /**
+     * Returns distance corrected by scale
+     * @param rawDistance Distance on 1920x1080
+     * @return Distance scaled to current resolution
+     */
+    public int getDis(int rawDistance)
+    {
+    	return Math.round(rawDistance * scale);
     }
     /**
      * Draws string in middle of object
@@ -190,10 +292,10 @@ public abstract class InterfaceObject extends Image
     	return super.getHeight()*scale;
     }
     /**
-     * Set proportion for object based on current resolution
+     * Sets proportion for object based on current resolution, called by constructor
      * @throws FileNotFoundException
      */
-    private void setProportion() throws FileNotFoundException
+    private void setProportion()
     {
         float defResX = 1920;
         float defResY = 1080;

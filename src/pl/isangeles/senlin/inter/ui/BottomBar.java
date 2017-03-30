@@ -56,12 +56,12 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
      */
     public void draw(float x, float y)
     {
-        super.draw(x, y);
-        menu.draw(x+super.getWidth()-50, y+10);
-        map.draw(x+super.getWidth()-100, y+10);
-        skills.draw(x+super.getWidth()-150, y+10);
-        inventory.draw(x+super.getWidth()-200, y+10);
-        quests.draw(x+super.getWidth()-250, y+10);
+        super.draw(x, y, false);
+        menu.draw(x+super.getScaledWidth()-getDis(50), y+getDis(10), false);
+        map.draw(x+super.getScaledWidth()-getDis(100), y+getDis(10), false);
+        skills.draw(x+super.getScaledWidth()-getDis(150), y+getDis(10), false);
+        inventory.draw(x+super.getScaledWidth()-getDis(200), y+getDis(10), false);
+        quests.draw(x+super.getScaledWidth()-getDis(250), y+getDis(10), false);
         
         bBarMOA.setLocation(x, y);
     }

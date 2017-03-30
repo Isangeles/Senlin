@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -50,13 +49,13 @@ public class InfoWindow extends InterfaceObject
 	public void draw(float x, float y)
 	{
 	    String[] lines = textInfo.split(System.lineSeparator());
-	    super.draw(x, y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
+	    super.drawUnscaled(x, y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
 		for(int i = 0; i < noLines; i ++)
 		{
 	        if(noLines > 1)
-	            textTtf.drawString(super.x+30, super.y+textTtf.getHeight(lines[i])*i, lines[i]);
+	            textTtf.drawString(super.x+getDis(30), super.y+textTtf.getHeight(lines[i])*i, lines[i]);
 	        else
-	            textTtf.drawString(super.x+30, super.y, lines[i]);
+	            textTtf.drawString(super.x+getDis(30), super.y, lines[i]);
 		}
 	}
 

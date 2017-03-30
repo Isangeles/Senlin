@@ -66,13 +66,25 @@ public final class Button extends InterfaceObject implements MouseListener
     	super(fileInput, ref, flipped, gc, textForInfo);
     	build(gc, label);
     }
-    
+    @Override
     public void draw(float x, float y)
     {
     	if(!isClicked && active)
     		super.draw(x, y);
     	else
     		super.draw(x, y, clickColor);
+    	
+        clickArea.setLocation(super.x, super.y);
+        
+        super.drawString(label, ttf);
+    }
+    @Override
+    public void draw(float x, float y, boolean scaledPos)
+    {
+    	if(!isClicked && active)
+    		super.draw(x, y, scaledPos);
+    	else
+    		super.draw(x, y, clickColor, scaledPos);
     	
         clickArea.setLocation(super.x, super.y);
         
@@ -167,7 +179,7 @@ public final class Button extends InterfaceObject implements MouseListener
         
         active = true;
         
-        clickArea = new MouseOverArea(gc, this, 0, 0);
+        clickArea = new MouseOverArea(gc, this, 0, 0, (int)this.getScaledWidth(), (int)this.getScaledHeight());
         
         isClicked = false;
         clickColor = new Color(73, 73, 73);

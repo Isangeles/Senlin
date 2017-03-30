@@ -30,11 +30,11 @@ public class Coords
     
     public static float getX(String point, float dis)
     {
-        return get(point, dis, 0)[0];
+        return get(point, dis * Settings.getScale(), 0)[0];
     }
     
     public static float getY(String point, float dis)
     {
-        return get(point, 0, dis)[1];
+        return get(point, 0, dis * Settings.getScale())[1];
     }
 }

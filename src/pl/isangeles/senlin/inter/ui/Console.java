@@ -50,9 +50,9 @@ public final class Console extends TextInput
     {
         if(!hide)
         {
-            super.draw(Coords.getX("TR", super.getWidth()+10), 10);
+            super.draw(Coords.getX("TR", super.getWidth()+10), 10, false);
             super.textTtf.drawString(super.x, super.y, messages.get(messages.size()-1));
-            textField.setLocation((int)super.x, (int)super.y+170);
+            textField.setLocation((int)super.x, (int)super.y+getDis(170));
             super.render(g);
         }
     }

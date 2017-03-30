@@ -74,7 +74,7 @@ public class Message extends InterfaceObject implements MouseListener
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        textTtf.drawString(x+20, y+10, textMessage);
+        textTtf.drawString(super.x+getDis(20), super.y+getDis(10), textMessage);
         buttonOk.draw(x+200, y+super.getHeight()-50);
     }
     /**
