@@ -65,7 +65,6 @@ public class UserInterface
         if(bBar.isInventoryReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
         
-        
         update();     	
     }
     /**

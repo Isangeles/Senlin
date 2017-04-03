@@ -71,11 +71,12 @@ public class Message extends InterfaceObject implements MouseListener
     /**
      * Draws message
      */
+    @Override
     public void draw(float x, float y)
     {
-        super.draw(x, y);
+        super.draw(x, y, false);
         textTtf.drawString(super.x+getDis(20), super.y+getDis(10), textMessage);
-        buttonOk.draw(x+200, y+super.getHeight()-50);
+        buttonOk.draw(x+getDis(200), y+super.getScaledHeight()-getDis(50), false);
     }
     /**
      * Sets text and draws message 

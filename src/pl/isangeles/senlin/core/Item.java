@@ -16,6 +16,8 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public abstract class Item
 {
+	private static int itemCounter = 0;
+	protected int itemNumber = itemCounter ++;
 	protected String id;
     protected String name;
     protected String info;
@@ -41,6 +43,7 @@ public abstract class Item
         this.info = info;
         this.value = value;
         this.imgName = imgName;
+        itemCounter ++;
     }
     /**
      * Draws item tile
@@ -66,6 +69,14 @@ public abstract class Item
     public String getId()
     {
     	return id;
+    }
+    /**
+     * Returns number unique for every item in game
+     * @return Item number
+     */
+    public int getNumber()
+    {
+    	return itemNumber;
     }
     /**
      * Get basic info about item

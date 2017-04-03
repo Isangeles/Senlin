@@ -17,6 +17,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 /**
  * Class for player character frame
+ * TODO fix experience bar on resolutions different then default
  * @author Isangeles
  *
  */
@@ -75,8 +76,8 @@ public class CharacterFrame extends InterfaceObject
     {
         super.draw(x, y);
         portrait.draw(x+40, y+9, 95f, 130f);
-        textTtf.drawString(super.x+150, super.y+15, name);
-        textTtf.drawString(super.x+150, super.y+110, "Level:" + level);
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(15), name);
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), "Level:" + level);
         health.draw(x+139, y+36);
         magicka.draw(x+139, y+62);
         experience.draw(x+139, y+88);

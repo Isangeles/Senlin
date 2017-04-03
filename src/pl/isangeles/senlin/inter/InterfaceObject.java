@@ -97,12 +97,12 @@ public abstract class InterfaceObject extends Image
     {
     	return iObjectMOA.isMouseOver();
     }
-    @Override
     /**
      * Draws object
      * @param x Position on x axis
      * @param y Position on y axis
      */
+    @Override
     public void draw(float x, float y)
     {
         this.x = x * scale;
@@ -115,13 +115,13 @@ public abstract class InterfaceObject extends Image
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
-    @Override
     /**
      * Draws object with specific color
      * @param x Position on x axis
      * @param y Position on y axis
      * @param filter Color for object
      */
+    @Override
     public void draw(float x, float y, Color filter)
     {
         this.x = x * scale;
@@ -133,8 +133,7 @@ public abstract class InterfaceObject extends Image
         {
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
-    }
-    @Override
+    }  
     /**
      * Draws object with specific width and height
      * @param x Position on x axis
@@ -142,6 +141,7 @@ public abstract class InterfaceObject extends Image
      * @param width Width for object
      * @param height Height for object
      */
+    @Override
     public void draw(float x, float y, float width, float height)
     {
     	this.x = x * scale;
@@ -255,6 +255,15 @@ public abstract class InterfaceObject extends Image
     public int getDis(int rawDistance)
     {
     	return Math.round(rawDistance * scale);
+    }
+    /**
+     * Returns size corrected by scale
+     * @param size Raw float size
+     * @return Float size value
+     */
+    public float getSize(float size)
+    {
+    	return size * scale;
     }
     /**
      * Draws string in middle of object

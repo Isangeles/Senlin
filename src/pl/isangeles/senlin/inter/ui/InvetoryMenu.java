@@ -85,59 +85,6 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     {
         addItems();
     }
-    /**
-     * Adds all player items into inventory menu 
-     */
-    private void addItems()
-    {
-        int itemID = 0;
-    	for(Item item : player.getItems())
-    	{
-    	    for(ItemSlot[] slotsLine : slots)
-    	    {
-    	        for(ItemSlot slot : slotsLine)
-    	        {
-    	            if(slot.isNull() && !isIn(itemID))
-    	            {
-    	                itemsIn.add(itemID);
-    	                slot.insertItem(item);
-    	                break;
-    	            }
-    	                
-    	        }
-    	    }
-    	    itemID ++;
-    	}
-    }
-    
-    public void moveItem(ItemSlot slotForItem)
-    {
-    	ItemSlot is = null;
-    	
-    	for(ItemSlot[] slotsLine : slots)
-		{
-			for(ItemSlot slot : slotsLine)
-			{
-				if(slot.isItemDragged())
-				{
-					is = slot;
-					slot.dragged(false);
-				}
-			}
-		}
-    	
-    	try
-    	{
-    		slotForItem.insertItem(is.getItem());
-			is.removeItem();
-    	}
-    	catch(NullPointerException e)
-    	{
-    		return;
-    	}
-    	
-    	
-    }
     
 	@Override
 	public void inputEnded() 
@@ -179,16 +126,21 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		for(ItemSlot[] slotsLine : slots)
+		if(getDragged() != null)
 		{
-			for(ItemSlot slot : slotsLine)
+			ItemSlot draggedSlot = getDragged();
+			for(ItemSlot[] slotsLine : slots)
 			{
-				if(slot.isMouseOver())
+				for(ItemSlot slot : slotsLine)
 				{
-					moveItem(slot);
-					return;
+					if(slot.isMouseOver())
+					{
+						moveItem(draggedSlot, slot);
+						return;
+					}
 				}
 			}
+			draggedSlot.dragged(false);
 		}
 	}
 	@Override
@@ -203,5 +155,62 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     private boolean isIn(int indexInInventory)
     {
     	return itemsIn.contains(indexInInventory);
+    }
+    /**
+     * Adds all player items into inventory menu 
+     */
+    private void addItems()
+    {
+    	for(Item item : player.getItems())
+    	{
+    	    for(ItemSlot[] slotsLine : slots)
+    	    {
+    	        for(ItemSlot slot : slotsLine)
+    	        {
+    	            if(slot.isNull() && !isIn(item.getNumber()))
+    	            {
+    	                itemsIn.add(item.getNumber());
+    	                slot.insertItem(item);
+    	                break;
+    	            }
+    	                
+    	        }
+    	    }
+    	}
+    }
+    
+    private ItemSlot getDragged()
+    {
+    	for(ItemSlot[] slotsLine : slots)
+		{
+			for(ItemSlot slot : slotsLine)
+			{
+				if(slot.isItemDragged())
+				{
+					return slot;
+				}
+			}
+		}
+    	return null;
+    }
+    /**
+     * Moves item from one slot to another given slot
+     * @param draggedSlot Slot with item
+     * @param slotForItem New slot for item
+     */
+    private void moveItem(ItemSlot draggedSlot, ItemSlot slotForItem)
+    {
+    	ItemSlot is = draggedSlot;
+    	
+    	try
+    	{
+    		slotForItem.insertItem(is.getItem());
+    		is.dragged(false);
+			is.removeItem();
+    	}
+    	catch(NullPointerException e)
+    	{
+    		return;
+    	}
     }
 }

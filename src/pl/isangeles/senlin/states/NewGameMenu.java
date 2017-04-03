@@ -2,6 +2,7 @@ package pl.isangeles.senlin.states;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -33,7 +34,7 @@ public class NewGameMenu extends BasicGameState
 	
 	private TextInput fieldName;
 	
-	private List<Image> imgPorList;
+	private List<Portrait> porList;
 	private int imgId;
 	private Button buttNextPor;
 	private Button buttPrevPor;
@@ -61,8 +62,13 @@ public class NewGameMenu extends BasicGameState
 			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes, TConnector.getText("textMenu.txt", "wisInfo"));
 			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container, TConnector.getText("textMenu.txt", "attPtsInfo"));
 			
-			imgPorList = GConnector.getPortraits();
-			imgId = 0;
+			porList = new ArrayList<>();
+			List<Image> imgPorList = GConnector.getPortraits();
+			for(Image img : imgPorList.toArray(new Image[imgPorList.size()]))
+			{
+				porList.add(new Portrait(img, container));
+			}
+			
 			buttNextPor = new Button(GConnector.getInput("button/buttonNext.png"), "buttNP", false, "", container);
 			buttPrevPor = new Button(GConnector.getInput("button/buttonBack.png"), "buttBP", false, "", container);
 			
@@ -93,7 +99,7 @@ public class NewGameMenu extends BasicGameState
 		
 		fieldName.draw(800, 100);
 		fieldName.render(g);
-		imgPorList.get(imgId).draw(200, 400, 100f, 120f);
+		porList.get(imgId).draw(200, 400, 100f, 120f);
 		buttNextPor.draw(300, 480);
 		buttPrevPor.draw(160, 480);
 		
@@ -132,7 +138,7 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void mouseReleased(int button, int x, int y)
 	{
-		if(buttNextPor.isMouseOver() && imgId < imgPorList.size()-1)
+		if(buttNextPor.isMouseOver() && imgId < porList.size()-1)
 			imgId ++;
 		else if(buttPrevPor.isMouseOver() && imgId > 0)
 			imgId --;
@@ -140,7 +146,7 @@ public class NewGameMenu extends BasicGameState
 		if(buttNext.isMouseOver() && buttNext.isActive())
 		{
 		    player.setName(fieldName.getText());
-		    player.setPortrait(imgPorList.get(imgId));
+		    player.setPortrait(porList.get(imgId));
 		    player.levelUp();
 		    gameWorldReq = true;
 		}

@@ -14,26 +14,27 @@ import org.newdawn.slick.SlickException;
  *
  */
 public abstract class InterfaceTile extends InterfaceObject implements MouseListener
-{
+{ 
+	private static int counter;
 	private Input gameInput;
-	private float x;
-	private float y;
 	private boolean dragged;
 	
 	public InterfaceTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(fileInput, ref, flipped, gc, info);
+		super(fileInput, ref+counter, flipped, gc, info);
 		gameInput = gc.getInput();
 		gameInput.addMouseListener(this);
+		
+		counter ++;
 	}
-	
+	@Override
 	public void draw(float x, float y)
 	{
 		if(!dragged)
 			super.draw(x, y, 45f, 40f);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, false);
 	}
 	
 	public void dragged(boolean dragged)
