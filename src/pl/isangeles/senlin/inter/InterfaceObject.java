@@ -87,7 +87,6 @@ public abstract class InterfaceObject extends Image
     	this(fileInput, ref, flipped, gc);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
-    	iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Checks if mouse is over object
@@ -234,6 +233,23 @@ public abstract class InterfaceObject extends Image
     {
     	return scale;
     }
+    
+
+	@Override
+	public InterfaceObject clone()
+	{
+		try 
+    	{
+			InterfaceObject object = (InterfaceObject) super.clone();
+			if(isInfo)
+				object.setCloneWindow();
+			return object;
+		} 
+    	catch (CloneNotSupportedException e)
+    	{
+			return this;
+		}
+	}
     /**
      * Draws object in default scale on unscaled position
      * @param x
@@ -264,6 +280,10 @@ public abstract class InterfaceObject extends Image
     public float getSize(float size)
     {
     	return size * scale;
+    }
+    public void setCloneWindow()
+    {
+    	this.info = (InfoWindow) info.clone();
     }
     /**
      * Draws string in middle of object

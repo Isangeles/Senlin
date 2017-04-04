@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for weapons
@@ -38,7 +39,13 @@ public class Weapon extends Equippable
 		super(id, name, info, value, picName, gc, reqLevel, bonuses);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
-		super.itemTile = super.setTile(gc);
+        this.itemTile = this.setTile(gc);
+	}
+	
+	@Override
+	public Weapon clone()
+	{
+		return (Weapon) super.clone();
 	}
 	
 	@Override

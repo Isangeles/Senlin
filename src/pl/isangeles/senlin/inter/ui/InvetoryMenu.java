@@ -15,6 +15,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Item;
+import pl.isangeles.senlin.data.CommBase;
 /**
  * Graphical representation of character inventory
  * @author Isangeles
@@ -171,6 +172,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	            {
     	                itemsIn.add(item.getNumber());
     	                slot.insertItem(item);
+    	                CommBase.addInformation(item.toString() + " added to inventory menu");
     	                break;
     	            }
     	                

@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 
@@ -16,8 +17,8 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public abstract class Item
 {
-	private static int itemCounter = 0;
-	protected int itemNumber = itemCounter ++;
+	private static int itemCounter;
+	protected int itemNumber = itemCounter;
 	protected String id;
     protected String name;
     protected String info;
@@ -44,6 +45,7 @@ public abstract class Item
         this.value = value;
         this.imgName = imgName;
         itemCounter ++;
+        
     }
     /**
      * Draws item tile
@@ -78,6 +80,28 @@ public abstract class Item
     {
     	return itemNumber;
     }
+    @Override
+    public String toString()
+    {
+    	return name;
+    }
+    @Override
+    public Item clone()
+    {
+    	try 
+    	{
+    		itemNumber ++;
+			Item item = (Item) super.clone();
+			item.setTile(this.itemTile.clone());
+			itemNumber --;
+			return item;
+		} 
+    	catch (CloneNotSupportedException e)
+    	{
+    		CommBase.addWarning("Item cloning error!");
+			return this;
+		}
+    }
     /**
      * Get basic info about item
      * @return String with basic info
@@ -90,7 +114,12 @@ public abstract class Item
     
     protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id, false, gc, getInfo());
+    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, getInfo());
+    }
+    
+    public void setTile(ItemTile tile)
+    {
+    	this.itemTile = tile;
     }
     
 }

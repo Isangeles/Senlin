@@ -1,10 +1,5 @@
 package pl.isangeles.senlin;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.ScalableGame;
@@ -12,7 +7,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.states.*;
-import pl.isangeles.senlin.util.NativeUtils;
 import pl.isangeles.senlin.util.Settings;
 /**
  * Main game class, contains all game states

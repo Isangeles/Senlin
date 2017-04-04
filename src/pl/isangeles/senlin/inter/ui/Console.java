@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.newdawn.slick.GameContainer;
@@ -17,6 +18,7 @@ import pl.isangeles.senlin.inter.TextInput;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
@@ -28,7 +30,7 @@ public final class Console extends TextInput
 {
     boolean hide;
     Character player;
-    List<String> messages = new LinkedList<>();
+    //List<String> messages = new LinkedList<>();
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -43,7 +45,7 @@ public final class Console extends TextInput
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
         this.player = player;
         hide = true;
-        messages.add("Welcome in game console");
+        CommBase.addInformation("Welcome in game console");
     }
     
     public void draw(float x, float y, Graphics g)
@@ -51,7 +53,12 @@ public final class Console extends TextInput
         if(!hide)
         {
             super.draw(Coords.getX("TR", super.getWidth()+10), 10, false);
-            super.textTtf.drawString(super.x, super.y, messages.get(messages.size()-1));
+            
+            for(int i = 1; i < 6; i ++)
+            {
+            	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.get().size()-i));
+            }
+            
             textField.setLocation((int)super.x, (int)super.y+getDis(170));
             super.render(g);
         }
@@ -74,7 +81,8 @@ public final class Console extends TextInput
         
         if(key == Input.KEY_ENTER && !hide)
         {
-            checkCommand();
+            if(super.getText() != null)
+            	checkCommand(super.getText());
             super.clear();
         }
     }
@@ -92,20 +100,51 @@ public final class Console extends TextInput
         return hide;
     }
     /**
-     * Checks entered command target, first command check   
+     * Checks entered command target, first command check  
+     * @param command Text line with command to check 
      */
-    private void checkCommand()
+    private void checkCommand(String line)
     {
-        Scanner scann = new Scanner(super.getText());
-        String commandTarget = scann.next();
-        String command = scann.nextLine();
+        Scanner scann = new Scanner(line);
+        String commandTarget;
+        String command;
+        try
+        {
+        	commandTarget = scann.next();
+            command = scann.nextLine();
+        }
+        catch(NoSuchElementException e)
+        {
+        	commandTarget = "";
+        	command = "";
+        	CommBase.addWarning("Command scann error: " + line);
+        }
         scann.close();
         
         if(commandTarget.equals("unlock"))
-            messages.add("console unlocked!");
+        {
+        	CommBase.addInformation("console unlocked!");
+        	return;
+        }
+        
+        if(commandTarget.equals("debug"))
+        {
+        	if(command.equals("on"))
+        		CommBase.setDebug(true);
+        	else if(command.equals("off"))
+        		CommBase.setDebug(false);
+        	
+        	return;
+        }
         
         if(commandTarget.equals("player"))
-           playerCommands(command);
+        {
+        	CommBase.addDebug("In player check");
+        	playerCommands(command);
+        	return;
+        }
+        
+        CommBase.addWarning(commandTarget + " no such command found !");
        
     }
     /**
@@ -139,9 +178,9 @@ public final class Console extends TextInput
     	if(prefix.equals("-i"))
     	{
     		if(target.addItem(ItemBase.getItem(value)))
-                messages.add("item added!");
+                CommBase.addInformation("item added!");
             else
-                messages.add("item not found");
+                CommBase.addInformation("item not found");
     	}
     }
     
