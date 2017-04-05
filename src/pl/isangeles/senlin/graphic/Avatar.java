@@ -138,6 +138,7 @@ public class Avatar extends GameObject
 	{
 		isMove = trueFalse;
 	}
+	
 	public boolean isMove()
 	{
 		return isMove;

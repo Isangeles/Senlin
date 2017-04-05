@@ -52,9 +52,9 @@ public abstract class Item
      * @param x Position on X axis
      * @param y Position on Y axis
      */
-    public void draw(float x, float y)
+    public void draw(float x, float y, boolean scaledPos)
     {
-    	itemTile.draw(x, y);
+    	itemTile.draw(x, y, scaledPos);
     }
     /**
      * Get item tile

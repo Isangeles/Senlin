@@ -49,7 +49,7 @@ public class UserInterface
      */
     public void draw(Graphics g)
     {
-        gameConsole.draw(0, 0, g);
+        gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
         
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));

@@ -1,9 +1,7 @@
 package pl.isangeles.senlin.data;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 /**
  * Static class for all game communicates
  * @author Isangeles
@@ -11,7 +9,6 @@ import java.util.Map;
  */
 public class CommBase
 {
-	//private static Map<String, String> commList = new LinkedHashMap<>();
 	private static List<String> commList = new LinkedList<String>();
 	private static boolean debugMode;
 	
@@ -87,7 +84,10 @@ public class CommBase
 	{
 		return commList.size();
 	}
-	
+	/**
+	 * Turns debug mode on or off
+	 * @param debugMode True to activate debug mode on false otherwise
+	 */
 	public static void setDebug(boolean debugMode)
 	{
 		CommBase.debugMode = debugMode;

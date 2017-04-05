@@ -24,12 +24,12 @@ public class ItemSlot extends InterfaceObject
 		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
 	}
 	
-	public void draw(float x, float y)
+	public void draw(float x, float y, boolean scaledPos)
 	{
 		if(itemInSlot != null)
-		    itemInSlot.draw(x-3, y-3);
+		    itemInSlot.draw(x-3, y-3, scaledPos);
 		
-		super.draw(x, y);
+		super.draw(x, y, false);
 	}
 	/**
 	 * Inserts item in slot

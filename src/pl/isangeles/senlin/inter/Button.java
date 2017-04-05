@@ -29,7 +29,6 @@ public final class Button extends InterfaceObject implements MouseListener
     private boolean isClicked;
     private boolean active;
     private Color clickColor;
-    @Deprecated
     /**
      * Create an button based on path to file string ('pre-archive' constructor)
      * @param pathToImg String with path to file
@@ -39,6 +38,7 @@ public final class Button extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
+    @Deprecated
     public Button(String pathToImg, String label, GameContainer gc) throws SlickException, FontFormatException, IOException
     {
         super(pathToImg, gc);
@@ -49,7 +49,7 @@ public final class Button extends InterfaceObject implements MouseListener
      * @param fileInput Input Stream to image 
      * @param ref Name for image
      * @param flipped If file suppose to be flipped
-     * @param buttText buttText String with text for button 
+     * @param label String with text for button 
      * @param gc Game container for click detect
      * @throws SlickException
      * @throws FontFormatException
@@ -136,19 +136,16 @@ public final class Button extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
-		
 	}
 
 	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		// TODO Auto-generated method stub
-		
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	{
 	}
 
 	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		// TODO Auto-generated method stub
-		
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
+	{
 	}
 
 	@Override
@@ -166,11 +163,16 @@ public final class Button extends InterfaceObject implements MouseListener
 	}
 
 	@Override
-	public void mouseWheelMoved(int change) {
-		// TODO Auto-generated method stub
-		
+	public void mouseWheelMoved(int change) 
+	{
 	}
-	
+	/**
+	 * Builds button called by every constructor
+	 * @param gc Slick game container
+	 * @param text Text for button
+	 * @throws FontFormatException
+	 * @throws IOException
+	 */
 	private void build(GameContainer gc, String text) throws FontFormatException, IOException
 	{
 		this.label = text;

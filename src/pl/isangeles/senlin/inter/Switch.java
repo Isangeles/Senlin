@@ -4,14 +4,12 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.util.*;
@@ -110,7 +108,16 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public void mouseWheelMoved(int change) 
 	{
 	}
-
+	/**
+	 * Builds switch, called by every constructor
+	 * @param gc Slick game container
+	 * @param label Switch label
+	 * @param value Value for switch 
+	 * @param points Max number of increments
+	 * @throws SlickException
+	 * @throws FontFormatException
+	 * @throws IOException
+	 */
 	private void build(GameContainer gc, String label, int value, Attribute points) throws SlickException, FontFormatException, IOException
 	{
 		this.gc = gc;

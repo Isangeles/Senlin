@@ -86,7 +86,7 @@ public class Message extends InterfaceObject implements MouseListener
     {
     	set(textMessage);
         isOpen = true;
-        draw(Coords.get("CE", -200, -100)[0], Coords.get("CE", -100, -80)[1]);
+        draw(Coords.getX("CE", -200), Coords.getY("CE", -80));
     }
     
     private void set(String textMessage)

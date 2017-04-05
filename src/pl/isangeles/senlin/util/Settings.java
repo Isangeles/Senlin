@@ -19,7 +19,7 @@ public class Settings
      */
     private Settings(){}
     /**
-     * Tries to load settings from settings file, if file is not found default settings will be loaded 
+     * Tries to load settings from settings file, if file was not found default settings will be loaded 
      * settings file construction: [setting];[newline mark]
      */
     static
@@ -43,7 +43,7 @@ public class Settings
         setScale();
     }
     /**
-     * Get language ID
+     * Returns language ID
      * @return String with language ID
      */
     public static String getLang()
@@ -51,7 +51,7 @@ public class Settings
         return langId;
     }
     /**
-     * Get resolution
+     * Returns resolution width and height
      * @return Table with width[0] and height[1]
      */
     public static float[] getResolution()

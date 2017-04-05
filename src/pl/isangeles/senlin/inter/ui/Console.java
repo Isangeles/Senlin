@@ -2,9 +2,6 @@ package pl.isangeles.senlin.inter.ui;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -23,14 +20,14 @@ import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
  * command syntax: [target] [command] [-prefix] [value]
+ * TODO Seems to command check not work entirely properly
  * @author Isangeles
  *
  */
 public final class Console extends TextInput
 {
-    boolean hide;
-    Character player;
-    //List<String> messages = new LinkedList<>();
+    private boolean hide;
+    private Character player;
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -47,21 +44,28 @@ public final class Console extends TextInput
         hide = true;
         CommBase.addInformation("Welcome in game console");
     }
-    
+    /**
+     * Draws console on unscaled position
+     * @param x Position on x-axis
+     * @param y Position on y-axis
+     * @param g Slick graphic to render text field
+     */
     public void draw(float x, float y, Graphics g)
     {
-        if(!hide)
+
+        super.draw(x, y, false);
+        
+        for(int i = 1; i < 6; i ++)
         {
-            super.draw(Coords.getX("TR", super.getWidth()+10), 10, false);
-            
-            for(int i = 1; i < 6; i ++)
-            {
-            	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.get().size()-i));
-            }
-            
-            textField.setLocation((int)super.x, (int)super.y+getDis(170));
+        	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.get().size()-i));
+        }
+        
+        if(!hide)
+        {   
+            textField.setLocation((int)super.x, (int)(super.y + super.getScaledHeight()));
             super.render(g);
         }
+        
     }
             
     @Override
@@ -106,18 +110,16 @@ public final class Console extends TextInput
     private void checkCommand(String line)
     {
         Scanner scann = new Scanner(line);
-        String commandTarget;
-        String command;
+        String commandTarget = "";
+        String command = "";
         try
         {
-        	commandTarget = scann.next();
+            commandTarget = scann.next();
             command = scann.nextLine();
         }
         catch(NoSuchElementException e)
         {
-        	commandTarget = "";
-        	command = "";
-        	CommBase.addWarning("Command scann error: " + line);
+        	CommBase.addDebug("Command scann error: " + line);
         }
         scann.close();
         
@@ -130,9 +132,15 @@ public final class Console extends TextInput
         if(commandTarget.equals("debug"))
         {
         	if(command.equals("on"))
+        	{
         		CommBase.setDebug(true);
+        		CommBase.addInformation("Debug mode on");
+        	}
         	else if(command.equals("off"))
+        	{
         		CommBase.setDebug(false);
+        		CommBase.addInformation("Debug mode off");
+        	}
         	
         	return;
         }

@@ -29,12 +29,12 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 		counter ++;
 	}
 	@Override
-	public void draw(float x, float y)
+	public void draw(float x, float y, boolean scaledPos)
 	{
 		if(!dragged)
-			super.draw(x, y, 45f, 40f);
+			super.draw(x, y, 45f, 40f, scaledPos);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, false);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, scaledPos);
 	}
 	
 	public void dragged(boolean dragged)
