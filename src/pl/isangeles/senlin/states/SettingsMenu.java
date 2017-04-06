@@ -18,6 +18,7 @@ import pl.isangeles.senlin.inter.Message;
 import pl.isangeles.senlin.inter.TextSwitch;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Game settings state class
  * @author Isangeles
@@ -59,7 +60,7 @@ public class SettingsMenu extends BasicGameState
     	switchLanguage.draw(700, 550);
     	buttBack.draw(10, 900);
     	if(changed)
-    		message.show("Some changes needs game restart.");
+    		message.show(TConnector.getText("menu", "settMessConf"));
     }
 
     @Override

@@ -57,19 +57,19 @@ public class Bonuses
 		String bonusInfo = "";
 		
 		if(strBonus != 0)
-			bonusInfo += TConnector.getText("textUi.txt", "attStrName") + "+" + strBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "attStrName") + "+" + strBonus + System.lineSeparator();
 		if(conBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "attConName") + "+" + conBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "attConName") + "+" + conBonus + System.lineSeparator();
 		if(dexBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "attDexName") + "+" + dexBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "attDexName") + "+" + dexBonus + System.lineSeparator();
 		if(intBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "attIntName") + "+" + intBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "attIntName") + "+" + intBonus + System.lineSeparator();
 		if(wisBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "attWisName") + "+" + wisBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "attWisName") + "+" + wisBonus + System.lineSeparator();
 		if(dmgBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "dmgName") + "+" + dmgBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "dmgName") + "+" + dmgBonus + System.lineSeparator();
 		if(hasteBonus != 0 )
-			bonusInfo += TConnector.getText("textUi.txt", "hastName") + "+" + hasteBonus + System.lineSeparator();
+			bonusInfo += TConnector.getText("ui", "hastName") + "+" + hasteBonus + System.lineSeparator();
 		
 		return bonusInfo;
 	}

@@ -2,7 +2,6 @@ package pl.isangeles.senlin.inter.ui;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -15,6 +14,7 @@ import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.Warning;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * In-game menu class
  * @author Isangeles
@@ -44,11 +44,11 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		super(GConnector.getInput("ui/background/bgInGameMenu.png"), "bgIGMenu", false, gc);
 		gc.getInput().addMouseListener(this);
 		
-		resume = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Resume", gc);
-		save = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Save game", gc);
-		load = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Load game", gc);
-		settings = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Settings", gc);
-		exit = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGMResume", false, "Exit game", gc);
+		resume = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "resName"), gc);
+		save = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "sgName"), gc);
+		load = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "lgName"), gc);
+		settings = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "settName"), gc);
+		exit = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "exitName"), gc);
 		
 		menuMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
 		menuWarning = new Warning(gc, "");
@@ -71,7 +71,7 @@ public class InGameMenu extends InterfaceObject implements MouseListener
 		menuMOA.setLocation(super.x, super.y);
 		
 		if(exitReq)
-			menuWarning.show("Are you sure ?");
+			menuWarning.show(TConnector.getText("menu", "warnConf"));
 		if(!menuWarning.isUndecided() && menuWarning.isCancel())
 		{
 			exitReq = false;

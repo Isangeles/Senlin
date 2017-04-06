@@ -51,9 +51,9 @@ public class Weapon extends Equippable
 	@Override
 	protected String getInfo()
 	{
-		String fullInfo = name + System.lineSeparator() +  TConnector.getText("textUI.txt", "dmgName") + ": " +  minDamage + "-" + maxDamage 
-						+ System.lineSeparator() + bonuses.getInfo() + TConnector.getText("textUI.txt", "itemRLInfo") 
-						+ ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("textUI.txt", "itemVInfo") + ": " + value + " "	+ itemNumber;
+		String fullInfo = name + System.lineSeparator() +  TConnector.getText("ui", "dmgName") + ": " +  minDamage + "-" + maxDamage 
+						+ System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") 
+						+ ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value + " "	+ itemNumber;
 		
 		return fullInfo;
 	}

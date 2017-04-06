@@ -2,6 +2,8 @@ package pl.isangeles.senlin.data;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Static class for all game communicates
  * @author Isangeles
@@ -11,7 +13,9 @@ public class CommBase
 {
 	private static List<String> commList = new LinkedList<String>();
 	private static boolean debugMode;
-	
+	/**
+	 * Private constructor to prevent initialization
+	 */
 	private CommBase(){};
 	/**
 	 * Adds new information to communicates stack
@@ -19,7 +23,7 @@ public class CommBase
 	 */
 	public static void addInformation(String information)
 	{
-		commList.add("Information: " + information);
+		commList.add(TConnector.getText("ui", "logInfo") + " " + information);
 	}
 	/**
 	 * Adds new warning to communicates stack
@@ -27,7 +31,7 @@ public class CommBase
 	 */
 	public static void addWarning(String warning)
 	{
-		commList.add("Warning: " + warning);
+		commList.add(TConnector.getText("ui", "logWarn") + " " + warning);
 	}
 	/**
 	 * Adds new debug message to list
@@ -35,7 +39,7 @@ public class CommBase
 	 */
 	public static void addDebug(String debug)
 	{
-		commList.add("Debug: " + debug);
+		commList.add(TConnector.getText("ui", "logDebug") + " " + debug);
 	}
 	/**
 	 * Returns message with specific index
@@ -66,7 +70,7 @@ public class CommBase
 		{
 			if(!debugMode)
 			{
-				if(!message.startsWith("Debug:"))
+				if(!message.startsWith(TConnector.getText("ui", "logDebug")))
 					list.add(message);
 			}
 			else

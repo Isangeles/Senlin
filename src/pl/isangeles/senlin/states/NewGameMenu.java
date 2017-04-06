@@ -17,6 +17,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attribute;
+import pl.isangeles.senlin.core.Attributes;
 /**
  * Class for new game menu used to create new character for player
  * @author Isangeles
@@ -46,7 +47,7 @@ public class NewGameMenu extends BasicGameState
 	
 	boolean mainMenuReq;
 	boolean gameWorldReq;
-
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException 
 	{
@@ -55,12 +56,12 @@ public class NewGameMenu extends BasicGameState
 			player = new Character();
 			ptsAtributes = new Attribute(5);
 			
-			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("textMenu.txt", "strInfo"));
-			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes, TConnector.getText("textMenu.txt", "conInfo"));
-			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes, TConnector.getText("textMenu.txt", "dexInfo"));
-			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes, TConnector.getText("textMenu.txt", "intInfo"));
-			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes, TConnector.getText("textMenu.txt", "wisInfo"));
-			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container, TConnector.getText("textMenu.txt", "attPtsInfo"));
+			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));
+			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes, TConnector.getText("ui", "conInfo"));
+			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes, TConnector.getText("ui", "dexInfo"));
+			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes, TConnector.getText("ui", "intInfo"));
+			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes, TConnector.getText("ui", "wisInfo"));
+			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container, TConnector.getText("ui", "attPtsInfo"));
 			
 			porList = new ArrayList<>();
 			List<Image> imgPorList = GConnector.getPortraits();
@@ -83,7 +84,7 @@ public class NewGameMenu extends BasicGameState
 			
 		} catch (IOException | FontFormatException e) 
 		{
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -147,6 +148,7 @@ public class NewGameMenu extends BasicGameState
 		{
 		    player.setName(fieldName.getText());
 		    player.setPortrait(porList.get(imgId));
+		    player.setAttributes(new Attributes(strSwitch.getValue(), conSwitch.getValue(), dexSwitch.getValue(), intSwitch.getValue(), wisSwitch.getValue()));
 		    player.levelUp();
 		    gameWorldReq = true;
 		}

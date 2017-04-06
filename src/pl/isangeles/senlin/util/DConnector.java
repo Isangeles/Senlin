@@ -83,7 +83,7 @@ public final class DConnector
 	{
 		Scanner scann = new Scanner(line);
 		scann.useDelimiter(":|;");
-		Item item =  new Weapon(scann.next(), TConnector.getText("textWeapons", scann.next()), TConnector.getText("textWeapons", scann.next()), 
+		Item item =  new Weapon(scann.next(), TConnector.getText("weapons", scann.next()), TConnector.getText("weapons", scann.next()), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 		scann.close();

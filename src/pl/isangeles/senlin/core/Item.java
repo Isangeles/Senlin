@@ -31,7 +31,7 @@ public abstract class Item
      * @param name Item name
      * @param info Info about item
      * @param value Item value
-     * @param imgName Item image file name
+     * @param imgName Item image file name in icon dir
      * @param gc Game container for superclass
      * @throws SlickException
      * @throws IOException
@@ -44,8 +44,7 @@ public abstract class Item
         this.info = info;
         this.value = value;
         this.imgName = imgName;
-        itemCounter ++;
-        
+        itemCounter ++;   
     }
     /**
      * Draws item tile

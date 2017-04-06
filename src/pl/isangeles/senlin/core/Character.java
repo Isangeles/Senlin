@@ -113,6 +113,14 @@ public class Character
 	    name = text;
 	}
 	/**
+	 * Sets character attributes
+	 * @param attributes Attributes for character
+	 */
+	public void setAttributes(Attributes attributes)
+	{
+		this.atributes = attributes;
+	}
+	/**
 	 * Draws character avatar
 	 * @param x Position on x axis
 	 * @param y Position on y axis

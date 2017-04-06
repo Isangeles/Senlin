@@ -47,11 +47,11 @@ public final class TConnector
 		} 
 		catch (FileNotFoundException e) 
 		{
-			return "Text file not fonud!";
+			return "Text file not fonud: " + fileName;
 		}
 		catch (NoSuchElementException e)
 		{
-			return "Text not found!";
+			return "Text not found: " + textID;
 		}
 		
 	}

@@ -1,0 +1,10 @@
+ngName:New game;
+lgName:Load game;
+sgName:Save game;
+resName:Resume;
+exitName:Exit;
+settName:Settings;
+settResName:Resolution;
+settLangName:Language;
+settMessConf:Some changes needs game restart;
+warnConf:Are you sure ?;

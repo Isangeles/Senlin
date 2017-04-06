@@ -14,6 +14,7 @@ import org.newdawn.slick.gui.TextField;
 import pl.isangeles.senlin.inter.TextInput;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.data.ItemBase;
@@ -134,12 +135,12 @@ public final class Console extends TextInput
         	if(command.equals("on"))
         	{
         		CommBase.setDebug(true);
-        		CommBase.addInformation("Debug mode on");
+        		CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
         	}
         	else if(command.equals("off"))
         	{
         		CommBase.setDebug(false);
-        		CommBase.addInformation("Debug mode off");
+        		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
         	}
         	
         	return;
@@ -152,7 +153,7 @@ public final class Console extends TextInput
         	return;
         }
         
-        CommBase.addWarning(commandTarget + " no such command found !");
+        CommBase.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
        
     }
     /**
@@ -186,9 +187,9 @@ public final class Console extends TextInput
     	if(prefix.equals("-i"))
     	{
     		if(target.addItem(ItemBase.getItem(value)))
-                CommBase.addInformation("item added!");
+                CommBase.addInformation(TConnector.getText("ui", "logAddI"));
             else
-                CommBase.addInformation("item not found");
+                CommBase.addInformation(TConnector.getText("ui", "logAddIFail"));
     	}
     }
     

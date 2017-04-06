@@ -1,6 +1,0 @@
-strInfo:Strenght your attacks;
-conInfo:Give you more health;
-dexInfo:Speed up your acctions;
-intInfo:Strenght your magic;
-wisInfo:Give you more mana;
-attPtsInfo:Your attributions points;

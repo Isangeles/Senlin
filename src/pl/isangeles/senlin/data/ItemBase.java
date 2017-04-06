@@ -1,17 +1,14 @@
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Item;
+import pl.isangeles.senlin.core.ErrorItem;
 import pl.isangeles.senlin.core.Weapon;
 import pl.isangeles.senlin.util.DConnector;
 /**
@@ -42,19 +39,21 @@ public class ItemBase
 				return item;
 		}
 		 */
-		
-		if(weaponsMap.get(id) != null)
+		try
 		{
-			try 
+			if(weaponsMap.get(id) != null)
 			{
 				return (Weapon)DConnector.getWeaponFromLine(weaponsMap.get(id), gc);
-			} 
-			catch (SlickException | IOException | FontFormatException e) 
-			{
-				e.printStackTrace();
 			}
+			
+			return new ErrorItem(id, "errorItem", "Item not found", gc);
 		}
-		return null;
+		catch(SlickException | IOException | FontFormatException e)
+		{
+			System.err.println(e.getMessage());
+			return null;
+		}
+		
 	}
 	/**
 	 * Loads text files with items to game maps

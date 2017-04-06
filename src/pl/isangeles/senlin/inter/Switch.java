@@ -28,13 +28,32 @@ public final class Switch extends InterfaceObject implements MouseListener
 	Button buttPlus;
 	Button buttMinus;
 	GameContainer gc;
-	
+	/**
+	 * Switch constructor (without info window)
+	 * @param gc Slick game container
+	 * @param label Switch label
+	 * @param value Switch start value
+	 * @param points Max number of increments
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Switch(GameContainer gc, String label, int value, Attribute points) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc);
 		build(gc, label, value, points);
 	}
-	
+	/**
+	 * Switch constructor (with info window)
+	 * @param gc Slick game container
+	 * @param label Switch label
+	 * @param value Switch start value
+	 * @param points Max number of increments
+	 * @param textForInfo Text for info window
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Switch(GameContainer gc, String label, int value, Attribute points, String textForInfo) throws SlickException, IOException, FontFormatException
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc, textForInfo);
@@ -56,6 +75,10 @@ public final class Switch extends InterfaceObject implements MouseListener
 		super.drawString(value+"", ttf);
 		ttf.drawString(super.getCenteredCoord(super.x, texEndX, textX), super.getCenteredCoord(super.y, texEndY, textY-20), label);
 		
+	}
+	public int getValue()
+	{
+		return value;
 	}
 	@Override
 	public void inputEnded() 

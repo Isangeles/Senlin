@@ -40,10 +40,10 @@ public class MainMenu extends BasicGameState
         try
         {
             container.setMouseCursor(new Cursor(container), Math.round(10 * Settings.getScale()), 0);
-        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtNG", false, "New Game", container);
-        	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtLG", false, "Load Game", container);
-        	buttOptions = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtO", false, "Options", container);
-            buttExit = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtExit", false, "Exit", container);
+        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtNG", false, TConnector.getText("menu", "ngName"), container);
+        	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtLG", false, TConnector.getText("menu", "lgName"), container);
+        	buttOptions = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtO", false, TConnector.getText("menu", "settName"), container);
+            buttExit = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtExit", false, TConnector.getText("menu", "exitName"), container);
         }catch(IOException | FontFormatException e)
         {
         	System.err.println(e.toString());
