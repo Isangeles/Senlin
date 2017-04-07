@@ -30,7 +30,6 @@ public class GameWorld extends BasicGameState
 	
 	public GameWorld(Character player)
 	{
-
         this.player = player;
 	}
 	
@@ -48,15 +47,9 @@ public class GameWorld extends BasicGameState
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
         } 
-        catch (SlickException e) 
+        catch (SlickException | IOException | FontFormatException e) 
         {
             System.err.println(e.getMessage());
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        } catch (FontFormatException e)
-        {
-            e.printStackTrace();
         }
     }
 

@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.inter.ui.ItemTile;
@@ -29,9 +30,11 @@ public class Character
 	private int maxHealth;
 	private int magicka;
 	private int maxMagicka;
+	private int minDamage; //UNUSED damage calculate dynamically by getDamage method
+	private int maxDamage; //UNUSED damage calculate dynamically by getDamage method 
 	private int[] position = {500, 250};
 	private float haste;
-	private Attributes atributes;
+	private Attributes attributes;
 	private Image portrait;
 	private boolean live;
 	private Avatar avatar;
@@ -46,7 +49,7 @@ public class Character
 	{
 		name = "Name";
 		level = 0;
-		atributes = new Attributes(1, 1, 1, 1, 1);
+		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + "default.jpg");
 		live = true;
 		avatar = new Avatar();
@@ -64,7 +67,7 @@ public class Character
 	public Character(String name, int level, int experience, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException
 	{
 		this.name = name;
-		this.atributes = atributes;
+		this.attributes = atributes;
 		addLevel(level);
 		this.experience = experience;
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
@@ -78,11 +81,11 @@ public class Character
 	public void levelUp()
 	{
 		level ++;
-		maxHealth = atributes.addHealth();
+		maxHealth = attributes.addHealth();
 		health = maxHealth;
-		maxMagicka = atributes.addMagicka();
+		maxMagicka = attributes.addMagicka();
 		magicka = maxMagicka;
-		haste = atributes.addHaste();
+		haste = attributes.addHaste();
 		maxExperience = 1000 * level;
 	}
 	/**
@@ -118,8 +121,86 @@ public class Character
 	 */
 	public void setAttributes(Attributes attributes)
 	{
-		this.atributes = attributes;
+		this.attributes = attributes;
 	}
+    /**
+     * Sets item as character main weapon
+     * @param weapon Item that can be casted to weapon
+     * @return True if item is valid (can be casted to weapon), false otherwise
+     */
+	public boolean setMainWeapon(Item weapon)
+	{ return inventory.setMainWeapon(weapon); }
+    /**
+     * Sets item as character secondary weapon
+     * @param weapon Item that can be casted to weapon
+     * @return True if item is valid (can be casted to weapon), false otherwise
+     */
+	public boolean setSecWeapon(Item weapon)
+	{ return inventory.setSecWeapon(weapon); }
+	/**
+     * Sets item as character boots
+     * @param weapon Item that can be casted to armor
+     * @return True if item is valid (can be casted to armor), false otherwise
+     */
+	public boolean setBoots(Item boots)
+	{ return inventory.setBoots(boots); }
+	/**
+     * Sets item as character gloves
+     * @param weapon Item that can be casted to armor
+     * @return True if item is valid (can be casted to armor), false otherwise
+     */
+	public boolean setGolves(Item gloves)
+	{ return inventory.setGloves(gloves); }
+	/**
+     * Sets item as character chest
+     * @param weapon Item that can be casted to armor
+     * @return True if item is valid (can be casted to armor), false otherwise
+     */
+	public boolean setChest(Item chest)
+	{ return inventory.setChest(chest); }
+	/**
+     * Sets item as character helmet
+     * @param weapon Item that can be casted to armor
+     * @return True if item is valid (can be casted to armor), false otherwise
+     */
+	public boolean setHelmet(Item helmet)
+	{ return inventory.setHelmet(helmet); }
+	
+	/**
+     * Sets item as character ring
+     * @param weapon Item that can be casted to trinket
+     * @return True if item is valid (can be casted to trinket), false otherwise
+     */
+	public boolean setRing(Item ring)
+	{ return inventory.setRing(ring); }
+	
+	/**
+     * Sets item as character secondary ring
+     * @param weapon Item that can be casted to trinket
+     * @return True if item is valid (can be casted to trinket), false otherwise
+     */
+	public boolean setSecRing(Item ring)
+	{ return inventory.setSecRing(ring); }
+	
+	/**
+     * Sets item as character amulet
+     * @param weapon Item that can be casted to trinket
+     * @return True if item is valid (can be casted to trinket), false otherwise
+     */
+	public boolean setAmulet(Item amulet)
+	{ return inventory.setAmulet(amulet); }
+	
+	/**
+     * Sets item as character artifact
+     * @param weapon Item that can be casted to trinket
+     * @return True if item is valid (can be casted to trinket), false otherwise
+     */
+	public boolean setArtifact(Item artifact)
+	{ return inventory.setArtifact(artifact); }
+	
+	public void removeMainWeapon()
+	{ inventory.removeMainWeapon(); }
+	
 	/**
 	 * Draws character avatar
 	 * @param x Position on x axis
@@ -193,15 +274,29 @@ public class Character
 	{
 		return avatar.isMove();
 	}
-	
+	/**
+	 * Get character hit
+	 * TODO include current weapon damage
+	 * @return Hit value
+	 */
 	public int getHit()
 	{
-		return numberGenerator.nextInt(10) + atributes.getBasicHit();
+		return numberGenerator.nextInt(10) + attributes.getBasicHit();
+	}
+	/**
+	 * Get character damage
+	 * @return Table with minimal[0] and maximal[1] damage values
+	 */
+	public int[] getDamage()
+	{
+		int max = attributes.getBasicHit() + inventory.getWeaponDamage()[1] + 10;
+		int min = attributes.getBasicHit() + inventory.getWeaponDamage()[0];
+		return new int[]{min, max};
 	}
 	
 	public int getSpell()
 	{
-		return numberGenerator.nextInt(20) + atributes.getBasicSpell(); 
+		return numberGenerator.nextInt(20) + attributes.getBasicSpell(); 
 	}
 	
 	public int getLevel()
@@ -226,19 +321,19 @@ public class Character
 	{ return maxMagicka; }
 	
 	public int getStr()
-	{ return atributes.getStr(); }
+	{ return attributes.getStr(); }
 	
 	public int getCon()
-	{ return atributes.getCon(); }
+	{ return attributes.getCon(); }
 	
 	public int getDex()
-	{ return atributes.getDex(); }
+	{ return attributes.getDex(); }
 	
 	public int getInt()
-	{ return atributes.getInt(); }
+	{ return attributes.getInt(); }
 	
 	public int getWis()
-	{ return atributes.getWis(); }
+	{ return attributes.getWis(); }
 	
 	public float getHaste()
 	{ return haste; }
@@ -280,34 +375,34 @@ public class Character
 	}
 	
 	public void addStr()
-	{ atributes.addStr(); }
+	{ attributes.addStr(); }
 	
 	public void addStr(int value)
-	{ atributes.addStr(value); }
+	{ attributes.addStr(value); }
 	
 	public void addCon()
-	{ atributes.addCon(); }
+	{ attributes.addCon(); }
 	
 	public void addCon(int value)
-	{ atributes.addCon(value); }
+	{ attributes.addCon(value); }
 	
 	public void addDex()
-	{ atributes.addDex(); }
+	{ attributes.addDex(); }
 	
 	public void addDex(int value) 
-	{ atributes.addDex(value); }
+	{ attributes.addDex(value); }
 	
 	public void addInt()
-	{ atributes.addInt(); }
+	{ attributes.addInt(); }
 	
 	public void addInt(int value) 
-	{ atributes.addInt(value); }
+	{ attributes.addInt(value); }
 	
 	public void addWis()
-	{ atributes.addWis(); }
+	{ attributes.addWis(); }
 	
 	public void addWis(int value) 
-	{ atributes.addWis(value); }
+	{ attributes.addWis(value); }
 	/**
 	 * Adds item to character inventory
 	 * @param itemId Item ID in base
@@ -323,6 +418,7 @@ public class Character
 	 * @param x Position in X axis
 	 * @param y Position in Y axis
 	 */
+	@Deprecated
 	public void drawItems(float x, float y)
 	{
 		inventory.drawItems(x, y);

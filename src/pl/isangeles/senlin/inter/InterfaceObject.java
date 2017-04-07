@@ -233,8 +233,7 @@ public abstract class InterfaceObject extends Image
     {
     	return scale;
     }
-    
-
+    @Deprecated
 	@Override
 	public InterfaceObject clone()
 	{
@@ -250,19 +249,6 @@ public abstract class InterfaceObject extends Image
 			return this;
 		}
 	}
-    /**
-     * Draws object in default scale on unscaled position
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     */
-    protected void drawUnscaled(float x, float y, float width, float height)
-    {
-    	this.x = x;
-    	this.y = y;
-    	super.draw(x, y, width, height);
-    }
     /**
      * Returns distance corrected by scale
      * @param rawDistance Distance on 1920x1080
@@ -281,9 +267,18 @@ public abstract class InterfaceObject extends Image
     {
     	return size * scale;
     }
-    public void setCloneWindow()
+    /**
+     * Draws object in default scale on unscaled position
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    protected void drawUnscaled(float x, float y, float width, float height)
     {
-    	this.info = (InfoWindow) info.clone();
+    	this.x = x;
+    	this.y = y;
+    	super.draw(x, y, width, height);
     }
     /**
      * Draws string in middle of object
@@ -298,6 +293,15 @@ public abstract class InterfaceObject extends Image
         float textY = ttf.getHeight(text);
         
         ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text);
+    }
+    /**
+     * Moves object MouseOverArea
+     * @param x position on x-axis
+     * @param y position on y-axis
+     */
+    protected void moveMOA(float x, float y)
+    {
+    	iObjectMOA.setLocation(x, y);
     }
     
     protected float getCenteredCoord(float bgCoord, float bgSize, float obSize)
@@ -334,5 +338,9 @@ public abstract class InterfaceObject extends Image
         float proportionY = resY / defResY;
         scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
     }
-    
+    @Deprecated
+    private void setCloneWindow()
+    {
+    	this.info = (InfoWindow) info.clone();
+    }
 }

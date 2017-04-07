@@ -7,9 +7,9 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Item;
-import pl.isangeles.senlin.core.ErrorItem;
-import pl.isangeles.senlin.core.Weapon;
+import pl.isangeles.senlin.core.item.ErrorItem;
+import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Class with containers with all items in game
@@ -54,6 +54,23 @@ public class ItemBase
 			return null;
 		}
 		
+	}
+	/**
+	 * Return error item
+	 * @param itemId Id of item that cause error
+	 * @return errorItem
+	 */
+	public static Item getErrorItem(String itemId)
+	{
+		try 
+		{
+			return new ErrorItem(itemId, "errorItem", "Error item", gc);
+		} 
+		catch (SlickException | IOException | FontFormatException e) 
+		{
+			System.err.println(e.getMessage());
+			return null;
+		}
 	}
 	/**
 	 * Loads text files with items to game maps

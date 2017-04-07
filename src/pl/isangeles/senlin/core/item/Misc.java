@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -18,5 +18,13 @@ public class Misc extends Item
 	{
 		super(id, name, info, value, imgName, gc);
 	}
-
+    /**
+     * Returns basic info about item for item tile
+     * @return String with basic info
+     */
+    protected String getInfo()
+    {
+    	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;
+    	return fullInfo;
+    }
 }

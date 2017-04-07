@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -79,11 +79,15 @@ public abstract class Item
     {
     	return itemNumber;
     }
+    /**
+     * Returns items name
+     */
     @Override
     public String toString()
     {
     	return name;
     }
+    @Deprecated
     @Override
     public Item clone()
     {
@@ -102,18 +106,21 @@ public abstract class Item
 		}
     }
     /**
-     * Get basic info about item
+     * Returns basic info about item for item tile
      * @return String with basic info
      */
-    protected String getInfo()
-    {
-    	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;
-    	return fullInfo;
-    }
-    
+    protected abstract String getInfo();
+    /**
+     * Sets image from icon dir for item tile
+     * @param gc Slick game container
+     * @return ItemTile 
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, getInfo());
+    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
     
     public void setTile(ItemTile tile)

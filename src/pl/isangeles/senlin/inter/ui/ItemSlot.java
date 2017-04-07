@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Item;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.InterfaceTile;
 import pl.isangeles.senlin.util.GConnector;

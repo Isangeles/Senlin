@@ -18,7 +18,7 @@ import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Item;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.CommBase;
 /**
  * Graphical representation of character inventory
@@ -27,9 +27,9 @@ import pl.isangeles.senlin.data.CommBase;
  */
 public class InvetoryMenu extends InterfaceObject implements MouseListener
 {
-	private MouseOverArea inventoryMOA;
 	private Character player;
 	private ItemSlot[][] slots;
+	private ItemSlot[] eqSlots;
 	private List<Integer> itemsIn = new ArrayList<>();
 	private TrueTypeFont textTtf;
 	/**
@@ -50,8 +50,6 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(font.deriveFont(12f), true);
         
-        inventoryMOA = new MouseOverArea(gc, this, 0, 0, (int)super.getScaledWidth(), (int)super.getScaledHeight());
-        
         slots = new ItemSlot[5][20];
         for(int i = 0; i < 5; i ++)
         {
@@ -60,6 +58,12 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         		slots[i][j] = new ItemSlot(gc);
         	}
         }
+        
+        eqSlots = new ItemSlot[10];
+        for(int i = 0; i < 10; i ++)
+        {
+        	eqSlots[i] = new ItemSlot(gc);
+        }
     }
     /**
      * Draws inventory
@@ -67,7 +71,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     public void draw(float x, float y)
     {
         super.draw(x, y, false);
-        
+        //Slots drawing
         float firstSlotX = x+getDis(48);
     	float firstSlotY = y+getDis(323);
     	
@@ -78,7 +82,19 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         		slots[i][j].draw(firstSlotX + (j*getDis(45)), firstSlotY + (i*getDis(40)), false);
         	}
         }
+        //Eq slots drawing
+        eqSlots[0].draw(x+getDis(196), y+getDis(242), false);
+        eqSlots[1].draw(x+getDis(99), y+getDis(140), false);
+        eqSlots[2].draw(x+getDis(201), y+getDis(137), false);
+        eqSlots[3].draw(x+getDis(85), y+getDis(91), false);
+        eqSlots[4].draw(x+getDis(150), y+getDis(67), false);
+        eqSlots[5].draw(x+getDis(147), y+getDis(9), false);
+        eqSlots[6].draw(x+getDis(20), y+getDis(175), false);
+        eqSlots[7].draw(x+getDis(20), y+getDis(131), false);
+        eqSlots[8].draw(x+getDis(20), y+getDis(88), false);
+        eqSlots[9].draw(x+getDis(20), y+getDis(45), false);
         
+        //Stats drawing
         float firstStatX = x+getDis(300);
         float firstStatY = y+getDis(50);
         
@@ -91,17 +107,17 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         	}
         	textTtf.drawString(firstStatX, firstStatY + (j*textTtf.getHeight()), getCharStats()[i]);
         }
-        inventoryMOA.setLocation(super.x, super.y);
+        super.moveMOA(super.x, super.y);
     }
     
     public boolean isMouseOver()
     {
-    	return inventoryMOA.isMouseOver();
+    	return super.isMouseOver();
     }
     
     public void reset()
     {
-        inventoryMOA.setLocation(Coords.getX("BR", 0), Coords.getY("BR", 0));
+        super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
     }
     
     public void update()
@@ -156,10 +172,20 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 					if(slot.isMouseOver())
 					{
 						moveItem(draggedSlot, slot);
+						if(draggedSlot == eqSlots[1])
+							player.removeMainWeapon();
 						return;
 					}
 				}
 			}
+			
+			if(eqSlots[1].isMouseOver())
+			{
+				if(player.setMainWeapon(draggedSlot.getItem()))
+					moveItem(draggedSlot, eqSlots[1]);
+				return;
+			}
+			
 			draggedSlot.dragged(false);
 		}
 	}
@@ -215,6 +241,12 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 				}
 			}
 		}
+    	
+    	for(ItemSlot slot : eqSlots)
+    	{
+    		if(slot.isItemDragged())
+    			return slot;
+    	}
     	return null;
     }
     /**
@@ -241,7 +273,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     private String[] getCharStats()
     {
     	return new String[]{player.getName(), "Level: " + player.getLevel(), "Experience: " + player.getExperience() + "/" + player.getMaxExperience(), "Health: " + player.getHealth(),
-    			"Magicka: " + player.getMagicka(), "Haste: " + player.getHaste(), "Strenght: " + player.getStr(), "Constitution: " + player.getCon(), "Dexterity: " + player.getDex(), 
-    			"Inteligence: " + player.getInt(), "Wisdom: " + player.getWis()};
+    			"Magicka: " + player.getMagicka(), "Haste: " + player.getHaste(), "Damage: " + player.getDamage()[0] + "-" + player.getDamage()[1], "Strenght: " + player.getStr(), 
+    			"Constitution: " + player.getCon(), "Dexterity: " + player.getDex(), "Inteligence: " + player.getInt(), "Wisdom: " + player.getWis()};
     }
 }

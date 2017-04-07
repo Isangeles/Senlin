@@ -23,7 +23,7 @@ public class CommBase
 	 */
 	public static void addInformation(String information)
 	{
-		commList.add(TConnector.getText("ui", "logInfo") + " " + information);
+		commList.add(TConnector.getText("ui", "logInfo") + ": " + information);
 	}
 	/**
 	 * Adds new warning to communicates stack
@@ -31,7 +31,7 @@ public class CommBase
 	 */
 	public static void addWarning(String warning)
 	{
-		commList.add(TConnector.getText("ui", "logWarn") + " " + warning);
+		commList.add(TConnector.getText("ui", "logWarn") + ": " + warning);
 	}
 	/**
 	 * Adds new debug message to list
@@ -39,7 +39,7 @@ public class CommBase
 	 */
 	public static void addDebug(String debug)
 	{
-		commList.add(TConnector.getText("ui", "logDebug") + " " + debug);
+		commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
 	}
 	/**
 	 * Returns message with specific index

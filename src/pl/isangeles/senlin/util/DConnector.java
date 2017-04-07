@@ -14,8 +14,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
-import pl.isangeles.senlin.core.Item;
-import pl.isangeles.senlin.core.Weapon;
+import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 
 /**
@@ -59,7 +59,7 @@ public final class DConnector
 			scann = new Scanner(baseLine);
 			scann.useDelimiter(":|;");
 			item =  new Weapon(scann.next(), TConnector.getText("textWeapons", scann.next()), TConnector.getText("textWeapons", scann.next()), 
-					scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
+					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
 					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 			scann.close();
 			return item;
@@ -84,7 +84,7 @@ public final class DConnector
 		Scanner scann = new Scanner(line);
 		scann.useDelimiter(":|;");
 		Item item =  new Weapon(scann.next(), TConnector.getText("weapons", scann.next()), TConnector.getText("weapons", scann.next()), 
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
+				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 		scann.close();
 		return item;

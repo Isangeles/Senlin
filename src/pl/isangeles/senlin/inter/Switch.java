@@ -20,14 +20,14 @@ import pl.isangeles.senlin.util.*;
  */
 public final class Switch extends InterfaceObject implements MouseListener
 {
-	int value;
-	Attribute points;
-	Font labelFont;
-	TrueTypeFont ttf;
-	String label;
-	Button buttPlus;
-	Button buttMinus;
-	GameContainer gc;
+	private int value;
+	private Attribute points;
+	private Font labelFont;
+	private TrueTypeFont ttf;
+	private String label;
+	private Button buttPlus;
+	private Button buttMinus;
+	private GameContainer gc;
 	/**
 	 * Switch constructor (without info window)
 	 * @param gc Slick game container
@@ -60,6 +60,7 @@ public final class Switch extends InterfaceObject implements MouseListener
 		build(gc, label, value, points);
 	}
 	
+	@Override
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
@@ -76,6 +77,10 @@ public final class Switch extends InterfaceObject implements MouseListener
 		ttf.drawString(super.getCenteredCoord(super.x, texEndX, textX), super.getCenteredCoord(super.y, texEndY, textY-20), label);
 		
 	}
+	/**
+	 * Returns current switch value
+	 * @return Current switch value 
+	 */
 	public int getValue()
 	{
 		return value;

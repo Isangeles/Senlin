@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
