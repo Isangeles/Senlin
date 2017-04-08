@@ -14,6 +14,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.inter.ui.ItemTile;
@@ -72,25 +73,47 @@ public final class DConnector
 	}
 	/**
 	 * Builds and returns weapon from line of text
-	 * @param line String with text in this form: [id]:[name]:[basic info]:[value]:[min damage]:[max damage]:[bonus str]:[bonus con]:[bonus dex]:[bonus int]:[bonus wis]:[bonus dmg]:[bonus haste]:[required level]:[img file name];
+	 * @param line String with text in this form: 
+	 * [id]:[name]:[basic info]:[type(0-5)]:[material(0-2)]:[value]:[min damage]:[max damage]:[bonus str]:[bonus con]:[bonus dex]:[bonus int]:[bonus wis]:[bonus dmg]:[bonus haste]:[required level]:[img file name];
 	 * @param gc Slick game container
 	 * @return New weapon
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public static Item getWeaponFromLine(String line, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public static Weapon getWeaponFromLine(String line, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		Scanner scann = new Scanner(line);
 		scann.useDelimiter(":|;");
-		Item item =  new Weapon(scann.next(), TConnector.getText("weapons", scann.next()), TConnector.getText("weapons", scann.next()), 
+		Weapon item =  new Weapon(scann.next(), TConnector.getText("weapons", scann.next()), TConnector.getText("weapons", scann.next()), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
 		scann.close();
 		return item;
 	}
 	/**
-	 * Builds and returns list of all weapons in base file
+	 * Builds and returns armor from line of text
+	 * @param line String with text in this form: 
+	 * [id]:[name]:[basic info]:[type(0-5)]:[material(0-4)]:[value]:[armor rating]:[bonus str]:[bonus con]:[bonus dex]:[bonus int]:[bonus wis]:[bonus dmg]:[bonus haste]:[required level]:[img file name];
+	 * @param gc Slick game container
+	 * @return New armor
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public static Armor getArmorFromLine(String line, GameContainer gc) throws SlickException, IOException, FontFormatException
+	{
+		Scanner scann = new Scanner(line);
+		scann.useDelimiter(":|;");
+		Armor item = new Armor(scann.next(), TConnector.getText("armors", scann.next()), TConnector.getText("armors", scann.next()), 
+				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(),
+				new Bonuses(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), 
+				scann.nextInt(), scann.next(), gc);
+		scann.close();
+		return item;
+	}
+	/**
+	 * UNUSED Builds and returns list of all weapons in base file
 	 * @param baseName name of base in data/item/ directory
 	 * @param gc Slick game container for item constructor
 	 * @return Linked list with items
@@ -114,11 +137,15 @@ public final class DConnector
 		
 		return itemList;
 	}
-	
-	public static Map<String, String> getWeaponsLinesMap() throws FileNotFoundException
+	/**
+	 * Returns map with lines from base file as values and lines item IDs as keys
+	 * @return Map with item lines from base file
+	 * @throws FileNotFoundException If file was not found
+	 */
+	public static Map<String, String> getItemsLinesMap(String itemBaseName) throws FileNotFoundException
 	{
 		Map<String, String> map = new HashMap<>();
-		File baseFile = new File("data" + File.separator + "item" + File.separator + "weaponBase");
+		File baseFile = new File("data" + File.separator + "item" + File.separator + itemBaseName);
 		Scanner scann = new Scanner(baseFile);
 		scann.useDelimiter(";\r?\n");
 		
@@ -127,6 +154,7 @@ public final class DConnector
 			String line = scann.nextLine();
 			map.put(line.split(":|;")[0], line);
 		}
+		scann.close();
 		return map;
 	}
 }

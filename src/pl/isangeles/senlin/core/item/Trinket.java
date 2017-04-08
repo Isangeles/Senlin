@@ -23,17 +23,18 @@ public class Trinket extends Equippable
 			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
 	{
 		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type);
+		this.itemTile = this.setTile(gc);
 	}
 
 	@Override
 	protected String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + getType() + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + 
+		String fullInfo = name + System.lineSeparator() + getTypeName() + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + 
 						  System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 		return fullInfo;
 	}
 	@Override
-	protected String getType()
+	protected String getTypeName()
 	{
 		switch(type)
 		{

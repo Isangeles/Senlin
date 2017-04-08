@@ -26,118 +26,102 @@ public class Equipment
 	public Equipment() 
 	{
 	}
-
-	public boolean setMainWeapon(Weapon weapon)
-	{ 
+	/**
+     * Sets item as equipped main weapon
+     * @param weapon Any weapon
+     * @return True if item was successful inserted, false otherwise
+     */
+	public boolean setWeapon(Weapon weapon)
+	{
 		if(this.weaponMain == null) 
 		{
 			weaponMain = weapon;
 			return true;
 		}
-		return false;
-	
-	}
-	
-	public boolean setSecWeapon(Weapon weapon)
-	{ 
+		
 		if(shield == null) 
 		{
 			weaponSec = weapon;
 			return true;
 		}
+		
 		return false;
 	}
-	
-	public boolean setBoots(Armor boots)
-	{ 
-		if(boots.type() == Armor.FEET)
+	/**
+	 * Sets armor part as equipped item
+	 * @param armorPart Armor item with proper type
+	 * @return True if item was successful inserted to equipment
+	 */
+	public boolean setArmor(Armor armorPart)
+	{
+		if(armorPart.type() == Armor.FEET)
 		{
-			this.boots = boots;
+			this.boots = armorPart;
 			return true;
 		}
+		
+		if(armorPart.type() == Armor.HANDS)
+		{
+			this.gloves = armorPart;
+			return true;
+		}
+		
+		if(armorPart.type() == Armor.OFFHAND)
+		{
+			this.shield = armorPart;
+			return true;
+		}
+		
+		if(armorPart.type() == Armor.CHEST)
+		{
+			this.chest = armorPart;
+			return true;
+		}
+		
+		if(armorPart.type() == Armor.HEAD)
+		{
+			this.helmet = armorPart;
+			return true;
+		}
+		
 		return false;
 	}
-	
-	public boolean setGloves(Armor gloves)
-	{ 
-		if(gloves.type() == Armor.HANDS)
+	/**
+     * Sets item as equipped trinket
+     * @param trinket Trinket item with proper type (finger, neck or artifact)
+     * @return True if item was successful inserted, false otherwise
+     */
+	public boolean setTrinket(Trinket trinket)
+	{
+		if(trinket.type() == Trinket.FINGER)
 		{
-			this.gloves = gloves;
+			this.ring = trinket;
 			return true;
 		}
+		
+		if(trinket.type() == Trinket.FINGER)
+		{
+			this.ringSec = trinket;
+			return true;
+		}
+		
+		if(trinket.type() == Trinket.NECK)
+		{
+			this.amulet = trinket;
+			return true;
+		}
+		
+		if(trinket.type() == Trinket.ARTIFACT)
+		{
+			this.artifact = trinket;
+			return true;
+		}
+		
 		return false; 
 	}
-	
-	public boolean setShield(Armor shield)
-	{ 
-		if(shield.type() == Armor.OFFHAND)
-		{
-			this.shield = shield;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setChest(Armor chest)
-	{ 
-		if(chest.type() == Armor.CHEST)
-		{
-			this.chest = chest;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setHelmet(Armor helmet)
-	{ 
-		if(helmet.type() == Armor.HEAD)
-		{
-			this.helmet = helmet;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setRing(Trinket ring)
-	{ 
-		if(ring.type() == Trinket.FINGER)
-		{
-			this.ring = ring;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setSecRing(Trinket ring)
-	{ 
-		if(ring.type() == Trinket.FINGER)
-		{
-			this.ringSec = ring;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setAmulet(Trinket amulet)
-	{ 
-		if(amulet.type() == Trinket.NECK)
-		{
-			this.amulet = amulet;
-			return true;
-		}
-		return false; 
-	}
-	
-	public boolean setArtifact(Trinket artifact)
-	{ 
-		if(artifact.type() == Trinket.ARTIFACT)
-		{
-			this.artifact = artifact;
-			return true;
-		}
-		return false;  
-	}
-	
+	/**
+	 * Removes item from equippment
+	 */
 	public void removeMainWeapon()
 	{
 		weaponMain = null;
@@ -147,7 +131,10 @@ public class Equipment
 	{
 		return weaponMain;
 	}
-	
+	/**
+	 * Returns equipped weapons damage
+	 * @return Table with damage minimal[0] and maximal[1] values
+	 */
 	public int[] getDamage()
 	{
 		if(weaponMain != null)
@@ -156,5 +143,27 @@ public class Equipment
 		}
 		else
 			return new int[]{0, 0};
+	}
+	/**
+	 * Returns total amount of equipment armor rating 
+	 * @return Value of armor rating
+	 */
+	public int getArmorRat()
+	{
+		int rating = 0;
+		
+		if(boots != null)
+			rating += boots.getArmorRat();
+		if(gloves != null)
+			rating += gloves.getArmorRat();
+		if(chest != null)
+			rating += chest.getArmorRat();
+		if(helmet != null)
+			rating += helmet.getArmorRat();
+		if(shield != null)
+			rating += shield.getArmorRat();
+		
+		return rating;
+		
 	}
 }

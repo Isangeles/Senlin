@@ -11,7 +11,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
+import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.item.Trinket;
+import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.inter.ui.ItemTile;
@@ -123,81 +126,34 @@ public class Character
 	{
 		this.attributes = attributes;
 	}
+	/**
+	 * Sets item as one of character weapon
+	 * @param weapon Any item that can be casted to weapon
+	 * @return True if item was successful inserted, false otherwise
+	 */
+	public boolean setWeapon(Item weapon)
+    {
+		return inventory.setWeapon(weapon);
+    }
     /**
-     * Sets item as character main weapon
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to weapon), false otherwise
+     * Sets item as one of character armor parts
+     * @param armorPart Item that can be casted to armor
+     * @return True if item was successful inserted, false otherwise
      */
-	public boolean setMainWeapon(Item weapon)
-	{ return inventory.setMainWeapon(weapon); }
+    public boolean setArmor(Item armorPart)
+    {
+    	return inventory.setArmor(armorPart);
+    }
     /**
-     * Sets item as character secondary weapon
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to weapon), false otherwise
+     * Sets item as one of character trinkets
+     * @param trinket Item that can be casted to trinket
+     * @return True if item was successful inserted, false otherwise
      */
-	public boolean setSecWeapon(Item weapon)
-	{ return inventory.setSecWeapon(weapon); }
-	/**
-     * Sets item as character boots
-     * @param weapon Item that can be casted to armor
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-	public boolean setBoots(Item boots)
-	{ return inventory.setBoots(boots); }
-	/**
-     * Sets item as character gloves
-     * @param weapon Item that can be casted to armor
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-	public boolean setGolves(Item gloves)
-	{ return inventory.setGloves(gloves); }
-	/**
-     * Sets item as character chest
-     * @param weapon Item that can be casted to armor
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-	public boolean setChest(Item chest)
-	{ return inventory.setChest(chest); }
-	/**
-     * Sets item as character helmet
-     * @param weapon Item that can be casted to armor
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-	public boolean setHelmet(Item helmet)
-	{ return inventory.setHelmet(helmet); }
-	
-	/**
-     * Sets item as character ring
-     * @param weapon Item that can be casted to trinket
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-	public boolean setRing(Item ring)
-	{ return inventory.setRing(ring); }
-	
-	/**
-     * Sets item as character secondary ring
-     * @param weapon Item that can be casted to trinket
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-	public boolean setSecRing(Item ring)
-	{ return inventory.setSecRing(ring); }
-	
-	/**
-     * Sets item as character amulet
-     * @param weapon Item that can be casted to trinket
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-	public boolean setAmulet(Item amulet)
-	{ return inventory.setAmulet(amulet); }
-	
-	/**
-     * Sets item as character artifact
-     * @param weapon Item that can be casted to trinket
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-	public boolean setArtifact(Item artifact)
-	{ return inventory.setArtifact(artifact); }
-	
+    public boolean setTrinket(Item trinket)
+    {
+    	return inventory.setTrinket(trinket);
+    }
+    
 	public void removeMainWeapon()
 	{ inventory.removeMainWeapon(); }
 	
@@ -284,7 +240,7 @@ public class Character
 		return numberGenerator.nextInt(10) + attributes.getBasicHit();
 	}
 	/**
-	 * Get character damage
+	 * Returns character damage
 	 * @return Table with minimal[0] and maximal[1] damage values
 	 */
 	public int[] getDamage()
@@ -292,6 +248,14 @@ public class Character
 		int max = attributes.getBasicHit() + inventory.getWeaponDamage()[1] + 10;
 		int min = attributes.getBasicHit() + inventory.getWeaponDamage()[0];
 		return new int[]{min, max};
+	}
+	/**
+	 * Returns character armor rating
+	 * @return Value of armor rating
+	 */
+	public int getArmorRating()
+	{
+		return inventory.getArmorRating();
 	}
 	
 	public int getSpell()

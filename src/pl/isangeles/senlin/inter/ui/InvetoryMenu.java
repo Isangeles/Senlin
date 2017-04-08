@@ -12,13 +12,16 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.item.Armor;
+import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.item.Trinket;
+import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.CommBase;
 /**
  * Graphical representation of character inventory
@@ -29,7 +32,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 {
 	private Character player;
 	private ItemSlot[][] slots;
-	private ItemSlot[] eqSlots;
+	private EquipmentSlots eqSlots;
 	private List<Integer> itemsIn = new ArrayList<>();
 	private TrueTypeFont textTtf;
 	/**
@@ -59,11 +62,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         	}
         }
         
-        eqSlots = new ItemSlot[10];
-        for(int i = 0; i < 10; i ++)
-        {
-        	eqSlots[i] = new ItemSlot(gc);
-        }
+        eqSlots = new EquipmentSlots(gc);
     }
     /**
      * Draws inventory
@@ -83,16 +82,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
         	}
         }
         //Eq slots drawing
-        eqSlots[0].draw(x+getDis(196), y+getDis(242), false);
-        eqSlots[1].draw(x+getDis(99), y+getDis(140), false);
-        eqSlots[2].draw(x+getDis(201), y+getDis(137), false);
-        eqSlots[3].draw(x+getDis(85), y+getDis(91), false);
-        eqSlots[4].draw(x+getDis(150), y+getDis(67), false);
-        eqSlots[5].draw(x+getDis(147), y+getDis(9), false);
-        eqSlots[6].draw(x+getDis(20), y+getDis(175), false);
-        eqSlots[7].draw(x+getDis(20), y+getDis(131), false);
-        eqSlots[8].draw(x+getDis(20), y+getDis(88), false);
-        eqSlots[9].draw(x+getDis(20), y+getDis(45), false);
+        eqSlots.draw(x, y);
         
         //Stats drawing
         float firstStatX = x+getDis(300);
@@ -172,17 +162,17 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 					if(slot.isMouseOver())
 					{
 						moveItem(draggedSlot, slot);
-						if(draggedSlot == eqSlots[1])
-							player.removeMainWeapon();
+						if(eqSlots.contains(draggedSlot))
+							eqSlots.removeFromEq(draggedSlot);
 						return;
 					}
 				}
 			}
 			
-			if(eqSlots[1].isMouseOver())
+			if(eqSlots.getMouseOverSlot() != null)
 			{
-				if(player.setMainWeapon(draggedSlot.getItem()))
-					moveItem(draggedSlot, eqSlots[1]);
+				if(eqSlots.setEqItem(draggedSlot.getItem(), eqSlots.getMouseOverSlot()))
+					moveItem(draggedSlot, eqSlots.getMouseOverSlot());
 				return;
 			}
 			
@@ -242,7 +232,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 			}
 		}
     	
-    	for(ItemSlot slot : eqSlots)
+    	for(ItemSlot slot : eqSlots.table)
     	{
     		if(slot.isItemDragged())
     			return slot;
@@ -256,13 +246,23 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
      */
     private void moveItem(ItemSlot draggedSlot, ItemSlot slotForItem)
     {
-    	ItemSlot is = draggedSlot;
-    	
     	try
     	{
-    		slotForItem.insertItem(is.getItem());
-    		is.dragged(false);
-			is.removeItem();
+    		if(!slotForItem.isNull())
+        	{
+        		Item tmpItem;
+        		tmpItem = slotForItem.getItem();
+        		slotForItem.insertItem(draggedSlot.getItem());
+        		draggedSlot.insertItem(tmpItem);
+        		draggedSlot.dragged(false);
+        		slotForItem.dragged(false);
+        	}
+        	else
+        	{
+            	slotForItem.insertItem(draggedSlot.getItem());
+            	draggedSlot.dragged(false);
+            	draggedSlot.removeItem();
+        	}
     	}
     	catch(NullPointerException e)
     	{
@@ -273,7 +273,166 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     private String[] getCharStats()
     {
     	return new String[]{player.getName(), "Level: " + player.getLevel(), "Experience: " + player.getExperience() + "/" + player.getMaxExperience(), "Health: " + player.getHealth(),
-    			"Magicka: " + player.getMagicka(), "Haste: " + player.getHaste(), "Damage: " + player.getDamage()[0] + "-" + player.getDamage()[1], "Strenght: " + player.getStr(), 
+    			"Magicka: " + player.getMagicka(), "Haste: " + player.getHaste(), "Damage: " + player.getDamage()[0] + "-" + player.getDamage()[1], "Armor: " + player.getArmorRating(), "Strenght: " + player.getStr(), 
     			"Constitution: " + player.getCon(), "Dexterity: " + player.getDex(), "Inteligence: " + player.getInt(), "Wisdom: " + player.getWis()};
+    }
+    
+    /**
+     * Private inner class for equipment slots
+     * @author Isangeles
+     *
+     */
+    private class EquipmentSlots 
+    {
+    	private ItemSlot feet;
+    	private ItemSlot hands;
+    	private ItemSlot offhand;
+    	private ItemSlot chest;
+    	private ItemSlot head;
+    	
+    	private ItemSlot weapon;
+    	
+    	private ItemSlot finger;
+    	private ItemSlot secFinger;
+    	private ItemSlot neck;
+    	private ItemSlot artifact;
+
+		private ItemSlot[] table;
+		
+    	public EquipmentSlots(GameContainer gc) throws SlickException, IOException 
+    	{
+    		feet = new ItemSlot(gc);
+    		hands = new ItemSlot(gc);
+    		offhand = new ItemSlot(gc);
+    		chest = new ItemSlot(gc);
+    		head = new ItemSlot(gc);
+    		
+    		weapon = new ItemSlot(gc);
+    		
+    		finger = new ItemSlot(gc);
+    		secFinger = new ItemSlot(gc);
+    		neck = new ItemSlot(gc);
+    		artifact = new ItemSlot(gc);
+    		
+    		table = new ItemSlot[]{feet, hands, offhand, chest, head, weapon, finger, secFinger, neck, artifact};
+    	}
+    	
+    	public void draw(float x, float y)
+    	{
+    		feet.draw(x+getDis(196), y+getDis(242), false);
+            weapon.draw(x+getDis(99), y+getDis(140), false);
+            offhand.draw(x+getDis(201), y+getDis(137), false);
+            hands.draw(x+getDis(85), y+getDis(91), false);
+            chest.draw(x+getDis(150), y+getDis(67), false);
+            head.draw(x+getDis(147), y+getDis(9), false);
+            
+            finger.draw(x+getDis(20), y+getDis(175), false);
+            secFinger.draw(x+getDis(20), y+getDis(131), false);
+            neck.draw(x+getDis(20), y+getDis(88), false);
+            artifact.draw(x+getDis(20), y+getDis(45), false);
+    	}
+    	/**
+    	 * Checks if specific slot is one of equipment slots
+    	 * @param slot Item slot to check 
+    	 * @return True if slot is one of equipment slots, false  otherwise
+    	 */
+    	public boolean contains(ItemSlot slot)
+    	{
+    		for(ItemSlot is : table)
+    		{
+    			if(slot == is)
+    				return true;
+    		}
+    		
+    		return false;
+    	}
+    	/**
+    	 * Inserts item from specific slot to character equipment
+    	 * @param slot Equippable item
+    	 * @param eqSlot One of equipment item slots
+    	 * @return True if item was successful inserted, false otherwise
+    	 */
+    	public boolean setEqItem(Item eqItem, ItemSlot eqSlot)
+    	{
+    		try
+    		{
+    			if(!isCompatible((Equippable)eqItem, eqSlot))
+        			return false;
+    		}
+    		catch(ClassCastException e)
+    		{
+    			return false;
+    		}
+    		
+    		if(eqSlot == weapon)
+    			return player.setWeapon(eqItem);
+    		if(eqSlot == feet || eqSlot == hands || eqSlot == chest || eqSlot == head)
+    			return player.setArmor(eqItem);
+    		if(eqSlot == finger || eqSlot == neck || eqSlot == artifact)
+    			return player.setTrinket(eqItem);
+    		   		
+    		return false;
+    	}
+    	/**
+    	 * Returns slot on which mouse is over
+    	 * @return ItemSlot where isMouseOver true, null if not found such slot
+    	 */
+    	public ItemSlot getMouseOverSlot()
+    	{
+    		for(ItemSlot slot : table)
+    		{
+    			if(slot.isMouseOver())
+    				return slot;
+    		}
+    		
+    		return null;
+    	}
+    	/**
+    	 * Removes item in specific slot from player equipment
+    	 * @param slot One of equipment slots
+    	 */
+    	public void removeFromEq(ItemSlot slot)
+    	{
+    		if(slot == weapon)
+    			player.removeMainWeapon();
+    	}
+    	/**
+    	 * Checks if item is compatible with slot
+    	 * @param item Equippable item
+    	 * @param slot One of equipment slots
+    	 * @return True if item and slot are compatible, false otherwise
+    	 */
+    	private boolean isCompatible(Equippable item, ItemSlot slot)
+    	{
+    		if(Armor.class.isInstance(item))
+    		{
+    			if(item.type() != Armor.FEET && slot == feet)
+    				return false;
+    			if(item.type() != Armor.HANDS && slot == hands)
+    				return false;
+    			if(item.type() != Armor.OFFHAND && slot == offhand)
+    				return false;
+    			if(item.type() != Armor.CHEST && slot == chest)
+    				return false;
+    			if(item.type() != Armor.HEAD && slot == head)
+    				return false;
+    		}
+    		if(!Weapon.class.isInstance(item) && (slot == weapon || slot == offhand))
+    			return false;
+    		
+    		if(Trinket.class.isInstance(item))
+    		{
+    			if(item.type() != Trinket.FINGER && slot == finger)
+    				return false;
+    			if(item.type() != Trinket.FINGER && slot == secFinger)
+    				return false;
+    			if(item.type() != Trinket.NECK && slot == neck)
+    				return false;
+    			if(item.type() != Trinket.ARTIFACT && slot == artifact)
+    				return false;
+    		}
+    		
+    		return true;
+    	}
     }
 }

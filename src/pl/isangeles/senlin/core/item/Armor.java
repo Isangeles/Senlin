@@ -27,43 +27,52 @@ public class Armor extends Equippable
 							NEPHRITE = 4;
 	private int armorRating;
 	private int material;
-	
-	public Armor(String id, String name, String info, int value, int material, int type, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	/**
+	 * Armor constructor
+	 * @param id Item ID
+	 * @param name Item name
+	 * @param info Item description
+	 * @param type Armor type (0-5 value)
+	 * @param material Material of which item is made (0-4 value)
+	 * @param value Item value in gold
+	 * @param armRat Armor rating value
+	 * @param bonuses Armor bonuses to statistics
+	 * @param reqLevel Level requested to wear armor
+	 * @param imgName Name of image file in icon directory for item tile
+	 * @param gc Slick game container for item tile
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Armor(String id, String name, String info, int type, int material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type);
 		armorRating = armRat;
 		this.material = material;
+		this.itemTile = this.setTile(gc);
 	}
+	/**
+	 * Returns item armor rating
+	 * @return Armor rating value
+	 */
+	public int getArmorRat()
+	{
+		return armorRating;
+	}
+	
 	@Override
 	protected String getInfo()
 	{
-		String fullInfo = name + System.lineSeparator() +  getMaterial() + System.lineSeparator() + getType() + System.lineSeparator() + 
+		String fullInfo = name + System.lineSeparator() +  getMaterialName() + System.lineSeparator() + getTypeName() + System.lineSeparator() + 
 				TConnector.getText("ui", "armRat") + ": " + armorRating + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") 
 				+ ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 
 		return fullInfo;
 	}
 	
-	private String getMaterial()
-	{
-		switch(material)
-		{
-		case CLOTH:
-			return TConnector.getText("ui", "matCloth");
-		case LEATHER:
-			return TConnector.getText("ui", "matLeath");
-		case IRON:
-			return TConnector.getText("ui", "matIron");
-		case STEEL:
-			return TConnector.getText("ui", "matSteel");
-		case NEPHRITE:
-			return TConnector.getText("ui", "matNephr");
-		default:
-			return TConnector.getText("ui", "errorName");
-		}
-	}
 	@Override
-	protected String getType()
+	protected String getTypeName()
 	{
 		switch(type)
 		{
@@ -77,6 +86,25 @@ public class Armor extends Equippable
 			return TConnector.getText("ui", "armChest");
 		case HEAD:
 			return TConnector.getText("ui", "armHead");
+		default:
+			return TConnector.getText("ui", "errorName");
+		}
+	}
+	
+	private String getMaterialName()
+	{
+		switch(material)
+		{
+		case CLOTH:
+			return TConnector.getText("ui", "matCloth");
+		case LEATHER:
+			return TConnector.getText("ui", "matLeath");
+		case IRON:
+			return TConnector.getText("ui", "matIron");
+		case STEEL:
+			return TConnector.getText("ui", "matSteel");
+		case NEPHRITE:
+			return TConnector.getText("ui", "matNephr");
 		default:
 			return TConnector.getText("ui", "errorName");
 		}

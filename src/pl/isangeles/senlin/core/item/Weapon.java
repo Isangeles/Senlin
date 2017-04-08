@@ -7,7 +7,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
-import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for weapons
@@ -68,7 +67,7 @@ public class Weapon extends Equippable
 	@Override
 	protected String getInfo()
 	{
-		String fullInfo = name + System.lineSeparator() +  getType() + System.lineSeparator() + getMaterial() + System.lineSeparator() +
+		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterial() + System.lineSeparator() +
 						TConnector.getText("ui", "dmgName") + ": " +  minDamage + "-" + maxDamage + System.lineSeparator() + bonuses.getInfo() + 
 						TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + 
 						TConnector.getText("ui", "itemVInfo") + ": " + value + " "	+ itemNumber;
@@ -77,7 +76,7 @@ public class Weapon extends Equippable
 	}
 	
 	@Override
-	protected String getType()
+	protected String getTypeName()
 	{
 		switch(type)
 		{

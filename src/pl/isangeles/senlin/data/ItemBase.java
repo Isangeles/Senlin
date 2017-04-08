@@ -20,6 +20,7 @@ public class ItemBase
 {
 	//public static List<Weapon> weapons; //UNUSED
 	public static Map<String, String> weaponsMap;
+	public static Map<String, String> armorsMap;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
@@ -43,8 +44,11 @@ public class ItemBase
 		{
 			if(weaponsMap.get(id) != null)
 			{
-				return (Weapon)DConnector.getWeaponFromLine(weaponsMap.get(id), gc);
+				return DConnector.getWeaponFromLine(weaponsMap.get(id), gc);
 			}
+			
+			if(armorsMap.get(id) != null)
+				return DConnector.getArmorFromLine(armorsMap.get(id), gc);
 			
 			return new ErrorItem(id, "errorItem", "Item not found", gc);
 		}
@@ -83,6 +87,7 @@ public class ItemBase
 	{
 		ItemBase.gc = gc;
 		//weapons = DConnector.getWeaponBase("weaponBase", gc); //UNUSED
-		weaponsMap = DConnector.getWeaponsLinesMap();
+		weaponsMap = DConnector.getItemsLinesMap("weaponBase");
+		armorsMap = DConnector.getItemsLinesMap("armorBase");
 	}
 }

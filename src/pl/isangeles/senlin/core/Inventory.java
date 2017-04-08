@@ -36,177 +36,50 @@ public final class Inventory extends LinkedList<Item>
         else 
             return false;
     }
-    /**
-     * Sets item as character main weapon
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to weapon), false otherwise
-     */
-    public boolean setMainWeapon(Item weapon)
-    {
-    	try
-    	{
-    		return equipment.setMainWeapon((Weapon) weapon);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character secondary weapon
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to weapon), false otherwise
-     */
-    public boolean setSecWeapon(Item weapon)
-    {
-    	try
-    	{
-    		return equipment.setSecWeapon((Weapon) weapon);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character boots
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-    public boolean setBoots(Item boots)
-    {
-    	try
-    	{
-    		return equipment.setBoots((Armor) boots);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character shield
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-    public boolean setShield(Item shield)
-    {
-    	try
-    	{
-    		return equipment.setShield((Armor) shield);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character shield
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-    public boolean setGloves(Item gloves)
-    {
-    	try
-    	{
-    		return equipment.setGloves((Armor) gloves);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character chest
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-    public boolean setChest(Item chest)
-    {
-    	try
-    	{
-    		return equipment.setChest((Armor) chest);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character helmet
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to armor), false otherwise
-     */
-    public boolean setHelmet(Item helmet)
-    {
-    	try
-    	{
-    		return equipment.setHelmet((Armor) helmet);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character ring
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-    public boolean setRing(Item ring)
-    {
-    	try
-    	{
-    		return equipment.setRing((Trinket) ring);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character secondary ring
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-    public boolean setSecRing(Item ring)
-    {
-    	try
-    	{
-    		return equipment.setSecRing((Trinket) ring);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
-    /**
-     * Sets item as character amulet
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-    public boolean setAmulet(Item amulet)
-    {
-    	try
-    	{
-    		return equipment.setAmulet((Trinket) amulet);
-    	}
-    	catch(ClassCastException e)
-    	{
-    		return false;
-    	}
-    }
 
-    /**
-     * Sets item as character artifact
-     * @param weapon Item that can be casted to weapon
-     * @return True if item is valid (can be casted to trinket), false otherwise
-     */
-    public boolean setArtifact(Item artifact)
+	/**
+	 * Sets item as one of character weapon
+	 * @param weapon Any item that can be casted to weapon
+	 * @return True if item was successful inserted, false otherwise
+	 */
+    public boolean setWeapon(Item weapon)
     {
     	try
     	{
-    		return equipment.setArtifact((Trinket) artifact);
+    		return equipment.setWeapon((Weapon) weapon);
+    	}
+    	catch(ClassCastException e)
+    	{
+    		return false;
+    	}
+    	
+    }
+    /**
+     * Sets item as one of character armor parts
+     * @param armorPart Item that can be casted to armor
+     * @return True if item was successful inserted, false otherwise
+     */
+    public boolean setArmor(Item armorPart)
+    {
+    	try
+    	{
+    		return equipment.setArmor((Armor) armorPart);
+    	}
+    	catch(ClassCastException e)
+    	{
+    		return false;
+    	}
+    }
+    /**
+     * Sets item as one of character trinkets
+     * @param trinket Item that can be casted to trinket
+     * @return True if item was successful inserted, false otherwise
+     */
+    public boolean setTrinket(Item trinket)
+    {
+    	try
+    	{
+    		return equipment.setTrinket((Trinket) trinket);
     	}
     	catch(ClassCastException e)
     	{
@@ -218,10 +91,21 @@ public final class Inventory extends LinkedList<Item>
     {
     	equipment.removeMainWeapon();
     }
-    
+    /**
+     * Returns weapon damage of equipment items
+     * @return Table with minimal[0] and maximal[1] damge
+     */
     public int[] getWeaponDamage()
     {
     	return equipment.getDamage();
+    }
+    /**
+     * Returns armor rating of equipped items
+     * @return Value of armor rating
+     */
+    public int getArmorRating()
+    {
+    	return equipment.getArmorRat();
     }
     
     public Weapon getMainWeapon()

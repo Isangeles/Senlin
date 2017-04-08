@@ -18,7 +18,7 @@ public abstract class Equippable extends Item
 	protected final int type;
 	protected Bonuses bonuses;
 	
-	protected abstract String getType();
+	protected abstract String getTypeName();
 	
 	public Equippable(String id, String name, String info, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type)
 			throws SlickException, IOException, FontFormatException
@@ -28,7 +28,10 @@ public abstract class Equippable extends Item
 		this.bonuses = bonuses;
 		this.type = type;
 	}
-	
+	/**
+	 * Return item type
+	 * @return Integer representing item type
+	 */
 	public int type()
 	{
 		return this.type;
