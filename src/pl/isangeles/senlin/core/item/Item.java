@@ -87,23 +87,24 @@ public abstract class Item
     {
     	return name;
     }
-    @Deprecated
-    @Override
-    public Item clone()
+    /**
+     * Compares items
+     * @param item Item to check
+     * @return True if unique item numbers are same, false otherwise
+     */
+    public boolean equals(Item item)
     {
-    	try 
+    	try
     	{
-    		itemNumber ++;
-			Item item = (Item) super.clone();
-			item.setTile(this.itemTile.clone());
-			itemNumber --;
-			return item;
-		} 
-    	catch (CloneNotSupportedException e)
+    		if(this.itemNumber == item.getNumber())
+        		return true;
+        	else
+        		return false;
+    	}
+    	catch(NullPointerException e)
     	{
-    		CommBase.addWarning("Item cloning error!");
-			return this;
-		}
+    		return false;
+    	}
     }
     /**
      * Returns basic info about item for item tile
@@ -122,7 +123,12 @@ public abstract class Item
     {
     	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
-    
+    /**
+     * Sets specific item tile as this item tile
+     * UNUSED
+     * @param tile Item tile
+     */
+    @Deprecated
     public void setTile(ItemTile tile)
     {
     	this.itemTile = tile;

@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.item.Armor;
+import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
@@ -153,9 +154,12 @@ public class Character
     {
     	return inventory.setTrinket(trinket);
     }
-    
-	public void removeMainWeapon()
-	{ inventory.removeMainWeapon(); }
+	/**
+	 * Removes specific item from equippment
+	 * @param item Equipped character item
+	 */
+	public void unequipp(Item item)
+    { inventory.unequipp(item); }
 	
 	/**
 	 * Draws character avatar

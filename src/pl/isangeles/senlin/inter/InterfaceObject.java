@@ -233,22 +233,6 @@ public abstract class InterfaceObject extends Image
     {
     	return scale;
     }
-    @Deprecated
-	@Override
-	public InterfaceObject clone()
-	{
-		try 
-    	{
-			InterfaceObject object = (InterfaceObject) super.clone();
-			if(isInfo)
-				object.setCloneWindow();
-			return object;
-		} 
-    	catch (CloneNotSupportedException e)
-    	{
-			return this;
-		}
-	}
     /**
      * Returns distance corrected by scale
      * @param rawDistance Distance on 1920x1080
@@ -337,10 +321,5 @@ public abstract class InterfaceObject extends Image
         float proportionX = resX / defResX;
         float proportionY = resY / defResY;
         scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
-    }
-    @Deprecated
-    private void setCloneWindow()
-    {
-    	this.info = (InfoWindow) info.clone();
     }
 }

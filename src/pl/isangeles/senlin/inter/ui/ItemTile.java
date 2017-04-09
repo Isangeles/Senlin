@@ -21,12 +21,6 @@ public class ItemTile extends InterfaceTile
 	{
 		super(fileInput, ref, flipped, gc, info);
 	}
-	
-	@Override
-	public ItemTile clone()
-	{
-		return (ItemTile) super.clone();
-	}
 
 	@Override
 	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 

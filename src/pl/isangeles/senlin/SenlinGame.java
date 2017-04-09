@@ -43,7 +43,10 @@ public class SenlinGame extends StateBasedGame
             System.err.println(e.getMessage());
         }
     }
-    
+    /**
+     * Used before to load natives, now natives are packed into build
+     * @return Absolute path to current executable
+     */
     private static String getExecutionPath()
     {
         String absolutePath = SenlinGame.class.getProtectionDomain().getCodeSource().getLocation().getPath();

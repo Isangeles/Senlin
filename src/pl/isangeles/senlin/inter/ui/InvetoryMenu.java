@@ -147,7 +147,6 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		
 	}
 	@Override
 	public void mouseReleased(int button, int x, int y) 
@@ -161,9 +160,9 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 				{
 					if(slot.isMouseOver())
 					{
-						moveItem(draggedSlot, slot);
 						if(eqSlots.contains(draggedSlot))
 							eqSlots.removeFromEq(draggedSlot);
+						moveItem(draggedSlot, slot);
 						return;
 					}
 				}
@@ -232,7 +231,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
 			}
 		}
     	
-    	for(ItemSlot slot : eqSlots.table)
+    	for(ItemSlot slot : eqSlots.slotsTable)
     	{
     		if(slot.isItemDragged())
     			return slot;
@@ -241,7 +240,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     }
     /**
      * Moves item from one slot to another given slot
-     * @param draggedSlot Slot with item
+     * @param draggedSlot Slot with item, after move operation internal item field becomes null
      * @param slotForItem New slot for item
      */
     private void moveItem(ItemSlot draggedSlot, ItemSlot slotForItem)
@@ -297,7 +296,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	private ItemSlot neck;
     	private ItemSlot artifact;
 
-		private ItemSlot[] table;
+		private ItemSlot[] slotsTable;
 		
     	public EquipmentSlots(GameContainer gc) throws SlickException, IOException 
     	{
@@ -314,7 +313,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     		neck = new ItemSlot(gc);
     		artifact = new ItemSlot(gc);
     		
-    		table = new ItemSlot[]{feet, hands, offhand, chest, head, weapon, finger, secFinger, neck, artifact};
+    		slotsTable = new ItemSlot[]{feet, hands, offhand, chest, head, weapon, finger, secFinger, neck, artifact};
     	}
     	
     	public void draw(float x, float y)
@@ -338,7 +337,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	 */
     	public boolean contains(ItemSlot slot)
     	{
-    		for(ItemSlot is : table)
+    		for(ItemSlot is : slotsTable)
     		{
     			if(slot == is)
     				return true;
@@ -379,7 +378,7 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	 */
     	public ItemSlot getMouseOverSlot()
     	{
-    		for(ItemSlot slot : table)
+    		for(ItemSlot slot : slotsTable)
     		{
     			if(slot.isMouseOver())
     				return slot;
@@ -393,8 +392,13 @@ public class InvetoryMenu extends InterfaceObject implements MouseListener
     	 */
     	public void removeFromEq(ItemSlot slot)
     	{
-    		if(slot == weapon)
-    			player.removeMainWeapon();
+    		for(ItemSlot is : slotsTable)
+    		{
+    			if(slot == is)
+    			{
+    				player.unequipp(slot.getItem());
+    			}
+    		}
     	}
     	/**
     	 * Checks if item is compatible with slot

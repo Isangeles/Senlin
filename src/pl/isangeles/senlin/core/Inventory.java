@@ -3,6 +3,7 @@ package pl.isangeles.senlin.core;
 import java.util.LinkedList;
 
 import pl.isangeles.senlin.core.item.Armor;
+import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
@@ -86,10 +87,13 @@ public final class Inventory extends LinkedList<Item>
     		return false;
     	}
     }
-    
-    public void removeMainWeapon()
+    /**
+	 * Removes specific item from equippment
+	 * @param item Equipped character item
+	 */
+    public void unequipp(Item item)
     {
-    	equipment.removeMainWeapon();
+    	equipment.unequipp(item);
     }
     /**
      * Returns weapon damage of equipment items

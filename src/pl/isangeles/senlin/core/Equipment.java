@@ -1,6 +1,8 @@
 package pl.isangeles.senlin.core;
 
 import pl.isangeles.senlin.core.item.Armor;
+import pl.isangeles.senlin.core.item.Equippable;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 
@@ -120,11 +122,62 @@ public class Equipment
 		return false; 
 	}
 	/**
-	 * Removes item from equippment
+	 * Removes specific item from equipment
+	 * @param item Equipped character item
 	 */
-	public void removeMainWeapon()
+	public void unequipp(Item item)
 	{
-		weaponMain = null;
+		if(item == weaponMain)
+		{
+			weaponMain = null;
+			return;
+		}
+		if(item == weaponSec)
+		{
+			weaponSec = null;
+			return;
+		}
+		if(item == boots)
+		{
+			boots = null;
+			return;
+		}
+		if(item == gloves)
+		{
+			gloves = null;
+			return;
+		}
+		if(item == shield)
+		{
+			shield = null;
+			return;
+		}
+		if(item == chest)
+		{
+			chest = null;
+			return;
+		}
+		if(item == ring)
+		{
+			ring = null;
+			return;
+		}
+		if(item == ringSec)
+		{
+			ringSec = null;
+			return;
+		}
+		if(item == amulet)
+		{
+			amulet = null;
+			return;
+		}
+		if(item == artifact)
+		{
+			artifact = null;
+			return;
+		}
+			
 	}
 	
 	public Weapon getMainWeapon()

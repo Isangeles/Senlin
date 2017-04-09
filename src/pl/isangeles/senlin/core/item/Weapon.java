@@ -52,12 +52,6 @@ public class Weapon extends Equippable
         this.itemTile = this.setTile(gc);
         this.material = material;
 	}
-	@Deprecated
-	@Override
-	public Weapon clone()
-	{
-		return (Weapon) super.clone();
-	}
 	
 	public int[] getDamage()
 	{
