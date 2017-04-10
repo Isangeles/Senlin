@@ -23,7 +23,7 @@ public class CommBase
 	 */
 	public static void addInformation(String information)
 	{
-		commList.add(TConnector.getText("ui", "logInfo") + ": " + information);
+		commList.add(information);
 	}
 	/**
 	 * Adds new warning to communicates stack
@@ -39,7 +39,24 @@ public class CommBase
 	 */
 	public static void addDebug(String debug)
 	{
-		commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
+		if(debugMode)
+			commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
+	}
+	/**
+	 * Adds message about character health points loss
+	 * @param value Value deducted from character health
+	 */
+	public static void hpLoseInfo(int value)
+	{
+		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + TConnector.getText("ui", "hpName"));
+	}
+	/**
+	 * Adds message about character mana points loss
+	 * @param value Value deducted from character mana
+	 */
+	public static void manaLoseInfo(int value)
+	{
+		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + TConnector.getText("ui", "manaName"));
 	}
 	/**
 	 * Returns message with specific index
@@ -65,20 +82,7 @@ public class CommBase
 	 */
 	public static List<String> get()
 	{
-		List<String> list = new LinkedList<>();
-		for(String message : commList)
-		{
-			if(!debugMode)
-			{
-				if(!message.startsWith(TConnector.getText("ui", "logDebug")))
-					list.add(message);
-			}
-			else
-			{
-				list.add(message);
-			}
-		}
-		return list;
+		return commList;
 	}
 	/**
 	 * Returns base size
@@ -95,5 +99,10 @@ public class CommBase
 	public static void setDebug(boolean debugMode)
 	{
 		CommBase.debugMode = debugMode;
+		
+		if(CommBase.debugMode)
+    		CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
+		else
+    		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
 	}
 }

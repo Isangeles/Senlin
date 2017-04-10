@@ -64,7 +64,7 @@ public class Armor extends Equippable
 	@Override
 	protected String getInfo()
 	{
-		String fullInfo = name + System.lineSeparator() +  getMaterialName() + System.lineSeparator() + getTypeName() + System.lineSeparator() + 
+		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterialName() + System.lineSeparator() + 
 				TConnector.getText("ui", "armRat") + ": " + armorRating + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") 
 				+ ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 

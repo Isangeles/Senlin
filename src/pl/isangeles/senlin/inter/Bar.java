@@ -17,13 +17,12 @@ import org.newdawn.slick.gui.MouseOverArea;
  */
 public class Bar extends InterfaceObject
 {
-    String label;
-    int baseValue;
-    int value;
-    float barSize;
-    MouseOverArea barMOA;
-    Font barFont;
-    TrueTypeFont barTtf;
+    private String label;
+    private int baseValue;
+    private int value;
+    private MouseOverArea barMOA;
+    private Font barFont;
+    private TrueTypeFont barTtf;
     /**
      * Bar constructor
      * @param fileInput File input pointed to bar img
@@ -78,7 +77,10 @@ public class Bar extends InterfaceObject
      */
     private float getBarSize()
     {
-    	return (float)((baseValue * 100f) / value)*2;
+    	if(value == 0)
+    		return 0f;
+    	else
+    		return (float)((value * 100f) / baseValue)*2;
     }
 
 }

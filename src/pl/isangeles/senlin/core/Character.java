@@ -16,6 +16,7 @@ import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.inter.ui.ItemTile;
@@ -317,29 +318,44 @@ public class Character
 		return portrait;
 	}
 	/**
-	 * Returns specific item from inventory
-	 * @param itemId 
-	 * @return
+	 * Returns specified itemId from inventory
+	 * @param itemId Item ID
+	 * @return Item with specified id
 	 */
 	public Item getItem(String itemId)
 	{ return inventory.getItem(itemId); }
-	
+	/**
+	 * Returns item with specified index in inventory container
+	 * @param index Item index in container 
+	 * @return Item from inventory container
+	 */
 	public Item getItem(int index)
 	{ return inventory.get(index); }
-	
+	/**
+	 * Returns table with all character items in inventory
+	 * @return Table with items
+	 */
 	public Item[] getItems()
 	{ return inventory.getItems(); }
-	
+	/**
+	 * Subtract specified value from character health value 
+	 * @param value Value to subtract
+	 */
 	public void takeHealth(int value)
 	{
 		health -= value;
+		CommBase.hpLoseInfo(value);
 		if(health <= 0)
 			live = false;
 	}
-	
+	/**
+	 * Subtract specified value from character magicka value 
+	 * @param value Value to subtract
+	 */
 	public void takeMagicka(int value)
 	{
 		magicka -= value;
+		CommBase.manaLoseInfo(value);
 	}
 	
 	public void addStr()

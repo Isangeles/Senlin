@@ -43,7 +43,6 @@ public final class Console extends TextInput
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
         this.player = player;
         hide = true;
-        CommBase.addInformation("Welcome in game console");
     }
     /**
      * Draws console on unscaled position
@@ -58,7 +57,7 @@ public final class Console extends TextInput
         
         for(int i = 1; i < 6; i ++)
         {
-        	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.get().size()-i));
+        	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.size()-i));
         }
         
         if(!hide)
@@ -135,12 +134,10 @@ public final class Console extends TextInput
         	if(command.equals("on"))
         	{
         		CommBase.setDebug(true);
-        		CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
         	}
         	else if(command.equals("off"))
         	{
         		CommBase.setDebug(false);
-        		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
         	}
         	
         	return;
@@ -171,6 +168,10 @@ public final class Console extends TextInput
         {
             addCommands(prefix, player);
         }
+        if(command.equals("remove"))
+        {
+        	removeCommands(prefix, player);
+        }
     }
     /**
      * Checks add command for target, last command check
@@ -190,6 +191,30 @@ public final class Console extends TextInput
                 CommBase.addInformation(TConnector.getText("ui", "logAddI"));
             else
                 CommBase.addInformation(TConnector.getText("ui", "logAddIFail"));
+    	}
+    }
+    /**
+     * Checks remove command for target, last command check
+     * @param commLine Rest of command line (after command)
+     * @param target Target of command
+     */
+    private void removeCommands(String commandLine, Character target)
+    {
+    	Scanner scann = new Scanner(commandLine);
+    	String prefix = scann.next();
+    	String value = scann.next();
+    	scann.close();
+    	
+    	if(prefix.equals("-m"))
+    	{
+    		try
+    		{
+    			player.takeMagicka(Integer.parseInt(value));
+    		}
+    		catch(NumberFormatException e)
+    		{
+    			CommBase.addInformation(TConnector.getText("ui", "logBadVal"));
+    		}
     	}
     }
     
