@@ -192,6 +192,19 @@ public final class Console extends TextInput
             else
                 CommBase.addInformation(TConnector.getText("ui", "logAddIFail"));
     	}
+    	try
+    	{
+    		if(prefix.equals("-h"))
+        		player.addHealth(Integer.parseInt(value));
+        	if(prefix.equals("-m"))
+        		player.addMagicka(Integer.parseInt(value));
+        	if(prefix.equals("-e"))
+        		player.addExperience(Integer.parseInt(value));
+    	}
+    	catch(NumberFormatException e)
+    	{
+    		CommBase.addWarning(TConnector.getText("ui", "logBadVal"));
+    	}
     }
     /**
      * Checks remove command for target, last command check
@@ -205,16 +218,18 @@ public final class Console extends TextInput
     	String value = scann.next();
     	scann.close();
     	
-    	if(prefix.equals("-m"))
+    	try
     	{
-    		try
-    		{
-    			player.takeMagicka(Integer.parseInt(value));
-    		}
-    		catch(NumberFormatException e)
-    		{
-    			CommBase.addInformation(TConnector.getText("ui", "logBadVal"));
-    		}
+    		if(prefix.equals("-h"))
+        		player.takeHealth(Integer.parseInt(value));
+        	if(prefix.equals("-m"))
+        		player.takeMagicka(Integer.parseInt(value));
+        	if(prefix.equals("-e"))
+        		player.takeExperience(Integer.parseInt(value));
+    	}
+    	catch(NumberFormatException e)
+    	{
+    		CommBase.addInformation(TConnector.getText("ui", "logBadVal"));
     	}
     }
     

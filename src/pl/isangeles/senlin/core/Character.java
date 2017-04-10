@@ -344,7 +344,7 @@ public class Character
 	public void takeHealth(int value)
 	{
 		health -= value;
-		CommBase.hpLoseInfo(value);
+		CommBase.loseInfo(value, TConnector.getText("ui", "hpName"));
 		if(health <= 0)
 			live = false;
 	}
@@ -355,9 +355,18 @@ public class Character
 	public void takeMagicka(int value)
 	{
 		magicka -= value;
-		CommBase.manaLoseInfo(value);
+		CommBase.loseInfo(value, TConnector.getText("ui", "manaName"));
+		if(magicka < 0)
+			magicka = 0;
 	}
 	
+	public void takeExperience(int value)
+	{
+		experience -= value;
+		CommBase.loseInfo(value, TConnector.getText("ui", "expName"));
+		if(experience < 0)
+			experience = 0;
+	}
 	public void addStr()
 	{ attributes.addStr(); }
 	
@@ -387,6 +396,39 @@ public class Character
 	
 	public void addWis(int value) 
 	{ attributes.addWis(value); }
+	/**
+	 * Adds specified value to character health points
+	 * @param value Value to add
+	 */
+	public void addHealth(int value)
+	{
+		health += value;
+		CommBase.gainInfo(value, TConnector.getText("ui", "hpName"));
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	/**
+	 * Adds specified value to character magicka points
+	 * @param value Value to add
+	 */
+	public void addMagicka(int value)
+	{
+		magicka += value;
+		CommBase.gainInfo(value, TConnector.getText("ui", "manaName"));
+		if(magicka > maxMagicka)
+			magicka = maxMagicka;
+	}
+	/**
+	 * Adds specified value to character experience points
+	 * @param value Value to add
+	 */
+	public void addExperience(int value)
+	{
+		experience += value;
+		CommBase.gainInfo(value, TConnector.getText("ui", "expName"));
+		if(experience >= maxExperience)
+			levelUp();
+	}
 	/**
 	 * Adds item to character inventory
 	 * @param itemId Item ID in base

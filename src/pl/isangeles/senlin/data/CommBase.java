@@ -43,20 +43,22 @@ public class CommBase
 			commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
 	}
 	/**
-	 * Adds message about character health points loss
+	 * Adds message about character points loss
 	 * @param value Value deducted from character health
+	 * @param statName Name of the character statistic from which points were deducted
 	 */
-	public static void hpLoseInfo(int value)
+	public static void loseInfo(int value, String statName)
 	{
-		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + TConnector.getText("ui", "hpName"));
+		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
 	}
 	/**
-	 * Adds message about character mana points loss
-	 * @param value Value deducted from character mana
+	 * Adds message about character points gain
+	 * @param value Value deducted from character health
+	 * @param statName Name of the character statistic to which points were added
 	 */
-	public static void manaLoseInfo(int value)
+	public static void gainInfo(int value, String statName)
 	{
-		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + TConnector.getText("ui", "manaName"));
+		addInformation(TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
 	}
 	/**
 	 * Returns message with specific index
@@ -101,7 +103,7 @@ public class CommBase
 		CommBase.debugMode = debugMode;
 		
 		if(CommBase.debugMode)
-    		CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
+			CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
 		else
     		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
 	}
