@@ -26,7 +26,6 @@ public class Armor extends Equippable
 							STEEL = 3,
 							NEPHRITE = 4;
 	private int armorRating;
-	private int material;
 	/**
 	 * Armor constructor
 	 * @param id Item ID
@@ -47,9 +46,8 @@ public class Armor extends Equippable
 	public Armor(String id, String name, String info, int type, int material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type);
+		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type, material);
 		armorRating = armRat;
-		this.material = material;
 		this.itemTile = this.setTile(gc);
 	}
 	/**

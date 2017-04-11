@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for weapons
@@ -20,18 +21,22 @@ public class Weapon extends Equippable
 							AXE = 2,
 							MACE = 3,
 							SPEAR = 4,
-							BOW = 5;
+							BOW = 5,
+							FIST = 6;
+	
 	public static final int IRON = 0,
 							STEEL = 1,
 							NEPHRITE = 2;
 	private int maxDamage;
 	private int minDamage;
-	private int material;
+	//private int material;
 	/**
 	 * Weapon constructor
 	 * @param id Weapon ID	
 	 * @param name Weapon name
 	 * @param info Informations about weapon
+	 * @param type Weapon type (0-5)
+	 * @param material Weapon material (0-2)
 	 * @param value Weapon value
 	 * @param maxDmg Max weapon damage
 	 * @param minDmg Min weapon damage
@@ -46,13 +51,16 @@ public class Weapon extends Equippable
 	public Weapon(String id, String name, String info, int type, int material,int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, picName, gc, reqLevel, bonuses, type);
+		super(id, name, info, value, picName, gc, reqLevel, bonuses, type, material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
-        this.material = material;
+        //this.material = material;
 	}
-	
+	/**
+	 * Returns weapon maximal and minimal damage
+	 * @return Table with min[0] and max[1] damage
+	 */
 	public int[] getDamage()
 	{
 		return new int[]{minDamage, maxDamage};
@@ -61,7 +69,7 @@ public class Weapon extends Equippable
 	@Override
 	protected String getInfo()
 	{
-		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterial() + System.lineSeparator() +
+		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterialName() + System.lineSeparator() +
 						TConnector.getText("ui", "dmgName") + ": " +  minDamage + "-" + maxDamage + System.lineSeparator() + bonuses.getInfo() + 
 						TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + 
 						TConnector.getText("ui", "itemVInfo") + ": " + value + " "	+ itemNumber;
@@ -91,9 +99,9 @@ public class Weapon extends Equippable
 		}
 	}
 	
-	private String getMaterial()
+	private String getMaterialName()
 	{
-		switch(material)
+		switch(super.material)
 		{
 		case IRON:
 			return TConnector.getText("ui", "matIron");

@@ -2,7 +2,6 @@ package pl.isangeles.senlin.core;
 
 import java.awt.FontFormatException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 
@@ -11,15 +10,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.*;
-import pl.isangeles.senlin.core.item.Armor;
-import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.graphic.Avatar;
-import pl.isangeles.senlin.inter.Portrait;
-import pl.isangeles.senlin.inter.ui.ItemTile;
 /**
  * Class for game characters like players, NPCs, etc.
  * @author Isangeles
@@ -169,7 +163,10 @@ public class Character
 	 */
 	public void draw()
 	{
-		avatar.draw(position[0], position[1]);
+		if(inventory.getMainWeapon() != null)
+			avatar.draw(position[0], position[1], inventory.getMainWeapon().type());
+		else
+			avatar.draw(position[0], position[1], Weapon.FIST);
 	}
 	/**
 	 * Draws character portrait
@@ -359,7 +356,10 @@ public class Character
 		if(magicka < 0)
 			magicka = 0;
 	}
-	
+	/**
+	 * Subtract specified value from character experience value
+	 * @param value Value to subtract
+	 */
 	public void takeExperience(int value)
 	{
 		experience -= value;
