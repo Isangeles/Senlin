@@ -111,7 +111,26 @@ public final class Inventory extends LinkedList<Item>
     {
     	return equipment.getArmorRat();
     }
-    
+    /**
+	 * Return character helmet
+	 * @return Equipped armor item, type helmet OR null if not equipped
+	 */
+    public Armor getHelmet()
+	{
+		return equipment.getHelmet();
+	}
+    /**
+	 * Return character chest
+	 * @return Equipped armor item, type chest OR null if not equipped
+	 */
+	public Armor getChest()
+	{
+		return equipment.getChest();
+	}
+	/**
+	 * Return character main weapon
+	 * @return Equipped weapon item, any type OR null if not equipped
+	 */
     public Weapon getMainWeapon()
     {
     	return equipment.getMainWeapon();

@@ -19,10 +19,10 @@ public class Trinket extends Equippable
 							NECK = 1,
 							ARTIFACT = 2;
 	
-	public Trinket(String id, String name, String info, int type, int value, String imgName, GameContainer gc, int reqLevel,
+	public Trinket(String id, int type, int value, String imgName, GameContainer gc, int reqLevel,
 			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type, 0); //0 is for material
+		super(id, value, imgName, gc, reqLevel, bonuses, type, 0); //0 is for material
 		this.itemTile = this.setTile(gc);
 	}
 

@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for equippable items
  * @author Isangeles
@@ -18,13 +19,14 @@ public abstract class Equippable extends Item
 	protected final int type;
 	protected final int material;
 	protected Bonuses bonuses;
+	protected AnimObject itemSprite;
 	
 	protected abstract String getTypeName();
 	
-	public Equippable(String id, String name, String info, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, int material)
+	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, int material)
 			throws SlickException, IOException, FontFormatException
 	{
-		super(id, name, info, value, imgName, gc);
+		super(id, value, imgName, gc);
 		this.reqLevel = reqLevel;
 		this.bonuses = bonuses;
 		this.type = type;
@@ -37,6 +39,11 @@ public abstract class Equippable extends Item
 	public int type()
 	{
 		return this.type;
+	}
+	
+	public AnimObject getSprite()
+	{
+		return itemSprite;
 	}
 
 }

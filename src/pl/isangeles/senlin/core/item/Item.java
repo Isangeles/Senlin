@@ -6,9 +6,9 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Base class for all items in the game
@@ -37,11 +37,11 @@ public abstract class Item
      * @throws IOException
      * @throws FontFormatException
      */
-    public Item(String id, String name, String info, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
+    public Item(String id, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         this.id = id;
-        this.name = name;
-        this.info = info;
+        this.name = TConnector.getText("items", id+"-name");
+        this.info = TConnector.getText("items", id+"-info");
         this.value = value;
         this.imgName = imgName;
         itemCounter ++;   

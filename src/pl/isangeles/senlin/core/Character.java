@@ -155,7 +155,6 @@ public class Character
 	 */
 	public void unequipp(Item item)
     { inventory.unequipp(item); }
-	
 	/**
 	 * Draws character avatar
 	 * @param x Position on x axis
@@ -163,10 +162,7 @@ public class Character
 	 */
 	public void draw()
 	{
-		if(inventory.getMainWeapon() != null)
-			avatar.draw(position[0], position[1], inventory.getMainWeapon().type());
-		else
-			avatar.draw(position[0], position[1], Weapon.FIST);
+		avatar.draw(position[0], position[1], inventory.getChest(), inventory.getHelmet(), inventory.getMainWeapon());
 	}
 	/**
 	 * Draws character portrait

@@ -7,9 +7,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.graphic.AnimObject;
+import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for armor parts
+ * TODO implement different sprite sheet for each armor material
  * @author Isangeles
  *
  */
@@ -43,12 +46,14 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, String name, String info, int type, int material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+	public Armor(String id, int type, int material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, imgName, gc, reqLevel, bonuses, type, material);
+		super(id, value, imgName, gc, reqLevel, bonuses, type, material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
+		if(type == CHEST)
+			setSprite();
 	}
 	/**
 	 * Returns item armor rating
@@ -105,6 +110,29 @@ public class Armor extends Equippable
 			return TConnector.getText("ui", "matNephr");
 		default:
 			return TConnector.getText("ui", "errorName");
+		}
+	}
+	/**
+	 * Sets sprite for item depended on item material 
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	private void setSprite() throws SlickException, IOException
+	{
+		switch(material)
+		{
+		case CLOTH:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+		case LEATHER:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+		case IRON:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+		case STEEL:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+		case NEPHRITE:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+		default:
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
 		}
 	}
 }

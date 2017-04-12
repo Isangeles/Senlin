@@ -20,8 +20,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 
 /**
- * This class provides static methods giving access to game data like items, NPCs, etc; 
- * TODO rewrite item access methods 
+ * This class provides static methods giving access to game data like items, NPCs, etc;
  * @author Isangeles
  *
  */
@@ -59,9 +58,9 @@ public final class DConnector
 			
 			scann = new Scanner(baseLine);
 			scann.useDelimiter(":|;");
-			item =  new Weapon(scann.next(), TConnector.getText("textWeapons", scann.next()), TConnector.getText("textWeapons", scann.next()), 
+			item =  new Weapon(scann.next(), 
 					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
+					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), scann.next(), gc);
 			scann.close();
 			return item;
 		}
@@ -85,9 +84,9 @@ public final class DConnector
 	{
 		Scanner scann = new Scanner(line);
 		scann.useDelimiter(":|;");
-		Weapon item =  new Weapon(scann.next(), TConnector.getText("weapons", scann.next()), TConnector.getText("weapons", scann.next()), 
+		Weapon item =  new Weapon(scann.next(),
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), gc);
+				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), scann.next(), gc);
 		scann.close();
 		return item;
 	}
@@ -105,7 +104,7 @@ public final class DConnector
 	{
 		Scanner scann = new Scanner(line);
 		scann.useDelimiter(":|;");
-		Armor item = new Armor(scann.next(), TConnector.getText("armors", scann.next()), TConnector.getText("armors", scann.next()), 
+		Armor item = new Armor(scann.next(),
 				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(),
 				new Bonuses(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), 
 				scann.nextInt(), scann.next(), gc);

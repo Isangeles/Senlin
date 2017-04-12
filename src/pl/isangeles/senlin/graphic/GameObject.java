@@ -46,6 +46,24 @@ public abstract class GameObject extends Image
         }
         super.draw(this.x, this.y, scale);
     }
+    /**
+     * Draws object on specified position on screen
+     * @param x Position on x-axis
+     * @param y Position on y-axis
+     * @param reqSize Defines size of object(remember that object is always implicitly scaled to current resolution)
+     * @param scaledPos True if position should be scale to current resolution, false otherwise(Irrespective to this, object size is still scaled)
+     */
+    public void draw(float x, float y, float reqSize, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, scale*reqSize);
+    }
     
     public float getScale()
     {

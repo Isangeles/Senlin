@@ -13,10 +13,10 @@ import org.newdawn.slick.SlickException;
 public class Misc extends Item 
 {
 
-	public Misc(String id, String name, String info, int value, String imgName, GameContainer gc)
+	public Misc(String id, int value, String imgName, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, imgName, gc);
+		super(id, value, imgName, gc);
 	}
     /**
      * Returns basic info about item for item tile

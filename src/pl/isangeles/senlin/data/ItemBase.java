@@ -50,7 +50,7 @@ public class ItemBase
 			if(armorsMap.get(id) != null)
 				return DConnector.getArmorFromLine(armorsMap.get(id), gc);
 			
-			return new ErrorItem(id, "errorItem", "Item not found", gc);
+			return new ErrorItem(id, gc);
 		}
 		catch(SlickException | IOException | FontFormatException e)
 		{
@@ -68,7 +68,7 @@ public class ItemBase
 	{
 		try 
 		{
-			return new ErrorItem(itemId, "errorItem", "Error item", gc);
+			return new ErrorItem(itemId, gc);
 		} 
 		catch (SlickException | IOException | FontFormatException e) 
 		{

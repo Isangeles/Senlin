@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for error items
  * @author Isangeles
@@ -13,9 +15,11 @@ import org.newdawn.slick.SlickException;
 public class ErrorItem extends Misc 
 {
 
-	public ErrorItem(String id, String name, String info, GameContainer gc)throws SlickException, IOException, FontFormatException 
+	public ErrorItem(String id, GameContainer gc)throws SlickException, IOException, FontFormatException 
 	{
-		super("error" + id, name, info, 0, "unknown.png", gc);
+		super("error" + id, 0, "unknown.png", gc);
+		name = TConnector.getText("items", "erorrItem-name");
+		info = TConnector.getText("items", "errorItem-info" + " " + id);
 	}
 
 }

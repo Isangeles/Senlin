@@ -179,7 +179,26 @@ public class Equipment
 		}
 			
 	}
-	
+	/**
+	 * Return character helmet
+	 * @return Equipped armor item, type head OR null if not equipped
+	 */
+	public Armor getHelmet()
+	{
+		return helmet;
+	}
+	/**
+	 * Return character chest
+	 * @return Equipped armor item, type chest OR null if not equipped
+	 */
+	public Armor getChest()
+	{
+		return chest;
+	}
+	/**
+	 * Return character main weapon
+	 * @return Equipped weapon item, any type OR null if not equipped
+	 */
 	public Weapon getMainWeapon()
 	{
 		return weaponMain;

@@ -7,8 +7,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for weapons
  * @author Isangeles
@@ -26,10 +27,9 @@ public class Weapon extends Equippable
 	
 	public static final int IRON = 0,
 							STEEL = 1,
-							NEPHRITE = 2;
+							NEPHRITE = 2;;
 	private int maxDamage;
 	private int minDamage;
-	//private int material;
 	/**
 	 * Weapon constructor
 	 * @param id Weapon ID	
@@ -48,14 +48,14 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, String name, String info, int type, int material,int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, GameContainer gc) 
+	public Weapon(String id, int type, int material,int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, value, picName, gc, reqLevel, bonuses, type, material);
+		super(id, value, picName, gc, reqLevel, bonuses, type, material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
-        //this.material = material;
+        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false);
 	}
 	/**
 	 * Returns weapon maximal and minimal damage
@@ -65,14 +65,16 @@ public class Weapon extends Equippable
 	{
 		return new int[]{minDamage, maxDamage};
 	}
-	
+	/**
+	 * Returns full info about item
+	 */
 	@Override
 	protected String getInfo()
 	{
 		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterialName() + System.lineSeparator() +
 						TConnector.getText("ui", "dmgName") + ": " +  minDamage + "-" + maxDamage + System.lineSeparator() + bonuses.getInfo() + 
 						TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + 
-						TConnector.getText("ui", "itemVInfo") + ": " + value + " "	+ itemNumber;
+						TConnector.getText("ui", "itemVInfo") + ": " + value;
 		
 		return fullInfo;
 	}
