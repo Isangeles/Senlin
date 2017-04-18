@@ -53,7 +53,7 @@ public class NewGameMenu extends BasicGameState
 	{
 		try 
 		{
-			player = new Character();
+			player = new Character(container);
 			ptsAtributes = new Attribute(5);
 			
 			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));

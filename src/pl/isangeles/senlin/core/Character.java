@@ -43,15 +43,16 @@ public class Character
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public Character() throws SlickException, IOException
+	public Character(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		name = "Name";
 		level = 0;
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + "default.jpg");
 		live = true;
-		avatar = new Avatar();
+		avatar = new Avatar(this.name, gc);
 		inventory = new Inventory();
 	}
 	/**
@@ -62,8 +63,9 @@ public class Character
 	 * @param portraitName Name of image file in portrait catalog
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public Character(String name, int level, int experience, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException
+	public Character(String name, int level, int experience, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		this.name = name;
 		this.attributes = atributes;
@@ -71,7 +73,7 @@ public class Character
 		this.experience = experience;
 		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
 		live = true;
-		avatar = new Avatar();
+		avatar = new Avatar(this.name, gc);
 		inventory = new Inventory();
 	}
 	/**
@@ -162,7 +164,7 @@ public class Character
 	 */
 	public void draw()
 	{
-		avatar.draw(position[0], position[1], inventory.getChest(), inventory.getHelmet(), inventory.getMainWeapon());
+		avatar.draw(position[0], position[1]);
 	}
 	/**
 	 * Draws character portrait
@@ -179,7 +181,7 @@ public class Character
 	 */
 	public void update(int delta)
 	{
-		avatar.update(delta);
+		avatar.update(this, delta);
 	}
 	/**
 	 * Moves character to given position if thats position is different then actual   
@@ -330,6 +332,12 @@ public class Character
 	 */
 	public Item[] getItems()
 	{ return inventory.getItems(); }
+	/**
+	 * Returns character inventory
+	 * @return Inventory
+	 */
+	public Inventory getInventory()
+	{ return inventory; }
 	/**
 	 * Subtract specified value from character health value 
 	 * @param value Value to subtract

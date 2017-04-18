@@ -49,14 +49,21 @@ public class InfoWindow extends InterfaceObject
 	public void draw(float x, float y)
 	{
 	    String[] lines = textInfo.split(System.lineSeparator());
-	    super.drawUnscaled(x, y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
+	    super.drawUnscaled(x+getDis(10), y, textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
 		for(int i = 0; i < noLines; i ++)
 		{
 	        if(noLines > 1)
-	            textTtf.drawString(super.x+getDis(30), super.y+textTtf.getHeight(lines[i])*i, lines[i]);
+	            textTtf.drawString(super.x+getDis(10), super.y+textTtf.getHeight(lines[i])*i, lines[i]);
 	        else
-	            textTtf.drawString(super.x+getDis(30), super.y, lines[i]);
+	            textTtf.drawString(super.x+getDis(10), super.y, lines[i]);
 		}
 	}
-
+	/**
+	 * Sets text to display
+	 * @param text String with text
+	 */
+	public void setText(String text)
+	{
+		this.textInfo = text;
+	}
 }

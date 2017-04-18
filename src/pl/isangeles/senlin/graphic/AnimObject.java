@@ -1,8 +1,11 @@
 package pl.isangeles.senlin.graphic;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -88,5 +91,13 @@ public class AnimObject extends GameObject
 	{
 		move = moveLeft;
 		idle = idleLeft;
+	}
+	
+	public Image getCurrentImg()
+	{
+		if(isMove)
+			return move.getCurrentFrame();
+		else
+			return idle;
 	}
 }

@@ -1,11 +1,16 @@
 package pl.isangeles.senlin.graphic;
 
+import java.awt.FontFormatException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.MouseOverArea;
 
+import pl.isangeles.senlin.inter.InfoWindow;
 import pl.isangeles.senlin.util.Settings;
 /**
  * Class for game object like avatars etc.
@@ -15,8 +20,10 @@ import pl.isangeles.senlin.util.Settings;
 public abstract class GameObject extends Image
 {
     private float scale;
+    private InfoWindow objectInfo;
     protected float x;
     protected float y;
+    protected MouseOverArea gObjectMOA;
     
     public GameObject(InputStream is, String ref, boolean flipped) throws SlickException
     {
@@ -28,6 +35,13 @@ public abstract class GameObject extends Image
     {
     	super(img);
     	setScale();
+    }
+    
+    public GameObject(Image img, String infoText, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+    	this(img);
+    	gObjectMOA = new MouseOverArea(gc, this, 0, 0); 
+    	objectInfo = new InfoWindow(gc, infoText);
     }
     /**
      * Draws object on specified position on screen
@@ -45,6 +59,9 @@ public abstract class GameObject extends Image
             this.y *= scale;
         }
         super.draw(this.x, this.y, scale);
+        
+        if(gObjectMOA != null && gObjectMOA.isMouseOver())
+        	objectInfo.draw();
     }
     /**
      * Draws object on specified position on screen
@@ -63,6 +80,9 @@ public abstract class GameObject extends Image
             this.y *= scale;
         }
         super.draw(this.x, this.y, scale*reqSize);
+        
+        if(gObjectMOA != null && gObjectMOA.isMouseOver())
+        	objectInfo.draw();
     }
     
     public float getScale()
