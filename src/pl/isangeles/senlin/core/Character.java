@@ -14,6 +14,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.inter.Portrait;
 /**
  * Class for game characters like players, NPCs, etc.
  * @author Isangeles
@@ -31,13 +32,14 @@ public class Character
 	private int maxMagicka;
 	private int minDamage; //UNUSED damage calculate dynamically by getDamage method
 	private int maxDamage; //UNUSED damage calculate dynamically by getDamage method 
-	private int[] position = {500, 250};
+	private int[] position = {0, 0};
 	private float haste;
 	private Attributes attributes;
-	private Image portrait;
+	private Portrait portrait;
 	private boolean live;
 	private Avatar avatar;
 	private Inventory inventory;
+	private Character target;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -50,9 +52,9 @@ public class Character
 		name = "Name";
 		level = 0;
 		attributes = new Attributes(1, 1, 1, 1, 1);
-		portrait = new Image("data" + File.separator + "portrait" + File.separator + "default.jpg");
+		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
-		avatar = new Avatar(this.name, gc);
+		avatar = new Avatar(this, gc);
 		inventory = new Inventory();
 	}
 	/**
@@ -71,9 +73,9 @@ public class Character
 		this.attributes = atributes;
 		addLevel(level);
 		this.experience = experience;
-		portrait = new Image("data" + File.separator + "portrait" + File.separator + portraitName);
+		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		live = true;
-		avatar = new Avatar(this.name, gc);
+		avatar = new Avatar(this, gc);
 		inventory = new Inventory();
 	}
 	/**
@@ -104,7 +106,7 @@ public class Character
 	 * Sets specific portrait from portrait catalog to character 
 	 * @param img
 	 */
-	public void setPortrait(Image img)
+	public void setPortrait(Portrait img)
 	{
 	    portrait = img;
 	}
@@ -123,6 +125,16 @@ public class Character
 	public void setAttributes(Attributes attributes)
 	{
 		this.attributes = attributes;
+	}
+	/**
+	 * Instantly sets character position
+	 * @param x Position on x-axis
+	 * @param y Position on y-axis
+	 */
+	public void setPosition(int x, int y)
+	{
+		position[0] = x;
+		position[1] = y;
 	}
 	/**
 	 * Sets item as one of character weapon
@@ -181,7 +193,7 @@ public class Character
 	 */
 	public void update(int delta)
 	{
-		avatar.update(this, delta);
+		avatar.update(delta);
 	}
 	/**
 	 * Moves character to given position if thats position is different then actual   
@@ -308,7 +320,7 @@ public class Character
 	public boolean isLive()
 	{ return live; }
 	
-	public Image getPortrait()
+	public Portrait getPortrait()
 	{
 		return portrait;
 	}

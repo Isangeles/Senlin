@@ -89,6 +89,11 @@ public abstract class GameObject extends Image
     {
     	return scale;
     }
+    
+    public boolean isMouseOver()
+    {
+    	return gObjectMOA.isMouseOver();
+    }
     /**
      * Returns distance corrected by scale
      * @param rawDistance Distance on 1920x1080

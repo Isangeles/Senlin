@@ -18,13 +18,14 @@ import pl.isangeles.senlin.core.Character;
  */
 public class UserInterface
 {
-    Character player;
-    Console gameConsole;
-    BottomBar bBar;
-    CharacterFrame charFrame;
-    InGameMenu igMenu;
-    InvetoryMenu inventory;
-    Warning uiWarning;
+    private Character player;
+    private Console gameConsole;
+    private BottomBar bBar;
+    private CharacterFrame charFrame;
+    private CharacterFrame targetFrame;
+    private InGameMenu igMenu;
+    private InvetoryMenu inventory;
+    private Warning uiWarning;
     /**
      * UI constructor, calls all ui elements constructors
      * @param gc Game container for superclass and ui elements
@@ -40,6 +41,7 @@ public class UserInterface
         gameConsole = new Console(gc, player);
         bBar = new BottomBar(gc);
         charFrame = new CharacterFrame(gc, player);
+        targetFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
         inventory = new InvetoryMenu(gc, player);
         uiWarning = new Warning(gc, "");
@@ -53,6 +55,8 @@ public class UserInterface
         
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
+        if(Cursor.getTarChar() != null)
+        	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
         if(bBar.isMenuReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
@@ -72,7 +76,11 @@ public class UserInterface
      */
     private void update()
     {
-        charFrame.update(player);
+    	if(Cursor.getTarChar() != null)
+    		targetFrame.setCharacter(Cursor.getTarChar());
+    	
+        charFrame.update();
+        targetFrame.update();
         inventory.update();
     }
     /**

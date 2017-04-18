@@ -4,18 +4,22 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
+import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InfoWindow;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical representation of character
  * @author Isangeles
  *
  */
-public class Avatar
+public class Avatar implements MouseListener
 {
 	private AnimObject torso;
 	private AnimObject head;
@@ -27,17 +31,21 @@ public class Avatar
 	private MouseOverArea avMOA;
 	private InfoWindow avName;
 	
+	private Character character;
+	
 	private boolean isMove;
 	
-	public Avatar(String name, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Avatar(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
+		gc.getInput().addMouseListener(this);
 		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "clothSS", false);
 		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
 		torso = defTorso;
 		head = defHead;
 		
-		avMOA = new MouseOverArea(gc, torso.getCurrentImg(), 0, 0);
-		avName = new InfoWindow(gc, name);
+		this.character = character;
+		avMOA = new MouseOverArea(gc, torso.getCurrentSprite(), 0, 0);
+		avName = new InfoWindow(gc, character.getName());
 	}
 	/**
 	 * Draws avatar
@@ -64,7 +72,7 @@ public class Avatar
 	 * Updates avatar animations
 	 * @param delta
 	 */
-	public void update(Character character, int delta)
+	public void update(int delta)
 	{
 		if(character.getInventory().getChest() != null)
 			torso = character.getInventory().getChest().getSprite();
@@ -130,5 +138,53 @@ public class Avatar
 	public boolean isMove()
 	{
 		return isMove;
+	}
+	@Override
+	public void inputEnded() 
+	{
+	}
+	@Override
+	public void inputStarted() 
+	{
+	}
+	@Override
+	public boolean isAcceptingInput() 
+	{
+		return true;
+	}
+	@Override
+	public void setInput(Input arg0) 
+	{
+	}
+	@Override
+	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+	@Override
+	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+	@Override
+	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+	@Override
+	public void mousePressed(int arg0, int arg1, int arg2) 
+	{
+		if(arg0 == Input.MOUSE_RIGHT_BUTTON)
+		{	
+			if(avMOA.isMouseOver())
+				Cursor.setTarget(character);
+			else
+				Cursor.setTarget(null);
+		}
+	}
+	@Override
+	public void mouseReleased(int arg0, int arg1, int arg2) 
+	{
+	}
+	@Override
+	public void mouseWheelMoved(int arg0) 
+	{
 	}
 }

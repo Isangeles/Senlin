@@ -26,6 +26,7 @@ public final class GConnector
 	private GConnector(){}
     /**
      * Return InputStream pointed on specific file in graphic archive
+     * WARNING If gArch will be closed in these method then returned InputStrem will be closed too
      * @param filePath Path to file in gData
      * @return InputStream pointed on specific file in graphic archive
      * @throws IOException If path is wrong
@@ -38,7 +39,16 @@ public final class GConnector
         InputStream is = gArch.getInputStream(gFile);
         return is;
     }
-    
+    /**
+     * Return image from portrait data dir
+     * @param fileName Name of img file
+     * @return New image
+     * @throws SlickException
+     */
+    public static Image getPortrait(String fileName) throws SlickException
+    {
+    	return new Image("data" + File.separator + "portrait" + File.separator + fileName);
+    }
     /**
      * This static method reads file with image names in portrait folder and adds these files to Image List
      * @return List with images

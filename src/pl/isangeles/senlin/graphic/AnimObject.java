@@ -25,10 +25,10 @@ public class AnimObject extends GameObject
 		super(is, ref, flipped);
 		SpriteSheet ss = new SpriteSheet(this, 45, 55);
 
-		Image[] moveUpList = {ss.getSprite(1, 0), ss.getSprite(2, 0)};
-		Image[] moveRightList = {ss.getSprite(1, 1), ss.getSprite(2, 1)};
-		Image[] moveDownList = {ss.getSprite(1, 2), ss.getSprite(2, 2)};
-		Image[] moveLeftList = {ss.getSprite(1, 3), ss.getSprite(2, 3)};
+		Sprite[] moveUpList = {new Sprite(ss.getSprite(1, 0)), new Sprite(ss.getSprite(2, 0))};
+		Image[] moveRightList = {new Sprite(ss.getSprite(1, 1)), new Sprite(ss.getSprite(2, 1))};
+		Image[] moveDownList = {new Sprite(ss.getSprite(1, 2)), new Sprite(ss.getSprite(2, 2))};
+		Image[] moveLeftList = {new Sprite(ss.getSprite(1, 3)), new Sprite(ss.getSprite(2, 3))};
 		idleUp = new Sprite(ss.getSprite(0, 0));
 		idleRight = new Sprite(ss.getSprite(0, 1));
 		idleDown = new Sprite(ss.getSprite(0, 2));
@@ -93,10 +93,10 @@ public class AnimObject extends GameObject
 		idle = idleLeft;
 	}
 	
-	public Image getCurrentImg()
+	public Sprite getCurrentSprite()
 	{
 		if(isMove)
-			return move.getCurrentFrame();
+			return (Sprite)move.getCurrentFrame();
 		else
 			return idle;
 	}

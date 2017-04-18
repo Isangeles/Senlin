@@ -12,7 +12,6 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
-import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 /**
@@ -23,15 +22,12 @@ import pl.isangeles.senlin.core.Character;
  */
 public class CharacterFrame extends InterfaceObject
 {
-    Portrait portrait;
-    String name;
-    int level;
-    Bar health;
-    Bar magicka;
-    Bar experience;
-    MouseOverArea frameMOA;
-    Font textFont;
-    TrueTypeFont textTtf;
+	private Character character;
+    private Bar health;
+    private Bar magicka;
+    private Bar experience;
+    private MouseOverArea frameMOA;
+    private TrueTypeFont textTtf;
     /**
      * Character frame constructor
      * @param gc Game container for superclass and frame elements
@@ -40,19 +36,17 @@ public class CharacterFrame extends InterfaceObject
      * @throws IOException
      * @throws FontFormatException
      */
-    public CharacterFrame(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
+    public CharacterFrame(GameContainer gc, Character character) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/charFrameBG.png"), "uiCharFrame", false, gc);
-        this.portrait = new Portrait(player.getPortrait(), gc);
+        this.character = character;
         
-        health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:", player.getHealth(), player.getMaxHealth());
-        magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:", player.getMagicka(), player.getMaxMagicka());
-        experience = new Bar(GConnector.getInput("ui/bar/expBar.png"), "uiExpBar", false, gc, "Experience:", player.getExperience(), player.getMaxExperience());
-        name = player.getName();
-        level = player.getLevel();
+        health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:", character.getHealth(), character.getMaxHealth());
+        magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:", character.getMagicka(), character.getMaxMagicka());
+        experience = new Bar(GConnector.getInput("ui/bar/expBar.png"), "uiExpBar", false, gc, "Experience:", character.getExperience(), character.getMaxExperience());
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(textFont.deriveFont(11f), true);
         
         frameMOA = new MouseOverArea(gc, this, 0, 0);
@@ -61,13 +55,11 @@ public class CharacterFrame extends InterfaceObject
      * Updates frame
      * @param player Player character to update frame 
      */
-    public void update(Character player)
+    public void update()
     {
-        health.update(player.getHealth(), player.getMaxHealth());
-        magicka.update(player.getMagicka(), player.getMaxMagicka());
-        experience.update(player.getExperience(), player.getMaxExperience());
-        name = player.getName();
-        level = player.getLevel();
+        health.update(character.getHealth(), character.getMaxHealth());
+        magicka.update(character.getMagicka(), character.getMaxMagicka());
+        experience.update(character.getExperience(), character.getMaxExperience());
     }
     /**
      * Draws frame
@@ -75,9 +67,9 @@ public class CharacterFrame extends InterfaceObject
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        portrait.draw(x+40, y+9, 95f, 130f);
-        textTtf.drawString(super.x+getDis(150), super.y+getDis(15), name);
-        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), "Level:" + level);
+        character.getPortrait().draw(x+40, y+9, 95f, 130f);
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(15), character.getName());
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), "Level:" + character.getLevel());
         health.draw(x+139, y+36);
         magicka.draw(x+139, y+62);
         experience.draw(x+139, y+88);
@@ -91,6 +83,11 @@ public class CharacterFrame extends InterfaceObject
     public boolean isMouseOver()
     {
     	return frameMOA.isMouseOver();
+    }
+    
+    public void setCharacter(Character character)
+    {
+    	this.character = character;
     }
 
 }
