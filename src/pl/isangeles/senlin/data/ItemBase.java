@@ -21,6 +21,7 @@ public class ItemBase
 	//public static List<Weapon> weapons; //UNUSED
 	public static Map<String, String> weaponsMap;
 	public static Map<String, String> armorsMap;
+	public static Map<String, String> trinketsMap;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
@@ -29,7 +30,7 @@ public class ItemBase
 	/**
 	 * Returns new copy of item with specific id from base
 	 * @param id Item id
-	 * @return Copy of item from base (by clone method)
+	 * @return Copy of item from base (by clone method) or null if item was not found 
 	 */
 	public static Item getItem(String id)
 	{
@@ -40,15 +41,19 @@ public class ItemBase
 				return item;
 		}
 		 */
+		if(id == "")
+			return null;
+		
 		try
 		{
 			if(weaponsMap.get(id) != null)
-			{
 				return DConnector.getWeaponFromLine(weaponsMap.get(id), gc);
-			}
 			
 			if(armorsMap.get(id) != null)
 				return DConnector.getArmorFromLine(armorsMap.get(id), gc);
+			
+			if(trinketsMap.get(id) != null)
+				return null; //TODO write trinket builder
 			
 			return new ErrorItem(id, gc);
 		}
@@ -89,5 +94,6 @@ public class ItemBase
 		//weapons = DConnector.getWeaponBase("weaponBase", gc); //UNUSED
 		weaponsMap = DConnector.getItemsLinesMap("weaponBase");
 		armorsMap = DConnector.getItemsLinesMap("armorBase");
+		trinketsMap = DConnector.getItemsLinesMap("trinketBase");
 	}
 }

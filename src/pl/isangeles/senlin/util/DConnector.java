@@ -10,14 +10,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.inter.ui.ItemTile;
+import pl.isangeles.senlin.data.ItemPattern;
+import pl.isangeles.senlin.data.NpcPattern;
 
 /**
  * This class provides static methods giving access to game data like items, NPCs, etc;
@@ -39,6 +51,7 @@ public final class DConnector
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
+	@Deprecated
 	private static Item getItem(String itemId, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		Item item;
@@ -155,5 +168,72 @@ public final class DConnector
 		}
 		scann.close();
 		return map;
+	}
+	/**
+	 * Parses XML NPC base to map with NPC IDs as keys assigned to specific NPC pattern
+	 * @param baseName Name of base in data/npc dir
+	 * @return Map with NPC IDs as keys assigned to specific NPC pattern
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Map<String, NpcPattern> getNpcMap(String baseName) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, NpcPattern> npcMap = new HashMap<>();
+		//Parses xml
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = dbf.newDocumentBuilder();
+		Document base = builder.parse("data" + File.separator + "npc" + File.separator + baseName);
+		//Puts all npc nodes to list
+		NodeList nList = base.getDocumentElement().getChildNodes();
+		//Iterates over all npc nodes
+		for(int i = 0; i < nList.getLength(); i ++)
+		{
+			//Puts all nodes inside npc node to list
+			Node npcNode = nList.item(i);
+			//Iterates over all nodes inside npc node
+			if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element npc = (Element)npcNode;
+				String id = npc.getAttribute("id");
+				NpcPattern npcP;
+				
+				String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
+				
+				NodeList npcNodes = npcNode.getChildNodes();
+				Node eqNode = npcNodes.item(1);
+				Element eq = (Element)npcNodes;
+				
+				String head = eq.getElementsByTagName("head").item(0).getTextContent();
+				String chest = eq.getElementsByTagName("chest").item(0).getTextContent();
+				String hands = eq.getElementsByTagName("hands").item(0).getTextContent();
+				String mainHand = eq.getElementsByTagName("mainhand").item(0).getTextContent();
+				String offHand = eq.getElementsByTagName("offhand").item(0).getTextContent();
+				String feet = eq.getElementsByTagName("feet").item(0).getTextContent();
+				String neck = eq.getElementsByTagName("neck").item(0).getTextContent();
+				String fingerA = eq.getElementsByTagName("finger1").item(0).getTextContent();
+				String fingerB = eq.getElementsByTagName("finger2").item(0).getTextContent();
+				String artifact = eq.getElementsByTagName("artifact").item(0).getTextContent();
+				
+				Element in = (Element)eq.getElementsByTagName("in").item(0);
+				int gold = Integer.parseInt(in.getAttribute("gold")); //TODO catch parse exception
+				
+				List<ItemPattern> itemsIn = new LinkedList<>();
+				
+				for(int j = 0; j < in.getElementsByTagName("item").getLength(); j ++)
+				{
+					Element itemNode = (Element)in.getElementsByTagName("item").item(j);
+					boolean ifRandom = Boolean.parseBoolean(itemNode.getAttribute("random"));
+					String itemInId = itemNode.getTextContent();
+					ItemPattern ip = new ItemPattern(itemInId, ifRandom);
+				}
+				
+				npcP = new NpcPattern(id, stats, head, chest, hands, mainHand, offHand, feet,
+									  neck, fingerA, fingerB, artifact, gold, itemsIn);
+				npcMap.put(id, npcP);
+			}
+		}
+		
+		return npcMap;
 	}
 }

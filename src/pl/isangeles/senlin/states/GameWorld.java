@@ -3,6 +3,10 @@ package pl.isangeles.senlin.states;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,9 +15,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.inter.UserInterface;
 /**
  * State for game world
@@ -24,6 +30,7 @@ public class GameWorld extends BasicGameState
 {
 	private TiledMap areaMap;
 	private Character player;
+	private List<Character> areaNpcs = new ArrayList<>(); 
 	private UserInterface ui;
 	private int[] destPoint = {0, 0};
 	private float[] cameraPos = {0f, 0f};
@@ -40,6 +47,7 @@ public class GameWorld extends BasicGameState
         try 
         {
         	ItemBase.loadBases(container);
+        	NpcBase.load(container);
         	
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);
@@ -47,8 +55,11 @@ public class GameWorld extends BasicGameState
             player.setPosition(500, 250);
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
+            Character testBandit = NpcBase.spawn("bandit01"); //test line
+            testBandit.setPosition(600, 250); //test line
+            areaNpcs.add(testBandit); //test line
         } 
-        catch (SlickException | IOException | FontFormatException e) 
+        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
         {
             System.err.println(e.getMessage());
         }
@@ -61,6 +72,8 @@ public class GameWorld extends BasicGameState
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
         player.draw();
+        for(Character npc : areaNpcs)
+        	npc.draw();
         g.translate(cameraPos[0], cameraPos[1]);
         ui.draw(g);
     }
@@ -72,10 +85,11 @@ public class GameWorld extends BasicGameState
         if(!isPause())
             keyDown(container.getInput());
         
-    	if(player.move(destPoint[0], destPoint[1]))
-    	{
-    		player.update(delta);
-    	}
+    	player.move(destPoint[0], destPoint[1]);
+    	
+    	player.update(delta);
+    	for(Character npc : areaNpcs)
+    		npc.update(delta);
     	
     	if(ui.isExitReq())
     		container.exit();

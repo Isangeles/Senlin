@@ -37,55 +37,76 @@ public final class Inventory extends LinkedList<Item>
         else 
             return false;
     }
-
+    /**
+     * Adds gold to inventory
+     * @param value Integer value to add
+     */
+    public void addGold(int value)
+    {
+    	gold += value;
+    }
 	/**
-	 * Sets item as one of character weapon
+	 * Sets item as one of character weapon, item must be in inventory
 	 * @param weapon Any item that can be casted to weapon
 	 * @return True if item was successful inserted, false otherwise
 	 */
     public boolean setWeapon(Item weapon)
     {
-    	try
+    	if(this.contains(weapon))
     	{
-    		return equipment.setWeapon((Weapon) weapon);
+    		try
+        	{
+        		return equipment.setWeapon((Weapon) weapon);
+        	}
+        	catch(ClassCastException e)
+        	{
+        		return false;
+        	}
     	}
-    	catch(ClassCastException e)
-    	{
+    	else
     		return false;
-    	}
-    	
     }
     /**
-     * Sets item as one of character armor parts
+     * Sets item as one of character armor parts, item must be in inventory
      * @param armorPart Item that can be casted to armor
      * @return True if item was successful inserted, false otherwise
      */
     public boolean setArmor(Item armorPart)
     {
-    	try
+    	if(this.contains(armorPart))
     	{
-    		return equipment.setArmor((Armor) armorPart);
+    		try
+        	{
+        		return equipment.setArmor((Armor) armorPart);
+        	}
+        	catch(ClassCastException e)
+        	{
+        		return false;
+        	}
     	}
-    	catch(ClassCastException e)
-    	{
+    	else
     		return false;
-    	}
     }
     /**
-     * Sets item as one of character trinkets
+     * Sets item as one of character trinkets, item must be in inventory
      * @param trinket Item that can be casted to trinket
      * @return True if item was successful inserted, false otherwise
      */
     public boolean setTrinket(Item trinket)
     {
-    	try
+    	if(this.contains(trinket))
     	{
-    		return equipment.setTrinket((Trinket) trinket);
+    		try
+        	{
+        		return equipment.setTrinket((Trinket) trinket);
+        	}
+        	catch(ClassCastException e)
+        	{
+        		return false;
+        	}
     	}
-    	catch(ClassCastException e)
-    	{
+    	else
     		return false;
-    	}
     }
     /**
 	 * Removes specific item from equippment
@@ -167,7 +188,7 @@ public final class Inventory extends LinkedList<Item>
         return this.toArray(new Item[(this.size())]);
     }
     /**
-     * Now slots draws items
+     * UNSED Now slots draws items
      * @param x
      * @param y
      */

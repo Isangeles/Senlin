@@ -22,6 +22,7 @@ import pl.isangeles.senlin.inter.Portrait;
  */
 public class Character 
 {
+	private String id;
 	private String name;
 	private int level;
 	private int experience;
@@ -39,7 +40,6 @@ public class Character
 	private boolean live;
 	private Avatar avatar;
 	private Inventory inventory;
-	private Character target;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -49,6 +49,7 @@ public class Character
 	 */
 	public Character(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
+		id = "player";
 		name = "Name";
 		level = 0;
 		attributes = new Attributes(1, 1, 1, 1, 1);
@@ -67,12 +68,12 @@ public class Character
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String name, int level, int experience, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Character(String id, String name, int level, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
+		this.id = id;
 		this.name = name;
 		this.attributes = atributes;
 		addLevel(level);
-		this.experience = experience;
 		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		live = true;
 		avatar = new Avatar(this, gc);
@@ -455,6 +456,12 @@ public class Character
 	 */
 	public boolean addItem(Item item)
 	{ return inventory.add(item); }
+	/**
+     * Adds gold to character inventory
+     * @param value Integer value to add
+     */
+    public void addGold(int value)
+    { inventory.addGold(value); }
 	/**
 	 * Draws all character items (called by inventory menu)
 	 * @param x Position in X axis

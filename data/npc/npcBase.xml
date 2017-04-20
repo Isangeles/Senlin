@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<base>
+<npc id="bandit01">
+    <stats>Bandit;2;3;2;2;1;1;portrait2.jpg;</stats>
+    <eq>
+        <head></head>
+        <chest>acCS00</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+            <item random="false">acCS00</item>;
+            <item random="true">wSOHI</item>;
+        </in>
+    </eq>
+</npc>
+</base>
