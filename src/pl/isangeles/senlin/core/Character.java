@@ -324,6 +324,9 @@ public class Character
 	public Attitude getAttitude()
 	{ return attitude; }
 	
+	public int[] getPosition()
+	{ return position; }
+	
 	public boolean isLive()
 	{ return live; }
 	

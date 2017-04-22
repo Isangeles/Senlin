@@ -200,13 +200,15 @@ public class Avatar implements MouseListener
 			{
 				Cursor.setTarget(character);
 				isTargeted = true;
-				CommBase.addInformation("TARGETED");
 			}
-			else
+			else if(!avMOA.isMouseOver() && Cursor.getTarChar() != character)
+			{
+				isTargeted = false;
+			}
+			else if(!avMOA.isMouseOver() && Cursor.getTarChar() == character)
 			{
 				Cursor.setTarget(null);
 				isTargeted = false;
-				CommBase.addInformation("DISTARGETED");
 			}
 		}
 	}

@@ -32,7 +32,7 @@ public class GameWorld extends BasicGameState
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>(); 
 	private UserInterface ui;
-	private int[] destPoint = {0, 0};
+	private int[] destPoint;
 	private float[] cameraPos = {0f, 0f};
 	
 	public GameWorld(Character player)
@@ -53,6 +53,8 @@ public class GameWorld extends BasicGameState
             ui = new UserInterface(container, player);
             
             player.setPosition(500, 250);
+            destPoint = new int[]{500, 250};
+            		
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             Character testBandit = NpcBase.spawn("bandit01"); //test line
