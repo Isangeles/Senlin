@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Attitude;
 /**
  * Class for NPC patterns used to create specific NPC by NpcBase class
  * @author Isangeles
@@ -19,6 +20,7 @@ import pl.isangeles.senlin.core.Character;
 public class NpcPattern 
 {
 	private final String npcId;
+	private final Attitude npcAttitude;
 	private final String constructorLine;
 	private final String headItem;
 	private final String chestItem;
@@ -50,12 +52,26 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact,
 					  int gold, List<ItemPattern> invItems) 
 	{
 		this.npcId = npcId;
+		switch(attitude)
+		{
+		case "hostile":
+			npcAttitude = Attitude.HOSTILE;
+			break;
+		case "neutral":
+			npcAttitude = Attitude.NEUTRAL;
+			break;
+		case "friendly":
+			npcAttitude = Attitude.FRIENDLY;
+			break;
+		default:
+			npcAttitude = Attitude.NEUTRAL;
+		}
 		this.constructorLine = constructorLine;
 		this.headItem = headItem;
 		this.chestItem = chestItem;
@@ -83,7 +99,7 @@ public class NpcPattern
 	{
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
-		Character npc = new Character(npcId, scann.next(), scann.nextInt(),
+		Character npc = new Character(npcId, npcAttitude, scann.next(), scann.nextInt(),
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  scann.next(), gc);
 		scann.close();

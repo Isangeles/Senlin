@@ -33,17 +33,36 @@ public class Avatar implements MouseListener
 	
 	private Character character;
 	
-	private boolean isMove;
+	private Sprite hostileT;
+	private Sprite neutralT;
+	private Sprite friendlyT;
+	private Sprite target;
 	
+	private boolean isMove;
+	private boolean isTargeted;
+	/**
+	 * Character avatar constructor
+	 * @param character Character to represent by avatar
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Avatar(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		gc.getInput().addMouseListener(this);
+		this.character = character;
+		
+		hostileT = new Sprite(GConnector.getInput("sprite/hTarget.png"), "hTarget", false);
+		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
+		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
 		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "clothSS", false);
 		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
+		
 		torso = defTorso;
 		head = defHead;
+		setTargetSprite();
 		
-		this.character = character;
 		avMOA = new MouseOverArea(gc, torso.getCurrentSprite(), 0, 0);
 		avName = new InfoWindow(gc, character.getName());
 	}
@@ -57,6 +76,9 @@ public class Avatar implements MouseListener
 	 */
 	public void draw(float x, float y)
 	{
+		if(isTargeted)
+			target.draw(x+target.getDis(10), y+target.getDis(45), false);
+		
 		torso.draw(x, y, 1.5f);
 		head.draw(x, y, 1.5f);
 		if(this.weapon != null)
@@ -90,6 +112,7 @@ public class Avatar implements MouseListener
 			this.weapon = null;
 		
 		avName.setText(character.getName());
+		setTargetSprite();
 		
 		torso.update(delta);
 		head.update(delta);
@@ -174,9 +197,17 @@ public class Avatar implements MouseListener
 		if(arg0 == Input.MOUSE_RIGHT_BUTTON)
 		{	
 			if(avMOA.isMouseOver())
+			{
 				Cursor.setTarget(character);
+				isTargeted = true;
+				CommBase.addInformation("TARGETED");
+			}
 			else
+			{
 				Cursor.setTarget(null);
+				isTargeted = false;
+				CommBase.addInformation("DISTARGETED");
+			}
 		}
 	}
 	@Override
@@ -186,5 +217,23 @@ public class Avatar implements MouseListener
 	@Override
 	public void mouseWheelMoved(int arg0) 
 	{
+	}
+	/**
+	 * Sets color of target circle based on character attitude
+	 */
+	private void setTargetSprite()
+	{
+		switch(character.getAttitude())
+		{
+		case HOSTILE:
+			target = hostileT;
+			break;
+		case NEUTRAL:
+			target = neutralT;
+			break;
+		case FRIENDLY:
+			target = friendlyT;
+			break;
+		}
 	}
 }

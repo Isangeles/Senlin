@@ -196,6 +196,7 @@ public final class DConnector
 			{
 				Element npc = (Element)npcNode;
 				String id = npc.getAttribute("id");
+				String attitude = npc.getAttribute("attitude");
 				NpcPattern npcP;
 				
 				String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
@@ -228,7 +229,7 @@ public final class DConnector
 					ItemPattern ip = new ItemPattern(itemInId, ifRandom);
 				}
 				
-				npcP = new NpcPattern(id, stats, head, chest, hands, mainHand, offHand, feet,
+				npcP = new NpcPattern(id, attitude, stats, head, chest, hands, mainHand, offHand, feet,
 									  neck, fingerA, fingerB, artifact, gold, itemsIn);
 				npcMap.put(id, npcP);
 			}

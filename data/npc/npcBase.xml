@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <base>
-<npc id="bandit01">
+<npc id="bandit01" attitude="hostile">
     <stats>Bandit;2;3;2;2;1;1;portrait2.jpg;</stats>
     <eq>
         <head></head>

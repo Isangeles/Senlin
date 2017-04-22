@@ -24,6 +24,7 @@ public class Character
 {
 	private String id;
 	private String name;
+	private Attitude attitude;
 	private int level;
 	private int experience;
 	private int maxExperience;
@@ -52,6 +53,7 @@ public class Character
 		id = "player";
 		name = "Name";
 		level = 0;
+		attitude = Attitude.FRIENDLY;
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
@@ -68,10 +70,11 @@ public class Character
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, String name, int level, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Character(String id, Attitude attitude, String name, int level, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
 		this.name = name;
+		this.attitude = attitude;
 		this.attributes = atributes;
 		addLevel(level);
 		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
@@ -317,6 +320,9 @@ public class Character
 	
 	public String getName()
 	{ return name; }
+	
+	public Attitude getAttitude()
+	{ return attitude; }
 	
 	public boolean isLive()
 	{ return live; }

@@ -7,9 +7,18 @@ import java.io.InputStream;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
+/**
+ * Class for simple graphical game objects
+ * @author Isangeles
+ *
+ */
 public class Sprite extends GameObject 
 {
+	public Sprite(InputStream is, String ref, boolean flipped) throws SlickException
+	{
+		super(is, ref, flipped);
+	}
+	
 	public Sprite(Image img) throws SlickException 
 	{
 		super(img);

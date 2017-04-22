@@ -90,6 +90,11 @@ public abstract class GameObject extends Image
     	return scale;
     }
     
+    public float getDis(float dis)
+    {
+    	return dis * scale;
+    }
+    
     public boolean isMouseOver()
     {
     	return gObjectMOA.isMouseOver();

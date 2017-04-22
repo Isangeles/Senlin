@@ -1,7 +1,0 @@
-<bandit01:
-Bandit;2;3;2;2;1;1;portrait2.jpg;
-eq:
-chest:acCS00;
-mainWeap:wSOHI;
-in:acCS00,0;
-gold:3; />
