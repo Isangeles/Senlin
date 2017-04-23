@@ -1,64 +1,64 @@
 package pl.isangeles.senlin.inter.ui;
 
+import java.awt.FontFormatException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.inter.InterfaceObject;
-import pl.isangeles.senlin.inter.InterfaceTile;
 import pl.isangeles.senlin.util.GConnector;
-/**
- * Class for ui item slots
- * @author Isangeles
- *
- */
-class ItemSlot extends InterfaceObject 
+
+public class SkillSlot extends InterfaceObject 
 {
-	private Item itemInSlot;
+	private Skill skillInSlot;
 	
-	public ItemSlot(GameContainer gc) throws SlickException, IOException 
+	public SkillSlot(GameContainer gc) throws SlickException, IOException 
 	{
 		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
 	}
 	
+	@Override
 	public void draw(float x, float y, boolean scaledPos)
 	{
-		if(itemInSlot != null)
-		    itemInSlot.draw(x-3, y-3, scaledPos);
+		if(skillInSlot != null)
+			skillInSlot.draw(x-3, y-3, scaledPos);
 		
 		super.draw(x, y, false);
 	}
 	/**
-	 * Inserts item in slot
+	 * Inserts skill in slot
 	 * @param item Item tile
 	 */
-	public void insertItem(Item item)
+	public void insertSkill(Skill skill)
 	{
-		itemInSlot = item; 
+		skillInSlot = skill; 
 	}
 	/**
 	 * Removes item from slot
 	 */
-	public void removeItem()
+	public void removeSkill()
 	{
-		itemInSlot = null;
+		skillInSlot = null;
 	}
 	
 	public void dragged(boolean dragged)
 	{
-		itemInSlot.getTile().dragged(dragged);
+		skillInSlot.getTile().dragged(dragged);
 	}
 	/**
-	 * Checks if tile of item in slots is dragged
+	 * Checks if tile of skill in slots is dragged
 	 * @return True if slot is dragged, false otherwise
 	 */
-	public boolean isItemDragged()
+	public boolean isSkillDragged()
 	{
-		if(itemInSlot != null)
-			return itemInSlot.getTile().isDragged();
+		if(skillInSlot != null)
+			return skillInSlot.getTile().isDragged();
 		else
 			return false;
 	}
@@ -68,14 +68,15 @@ class ItemSlot extends InterfaceObject
 	 */
 	public boolean isNull()
 	{
-		if(itemInSlot == null)
+		if(skillInSlot == null)
 			return true;
 		else
 			return false;
 	}
 	
-	public Item getItem()
+	public Skill getSkill()
 	{
-		return itemInSlot;
+		return skillInSlot;
 	}
+
 }

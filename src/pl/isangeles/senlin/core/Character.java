@@ -39,6 +39,7 @@ public class Character
 	private Attributes attributes;
 	private Portrait portrait;
 	private boolean live;
+	private boolean isCasting;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Random numberGenerator = new Random();
@@ -166,6 +167,12 @@ public class Character
     public boolean setTrinket(Item trinket)
     {
     	return inventory.setTrinket(trinket);
+    }
+    
+    public void startCast(int castTime)
+    {
+    	isCasting = true;
+    	
     }
 	/**
 	 * Removes specific item from equippment

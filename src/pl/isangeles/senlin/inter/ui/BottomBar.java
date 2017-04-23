@@ -19,13 +19,16 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class BottomBar extends InterfaceObject implements MouseListener, KeyListener
+class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 {
     private Button quests;
     private Button inventory;
     private Button skills;
     private Button map;
     private Button menu;
+    
+    SkillSlots sSlots;
+    
     private MouseOverArea bBarMOA;
     
     private boolean menuReq;
@@ -49,6 +52,8 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
         map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("ui", "mapBInfo"));
         menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("ui", "menuBInfo"));
         
+        sSlots = new SkillSlots(gc);
+        
         bBarMOA = new MouseOverArea(gc, this, 0, 0);
     }
     /**
@@ -62,6 +67,8 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
         skills.draw(x+super.getScaledWidth()-getDis(150), y+getDis(10), false);
         inventory.draw(x+super.getScaledWidth()-getDis(200), y+getDis(10), false);
         quests.draw(x+super.getScaledWidth()-getDis(250), y+getDis(10), false);
+        
+        sSlots.draw(x+getDis(20), y+getDis(10));
         
         bBarMOA.setLocation(x, y);
     }
@@ -175,5 +182,30 @@ public class BottomBar extends InterfaceObject implements MouseListener, KeyList
 	public void keyReleased(int key, char c) 
 	{
 	}
-
+	/**
+	 * Inner class for skills slots
+	 * @author Isangeles
+	 *
+	 */
+	private class SkillSlots
+	{
+		private SkillSlot[] slots;
+		
+		public SkillSlots(GameContainer gc) throws SlickException, IOException
+		{
+			slots = new SkillSlot[5];
+	        for(int i = 0; i < slots.length; i ++)
+	        {
+	        	slots[i] = new SkillSlot(gc);
+	        }
+		}
+		
+		public void draw(float x, float y)
+		{
+			for(int i = 0; i < slots.length; i ++)
+			{
+				slots[i].draw(x+(slots[i].getWidth()*i), y, false);
+			}
+		}
+	}
 }

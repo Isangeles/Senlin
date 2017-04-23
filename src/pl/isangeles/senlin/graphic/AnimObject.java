@@ -49,7 +49,7 @@ public class AnimObject extends GameObject
 	@Override
 	public void draw(float x, float y, float scale) 
 	{
-		if (isMove) 
+		if(isMove) 
 		{
 			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*scale, (move.getCurrentFrame().getHeight() * getScale())*scale);
 		} 

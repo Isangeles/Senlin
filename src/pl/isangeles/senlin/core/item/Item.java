@@ -107,7 +107,7 @@ public abstract class Item
     	}
     }
     /**
-     * Returns basic info about item for item tile
+     * Returns full info about item for item tile
      * @return String with basic info
      */
     protected abstract String getInfo();

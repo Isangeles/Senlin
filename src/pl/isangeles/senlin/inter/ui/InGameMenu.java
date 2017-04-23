@@ -20,7 +20,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class InGameMenu extends InterfaceObject implements MouseListener
+class InGameMenu extends InterfaceObject implements MouseListener
 {
 	private Button resume;
 	private Button save;

@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
-import pl.isangeles.senlin.inter.UserInterface;
+import pl.isangeles.senlin.inter.ui.UserInterface;
 /**
  * State for game world
  * @author Isangeles

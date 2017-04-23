@@ -25,7 +25,7 @@ import pl.isangeles.senlin.data.ItemBase;
  * @author Isangeles
  *
  */
-public final class Console extends TextInput
+final class Console extends TextInput
 {
     private boolean hide;
     private Character player;

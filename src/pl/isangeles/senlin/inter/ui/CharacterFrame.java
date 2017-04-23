@@ -20,7 +20,7 @@ import pl.isangeles.senlin.core.Character;
  * @author Isangeles
  *
  */
-public class CharacterFrame extends InterfaceObject
+class CharacterFrame extends InterfaceObject
 {
 	private Character character;
     private Bar health;

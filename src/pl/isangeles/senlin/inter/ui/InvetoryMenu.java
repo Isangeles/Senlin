@@ -28,7 +28,7 @@ import pl.isangeles.senlin.data.CommBase;
  * @author Isangeles
  *
  */
-public class InvetoryMenu extends InterfaceObject implements MouseListener
+class InvetoryMenu extends InterfaceObject implements MouseListener
 {
 	private Character player;
 	private ItemSlot[][] slots;
