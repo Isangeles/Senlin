@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.inter.ui.UserInterface;
 /**
  * State for game world
@@ -47,7 +48,7 @@ public class GameWorld extends BasicGameState
         try 
         {
         	ItemBase.loadBases(container);
-        	NpcBase.load(container);
+        	NpcBase.load(container);     	
         	
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);

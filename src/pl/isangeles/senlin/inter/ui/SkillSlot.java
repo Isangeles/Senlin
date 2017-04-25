@@ -7,20 +7,29 @@ import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
-
-public class SkillSlot extends InterfaceObject 
+/**
+ * Class for skill slots
+ * TODO use mouseListener to activate skill
+ * @author Isangeles
+ *
+ */
+public class SkillSlot extends InterfaceObject implements MouseListener 
 {
 	private Skill skillInSlot;
 	
 	public SkillSlot(GameContainer gc) throws SlickException, IOException 
 	{
 		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
+		gc.getInput().addMouseListener(this);
 	}
 	
 	@Override
@@ -40,7 +49,7 @@ public class SkillSlot extends InterfaceObject
 		skillInSlot = skill; 
 	}
 	/**
-	 * Removes item from slot
+	 * Removes skill from slot
 	 */
 	public void removeSkill()
 	{
@@ -50,6 +59,14 @@ public class SkillSlot extends InterfaceObject
 	public void dragged(boolean dragged)
 	{
 		skillInSlot.getTile().dragged(dragged);
+	}
+	
+	public boolean isActive()
+	{
+		if(skillInSlot != null)
+			return skillInSlot.isActive();
+		else
+			return false;
 	}
 	/**
 	 * Checks if tile of skill in slots is dragged
@@ -77,6 +94,57 @@ public class SkillSlot extends InterfaceObject
 	public Skill getSkill()
 	{
 		return skillInSlot;
+	}
+
+	@Override
+	public void inputEnded() 
+	{
+	}
+
+	@Override
+	public void inputStarted() 
+	{
+	}
+
+	@Override
+	public boolean isAcceptingInput() 
+	{
+		return true;
+	}
+
+	@Override
+	public void setInput(Input input) 
+	{
+	}
+
+	@Override
+	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+
+	@Override
+	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+
+	@Override
+	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
+	{
+	}
+
+	@Override
+	public void mousePressed(int arg0, int arg1, int arg2)
+	{
+	}
+
+	@Override
+	public void mouseReleased(int arg0, int arg1, int arg2) 
+	{
+	}
+
+	@Override
+	public void mouseWheelMoved(int arg0) 
+	{
 	}
 
 }

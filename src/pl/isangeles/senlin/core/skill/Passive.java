@@ -5,9 +5,9 @@ import pl.isangeles.senlin.core.Character;
 public class Passive extends Skill 
 {
 
-	public Passive(String id, String name, String info, String imgName) 
+	public Passive(String id, String name, String info, String imgName, int magickaCost) 
 	{
-		super(id, name, info, imgName);
+		super(id, name, info, imgName, magickaCost);
 	}
 
 	@Override

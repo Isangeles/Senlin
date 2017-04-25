@@ -41,7 +41,7 @@ public class UserInterface
         this.player = player;
         
         gameConsole = new Console(gc, player);
-        bBar = new BottomBar(gc);
+        bBar = new BottomBar(gc, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);

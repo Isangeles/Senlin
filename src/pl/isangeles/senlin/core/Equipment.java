@@ -1,5 +1,7 @@
 package pl.isangeles.senlin.core;
 
+import java.util.Random;
+
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;

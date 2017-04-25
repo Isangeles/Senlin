@@ -1,6 +1,8 @@
 package pl.isangeles.senlin.inter.ui;
 
+import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
@@ -8,12 +10,15 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Button;
+import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.Character;
 /**
  * UI bottom bar class, sends requests to show various parts of ui
  * @author Isangeles
@@ -27,7 +32,9 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     private Button map;
     private Button menu;
     
-    SkillSlots sSlots;
+    private SkillSlots sSlots;
+    
+    private Character player;
     
     private MouseOverArea bBarMOA;
     
@@ -40,7 +47,7 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
      * @throws IOException
      * @throws FontFormatException
      */
-    public BottomBar(GameContainer gc) throws SlickException, IOException, FontFormatException
+    public BottomBar(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/bottomBar.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
@@ -54,7 +61,11 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
         
         sSlots = new SkillSlots(gc);
         
+        this.player = player;
+        
         bBarMOA = new MouseOverArea(gc, this, 0, 0);
+        
+        sSlots.slots[0].insertSkill(player.getSkills().get("autoA"));
     }
     /**
      * Draws bar
@@ -157,6 +168,26 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
             inventoryReq = true;
         else if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && inventoryReq)
             inventoryReq = false;
+    	
+    	//Slots dragging system
+    	if(sSlots.getDragged() != null)
+    	{
+    		for(SkillSlot ss : sSlots.slots)
+        	{
+        		if(ss.isMouseOver())
+        		{
+        			sSlots.moveSkill(sSlots.getDragged(), ss);
+        			return;
+        		}
+        	}
+    		sSlots.getDragged().dragged(false);
+    	}
+    	
+    	for(SkillSlot ss : sSlots.slots)
+    	{
+    		if(ss.isMouseOver())
+    			ss.getSkill().activate(player, Cursor.getTarChar());
+    	}
     }
 
     @Override
@@ -176,12 +207,23 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 		    inventoryReq = true ;
 		else if(key == Input.KEY_I && inventoryReq)
             inventoryReq = false ;
+		
+		if(key == Input.KEY_1)
+		{
+			sSlots.slots[0].getSkill().getTile().click(true);
+			sSlots.slots[0].getSkill().activate(player, Cursor.getTarChar());
+		}
 	}
 
 	@Override
 	public void keyReleased(int key, char c) 
 	{
+		if(key == Input.KEY_1)
+		{
+			sSlots.slots[0].getSkill().getTile().click(false);
+		}
 	}
+	
 	/**
 	 * Inner class for skills slots
 	 * @author Isangeles
@@ -190,22 +232,56 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 	private class SkillSlots
 	{
 		private SkillSlot[] slots;
+		TrueTypeFont slotsTtf;
 		
-		public SkillSlots(GameContainer gc) throws SlickException, IOException
+		public SkillSlots(GameContainer gc) throws SlickException, IOException, FontFormatException
 		{
 			slots = new SkillSlot[5];
 	        for(int i = 0; i < slots.length; i ++)
 	        {
 	        	slots[i] = new SkillSlot(gc);
+	        	File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+	    		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+	            
+	            slotsTtf = new TrueTypeFont(font.deriveFont(10f), true);
 	        }
 		}
-		
+		/**
+		 * Draws all skill slots
+		 * @param x Position on x-axis
+		 * @param y	Position on y-axis
+		 */
 		public void draw(float x, float y)
 		{
 			for(int i = 0; i < slots.length; i ++)
 			{
 				slots[i].draw(x+(slots[i].getWidth()*i), y, false);
+				slotsTtf.drawString(x+(slots[i].getWidth()*i), y, ""+(i+1));
 			}
+		}
+		/**
+		 * Moves skill from slotA to slotB
+		 * @param slotA Current skill slot
+		 * @param slotB New slot for skill
+		 */
+		public void moveSkill(SkillSlot slotA, SkillSlot slotB)
+		{
+			slotA.dragged(false);
+			slotB.insertSkill(slotA.getSkill());
+			slotA.removeSkill();
+		}
+		/**
+		 * Returns dragged skill slot
+		 * @return Current dragged slot, if no slot from table dragged returns null
+		 */
+		public SkillSlot getDragged()
+		{
+			for(SkillSlot ss : slots)
+			{
+				if(ss.isSkillDragged())
+					return ss;
+			}
+			return null;
 		}
 	}
 }

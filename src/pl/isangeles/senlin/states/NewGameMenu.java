@@ -16,6 +16,7 @@ import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.core.Attributes;
 /**
@@ -53,6 +54,8 @@ public class NewGameMenu extends BasicGameState
 	{
 		try 
 		{
+        	SkillsBase.load(container);
+        	
 			player = new Character(container);
 			ptsAtributes = new Attribute(5);
 			

@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
@@ -15,7 +16,7 @@ import org.newdawn.slick.SlickException;
  */
 public abstract class InterfaceTile extends InterfaceObject implements MouseListener
 { 
-	private static int counter;
+	private static int counter; //TODO check if necessary
 	private Input gameInput;
 	private boolean dragged;
 	
@@ -35,6 +36,14 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 			super.draw(x, y, 45f, 40f, scaledPos);
 		else
 			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, scaledPos);
+	}
+	@Override
+	public void draw(float x, float y, Color filter, boolean scaledPos)
+	{
+		if(!dragged)
+			super.draw(x, y, 45f, 40f, filter, scaledPos);
+		else
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, filter, scaledPos);
 	}
 	
 	public void dragged(boolean dragged)

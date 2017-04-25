@@ -44,21 +44,23 @@ public class CommBase
 	}
 	/**
 	 * Adds message about character points loss
+	 * @param who The author of the message(e.g. character name)
 	 * @param value Value deducted from character health
 	 * @param statName Name of the character statistic from which points were deducted
 	 */
-	public static void loseInfo(int value, String statName)
+	public static void loseInfo(String who, int value, String statName)
 	{
-		addInformation(TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
+		addInformation(who + " " + TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
 	}
 	/**
 	 * Adds message about character points gain
+	 * @param who The author of the message(e.g. character name)
 	 * @param value Value deducted from character health
 	 * @param statName Name of the character statistic to which points were added
 	 */
-	public static void gainInfo(int value, String statName)
+	public static void gainInfo(String who, int value, String statName)
 	{
-		addInformation(TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
+		addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
 	}
 	/**
 	 * Returns message with specific index

@@ -12,7 +12,10 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.skill.Abilities;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 /**
@@ -42,6 +45,7 @@ public class Character
 	private boolean isCasting;
 	private Avatar avatar;
 	private Inventory inventory;
+	private Abilities abilities;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -60,6 +64,8 @@ public class Character
 		live = true;
 		avatar = new Avatar(this, gc);
 		inventory = new Inventory();
+		abilities = new Abilities();
+		abilities.add(SkillsBase.getAutoAttack());
 	}
 	/**
 	 * This constructor provides playable character
@@ -77,11 +83,13 @@ public class Character
 		this.name = name;
 		this.attitude = attitude;
 		this.attributes = atributes;
-		addLevel(level);
 		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		live = true;
 		avatar = new Avatar(this, gc);
 		inventory = new Inventory();
+		abilities = new Abilities();
+		addLevel(level);
+		abilities.add(SkillsBase.getAutoAttack());
 	}
 	/**
 	 * Adds one level to character
@@ -255,12 +263,17 @@ public class Character
 	}
 	/**
 	 * Get character hit
-	 * TODO include current weapon damage
+	 * TODO include offhand weapon damage
 	 * @return Hit value
 	 */
 	public int getHit()
 	{
-		return numberGenerator.nextInt(10) + attributes.getBasicHit();
+		int hit = numberGenerator.nextInt(10) + attributes.getBasicHit();
+		if(inventory.getMainWeapon() != null)
+		{
+			hit += (numberGenerator.nextInt(inventory.getWeaponDamage()[0])+inventory.getWeaponDamage()[1]);
+		}
+		return hit;
 	}
 	/**
 	 * Returns character damage
@@ -368,13 +381,19 @@ public class Character
 	public Inventory getInventory()
 	{ return inventory; }
 	/**
+	 * Returns character abilities list  
+	 * @return Abilities list
+	 */
+	public Abilities getSkills()
+	{ return abilities; }
+	/**
 	 * Subtract specified value from character health value 
 	 * @param value Value to subtract
 	 */
 	public void takeHealth(int value)
 	{
 		health -= value;
-		CommBase.loseInfo(value, TConnector.getText("ui", "hpName"));
+		CommBase.loseInfo(name, value, TConnector.getText("ui", "hpName"));
 		if(health <= 0)
 			live = false;
 	}
@@ -385,7 +404,7 @@ public class Character
 	public void takeMagicka(int value)
 	{
 		magicka -= value;
-		CommBase.loseInfo(value, TConnector.getText("ui", "manaName"));
+		CommBase.loseInfo(name, value, TConnector.getText("ui", "manaName"));
 		if(magicka < 0)
 			magicka = 0;
 	}
@@ -396,7 +415,7 @@ public class Character
 	public void takeExperience(int value)
 	{
 		experience -= value;
-		CommBase.loseInfo(value, TConnector.getText("ui", "expName"));
+		CommBase.loseInfo(name, value, TConnector.getText("ui", "expName"));
 		if(experience < 0)
 			experience = 0;
 	}
@@ -436,7 +455,7 @@ public class Character
 	public void addHealth(int value)
 	{
 		health += value;
-		CommBase.gainInfo(value, TConnector.getText("ui", "hpName"));
+		CommBase.gainInfo(name, value, TConnector.getText("ui", "hpName"));
 		if(health > maxHealth)
 			health = maxHealth;
 	}
@@ -447,7 +466,7 @@ public class Character
 	public void addMagicka(int value)
 	{
 		magicka += value;
-		CommBase.gainInfo(value, TConnector.getText("ui", "manaName"));
+		CommBase.gainInfo(name, value, TConnector.getText("ui", "manaName"));
 		if(magicka > maxMagicka)
 			magicka = maxMagicka;
 	}
@@ -458,7 +477,7 @@ public class Character
 	public void addExperience(int value)
 	{
 		experience += value;
-		CommBase.gainInfo(value, TConnector.getText("ui", "expName"));
+		CommBase.gainInfo(name, value, TConnector.getText("ui", "expName"));
 		if(experience >= maxExperience)
 			levelUp();
 	}

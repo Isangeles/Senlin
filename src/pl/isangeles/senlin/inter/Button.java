@@ -16,6 +16,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 /**
  * Interface button class, implements MouseListener to detect mouse click 
+ * TODO delete clickArea, now every interface object has its own MOA so it simply not necessary
  * @author Isangeles
  *
  */
@@ -60,7 +61,19 @@ public final class Button extends InterfaceObject implements MouseListener
         super(fileInput, ref, flipped, gc);
         build(gc, label);
     }
-    
+    /**
+     * 
+     * Create an button with info window based on input stream(for zip arch)
+     * @param fileInput Input Stream to image 
+     * @param ref Name for image
+     * @param flipped If file suppose to be flipped
+     * @param label String with text for button 
+     * @param gc Game container for click detect
+     * @param textForWindow Text for info window
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
     public Button(InputStream fileInput, String ref, boolean flipped, String label, GameContainer gc, String textForInfo) throws SlickException, FontFormatException, IOException
     {
     	super(fileInput, ref, flipped, gc, textForInfo);

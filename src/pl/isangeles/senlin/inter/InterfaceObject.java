@@ -202,7 +202,7 @@ public abstract class InterfaceObject extends Image
         }
     }
     /**
-     * Draws object with specific color
+     * Draws object with specified color
      * @param x Position on x axis
      * @param y Position on y axis
      * @param filter Color for object
@@ -218,6 +218,32 @@ public abstract class InterfaceObject extends Image
             this.y *= scale;
         }
         super.draw(this.x, this.y, scale, filter);
+        
+        iObjectMOA.setLocation(this.x, this.y);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+        }
+    }
+    /**
+     * Draws object with specified color and size
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @param witdh Width for object
+     * @param height Height for object
+     * @param filter Color for object
+     * @param scaledPos True if position should be scaled to current resolution
+     */
+    public void draw(float x, float y, float width, float height, Color filter, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, width*scale, height*scale, filter);
         
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
