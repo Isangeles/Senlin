@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for offensive skills
@@ -19,13 +20,15 @@ public class Attack extends Skill
 {
 	private int damage;
 	private int castTime;
+	private int range;
 	
-	public Attack(String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, GameContainer gc)
+	public Attack(String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int range, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, name, info, imgName, magickaCost);
 		this.damage = damage;
 		this.castTime = castTime;
+		this.range = range;
 		setTile(gc);
 	}
 
@@ -39,25 +42,31 @@ public class Attack extends Skill
 	@Override
 	public void activate(Character user, Character target) 
 	{
+		CommBase.addInformation("Range: " + Global.getRangeFromTar());
 		if(super.isActive())
 		{
 			if(target != null)
 			{
-				if(castTime == 0)
+				if(Global.getRangeFromTar() <= range)
 				{
-					target.takeHealth(damage+user.getHit());
-					user.takeMagicka(magickaCost);
+					if(castTime == 0)
+					{
+						target.takeHealth(damage+user.getHit());
+						user.takeMagicka(magickaCost);
+					}
+					else
+					{
+						user.startCast(castTime);
+					}
 				}
 				else
-				{
-					user.startCast(castTime);
-				}
+					CommBase.addWarning(TConnector.getText("ui", "logNoRange"));
 			}
 			else
-				CommBase.addInformation(TConnector.getText("ui", "logNoTar"));
+				CommBase.addWarning(TConnector.getText("ui", "logNoTar"));
 		}
 		else
-			CommBase.addInformation(TConnector.getText("ui", "logNotRdy"));
+			CommBase.addWarning(TConnector.getText("ui", "logNotRdy"));
 	}
 
 }

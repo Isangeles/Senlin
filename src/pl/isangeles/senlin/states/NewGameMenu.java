@@ -57,6 +57,8 @@ public class NewGameMenu extends BasicGameState
         	SkillsBase.load(container);
         	
 			player = new Character(container);
+			Global.setPlayer(player);
+			
 			ptsAtributes = new Attribute(5);
 			
 			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));

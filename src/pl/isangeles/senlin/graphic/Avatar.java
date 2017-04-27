@@ -11,6 +11,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InfoWindow;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.*;
@@ -88,7 +89,6 @@ public class Avatar implements MouseListener
 		
 		if(avMOA.isMouseOver())
 			avName.draw(x, y);
-		
 	}
 	/**
 	 * Updates avatar animations
@@ -158,6 +158,14 @@ public class Avatar implements MouseListener
 			weapon.move(trueFalse);
 	}
 	
+	public void meleeAttack()
+	{
+		torso.meleeAttack();
+		head.meleeAttack();
+		if(weapon != null)
+			weapon.meleeAttack();
+	}
+	
 	public boolean isMove()
 	{
 		return isMove;
@@ -198,16 +206,16 @@ public class Avatar implements MouseListener
 		{	
 			if(avMOA.isMouseOver())
 			{
-				Cursor.setTarget(character);
+				Global.setTarget(character);
 				isTargeted = true;
 			}
-			else if(!avMOA.isMouseOver() && Cursor.getTarChar() != character)
+			else if(!avMOA.isMouseOver() && Global.getTarChar() != character)
 			{
 				isTargeted = false;
 			}
-			else if(!avMOA.isMouseOver() && Cursor.getTarChar() == character)
+			else if(!avMOA.isMouseOver() && Global.getTarChar() == character)
 			{
-				Cursor.setTarget(null);
+				Global.setTarget(null);
 				isTargeted = false;
 			}
 		}

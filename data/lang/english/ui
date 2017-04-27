@@ -55,4 +55,6 @@ logPtsLose:lose;
 logPtsGain:gain;
 logNoTar:No target!;
 logNotRdy:Skill is not ready yet!;
+logNoRange:Target is too far!;
+logUnkSkill:You cant do it!;
 errorName:Error;

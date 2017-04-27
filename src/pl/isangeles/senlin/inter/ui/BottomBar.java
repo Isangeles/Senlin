@@ -16,6 +16,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
@@ -182,12 +183,6 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
         	}
     		sSlots.getDragged().dragged(false);
     	}
-    	
-    	for(SkillSlot ss : sSlots.slots)
-    	{
-    		if(ss.isMouseOver())
-    			ss.getSkill().activate(player, Cursor.getTarChar());
-    	}
     }
 
     @Override
@@ -211,7 +206,7 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 		if(key == Input.KEY_1)
 		{
 			sSlots.slots[0].getSkill().getTile().click(true);
-			sSlots.slots[0].getSkill().activate(player, Cursor.getTarChar());
+			player.useSkill(sSlots.slots[0].getSkill());
 		}
 	}
 

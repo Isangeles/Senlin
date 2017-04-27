@@ -18,6 +18,7 @@ import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.states.Global;
 /**
  * Class for game characters like players, NPCs, etc.
  * @author Isangeles
@@ -497,6 +498,17 @@ public class Character
      */
     public void addGold(int value)
     { inventory.addGold(value); }
+    
+    public void useSkill(Skill skill)
+    {
+    	if(abilities.contains(skill))
+    	{
+    		skill.activate(this, Global.getTarChar());
+    		avatar.meleeAttack();
+    	}
+    	else
+    		CommBase.addWarning(TConnector.getText("ui", "logUnkSkill"));
+    }
 	/**
 	 * Draws all character items (called by inventory menu)
 	 * @param x Position in X axis

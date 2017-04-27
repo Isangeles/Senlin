@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.Warning;
 import pl.isangeles.senlin.inter.ui.*;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.core.Character;
 /**
@@ -57,7 +58,7 @@ public class UserInterface
         
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
-        if(Cursor.getTarChar() != null)
+        if(Global.getTarChar() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
         if(bBar.isMenuReq())
@@ -78,8 +79,8 @@ public class UserInterface
      */
     private void update()
     {
-    	if(Cursor.getTarChar() != null)
-    		targetFrame.setCharacter(Cursor.getTarChar());
+    	if(Global.getTarChar() != null)
+    		targetFrame.setCharacter(Global.getTarChar());
     	
         charFrame.update();
         targetFrame.update();

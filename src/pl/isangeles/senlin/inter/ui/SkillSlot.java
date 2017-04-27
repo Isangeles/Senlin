@@ -15,10 +15,10 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 /**
  * Class for skill slots
- * TODO use mouseListener to activate skill
  * @author Isangeles
  *
  */
@@ -138,8 +138,10 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	}
 
 	@Override
-	public void mouseReleased(int arg0, int arg1, int arg2) 
+	public void mouseReleased(int button, int x, int y) 
 	{
+		if(!isNull() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
+			Global.getPlayer().useSkill(skillInSlot);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class SkillsBase
 	
 	public static Attack getAutoAttack() throws SlickException, IOException, FontFormatException
 	{
-		return new Attack("autoA", "Attack", "Basic attack", "autoAttack.png", 0, 0, 0, gc);
+		return new Attack("autoA", "Attack", "Basic attack", "autoAttack.png", 0, 0, 0, 40, gc);
 	}
 	/**
 	 * Loads skills base

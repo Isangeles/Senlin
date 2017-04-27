@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.states.*;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.core.Character;
 /**
  * Main game class, contains all game states
  * @author Isangeles

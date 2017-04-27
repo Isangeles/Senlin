@@ -13,23 +13,8 @@ import pl.isangeles.senlin.core.Character;
  */
 public class Cursor extends InterfaceObject 
 {
-	private static Character target;
-	
 	public Cursor(GameContainer gc) throws SlickException, IOException 
 	{
 		super(GConnector.getInput("ui/cursorBlack.png"), "gameCursor", false, gc);
-	}
-
-	public static void setTarget(Object target)
-	{
-		if(Character.class.isInstance(target))
-			Cursor.target = (Character)target;
-		else
-			Cursor.target = null;
-	}
-	
-	public static Character getTarChar()
-	{
-		return Cursor.target;
 	}
 }
