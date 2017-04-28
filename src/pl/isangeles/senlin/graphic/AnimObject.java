@@ -3,6 +3,7 @@ package pl.isangeles.senlin.graphic;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Timer;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
@@ -21,7 +22,13 @@ public class AnimObject extends GameObject
 	private Animation melee, meleeUp, meleeRight, meleeDown, meleeLeft; 
 	private boolean isMove;
 	private boolean meleeReq;
-
+	/**
+	 * Animated object constructor
+	 * @param is InputStrem to sprite sheet
+	 * @param ref Name for image in system
+	 * @param flipped True if image should be flipped
+	 * @throws SlickException 
+	 */
 	public AnimObject(InputStream is, String ref, boolean flipped) throws SlickException
 	{
 		super(is, ref, flipped);
@@ -54,7 +61,7 @@ public class AnimObject extends GameObject
 		meleeRight = new Animation(meleeRightList, duration, false);
 		meleeDown = new Animation(meleeDownList, duration, false);
 		meleeLeft = new Animation(meleeLeftList, duration, false);
-		melee = meleeUp;
+		melee = meleeDown;
 		
 	}
 	/**
@@ -74,9 +81,8 @@ public class AnimObject extends GameObject
 		}
 		if(meleeReq)
 		{
-			melee.setSpeed(0.5f);
 			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*scale, (melee.getCurrentFrame().getHeight() * getScale())*scale);
-			if(melee.getCurrentFrame() == melee.getImage(1))
+			if(melee.isStopped())
 				meleeReq = false;
 		}
 	}
@@ -88,39 +94,55 @@ public class AnimObject extends GameObject
 	{
 		isMove = move;
 	}
-	
+	/**
+	 * Starts object's melee attack animation
+	 */
 	public void meleeAttack()
 	{
 		meleeReq = true;
+		melee.setSpeed(1.0f);
+		melee.setLooping(false);
+		melee.restart();
 	}
-
+	/**
+	 * Updates project
+	 * @param delta
+	 */
 	public void update(int delta) 
 	{
 		move.update(delta);
 		melee.update(delta);
 	}
-
+	/**
+	 * Turns object up
+	 */
 	public void goUp() 
 	{
 		move = moveUp;
 		idle = idleUp;
 		melee = meleeUp;
 	}
-
+	/**
+	 * Turns object right
+	 */
 	public void goRight() 
 	{
 		move = moveRight;
 		idle = idleRight;
 		melee = meleeRight;
 	}
-
+	/**
+	 * Turns object down
+	 */
 	public void goDown() 
 	{
 		move = moveDown;
 		idle = idleDown;
 		melee = meleeDown;
 	}
-
+	/**
+	 * Turns object left
+	 */
 	public void goLeft() 
 	{
 		move = moveLeft;
