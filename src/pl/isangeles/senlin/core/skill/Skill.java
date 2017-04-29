@@ -72,8 +72,9 @@ public abstract class Skill
 	 * Activates skill 
 	 * @param user Character thats use skill
 	 * @param target Character targeted by skill user
+	 * @return True if skill was successfully activate, false otherwise 
 	 */
-	public abstract void activate(Character user, Character target);
+	public abstract boolean activate(Character user, Character target);
 	
 	protected abstract String getInfo();
 	

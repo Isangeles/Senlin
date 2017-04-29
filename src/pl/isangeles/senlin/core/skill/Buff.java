@@ -17,8 +17,9 @@ public class Buff extends Skill
 	}
 
 	@Override
-	public void activate(Character user, Character target) 
+	public boolean activate(Character user, Character target) 
 	{
+	    return false;
 	}
 
 }

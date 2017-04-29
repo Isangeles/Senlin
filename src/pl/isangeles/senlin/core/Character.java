@@ -39,6 +39,7 @@ public class Character
 	private int minDamage; //UNUSED damage calculate dynamically by getDamage method
 	private int maxDamage; //UNUSED damage calculate dynamically by getDamage method 
 	private int[] position = {0, 0};
+	private int[] destPoint = {position[0], position[1]};
 	private float haste;
 	private Attributes attributes;
 	private Portrait portrait;
@@ -149,6 +150,8 @@ public class Character
 	{
 		position[0] = x;
 		position[1] = y;
+		destPoint[0] = x;
+		destPoint[1] = y;
 	}
 	/**
 	 * Sets item as one of character weapon
@@ -213,6 +216,35 @@ public class Character
 	 */
 	public void update(int delta)
 	{
+	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
+        {
+            avatar.move(false);
+        }
+        else
+        {
+            avatar.move(true);
+            if(position[0] > destPoint[0])
+            {
+                position[0] -= 1;
+                avatar.goLeft();
+            }
+            if(position[0] < destPoint[0])
+            {
+                position[0] += 1;
+                avatar.goRight();
+            }
+            if(position[1] > destPoint[1])
+            {
+                position[1] -= 1;
+                avatar.goUp();
+            }
+            if(position[1] < destPoint[1])
+            {
+                position[1] += 1;
+                avatar.goDown();
+            }
+        }
+	    
 		avatar.update(delta);
 	}
 	/**
@@ -221,38 +253,10 @@ public class Character
 	 * @param y Position on Y axis
 	 * @return False if given position is same as actual or true if else
 	 */
-	public boolean move(int x, int y)
+	public void move(int x, int y)
 	{
-		if(position[0] == x && position[1] == y)
-		{
-			avatar.move(false);
-			return false;
-		}
-		else
-		{
-			avatar.move(true);
-			if(position[0] > x)
-			{
-				position[0] -= 1;
-				avatar.goLeft();
-			}
-			if(position[0] < x)
-			{
-				position[0] += 1;
-				avatar.goRight();
-			}
-			if(position[1] > y)
-			{
-				position[1] -= 1;
-				avatar.goUp();
-			}
-			if(position[1] < y)
-			{
-				position[1] += 1;
-				avatar.goDown();
-			}
-			return true;
-		}
+		destPoint[0] = x;
+		destPoint[1] = y;
 	}
 	/**
 	 * Checks if character avatar is in move
@@ -498,14 +502,14 @@ public class Character
      */
     public void addGold(int value)
     { inventory.addGold(value); }
-    
+    /**
+     * Activates specified skill, if character know this skill
+     * @param skill Some skill known by this character
+     */
     public void useSkill(Skill skill)
     {
-    	if(abilities.contains(skill))
-    	{
-    		skill.activate(this, Global.getTarChar());
+    	if(abilities.contains(skill) && skill.activate(this, Global.getTarChar()))
     		avatar.meleeAttack();
-    	}
     	else
     		CommBase.addWarning(TConnector.getText("ui", "logUnkSkill"));
     }

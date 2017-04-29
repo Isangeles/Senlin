@@ -15,11 +15,10 @@ public class Passive extends Skill
 	{
 		return null;
 	}
-
 	@Override
-	public void activate(Character user, Character target) 
+	public boolean activate(Character user, Character target) 
 	{
-		
+		return false;
 	}
 
 }

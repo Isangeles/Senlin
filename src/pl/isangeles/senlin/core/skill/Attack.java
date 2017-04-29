@@ -39,10 +39,13 @@ public class Attack extends Skill
 		
 		return fullInfo;
 	}
+	/**
+	 * Activates attack skill
+	 */
 	@Override
-	public void activate(Character user, Character target) 
+	public boolean activate(Character user, Character target) 
 	{
-		CommBase.addInformation("Range: " + Global.getRangeFromTar());
+		CommBase.addInformation("Range: " + Global.getRangeFromTar()); //TEST LINE
 		if(super.isActive())
 		{
 			if(target != null)
@@ -53,20 +56,27 @@ public class Attack extends Skill
 					{
 						target.takeHealth(damage+user.getHit());
 						user.takeMagicka(magickaCost);
+						return true;
 					}
 					else
 					{
 						user.startCast(castTime);
+						return true;
 					}
 				}
 				else
+				{
+	                user.move(target.getPosition()[0]-(range-15), target.getPosition()[1]-(range-15));
 					CommBase.addWarning(TConnector.getText("ui", "logNoRange"));
+				}
 			}
 			else
 				CommBase.addWarning(TConnector.getText("ui", "logNoTar"));
 		}
 		else
 			CommBase.addWarning(TConnector.getText("ui", "logNotRdy"));
+		
+		return false;
 	}
 
 }
