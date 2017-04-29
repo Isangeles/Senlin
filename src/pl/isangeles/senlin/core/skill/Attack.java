@@ -35,7 +35,8 @@ public class Attack extends Skill
 	@Override
 	public String getInfo() 
 	{
-		String fullInfo = name + File.separator + info;
+		String fullInfo = name + System.lineSeparator() + "Damage:" + damage + System.lineSeparator() + "Range:" + range + System.lineSeparator() +
+						  "Cast time:" + castTime + System.lineSeparator() + info;
 		
 		return fullInfo;
 	}
