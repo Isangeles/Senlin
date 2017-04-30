@@ -5,9 +5,9 @@ import pl.isangeles.senlin.core.Character;
 public class Passive extends Skill 
 {
 
-	public Passive(String id, String name, String info, String imgName, int magickaCost) 
+	public Passive(Character character, String id, String name, String info, String imgName, int magickaCost) 
 	{
-		super(id, name, info, imgName, magickaCost);
+		super(character, id, name, info, imgName, magickaCost, 0);
 	}
 
 	@Override
@@ -15,10 +15,19 @@ public class Passive extends Skill
 	{
 		return null;
 	}
-	@Override
-	public boolean activate(Character user, Character target) 
-	{
-		return false;
-	}
+
+    @Override
+    public void activate()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean prepare(Character user, Character target)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

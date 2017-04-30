@@ -30,7 +30,7 @@ public class Attributes
 	}
 	public float addHaste()
 	{
-		return 4 - ((constitution.value/2) + dexterity.value)/2;
+		return 1.0f + ((constitution.value/4) + dexterity.value/2)/2;
 	}
 	
 	public int getBasicHit()

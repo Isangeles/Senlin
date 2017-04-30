@@ -21,17 +21,24 @@ public abstract class Skill
 	protected String name;
 	protected String info;
 	protected int magickaCost;
+	protected Character user;
+	protected Character target;
+    protected boolean ready;
+    protected boolean active;
+    protected Character owner;
+    private int castTime;
 	private String imgName;
 	private SkillTile tile;
-	private boolean active;
 	
-	public Skill(String id, String name, String info, String imgName, int magickaCost) 
+	public Skill(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime) 
 	{
 		this.id = id;
 		this.name = name;
 		this.info = info;
 		this.imgName = imgName;
 		this.magickaCost = magickaCost;
+		this.castTime = castTime;
+		owner = character;
 		active = true;
 	}
 	
@@ -45,7 +52,12 @@ public abstract class Skill
 		this.active = active;
 		tile.setActive(active);
 	}
-	
+
+    public float getCastSpeed()
+    {
+        return (owner.getHaste()-castTime);
+    }
+    
 	public String getId()
 	{
 		return id;
@@ -68,13 +80,17 @@ public abstract class Skill
 	{
 		return active;
 	}
+    /**
+     * Activates skill prepared skill
+     */
+	public abstract void activate();
 	/**
-	 * Activates skill 
-	 * @param user Character thats use skill
-	 * @param target Character targeted by skill user
-	 * @return True if skill was successfully activate, false otherwise 
+	 * Prepares skill
+     * @param user Character thats use skill
+     * @param target Character targeted by skill user
+     * @return True if skill was successfully activate, false otherwise 
 	 */
-	public abstract boolean activate(Character user, Character target);
+	public abstract boolean prepare(Character user, Character target);
 	
 	protected abstract String getInfo();
 	

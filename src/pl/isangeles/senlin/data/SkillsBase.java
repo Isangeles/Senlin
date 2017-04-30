@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.core.Character;
 /**
  * Static class for skills
  * loaded at newGameMenu initialization
@@ -17,17 +18,17 @@ import pl.isangeles.senlin.core.skill.Skill;
 public class SkillsBase 
 {
 	private static GameContainer gc;
-	private static Attack autoAttack;
 	
 	private SkillsBase() 
 	{}
 	
-	public static Attack getAutoAttack() throws SlickException, IOException, FontFormatException
+	public static Attack getAutoAttack(Character character) throws SlickException, IOException, FontFormatException
 	{
-		return new Attack("autoA", "Attack", "Basic attack", "autoAttack.png", 0, 0, 0, 40, gc);
+		return new Attack(character, "autoA", "Attack", "Basic attack", "autoAttack.png", 0, 0, 0, 40, gc);
 	}
 	/**
 	 * Loads skills base
+	 * TODO implement skills base
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException

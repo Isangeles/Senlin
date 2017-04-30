@@ -13,6 +13,8 @@ import pl.isangeles.senlin.inter.Cursor;
 import pl.isangeles.senlin.inter.InfoWindow;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.util.*;
 /**
@@ -41,6 +43,9 @@ public class Avatar implements MouseListener
 	
 	private boolean isMove;
 	private boolean isTargeted;
+	
+	private Skill usedSkill;
+	private boolean useSkill;
 	/**
 	 * Character avatar constructor
 	 * @param character Character to represent by avatar
@@ -118,6 +123,12 @@ public class Avatar implements MouseListener
 		head.update(delta);
 		if(weapon != null)
 			weapon.update(delta);
+		
+		if(useSkill && torso.isAttackAnimStopped())
+		{
+		    usedSkill.activate();
+		    useSkill = false;
+		}
 	}
 	
 	public void goUp()
@@ -158,12 +169,14 @@ public class Avatar implements MouseListener
 			weapon.move(trueFalse);
 	}
 	
-	public void meleeAttack()
+	public void meleeAttack(Attack attackSkill)
 	{
-		torso.meleeAttack();
-		head.meleeAttack();
+	    usedSkill = attackSkill;
+	    useSkill = true;
+		torso.meleeAttack(attackSkill.getCastSpeed());
+		head.meleeAttack(attackSkill.getCastSpeed());
 		if(weapon != null)
-			weapon.meleeAttack();
+			weapon.meleeAttack(attackSkill.getCastSpeed());
 	}
 	
 	public boolean isMove()

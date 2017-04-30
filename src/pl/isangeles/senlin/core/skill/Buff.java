@@ -5,9 +5,9 @@ import pl.isangeles.senlin.core.Character;
 public class Buff extends Skill 
 {
 
-	public Buff(String id, String name, String info, String imgName, int magickaCost) 
+	public Buff(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime) 
 	{
-		super(id, name, info, imgName, magickaCost);
+		super(character, id, name, info, imgName, magickaCost, castTime);
 	}
 
 	@Override
@@ -16,10 +16,17 @@ public class Buff extends Skill
 		return null;
 	}
 
-	@Override
-	public boolean activate(Character user, Character target) 
-	{
-	    return false;
-	}
+    @Override
+    public void activate()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean prepare(Character user, Character target)
+    {
+        return false;
+    }
 
 }

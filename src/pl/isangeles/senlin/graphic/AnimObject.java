@@ -97,10 +97,10 @@ public class AnimObject extends GameObject
 	/**
 	 * Starts object's melee attack animation
 	 */
-	public void meleeAttack()
+	public void meleeAttack(float animSpeed)
 	{
 		meleeReq = true;
-		melee.setSpeed(1.0f);
+		melee.setSpeed(animSpeed);
 		melee.setLooping(false);
 		melee.restart();
 	}
@@ -156,5 +156,12 @@ public class AnimObject extends GameObject
 			return (Sprite)move.getCurrentFrame();
 		else
 			return idle;
+	}
+	public boolean isAttackAnimStopped()
+	{
+	    if(melee.isStopped())
+	        return true;
+	    else
+	        return false;
 	}
 }

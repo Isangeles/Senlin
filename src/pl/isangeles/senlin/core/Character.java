@@ -13,6 +13,7 @@ import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
+import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -55,7 +56,8 @@ public class Character
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Character(GameContainer gc) 
+	        throws SlickException, IOException, FontFormatException
 	{
 		id = "player";
 		name = "Name";
@@ -67,7 +69,7 @@ public class Character
 		avatar = new Avatar(this, gc);
 		inventory = new Inventory();
 		abilities = new Abilities();
-		abilities.add(SkillsBase.getAutoAttack());
+		abilities.add(SkillsBase.getAutoAttack(this));
 	}
 	/**
 	 * This constructor provides playable character
@@ -79,7 +81,8 @@ public class Character
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, String name, int level, Attributes atributes, String portraitName, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Character(String id, Attitude attitude, String name, int level, Attributes atributes, String portraitName, GameContainer gc) 
+	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
 		this.name = name;
@@ -91,7 +94,7 @@ public class Character
 		inventory = new Inventory();
 		abilities = new Abilities();
 		addLevel(level);
-		abilities.add(SkillsBase.getAutoAttack());
+		abilities.add(SkillsBase.getAutoAttack(this));
 	}
 	/**
 	 * Adds one level to character
@@ -508,8 +511,11 @@ public class Character
      */
     public void useSkill(Skill skill)
     {
-    	if(abilities.contains(skill) && skill.activate(this, Global.getTarChar()))
-    		avatar.meleeAttack();
+    	if(abilities.contains(skill) && skill.prepare(this, Global.getTarChar()))
+    	{
+    	    if(Attack.class.isInstance(skill))
+    	        avatar.meleeAttack((Attack)skill);
+    	}
     	else
     		CommBase.addWarning(TConnector.getText("ui", "logUnkSkill"));
     }

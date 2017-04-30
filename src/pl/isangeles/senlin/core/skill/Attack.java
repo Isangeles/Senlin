@@ -19,15 +19,13 @@ import pl.isangeles.senlin.util.TConnector;
 public class Attack extends Skill 
 {
 	private int damage;
-	private int castTime;
 	private int range;
 	
-	public Attack(String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int range, GameContainer gc)
+	public Attack(Character character, String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int range, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, name, info, imgName, magickaCost);
+		super(character, id, name, info, imgName, magickaCost, castTime);
 		this.damage = damage;
-		this.castTime = castTime;
 		this.range = range;
 		setTile(gc);
 	}
@@ -36,15 +34,12 @@ public class Attack extends Skill
 	public String getInfo() 
 	{
 		String fullInfo = name + System.lineSeparator() + "Damage:" + damage + System.lineSeparator() + "Range:" + range + System.lineSeparator() +
-						  "Cast time:" + castTime + System.lineSeparator() + info;
+						  "Cast time:" + getCastSpeed() + System.lineSeparator() + info;
 		
 		return fullInfo;
 	}
-	/**
-	 * Activates attack skill
-	 */
 	@Override
-	public boolean activate(Character user, Character target) 
+	public boolean prepare(Character user, Character target) 
 	{
 		CommBase.addInformation("Range: " + Global.getRangeFromTar()); //TEST LINE
 		if(super.isActive())
@@ -53,17 +48,11 @@ public class Attack extends Skill
 			{
 				if(Global.getRangeFromTar() <= range)
 				{
-					if(castTime == 0)
-					{
-						target.takeHealth(damage+user.getHit());
-						user.takeMagicka(magickaCost);
-						return true;
-					}
-					else
-					{
-						user.startCast(castTime);
-						return true;
-					}
+				    this.user = user;
+				    this.target = target;
+				    ready = true;
+				    active = false;
+				    return true;
 				}
 				else
 				{
@@ -79,5 +68,18 @@ public class Attack extends Skill
 		
 		return false;
 	}
-
+    /**
+     * Activates attack skill
+     */
+	@Override
+	public void activate()
+	{
+	    if(ready)
+	    {
+	        user.takeMagicka(magickaCost);
+	        target.takeHealth(user.getHit()+damage);
+	        ready = false;
+	        active = true;
+	    }
+	}
 }
