@@ -28,7 +28,7 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	
 	public SkillSlot(GameContainer gc) throws SlickException, IOException 
 	{
-		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
+		super(GConnector.getInput("ui/slotB.png"), "uiSSlot", false, gc);
 		gc.getInput().addMouseListener(this);
 	}
 	
@@ -48,12 +48,24 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	{
 		skillInSlot = skill; 
 	}
+	
+	public void click(boolean clicked)
+	{
+		if(!isNull())
+			skillInSlot.getTile().click(clicked);
+	}
 	/**
 	 * Removes skill from slot
 	 */
 	public void removeSkill()
 	{
 		skillInSlot = null;
+	}
+	
+	public void useSkill()
+	{
+		if(skillInSlot != null)
+			Global.getPlayer().useSkill(skillInSlot);
 	}
 	
 	public void dragged(boolean dragged)
@@ -74,7 +86,7 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	 */
 	public boolean isSkillDragged()
 	{
-		if(skillInSlot != null)
+		if(!isNull())
 			return skillInSlot.getTile().isDragged();
 		else
 			return false;
@@ -133,15 +145,22 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	}
 
 	@Override
-	public void mousePressed(int arg0, int arg1, int arg2)
+	public void mousePressed(int button, int x, int y)
 	{
+		if(!isNull() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
+			skillInSlot.getTile().click(true);
 	}
 
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(!isNull() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
-			Global.getPlayer().useSkill(skillInSlot);
+		if(!isNull() && button == Input.MOUSE_LEFT_BUTTON)
+		{
+			if(isMouseOver())
+				Global.getPlayer().useSkill(skillInSlot);
+			else
+				skillInSlot.getTile().click(false);
+		}
 	}
 
 	@Override

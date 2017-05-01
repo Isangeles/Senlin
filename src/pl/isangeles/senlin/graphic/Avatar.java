@@ -131,6 +131,14 @@ public class Avatar implements MouseListener
 		}
 	}
 	
+	public void kill(boolean death)
+	{
+		torso.lie(death);
+		head.lie(death);
+		if(weapon != null)
+			weapon.lie(death);
+	}
+	
 	public void goUp()
 	{
 		torso.goUp();

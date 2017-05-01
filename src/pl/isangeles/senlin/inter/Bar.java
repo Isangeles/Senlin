@@ -77,7 +77,7 @@ public class Bar extends InterfaceObject
      */
     private float getBarSize()
     {
-    	if(value == 0)
+    	if(value <= 0)
     		return 0f;
     	else
     		return (float)((value * 100f) / baseValue)*2;

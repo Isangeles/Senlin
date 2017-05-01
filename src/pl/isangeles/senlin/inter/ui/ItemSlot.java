@@ -21,7 +21,7 @@ class ItemSlot extends InterfaceObject
 	
 	public ItemSlot(GameContainer gc) throws SlickException, IOException 
 	{
-		super(GConnector.getInput("ui/slot.png"), "uiSlot", false, gc);
+		super(GConnector.getInput("ui/slot.png"), "uiISlot", false, gc);
 	}
 	
 	public void draw(float x, float y, boolean scaledPos)

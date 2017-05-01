@@ -28,6 +28,7 @@ public class UserInterface
     private CharacterFrame targetFrame;
     private InGameMenu igMenu;
     private InvetoryMenu inventory;
+    private SkillsMenu skills;
     private Warning uiWarning;
     /**
      * UI constructor, calls all ui elements constructors
@@ -47,6 +48,7 @@ public class UserInterface
         targetFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
         inventory = new InvetoryMenu(gc, player);
+        skills = new SkillsMenu(gc, player);
         uiWarning = new Warning(gc, "");
     }
     /**
@@ -71,6 +73,8 @@ public class UserInterface
         }
         if(bBar.isInventoryReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+        if(bBar.isSkillsReq())
+        	skills.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
         
         update();     	
     }
@@ -85,6 +89,7 @@ public class UserInterface
         charFrame.update();
         targetFrame.update();
         inventory.update();
+        skills.update();
     }
     /**
      * Checks if mouse is over one of ui elements

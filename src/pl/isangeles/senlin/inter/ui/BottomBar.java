@@ -41,6 +41,7 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     
     private boolean menuReq;
     private boolean inventoryReq;
+    private boolean skillsReq;
     /**
      * Bottom bar constructor
      * @param gc Game container for superclass and bar buttons
@@ -104,6 +105,11 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     public boolean isInventoryReq()
     {
         return inventoryReq;
+    }
+    
+    public boolean isSkillsReq()
+    {
+    	return skillsReq;
     }
     
     public boolean isPauseReq()
@@ -170,6 +176,12 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
         else if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && inventoryReq)
             inventoryReq = false;
     	
+    	if(button == Input.MOUSE_LEFT_BUTTON && skills.isMouseOver() && !skillsReq)
+    		skillsReq = true;
+    	else if(button == Input.MOUSE_LEFT_BUTTON && skills.isMouseOver() && skillsReq)
+    		skillsReq = false;
+    		
+    	
     	//Slots dragging system
     	if(sSlots.getDragged() != null)
     	{
@@ -203,10 +215,35 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 		else if(key == Input.KEY_I && inventoryReq)
             inventoryReq = false ;
 		
+		if(key == Input.KEY_K && !skillsReq)
+    		skillsReq = true;
+    	else if(key == Input.KEY_K && skillsReq)
+    		skillsReq = false;
+		
 		if(key == Input.KEY_1)
 		{
-			sSlots.slots[0].getSkill().getTile().click(true);
-			player.useSkill(sSlots.slots[0].getSkill());
+			sSlots.slots[0].click(true);
+			sSlots.slots[0].useSkill();
+		}
+		if(key == Input.KEY_2)
+		{
+			sSlots.slots[1].click(true);
+			sSlots.slots[1].useSkill();
+		}
+		if(key == Input.KEY_3)
+		{
+			sSlots.slots[2].click(true);
+			sSlots.slots[2].useSkill();
+		}
+		if(key == Input.KEY_4)
+		{
+			sSlots.slots[3].click(true);
+			sSlots.slots[3].useSkill();
+		}
+		if(key == Input.KEY_5)
+		{
+			sSlots.slots[4].click(true);
+			sSlots.slots[4].useSkill();
 		}
 	}
 
@@ -215,12 +252,28 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 	{
 		if(key == Input.KEY_1)
 		{
-			sSlots.slots[0].getSkill().getTile().click(false);
+			sSlots.slots[0].click(false);
+		}
+		if(key == Input.KEY_2)
+		{
+			sSlots.slots[1].click(false);
+		}
+		if(key == Input.KEY_3)
+		{
+			sSlots.slots[2].click(false);
+		}
+		if(key == Input.KEY_4)
+		{
+			sSlots.slots[3].click(false);
+		}
+		if(key == Input.KEY_5)
+		{
+			sSlots.slots[4].click(false);
 		}
 	}
 	
 	/**
-	 * Inner class for skills slots
+	 * Inner class for bar skills slots
 	 * @author Isangeles
 	 *
 	 */
@@ -235,11 +288,11 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 	        for(int i = 0; i < slots.length; i ++)
 	        {
 	        	slots[i] = new SkillSlot(gc);
-	        	File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-	    		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-	            
-	            slotsTtf = new TrueTypeFont(font.deriveFont(10f), true);
 	        }
+        	File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+    		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            
+            slotsTtf = new TrueTypeFont(font.deriveFont(10f), true);
 		}
 		/**
 		 * Draws all skill slots
@@ -250,8 +303,8 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 		{
 			for(int i = 0; i < slots.length; i ++)
 			{
-				slots[i].draw(x+(slots[i].getWidth()*i), y, false);
-				slotsTtf.drawString(x+(slots[i].getWidth()*i), y, ""+(i+1));
+				slots[i].draw(x+((slots[i].getWidth()+getDis(10))*i), y, false);
+				slotsTtf.drawString(x+((slots[i].getWidth()+getDis(10))*i), y, ""+(i+1));
 			}
 		}
 		/**

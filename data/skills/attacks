@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<base>
+<skill id="">
+    <name></name>
+    <icon></icon>
+    <range></range>
+    <cast></cast>
+    <damage></damage>
+    <effects>
+    </effects>
+</skill>
+</base>

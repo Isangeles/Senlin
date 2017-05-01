@@ -219,6 +219,11 @@ public class Character
 	 */
 	public void update(int delta)
 	{
+		if(!live)
+		{
+			avatar.kill(!live);
+			return;
+		}
 	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
         {
             avatar.move(false);
@@ -403,7 +408,10 @@ public class Character
 		health -= value;
 		CommBase.loseInfo(name, value, TConnector.getText("ui", "hpName"));
 		if(health <= 0)
+		{
 			live = false;
+			CommBase.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
+		}
 	}
 	/**
 	 * Subtract specified value from character magicka value 
@@ -511,13 +519,13 @@ public class Character
      */
     public void useSkill(Skill skill)
     {
-    	if(abilities.contains(skill) && skill.prepare(this, Global.getTarChar()))
+    	if(live && abilities.contains(skill) && skill.prepare(this, Global.getTarChar()))
     	{
     	    if(Attack.class.isInstance(skill))
     	        avatar.meleeAttack((Attack)skill);
     	}
     	else
-    		CommBase.addWarning(TConnector.getText("ui", "logUnkSkill"));
+    		CommBase.addWarning(TConnector.getText("ui", "logUnable"));
     }
 	/**
 	 * Draws all character items (called by inventory menu)

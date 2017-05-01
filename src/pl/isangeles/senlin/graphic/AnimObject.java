@@ -18,10 +18,12 @@ import org.newdawn.slick.SpriteSheet;
 public class AnimObject extends GameObject 
 {
 	private Sprite idle, idleUp, idleRight, idleDown, idleLeft;
+	private Sprite lie, lieUp, lieRight, lieDown, lieLeft;
 	private Animation move, moveUp, moveRight, moveDown, moveLeft;
 	private Animation melee, meleeUp, meleeRight, meleeDown, meleeLeft; 
 	private boolean isMove;
 	private boolean meleeReq;
+	private boolean lieReq;
 	/**
 	 * Animated object constructor
 	 * @param is InputStrem to sprite sheet
@@ -49,6 +51,12 @@ public class AnimObject extends GameObject
 		idleDown = new Sprite(ss.getSprite(0, 2));
 		idleLeft = new Sprite(ss.getSprite(0, 3));
 		idle = idleDown;
+		
+		lieUp = new Sprite(ss.getSprite(7, 0));
+		lieRight = new Sprite(ss.getSprite(7, 0));
+		lieDown = new Sprite(ss.getSprite(7, 0));
+		lieLeft = new Sprite(ss.getSprite(7, 0));
+		lie = lieDown;
 
 		int[] duration = {300, 300};
 		moveUp = new Animation(moveUpList, duration, false);
@@ -71,6 +79,11 @@ public class AnimObject extends GameObject
 	@Override
 	public void draw(float x, float y, float scale) 
 	{
+		if(lieReq)
+		{
+			lie.draw(x, y, scale, false);
+			return;
+		}
 		if(isMove && !meleeReq) 
 		{
 			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*scale, (move.getCurrentFrame().getHeight() * getScale())*scale);
@@ -105,6 +118,14 @@ public class AnimObject extends GameObject
 		melee.restart();
 	}
 	/**
+	 * Sets object lie position on or off
+	 * @param lieReq True to turn lie position, false otherwise
+	 */
+	public void lie(boolean lieReq)
+	{
+		this.lieReq = lieReq;
+	}
+	/**
 	 * Updates project
 	 * @param delta
 	 */
@@ -121,6 +142,7 @@ public class AnimObject extends GameObject
 		move = moveUp;
 		idle = idleUp;
 		melee = meleeUp;
+		lie = lieUp;
 	}
 	/**
 	 * Turns object right
@@ -130,6 +152,7 @@ public class AnimObject extends GameObject
 		move = moveRight;
 		idle = idleRight;
 		melee = meleeRight;
+		lie = lieRight;
 	}
 	/**
 	 * Turns object down
@@ -139,6 +162,7 @@ public class AnimObject extends GameObject
 		move = moveDown;
 		idle = idleDown;
 		melee = meleeDown;
+		lie = lieDown;
 	}
 	/**
 	 * Turns object left
@@ -148,6 +172,7 @@ public class AnimObject extends GameObject
 		move = moveLeft;
 		idle = idleLeft;
 		melee = meleeLeft;
+		lie = lieLeft;
 	}
 	
 	public Sprite getCurrentSprite()
@@ -157,6 +182,10 @@ public class AnimObject extends GameObject
 		else
 			return idle;
 	}
+	/**
+	 * Checks if attack animation is stopped
+	 * @return True if animation is stopped, false otherwise
+	 */
 	public boolean isAttackAnimStopped()
 	{
 	    if(melee.isStopped())
