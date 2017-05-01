@@ -20,7 +20,7 @@ import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
- * command syntax: [target] [command] [-prefix] [value]
+ * command syntax: $[target] [command] [-prefix] [value]
  * TODO Seems to command check not work entirely properly
  * @author Isangeles
  *
@@ -123,13 +123,7 @@ final class Console extends TextInput
         }
         scann.close();
         
-        if(commandTarget.equals("unlock"))
-        {
-        	CommBase.addInformation("console unlocked!");
-        	return;
-        }
-        
-        if(commandTarget.equals("debug"))
+        if(commandTarget.equals("$debug"))
         {
         	if(command.equals("on"))
         	{
@@ -143,15 +137,31 @@ final class Console extends TextInput
         	return;
         }
         
-        if(commandTarget.equals("player"))
+        if(commandTarget.equals("$player"))
         {
         	CommBase.addDebug("In player check");
         	playerCommands(command);
         	return;
         }
         
+        if(commandTarget.equals("$system"))
+        {
+        	systemCommands(command);
+        	return;
+        }
+        
         CommBase.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
        
+    }
+    
+    private void systemCommands(String commandLine)
+    {
+    	Scanner scann = new Scanner(commandLine);
+        String command = scann.next();
+        String prefix = scann.nextLine();
+        scann.close();
+        
+        
     }
     /**
      * Checks entered command for player, second command check

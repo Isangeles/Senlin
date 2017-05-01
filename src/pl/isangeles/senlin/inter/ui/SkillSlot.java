@@ -13,7 +13,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.inter.Cursor;
+import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;

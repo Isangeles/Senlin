@@ -109,4 +109,12 @@ public class CommBase
 		else
     		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
 	}
+	/**
+	 * Checks if debug mode is on
+	 * @return
+	 */
+	public static boolean isDebug()
+	{
+		return debugMode;
+	}
 }

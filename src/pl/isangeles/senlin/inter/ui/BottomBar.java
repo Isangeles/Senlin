@@ -14,7 +14,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.Button;
-import pl.isangeles.senlin.inter.Cursor;
+import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;

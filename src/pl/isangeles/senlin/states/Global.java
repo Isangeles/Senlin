@@ -1,7 +1,7 @@
 package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.inter.Cursor;
+import pl.isangeles.senlin.inter.GameCursor;
 /**
  * Class for game globals, like player character, targeted characters, etc. 
  * @author Isangeles
@@ -11,6 +11,7 @@ public class Global
 {
 	private static Character player;
 	private static Character tarChar;
+	private static float[] cameraPos = {0, 0};
 	
 	private Global() 
 	{}
@@ -41,6 +42,11 @@ public class Global
 		else
 			Global.tarChar = null;
 	}
+	public static void setCamerPos(float x, float y)
+	{
+		Global.cameraPos[0] = x;
+		Global.cameraPos[1] = y;
+	}
 	/**
 	 * Returns currently targeted character
 	 * @return Targeted character
@@ -60,5 +66,46 @@ public class Global
 					 (player.getPosition()[1]-tarChar.getPosition()[1]) * (player.getPosition()[1]-tarChar.getPosition()[1]));
 		else
 			return 0;
+	}
+	
+	public static float[] getCameraPos()
+	{
+		return cameraPos;
+	}
+	/**
+	 * Converts raw x position to in game x position
+	 * @param x Position on x-axis
+	 * @return World position on x-axis
+	 */
+	public static float worldX(float x)
+	{
+		return x + cameraPos[0];
+	}
+	/**
+	 * Converts raw y position to in game y position
+	 * @param y Position on y-axis
+	 * @return World position on y-axis
+	 */
+	public static float worldY(float y)
+	{
+		return y + cameraPos[1];
+	}
+	/**
+	 * Converts world x position to in ui x position
+	 * @param x Position on x-axis
+	 * @return Ui position on x-axis
+	 */
+	public static float uiX(float x)
+	{
+		return x - cameraPos[0];
+	}
+	/**
+	 * Converts world y position to ui y position
+	 * @param y Position on y-axis
+	 * @return Ui position on y-axis
+	 */
+	public static float uiY(float y)
+	{
+		return y - cameraPos[1];
 	}
 }

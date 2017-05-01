@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.InfoWindow;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Settings;
 /**
  * Class for game object like avatars etc.
@@ -60,8 +61,14 @@ public abstract class GameObject extends Image
         }
         super.draw(this.x, this.y, scale);
         
-        if(gObjectMOA != null && gObjectMOA.isMouseOver())
-        	objectInfo.draw();
+        
+        if(gObjectMOA != null)
+        {
+        	gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+        	
+        	if(gObjectMOA.isMouseOver())
+        		objectInfo.draw(x, y);
+        }
     }
     /**
      * Draws object on specified position on screen
@@ -81,8 +88,13 @@ public abstract class GameObject extends Image
         }
         super.draw(this.x, this.y, scale*reqSize);
         
-        if(gObjectMOA != null && gObjectMOA.isMouseOver())
-        	objectInfo.draw();
+        if(gObjectMOA != null)
+        {
+        	gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+        	
+        	if(gObjectMOA.isMouseOver())
+        		objectInfo.draw(x, y);
+        }
     }
     
     public float getScale()

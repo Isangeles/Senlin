@@ -9,7 +9,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
-import pl.isangeles.senlin.inter.Cursor;
+import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InfoWindow;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
@@ -90,7 +90,7 @@ public class Avatar implements MouseListener
 		if(this.weapon != null)
 			this.weapon.draw(x, y, 1.5f);
 		
-		avMOA.setLocation(x, y);
+		avMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		
 		if(avMOA.isMouseOver())
 			avName.draw(x, y);

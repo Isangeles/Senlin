@@ -8,7 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.inter.Cursor;
+import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.Warning;
 import pl.isangeles.senlin.inter.ui.*;
 import pl.isangeles.senlin.states.Global;
