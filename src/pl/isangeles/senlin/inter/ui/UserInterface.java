@@ -1,6 +1,5 @@
 package pl.isangeles.senlin.inter.ui;
 
-
 import java.awt.FontFormatException;
 import java.io.IOException;
 
@@ -70,6 +69,7 @@ public class UserInterface
         	bBar.hideMenu();
         	igMenu.reset();
         	inventory.reset();
+        	skills.reset();
         }
         if(bBar.isInventoryReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
@@ -86,6 +86,7 @@ public class UserInterface
     	if(Global.getTarChar() != null)
     		targetFrame.setCharacter(Global.getTarChar());
     	
+    	bBar.update(skills.getDragged());
         charFrame.update();
         targetFrame.update();
         inventory.update();
@@ -97,7 +98,7 @@ public class UserInterface
      */
     public boolean isMouseOver()
     {
-    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver();
+    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver();
     }
     /**
      * Checks if exit game is requested
@@ -107,6 +108,10 @@ public class UserInterface
     {
     	return igMenu.isExitReq();
     }
+    /**
+     * Checks if game pause is requested
+     * @return True if game should be paused or false otherwise
+     */
     public boolean isPauseReq()
     {
         return !gameConsole.isHidden() || bBar.isPauseReq();

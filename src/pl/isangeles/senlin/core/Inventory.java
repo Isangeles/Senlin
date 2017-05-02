@@ -45,6 +45,11 @@ public final class Inventory extends LinkedList<Item>
     {
     	gold += value;
     }
+    
+    public int getGold()
+    {
+        return gold;
+    }
 	/**
 	 * Sets item as one of character weapon, item must be in inventory
 	 * @param weapon Any item that can be casted to weapon

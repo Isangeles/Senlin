@@ -16,7 +16,7 @@ public final class TConnector
 	 */
 	private TConnector(){}
     /**
-     * Static method which searches specific text file in current lang directory and return string with specific id
+     * Static method which searches specified text file in current lang directory and return string with specific id
      * construction of text file: [text id]:[text];[new line mark]
      * @param fileName Name of the file in current lang directory
      * @param textID Id of text line

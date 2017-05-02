@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
@@ -28,7 +29,7 @@ import pl.isangeles.senlin.data.CommBase;
  * @author Isangeles
  *
  */
-class InvetoryMenu extends InterfaceObject implements MouseListener
+class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character player;
 	private ItemSlot[][] slots;
@@ -84,6 +85,8 @@ class InvetoryMenu extends InterfaceObject implements MouseListener
         //Eq slots drawing
         eqSlots.draw(x, y);
         
+        textTtf.drawString(x+(getWidth()/2), y, TConnector.getText("ui", "iMenuTitle"));
+        textTtf.drawString(x+(getWidth()/2), y+(getHeight()-getDis(20)), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
         //Stats drawing
         float firstStatX = x+getDis(300);
         float firstStatY = y+getDis(50);
@@ -99,17 +102,23 @@ class InvetoryMenu extends InterfaceObject implements MouseListener
         }
         super.moveMOA(super.x, super.y);
     }
-    
+    /**
+     * Checks if mouse is over inventory menu
+     */
     public boolean isMouseOver()
     {
     	return super.isMouseOver();
     }
-    
+    /**
+     * Resets inventory menu to default state
+     */
     public void reset()
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
     }
-    
+    /**
+     * Updates inventory menu
+     */
     public void update()
     {
         addItems();

@@ -20,12 +20,13 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.skill.Skill;
 /**
  * UI bottom bar class, sends requests to show various parts of ui
  * @author Isangeles
  *
  */
-class BottomBar extends InterfaceObject implements MouseListener, KeyListener
+class BottomBar extends InterfaceObject implements UiElement, MouseListener, KeyListener
 {
     private Button quests;
     private Button inventory;
@@ -34,6 +35,7 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     private Button menu;
     
     private SkillSlots sSlots;
+    private SkillSlot sMenuDSlot;
     
     private Character player;
     
@@ -86,6 +88,19 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
         bBarMOA.setLocation(x, y);
     }
     /**
+     * Updates bottom bar
+     * @param sMenuDSlot Dragged skill slot from skills menu to handle
+     */
+    public void update(SkillSlot sMenuDSlot)
+    {
+        this.sMenuDSlot = sMenuDSlot;
+    }
+    
+    @Override
+    public void reset()
+    {
+    }
+    /**
      * Checks if mouse is over bar
      * @return True if mouse is over or false otherwise
      */
@@ -101,20 +116,29 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     {
     	return menuReq;
     }
-    
+    /**
+     * Checks if inventory menu should be open
+     * @return Boolean true if menu should be opened or false otherwise
+     */
     public boolean isInventoryReq()
     {
         return inventoryReq;
     }
-    
+    /**
+     * Checks if skills menu should be open
+     * @return Boolean true if menu should be opened or false otherwise
+     */
     public boolean isSkillsReq()
     {
     	return skillsReq;
     }
-    
+    /**
+     * Checks if game should be paused
+     * @return Boolean true if game should be paused or false otherwise
+     */
     public boolean isPauseReq()
     {
-        return menuReq || inventoryReq;
+        return menuReq || inventoryReq || skillsReq;
     }
     
     public void hideMenu()
@@ -181,19 +205,27 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
     	else if(button == Input.MOUSE_LEFT_BUTTON && skills.isMouseOver() && skillsReq)
     		skillsReq = false;
     		
-    	
     	//Slots dragging system
-    	if(sSlots.getDragged() != null)
+    	SkillSlot dSlot;
+    	if((dSlot = sSlots.getDragged()) != null)
     	{
-    		for(SkillSlot ss : sSlots.slots)
-        	{
-        		if(ss.isMouseOver())
-        		{
-        			sSlots.moveSkill(sSlots.getDragged(), ss);
-        			return;
-        		}
-        	}
-    		sSlots.getDragged().dragged(false);
+    		if(sSlots.getOverrided() != null)
+    		{
+    		    sSlots.moveSkill(dSlot, sSlots.getOverrided());
+                return;
+    		}
+    		dSlot.dragged(false);
+    		dSlot.removeSkill();
+    	}
+    	//Skills menu slots handling
+    	if(sMenuDSlot != null)
+    	{
+    	    if(sSlots.getOverrided() != null)
+    	    {
+    	        sSlots.insertSkill(sMenuDSlot.getSkill(), sSlots.getOverrided());
+    	        sMenuDSlot.dragged(false);
+    	        sMenuDSlot = null;
+    	    }
     	}
     }
 
@@ -251,25 +283,15 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 	public void keyReleased(int key, char c) 
 	{
 		if(key == Input.KEY_1)
-		{
 			sSlots.slots[0].click(false);
-		}
 		if(key == Input.KEY_2)
-		{
 			sSlots.slots[1].click(false);
-		}
 		if(key == Input.KEY_3)
-		{
 			sSlots.slots[2].click(false);
-		}
 		if(key == Input.KEY_4)
-		{
 			sSlots.slots[3].click(false);
-		}
 		if(key == Input.KEY_5)
-		{
 			sSlots.slots[4].click(false);
-		}
 	}
 	
 	/**
@@ -318,6 +340,17 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 			slotB.insertSkill(slotA.getSkill());
 			slotA.removeSkill();
 		}
+		
+		public boolean insertSkill(Skill skill, SkillSlot slot)
+		{
+		    if(slot.isNull())
+		    {
+		        slot.insertSkill(skill);
+		        return true;
+		    }
+		    else
+		        return false;
+		}
 		/**
 		 * Returns dragged skill slot
 		 * @return Current dragged slot, if no slot from table dragged returns null
@@ -331,5 +364,22 @@ class BottomBar extends InterfaceObject implements MouseListener, KeyListener
 			}
 			return null;
 		}
+		
+		public SkillSlot getOverrided()
+		{
+		    for(SkillSlot ss : slots)
+		    {
+		        if(ss.isMouseOver())
+		            return ss;
+		    }
+		    return null;
+		}
 	}
+
+    @Override
+    public void update()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

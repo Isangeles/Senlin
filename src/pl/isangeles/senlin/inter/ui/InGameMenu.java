@@ -20,7 +20,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-class InGameMenu extends InterfaceObject implements MouseListener
+class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Button resume;
 	private Button save;
@@ -78,6 +78,10 @@ class InGameMenu extends InterfaceObject implements MouseListener
 			menuWarning.close();
 		}
 	}
+    @Override
+    public void update()
+    {
+    }
 	/**
 	 * Checks if mouse is over menu
 	 * @return Boolean value

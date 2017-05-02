@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
@@ -25,7 +26,7 @@ import pl.isangeles.senlin.core.skill.Skill;
  * @author Isangeles
  *
  */
-class SkillsMenu extends InterfaceObject 
+class SkillsMenu extends InterfaceObject implements UiElement
 {
 	private Character player;
 	private TrueTypeFont ttf;
@@ -33,7 +34,14 @@ class SkillsMenu extends InterfaceObject
 	private SkillSlots magic;
 	private SkillSlots passives;
 	private List<Skill> skillsIn = new ArrayList<>();
-
+	/**
+	 * Skills menu constructor
+	 * @param gc Slick game container
+	 * @param player Player character
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public SkillsMenu(GameContainer gc, Character player)
 			throws SlickException, IOException, FontFormatException 
 	{
@@ -62,12 +70,37 @@ class SkillsMenu extends InterfaceObject
 		magic.draw(x+getDis(13), y+getDis(259));
 		passives.draw(x+getDis(13), y+getDis(434));
 	}
-	
+	/**
+	 * Updates menu
+	 */
 	public void update()
 	{
 		addSkills();
 	}
-	
+	/**
+	 * Resets skills menu to default state
+	 */
+    @Override
+    public void reset()
+    {
+        super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+    }
+    /**
+     * Returns currently dragged slot
+     * @return Dragged skill slot
+     */
+	public SkillSlot getDragged()
+	{
+	    if(normals.getDragged() != null)
+	        return normals.getDragged();
+	    if(magic.getDragged() != null)
+	        return magic.getDragged();
+	    
+	    return null;
+	}
+	/**
+	 * Adds all player skills to menu
+	 */
 	private void addSkills()
 	{
 		for(Skill skill : player.getSkills())

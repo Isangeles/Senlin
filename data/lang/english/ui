@@ -41,6 +41,8 @@ weaBow:Bow;
 triFinger:Finger;
 triNeck:Neck;
 triArtifact:Artifact;
+iMenuTitle:Character inventory;
+iMenuGold:Gold;
 sMenuTitle:Character abilities;
 sMenuSkills:Skills;
 sMenuMagic:Magic;
