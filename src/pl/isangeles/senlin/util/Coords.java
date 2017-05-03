@@ -31,6 +31,30 @@ public class Coords
         return get(point, 0, dis * Settings.getScale())[1];
     }
     /**
+     * Returns distance corrected by scale
+     * @param rawDistance Distance on 1920x1080
+     * @return Distance scaled to current resolution
+     */
+    public static int getDis(int rawDistance)
+    {
+    	return Math.round(rawDistance * Coords.getScale());
+    }
+    /**
+     * Returns scale based on current resolution
+     * @return Float scale value
+     */
+    public static float getScale()
+    {
+
+        float defResX = 1920;
+        float defResY = 1080;
+        float resX = Settings.getResolution()[0];
+        float resY = Settings.getResolution()[1];
+        float proportionX = resX / defResX;
+        float proportionY = resY / defResY;
+        return Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
+    }
+    /**
      * Returns table with positions on x and y axis related to specific point on screen
      * @param point "TL" - for top left, "BL" - for bottom left, "TR" - for top right, "BR" - for bottom right, "CE" - for center
      * @param disX Distance from specific point on x-axis

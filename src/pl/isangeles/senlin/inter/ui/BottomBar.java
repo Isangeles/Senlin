@@ -69,7 +69,7 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
         
         bBarMOA = new MouseOverArea(gc, this, 0, 0);
         
-        sSlots.slots[0].insertSkill(player.getSkills().get("autoA"));
+        sSlots.slots[0].insertContent(player.getSkills().get("autoA"));
     }
     /**
      * Draws bar
@@ -215,14 +215,14 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
                 return;
     		}
     		dSlot.dragged(false);
-    		dSlot.removeSkill();
+    		dSlot.removeContent();
     	}
     	//Skills menu slots handling
     	if(sMenuDSlot != null)
     	{
     	    if(sSlots.getOverrided() != null)
     	    {
-    	        sSlots.insertSkill(sMenuDSlot.getSkill(), sSlots.getOverrided());
+    	        sSlots.insertSkill(sMenuDSlot.getContent(), sSlots.getOverrided());
     	        sMenuDSlot.dragged(false);
     	        sMenuDSlot = null;
     	    }
@@ -337,15 +337,15 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
 		public void moveSkill(SkillSlot slotA, SkillSlot slotB)
 		{
 			slotA.dragged(false);
-			slotB.insertSkill(slotA.getSkill());
-			slotA.removeSkill();
+			slotB.insertContent(slotA.getContent());
+			slotA.removeContent();
 		}
 		
 		public boolean insertSkill(Skill skill, SkillSlot slot)
 		{
 		    if(slot.isNull())
 		    {
-		        slot.insertSkill(skill);
+		        slot.insertContent(skill);
 		        return true;
 		    }
 		    else

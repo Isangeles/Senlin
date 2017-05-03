@@ -15,6 +15,8 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Slot;
+import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 /**
@@ -22,7 +24,7 @@ import pl.isangeles.senlin.util.GConnector;
  * @author Isangeles
  *
  */
-public class SkillSlot extends InterfaceObject implements MouseListener 
+public class SkillSlot extends Slot implements MouseListener 
 {
 	private Skill skillInSlot;
 	
@@ -42,11 +44,20 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	}
 	/**
 	 * Inserts skill in slot
-	 * @param item Item tile
+	 * @param skill Skill tile
 	 */
-	public void insertSkill(Skill skill)
+	public boolean insertContent(SlotContent skill)
 	{
-		skillInSlot = skill; 
+		try
+		{
+			skillInSlot = (Skill)skill;
+			super.content = skill;
+			return true;
+		}
+		catch(ClassCastException e)
+		{
+			return false;
+		}
 	}
 	
 	public void click(boolean clicked)
@@ -57,15 +68,17 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 	/**
 	 * Removes skill from slot
 	 */
-	public void removeSkill()
+	public void removeContent()
 	{
 		skillInSlot = null;
 	}
-	
+	/**
+	 * Uses skill in slot
+	 */
 	public void useSkill()
 	{
 		if(skillInSlot != null)
-			Global.getPlayer().useSkill(skillInSlot);
+			skillInSlot.getOwner().useSkill(skillInSlot);
 	}
 	
 	public void dragged(boolean dragged)
@@ -103,7 +116,7 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 			return false;
 	}
 	
-	public Skill getSkill()
+	public Skill getContent()
 	{
 		return skillInSlot;
 	}
@@ -157,7 +170,7 @@ public class SkillSlot extends InterfaceObject implements MouseListener
 		if(!isNull() && button == Input.MOUSE_LEFT_BUTTON)
 		{
 			if(isMouseOver())
-				Global.getPlayer().useSkill(skillInSlot);
+				useSkill();
 			else
 				skillInSlot.getTile().click(false);
 		}

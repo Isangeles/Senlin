@@ -50,6 +50,7 @@ sMenuAbi:Abilities;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;
+logSysMsq:System;
 logAddI:Item added;
 logAddIFail:Item not found;
 logDebugOn:Debug mode on;

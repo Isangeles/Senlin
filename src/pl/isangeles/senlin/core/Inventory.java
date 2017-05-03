@@ -45,7 +45,10 @@ public final class Inventory extends LinkedList<Item>
     {
     	gold += value;
     }
-    
+    /**
+     * Returns all gold in inventory
+     * @return Amount of gold in integer
+     */
     public int getGold()
     {
         return gold;
@@ -191,6 +194,31 @@ public final class Inventory extends LinkedList<Item>
     public Item[] getItems()
     {
         return this.toArray(new Item[(this.size())]);
+    }
+    /**
+     * Removes specified item from inventory and returns it
+     * @param item Item in inventory to remove
+     * @return Removed item or null if inventory does not contain that item
+     */
+    public Item takeItem(Item item)
+    {
+    	if(this.remove(item))
+    		return item;
+    	else
+    		return null;
+    }
+    /**
+     * Removes specified amount of gold from inventory
+     * @param value Amount of gold to remove
+     * @return Removed value or 0 if value is to big to remove
+     */
+    public int takeGold(int value)
+    {
+    	gold -= value;
+    	if(gold >= 0)
+    		return value;
+    	else
+    		return 0;
     }
     /**
      * UNSED Now slots draws items

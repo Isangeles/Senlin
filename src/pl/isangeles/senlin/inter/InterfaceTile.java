@@ -19,6 +19,7 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	private static int counter; //TODO check if necessary
 	private Input gameInput;
 	private boolean dragged;
+	protected boolean clicked;
 	
 	public InterfaceTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
@@ -49,6 +50,11 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	public void dragged(boolean dragged)
 	{
 		this.dragged = dragged;
+	}
+	
+	public void click(boolean click)
+	{
+		clicked = click;
 	}
 	
 	public boolean isDragged()

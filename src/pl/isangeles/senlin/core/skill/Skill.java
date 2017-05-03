@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
@@ -15,7 +16,7 @@ import pl.isangeles.senlin.core.Character;
  * @author Isangeles
  *
  */
-public abstract class Skill 
+public abstract class Skill implements SlotContent
 {
 	protected String id;
 	protected String name;
@@ -79,6 +80,14 @@ public abstract class Skill
 	public boolean isActive()
 	{
 		return active;
+	}
+	/**
+	 * Returns skill owner
+	 * @return Character thats own this skill 
+	 */
+	public Character getOwner()
+	{
+		return owner;
 	}
     /**
      * Activates skill prepared skill

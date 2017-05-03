@@ -9,13 +9,15 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.InterfaceTile;
+import pl.isangeles.senlin.inter.Slot;
+import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.util.GConnector;
 /**
  * Class for ui item slots
  * @author Isangeles
  *
  */
-class ItemSlot extends InterfaceObject 
+class ItemSlot extends Slot 
 {
 	private Item itemInSlot;
 	
@@ -35,14 +37,23 @@ class ItemSlot extends InterfaceObject
 	 * Inserts item in slot
 	 * @param item Item tile
 	 */
-	public void insertItem(Item item)
+	public boolean insertContent(SlotContent item)
 	{
-		itemInSlot = item; 
+		try
+		{
+			itemInSlot = (Item)item;
+			super.content = item;
+			return true;
+		}
+		catch(ClassCastException e)
+		{
+			return false;
+		}
 	}
 	/**
 	 * Removes item from slot
 	 */
-	public void removeItem()
+	public void removeContent()
 	{
 		itemInSlot = null;
 	}
@@ -74,7 +85,7 @@ class ItemSlot extends InterfaceObject
 			return false;
 	}
 	
-	public Item getItem()
+	public Item getContent()
 	{
 		return itemInSlot;
 	}

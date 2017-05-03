@@ -79,6 +79,9 @@ public final class Button extends InterfaceObject implements MouseListener
     	super(fileInput, ref, flipped, gc, textForInfo);
     	build(gc, label);
     }
+    /**
+     * Draws button (position is scaled)
+     */
     @Override
     public void draw(float x, float y)
     {
@@ -91,6 +94,9 @@ public final class Button extends InterfaceObject implements MouseListener
         
         super.drawString(label, ttf);
     }
+    /**
+     * Draws button
+     */
     @Override
     public void draw(float x, float y, boolean scaledPos)
     {

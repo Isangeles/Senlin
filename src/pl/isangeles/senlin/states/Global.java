@@ -56,6 +56,17 @@ public class Global
 		return Global.tarChar;
 	}
 	/**
+	 * Checks if character other then player character is targeted
+	 * @return True if other character then player is targeted, false otherwise
+	 */
+	public static boolean isOtherCharTar()
+	{
+		if(tarChar != null)
+			return tarChar != player;
+		else 
+			return false;
+	}
+	/**
 	 * Returns range between player and his target
 	 * @return Range between player character and targeted character as integer
 	 */

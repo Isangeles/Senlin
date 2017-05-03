@@ -186,10 +186,21 @@ public class Avatar implements MouseListener
 		if(weapon != null)
 			weapon.meleeAttack(attackSkill.getCastSpeed());
 	}
-	
+	/**
+	 * Checks if character is in move
+	 * @return
+	 */
 	public boolean isMove()
 	{
 		return isMove;
+	}
+	/**
+	 * Checks if mouse is over avatar
+	 * @return
+	 */
+	public boolean isMouseOver()
+	{
+		return avMOA.isMouseOver();
 	}
 	@Override
 	public void inputEnded() 

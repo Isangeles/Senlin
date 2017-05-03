@@ -41,7 +41,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	 */
 	public InGameMenu(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("ui/background/bgInGameMenu.png"), "bgIGMenu", false, gc);
+		super(GConnector.getInput("ui/background/bgInGameMenuDG.png"), "bgIGMenu", false, gc);
 		gc.getInput().addMouseListener(this);
 		
 		resume = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "resName"), gc);

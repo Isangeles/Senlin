@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -15,7 +16,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public abstract class Item
+public abstract class Item implements SlotContent
 {
 	private static int itemCounter;
 	protected int itemNumber = itemCounter;

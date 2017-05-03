@@ -179,7 +179,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 			
 			if(eqSlots.getMouseOverSlot() != null)
 			{
-				if(eqSlots.setEqItem(draggedSlot.getItem(), eqSlots.getMouseOverSlot()))
+				if(eqSlots.setEqItem(draggedSlot.getContent(), eqSlots.getMouseOverSlot()))
 					moveItem(draggedSlot, eqSlots.getMouseOverSlot());
 				return;
 			}
@@ -214,7 +214,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     	            if(slot.isNull() && !isIn(item.getNumber()))
     	            {
     	                itemsIn.add(item.getNumber());
-    	                slot.insertItem(item);
+    	                slot.insertContent(item);
     	                CommBase.addInformation(item.toString() + " added to inventory menu");
     	                break;
     	            }
@@ -259,17 +259,17 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     		if(!slotForItem.isNull())
         	{
         		Item tmpItem;
-        		tmpItem = slotForItem.getItem();
-        		slotForItem.insertItem(draggedSlot.getItem());
-        		draggedSlot.insertItem(tmpItem);
+        		tmpItem = slotForItem.getContent();
+        		slotForItem.insertContent(draggedSlot.getContent());
+        		draggedSlot.insertContent(tmpItem);
         		draggedSlot.dragged(false);
         		slotForItem.dragged(false);
         	}
         	else
         	{
-            	slotForItem.insertItem(draggedSlot.getItem());
+            	slotForItem.insertContent(draggedSlot.getContent());
             	draggedSlot.dragged(false);
-            	draggedSlot.removeItem();
+            	draggedSlot.removeContent();
         	}
     	}
     	catch(NullPointerException e)
@@ -405,7 +405,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     		{
     			if(slot == is)
     			{
-    				player.unequipp(slot.getItem());
+    				player.unequipp(slot.getContent());
     			}
     		}
     	}

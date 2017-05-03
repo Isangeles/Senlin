@@ -21,7 +21,6 @@ import pl.isangeles.senlin.inter.InterfaceTile;
 public class SkillTile extends InterfaceTile 
 {
 	private Color clickColor;
-	private boolean clicked;
 	private boolean active;
 	/**
 	 * Skill tile constructor
@@ -58,11 +57,6 @@ public class SkillTile extends InterfaceTile
 	{
 		this.active = active;
 	}
-	
-	public void click(boolean click)
-	{
-		clicked = click;
-	}
 	/**
 	 * Checks if tile is active
 	 * @return True if tile is active, false otherwise
@@ -80,7 +74,7 @@ public class SkillTile extends InterfaceTile
 	public void mousePressed(int button, int x, int y)
 	{
 		if(isMouseOver() && active)
-			clicked = true;
+			super.clicked = true;
 	}
 
 	@Override
@@ -99,7 +93,7 @@ public class SkillTile extends InterfaceTile
 	public void mouseReleased(int arg0, int arg1, int arg2) 
 	{
 		if(active)
-			clicked = false;
+			super.clicked = false;
 	}
 
 	@Override

@@ -43,6 +43,14 @@ public class CommBase
 			commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
 	}
 	/**
+	 * Adds new system message to list
+	 * @param systemMsg System message
+	 */
+	public static void addSystem(String systemMsg)
+	{
+		commList.add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
+	}
+	/**
 	 * Adds message about character points loss
 	 * @param who The author of the message(e.g. character name)
 	 * @param value Value deducted from character health

@@ -353,15 +353,27 @@ public class Character
 	
 	public String getName()
 	{ return name; }
-	
+	/**
+	 * Returns character attitude
+	 * @return Character attitude enumeration
+	 */
 	public Attitude getAttitude()
 	{ return attitude; }
 	
 	public int[] getPosition()
 	{ return position; }
-	
+	/**
+	 * Checks if character is live
+	 * @return True if character is live, false otherwise
+	 */
 	public boolean isLive()
 	{ return live; }
+	/**
+	 * Checks if mouse is over character avatar
+	 * @return True if mouse is over character, false otherwise
+	 */
+	public boolean isMouseOver()
+	{ return avatar.isMouseOver(); }
 	
 	public Portrait getPortrait()
 	{
@@ -512,7 +524,10 @@ public class Character
      * @param value Integer value to add
      */
     public void addGold(int value)
-    { inventory.addGold(value); }
+    { 
+    	inventory.addGold(value);
+    	CommBase.gainInfo(getName(), value, "gold");
+    }
     /**
      * Activates specified skill, if character know this skill
      * @param skill Some skill known by this character

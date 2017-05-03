@@ -172,8 +172,8 @@ class SkillsMenu extends InterfaceObject implements UiElement
 		public void moveSkill(SkillSlot slotA, SkillSlot slotB)
 		{
 			slotA.dragged(false);
-			slotB.insertSkill(slotA.getSkill());
-			slotA.removeSkill();
+			slotB.insertContent(slotA.getContent());
+			slotA.removeContent();
 		}
 		/**
 		 * Inserts skill to first empty slot
@@ -187,7 +187,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 				{
 					if(slots[i][j].isNull())
 					{
-						slots[i][j].insertSkill(skill);
+						slots[i][j].insertContent(skill);
 						return true;
 					}
 				}
