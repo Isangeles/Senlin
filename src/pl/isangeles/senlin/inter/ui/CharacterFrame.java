@@ -41,9 +41,9 @@ class CharacterFrame extends InterfaceObject
         super(GConnector.getInput("ui/background/charFrameBG.png"), "uiCharFrame", false, gc);
         this.character = character;
         
-        health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:", character.getHealth(), character.getMaxHealth());
-        magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:", character.getMagicka(), character.getMaxMagicka());
-        experience = new Bar(GConnector.getInput("ui/bar/expBar.png"), "uiExpBar", false, gc, "Experience:", character.getExperience(), character.getMaxExperience());
+        health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:");
+        magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:");
+        experience = new Bar(GConnector.getInput("ui/bar/expBar.png"), "uiExpBar", false, gc, "Experience:");
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);

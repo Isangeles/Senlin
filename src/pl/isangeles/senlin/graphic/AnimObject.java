@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 /**
  * Class for animated objects like avatar parts(torso, head, weapon), etc.
+ * TODO make animProgress work
  * @author Isangeles
  *
  */
@@ -19,6 +20,10 @@ public class AnimObject extends GameObject
 	private boolean isMove;
 	private boolean meleeReq;
 	private boolean lieReq;
+	
+	private float animProgress;
+	private float animProgressSpeed;
+	private float animTime;
 	/**
 	 * Animated object constructor
 	 * @param is InputStrem to sprite sheet
@@ -92,6 +97,8 @@ public class AnimObject extends GameObject
 			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*scale, (melee.getCurrentFrame().getHeight() * getScale())*scale);
 			if(melee.isStopped())
 				meleeReq = false;
+			else
+			    animProgress += (1*(animTime/100));
 		}
 	}
 	/**
@@ -111,6 +118,9 @@ public class AnimObject extends GameObject
 		melee.setSpeed(animSpeed);
 		melee.setLooping(false);
 		melee.restart();
+		animTime = melee.getFrameCount() / animSpeed;
+		animProgress = 0f;
+		animProgressSpeed = animSpeed; 
 	}
 	/**
 	 * Sets object lie position on or off
@@ -176,6 +186,11 @@ public class AnimObject extends GameObject
 			return (Sprite)move.getCurrentFrame();
 		else
 			return idle;
+	}
+	
+	public float getAnimProgress()
+	{
+	    return animProgress;
 	}
 	/**
 	 * Checks if attack animation is stopped

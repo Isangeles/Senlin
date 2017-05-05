@@ -45,7 +45,6 @@ public class Character
 	private Attributes attributes;
 	private Portrait portrait;
 	private boolean live;
-	private boolean isCasting;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -182,12 +181,6 @@ public class Character
     public boolean setTrinket(Item trinket)
     {
     	return inventory.setTrinket(trinket);
-    }
-    
-    public void startCast(int castTime)
-    {
-    	isCasting = true;
-    	
     }
 	/**
 	 * Removes specific item from equippment
@@ -421,6 +414,12 @@ public class Character
 	 */
 	public Inventory getInventory()
 	{ return inventory; }
+	/**
+	 * Returns characters avatar
+	 * @return Avatar of this character
+	 */
+	public Avatar getAvatar()
+	{ return avatar; }
 	/**
 	 * Returns character abilities list  
 	 * @return Abilities list

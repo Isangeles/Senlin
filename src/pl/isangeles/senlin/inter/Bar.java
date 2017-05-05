@@ -36,11 +36,9 @@ public class Bar extends InterfaceObject
      * @throws IOException
      * @throws FontFormatException
      */
-    public Bar(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String label, int value, int baseValue) throws SlickException, IOException, FontFormatException
+    public Bar(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String label) throws SlickException, IOException, FontFormatException
     {
         super(fileInput, ref, flipped, gc);
-        this.value = value;
-        this.baseValue = baseValue;
         this.label = label;
         
         barMOA = new MouseOverArea(gc, this, 0, 0);

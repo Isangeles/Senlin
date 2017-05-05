@@ -212,6 +212,19 @@ public class Avatar implements MouseListener
 	{
 		return avMOA.isMouseOver();
 	}
+	
+	public boolean isCasting()
+	{
+	    return useSkill;
+	}
+	
+	public float getCastProgress()
+	{
+	    if(!torso.isAttackAnimStopped())
+	        return torso.getAnimProgress();
+	    else
+	        return 100f;
+	}
 	@Override
 	public void inputEnded() 
 	{

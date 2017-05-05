@@ -32,6 +32,7 @@ public class UserInterface implements MouseListener
     private InvetoryMenu inventory;
     private SkillsMenu skills;
     private LootWindow loot;
+    private CastBar cast;
     private Warning uiWarning;
     /**
      * UI constructor, calls all ui elements constructors
@@ -54,6 +55,7 @@ public class UserInterface implements MouseListener
         inventory = new InvetoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         loot = new LootWindow(gc, player);
+        cast = new CastBar(gc, player);
         uiWarning = new Warning(gc, "");
     }
     /**
@@ -66,6 +68,7 @@ public class UserInterface implements MouseListener
         
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
+        cast.draw(Coords.getX("CE", -200), Coords.getY("CE", 200));
         if(Global.getTarChar() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
@@ -99,6 +102,7 @@ public class UserInterface implements MouseListener
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
+        cast.update();
         targetFrame.update();
         inventory.update();
         skills.update();
