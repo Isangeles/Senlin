@@ -85,8 +85,8 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
         //Eq slots drawing
         eqSlots.draw(x, y);
         
-        textTtf.drawString(x+(getWidth()/2), y, TConnector.getText("ui", "iMenuTitle"));
-        textTtf.drawString(x+(getWidth()/2), y+(getHeight()-getDis(20)), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
+        textTtf.drawString(x+(getScaledWidth()/2), y, TConnector.getText("ui", "iMenuTitle"));
+        textTtf.drawString(x+(getScaledWidth()/2), y+(getScaledHeight()-getDis(20)), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
         //Stats drawing
         float firstStatX = x+getDis(300);
         float firstStatY = y+getDis(50);

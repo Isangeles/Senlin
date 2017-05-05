@@ -1,12 +1,15 @@
 package pl.isangeles.senlin.graphic;
 
+import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.GameCursor;
@@ -41,6 +44,8 @@ public class Avatar implements MouseListener
 	private Sprite friendlyT;
 	private Sprite target;
 	
+	private TrueTypeFont ttf;
+	
 	private boolean isMove;
 	private boolean isTargeted;
 	
@@ -65,6 +70,10 @@ public class Avatar implements MouseListener
 		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "clothSS", false);
 		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
 		
+		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		ttf = new TrueTypeFont(font.deriveFont(11f), true);
+		
 		torso = defTorso;
 		head = defHead;
 		setTargetSprite();
@@ -87,6 +96,7 @@ public class Avatar implements MouseListener
 		
 		torso.draw(x, y, 1.5f);
 		head.draw(x, y, 1.5f);
+		ttf.drawString(x, (y-head.getDis(25)), character.getName());
 		if(this.weapon != null)
 			this.weapon.draw(x, y, 1.5f);
 		
@@ -131,12 +141,12 @@ public class Avatar implements MouseListener
 		}
 	}
 	
-	public void kill(boolean death)
+	public void kill()
 	{
-		torso.lie(death);
-		head.lie(death);
+		torso.lie(true);
+		head.lie(true);
 		if(weapon != null)
-			weapon.lie(death);
+			weapon.lie(true);
 	}
 	
 	public void goUp()
@@ -232,9 +242,9 @@ public class Avatar implements MouseListener
 	{
 	}
 	@Override
-	public void mousePressed(int arg0, int arg1, int arg2) 
+	public void mousePressed(int button, int x, int y) 
 	{
-		if(arg0 == Input.MOUSE_RIGHT_BUTTON)
+		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{	
 			if(avMOA.isMouseOver())
 			{

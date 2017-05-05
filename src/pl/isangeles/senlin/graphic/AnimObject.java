@@ -1,13 +1,8 @@
 package pl.isangeles.senlin.graphic;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Timer;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 /**
@@ -193,4 +188,5 @@ public class AnimObject extends GameObject
 	    else
 	        return false;
 	}
+	
 }

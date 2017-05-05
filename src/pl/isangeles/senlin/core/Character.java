@@ -221,7 +221,7 @@ public class Character
 	{
 		if(!live)
 		{
-			avatar.kill(!live);
+			avatar.kill();
 			return;
 		}
 	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
@@ -350,7 +350,10 @@ public class Character
 	
 	public float getHaste()
 	{ return haste; }
-	
+	/**
+	 * Returns character name
+	 * @return String with name
+	 */
 	public String getName()
 	{ return name; }
 	/**
@@ -359,9 +362,22 @@ public class Character
 	 */
 	public Attitude getAttitude()
 	{ return attitude; }
-	
+	/**
+	 * Returns current character position
+	 * @return Table with x and y position
+	 */
 	public int[] getPosition()
 	{ return position; }
+	/**
+	 * Returns range from specified xy point
+	 * @param xyPos Table with x and y position
+	 * @return Range from given xy position
+	 */
+	public int getRangeFrom(int[] xyPos)
+	{
+		return (int)Math.sqrt((position[0]-xyPos[0]) * (position[0]-xyPos[0]) +
+				 (position[1]-xyPos[1]) * (position[1]-xyPos[1]));
+	}
 	/**
 	 * Checks if character is live
 	 * @return True if character is live, false otherwise

@@ -20,7 +20,22 @@ public class Attack extends Skill
 {
 	private int damage;
 	private int range;
-	
+	/**
+	 * Attack constructor
+	 * @param character Skill owner
+	 * @param id Skill ID
+	 * @param name Skill Name
+	 * @param info Skill description
+	 * @param imgName Skill icon file
+	 * @param damage Damage dealt on target
+	 * @param magickaCost Magicka cost of use, determines whether skill is magic or not
+	 * @param castTime Cast time
+	 * @param range Required range
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Attack(Character character, String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int range, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
@@ -41,12 +56,12 @@ public class Attack extends Skill
 	@Override
 	public boolean prepare(Character user, Character target) 
 	{
-		CommBase.addInformation("Range: " + Global.getRangeFromTar()); //TEST LINE
 		if(super.isActive())
 		{
 			if(target != null)
 			{
-				if(Global.getRangeFromTar() <= range)
+				CommBase.addInformation("Range: " + owner.getRangeFrom(target.getPosition())); //TEST LINE
+				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.user = user;
 				    this.target = target;
