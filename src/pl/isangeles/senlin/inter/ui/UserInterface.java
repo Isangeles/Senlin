@@ -69,7 +69,7 @@ public class UserInterface implements MouseListener
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
         cast.draw(Coords.getX("CE", -200), Coords.getY("CE", 200));
-        if(Global.getTarChar() != null)
+        if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
         if(bBar.isInventoryReq())
@@ -97,8 +97,8 @@ public class UserInterface implements MouseListener
      */
     private void update()
     {
-    	if(Global.getTarChar() != null)
-    		targetFrame.setCharacter(Global.getTarChar());
+    	if(player.getTarget() != null)
+    		targetFrame.setCharacter(player.getTarget());
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
@@ -168,23 +168,48 @@ public class UserInterface implements MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(Global.isOtherCharTar() && Global.getTarChar().isMouseOver() && button == Input.MOUSE_RIGHT_BUTTON)
+		try
 		{
-			if(Global.getTarChar().isLive())
+			Character target = (Character)player.getTarget();
+			if(target.isMouseOver() && button == Input.MOUSE_RIGHT_BUTTON)
 			{
-				
-			}
-			else
-			{
-				try 
+				if(target.isLive())
 				{
-					loot.open(Global.getTarChar());
-				} 
-				catch (SlickException | IOException e) 
+					switch(target.getAttitude())
+					{
+					case HOSTILE:
+					{
+						player.useSkill(player.getSkills().get("autoA"));
+						break;
+					}
+					case NEUTRAL:
+					{
+						player.useSkill(player.getSkills().get("autoA"));
+						break;
+					}
+					case FRIENDLY:
+					{
+						
+						break;
+					}
+					}
+				}
+				else
 				{
-					CommBase.addSystem("Loot load fail!msg/// " + e.getMessage());
+					try 
+					{
+						loot.open(target);
+					} 
+					catch (SlickException | IOException e) 
+					{
+						CommBase.addSystem("Loot load fail!msg/// " + e.getMessage());
+					}
 				}
 			}
+		}
+		catch(ClassCastException | NullPointerException e)
+		{
+			return;
 		}
 	}
 	@Override

@@ -10,6 +10,7 @@ import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 
 /**
  * Class for character skills like attacks, spells, etc.
@@ -23,7 +24,7 @@ public abstract class Skill implements SlotContent
 	protected String info;
 	protected int magickaCost;
 	protected Character user;
-	protected Character target;
+	protected Targetable target;
     protected boolean ready;
     protected boolean active;
     protected Character owner;
@@ -99,7 +100,7 @@ public abstract class Skill implements SlotContent
      * @param target Character targeted by skill user
      * @return True if skill was successfully activate, false otherwise 
 	 */
-	public abstract boolean prepare(Character user, Character target);
+	public abstract boolean prepare(Character user, Targetable target);
 	
 	protected abstract String getInfo();
 	

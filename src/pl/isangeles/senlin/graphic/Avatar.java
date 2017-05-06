@@ -269,7 +269,7 @@ public class Avatar implements MouseListener
 		{	
 			if(avMOA.isMouseOver())
 			{
-				Global.setTarget(character);
+				Global.getPlayer().setTarget(character);
 				isTargeted = true;
 			}
 			else if(!avMOA.isMouseOver() && Global.getTarChar() != character)
@@ -278,7 +278,7 @@ public class Avatar implements MouseListener
 			}
 			else if(!avMOA.isMouseOver() && Global.getTarChar() == character)
 			{
-				Global.setTarget(null);
+				Global.getPlayer().setTarget(null);
 				isTargeted = false;
 			}
 		}

@@ -1,6 +1,7 @@
 package pl.isangeles.senlin.core.skill;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 
 public class Passive extends Skill 
 {
@@ -24,7 +25,7 @@ public class Passive extends Skill
     }
 
     @Override
-    public boolean prepare(Character user, Character target)
+    public boolean prepare(Character user, Targetable target)
     {
         // TODO Auto-generated method stub
         return false;

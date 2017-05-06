@@ -25,7 +25,7 @@ import pl.isangeles.senlin.states.Global;
  * @author Isangeles
  *
  */
-public class Character 
+public class Character implements Targetable
 {
 	private String id;
 	private String name;
@@ -48,6 +48,7 @@ public class Character
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
+	private Targetable target;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -549,7 +550,7 @@ public class Character
      */
     public void useSkill(Skill skill)
     {
-    	if(live && abilities.contains(skill) && skill.prepare(this, Global.getTarChar()))
+    	if(live && abilities.contains(skill) && skill.prepare(this, target))
     	{
     	    if(Attack.class.isInstance(skill))
     	        avatar.meleeAttack((Attack)skill);
@@ -566,5 +567,15 @@ public class Character
 	public void drawItems(float x, float y)
 	{
 		inventory.drawItems(x, y);
+	}
+	@Override
+	public void setTarget(Targetable target)
+	{
+		this.target = target;
+	}
+	@Override
+	public Targetable getTarget() 
+	{
+		return target;
 	}
 }

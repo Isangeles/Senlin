@@ -14,6 +14,7 @@ import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 /**
  * Class for player character frame
  * TODO fix experience bar on resolutions different then default
@@ -22,7 +23,7 @@ import pl.isangeles.senlin.core.Character;
  */
 class CharacterFrame extends InterfaceObject
 {
-	private Character character;
+	private Targetable character;
     private Bar health;
     private Bar magicka;
     private Bar experience;
@@ -36,7 +37,7 @@ class CharacterFrame extends InterfaceObject
      * @throws IOException
      * @throws FontFormatException
      */
-    public CharacterFrame(GameContainer gc, Character character) throws SlickException, IOException, FontFormatException
+    public CharacterFrame(GameContainer gc, Targetable character) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/charFrameBG.png"), "uiCharFrame", false, gc);
         this.character = character;
@@ -85,7 +86,7 @@ class CharacterFrame extends InterfaceObject
     	return frameMOA.isMouseOver();
     }
     
-    public void setCharacter(Character character)
+    public void setCharacter(Targetable character)
     {
     	this.character = character;
     }

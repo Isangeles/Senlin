@@ -8,6 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.CommBase;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
@@ -54,7 +55,7 @@ public class Attack extends Skill
 		return fullInfo;
 	}
 	@Override
-	public boolean prepare(Character user, Character target) 
+	public boolean prepare(Character user, Targetable target) 
 	{
 		if(super.isActive())
 		{
