@@ -11,7 +11,11 @@ import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
-
+/**
+ * Class for cast bar
+ * @author Isangeles
+ *
+ */
 public class CastBar extends InterfaceObject implements UiElement
 {
     private Character player;
@@ -35,11 +39,13 @@ public class CastBar extends InterfaceObject implements UiElement
             castBar.draw(x+getDis(10), y+getDis(10));
         }
     }
-
+    /**
+     * Updates cast bar
+     */
     @Override
     public void update()
     {
-        castBar.update((int)player.getAvatar().getCastProgress(), 100);
+        castBar.update(player.getAvatar().getCastProgress(), player.getAvatar().getCastDuration());
     }
 
     @Override

@@ -22,8 +22,8 @@ public class AnimObject extends GameObject
 	private boolean lieReq;
 	
 	private float animProgress;
-	private float animProgressSpeed;
 	private float animTime;
+	private float animDuration;
 	/**
 	 * Animated object constructor
 	 * @param is InputStrem to sprite sheet
@@ -96,9 +96,10 @@ public class AnimObject extends GameObject
 		{
 			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*scale, (melee.getCurrentFrame().getHeight() * getScale())*scale);
 			if(melee.isStopped())
+			{
 				meleeReq = false;
-			else
-			    animProgress += (1*(animTime/100));
+				animTime = 0f;
+			}
 		}
 	}
 	/**
@@ -118,9 +119,8 @@ public class AnimObject extends GameObject
 		melee.setSpeed(animSpeed);
 		melee.setLooping(false);
 		melee.restart();
-		animTime = melee.getFrameCount() / animSpeed;
+		animDuration = melee.getFrameCount() * (0.25f/animSpeed);
 		animProgress = 0f;
-		animProgressSpeed = animSpeed; 
 	}
 	/**
 	 * Sets object lie position on or off
@@ -131,13 +131,20 @@ public class AnimObject extends GameObject
 		this.lieReq = lieReq;
 	}
 	/**
-	 * Updates project
+	 * Updates object
 	 * @param delta
 	 */
 	public void update(int delta) 
 	{
 		move.update(delta);
 		melee.update(delta);
+	    if(meleeReq)
+	    	animTime += delta;
+	    if(animTime > 250)
+	    {
+	    	animProgress += 0.25f;
+	    	animTime = 0f;
+	    }
 	}
 	/**
 	 * Turns object up
@@ -191,6 +198,11 @@ public class AnimObject extends GameObject
 	public float getAnimProgress()
 	{
 	    return animProgress;
+	}
+	
+	public float getAnimDuration()
+	{
+		return animDuration;
 	}
 	/**
 	 * Checks if attack animation is stopped

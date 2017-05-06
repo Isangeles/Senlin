@@ -225,6 +225,14 @@ public class Avatar implements MouseListener
 	    else
 	        return 100f;
 	}
+	
+	public float getCastDuration()
+	{
+		if(!torso.isAttackAnimStopped())
+			return torso.getAnimDuration();
+		else
+			return 100f;
+	}
 	@Override
 	public void inputEnded() 
 	{

@@ -18,8 +18,8 @@ import org.newdawn.slick.gui.MouseOverArea;
 public class Bar extends InterfaceObject
 {
     private String label;
-    private int baseValue;
-    private int value;
+    private float baseValue;
+    private float value;
     private MouseOverArea barMOA;
     private Font barFont;
     private TrueTypeFont barTtf;
@@ -52,7 +52,7 @@ public class Bar extends InterfaceObject
      * @param value
      * @param baseValue
      */
-    public void update(int value, int baseValue)
+    public void update(float value, float baseValue)
     {
     	this.baseValue = baseValue;
         this.value = value;
@@ -66,7 +66,7 @@ public class Bar extends InterfaceObject
         super.draw(x, y, getBarSize()-5f, 21f);
         barMOA.setLocation(super.x, super.y);
         if(barMOA.isMouseOver())
-        	barTtf.drawString(super.x+20, super.y, label + value + "/" + baseValue);
+        	barTtf.drawString(super.x+getDis(20), super.y, label + value + "/" + baseValue);
         
     }
     /**
@@ -78,7 +78,7 @@ public class Bar extends InterfaceObject
     	if(value <= 0)
     		return 0f;
     	else
-    		return (float)((value * 100f) / baseValue)*2;
+    		return ((value * 100f) / baseValue)*2;
     }
 
 }
