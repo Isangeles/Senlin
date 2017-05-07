@@ -23,7 +23,7 @@ import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 /**
  * Graphical representation of character inventory
  * @author Isangeles
@@ -215,7 +215,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     	            {
     	                itemsIn.add(item.getNumber());
     	                slot.insertContent(item);
-    	                CommBase.addInformation(item.toString() + " added to inventory menu");
+    	                Log.addInformation(item.toString() + " added to inventory menu");
     	                break;
     	            }
     	                

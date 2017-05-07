@@ -18,7 +18,7 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical representation of character
@@ -36,6 +36,7 @@ public class Avatar implements MouseListener
 	
 	private MouseOverArea avMOA;
 	private InfoWindow avName;
+	private InfoWindow speakWindow;
 	
 	private Character character;
 	
@@ -48,6 +49,8 @@ public class Avatar implements MouseListener
 	
 	private boolean isMove;
 	private boolean isTargeted;
+	private boolean isSpeaking;
+	private int speechTime;
 	
 	private Skill usedSkill;
 	private boolean useSkill;
@@ -80,6 +83,7 @@ public class Avatar implements MouseListener
 		
 		avMOA = new MouseOverArea(gc, torso.getCurrentSprite(), 0, 0);
 		avName = new InfoWindow(gc, character.getName());
+		speakWindow = new InfoWindow(gc, "");
 	}
 	/**
 	 * Draws avatar
@@ -104,6 +108,14 @@ public class Avatar implements MouseListener
 		
 		if(avMOA.isMouseOver())
 			avName.draw(x, y);
+		
+		if(isSpeaking && speechTime < 1500)
+			speakWindow.draw(x, y);
+		else if(speechTime > 1500)
+		{
+			isSpeaking = false;
+			speechTime = 0;
+		}
 	}
 	/**
 	 * Updates avatar animations
@@ -139,6 +151,12 @@ public class Avatar implements MouseListener
 		    usedSkill.activate();
 		    useSkill = false;
 		}
+		
+		if(isSpeaking)
+		{
+			speechTime += delta;
+		}
+		
 	}
 	
 	public void kill()
@@ -197,6 +215,17 @@ public class Avatar implements MouseListener
 			weapon.meleeAttack(attackSkill.getCastSpeed());
 	}
 	/**
+	 * Draws specified string in speech window
+	 * Text is drawn for 1.5 seconds
+	 * @param text String with speech
+	 */
+	public void speak(String text)
+	{
+		speakWindow.setText(text);
+		Log.addSpeech(character.getName(), text);
+		isSpeaking = true;
+	}
+	/**
 	 * Checks if character is in move
 	 * @return
 	 */
@@ -232,6 +261,14 @@ public class Avatar implements MouseListener
 			return torso.getAnimDuration();
 		else
 			return 100f;
+	}
+	/**
+	 * Returns object direction
+	 * @return Direction id (0 - up, 1 - right, 2 - down, 3 - left)
+	 */
+	public int getDirection()
+	{
+		return torso.getDirection();
 	}
 	@Override
 	public void inputEnded() 
@@ -272,11 +309,11 @@ public class Avatar implements MouseListener
 				Global.getPlayer().setTarget(character);
 				isTargeted = true;
 			}
-			else if(!avMOA.isMouseOver() && Global.getTarChar() != character)
+			else if(!avMOA.isMouseOver() && Global.getPlayer().getTarget() != character)
 			{
 				isTargeted = false;
 			}
-			else if(!avMOA.isMouseOver() && Global.getTarChar() == character)
+			else if(!avMOA.isMouseOver() && Global.getPlayer().getTarget() == character)
 			{
 				Global.getPlayer().setTarget(null);
 				isTargeted = false;

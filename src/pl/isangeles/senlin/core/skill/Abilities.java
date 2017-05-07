@@ -15,6 +15,17 @@ public class Abilities extends LinkedList<Skill>
 	public Abilities() 
 	{	
 	}
+	/**
+	 * Updates all skills
+	 * @param delta
+	 */
+	public void update(int delta)
+	{
+		for(Skill skill : this)
+		{
+			skill.update(delta);
+		}
+	}
 	
 	public Skill get(String skillId)
 	{

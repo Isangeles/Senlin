@@ -8,7 +8,7 @@ public class Passive extends Skill
 
 	public Passive(Character character, String id, String name, String info, String imgName, int magickaCost) 
 	{
-		super(character, id, name, info, imgName, magickaCost, 0);
+		super(character, id, name, info, imgName, magickaCost, 0, 0);
 	}
 
 	@Override

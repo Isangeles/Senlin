@@ -15,7 +15,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
@@ -247,6 +247,7 @@ public class Character implements Targetable
             }
         }
 	    
+	    abilities.update(delta);
 		avatar.update(delta);
 	}
 	/**
@@ -255,10 +256,20 @@ public class Character implements Targetable
 	 * @param y Position on Y axis
 	 * @return False if given position is same as actual or true if else
 	 */
-	public void move(int x, int y)
+	public void moveTo(int x, int y)
 	{
 		destPoint[0] = x;
 		destPoint[1] = y;
+	}
+	/**
+	 * Moves character by specified values
+	 * @param moveX Horizontal move value
+	 * @param moveY Vertical move value
+	 */
+	public void move(int moveX, int moveY)
+	{
+		destPoint[0] = position[0] + moveX;
+		destPoint[1] = position[1] + moveY;
 	}
 	/**
 	 * Checks if character avatar is in move
@@ -434,11 +445,11 @@ public class Character implements Targetable
 	public void takeHealth(int value)
 	{
 		health -= value;
-		CommBase.loseInfo(name, value, TConnector.getText("ui", "hpName"));
+		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
 		if(health <= 0)
 		{
 			live = false;
-			CommBase.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
+			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
 		}
 	}
 	/**
@@ -448,7 +459,7 @@ public class Character implements Targetable
 	public void takeMagicka(int value)
 	{
 		magicka -= value;
-		CommBase.loseInfo(name, value, TConnector.getText("ui", "manaName"));
+		Log.loseInfo(name, value, TConnector.getText("ui", "manaName"));
 		if(magicka < 0)
 			magicka = 0;
 	}
@@ -459,7 +470,7 @@ public class Character implements Targetable
 	public void takeExperience(int value)
 	{
 		experience -= value;
-		CommBase.loseInfo(name, value, TConnector.getText("ui", "expName"));
+		Log.loseInfo(name, value, TConnector.getText("ui", "expName"));
 		if(experience < 0)
 			experience = 0;
 	}
@@ -499,7 +510,7 @@ public class Character implements Targetable
 	public void addHealth(int value)
 	{
 		health += value;
-		CommBase.gainInfo(name, value, TConnector.getText("ui", "hpName"));
+		Log.gainInfo(name, value, TConnector.getText("ui", "hpName"));
 		if(health > maxHealth)
 			health = maxHealth;
 	}
@@ -510,7 +521,7 @@ public class Character implements Targetable
 	public void addMagicka(int value)
 	{
 		magicka += value;
-		CommBase.gainInfo(name, value, TConnector.getText("ui", "manaName"));
+		Log.gainInfo(name, value, TConnector.getText("ui", "manaName"));
 		if(magicka > maxMagicka)
 			magicka = maxMagicka;
 	}
@@ -521,7 +532,7 @@ public class Character implements Targetable
 	public void addExperience(int value)
 	{
 		experience += value;
-		CommBase.gainInfo(name, value, TConnector.getText("ui", "expName"));
+		Log.gainInfo(name, value, TConnector.getText("ui", "expName"));
 		if(experience >= maxExperience)
 			levelUp();
 	}
@@ -542,7 +553,7 @@ public class Character implements Targetable
     public void addGold(int value)
     { 
     	inventory.addGold(value);
-    	CommBase.gainInfo(getName(), value, "gold");
+    	Log.gainInfo(getName(), value, "gold");
     }
     /**
      * Activates specified skill, if character know this skill
@@ -556,7 +567,7 @@ public class Character implements Targetable
     	        avatar.meleeAttack((Attack)skill);
     	}
     	else
-    		CommBase.addWarning(TConnector.getText("ui", "logUnable"));
+    		Log.addWarning(TConnector.getText("ui", "logUnable"));
     }
 	/**
 	 * Draws all character items (called by inventory menu)

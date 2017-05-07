@@ -22,7 +22,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.core.ai.CharacterAi;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -41,7 +42,8 @@ public class GameWorld extends BasicGameState
 {
 	private TiledMap areaMap;
 	private Character player;
-	private List<Character> areaNpcs = new ArrayList<>(); 
+	private List<Character> areaNpcs = new ArrayList<>();
+	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
 	private GameCursor gwCursor;
@@ -55,7 +57,6 @@ public class GameWorld extends BasicGameState
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
     {
-    	//container.setMouseGrabbed(true);
         try 
         {
         	gwCursor = new GameCursor(container);
@@ -71,8 +72,11 @@ public class GameWorld extends BasicGameState
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             Character testBandit = NpcBase.spawn("bandit01"); //test line
-            testBandit.setPosition(600, 250); //test line
+            testBandit.setPosition(900, 250); //test line
             areaNpcs.add(testBandit); //test line
+
+        	npcsAi = new CharacterAi(this);
+            npcsAi.addNpcs(areaNpcs);
         } 
         catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
         {
@@ -103,11 +107,30 @@ public class GameWorld extends BasicGameState
             keyDown(container.getInput());
     	
     	player.update(delta);
-    	for(Character npc : areaNpcs)
-    		npc.update(delta);
+    	npcsAi.update(delta);
     	
     	if(ui.isExitReq())
     		container.exit();
+    }
+    /**
+     * Returns all nearby characters in area 
+     * @param character A character around which to look for other nearby characters
+     * @return List with all nearby characters
+     */
+    public List<Character> getNearbyCharacters(Character character)
+    {
+    	List<Character> nearbyCharacters = new ArrayList<>();
+    	
+    	if(character.getRangeFrom(player.getPosition()) < 200)
+    		nearbyCharacters.add(player);
+    	
+    	for(Character npc : areaNpcs)
+    	{
+    		if(npc != character && character.getRangeFrom(npc.getPosition()) < 200)
+        		nearbyCharacters.add(npc);
+    	}
+    	
+    	return nearbyCharacters;
     }
     
     @Override
@@ -117,8 +140,8 @@ public class GameWorld extends BasicGameState
     	{
     		if(button == Input.MOUSE_LEFT_BUTTON)
     		{
-    			player.move((int)Global.worldX(x), (int)Global.worldY(y));
-    			CommBase.addInformation("Move: " + (int)Global.worldX(x) + "/" + (int)Global.worldY(y));
+    			player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
+    			Log.addInformation("Move: " + (int)Global.worldX(x) + "/" + (int)Global.worldY(y)); //TEST LINE
     		}
     	}
     }

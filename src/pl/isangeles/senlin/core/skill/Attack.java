@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -37,10 +37,10 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int range, GameContainer gc)
+	public Attack(Character character, String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int cooldown, int range, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(character, id, name, info, imgName, magickaCost, castTime);
+		super(character, id, name, info, imgName, magickaCost, castTime, cooldown);
 		this.damage = damage;
 		this.range = range;
 		setTile(gc);
@@ -49,8 +49,11 @@ public class Attack extends Skill
 	@Override
 	public String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + "Damage:" + damage + System.lineSeparator() + "Range:" + range + System.lineSeparator() +
-						  "Cast time:" + getCastSpeed() + System.lineSeparator() + info;
+		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
+						  TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
+						  TConnector.getText("ui", "castName") + ":" + getCastSpeed() + System.lineSeparator() + 
+						  TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator() + 
+						  info;
 		
 		return fullInfo;
 	}
@@ -61,7 +64,7 @@ public class Attack extends Skill
 		{
 			if(target != null)
 			{
-				CommBase.addInformation("Range: " + owner.getRangeFrom(target.getPosition())); //TEST LINE
+				Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition())); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.user = user;
@@ -72,15 +75,15 @@ public class Attack extends Skill
 				}
 				else
 				{
-	                user.move(target.getPosition()[0]-(range-15), target.getPosition()[1]-(range-15));
-					CommBase.addWarning(TConnector.getText("ui", "logNoRange"));
+	                user.moveTo(target.getPosition()[0]-(range-15), target.getPosition()[1]-(range-15));
+					Log.addWarning(TConnector.getText("ui", "logNoRange"));
 				}
 			}
 			else
-				CommBase.addWarning(TConnector.getText("ui", "logNoTar"));
+				Log.addWarning(TConnector.getText("ui", "logNoTar"));
 		}
 		else
-			CommBase.addWarning(TConnector.getText("ui", "logNotRdy"));
+			Log.addWarning(TConnector.getText("ui", "logNotRdy"));
 		
 		return false;
 	}
@@ -95,7 +98,6 @@ public class Attack extends Skill
 	        user.takeMagicka(magickaCost);
 	        target.takeHealth(user.getHit()+damage);
 	        ready = false;
-	        active = true;
 	    }
 	}
 }

@@ -6,9 +6,9 @@ import pl.isangeles.senlin.core.Targetable;
 public class Buff extends Skill 
 {
 
-	public Buff(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime) 
+	public Buff(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime, int cooldown) 
 	{
-		super(character, id, name, info, imgName, magickaCost, castTime);
+		super(character, id, name, info, imgName, magickaCost, castTime, cooldown);
 	}
 
 	@Override

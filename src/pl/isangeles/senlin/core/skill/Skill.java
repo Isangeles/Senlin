@@ -28,11 +28,13 @@ public abstract class Skill implements SlotContent
     protected boolean ready;
     protected boolean active;
     protected Character owner;
+    protected int cooldown;
     private int castTime;
-	private String imgName;
+    private int timer;
+ 	private String imgName;
 	private SkillTile tile;
 	
-	public Skill(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime) 
+	public Skill(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime, int cooldown) 
 	{
 		this.id = id;
 		this.name = name;
@@ -40,6 +42,7 @@ public abstract class Skill implements SlotContent
 		this.imgName = imgName;
 		this.magickaCost = magickaCost;
 		this.castTime = castTime;
+		this.cooldown = cooldown;
 		owner = character;
 		active = true;
 	}
@@ -47,6 +50,18 @@ public abstract class Skill implements SlotContent
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		tile.draw(x, y, scaledPos);
+	}
+	
+	public void update(int delta)
+	{
+		tile.setActive(active);
+		if(!active)
+			timer += delta;
+		if(timer >= cooldown)
+		{
+			active = true;
+			timer = 0;
+		}
 	}
 	
 	public void setActive(boolean active)

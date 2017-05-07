@@ -15,7 +15,7 @@ import pl.isangeles.senlin.inter.ui.*;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 /**
  * Class containing all ui elements
  * @author Isangeles
@@ -202,7 +202,7 @@ public class UserInterface implements MouseListener
 					} 
 					catch (SlickException | IOException e) 
 					{
-						CommBase.addSystem("Loot load fail!msg/// " + e.getMessage());
+						Log.addSystem("Loot load fail!msg/// " + e.getMessage());
 					}
 				}
 			}

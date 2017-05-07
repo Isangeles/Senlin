@@ -9,14 +9,14 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class CommBase
+public class Log
 {
 	private static List<String> commList = new LinkedList<String>();
 	private static boolean debugMode;
 	/**
 	 * Private constructor to prevent initialization
 	 */
-	private CommBase(){};
+	private Log(){};
 	/**
 	 * Adds new information to communicates stack
 	 * @param information Content of communicate
@@ -49,6 +49,15 @@ public class CommBase
 	public static void addSystem(String systemMsg)
 	{
 		commList.add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
+	}
+	/**
+	 * Adds new speech message to log
+	 * @param who Name of speech author
+	 * @param speech Content of speech
+	 */
+	public static void addSpeech(String who, String speech)
+	{
+		commList.add(who + " " + TConnector.getText("ui", "logSpeech") + ": " + speech);
 	}
 	/**
 	 * Adds message about character points loss
@@ -110,12 +119,12 @@ public class CommBase
 	 */
 	public static void setDebug(boolean debugMode)
 	{
-		CommBase.debugMode = debugMode;
+		Log.debugMode = debugMode;
 		
-		if(CommBase.debugMode)
-			CommBase.addInformation(TConnector.getText("ui", "logDebugOn"));
+		if(Log.debugMode)
+			Log.addInformation(TConnector.getText("ui", "logDebugOn"));
 		else
-    		CommBase.addInformation(TConnector.getText("ui", "logDebugOff"));
+    		Log.addInformation(TConnector.getText("ui", "logDebugOff"));
 	}
 	/**
 	 * Checks if debug mode is on

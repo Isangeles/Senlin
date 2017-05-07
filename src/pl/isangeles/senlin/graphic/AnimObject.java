@@ -5,6 +5,8 @@ import java.io.InputStream;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+
+import pl.isangeles.senlin.util.Coords;
 /**
  * Class for animated objects like avatar parts(torso, head, weapon), etc.
  * TODO make animProgress work
@@ -203,6 +205,23 @@ public class AnimObject extends GameObject
 	public float getAnimDuration()
 	{
 		return animDuration;
+	}
+	/**
+	 * Returns object direction
+	 * @return Direction id (0 - up, 1 - right, 2 - down, 3 - left)
+	 */
+	public int getDirection()
+	{
+		if(move == moveUp || idle == idleUp)
+			return Coords.UP;
+		if(move == moveRight || idle == idleRight)
+			return Coords.RIGHT;
+		if(move == moveDown || idle == idleDown)
+			return Coords.DOWN;
+		if(move == moveLeft || idle == idleLeft)
+			return Coords.LEFT;
+		
+		return 0;
 	}
 	/**
 	 * Checks if attack animation is stopped

@@ -15,7 +15,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game cursor
@@ -70,8 +70,8 @@ public class GameCursor extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount)
 	{
-		if(CommBase.isDebug())
-			CommBase.addDebug("Mouse pos: " + x + "/" +  y);
+		if(Log.isDebug())
+			Log.addDebug("Mouse pos: " + x + "/" +  y);
 	}
 
 	@Override

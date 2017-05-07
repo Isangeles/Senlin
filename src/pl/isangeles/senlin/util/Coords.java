@@ -6,6 +6,10 @@ package pl.isangeles.senlin.util;
  */
 public class Coords
 {
+	public static final int UP = 0,
+							RIGHT = 1,
+							DOWN = 2,
+							LEFT = 3;
 	/**
 	 * Private constructor to prevent initialization
 	 */

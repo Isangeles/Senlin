@@ -127,7 +127,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 				openReq = true;
 			}
 			else
-				lootingChar.move(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
+				lootingChar.moveTo(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
 		}
 		else
 			close();

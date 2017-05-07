@@ -16,7 +16,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.CommBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
@@ -55,9 +55,9 @@ final class Console extends TextInput
 
         super.draw(x, y, false);
         
-        for(int i = 1; i < 6; i ++)
+        for(int i = 1; i < 10; i ++)
         {
-        	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, CommBase.get(CommBase.size()-i));
+        	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, Log.get(Log.size()-i));
         }
         
         if(!hide)
@@ -109,6 +109,13 @@ final class Console extends TextInput
      */
     private void checkCommand(String line)
     {
+    	//If not a game command
+    	if(!line.startsWith("$"))
+    	{
+    		player.getAvatar().speak(line);
+    		return;
+    	}
+    	
         Scanner scann = new Scanner(line);
         String commandTarget = "";
         String command = "";
@@ -119,7 +126,7 @@ final class Console extends TextInput
         }
         catch(NoSuchElementException e)
         {
-        	CommBase.addDebug("Command scann error: " + line);
+        	Log.addDebug("Command scann error: " + line);
         }
         scann.close();
         
@@ -127,11 +134,11 @@ final class Console extends TextInput
         {
         	if(command.equals("on"))
         	{
-        		CommBase.setDebug(true);
+        		Log.setDebug(true);
         	}
         	else if(command.equals("off"))
         	{
-        		CommBase.setDebug(false);
+        		Log.setDebug(false);
         	}
         	
         	return;
@@ -139,7 +146,7 @@ final class Console extends TextInput
         
         if(commandTarget.equals("$player"))
         {
-        	CommBase.addDebug("In player check");
+        	Log.addDebug("In player check");
         	playerCommands(command);
         	return;
         }
@@ -150,7 +157,7 @@ final class Console extends TextInput
         	return;
         }
         
-        CommBase.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
+        Log.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
        
     }
     
@@ -198,9 +205,9 @@ final class Console extends TextInput
     	if(prefix.equals("-i"))
     	{
     		if(target.addItem(ItemBase.getItem(value)))
-                CommBase.addInformation(TConnector.getText("ui", "logAddI"));
+                Log.addInformation(TConnector.getText("ui", "logAddI"));
             else
-                CommBase.addInformation(TConnector.getText("ui", "logAddIFail"));
+                Log.addInformation(TConnector.getText("ui", "logAddIFail"));
     	}
     	try
     	{
@@ -213,7 +220,7 @@ final class Console extends TextInput
     	}
     	catch(NumberFormatException e)
     	{
-    		CommBase.addWarning(TConnector.getText("ui", "logBadVal"));
+    		Log.addWarning(TConnector.getText("ui", "logBadVal"));
     	}
     }
     /**
@@ -239,7 +246,7 @@ final class Console extends TextInput
     	}
     	catch(NumberFormatException e)
     	{
-    		CommBase.addInformation(TConnector.getText("ui", "logBadVal"));
+    		Log.addInformation(TConnector.getText("ui", "logBadVal"));
     	}
     }
     
