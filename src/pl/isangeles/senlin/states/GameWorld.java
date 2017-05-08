@@ -24,6 +24,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -62,7 +63,8 @@ public class GameWorld extends BasicGameState
         	gwCursor = new GameCursor(container);
         	
         	ItemBase.loadBases(container);
-        	NpcBase.load(container);     	
+        	GuildsBase.load();
+        	NpcBase.load(container);    
         	
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);

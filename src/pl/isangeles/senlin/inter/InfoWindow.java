@@ -39,10 +39,7 @@ public class InfoWindow extends InterfaceObject
 		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
 		
-		for(String line : textInfo.split(System.lineSeparator())) //counting lines 
-        {
-            noLines++;
-        }
+		countLines();
 	}
 	/**
 	 * Draws window with information text split into lines
@@ -66,6 +63,7 @@ public class InfoWindow extends InterfaceObject
 	public void setText(String text)
 	{
 		this.textInfo = text;
+		countLines();
 	}
 	/**
 	 * Checks if specified x position need to be corrected to not protrude the screen 
@@ -91,5 +89,16 @@ public class InfoWindow extends InterfaceObject
 			y -= getHeight();
 		
 		return y;
+	}
+	/**
+	 * Counts lines for current text
+	 */
+	private void countLines()
+	{
+		noLines = 0;
+		for(String line : textInfo.split(System.lineSeparator())) //counting lines 
+        {
+            noLines++;
+        }
 	}
 }

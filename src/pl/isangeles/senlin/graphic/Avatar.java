@@ -18,6 +18,7 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.util.*;
 /**
@@ -138,7 +139,7 @@ public class Avatar implements MouseListener
 		else
 			this.weapon = null;
 		
-		avName.setText(character.getName());
+		avName.setText(character.getName() + System.lineSeparator() + character.getGuild().getName());
 		setTargetSprite();
 		
 		torso.update(delta);
@@ -333,7 +334,7 @@ public class Avatar implements MouseListener
 	 */
 	private void setTargetSprite()
 	{
-		switch(character.getAttitude())
+		switch(character.getAttitudeTo(Global.getPlayer()))
 		{
 		case HOSTILE:
 			target = hostileT;

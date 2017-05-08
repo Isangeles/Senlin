@@ -24,6 +24,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
@@ -197,6 +198,7 @@ public final class DConnector
 				Element npc = (Element)npcNode;
 				String id = npc.getAttribute("id");
 				String attitude = npc.getAttribute("attitude");
+				int guildID = Integer.parseInt(npc.getAttribute("guild")); //TODO catch parse exception
 				NpcPattern npcP;
 				
 				String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
@@ -229,12 +231,43 @@ public final class DConnector
 					ItemPattern ip = new ItemPattern(itemInId, ifRandom);
 				}
 				
-				npcP = new NpcPattern(id, attitude, stats, head, chest, hands, mainHand, offHand, feet,
+				npcP = new NpcPattern(id, attitude, guildID, stats, head, chest, hands, mainHand, offHand, feet,
 									  neck, fingerA, fingerB, artifact, gold, itemsIn);
 				npcMap.put(id, npcP);
 			}
 		}
 		
 		return npcMap;
+	}
+	/**
+	 * Parses XML doc and builds map with guilds and guilds IDs as keys
+	 * @param baseFile Name of xml file in data/npc dir
+	 * @return Map with IDs and guilds
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Map<Integer, Guild> getGuildsMap(String baseFile) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<Integer, Guild> guildsMap = new HashMap<>();
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse("data" + File.separator + "npc" + File.separator + baseFile);
+		
+		NodeList nl = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < nl.getLength(); i ++)
+		{
+			Node guildNode = nl.item(i);
+			if(guildNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element guild = (Element)guildNode;
+				Integer guildId = Integer.parseInt(guild.getAttribute("id")); //TODO catch parse exception
+				Guild guildOb = new Guild(guildId, guild.getAttribute("name"));
+				guildsMap.put(guildId, guildOb);
+			}
+		}
+		
+		return guildsMap;
 	}
 }

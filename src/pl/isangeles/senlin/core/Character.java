@@ -15,6 +15,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.graphic.Avatar;
@@ -30,6 +31,7 @@ public class Character implements Targetable
 	private String id;
 	private String name;
 	private Attitude attitude;
+	private Guild guild;
 	private int level;
 	private int experience;
 	private int maxExperience;
@@ -63,6 +65,7 @@ public class Character implements Targetable
 		name = "Name";
 		level = 0;
 		attitude = Attitude.FRIENDLY;
+		guild = GuildsBase.getGuild(0);
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
@@ -81,12 +84,13 @@ public class Character implements Targetable
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, String name, int level, Attributes atributes, String portraitName, GameContainer gc) 
+	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, String portraitName, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
 		this.name = name;
 		this.attitude = attitude;
+		this.guild = GuildsBase.getGuild(guildID);
 		this.attributes = atributes;
 		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		live = true;
@@ -143,6 +147,22 @@ public class Character implements Targetable
 	public void setAttributes(Attributes attributes)
 	{
 		this.attributes = attributes;
+	}
+	/**
+	 * Sets character attitude
+	 * @param attitude Attitude enumeration
+	 */
+	public void setAttitude(Attitude attitude)
+	{
+		this.attitude = attitude;
+	}
+	/**
+	 * Sets character guild
+	 * @param guild Guild object
+	 */
+	public void setGuild(Guild guild)
+	{
+		this.guild = guild;
 	}
 	/**
 	 * Instantly sets character position
@@ -367,6 +387,26 @@ public class Character implements Targetable
 	 */
 	public Attitude getAttitude()
 	{ return attitude; }
+	/**
+	 * Returns attitude to specified character
+	 * @param character Some character
+	 * @return Attitude enumeration
+	 */
+	public Attitude getAttitudeTo(Character character)
+	{
+		if(character == null)
+			return attitude;
+		if(guild == character.getGuild())
+			return Attitude.FRIENDLY;
+		else
+			return attitude;
+	}
+	/**
+	 * Returns guild id
+	 * @return Integer with guild id
+	 */
+	public Guild getGuild()
+	{ return guild; }
 	/**
 	 * Returns current character position
 	 * @return Table with x and y position

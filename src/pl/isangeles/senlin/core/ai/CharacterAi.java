@@ -47,14 +47,14 @@ public class CharacterAi
 			
 			for(Character nearbyChar : gw.getNearbyCharacters(npc))
 			{
-				if(npc.getAttitude() == Attitude.HOSTILE || nearbyChar.getAttitude() == Attitude.HOSTILE)
+				if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
 				{
 					attack(npc, nearbyChar);
 				}
 			}
 			npc.update(delta);
 			
-			//Removing NPCs dynamically causing ConcurrentModificationException   
+			//Removing NPCs dynamically causes ConcurrentModificationException   
 			if(!npc.isLive())
 				deadNpcs.add(npc);
 		}

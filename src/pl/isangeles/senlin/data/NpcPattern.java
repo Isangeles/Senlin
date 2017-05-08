@@ -21,6 +21,7 @@ public class NpcPattern
 {
 	private final String npcId;
 	private final Attitude npcAttitude;
+	private final int guildID;
 	private final String constructorLine;
 	private final String headItem;
 	private final String chestItem;
@@ -52,7 +53,7 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, int guildID, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact,
 					  int gold, List<ItemPattern> invItems) 
@@ -72,6 +73,7 @@ public class NpcPattern
 		default:
 			npcAttitude = Attitude.NEUTRAL;
 		}
+		this.guildID = guildID;
 		this.constructorLine = constructorLine;
 		this.headItem = headItem;
 		this.chestItem = chestItem;
@@ -99,7 +101,7 @@ public class NpcPattern
 	{
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
-		Character npc = new Character(npcId, npcAttitude, scann.next(), scann.nextInt(),
+		Character npc = new Character(npcId, npcAttitude, guildID, scann.next(), scann.nextInt(),
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  scann.next(), gc);
 		scann.close();

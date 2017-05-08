@@ -16,7 +16,9 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for game console
@@ -160,7 +162,10 @@ final class Console extends TextInput
         Log.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
        
     }
-    
+    /**
+     * Checks entered command for system, second command check
+     * @param commandLine Rest of command line (after target) 
+     */
     private void systemCommands(String commandLine)
     {
     	Scanner scann = new Scanner(commandLine);
@@ -189,6 +194,39 @@ final class Console extends TextInput
         {
         	removeCommands(prefix, player);
         }
+        if(command.equals("set"))
+        {
+        	setCommands(prefix, player);
+        }
+    }
+    /**
+     * Checks set command for target, last command check
+     * @param commandLine Rest of command line (after command)
+     * @param target Target of command
+     */
+    private void setCommands(String commandLine, Character target)
+    {
+    	Scanner scann = new Scanner(commandLine);
+    	String prefix = scann.next();
+    	String value = scann.next();
+    	scann.close();
+    	
+    	if(prefix.equals("-guild"))
+    	{
+    		try
+    		{
+    			Guild guild = GuildsBase.getGuild(Integer.parseInt(value));
+        		target.setGuild(guild);
+    		}
+    		catch(NumberFormatException | NoSuchElementException e)
+    		{
+    			Log.addSystem("bad value: " + value);
+    		}
+    	}
+    	if(prefix.equals("-attitude"))
+    	{
+    		
+    	}
     }
     /**
      * Checks add command for target, last command check

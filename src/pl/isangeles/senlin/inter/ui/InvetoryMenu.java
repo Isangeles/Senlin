@@ -277,12 +277,19 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     		return;
     	}
     }
-    
+    /**
+     * Builds and returns string with various player statistics
+     * @return String with player statistics
+     */
     private String[] getCharStats()
     {
-    	return new String[]{player.getName(), "Level: " + player.getLevel(), "Experience: " + player.getExperience() + "/" + player.getMaxExperience(), "Health: " + player.getHealth(),
-    			"Magicka: " + player.getMagicka(), "Haste: " + player.getHaste(), "Damage: " + player.getDamage()[0] + "-" + player.getDamage()[1], "Armor: " + player.getArmorRating(), "Strenght: " + player.getStr(), 
-    			"Constitution: " + player.getCon(), "Dexterity: " + player.getDex(), "Inteligence: " + player.getInt(), "Wisdom: " + player.getWis()};
+    	return new String[]{player.getName(), TConnector.getText("ui", "levelName") + ": " + player.getLevel(), 
+    			TConnector.getText("ui", "expName") + ": " + player.getExperience() + "/" + player.getMaxExperience(), TConnector.getText("ui", "guildName") + ": " + player.getGuild().toString(), 
+    			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(),
+    			TConnector.getText("ui", "hastName") + ": " + player.getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
+    			TConnector.getText("ui", "armRat") + ": " + player.getArmorRating(), TConnector.getText("ui", "attStrName") + ": " + player.getStr(),
+    			TConnector.getText("ui", "attConName") + ": " + player.getCon(), TConnector.getText("ui", "attDexName") + ": " + player.getDex(), 
+    			TConnector.getText("ui", "attIntName") + ": " + player.getInt(), TConnector.getText("ui", "attWisName") + ": " + player.getWis()};
     }
     
     /**
