@@ -3,6 +3,8 @@ package pl.isangeles.senlin.core;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
@@ -39,8 +41,6 @@ public class Character implements Targetable
 	private int maxHealth;
 	private int magicka;
 	private int maxMagicka;
-	private int minDamage; //UNUSED damage calculate dynamically by getDamage method
-	private int maxDamage; //UNUSED damage calculate dynamically by getDamage method 
 	private int[] position = {0, 0};
 	private int[] destPoint = {position[0], position[1]};
 	private float haste;
@@ -51,6 +51,7 @@ public class Character implements Targetable
 	private Inventory inventory;
 	private Abilities abilities;
 	private Targetable target;
+	private Map<Character, Attitude> attitudeMem = new HashMap<>();
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -236,6 +237,7 @@ public class Character implements Targetable
 		if(!live)
 		{
 			avatar.kill();
+			attitude = Attitude.DEAD;
 			return;
 		}
 	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
@@ -396,6 +398,10 @@ public class Character implements Targetable
 	{
 		if(character == null)
 			return attitude;
+		if(!character.isLive())
+		    return Attitude.DEAD;
+		if(attitudeMem.containsKey(character))
+		    return attitudeMem.get(character);
 		if(guild == character.getGuild())
 			return Attitude.FRIENDLY;
 		else
@@ -618,6 +624,20 @@ public class Character implements Targetable
 	public void drawItems(float x, float y)
 	{
 		inventory.drawItems(x, y);
+	}
+	/**
+	 * Memorises specified game character as hostile, friendly or neutral
+	 * @param character Some game character
+	 * @param attitude Attitude to specified character
+	 */
+	public void memCharAs(Character character, Attitude attitude)
+	{
+	    attitudeMem.put(character, attitude);
+	}
+	
+	public void speak(String what)
+	{
+	    avatar.speak(what);
 	}
 	@Override
 	public void setTarget(Targetable target)

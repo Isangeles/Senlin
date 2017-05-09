@@ -44,6 +44,7 @@ public class Avatar implements MouseListener
 	private Sprite hostileT;
 	private Sprite neutralT;
 	private Sprite friendlyT;
+	private Sprite deadT;
 	private Sprite target;
 	
 	private TrueTypeFont ttf;
@@ -71,6 +72,7 @@ public class Avatar implements MouseListener
 		hostileT = new Sprite(GConnector.getInput("sprite/hTarget.png"), "hTarget", false);
 		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
 		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
+		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
 		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "clothSS", false);
 		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
 		
@@ -345,6 +347,9 @@ public class Avatar implements MouseListener
 		case FRIENDLY:
 			target = friendlyT;
 			break;
+		case DEAD:
+		    target = deadT;
+		    break;
 		}
 	}
 }

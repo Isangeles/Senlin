@@ -10,6 +10,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for artificial intelligence controlling game characters
  * @author Isangeles
@@ -42,6 +43,7 @@ public class CharacterAi
 			if(moveTimer > 2000)
 			{
 				moveAround(npc);
+                saySomething(npc, "idle", true);
 				moveTimer = 0;
 			}
 			
@@ -61,12 +63,18 @@ public class CharacterAi
 		
 		aiNpcs.removeAll(deadNpcs);
 	}
-	
+	/**
+	 * Puts specified NPCs under AI control
+	 * @param npcs List with game characters
+	 */
 	public void addNpcs(List<Character> npcs)
 	{
 		aiNpcs.addAll(npcs);
 	}
-	
+	/**
+	 * Moves NPC around 
+	 * @param npc Character controlled by AI
+	 */
 	private void moveAround(Character npc)
 	{
 		if(npc.getTarget() == null)
@@ -74,45 +82,57 @@ public class CharacterAi
 			switch(rng.nextInt(8))
 			{
 			case 0:
-			{
 				if(npc.getAvatar().getDirection() != Coords.UP)
 					npc.move(0, -4);
 				break;
-			}
 			case 1:
-			{
 				if(npc.getAvatar().getDirection() != Coords.RIGHT)
 					npc.move(4, 0);
 				break;
-			}
 			case 2:
-			{
 				if(npc.getAvatar().getDirection() != Coords.DOWN)
 					npc.move(0, 4);
 				break;
-			}
 			case 3:
-			{
 				if(npc.getAvatar().getDirection() != Coords.LEFT)
 					npc.move(-4, 0);
 				break;
-			}
 			default:
-			{
 				return;
-			}
 			}
 		}
 	}
-	
-	private void attack(Character agressor, Targetable target)
+	/**
+	 * Attacks target of AI NPC
+	 * @param agressor Character controlled by AI
+	 * @param target Target of aggressor
+	 */
+	private void attack(Character aggressor, Targetable target)
 	{
-		if(agressor.getTarget() == null)
-			agressor.setTarget(target);
+		if(aggressor.getTarget() == null && target.isLive())
+		{
+            aggressor.setTarget(target);
+            saySomething(aggressor, "aggressive", false);
+		}
+		else if(aggressor.getTarget() != null && !target.isLive())
+            aggressor.setTarget(null);
 		
-		agressor.useSkill(agressor.getSkills().get("autoA"));
-		
-		if(!agressor.getTarget().isLive())
-			agressor.setTarget(null);
+		aggressor.useSkill(aggressor.getSkills().get("autoA"));
+	}
+	/**
+	 * Urges NPC to say something
+	 * @param who Character controled by AI
+	 * @param what String with one of these categories: aggressive, friendly, idle
+	 * @param random Determines whether speech should be random or not 
+	 */
+	private void saySomething(Character who, String what, boolean random)
+	{
+	    if(random)
+	    {
+	        if(rng.nextInt(10) == 1)
+	            who.speak(TConnector.getRanomText(what));
+	    }
+	    else
+	        who.speak(TConnector.getRanomText(what));
 	}
 }
