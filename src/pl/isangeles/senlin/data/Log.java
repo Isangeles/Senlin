@@ -5,7 +5,7 @@ import java.util.List;
 
 import pl.isangeles.senlin.util.TConnector;
 /**
- * Static class for all game communicates
+ * Static class for all in-game communicates
  * @author Isangeles
  *
  */

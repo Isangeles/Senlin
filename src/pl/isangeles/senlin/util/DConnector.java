@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,11 @@ import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.ItemPattern;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.NpcPattern;
+import pl.isangeles.senlin.dialogue.Answer;
+import pl.isangeles.senlin.dialogue.Dialogue;
+import pl.isangeles.senlin.dialogue.DialoguePart;
 
 /**
  * This class provides static methods giving access to game data like items, NPCs, etc;
@@ -269,5 +274,74 @@ public final class DConnector
 		}
 		
 		return guildsMap;
+	}
+	
+	public static Map<String, Dialogue> getDialogueMap(String baseFile) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, Dialogue> dialogsMap = new HashMap<>();
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse("data" + File.separator + "dialogues" + File.separator + baseFile);
+		
+		NodeList nl = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < nl.getLength(); i ++)
+		{
+			Node dialogNode = nl.item(i);
+			if(dialogNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element dialog = (Element)dialogNode;
+				String dialogId = dialog.getAttribute("id");
+				String npcId = dialog.getAttribute("npc");
+				List<DialoguePart> partsList = new ArrayList<>();
+				
+				NodeList parts = dialog.getChildNodes();
+				for(int j = 0; j < dialog.getElementsByTagName("text").getLength(); j ++)
+				{
+					Node textNode = dialog.getElementsByTagName("text").item(j);
+					//Element text = (Element)dialog.getElementsByTagName("text").item(j);
+					partsList.add(getDialoguePartFromNode(textNode));
+				}
+				Dialogue dialogueOb = new Dialogue(dialogId, npcId, partsList);
+				
+				dialogsMap.put(npcId, dialogueOb);
+			}
+		}
+		
+		return dialogsMap;
+	}
+	
+	private static DialoguePart getDialoguePartFromNode(Node textNode)
+	{
+		List<Answer> answersList = new ArrayList<>();
+		if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+		{
+			Element text = (Element)textNode;
+			String id = text.getAttribute("id");
+			String on = text.getAttribute("on");
+			
+			NodeList answers = textNode.getChildNodes();
+			for(int i = 0; i < answers.getLength(); i ++)
+			{
+				Node answerNode = answers.item(i);
+				if(answerNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element answer = (Element)answerNode;
+					
+					boolean endBool = false;
+					if(answer.hasAttribute("end"))
+						endBool = Boolean.parseBoolean(answer.getAttribute("end"));
+					
+					answersList.add(new Answer(answer.getTextContent(), endBool));
+				}
+			}
+			return new DialoguePart(id, on, answersList);
+		}
+		else
+		{
+			Log.addSystem("dialog_builder_msg//fail");
+		}
+		answersList.add(new Answer("bye01", true));
+		return new DialoguePart("err01", "error01", answersList);
 	}
 }

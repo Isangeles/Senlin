@@ -20,12 +20,11 @@ import org.newdawn.slick.gui.MouseOverArea;
  * @author Isangeles
  *
  */
-public final class Button extends InterfaceObject implements MouseListener
+public class Button extends InterfaceObject implements MouseListener
 {
     private String label;
     private Font buttTextFont;
     private TrueTypeFont ttf;
-    private MouseOverArea clickArea;
     private GameContainer gc;
     private boolean isClicked;
     private boolean active;
@@ -90,7 +89,7 @@ public final class Button extends InterfaceObject implements MouseListener
     	else
     		super.draw(x, y, clickColor);
     	
-        clickArea.setLocation(super.x, super.y);
+        moveMOA(super.x, super.y);
         
         super.drawString(label, ttf);
     }
@@ -105,7 +104,7 @@ public final class Button extends InterfaceObject implements MouseListener
     	else
     		super.draw(x, y, clickColor, scaledPos);
     	
-        clickArea.setLocation(super.x, super.y);
+        moveMOA(super.x, super.y);
         
         super.drawString(label, ttf);
     }
@@ -117,7 +116,7 @@ public final class Button extends InterfaceObject implements MouseListener
     
     public boolean isMouseOver()
     {
-    	return clickArea.isMouseOver();
+    	return super.isMouseOver();
     }
     
     public boolean isActive()
@@ -170,7 +169,7 @@ public final class Button extends InterfaceObject implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		if(clickArea.isMouseOver() && active)
+		if(isMouseOver() && active)
 			isClicked = true;
 	}
 
@@ -199,8 +198,6 @@ public final class Button extends InterfaceObject implements MouseListener
         this.gc.getInput().addMouseListener(this);
         
         active = true;
-        
-        clickArea = new MouseOverArea(gc, this, 0, 0, (int)this.getScaledWidth(), (int)this.getScaledHeight());
         
         isClicked = false;
         clickColor = new Color(73, 73, 73);

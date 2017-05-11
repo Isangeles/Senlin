@@ -21,7 +21,7 @@ import pl.isangeles.senlin.util.Settings;
  */
 public abstract class InterfaceObject extends Image
 {   
-    private GameContainer gc;
+    protected GameContainer gc;
     private float scale;
     protected float x;
     protected float y;

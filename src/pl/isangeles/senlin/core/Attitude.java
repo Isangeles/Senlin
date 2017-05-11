@@ -6,5 +6,5 @@ package pl.isangeles.senlin.core;
  */
 public enum Attitude 
 {
-	HOSTILE, NEUTRAL, FRIENDLY, DEAD;
+	FRIENDLY, NEUTRAL, HOSTILE, DEAD;
 }

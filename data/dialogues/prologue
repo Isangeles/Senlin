@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<base>
+    <dialog id="banditTalk" npc="bandit01">
+        <text id="banditTalk01" on="start">
+            <answer>banditTalk01a01</answer>
+            <answer end="true">bye01</answer>        
+        </text>
+        <text id="banditTalk02" on="banditTalk01a01">
+            <answer end="true">bye01</answer>
+        </text>
+    </dialog>
+</base>

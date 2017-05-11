@@ -14,6 +14,7 @@ import pl.isangeles.senlin.inter.Warning;
 import pl.isangeles.senlin.inter.ui.*;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.Log;
 /**
@@ -32,6 +33,7 @@ public class UserInterface implements MouseListener
     private InvetoryMenu inventory;
     private SkillsMenu skills;
     private LootWindow loot;
+    private DialogBox dialogue;
     private CastBar cast;
     private Warning uiWarning;
     /**
@@ -55,6 +57,7 @@ public class UserInterface implements MouseListener
         inventory = new InvetoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         loot = new LootWindow(gc, player);
+        dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
         uiWarning = new Warning(gc, "");
     }
@@ -79,6 +82,9 @@ public class UserInterface implements MouseListener
         
         if(loot.isOpenReq())
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
+        if(dialogue.isOpenReq())
+        	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         if(bBar.isMenuReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
@@ -106,6 +112,8 @@ public class UserInterface implements MouseListener
         targetFrame.update();
         inventory.update();
         skills.update();
+        loot.update();
+        dialogue.update();
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -114,7 +122,7 @@ public class UserInterface implements MouseListener
     public boolean isMouseOver()
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   loot.isMouseOver();
+    		   loot.isMouseOver() || dialogue.isMouseOver();
     }
     /**
      * Checks if exit game is requested
@@ -168,6 +176,8 @@ public class UserInterface implements MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
+		if(player.getTarget() == null)
+			return;
 		try
 		{
 			Character target = (Character)player.getTarget();
@@ -175,23 +185,19 @@ public class UserInterface implements MouseListener
 			{
 				if(target.isLive())
 				{
-					switch(target.getAttitude())
+					switch(target.getAttitudeTo(player))
 					{
-					case HOSTILE:
-					{
-						player.useSkill(player.getSkills().get("autoA"));
-						break;
-					}
-					case NEUTRAL:
-					{
-						player.useSkill(player.getSkills().get("autoA"));
-						break;
-					}
 					case FRIENDLY:
-					{
-						
+						dialogue.open(player, target);
 						break;
-					}
+					case HOSTILE:
+						player.useSkill(player.getSkills().get("autoA"));
+						break;
+					case NEUTRAL:
+						player.useSkill(player.getSkills().get("autoA"));
+						break;
+					case DEAD:
+						break;
 					}
 				}
 				else
@@ -209,6 +215,8 @@ public class UserInterface implements MouseListener
 		}
 		catch(ClassCastException | NullPointerException e)
 		{
+			Log.addSystem("ui_mcheck_fail!msg///"+e);
+			e.printStackTrace();
 			return;
 		}
 	}

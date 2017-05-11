@@ -17,9 +17,11 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.states.Global;
@@ -51,6 +53,7 @@ public class Character implements Targetable
 	private Inventory inventory;
 	private Abilities abilities;
 	private Targetable target;
+	private Dialogue dialog;
 	private Map<Character, Attitude> attitudeMem = new HashMap<>();
 	private Random numberGenerator = new Random();
 	/**
@@ -100,6 +103,7 @@ public class Character implements Targetable
 		abilities = new Abilities();
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
+		dialog = DialoguesBase.getDialog(this.id);
 	}
 	/**
 	 * Adds one level to character
@@ -484,6 +488,11 @@ public class Character implements Targetable
 	 */
 	public Abilities getSkills()
 	{ return abilities; }
+	
+	public Dialogue getDialog()
+	{
+		return dialog;
+	}
 	/**
 	 * Subtract specified value from character health value 
 	 * @param value Value to subtract
