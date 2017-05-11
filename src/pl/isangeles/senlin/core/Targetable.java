@@ -25,6 +25,7 @@ public interface Targetable
 	
 	public void takeHealth(int value);
 	public void takeMagicka(int value);
+	public void takeAttack(int attackDamage);
 	
 	public boolean isLive();
 }

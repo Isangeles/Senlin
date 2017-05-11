@@ -277,7 +277,7 @@ public class Character implements Targetable
 		avatar.update(delta);
 	}
 	/**
-	 * Moves character to given position if thats position is different then actual   
+	 * Moves character to given position  
 	 * @param x Position on X axis
 	 * @param y Position on Y axis
 	 * @return False if given position is same as actual or true if else
@@ -286,6 +286,17 @@ public class Character implements Targetable
 	{
 		destPoint[0] = x;
 		destPoint[1] = y;
+	}
+	/**
+	 * Moves character to given target position   
+	 * @param x Position on X axis
+	 * @param y Position on Y axis
+	 * @return False if given position is same as actual or true if else
+	 */
+	public void moveTo(Targetable target)
+	{
+		destPoint[0] = target.getPosition()[0];
+		destPoint[1] = target.getPosition()[1];
 	}
 	/**
 	 * Moves character by specified values
@@ -528,6 +539,11 @@ public class Character implements Targetable
 		Log.loseInfo(name, value, TConnector.getText("ui", "expName"));
 		if(experience < 0)
 			experience = 0;
+	}
+	
+	public void takeAttack(int attackDamage)
+	{
+		takeHealth(attackDamage);
 	}
 	public void addStr()
 	{ attributes.addStr(); }

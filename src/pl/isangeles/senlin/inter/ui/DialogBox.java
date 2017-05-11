@@ -3,14 +3,11 @@ package pl.isangeles.senlin.inter.ui;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -29,10 +26,12 @@ import pl.isangeles.senlin.dialogue.Answer;
  */
 class DialogBox extends InterfaceObject implements UiElement 
 {
-	private Character interluctorA;
-	private Character interluctorB;
-	
+	private Character interlocutorA;
+	private Character interlocutorB;
+
 	private List<String> dialogueBoxContent = new ArrayList<>();
+	private List<String> dialogueBoxTextA = new ArrayList<>();
+	private List<String> dialogueBoxTextB = new ArrayList<>();
 	private List<Answer> dialogueAnswers;
 	private List<DialogueOption> options = new ArrayList<>();
 	
@@ -66,17 +65,22 @@ class DialogBox extends InterfaceObject implements UiElement
 	{
 		super.draw(x, y, false);
 		
-		interluctorA.getPortrait().draw(x+getDis(17), y+getDis(16), 85f, 120f, false);
-		interluctorB.getPortrait().draw(x+getDis(350), y+getDis(16), 85f, 120f, false);
+		interlocutorA.getPortrait().draw(x+getDis(17), y+getDis(16), 85f, 120f, false);
+		interlocutorB.getPortrait().draw(x+getDis(350), y+getDis(16), 85f, 120f, false);
+		ttf.drawString(x+getDis(115), y+getDis(20), interlocutorA.getName());
+		ttf.drawString(x+getDis(265), y+getDis(20), interlocutorB.getName());
 		
 		for(int i = 0; i < dialogueBoxContent.size(); i ++)
 		{
-			ttf.drawString(x+getDis(260), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i))*i), dialogueBoxContent.get(i));
+			if(dialogueBoxTextB.contains(dialogueBoxContent.get(i)))
+				ttf.drawString(x+getDis(260), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i))*i), dialogueBoxContent.get((dialogueBoxContent.size()-1)-i));
+			if(dialogueBoxTextA.contains(dialogueBoxContent.get(i)))
+				ttf.drawString(x+getDis(15), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i))*i), dialogueBoxContent.get((dialogueBoxContent.size()-1)-i));
 		}
 		
 		for(int i = 0; i < options.size(); i ++)
 		{
-			options.get(i).draw(x+getDis(15), (y+getDis(350)) + (i*options.get(i).getHeight()), false);
+			options.get(i).draw(x+getDis(15), (y+getDis(360)) + (i*options.get(i).getHeight()), false);
 		}
 		
 	}
@@ -84,35 +88,41 @@ class DialogBox extends InterfaceObject implements UiElement
 	@Override
 	public void update() 
 	{
-		if(interluctorA != null && interluctorB != null)
-		{
-			addOptions(dialogueAnswers);
-		}
 	}
 
 	@Override
 	public void reset() 
 	{
 		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
-		interluctorA = null;
-		interluctorB = null;
+		interlocutorA = null;
+		interlocutorB = null;
 		dialogueBoxContent.clear();
-		dialogueAnswers.clear();
+		dialogueBoxTextA.clear();
+		dialogueBoxTextB.clear();
 		clearAnswersBox();
 	}
 	/**
-	 * Opens dialog box
-	 * @param interluctorA 
-	 * @param interluctorB
+	 * Opens dialogue box if 
+	 * @param interlocutorA 
+	 * @param interlocutorB
 	 */
-	public void open(Character interluctorA, Character interluctorB)
+	public void open(Character interlocutorA, Character interlocutorB)
 	{
-		this.interluctorA = interluctorA;
-		this.interluctorB = interluctorB;
+		if(interlocutorA.getRangeFrom(interlocutorB.getPosition()) > 40)
+		{
+			interlocutorA.moveTo(interlocutorB);
+		}
+		else
+		{
+			this.interlocutorA = interlocutorA;
+			this.interlocutorB = interlocutorB;
 
-		dialogueBoxContent.add(interluctorB.getDialog().getText());
-		dialogueAnswers = interluctorB.getDialog().getAnswers();
-		openReq = true;
+			dialogueBoxTextB.add(interlocutorB.getDialog().getText());
+			dialogueBoxContent.add(interlocutorB.getDialog().getText());
+			dialogueAnswers = interlocutorB.getDialog().getAnswers();
+			addOptions(dialogueAnswers);
+			openReq = true;
+		}
 	}
 	/**
 	 * Closes dialog box
@@ -147,10 +157,12 @@ class DialogBox extends InterfaceObject implements UiElement
 	 */
 	private void nextDialogueStage(Answer dialogueOption)
 	{
-        interluctorB.getDialog().answerOn(dialogueOption);
+        interlocutorB.getDialog().answerOn(dialogueOption);
         clearAnswersBox();
-        dialogueBoxContent.add(interluctorB.getDialog().getText());
-        dialogueAnswers = interluctorB.getDialog().getAnswers();
+        dialogueBoxTextB.add(interlocutorB.getDialog().getText());
+		dialogueBoxContent.add(interlocutorB.getDialog().getText());
+        dialogueAnswers = interlocutorB.getDialog().getAnswers();
+        addOptions(dialogueAnswers);
 	}
 	/**
 	 * Clears answer buttons
@@ -190,21 +202,28 @@ class DialogBox extends InterfaceObject implements UiElement
 			{
 				if(option != null && option.isEnd())
 				{
-					interluctorB.getDialog().reset();
+					interlocutorB.getDialog().reset();
 					close();
 				}
 				else if(option != null && !option.isEnd())
 				{
+					dialogueBoxTextA.add(option.getText());
+					dialogueBoxContent.add(option.getText());
 				    nextDialogueStage(option);
 				}
 			}
 		}
-		
+		/**
+		 * Puts specified answer to option slot
+		 * @param option Some answer connected to current dialogue stage
+		 */
 		public void putOption(Answer option)
 		{
 			this.option = option;
 		}
-		
+		/**
+		 * Clears dialogue option slot
+		 */
 		public void clear()
 		{
 			option = null;

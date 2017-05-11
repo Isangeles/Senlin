@@ -75,7 +75,7 @@ public class Attack extends Skill
 				}
 				else
 				{
-	                user.moveTo(target.getPosition()[0]-(range-15), target.getPosition()[1]-(range-15));
+	                user.moveTo(target);
 					Log.addWarning(TConnector.getText("ui", "logNoRange"));
 				}
 			}
@@ -96,7 +96,7 @@ public class Attack extends Skill
 	    if(ready)
 	    {
 	        user.takeMagicka(magickaCost);
-	        target.takeHealth(user.getHit()+damage);
+	        target.takeAttack(user.getHit()+damage);
 	        ready = false;
 	    }
 	}
