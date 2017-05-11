@@ -39,7 +39,13 @@ class DialogBox extends InterfaceObject implements UiElement
 	private TrueTypeFont ttf;
 	
 	private boolean openReq;
-	
+	/**
+	 * Dialogue box constructor
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public DialogBox(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/dialogBoxBG.png"), "uiDialogBoxBg", false, gc);
@@ -60,6 +66,9 @@ class DialogBox extends InterfaceObject implements UiElement
 	{
 		super.draw(x, y, false);
 		
+		interluctorA.getPortrait().draw(x+getDis(17), y+getDis(16), 85f, 120f, false);
+		interluctorB.getPortrait().draw(x+getDis(350), y+getDis(16), 85f, 120f, false);
+		
 		for(int i = 0; i < dialogueBoxContent.size(); i ++)
 		{
 			ttf.drawString(x+getDis(260), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i))*i), dialogueBoxContent.get(i));
@@ -75,7 +84,7 @@ class DialogBox extends InterfaceObject implements UiElement
 	@Override
 	public void update() 
 	{
-		if(interluctorA != null && interluctorA != null)
+		if(interluctorA != null && interluctorB != null)
 		{
 			addOptions(dialogueAnswers);
 		}
@@ -89,12 +98,13 @@ class DialogBox extends InterfaceObject implements UiElement
 		interluctorB = null;
 		dialogueBoxContent.clear();
 		dialogueAnswers.clear();
-		for(DialogueOption dop : options)
-		{
-			dop.clear();
-		}
+		clearAnswersBox();
 	}
-	
+	/**
+	 * Opens dialog box
+	 * @param interluctorA 
+	 * @param interluctorB
+	 */
 	public void open(Character interluctorA, Character interluctorB)
 	{
 		this.interluctorA = interluctorA;
@@ -104,24 +114,53 @@ class DialogBox extends InterfaceObject implements UiElement
 		dialogueAnswers = interluctorB.getDialog().getAnswers();
 		openReq = true;
 	}
-	
+	/**
+	 * Closes dialog box
+	 */
 	public void close()
 	{
 		openReq = false;
 		reset();
 	}
-	
+	/**
+	 * Checks if dialog box is open
+	 * @return True if dialog box is open, false otherwise
+	 */
 	public boolean isOpenReq()
 	{
 		return openReq;
 	}
-
+	/**
+	 * Adds all current dialogue answers to box
+	 * @param answers Current dialogue answers
+	 */
 	private void addOptions(List<Answer> answers)
 	{
 		for(int i = 0; i < answers.size(); i ++)
 		{
 			options.get(i).putOption(answers.get(i));
 		}
+	}
+	/**
+	 * Sets dialogue stage to specified answer-corresponding stage
+	 * @param dialogueOption Answer on previous stage
+	 */
+	private void nextDialogueStage(Answer dialogueOption)
+	{
+        interluctorB.getDialog().answerOn(dialogueOption);
+        clearAnswersBox();
+        dialogueBoxContent.add(interluctorB.getDialog().getText());
+        dialogueAnswers = interluctorB.getDialog().getAnswers();
+	}
+	/**
+	 * Clears answer buttons
+	 */
+	private void clearAnswersBox()
+	{
+        for(DialogueOption dop : options)
+        {
+            dop.clear();
+        }
 	}
 	/**
 	 * Class for dialogue box options 
@@ -156,10 +195,7 @@ class DialogBox extends InterfaceObject implements UiElement
 				}
 				else if(option != null && !option.isEnd())
 				{
-					interluctorB.getDialog().answerOn(option);
-
-					dialogueBoxContent.add(interluctorB.getDialog().getText());
-					dialogueAnswers = interluctorB.getDialog().getAnswers();
+				    nextDialogueStage(option);
 				}
 			}
 		}

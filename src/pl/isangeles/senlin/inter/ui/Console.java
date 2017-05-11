@@ -173,7 +173,8 @@ final class Console extends TextInput
         String prefix = scann.nextLine();
         scann.close();
         
-        
+
+        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdSys"));
     }
     /**
      * Checks entered command for player, second command check
@@ -189,15 +190,20 @@ final class Console extends TextInput
         if(command.equals("add"))
         {
             addCommands(prefix, player);
+            return;
         }
         if(command.equals("remove"))
         {
         	removeCommands(prefix, player);
+            return;
         }
         if(command.equals("set"))
         {
         	setCommands(prefix, player);
+            return;
         }
+        
+        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
     }
     /**
      * Checks set command for target, last command check
@@ -222,11 +228,14 @@ final class Console extends TextInput
     		{
     			Log.addSystem("bad value: " + value);
     		}
+    		return;
     	}
     	if(prefix.equals("-attitude"))
     	{
-    		
+    		return;
     	}
+
+        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
     }
     /**
      * Checks add command for target, last command check
@@ -255,11 +264,15 @@ final class Console extends TextInput
         		player.addMagicka(Integer.parseInt(value));
         	if(prefix.equals("-e"))
         		player.addExperience(Integer.parseInt(value));
+        	
+        	return;
     	}
     	catch(NumberFormatException e)
     	{
     		Log.addWarning(TConnector.getText("ui", "logBadVal"));
     	}
+
+        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
     }
     /**
      * Checks remove command for target, last command check
@@ -276,16 +289,28 @@ final class Console extends TextInput
     	try
     	{
     		if(prefix.equals("-h"))
-        		player.takeHealth(Integer.parseInt(value));
+    		{
+    		    player.takeHealth(Integer.parseInt(value));
+    		    return;
+    		}
         	if(prefix.equals("-m"))
-        		player.takeMagicka(Integer.parseInt(value));
+        	{
+        	    player.takeMagicka(Integer.parseInt(value));
+        	    return;
+        	}
         	if(prefix.equals("-e"))
-        		player.takeExperience(Integer.parseInt(value));
+        	{
+        	    player.takeExperience(Integer.parseInt(value));
+        	    return;
+        	}
+        	
+            Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
     	}
     	catch(NumberFormatException e)
     	{
     		Log.addInformation(TConnector.getText("ui", "logBadVal"));
     	}
+
     }
     
 }
