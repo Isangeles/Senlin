@@ -3,7 +3,9 @@ package pl.isangeles.senlin.core;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -55,6 +57,7 @@ public class Character implements Targetable
 	private Targetable target;
 	private Dialogue dialog;
 	private Map<Character, Attitude> attitudeMem = new HashMap<>();
+	private Effects effects = new Effects();
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -275,6 +278,7 @@ public class Character implements Targetable
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
+		effects.update(delta, this);
 	}
 	/**
 	 * Moves character to given position  
@@ -499,6 +503,12 @@ public class Character implements Targetable
 	 */
 	public Abilities getSkills()
 	{ return abilities; }
+	/**
+	 * Returns character dodge chance
+	 * @return Dodge chance (range 0-100)
+	 */
+	public float getDodgeChance()
+	{ return attributes.getDodge() * 100f; }
 	
 	public Dialogue getDialog()
 	{
@@ -543,7 +553,14 @@ public class Character implements Targetable
 	
 	public void takeAttack(int attackDamage)
 	{
-		takeHealth(attackDamage);
+		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
+		{
+			Log.addInformation(name + ":" + TConnector.getText("ui", "logDodge"));
+		}
+		else
+		{
+			takeHealth(attackDamage - inventory.getArmorRating());
+		}
 	}
 	public void addStr()
 	{ attributes.addStr(); }
@@ -625,6 +642,21 @@ public class Character implements Targetable
     { 
     	inventory.addGold(value);
     	Log.gainInfo(getName(), value, "gold");
+    }
+    
+    public void modHealth(int value)
+    {
+    	maxHealth += value;
+    }
+    
+    public void modMgicka(int value)
+    {
+    	maxMagicka += value;
+    }
+    
+    public void modAttributes(Attributes attributes)
+    {
+    	this.attributes.addAll(attributes);
     }
     /**
      * Activates specified skill, if character know this skill

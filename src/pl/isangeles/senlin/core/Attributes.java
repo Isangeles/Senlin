@@ -32,7 +32,10 @@ public class Attributes
 	{
 		return 1.0f + ((constitution.value/4) + dexterity.value/2)/2;
 	}
-	
+	/**
+	 * Returns basic hit value
+	 * @return Integer with basic hit value
+	 */
 	public int getBasicHit()
 	{
 		return strenght.value *2 + constitution.value;
@@ -41,6 +44,22 @@ public class Attributes
 	public int getBasicSpell()
 	{
 		return intelligence.value *2 + wisdom.value;
+	}
+	/**
+	 * Returns dodge chance
+	 * @return Float with dodge chance
+	 */
+	public float getDodge()
+	{
+		return (dexterity.value+(constitution.value/2f))/100;
+	}
+	/**
+	 * Returns new attributes object with all attributes negative
+	 * @return Attributes with inverted values
+	 */
+	public Attributes nagative()
+	{
+		return new Attributes(-strenght.value, -constitution.value, -dexterity.value, -intelligence.value, -wisdom.value);
 	}
 	
 	public int getStr()
@@ -87,4 +106,16 @@ public class Attributes
 	
 	public void addWis(int value) 
 	{ wisdom.value += value; }
+	/**
+	 * Adds specified attributes to this attributes
+	 * @param attributes Attributes object
+	 */
+	public void addAll(Attributes attributes)
+	{
+		strenght.value += attributes.getStr();
+		constitution.value += attributes.getCon();
+		dexterity.value += attributes.getDex();
+		intelligence.value += attributes.getInt();
+		wisdom.value += attributes.getWis();
+	}
 }

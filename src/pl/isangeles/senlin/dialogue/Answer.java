@@ -16,15 +16,21 @@ public class Answer
 		this.id = text;
 		this.end = end;
 	}
-	
+	/**
+	 * Returns answer ID
+	 * @return String with ID
+	 */
 	public String getId()
 	{
 		return id;
 	}
-	
+	/**
+	 * Returns text corresponding to answer ID
+	 * @return String with text
+	 */
 	public String getText()
 	{
-		return TConnector.getText("prologue", id);
+		return TConnector.getDialogueText(id);
 	}
 	/**
 	 * Checks if that answer ends dialogue

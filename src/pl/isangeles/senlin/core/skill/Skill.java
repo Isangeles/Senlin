@@ -9,7 +9,9 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
 
 /**
@@ -22,20 +24,22 @@ public abstract class Skill implements SlotContent
 	protected String id;
 	protected String name;
 	protected String info;
+	protected EffectType type;
 	protected int magickaCost;
-	protected Character user;
+    protected Character owner;
 	protected Targetable target;
     protected boolean ready;
     protected boolean active;
-    protected Character owner;
+    protected boolean useWeapon;
     protected int cooldown;
     private int castTime;
     private int timer;
  	private String imgName;
 	private SkillTile tile;
 	
-	public Skill(Character character, String id, String name, String info, String imgName, int magickaCost, int castTime, int cooldown) 
+	public Skill(Character character, String id, String name, String info, String imgName, String type, int magickaCost, int castTime, int cooldown, boolean useWeapon) 
 	{
+		this.type = EffectType.fromString(type);
 		this.id = id;
 		this.name = name;
 		this.info = info;
@@ -43,6 +47,7 @@ public abstract class Skill implements SlotContent
 		this.magickaCost = magickaCost;
 		this.castTime = castTime;
 		this.cooldown = cooldown;
+		this.useWeapon = useWeapon;
 		owner = character;
 		active = true;
 	}
@@ -122,5 +127,24 @@ public abstract class Skill implements SlotContent
 	protected void setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		this.tile = new SkillTile(GConnector.getInput("icon/skill/"+imgName), "skillTile", false, gc, getInfo());
+	}
+	
+	protected String getTypeString()
+	{
+		switch(type)
+		{
+		case FIRE:
+			return TConnector.getText("ui", "eleTFire");
+		case ICE:
+			return TConnector.getText("ui", "eleTIce");
+		case NATURE:
+			return TConnector.getText("ui", "eleTNat");
+		case MAGIC:
+			return TConnector.getText("ui", "eleTMag");
+		case NORMAL:
+			return TConnector.getText("ui", "eleTNorm");
+		default:
+			return TConnector.getText("ui", "errorName");
+		}
 	}
 }

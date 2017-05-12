@@ -24,7 +24,9 @@ import org.xml.sax.SAXException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.item.Armor;
@@ -38,7 +40,7 @@ import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
 
 /**
- * This class provides static methods giving access to game data like items, NPCs, etc;
+ * This class provides static methods giving access to external game data like items, NPCs, etc;
  * @author Isangeles
  *
  */
@@ -275,7 +277,14 @@ public final class DConnector
 		
 		return guildsMap;
 	}
-	
+	/**
+	 * Returns Map with dialogues map from specified base file
+	 * @param baseFile XML base file
+	 * @return HashMap with dialogues and npcs IDs as keys
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static Map<String, Dialogue> getDialogueMap(String baseFile) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, Dialogue> dialogsMap = new HashMap<>();
@@ -310,7 +319,71 @@ public final class DConnector
 		
 		return dialogsMap;
 	}
-	
+	/**
+	 * Parses XML base file content to list with Effect objects
+	 * @param baseFile
+	 * @return ArrayList with all effects from base
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public static List<Effect> getEffectsList(String baseFile) throws SAXException, IOException, ParserConfigurationException
+	{
+		List<Effect> effectsList = new ArrayList<>();
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse("data" + File.separator + "skills" + File.separator + baseFile);
+		
+		NodeList nl = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < nl.getLength(); i ++)
+		{
+			Node effectNode = nl.item(i);
+			if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element effect = (Element)effectNode;
+				
+				try
+				{
+					String id = effect.getAttribute("id");
+					int duration = Integer.parseInt(effect.getAttribute("duration"));
+					String type = effect.getAttribute("type");
+					
+					int hpMod = Integer.parseInt(effect.getElementsByTagName("hpMod").item(0).getTextContent());
+					int manaMod = Integer.parseInt(effect.getElementsByTagName("manaMod").item(0).getTextContent());
+					
+					Element attEle = (Element)effect.getElementsByTagName("hpMod").item(0);
+					int str = Integer.parseInt(attEle.getAttribute("str"));
+					int con = Integer.parseInt(attEle.getAttribute("con"));
+					int dex = Integer.parseInt(attEle.getAttribute("dex"));
+					int inte = Integer.parseInt(attEle.getAttribute("int"));
+					int wis = Integer.parseInt(attEle.getAttribute("wis"));
+					Attributes attMod = new Attributes(str, con, dex, inte, wis);
+					
+					float hasteMod = Float.parseFloat(effect.getElementsByTagName("hasteMod").item(0).getTextContent());
+					float dodgeMod = Float.parseFloat(effect.getElementsByTagName("dodgeMod").item(0).getTextContent());
+					int dmgMod = Integer.parseInt(effect.getElementsByTagName("dmgMod").item(0).getTextContent());
+					
+					Effect effectOb = new Effect(hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, duration, type);
+					effectsList.add(effectOb);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("effects_base_builder msg///base element corrupted!");
+					break;
+				}
+				
+				
+			}
+		}
+		
+		return effectsList;
+	}
+	/**
+	 * Returns dialogue part from specified XML node
+	 * @param textNode XML node from dialogues base file
+	 * @return DialoguePart object
+	 */
 	private static DialoguePart getDialoguePartFromNode(Node textNode)
 	{
 		List<Answer> answersList = new ArrayList<>();

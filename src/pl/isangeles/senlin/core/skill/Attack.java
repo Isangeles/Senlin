@@ -31,16 +31,18 @@ public class Attack extends Skill
 	 * @param damage Damage dealt on target
 	 * @param magickaCost Magicka cost of use, determines whether skill is magic or not
 	 * @param castTime Cast time
+	 * @param cooldown Time that must be waited after skill use
 	 * @param range Required range
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String name, String info, String imgName, int damage, int magickaCost, int castTime, int cooldown, int range, GameContainer gc)
+	public Attack(Character character, String id, String name, String info, String imgName, String type, int damage, int magickaCost,
+				  int castTime, int cooldown, boolean useWeapon, int range, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(character, id, name, info, imgName, magickaCost, castTime, cooldown);
+		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon);
 		this.damage = damage;
 		this.range = range;
 		setTile(gc);
@@ -49,7 +51,8 @@ public class Attack extends Skill
 	@Override
 	public String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
+		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
+						  TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
 						  TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
 						  TConnector.getText("ui", "castName") + ":" + getCastSpeed() + System.lineSeparator() + 
 						  TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator() + 
@@ -67,7 +70,6 @@ public class Attack extends Skill
 				Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition())); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
-				    this.user = user;
 				    this.target = target;
 				    ready = true;
 				    active = false;
@@ -95,8 +97,8 @@ public class Attack extends Skill
 	{
 	    if(ready)
 	    {
-	        user.takeMagicka(magickaCost);
-	        target.takeAttack(user.getHit()+damage);
+	        owner.takeMagicka(magickaCost);
+	        target.takeAttack(owner.getHit()+damage);
 	        ready = false;
 	    }
 	}

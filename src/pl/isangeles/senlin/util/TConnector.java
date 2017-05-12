@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
+import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.Log;
 /**
  * Static class giving access to external text files
@@ -90,5 +91,14 @@ public final class TConnector
 	        Log.addSystem("tconnector: msg//" + "No such text in random file!");
             return "...";
 	    }
+	}
+	/**
+	 * Returns dialogue text from current dialogues base
+	 * @param id Id of text in lang file
+	 * @return String with ID-corresponding text for current language 
+	 */
+	public static String getDialogueText(String id)
+	{
+		return getText(DialoguesBase.getBaseName(), id);
 	}
 }

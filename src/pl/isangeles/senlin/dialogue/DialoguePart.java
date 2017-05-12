@@ -29,7 +29,7 @@ public class DialoguePart
 	
 	public String getText()
 	{
-		return TConnector.getText("prologue", id);
+		return TConnector.getDialogueText(id);
 	}
 	
 	public List<Answer> getAnswers()

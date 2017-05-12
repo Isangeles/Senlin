@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<base>
+    <effect id="" duration="" type="">
+        <hpMod></hpMod>
+        <manaMod></manaMod>
+        <attributesMod str="" con="" dex="" int="" wis=""></attributesMod>
+        <hasteMod></hasteMod>
+        <dodgeMod></dodgeMod>
+        <dmgMod></dmgMod>
+    </effect>
+</base>

@@ -66,7 +66,7 @@ public class GameWorld extends BasicGameState
         	ItemBase.loadBases(container);
         	GuildsBase.load();
         	NpcBase.load(container);
-        	DialoguesBase.load();
+        	DialoguesBase.load("prologue");
         	
             areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);

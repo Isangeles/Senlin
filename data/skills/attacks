@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <base>
-<skill id="">
+<skill id="" type="" useWeapon="">
     <name></name>
     <icon></icon>
     <range></range>
     <cast></cast>
     <damage></damage>
     <effects>
+        <effect></effect>
     </effects>
 </skill>
 </base>
