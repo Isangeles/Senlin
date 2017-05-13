@@ -1,14 +1,18 @@
 package pl.isangeles.senlin.core.skill;
 
+import java.util.List;
+
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Effect;
+import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
 
 public class Passive extends Skill 
 {
 
-	public Passive(Character character, String id, String name, String info, String imgName, String type, int magickaCost, boolean useWeapon) 
+	public Passive(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, boolean useWeapon, List<Effect> effects) 
 	{
-		super(character, id, name, info, imgName, type, magickaCost, 0, 0, useWeapon);
+		super(character, id, name, info, imgName, type, magickaCost, 0, 0, useWeapon, effects);
 	}
 
 	@Override

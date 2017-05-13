@@ -2,6 +2,7 @@ package pl.isangeles.senlin.core.skill;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -11,6 +12,7 @@ import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
 
@@ -32,14 +34,15 @@ public abstract class Skill implements SlotContent
     protected boolean active;
     protected boolean useWeapon;
     protected int cooldown;
+    protected List<Effect> effects;
     private int castTime;
     private int timer;
  	private String imgName;
 	private SkillTile tile;
 	
-	public Skill(Character character, String id, String name, String info, String imgName, String type, int magickaCost, int castTime, int cooldown, boolean useWeapon) 
+	public Skill(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
 	{
-		this.type = EffectType.fromString(type);
+		this.type = type;
 		this.id = id;
 		this.name = name;
 		this.info = info;
@@ -48,6 +51,7 @@ public abstract class Skill implements SlotContent
 		this.castTime = castTime;
 		this.cooldown = cooldown;
 		this.useWeapon = useWeapon;
+		this.effects = effects;
 		owner = character;
 		active = true;
 	}
@@ -83,6 +87,11 @@ public abstract class Skill implements SlotContent
 	public String getId()
 	{
 		return id;
+	}
+	
+	public String getName()
+	{
+	    return name;
 	}
 	
 	public SkillTile getTile()

@@ -32,9 +32,12 @@ import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.data.ItemPattern;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.NpcPattern;
+import pl.isangeles.senlin.data.pattern.AttackPattern;
+import pl.isangeles.senlin.data.pattern.EffectPattern;
+import pl.isangeles.senlin.data.pattern.ItemPattern;
+import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
@@ -320,6 +323,69 @@ public final class DConnector
 		return dialogsMap;
 	}
 	/**
+	 * Parses XML base file and builds map with attacks patterns as values and its IDs as keys
+	 * @param baseFile XML base file
+	 * @return Map with attacks patterns as values and its IDs as keys
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public static Map<String, AttackPattern> getAttacksMap(String baseFile) throws SAXException, IOException, ParserConfigurationException
+	{
+	    Map<String, AttackPattern> attacksMap = new HashMap<>();
+	    
+	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document base = db.parse("data" + File.separator + "skills" + File.separator + baseFile);
+	    
+        NodeList nl = base.getDocumentElement().getChildNodes();
+        //Iterating skills nodes
+        for(int i = 0; i < nl.getLength(); i ++)
+        {
+            Node skillNode = nl.item(i);
+            if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element skill = (Element)skillNode;
+                try
+                {
+                    String id = skill.getAttribute("id");
+                    String type = skill.getAttribute("type");
+                    boolean useWeapon = Boolean.parseBoolean(skill.getAttribute("useWeapon"));
+                    
+                    String imgName = skill.getElementsByTagName("icon").item(0).getTextContent();
+                    int range = Integer.parseInt(skill.getElementsByTagName("range").item(0).getTextContent());
+                    int cast = Integer.parseInt(skill.getElementsByTagName("cast").item(0).getTextContent());
+                    int damage = Integer.parseInt(skill.getElementsByTagName("damage").item(0).getTextContent());
+                    int manaCost = Integer.parseInt(skill.getElementsByTagName("manaCost").item(0).getTextContent());
+                    int cooldown = Integer.parseInt(skill.getElementsByTagName("cooldown").item(0).getTextContent());
+                    List<Effect> effects = new ArrayList<>();
+                    
+                    NodeList enl = skill.getElementsByTagName("effects").item(0).getChildNodes();
+                    for(int j = 0; j < enl.getLength(); j ++)
+                    {
+                        Node effectNode = enl.item(j);
+                        //Iterating effects
+                        if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+                        {
+                            Element effect = (Element)effectNode;
+                            String effectId = effect.getTextContent();
+                            effects.add(EffectsBase.getEffect(effectId));
+                        }
+                    }
+                    
+                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, range, effects);
+                    attacksMap.put(id, pattern);
+                }
+                catch(NumberFormatException e)
+                {
+                    Log.addSystem("attacks_base_builder-fail msg///base node corrupted!");
+                    break;
+                }
+            }
+        }
+	    return attacksMap;
+	}
+	/**
 	 * Parses XML base file content to list with Effect objects
 	 * @param baseFile
 	 * @return ArrayList with all effects from base
@@ -327,9 +393,9 @@ public final class DConnector
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static List<Effect> getEffectsList(String baseFile) throws SAXException, IOException, ParserConfigurationException
+	public static Map<String, EffectPattern> getEffectsMap(String baseFile) throws SAXException, IOException, ParserConfigurationException
 	{
-		List<Effect> effectsList = new ArrayList<>();
+		Map<String, EffectPattern> effectsMap = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -352,7 +418,7 @@ public final class DConnector
 					int hpMod = Integer.parseInt(effect.getElementsByTagName("hpMod").item(0).getTextContent());
 					int manaMod = Integer.parseInt(effect.getElementsByTagName("manaMod").item(0).getTextContent());
 					
-					Element attEle = (Element)effect.getElementsByTagName("hpMod").item(0);
+					Element attEle = (Element)effect.getElementsByTagName("attributesMod").item(0);
 					int str = Integer.parseInt(attEle.getAttribute("str"));
 					int con = Integer.parseInt(attEle.getAttribute("con"));
 					int dex = Integer.parseInt(attEle.getAttribute("dex"));
@@ -364,12 +430,13 @@ public final class DConnector
 					float dodgeMod = Float.parseFloat(effect.getElementsByTagName("dodgeMod").item(0).getTextContent());
 					int dmgMod = Integer.parseInt(effect.getElementsByTagName("dmgMod").item(0).getTextContent());
 					
-					Effect effectOb = new Effect(hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, duration, type);
-					effectsList.add(effectOb);
+					EffectPattern effectOb = new EffectPattern(id, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, duration, type);
+					effectsMap.put(id, effectOb);
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("effects_base_builder msg///base element corrupted!");
+					Log.addSystem("effects_base_builder-fail msg///base node corrupted!");
+					e.printStackTrace();
 					break;
 				}
 				
@@ -377,7 +444,7 @@ public final class DConnector
 			}
 		}
 		
-		return effectsList;
+		return effectsMap;
 	}
 	/**
 	 * Returns dialogue part from specified XML node

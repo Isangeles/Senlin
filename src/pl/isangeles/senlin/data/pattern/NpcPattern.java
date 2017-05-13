@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.data;
+package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attitude;

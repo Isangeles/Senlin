@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.pattern.NpcPattern;
 /**
  * Static class for NPC base, contains all game NPCs 
  * @author Isangeles

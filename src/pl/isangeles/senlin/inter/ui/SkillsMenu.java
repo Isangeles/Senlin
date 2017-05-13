@@ -21,6 +21,7 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.Log;
 /**
  * Class for in-game skills menu
  * @author Isangeles
@@ -125,6 +126,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 					if(passives.insertSkill(skill))
 						skillsIn.add(skill);
 				}
+				Log.gainInfo(player.getName(), skill.getName(), "ability");
 			}
 		}
 	}

@@ -5,17 +5,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.core.Attributes;
@@ -54,6 +58,7 @@ public class NewGameMenu extends BasicGameState
 	{
 		try 
 		{
+	        EffectsBase.load();
         	SkillsBase.load(container);
         	
 			player = new Character(container);
@@ -87,7 +92,7 @@ public class NewGameMenu extends BasicGameState
 			buttNext.setActive(false);
 			
 			
-		} catch (IOException | FontFormatException e) 
+		} catch (IOException | FontFormatException | SAXException | ParserConfigurationException e) 
 		{
 			System.err.println(e.getMessage());
 		}

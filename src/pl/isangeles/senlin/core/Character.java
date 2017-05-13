@@ -634,6 +634,20 @@ public class Character implements Targetable
 	 */
 	public boolean addItem(Item item)
 	{ return inventory.add(item); }
+	
+	public boolean addSkill(Skill skill)
+	{
+	    if(abilities.add(skill))
+	    {
+	        Log.addInformation(skill.getName() + " added to container");
+	        return true;
+	    }
+	    else
+	    {
+	        Log.addInformation(skill.getName() + " add fail!");
+	        return false;
+	    }
+	}
 	/**
      * Adds gold to character inventory
      * @param value Integer value to add

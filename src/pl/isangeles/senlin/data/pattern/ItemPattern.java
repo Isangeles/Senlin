@@ -1,8 +1,9 @@
-package pl.isangeles.senlin.data;
+package pl.isangeles.senlin.data.pattern;
 
 import java.util.Random;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.ItemBase;
 /**
  * Class for items patterns
  * @author Isangeles

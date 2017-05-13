@@ -62,13 +62,23 @@ public class Log
 	/**
 	 * Adds message about character points loss
 	 * @param who The author of the message(e.g. character name)
-	 * @param value Value deducted from character health
+	 * @param value Value deducted from character
 	 * @param statName Name of the character statistic from which points were deducted
 	 */
 	public static void loseInfo(String who, int value, String statName)
 	{
 		addInformation(who + " " + TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
 	}
+    /**
+     * Adds message about character points loss
+     * @param who The author of the message(e.g. character name)
+     * @param value Value
+     * @param statName Name of the character statistic from which points were deducted
+     */
+    public static void loseInfo(String who, String value, String statName)
+    {
+        addInformation(who + " " + TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
+    }
 	/**
 	 * Adds message about character points gain
 	 * @param who The author of the message(e.g. character name)
@@ -79,6 +89,16 @@ public class Log
 	{
 		addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
 	}
+    /**
+     * Adds message about character points gain
+     * @param who The author of the message(e.g. character name)
+     * @param value Value
+     * @param statName Name of the character statistic to which points were added
+     */
+    public static void gainInfo(String who, String value, String statName)
+    {
+        addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
+    }
 	/**
 	 * Returns message with specific index
 	 * @param index Index of message on list

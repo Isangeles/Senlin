@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <base>
-<skill id="" type="" useWeapon="">
-    <name></name>
-    <icon></icon>
-    <range></range>
-    <cast></cast>
-    <damage></damage>
+<skill id="slash" type="Normal" useWeapon="true">
+    <icon>slash.png</icon>
+    <range>40</range>
+    <cast>0</cast>
+    <damage>0</damage>
+    <manaCost>0</manaCost>
+    <cooldown>5</cooldown>
     <effects>
-        <effect></effect>
+        <effect>bleed</effect>
     </effects>
 </skill>
 </base>

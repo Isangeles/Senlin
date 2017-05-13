@@ -18,6 +18,7 @@ import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 /**
@@ -259,11 +260,13 @@ final class Console extends TextInput
     	try
     	{
     		if(prefix.equals("-h"))
-        		player.addHealth(Integer.parseInt(value));
+    		    target.addHealth(Integer.parseInt(value));
         	if(prefix.equals("-m"))
-        		player.addMagicka(Integer.parseInt(value));
+        	    target.addMagicka(Integer.parseInt(value));
         	if(prefix.equals("-e"))
-        		player.addExperience(Integer.parseInt(value));
+        	    target.addExperience(Integer.parseInt(value));
+        	if(prefix.equals("-s") || prefix.equals("-skills"))
+        	    target.addSkill(SkillsBase.getAttack(target, value));
         	
         	return;
     	}

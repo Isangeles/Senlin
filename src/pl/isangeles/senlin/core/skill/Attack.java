@@ -3,11 +3,14 @@ package pl.isangeles.senlin.core.skill;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Effect;
+import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
@@ -38,11 +41,11 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String name, String info, String imgName, String type, int damage, int magickaCost,
-				  int castTime, int cooldown, boolean useWeapon, int range, GameContainer gc)
+	public Attack(Character character, String id, String name, String info, String imgName, EffectType type, int damage, int magickaCost,
+				  int castTime, int cooldown, boolean useWeapon, int range, List<Effect> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon);
+		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
 		this.damage = damage;
 		this.range = range;
 		setTile(gc);

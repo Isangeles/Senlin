@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <base>
-    <effect id="" duration="" type="">
-        <hpMod></hpMod>
-        <manaMod></manaMod>
-        <attributesMod str="" con="" dex="" int="" wis=""></attributesMod>
-        <hasteMod></hasteMod>
-        <dodgeMod></dodgeMod>
-        <dmgMod></dmgMod>
+    <effect id="bleed" duration="5" type="normal">
+        <hpMod>-10</hpMod>
+        <manaMod>0</manaMod>
+        <attributesMod str="0" con="-1" dex="-1" int="0" wis="0"></attributesMod>
+        <hasteMod>0</hasteMod>
+        <dodgeMod>0</dodgeMod>
+        <dmgMod>0</dmgMod>
     </effect>
 </base>

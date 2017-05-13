@@ -6,6 +6,8 @@ package pl.isangeles.senlin.core;
  */
 public class Effect 
 {
+    private String id;
+    private String name;
 	private EffectType type;
 	private int hpMod;
 	private int manaMod;
@@ -17,9 +19,11 @@ public class Effect
 	private int time;
 	private boolean on;
 	
-	public Effect(int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, int dmgMod, int duration, String type) 
+	public Effect(String id, String name, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, int dmgMod, int duration, EffectType type) 
 	{
-		this.type = EffectType.fromString(type);
+	    this.id = id;
+	    this.name = name;
+		this.type = type;
 		this.hpMod = hpMod;
 		this.manaMod = manaMod;
 		this.attMod = attMod;
