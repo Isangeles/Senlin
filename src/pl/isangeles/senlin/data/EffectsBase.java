@@ -1,5 +1,6 @@
 package pl.isangeles.senlin.data;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Effect;
@@ -21,6 +24,7 @@ import pl.isangeles.senlin.util.DConnector;
  */
 public class EffectsBase 
 {
+	private static GameContainer gc;
 	private static Map<String, EffectPattern> effectsMap = new HashMap<>();
 	
 	private EffectsBase() 
@@ -31,7 +35,14 @@ public class EffectsBase
 	{
 	    if(effectsMap.get(id) != null)
 	    {
-	        return effectsMap.get(id).make();
+	        try 
+	        {
+				return effectsMap.get(id).make(gc);
+			} 
+	        catch (SlickException | IOException | FontFormatException e) {
+	        	Log.addSystem("effects_base_get-fail msg///effect building from pattern fail: " + id);
+	            return null;
+			}
 	    }
 	    else
 	    {
@@ -40,8 +51,9 @@ public class EffectsBase
 	    }
 	}
 
-	public static void load() throws SAXException, IOException, ParserConfigurationException
+	public static void load(GameContainer gc) throws SAXException, IOException, ParserConfigurationException
 	{
+		EffectsBase.gc = gc;
 		effectsMap = DConnector.getEffectsMap("effects");
 	}
 }

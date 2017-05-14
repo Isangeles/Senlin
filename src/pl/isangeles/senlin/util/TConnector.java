@@ -59,6 +59,16 @@ public final class TConnector
 		}
 	}
 	/**
+	 * Returns table with name[0] and info[1] for specified lang file and ID
+	 * @param langFile Some file in current lang directory
+	 * @param id ID of line in specified file
+	 * @return Table with name[0] and info[1]
+	 */
+	public static String[] getInfo(String langFile, String id)
+	{
+		return getText(langFile, id).split(";");
+	}
+	/**
 	 * Returns random text from "random" file in data/lang directory
 	 * @param category One of categories in random file
 	 * @return Random text from specified category in data/lang/[current language]/random file

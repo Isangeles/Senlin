@@ -1,3 +1,2 @@
-autoA:Attack;
-slash:Slash;
-slashInfo:Weapon slash causing bleeding;
+autoA:Attack;Basic attack;
+slash:Slash;Weapon slash causing bleeding;

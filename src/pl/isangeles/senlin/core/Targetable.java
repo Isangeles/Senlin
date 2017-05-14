@@ -1,5 +1,7 @@
 package pl.isangeles.senlin.core;
 
+import java.util.List;
+
 import pl.isangeles.senlin.inter.Portrait;
 
 /**
@@ -14,6 +16,7 @@ public interface Targetable
 	
 	public String getName();
 	public Portrait getPortrait();
+	public Effects getEffects();
 	public int getHealth();
 	public int getMaxHealth();
 	public int getMagicka();
@@ -25,7 +28,7 @@ public interface Targetable
 	
 	public void takeHealth(int value);
 	public void takeMagicka(int value);
-	public void takeAttack(int attackDamage);
+	public void takeAttack(int attackDamage, List<Effect> effects);
 	
 	public boolean isLive();
 }

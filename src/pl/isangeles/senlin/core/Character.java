@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
@@ -504,6 +506,11 @@ public class Character implements Targetable
 	public Abilities getSkills()
 	{ return abilities; }
 	/**
+	 * Returns all effects on character
+	 */
+	public Effects getEffects()
+	{ return effects; }
+	/**
 	 * Returns character dodge chance
 	 * @return Dodge chance (range 0-100)
 	 */
@@ -550,8 +557,10 @@ public class Character implements Targetable
 		if(experience < 0)
 			experience = 0;
 	}
-	
-	public void takeAttack(int attackDamage)
+	/**
+	 * Handles attacks
+	 */
+	public void takeAttack(int attackDamage, List<Effect> attackEffects)
 	{
 		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
 		{
@@ -560,6 +569,11 @@ public class Character implements Targetable
 		else
 		{
 			takeHealth(attackDamage - inventory.getArmorRating());
+			for(Effect effect : attackEffects)
+			{
+				effect.turnOn(this);
+				effects.add(effect);
+			}
 		}
 	}
 	public void addStr()
@@ -661,6 +675,8 @@ public class Character implements Targetable
     public void modHealth(int value)
     {
     	maxHealth += value;
+    	
+    	Log.addInformation(name + ": " + value + " " + TConnector.getText("ui", "hpName"));
     }
     
     public void modMgicka(int value)

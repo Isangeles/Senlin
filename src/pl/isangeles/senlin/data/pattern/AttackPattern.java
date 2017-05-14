@@ -12,7 +12,11 @@ import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.util.TConnector;
-
+/**
+ * Pattern for attack skills
+ * @author Isangeles
+ *
+ */
 public class AttackPattern
 {
     private String id;
@@ -32,8 +36,8 @@ public class AttackPattern
     {
         this.type = EffectType.fromString(type);
         this.id = id;
-        this.name = TConnector.getText("skills", id);
-        this.info = TConnector.getText("skills", id+"Info");
+        this.name = TConnector.getInfo("skills", id)[0];
+        this.info = TConnector.getInfo("skills", id)[1];
         this.imgName = imgName;
         this.magickaCost = magickaCost;
         this.castTime = castTime*1000;

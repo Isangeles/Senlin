@@ -58,7 +58,7 @@ public class NewGameMenu extends BasicGameState
 	{
 		try 
 		{
-	        EffectsBase.load();
+	        EffectsBase.load(container);
         	SkillsBase.load(container);
         	
 			player = new Character(container);

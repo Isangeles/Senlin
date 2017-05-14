@@ -1,6 +1,7 @@
 package pl.isangeles.senlin.core;
 
 import java.util.ArrayList;
+import java.util.List;
 /**
  * Container for character effects
  * @author Isangeles
@@ -20,6 +21,7 @@ public class Effects extends ArrayList<Effect>
 	 */
 	public void update(int delta, Character character)
 	{
+		List<Effect> effectsToRemove = new ArrayList<>();
 		for(Effect effect : this)
 		{
 			if(effect.isOn())
@@ -30,8 +32,9 @@ public class Effects extends ArrayList<Effect>
 			else
 			{
 				effect.removeFrom(character);
-				this.remove(effect);
+				effectsToRemove.add(effect);
 			}
 		}
+		this.removeAll(effectsToRemove);
 	}
 }

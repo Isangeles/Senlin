@@ -414,6 +414,7 @@ public final class DConnector
 					String id = effect.getAttribute("id");
 					int duration = Integer.parseInt(effect.getAttribute("duration"));
 					String type = effect.getAttribute("type");
+					String icon = effect.getAttribute("icon");
 					
 					int hpMod = Integer.parseInt(effect.getElementsByTagName("hpMod").item(0).getTextContent());
 					int manaMod = Integer.parseInt(effect.getElementsByTagName("manaMod").item(0).getTextContent());
@@ -429,8 +430,9 @@ public final class DConnector
 					float hasteMod = Float.parseFloat(effect.getElementsByTagName("hasteMod").item(0).getTextContent());
 					float dodgeMod = Float.parseFloat(effect.getElementsByTagName("dodgeMod").item(0).getTextContent());
 					int dmgMod = Integer.parseInt(effect.getElementsByTagName("dmgMod").item(0).getTextContent());
+					int dot = Integer.parseInt(effect.getElementsByTagName("dot").item(0).getTextContent());
 					
-					EffectPattern effectOb = new EffectPattern(id, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, duration, type);
+					EffectPattern effectOb = new EffectPattern(id, icon, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, dot, duration, type);
 					effectsMap.put(id, effectOb);
 				}
 				catch(NumberFormatException e)

@@ -3,6 +3,7 @@ package pl.isangeles.senlin.core.skill;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -12,6 +13,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
@@ -101,7 +103,16 @@ public class Attack extends Skill
 	    if(ready)
 	    {
 	        owner.takeMagicka(magickaCost);
-	        target.takeAttack(owner.getHit()+damage);
+	        
+	        List<Effect> effectsToPass = new ArrayList<>();
+	        if(effects != null)
+	        {
+		        for(Effect effect : effects)
+		        {
+		        	effectsToPass.add(EffectsBase.getEffect(effect.getId()));
+		        }
+	        }
+	        target.takeAttack(owner.getHit()+damage, effectsToPass);
 	        ready = false;
 	    }
 	}

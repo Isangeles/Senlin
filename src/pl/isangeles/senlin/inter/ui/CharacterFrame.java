@@ -14,7 +14,9 @@ import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.data.Log;
 /**
  * Class for player character frame
  * TODO fix experience bar on resolutions different then default
@@ -74,6 +76,21 @@ class CharacterFrame extends InterfaceObject
         health.draw(x+139, y+36);
         magicka.draw(x+139, y+62);
         experience.draw(x+139, y+88);
+        
+        //Draws effects
+    	int row = 0;
+    	int column = 0;
+        for(Effect effect : character.getEffects())
+        {
+        	EffectTile icon = effect.getTile();
+        	icon.draw(x+getDis(34) + (icon.getWidth()*column), y+getDis(142) + (icon.getHeight()*row), false);
+        	column ++;
+        	if(column == 6)
+        	{
+        		row ++;
+        		column = 0;
+        	}
+        }
 
         frameMOA.setLocation(super.x, super.y);
     }
