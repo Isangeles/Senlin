@@ -15,9 +15,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.CursorLoader;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
@@ -68,7 +70,7 @@ public class GameWorld extends BasicGameState
         	NpcBase.load(container);
         	DialoguesBase.load("prologue");
         	
-            areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
+            areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "a1BC.tmx"));
             ui = new UserInterface(container, player);
             
            
@@ -142,7 +144,7 @@ public class GameWorld extends BasicGameState
     {
     	if(!ui.isMouseOver() && !isPause())
     	{
-    		if(button == Input.MOUSE_LEFT_BUTTON)
+    		if(button == Input.MOUSE_LEFT_BUTTON && isMovable())
     		{
     			player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
     			Log.addInformation("Move: " + (int)Global.worldX(x) + "/" + (int)Global.worldY(y)); //TEST LINE
@@ -153,6 +155,12 @@ public class GameWorld extends BasicGameState
     @Override
     public void keyPressed(int key, char c)
     {
+    }
+
+    @Override
+    public int getID()
+    {
+        return 2;
     }
     /**
      * KeyDown method called in update, because engine does not provide keyDown method for override  
@@ -175,12 +183,31 @@ public class GameWorld extends BasicGameState
     {
         return ui.isPauseReq();
     }
-
-    @Override
-    public int getID()
-    {
-        return 2;
-    }
     
-
+    private boolean isMovable()
+    {
+    	Rectangle playerRect = new Rectangle(player.getPosition()[0], player.getPosition()[1], player.getAvatar().getWidth(), player.getAvatar().getHeight());
+    	
+    	List<Rectangle> obstacles = new ArrayList<>();
+    	for(int i = 0; i < areaMap.getHeight(); i += areaMap.getTileHeight())
+    	{
+    		for(int j = 0; j < areaMap.getWidth(); j += areaMap.getTileWidth())
+    		{
+    			Image tile = areaMap.getTileImage(j, i, 1);
+    			if(tile != null)
+    			{
+    				Rectangle obstacle = new Rectangle(j, i, tile.getWidth(), tile.getHeight());
+    				obstacles.add(obstacle);
+    			}
+    		}
+    	}
+    	
+    	for(Rectangle obstacle : obstacles)
+    	{
+    		if(obstacle.intersects(playerRect))
+    			return false;
+    	}
+    	
+    	return true;
+    }
 }

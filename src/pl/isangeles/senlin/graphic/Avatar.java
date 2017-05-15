@@ -273,6 +273,16 @@ public class Avatar implements MouseListener
 	{
 		return torso.getDirection();
 	}
+	
+	public float getWidth()
+	{
+		return torso.getWidth();
+	}
+	
+	public float getHeight()
+	{
+		return torso.getHeight();
+	}
 	@Override
 	public void inputEnded() 
 	{

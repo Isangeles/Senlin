@@ -9,14 +9,36 @@
  <tileset firstgid="520" name="plant2" tilewidth="32" tileheight="32" tilecount="42">
   <image source="tile/plant2.png" width="225" height="205"/>
  </tileset>
- <layer name="Warstwa Kafelków 1" width="70" height="50">
+ <tileset firstgid="562" name="camp" tilewidth="128" tileheight="128" tilecount="5">
+  <tile id="0">
+   <image width="128" height="128" source="tile/camp/0.png"/>
+  </tile>
+  <tile id="1">
+   <image width="128" height="128" source="tile/camp/1.png"/>
+  </tile>
+  <tile id="2">
+   <image width="128" height="128" source="tile/camp/2.png"/>
+  </tile>
+  <tile id="3">
+   <image width="128" height="128" source="tile/camp/3.png"/>
+  </tile>
+  <tile id="4">
+   <image width="128" height="128" source="tile/camp/4.png"/>
+  </tile>
+ </tileset>
+ <layer name="terrainA" width="70" height="50">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
   </data>
  </layer>
- <layer name="Warstwa Kafelków 2" width="70" height="50">
+ <layer name="terrainB" width="70" height="50">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3WvQrCMBiF4bRegfegV+zu76Sbg6OgboKbuCvopIuTox6hYpQ0dMgQ+N4HXroFeoamzgEAAAAAAAAAACB3veKbZf4Osaxouoe1rdglrO5d+2qghmpUPd+N1UTNDe4yVTO1CbSvWhrcZVGzib/L1tguK7VusMvB2C67yCafXY7qxC4/XdUt0/uonfCs/13O6hLZ5ZHxPd1R3URnhb67d/X0cqVzhSpVq8x3l5T4rwtjEwAAAABA7l6Qxs0EsDYAAA==
+  </data>
+ </layer>
+ <layer name="buildings" width="70" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Sqw0AIBQDwBdG4rf/aEgwGFCEO1VR1TQCWNU0c0773i+6DY74TkSxARea/wAAAAAAAAAAAAAAPGkAJT6ElLA2AAA=
   </data>
  </layer>
 </map>
