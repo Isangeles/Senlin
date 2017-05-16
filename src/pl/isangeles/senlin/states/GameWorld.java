@@ -70,7 +70,7 @@ public class GameWorld extends BasicGameState
         	NpcBase.load(container);
         	DialoguesBase.load("prologue");
         	
-            areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "a1BC.tmx"));
+            areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
             ui = new UserInterface(container, player);
             
            
@@ -112,7 +112,7 @@ public class GameWorld extends BasicGameState
         if(!isPause())
             keyDown(container.getInput());
     	
-    	player.update(delta);
+    	player.update(delta, areaMap);
     	npcsAi.update(delta);
     	
     	if(ui.isExitReq())
@@ -139,15 +139,22 @@ public class GameWorld extends BasicGameState
     	return nearbyCharacters;
     }
     
+    public TiledMap getAreaMap()
+    {
+        return areaMap;
+    }
+    
     @Override
     public void mouseReleased(int button, int x, int y)
     {
     	if(!ui.isMouseOver() && !isPause())
     	{
-    		if(button == Input.MOUSE_LEFT_BUTTON && isMovable())
+            int worldX = (int)Global.worldX(x);
+            int worldY = (int)Global.worldY(y);
+    		if(button == Input.MOUSE_LEFT_BUTTON && isMovable(worldX, worldY))
     		{
-    			player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
-    			Log.addInformation("Move: " + (int)Global.worldX(x) + "/" + (int)Global.worldY(y)); //TEST LINE
+    			player.moveTo(worldX, worldY);
+    			Log.addInformation("Move: " + worldX + "/" + worldY + " " + areaMap.getTileId(worldX/areaMap.getTileWidth(), worldY/areaMap.getTileHeight(), 1)); //TEST LINE
     		}
     	}
     }
@@ -184,29 +191,10 @@ public class GameWorld extends BasicGameState
         return ui.isPauseReq();
     }
     
-    private boolean isMovable()
+    private boolean isMovable(int x, int y)
     {
-    	Rectangle playerRect = new Rectangle(player.getPosition()[0], player.getPosition()[1], player.getAvatar().getWidth(), player.getAvatar().getHeight());
-    	
-    	List<Rectangle> obstacles = new ArrayList<>();
-    	for(int i = 0; i < areaMap.getHeight(); i += areaMap.getTileHeight())
-    	{
-    		for(int j = 0; j < areaMap.getWidth(); j += areaMap.getTileWidth())
-    		{
-    			Image tile = areaMap.getTileImage(j, i, 1);
-    			if(tile != null)
-    			{
-    				Rectangle obstacle = new Rectangle(j, i, tile.getWidth(), tile.getHeight());
-    				obstacles.add(obstacle);
-    			}
-    		}
-    	}
-    	
-    	for(Rectangle obstacle : obstacles)
-    	{
-    		if(obstacle.intersects(playerRect))
-    			return false;
-    	}
+        if(areaMap.getTileId(x/areaMap.getTileWidth(), y/areaMap.getTileHeight(), 1) != 0)
+            return false;
     	
     	return true;
     }

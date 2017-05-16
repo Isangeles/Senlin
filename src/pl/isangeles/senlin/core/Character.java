@@ -14,6 +14,7 @@ import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.item.Item;
@@ -241,7 +242,7 @@ public class Character implements Targetable
 	 * Updates character avatar animation
 	 * @param delta
 	 */
-	public void update(int delta)
+	public void update(int delta, TiledMap map)
 	{
 		if(!live)
 		{
@@ -258,23 +259,35 @@ public class Character implements Targetable
             avatar.move(true);
             if(position[0] > destPoint[0])
             {
-                position[0] -= 1;
-                avatar.goLeft();
+                if(isMovable(position[0]-1, position[1], map))
+                {
+                    position[0] -= 1;
+                    avatar.goLeft();
+                }
             }
             if(position[0] < destPoint[0])
             {
-                position[0] += 1;
-                avatar.goRight();
+                if(isMovable(position[0]+1, position[1], map))
+                {
+                    position[0] += 1;
+                    avatar.goRight();
+                }
             }
             if(position[1] > destPoint[1])
             {
-                position[1] -= 1;
-                avatar.goUp();
+                if(isMovable(position[0], position[1]-1, map))
+                {
+                    position[1] -= 1;
+                    avatar.goUp();
+                }
             }
             if(position[1] < destPoint[1])
             {
-                position[1] += 1;
-                avatar.goDown();
+                if(isMovable(position[0], position[1]+1, map))
+                {
+                    position[1] += 1;
+                    avatar.goDown();
+                }
             }
         }
 	    
@@ -735,5 +748,13 @@ public class Character implements Targetable
 	public Targetable getTarget() 
 	{
 		return target;
+	}
+	
+	private boolean isMovable(int x, int y, TiledMap map)
+	{
+	    if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 1) != 0)
+            return false;
+        
+        return true;
 	}
 }
