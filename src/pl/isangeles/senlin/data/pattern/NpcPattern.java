@@ -34,6 +34,7 @@ public class NpcPattern
 	private final String fingerAItem;
 	private final String fingerBItem;
 	private final String artifact;
+	private final String spritesheet;
 	private final int gold;
 	private final List<ItemPattern> invItems;
 	/**
@@ -56,7 +57,7 @@ public class NpcPattern
 	 */
 	public NpcPattern(String npcId, String attitude, int guildID, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
-					  String neckItem, String fingerAItem, String fingerBItem, String artifact,
+					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
 					  int gold, List<ItemPattern> invItems) 
 	{
 		this.npcId = npcId;
@@ -86,6 +87,7 @@ public class NpcPattern
 		this.fingerAItem = fingerAItem;
 		this.fingerBItem = fingerBItem;
 		this.artifact = artifact;
+		this.spritesheet = spritesheet;
 		this.gold = gold;
 		this.invItems = invItems;
 		
@@ -104,7 +106,7 @@ public class NpcPattern
 		scann.useDelimiter(";");
 		Character npc = new Character(npcId, npcAttitude, guildID, scann.next(), scann.nextInt(),
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
-									  scann.next(), gc);
+									  scann.next(), spritesheet, gc);
 		scann.close();
 		Item helmet = ItemBase.getItem(headItem);
 		Item chest = ItemBase.getItem(chestItem);

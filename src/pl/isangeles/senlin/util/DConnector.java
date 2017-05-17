@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,6 +35,8 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.Scenario;
+import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.pattern.ItemPattern;
@@ -41,6 +44,7 @@ import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
+import pl.isangeles.senlin.util.parser.ScenarioParser;
 
 /**
  * This class provides static methods giving access to external game data like items, NPCs, etc;
@@ -212,6 +216,7 @@ public final class DConnector
 				NpcPattern npcP;
 				
 				String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
+				String spritesheet = npc.getElementsByTagName("spritesheet").item(0).getTextContent();
 				
 				NodeList npcNodes = npcNode.getChildNodes();
 				Node eqNode = npcNodes.item(1);
@@ -242,7 +247,7 @@ public final class DConnector
 				}
 				
 				npcP = new NpcPattern(id, attitude, guildID, stats, head, chest, hands, mainHand, offHand, feet,
-									  neck, fingerA, fingerB, artifact, gold, itemsIn);
+									  neck, fingerA, fingerB, artifact, spritesheet, gold, itemsIn);
 				npcMap.put(id, npcP);
 			}
 		}
@@ -447,6 +452,45 @@ public final class DConnector
 		}
 		
 		return effectsMap;
+	}
+	/**
+	 * Returns map with all scenarios from specified file with scenarios IDs
+	 * @param scenariosList file with scenarios IDs from data/area/scenarios dir
+	 * @return Map with scenarios as values and its IDs as keys
+	 * @throws FileNotFoundException
+	 */
+	public static Map<String, Scenario> getScenarios(String scenariosList) throws FileNotFoundException
+	{
+		Map<String, Scenario> scenariosMap = new HashMap<>();
+
+		String scenariosDir = "data" + File.separator + "area" + File.separator + "scenarios" + File.separator;
+		
+		List<File> scenariosFiles = new ArrayList<>();
+		File list = new File(scenariosDir + scenariosList);
+		
+		Scanner scann = new Scanner(list);
+		scann.useDelimiter(";\r?\n");
+		while(scann.hasNext())
+		{
+			scenariosFiles.add(new File(scenariosDir + scann.next()));
+		}
+		scann.close();
+		
+		for(File scenarioFile : scenariosFiles)
+		{
+			try 
+			{
+				Scenario sc = ScenarioParser.getScenarioFromFile(scenarioFile);
+				scenariosMap.put(sc.getId(), sc);
+			} 
+			catch (ParserConfigurationException | SAXException | IOException | SlickException| FontFormatException e) 
+			{
+				Log.addSystem("scenario_parser_fail msg///" + scenarioFile.toString());
+			}
+			
+		}
+		
+		return scenariosMap;
 	}
 	/**
 	 * Returns dialogue part from specified XML node

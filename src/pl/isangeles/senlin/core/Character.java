@@ -79,7 +79,7 @@ public class Character implements Targetable
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
-		avatar = new Avatar(this, gc);
+		avatar = new Avatar(this, gc, "cloth12221-45x55-2.png");
 		inventory = new Inventory();
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));
@@ -94,7 +94,7 @@ public class Character implements Targetable
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, String portraitName, GameContainer gc) 
+	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, String portraitName, String spritesheet, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
@@ -104,7 +104,7 @@ public class Character implements Targetable
 		this.attributes = atributes;
 		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		live = true;
-		avatar = new Avatar(this, gc);
+		avatar = new Avatar(this, gc, spritesheet);
 		inventory = new Inventory();
 		abilities = new Abilities();
 		addLevel(level);
@@ -752,7 +752,8 @@ public class Character implements Targetable
 	
 	private boolean isMovable(int x, int y, TiledMap map)
 	{
-	    if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 1) != 0)
+	    if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || 
+	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0)
             return false;
         
         return true;

@@ -64,7 +64,7 @@ public class Avatar implements MouseListener
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Avatar(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Avatar(Character character, GameContainer gc, String spritesheet) throws SlickException, IOException, FontFormatException
 	{
 		gc.getInput().addMouseListener(this);
 		this.character = character;
@@ -73,7 +73,7 @@ public class Avatar implements MouseListener
 		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
 		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
 		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
-		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "clothSS", false);
+		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), "clothSS", false);
 		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");

@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.DConnector;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 /**
@@ -39,6 +40,26 @@ public class NpcBase
 	{
 		if(npcs.get(npcId) != null)
 			return npcs.get(npcId).make(gc);
+		else
+			return null;
+	}
+	/**
+	 * Spawns character with specified id at specified position
+	 * @param npcId NPC ID in base
+	 * @param pos Table with position on x-axis[0] and y-axis[1]
+	 * @return New character object
+	 * @throws IOException
+	 * @throws FontFormatException
+	 * @throws SlickException
+	 */
+	public static Character spawnAt(String npcId, Position pos) throws IOException, FontFormatException, SlickException
+	{
+		if(npcs.get(npcId) != null)
+		{
+			Character newChar = npcs.get(npcId).make(gc);
+			newChar.setPosition(pos.x, pos.y);
+			return newChar;
+		}
 		else
 			return null;
 	}

@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399" columns="19">
+ <tileset firstgid="1" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399">
   <image source="tile/forestground06dv5.png" width="629" height="679"/>
  </tileset>
- <tileset firstgid="400" name="watertileset3qb2tg0" tilewidth="32" tileheight="32" tilecount="120" columns="12">
+ <tileset firstgid="400" name="watertileset3qb2tg0" tilewidth="32" tileheight="32" tilecount="120">
   <image source="tile/watertileset3qb2tg0.png" width="410" height="331"/>
  </tileset>
- <tileset firstgid="520" name="plant2" tilewidth="32" tileheight="32" tilecount="42" columns="7">
+ <tileset firstgid="520" name="plant2" tilewidth="32" tileheight="32" tilecount="42">
   <image source="tile/plant2.png" width="225" height="205"/>
+ </tileset>
+ <tileset firstgid="562" name="camp01" tilewidth="32" tileheight="32" tilecount="162">
+  <image source="tile/camp/camp.png" width="600" height="300"/>
+ </tileset>
+ <tileset firstgid="724" name="ruins" tilewidth="32" tileheight="32" tilecount="378">
+  <image source="tile/camp/ruins.png" width="600" height="700"/>
  </tileset>
  <layer name="terrainA" width="70" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
+   H4sIAAAAAAAAA+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
   </data>
  </layer>
  <layer name="terrainB" width="70" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WvQrCMBiF4bRegfegV+zu76Sbg6OgboKbuCvopIuTox6hYpQ0dMgQ+N4HXroFeoamzgEAAAAAAAAAACB3veKbZf4Osaxouoe1rdglrO5d+2qghmpUPd+N1UTNDe4yVTO1CbSvWhrcZVGzib/L1tguK7VusMvB2C67yCafXY7qxC4/XdUt0/uonfCs/13O6hLZ5ZHxPd1R3URnhb67d/X0cqVzhSpVq8x3l5T4rwtjEwAAAABA7l6Qxs0EsDYAAA==
+   H4sIAAAAAAAAA+3UuwrCQBQE0CWVYqHYRBsFBdGAj///OkewsEjSyz0HprlbzRTbGgAAwH+6dq3duvG33cS9gme6v0b6H3I7zuyyKrzZZab7tvAuv07Z4ZwskmWyL7zLPd0f3/6fP2hI1smm8CZTepsAAAAAAAAAAEA5b7vPDsWwNgAA
+  </data>
+ </layer>
+ <layer name="terrainC" width="70" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3ZvQ7BUACG4aOugEvwcw3ugcuz+53YDEYJNolN7CRMLCYjn4QoOW2Qak9y3id5Y9Ic39BKagwAAADSUsv6AI6qq0bWh3BQQRWzPoSDKqr65XdKqvyHswAAAABAmpq5Zz4L7xCXLz7dw7et2MUu6re2VFt1VPf+eaun+mrk4S4DNVRzS6t7Ew93GUdsEt5l4dkuUzX7YJe1Z7ssYzZ57LJRW3Z56aCOjj6PCgle632XndrH7HJ2+Dn9yzuLKLb77kldQpnAmJwKVD5wd5ck8b/Ojk0AAAAAAK67AjEiZq2wNgAA
+  </data>
+ </layer>
+ <layer name="buildings" width="70" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2WuU7DQBRFB7sHiS9grZGQoAeRFJSAkrCvkZKw7x9Aww/S8AHQIGhDE3GMn6XIjJR0RuN7pCN7PFP4XXne2DlRdkZj58biot/i/zFBJpM4pWzcW+Tce5Tez1seFcbVqLh3KpJxy6BL/d+4ajnUuNaxgZv2bIm1y4F/Qy9W6wx1zuIW423cwV1sYRs7eGpr11m3EXAun317JuOM8Tle4GVubo/xPh7gYYD7KsnjK6krTvdMxqA+csXcNd7gra17DSkf8hjJ7QNfH/HxZHNrdv0IKRf399/E10d8HDF3jCfYxF5gueT/TeaG7KN35HCPD/gYWCY+Bp292Tme9abnEmSSkD97V7ivYBWn4/Qc/8XTm8pEjdrr2MAFXCxxFv20yKGtLIQQQgghhBBCCCGEEEIIIYQQQgghhBBCDMkPYRDeUbA2AAA=
   </data>
  </layer>
 </map>

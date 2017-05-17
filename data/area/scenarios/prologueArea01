@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<base>
+<scenario id="prologue01" map="area01.tmx">
+    <npcs>
+        <npc position="1703;430">ericP01</npc>
+        <npc position="1800;300">kianP01</npc>
+        <npc position="1950;250">ewanP01</npc>
+    </npcs>
+    <mobs start="0;0" end="1000;400">
+        <mob max="3">bandit01</mob>
+    </mobs>
+    <exits>
+        <exit position="100;100">prologue02</exit>
+    </exits>
+</scenario>
+</base>

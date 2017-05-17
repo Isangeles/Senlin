@@ -30,10 +30,13 @@ import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
+import pl.isangeles.senlin.data.Scenario;
+import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
  * State for game world
@@ -44,6 +47,7 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class GameWorld extends BasicGameState
 {
+	private Scenario scenario;
 	private TiledMap areaMap;
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
@@ -69,17 +73,18 @@ public class GameWorld extends BasicGameState
         	GuildsBase.load();
         	NpcBase.load(container);
         	DialoguesBase.load("prologue");
+        	ScenariosBase.load();
         	
-            areaMap = new TiledMap(new String("data" + File.separator + "area" + File.separator + "map" + File.separator + "area01.tmx"));
+        	scenario = ScenariosBase.getScenario("prologue01");
+            areaMap = scenario.getMap();
             ui = new UserInterface(container, player);
             
            
-            player.setPosition(500, 250);
+            player.setPosition(1700, 500);
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
-            Character testBandit = NpcBase.spawn("bandit01"); //test line
-            testBandit.setPosition(900, 250); //test line
-            areaNpcs.add(testBandit); //test line
+            //Character testBandit = NpcBase.spawnAt("bandit01", new Position(900, 250)); //test line
+            areaNpcs = scenario.getNpcs(); //test line
 
         	npcsAi = new CharacterAi(this);
             npcsAi.addNpcs(areaNpcs);
