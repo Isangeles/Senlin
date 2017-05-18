@@ -33,6 +33,8 @@ import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.graphic.Day;
+import pl.isangeles.senlin.graphic.Weather;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.GConnector;
@@ -48,6 +50,7 @@ import pl.isangeles.senlin.util.Settings;
 public class GameWorld extends BasicGameState
 {
 	private Scenario scenario;
+	private Day dayManager;
 	private TiledMap areaMap;
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
@@ -68,6 +71,7 @@ public class GameWorld extends BasicGameState
         try 
         {
         	gwCursor = new GameCursor(container);
+        	dayManager = new Day();
         	
         	ItemBase.loadBases(container);
         	GuildsBase.load();
@@ -83,7 +87,6 @@ public class GameWorld extends BasicGameState
             player.setPosition(1700, 500);
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
-            //Character testBandit = NpcBase.spawnAt("bandit01", new Position(900, 250)); //test line
             areaNpcs = scenario.getNpcs(); //test line
 
         	npcsAi = new CharacterAi(this);
@@ -105,7 +108,9 @@ public class GameWorld extends BasicGameState
         for(Character npc : areaNpcs)
         	npc.draw();
         g.translate(cameraPos[0], cameraPos[1]);
+        dayManager.draw();
         ui.draw(g);
+        
         //gwCursor.draw();
         
     }
@@ -114,6 +119,8 @@ public class GameWorld extends BasicGameState
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
+    	dayManager.update(delta);
+    	
         if(!isPause())
             keyDown(container.getInput());
     	

@@ -8,6 +8,7 @@ import java.util.Random;
 import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.TConnector;
@@ -36,15 +37,12 @@ public class CharacterAi
 	{
 		List<Character> deadNpcs = new ArrayList<>();
 		
-		moveTimer += delta;
-		
 		for(Character npc : aiNpcs)
 		{
-			if(moveTimer > 2000)
+			if(rng.nextInt(100) == 1)
 			{
 				moveAround(npc);
                 saySomething(npc, "idle", true);
-				moveTimer = 0;
 			}
 			
 			for(Character nearbyChar : gw.getNearbyCharacters(npc))

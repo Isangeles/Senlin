@@ -23,6 +23,7 @@ public class Log
 	 */
 	public static void addInformation(String information)
 	{
+		clearOld();
 		commList.add(information);
 	}
 	/**
@@ -31,6 +32,7 @@ public class Log
 	 */
 	public static void addWarning(String warning)
 	{
+		clearOld();
 		commList.add(TConnector.getText("ui", "logWarn") + ": " + warning);
 	}
 	/**
@@ -39,6 +41,7 @@ public class Log
 	 */
 	public static void addDebug(String debug)
 	{
+		clearOld();
 		if(debugMode)
 			commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
 	}
@@ -48,6 +51,7 @@ public class Log
 	 */
 	public static void addSystem(String systemMsg)
 	{
+		clearOld();
 		commList.add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
 	}
 	/**
@@ -57,6 +61,7 @@ public class Log
 	 */
 	public static void addSpeech(String who, String speech)
 	{
+		clearOld();
 		commList.add(who + " " + TConnector.getText("ui", "logSpeech") + ": " + speech);
 	}
 	/**
@@ -67,6 +72,7 @@ public class Log
 	 */
 	public static void loseInfo(String who, int value, String statName)
 	{
+		clearOld();
 		addInformation(who + " " + TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
 	}
     /**
@@ -77,6 +83,7 @@ public class Log
      */
     public static void loseInfo(String who, String value, String statName)
     {
+		clearOld();
         addInformation(who + " " + TConnector.getText("ui", "logPtsLose") + ": " + value + " " + statName);
     }
 	/**
@@ -87,6 +94,7 @@ public class Log
 	 */
 	public static void gainInfo(String who, int value, String statName)
 	{
+		clearOld();
 		addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
 	}
     /**
@@ -97,6 +105,7 @@ public class Log
      */
     public static void gainInfo(String who, String value, String statName)
     {
+		clearOld();
         addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
     }
 	/**
@@ -153,5 +162,13 @@ public class Log
 	public static boolean isDebug()
 	{
 		return debugMode;
+	}
+	/**
+	 * Removes old communicates
+	 */
+	private static void clearOld()
+	{
+		if(commList.size() > 25)
+			commList.remove(commList.size()-1);
 	}
 }
