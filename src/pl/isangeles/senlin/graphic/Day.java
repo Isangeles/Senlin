@@ -15,19 +15,28 @@ public class Day
 	private DayPhase phase;
 	private int time;
 	private Random rng = new Random();
-
+	/**
+	 * Day manager constructor
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public Day() throws SlickException, IOException 
 	{
 		conditions = new Weather();
 		phase = new DayPhase();
 	}
-
+	/**
+	 * Draws current weather and day phase filter
+	 */
 	public void draw()
 	{
 		conditions.draw(0, 0);
 		phase.draw(0, 0);
 	}
-	
+	/**
+	 * Updates day manager
+	 * @param delta Time from last update in milliseconds  
+	 */
 	public void update(int delta)
 	{
 		time += delta;
@@ -36,7 +45,7 @@ public class Day
 		if(time > 120000)
 			phase.changePhase(DayPhase.MIDDAY);
 		if(time > 180000)
-			phase.changePhase(DayPhase.AFTERNON);
+			phase.changePhase(DayPhase.AFTERNOON);
 		if(time > 220000)
 			phase.changePhase(DayPhase.NIGHT);
 		if(time > 240000)

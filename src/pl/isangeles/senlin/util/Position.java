@@ -8,8 +8,9 @@ public class Position
 {
 	public int x;
 	public int y;
-	
-	
+	/**
+	 * Position default constructor
+	 */
 	public Position()
 	{
 		this.x = 0;

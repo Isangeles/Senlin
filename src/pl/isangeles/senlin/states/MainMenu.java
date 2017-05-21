@@ -1,5 +1,7 @@
 package pl.isangeles.senlin.states;
 
+import pl.isangeles.senlin.audio.AudioPlayer;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.*;
 
@@ -14,8 +16,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 /**
@@ -25,13 +30,15 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainMenu extends BasicGameState
 {
-    Button buttNewGame,
-		   buttLoadGame,
-		   buttOptions,
-		   buttExit;
-    boolean closeReq;
-    boolean newGameReq;
-    boolean settingsReq;
+	private Sprite logo;
+    private Button buttNewGame,
+		   	       buttLoadGame,
+		   	       buttOptions,
+		   	       buttExit;
+    private boolean closeReq;
+    private boolean newGameReq;
+    private boolean settingsReq;
+    private AudioPlayer menuMusic;
 
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -40,10 +47,14 @@ public class MainMenu extends BasicGameState
         try
         {
             container.setMouseCursor(new GameCursor(container), Math.round(10 * Settings.getScale()), 0);
-        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtNG", false, TConnector.getText("menu", "ngName"), container);
-        	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtLG", false, TConnector.getText("menu", "lgName"), container);
-        	buttOptions = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtO", false, TConnector.getText("menu", "settName"), container);
-            buttExit = new Button(GConnector.getInput("button/menuButtonLong.png"), "menuButtExit", false, TConnector.getText("menu", "exitName"), container);
+            logo = new Sprite(GConnector.getInput("field/logox3green.png"), "menuLogo", false);
+        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtNG", false, TConnector.getText("menu", "ngName"), container);
+        	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLG", false, TConnector.getText("menu", "lgName"), container);
+        	buttOptions = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtO", false, TConnector.getText("menu", "settName"), container);
+            buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtExit", false, TConnector.getText("menu", "exitName"), container);
+            menuMusic = new AudioPlayer();
+            menuMusic.add("mainTheme.ogg");
+            menuMusic.play(1.0f, 1.0f);
         }
         catch(IOException | FontFormatException e)
         {
@@ -55,10 +66,11 @@ public class MainMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
-    	buttNewGame.draw(700, 400);
-    	buttLoadGame.draw(700, 550);
-    	buttOptions.draw(700, 700);
-        buttExit.draw(700, 850);
+    	logo.draw(0, 0, true);
+    	buttNewGame.draw(0, 500);
+    	buttLoadGame.draw(0, 650);
+    	buttOptions.draw(0, 800);
+        buttExit.draw(0, 950);
     }
 
     @Override

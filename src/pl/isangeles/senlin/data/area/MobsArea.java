@@ -23,14 +23,25 @@ public class MobsArea
 	private Position startPoint;
 	private Position endPoint;
 	private Map<String, Integer> mobs;
-
+	/**
+	 * Mobs area constructor 
+	 * @param startPoint XY starting point of area
+	 * @param endPoint XY ending point of area
+	 * @param mobs Map with characters IDs as keys and its max amount in area as values
+	 */
 	public MobsArea(Position startPoint, Position endPoint, Map<String, Integer> mobs) 
 	{
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.mobs = mobs;
 	}
-	
+	/**
+	 * Spawns all mobs in area to list
+	 * @return List with spawned mobs
+	 * @throws IOException
+	 * @throws FontFormatException
+	 * @throws SlickException
+	 */
 	public List<Character> spawnMobs() throws IOException, FontFormatException, SlickException
 	{
 		List<Character> mobsList = new ArrayList<>();

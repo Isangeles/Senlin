@@ -14,21 +14,29 @@ public class DayPhase
 {
 	public static final int MORNING = 0,
 							MIDDAY = 1,
-							AFTERNON = 2,
+							AFTERNOON = 2,
 							NIGHT = 3;
 	private Sprite morningFilter,
 				   middayFilter,
-				   afternonFilter,
+				   afternoonFilter,
 				   nightFilter;
 	private int phaseId;
-	
+	/**
+	 * Day phase constructor
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public DayPhase() throws SlickException, IOException 
 	{
 		middayFilter = new Sprite(GConnector.getInput("day/midday.png"), "dayFilterMidday", false);
-		afternonFilter = new Sprite(GConnector.getInput("day/afternon.png"), "dayFilterAfternon", false);
+		afternoonFilter = new Sprite(GConnector.getInput("day/afternoon.png"), "dayFilterAfternoon", false);
 		nightFilter = new Sprite(GConnector.getInput("day/night.png"), "dayFilterNight", false);
 	}
-
+	/**
+	 * Draws day phase filter
+	 * @param x Position on x-axis
+	 * @param y Position on y-axis
+	 */
 	public void draw(float x, float y)
 	{
 		switch(phaseId)
@@ -38,20 +46,25 @@ public class DayPhase
 		case MIDDAY:
 			middayFilter.draw(x, y, false);
 			break;
-		case AFTERNON:
-			afternonFilter.draw(x, y, false);
+		case AFTERNOON:
+			afternoonFilter.draw(x, y, false);
 			break;
 		case NIGHT:
 			nightFilter.draw(x, y, false);
 			break;
 		}
 	}
-	
+	/**
+	 * Changes current day phase 
+	 * @param phaseId Day phase ID (0-morning, 1-midday, 2-afternoon, 3-night)
+	 */
 	public void changePhase(int phaseId)
 	{
 		this.phaseId = phaseId;
 	}
-	
+	/**
+	 * Switches to next day phase
+	 */
 	public void nextPhase()
 	{
 		if(phaseId < 3)

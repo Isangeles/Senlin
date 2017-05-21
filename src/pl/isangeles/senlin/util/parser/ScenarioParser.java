@@ -42,7 +42,8 @@ public class ScenarioParser
 	 * @throws SlickException
 	 * @throws FontFormatException
 	 */
-	public static Scenario getScenarioFromFile(File xmlScenario) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
+	public static Scenario getScenarioFromFile(File xmlScenario) 
+			throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -122,7 +123,12 @@ public class ScenarioParser
 		return null;
 			
 	}
-	
+	/**
+	 * Parses node to MobsArea object
+	 * @param mobsNode XML mobs node
+	 * @return MobsArea object
+	 * @throws NumberFormatException
+	 */
 	private static MobsArea getMobsAreaFromNode(Node mobsNode) throws NumberFormatException
 	{
 		Element mobsE = (Element)mobsNode;
