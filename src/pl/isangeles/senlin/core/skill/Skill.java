@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.SkillTile;
+import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
@@ -39,7 +42,21 @@ public abstract class Skill implements SlotContent
     private int timer;
  	private String imgName;
 	private SkillTile tile;
-	
+	private Sound soundEffect;
+	/**
+	 * Skill constructor
+	 * @param character Skill owner
+	 * @param id Skill ID
+	 * @param name Skill Name
+	 * @param info Basic informations about this skill
+	 * @param imgName Skill icon image
+	 * @param type Skill effect type
+	 * @param magickaCost Mana cost
+	 * @param castTime Casting time
+	 * @param cooldown Cooldown time
+	 * @param useWeapon If weapon is needed to use this skill
+	 * @param effects Skill effect list
+	 */
 	public Skill(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
 	{
 		this.type = type;
@@ -136,6 +153,16 @@ public abstract class Skill implements SlotContent
 	protected void setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		this.tile = new SkillTile(GConnector.getInput("icon/skill/"+imgName), "skillTile", false, gc, getInfo());
+	}
+	
+	protected void setSoundEffect(String aFileName) throws SlickException, IOException
+	{
+	    this.soundEffect = new Sound(AConnector.getInput("effects/" + aFileName), aFileName);
+	}
+	
+	protected void playSoundEffect()
+	{
+	    this.soundEffect.play();
 	}
 	
 	protected String getTypeString()

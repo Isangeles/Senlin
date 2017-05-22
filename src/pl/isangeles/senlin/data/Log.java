@@ -165,6 +165,7 @@ public class Log
 	}
 	/**
 	 * Removes old communicates
+	 * TODO fix this
 	 */
 	private static void clearOld()
 	{

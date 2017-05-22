@@ -8,18 +8,12 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.opengl.CursorLoader;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
@@ -32,14 +26,9 @@ import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
-import pl.isangeles.senlin.data.SkillsBase;
-import pl.isangeles.senlin.graphic.Day;
-import pl.isangeles.senlin.graphic.Weather;
+import pl.isangeles.senlin.graphic.day.Day;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
-import pl.isangeles.senlin.util.GConnector;
-import pl.isangeles.senlin.util.Position;
-import pl.isangeles.senlin.util.Settings;
 /**
  * State for game world
  * 
