@@ -2,7 +2,11 @@ package pl.isangeles.senlin.inter.ui;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 
 import org.newdawn.slick.GameContainer;
@@ -28,7 +32,7 @@ import pl.isangeles.senlin.data.ItemBase;
  * @author Isangeles
  *
  */
-final class Console extends TextInput
+final class Console extends TextInput implements UiElement 
 {
     private boolean hide;
     private Character player;
@@ -70,6 +74,11 @@ final class Console extends TextInput
         }
         
     }
+    
+	@Override
+	public void update() 
+	{
+	}
             
     @Override
     public void keyPressed(int key, char c)
@@ -315,5 +324,14 @@ final class Console extends TextInput
     	}
 
     }
+	@Override
+	public void draw(float x, float y) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void reset() 
+	{
+	}
     
 }

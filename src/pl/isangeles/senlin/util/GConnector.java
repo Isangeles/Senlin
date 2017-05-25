@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -55,7 +54,7 @@ public final class GConnector
      * @throws FileNotFoundException
      * @throws SlickException
      */
-    public static List <Image> getPortraits() throws FileNotFoundException, SlickException
+    public static List<Image> getPortraits() throws FileNotFoundException, SlickException
     {
     	List<Image> imgList = new ArrayList<>();
     	

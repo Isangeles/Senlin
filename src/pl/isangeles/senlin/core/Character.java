@@ -94,7 +94,7 @@ public class Character implements Targetable
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, String portraitName, String spritesheet, GameContainer gc) 
+	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
@@ -102,7 +102,7 @@ public class Character implements Targetable
 		this.attitude = attitude;
 		this.guild = GuildsBase.getGuild(guildID);
 		this.attributes = atributes;
-		portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
+		this.portrait = portrait;
 		live = true;
 		avatar = new Avatar(this, gc, spritesheet);
 		inventory = new Inventory();

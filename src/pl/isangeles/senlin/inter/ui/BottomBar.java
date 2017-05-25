@@ -53,7 +53,7 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
      */
     public BottomBar(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
-        super(GConnector.getInput("ui/bottomBar.png"), "uiBottomBar", false, gc);
+        super(GConnector.getInput("ui/bottomBar_DG.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
         gc.getInput().addKeyListener(this);
         

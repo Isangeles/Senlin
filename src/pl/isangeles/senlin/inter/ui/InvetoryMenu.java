@@ -26,6 +26,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.Log;
 /**
  * Graphical representation of character inventory
+ * TODO this UI element is terrible slow 
  * @author Isangeles
  *
  */

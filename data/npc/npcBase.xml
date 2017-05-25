@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <base>
-<npc id="bandit01" attitude="hostile" guild="1">
-    <stats>Bandit;2;3;2;2;1;1;portrait2.jpg;</stats>
+<npc id="bandit01" attitude="hostile" guild="1" level="2">
+    <stats>3;2;2;1;1;</stats>
+    <portrait>portrait2.jpg</portrait>
     <spritesheet>cloth12221-45x55-2.png</spritesheet>
     <eq>
         <head></head>
@@ -20,8 +21,9 @@
         </in>
     </eq>
 </npc>
-<npc id="ericP01" attitude="friendly" guild="0">
-    <stats>Eric;2;3;2;2;1;1;portrait0.jpg;</stats>
+<npc id="ericP01" attitude="friendly" guild="0" level="2">
+    <stats>3;2;2;1;1;</stats>
+    <portrait>portrait0.jpg</portrait>
     <spritesheet>cloth12221-45x55-2.png</spritesheet>
     <eq>
         <head></head>
@@ -38,8 +40,9 @@
         </in>
     </eq>
 </npc>
-<npc id="kianP01" attitude="friendly" guild="0">
-    <stats>Kian;2;3;2;2;1;1;portrait1.jpg;</stats>
+<npc id="kianP01" attitude="friendly" guild="0" level="2">
+    <stats>3;2;2;1;1;</stats>
+    <portrait>portrait1.jpg</portrait>
     <spritesheet>cloth12221-45x55-2.png</spritesheet>
     <eq>
         <head></head>
@@ -56,8 +59,9 @@
         </in>
     </eq>
 </npc>
-<npc id="ewanP01" attitude="friendly" guild="0">
-    <stats>Ewan;2;3;2;2;1;1;portrait2.jpg;</stats>
+<npc id="ewanP01" attitude="friendly" guild="0" level="2">
+    <stats>3;2;2;1;1;</stats>
+    <portrait>portrait2.jpg</portrait>
     <spritesheet>cloth12221-45x55-2.png</spritesheet>
     <eq>
         <head></head>

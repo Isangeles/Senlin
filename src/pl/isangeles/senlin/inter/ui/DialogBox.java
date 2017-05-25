@@ -229,4 +229,14 @@ class DialogBox extends InterfaceObject implements UiElement
 			option = null;
 		}
 	}
+	
+	private class DialogueText extends InterfaceObject
+	{
+		public DialogueText(String text, GameContainer gc) throws SlickException, IOException
+		{
+			super(GConnector.getInput("field/infoWindowBG.png"), "uiDialogueBoxBG", false, gc);
+		}
+		
+		
+	}
 }

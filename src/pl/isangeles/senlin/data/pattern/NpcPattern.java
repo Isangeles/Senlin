@@ -10,6 +10,9 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Attitude;
@@ -21,8 +24,10 @@ import pl.isangeles.senlin.core.Attitude;
 public class NpcPattern 
 {
 	private final String npcId;
+	private final String npcName;
 	private final Attitude npcAttitude;
 	private final int guildID;
+	private final int level;
 	private final String constructorLine;
 	private final String headItem;
 	private final String chestItem;
@@ -35,6 +40,7 @@ public class NpcPattern
 	private final String fingerBItem;
 	private final String artifact;
 	private final String spritesheet;
+	private final String portraitName;
 	private final int gold;
 	private final List<ItemPattern> invItems;
 	/**
@@ -55,12 +61,13 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, int guildID, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
-					  int gold, List<ItemPattern> invItems) 
+					  String portraitName, int gold, List<ItemPattern> invItems) 
 	{
 		this.npcId = npcId;
+		this.npcName = TConnector.getText("npc", npcId);
 		switch(attitude)
 		{
 		case "hostile":
@@ -76,6 +83,7 @@ public class NpcPattern
 			npcAttitude = Attitude.NEUTRAL;
 		}
 		this.guildID = guildID;
+		this.level = level;
 		this.constructorLine = constructorLine;
 		this.headItem = headItem;
 		this.chestItem = chestItem;
@@ -88,6 +96,7 @@ public class NpcPattern
 		this.fingerBItem = fingerBItem;
 		this.artifact = artifact;
 		this.spritesheet = spritesheet;
+		this.portraitName = portraitName;
 		this.gold = gold;
 		this.invItems = invItems;
 		
@@ -102,11 +111,12 @@ public class NpcPattern
 	 */
 	public Character make(GameContainer gc) throws IOException, FontFormatException, SlickException
 	{
+		Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
-		Character npc = new Character(npcId, npcAttitude, guildID, scann.next(), scann.nextInt(),
+		Character npc = new Character(npcId, npcAttitude, guildID, npcName, level,
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
-									  scann.next(), spritesheet, gc);
+									  portrait, spritesheet, gc);
 		scann.close();
 		Item helmet = ItemBase.getItem(headItem);
 		Item chest = ItemBase.getItem(chestItem);

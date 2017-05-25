@@ -170,6 +170,6 @@ public class Log
 	private static void clearOld()
 	{
 		if(commList.size() > 25)
-			commList.remove(commList.size()-1);
+			commList.remove(0);
 	}
 }

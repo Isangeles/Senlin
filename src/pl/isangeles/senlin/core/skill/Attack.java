@@ -51,7 +51,7 @@ public class Attack extends Skill
 		this.damage = damage;
 		this.range = range;
 		setTile(gc);
-		setSoundEffect("melee1.ogg");
+		setSoundEffect();
 	}
 
 	@Override

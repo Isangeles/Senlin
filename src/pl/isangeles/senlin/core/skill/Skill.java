@@ -154,10 +154,31 @@ public abstract class Skill implements SlotContent
 	{
 		this.tile = new SkillTile(GConnector.getInput("icon/skill/"+imgName), "skillTile", false, gc, getInfo());
 	}
-	
-	protected void setSoundEffect(String aFileName) throws SlickException, IOException
+	/**
+	 * Sets sound effect dependent on skill type
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	protected void setSoundEffect() throws SlickException, IOException
 	{
-	    this.soundEffect = new Sound(AConnector.getInput("effects/" + aFileName), aFileName);
+	    switch(type)
+	    {
+	    case NORMAL:
+	    	this.soundEffect = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	return;
+	    case FIRE:
+	    	
+	    	return;
+	    case ICE:
+	    	
+	    	return;
+	    case NATURE:
+	    	
+	    	return;
+	    case MAGIC:
+	    	
+	    	return;
+	    }
 	}
 	
 	protected void playSoundEffect()
