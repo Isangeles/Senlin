@@ -74,10 +74,10 @@ class DialogBox extends InterfaceObject implements UiElement
 		
 		for(int i = 0; i < dialogueBoxContent.size(); i ++)
 		{
-			if(dialogueBoxTextB.contains(dialogueBoxContent.get(i)))
-				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(260), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i).getText())*i));
-			if(dialogueBoxTextA.contains(dialogueBoxContent.get(i)))
-				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(15), (y+getDis(300)) - (ttf.getHeight(dialogueBoxContent.get(i).getText())*i));
+			if(dialogueBoxTextB.contains(dialogueBoxContent.get(i).getText()))
+				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(260), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
+			if(dialogueBoxTextA.contains(dialogueBoxContent.get(i).getText()))
+				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(15), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
 		}
 		
 		for(int i = 0; i < options.size(); i ++)
@@ -252,7 +252,11 @@ class DialogBox extends InterfaceObject implements UiElement
 			option = null;
 		}
 	}
-	
+	/**
+	 * Container for dialogue texts
+	 * @author Isangeles
+	 *
+	 */
 	private class DialogueText
 	{
 		private List<String> textLines = new ArrayList<>();
@@ -260,40 +264,35 @@ class DialogBox extends InterfaceObject implements UiElement
 		public DialogueText(String text, GameContainer gc) throws SlickException, IOException
 		{
 			this.text = text;
-			/*
-			for(int i = 0, j = 0, k = 0; i < text.length(); i ++, j ++)
+			
+			int index = 0;
+			while(index < text.length()) 
 			{
-				if(i == 0)
-				{
-					textLines.add(text.substring(0, 16));
-				}
-				if(j >= 15)
-				{
-					textLines.add(text.substring(k, j));
-					k = j;
-					j = 0;
-				}
+			    textLines.add(text.substring(index, Math.min(index + 20,text.length())));
+			    index += 20;
 			}
-			*/
 		}
 		
 		public void draw(float x, float y)
 		{
-			ttf.drawString(x, y, text);
-			/*
 			for(int i = 0; i < textLines.size(); i ++)
 			{
 		        if(textLines.size() > 1)
 		            ttf.drawString(x+getDis(10), y+ttf.getHeight(textLines.get(i))*i, textLines.get(i));
 		        else
-		            ttf.drawString(x+getDis(10), y, textLines.get(i));
+		            ttf.drawString(x+getDis(10), y, textLines.get(0));
 			}
-			*/
 		}
 		
 		public String getText()
 		{
 			return text;
+		}
+		
+		public float getTextHeight()
+		{
+			return ttf.getHeight(text) * textLines.size();
+					
 		}
 	
 	}
