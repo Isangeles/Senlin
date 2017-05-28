@@ -15,7 +15,7 @@
             <answer>ericWelcome01a02</answer>
         </text>
         <text id="ericWelcome02" on="ericWelcome01a01">
-            <answer>ericWelcome02a01</answer>
+            <answer qOn="pLumberTalk">ericWelcome02a01</answer>
             <answer end="true">bye01</answer>
         </text>
         <text id="ericWelcome03" on="ericWelcome02a01">

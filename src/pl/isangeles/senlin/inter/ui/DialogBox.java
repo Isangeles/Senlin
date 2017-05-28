@@ -14,6 +14,8 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.TextBlock;
+import pl.isangeles.senlin.inter.TextBox;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
@@ -28,8 +30,10 @@ class DialogBox extends InterfaceObject implements UiElement
 {
 	private Character interlocutorA;
 	private Character interlocutorB;
+	
+	private TextBox textBox;
 
-	private List<DialogueText> dialogueBoxContent = new ArrayList<>();
+	private List<TextBlock> dialogueBoxContent = new ArrayList<>();
 	private List<String> dialogueBoxTextA = new ArrayList<>();
 	private List<String> dialogueBoxTextB = new ArrayList<>();
 	private List<Answer> dialogueAnswers;
@@ -55,6 +59,7 @@ class DialogBox extends InterfaceObject implements UiElement
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(13f), true);
 
+		textBox = new TextBox(gc);
 		
 		for(int i = 0; i < 5; i ++)
 		{
@@ -80,6 +85,8 @@ class DialogBox extends InterfaceObject implements UiElement
 				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(15), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
 		}
 		
+		//textBox.draw(x+getDis(15), y+getDis(160), 400f, 150f, true);
+		
 		for(int i = 0; i < options.size(); i ++)
 		{
 			options.get(i).draw(x+getDis(15), (y+getDis(360)) + (i*options.get(i).getHeight()), false);
@@ -101,6 +108,7 @@ class DialogBox extends InterfaceObject implements UiElement
 		dialogueBoxContent.clear();
 		dialogueBoxTextA.clear();
 		dialogueBoxTextB.clear();
+		textBox.clear();
 		clearAnswersBox();
 	}
 	/**
@@ -120,14 +128,8 @@ class DialogBox extends InterfaceObject implements UiElement
 			this.interlocutorB = interlocutorB;
 
 			dialogueBoxTextB.add(interlocutorB.getDialog().getText());
-			try 
-			{
-				dialogueBoxContent.add(new DialogueText(interlocutorB.getDialog().getText(), gc));
-			} 
-			catch (SlickException | IOException e) 
-			{
-				Log.addSystem("dialogbox_text_fail msg///" + e.getMessage());
-			}
+			dialogueBoxContent.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
+			textBox.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
 			dialogueAnswers = interlocutorB.getDialog().getAnswers();
 			addOptions(dialogueAnswers);
 			openReq = true;
@@ -169,14 +171,8 @@ class DialogBox extends InterfaceObject implements UiElement
         interlocutorB.getDialog().answerOn(dialogueOption);
         clearAnswersBox();
         dialogueBoxTextB.add(interlocutorB.getDialog().getText());
-		try 
-		{
-			dialogueBoxContent.add(new DialogueText(interlocutorB.getDialog().getText(), gc));
-		} 
-		catch (SlickException | IOException e) 
-		{
-			Log.addSystem("dialogbox_text_fail msg///" + e.getMessage());
-		}
+		dialogueBoxContent.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
+        textBox.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
         dialogueAnswers = interlocutorB.getDialog().getAnswers();
         addOptions(dialogueAnswers);
 	}
@@ -191,7 +187,7 @@ class DialogBox extends InterfaceObject implements UiElement
         }
 	}
 	/**
-	 * Class for dialogue box options 
+	 * Class for dialogue box text options 
 	 * @author Isangeles
 	 *
 	 */
@@ -224,14 +220,8 @@ class DialogBox extends InterfaceObject implements UiElement
 				else if(option != null && !option.isEnd())
 				{
 					dialogueBoxTextA.add(option.getText());
-					try 
-					{
-						dialogueBoxContent.add(new DialogueText(option.getText(), gc));
-					} 
-					catch (SlickException | IOException e) 
-					{
-						Log.addSystem("dialogbox_text_fail msg///" + e.getMessage());
-					}
+					dialogueBoxContent.add(new TextBlock(option.getText(), 20, ttf));
+		            textBox.add(new TextBlock(option.getText(), 20, ttf));
 				    nextDialogueStage(option);
 				}
 			}
@@ -251,49 +241,5 @@ class DialogBox extends InterfaceObject implements UiElement
 		{
 			option = null;
 		}
-	}
-	/**
-	 * Container for dialogue texts
-	 * @author Isangeles
-	 *
-	 */
-	private class DialogueText
-	{
-		private List<String> textLines = new ArrayList<>();
-		private String text;
-		public DialogueText(String text, GameContainer gc) throws SlickException, IOException
-		{
-			this.text = text;
-			
-			int index = 0;
-			while(index < text.length()) 
-			{
-			    textLines.add(text.substring(index, Math.min(index + 20,text.length())));
-			    index += 20;
-			}
-		}
-		
-		public void draw(float x, float y)
-		{
-			for(int i = 0; i < textLines.size(); i ++)
-			{
-		        if(textLines.size() > 1)
-		            ttf.drawString(x+getDis(10), y+ttf.getHeight(textLines.get(i))*i, textLines.get(i));
-		        else
-		            ttf.drawString(x+getDis(10), y, textLines.get(0));
-			}
-		}
-		
-		public String getText()
-		{
-			return text;
-		}
-		
-		public float getTextHeight()
-		{
-			return ttf.getHeight(text) * textLines.size();
-					
-		}
-	
 	}
 }

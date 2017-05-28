@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<base>
+	<quest id="pLumberTalk">
+		<stage id="0"  next="end">
+			<objective type="talk">ewanTalkP01a01</objective>	
+		</stage>
+	</quest>
+</base>
