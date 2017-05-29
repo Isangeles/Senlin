@@ -13,7 +13,11 @@ public class Quest
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
-    
+    /**
+     * Quest constructor 
+     * @param id Quest ID
+     * @param stages List of quest stages
+     */
     public Quest(String id, List<Stage> stages)
     {
         this.id = id;
@@ -24,7 +28,9 @@ public class Quest
                 currentStage = stage;
         }
     }
-    
+    /**
+     * Changes current stage
+     */
     public void nextStage()
     {
         if(currentStage.getNextStage().equals("end"))
@@ -41,5 +47,13 @@ public class Quest
                 break;
             }
         }
+    }
+    /**
+     * Returns quest ID
+     * @return String with quest ID
+     */
+    public String getId()
+    {
+        return id;
     }
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <base>
 	<quest id="pLumberTalk">
-		<stage id="0"  next="end">
+	   <stages>
+		<stage id="0"  next="1">
 			<objective type="talk">ewanTalkP01a01</objective>	
-		</stage>
+		</stage> 
+	   </stages>
 	</quest>
 </base>

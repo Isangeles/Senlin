@@ -9,6 +9,9 @@
     <mobs start="0;0" end="1000;400">
         <mob max="3">bandit01</mob>
     </mobs>
+    <quests>
+	<quest>pLumberTalk</quest>
+    </quests>
     <exits>
         <exit position="100;100">prologue02</exit>
     </exits>

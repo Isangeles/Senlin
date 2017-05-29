@@ -6,5 +6,20 @@ package pl.isangeles.senlin.quest;
  */
 public enum ObjectiveType
 {
-    TALK, KILL, GATHER
+    TALK, KILL, GATHER;
+    
+    public static ObjectiveType fromString(String typeName)
+    {
+        switch(typeName)
+        {
+        case "talk":
+            return ObjectiveType.TALK;
+        case "kill":
+            return ObjectiveType.KILL;
+        case "gather":
+            return ObjectiveType.GATHER;
+        }
+        
+        return null;
+    }
 }

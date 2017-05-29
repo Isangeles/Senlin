@@ -12,14 +12,22 @@ public class Stage
     private String id;
     private String nextStage;
     private List<Objective> objectives;
-    
+    /**
+     * Stage constructor 
+     * @param id Stage ID
+     * @param nextStage ID of stage that should be triggered after completing this stage
+     * @param objectives List of stage objectives
+     */
     public Stage(String id, String nextStage, List<Objective> objectives)
     {
         this.id = id;
         this.nextStage = nextStage;
         this.objectives = objectives;
     }
-    
+    /**
+     * Checks if stage objectives all completed
+     * @return Boolean value
+     */
     public boolean isComplete()
     {
         boolean complete = true;
@@ -33,12 +41,18 @@ public class Stage
         }
         return complete;
     }
-    
+    /**
+     * Returns next stage ID
+     * @return String with next stage ID
+     */
     public String getNextStage()
     {
         return nextStage;
     }
-    
+    /**
+     * Returns stage ID
+     * @return String with stage ID
+     */
     public String getId()
     {
         return id;

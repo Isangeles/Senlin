@@ -44,6 +44,8 @@ import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
+import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
 
 /**
@@ -501,6 +503,37 @@ public final class DConnector
 		}
 		
 		return scenariosMap;
+	}
+	/**
+	 * Parses specified XML quest base file and returns map with quests ID's as keys and quest as values
+	 * @param questsBase Base file name in data/quests dir
+	 * @return Map with quests ID's as keys and quest as values
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Map<String, Quest> getQuests(String questsBase) throws ParserConfigurationException, SAXException, IOException
+	{
+	    Map<String, Quest> questsMap = new HashMap<>();
+	    
+	    String questsDir = "data" + File.separator + "quests" + File.separator + questsBase;
+	    
+	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder db = dbf.newDocumentBuilder();
+	    Document base = db.parse(questsDir);
+	        
+	    NodeList questsList = base.getDocumentElement().getChildNodes();
+	    for(int i = 0; i < questsList.getLength(); i ++)
+	    {
+	        Node questNode = questsList.item(i);
+	        if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+	        {
+	            Quest quest = QuestParser.getQuestFromNode(questNode);
+	            questsMap.put(quest.getId(), quest);
+	        }
+	    }
+	    
+	    return questsMap;
 	}
 	/**
 	 * Returns dialogue part from specified XML node

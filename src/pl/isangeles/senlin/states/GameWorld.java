@@ -24,6 +24,7 @@ import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
+import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.day.Day;
@@ -66,6 +67,7 @@ public class GameWorld extends BasicGameState
         	GuildsBase.load();
         	NpcBase.load(container);
         	DialoguesBase.load("prologue");
+        	QuestsBase.load("prologue");
         	ScenariosBase.load();
         	
         	scenario = ScenariosBase.getScenario("prologue01");
