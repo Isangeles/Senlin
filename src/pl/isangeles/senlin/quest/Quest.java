@@ -2,6 +2,8 @@ package pl.isangeles.senlin.quest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for game quests
  * @author Isangeles
@@ -10,6 +12,7 @@ import java.util.List;
 public class Quest
 {
     private String id;
+    private String name;
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
@@ -22,6 +25,9 @@ public class Quest
     {
         this.id = id;
         this.stages = stages;
+        
+        name = TConnector.getText("quests", id);
+        
         for(Stage stage : stages)
         {
             if(stage.getId().equals(0))
@@ -55,5 +61,13 @@ public class Quest
     public String getId()
     {
         return id;
+    }
+    /**
+     * Returns quest name
+     * @return String with quest name
+     */
+    public String getName()
+    {
+    	return name;
     }
 }

@@ -29,6 +29,7 @@ import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game characters like players, NPCs, etc.
@@ -61,6 +62,7 @@ public class Character implements Targetable
 	private Dialogue dialog;
 	private Map<Character, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
+	private List<Quest> quests = new ArrayList<>();
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -524,6 +526,12 @@ public class Character implements Targetable
 	public Effects getEffects()
 	{ return effects; }
 	/**
+	 * Returns all character quests
+	 * @return List with quests
+	 */
+	public List<Quest> getQuests()
+	{ return quests; }
+	/**
 	 * Returns character dodge chance
 	 * @return Dodge chance (range 0-100)
 	 */
@@ -674,6 +682,17 @@ public class Character implements Targetable
 	        Log.addInformation(skill.getName() + " add fail!");
 	        return false;
 	    }
+	}
+	/**
+	 * Adds quest to character quests list
+	 * @param quest Game quest
+	 */
+	public void addQuest(Quest quest)
+	{
+		if(quests.add(quest))
+			Log.addInformation(quest.getName() + " accepted");
+		else
+			Log.addSystem("character_quests_list_add_fail msg//fail to add quest to list");
 	}
 	/**
      * Adds gold to character inventory

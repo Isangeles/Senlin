@@ -44,6 +44,7 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     private boolean menuReq;
     private boolean inventoryReq;
     private boolean skillsReq;
+    private boolean journalReq;
     /**
      * Bottom bar constructor
      * @param gc Game container for superclass and bar buttons
@@ -133,6 +134,14 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     	return skillsReq;
     }
     /**
+     * Checks if journal menu is requested
+     * @return boolean value
+     */
+    public boolean isJournalReq()
+    {
+    	return journalReq;
+    }
+    /**
      * Checks if game should be paused
      * @return Boolean true if game should be paused or false otherwise
      */
@@ -190,20 +199,28 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if(button == Input.MOUSE_LEFT_BUTTON && menu.isMouseOver() && !menuReq)
-    		menuReq = true;
-    	else if(button == Input.MOUSE_LEFT_BUTTON && menu.isMouseOver() && menuReq)
-    		menuReq = false;
-    	
-    	if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && !inventoryReq)
-            inventoryReq = true;
-        else if(button == Input.MOUSE_LEFT_BUTTON && inventory.isMouseOver() && inventoryReq)
-            inventoryReq = false;
-    	
-    	if(button == Input.MOUSE_LEFT_BUTTON && skills.isMouseOver() && !skillsReq)
-    		skillsReq = true;
-    	else if(button == Input.MOUSE_LEFT_BUTTON && skills.isMouseOver() && skillsReq)
-    		skillsReq = false;
+    	if(button == Input.MOUSE_LEFT_BUTTON)
+    	{
+    		if(menu.isMouseOver() && !menuReq)
+        		menuReq = true;
+        	else if(menu.isMouseOver() && menuReq)
+        		menuReq = false;
+        	
+        	if(inventory.isMouseOver() && !inventoryReq)
+                inventoryReq = true;
+            else if(inventory.isMouseOver() && inventoryReq)
+                inventoryReq = false;
+        	
+        	if(skills.isMouseOver() && !skillsReq)
+        		skillsReq = true;
+        	else if(skills.isMouseOver() && skillsReq)
+        		skillsReq = false;
+        	
+        	if(quests.isMouseOver() && !journalReq)
+        		journalReq = true;
+        	else if(quests.isMouseOver() && journalReq)
+        		journalReq = false;
+    	}
     		
     	//Slots dragging system
     	SkillSlot dSlot;
@@ -251,6 +268,11 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     		skillsReq = true;
     	else if(key == Input.KEY_K && skillsReq)
     		skillsReq = false;
+		
+		if(key == Input.KEY_J && !journalReq)
+			journalReq = true;
+		else if(key == Input.KEY_L && journalReq)
+			journalReq = false;
 		
 		if(key == Input.KEY_1)
 		{

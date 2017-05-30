@@ -2,7 +2,7 @@
 <base>
 	<quest id="pLumberTalk">
 	   <stages>
-		<stage id="0"  next="1">
+	    <stage id="0"  next="1">
 			<objective type="talk">ewanTalkP01a01</objective>	
 		</stage> 
 	   </stages>

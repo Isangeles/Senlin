@@ -22,6 +22,7 @@ import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
@@ -276,6 +277,8 @@ final class Console extends TextInput implements UiElement
         	    target.addExperience(Integer.parseInt(value));
         	if(prefix.equals("-s") || prefix.equals("-skills"))
         	    target.addSkill(SkillsBase.getAttack(target, value));
+        	if(prefix.equals("-q") || prefix.equals("-quest"))
+        		target.addQuest(QuestsBase.get(value));
         	
         	return;
     	}

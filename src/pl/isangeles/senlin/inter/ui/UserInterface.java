@@ -32,6 +32,7 @@ public class UserInterface implements MouseListener
     private InGameMenu igMenu;
     private InvetoryMenu inventory;
     private SkillsMenu skills;
+    private JournalMenu journal;
     private LootWindow loot;
     private DialogBox dialogue;
     private CastBar cast;
@@ -56,6 +57,7 @@ public class UserInterface implements MouseListener
         igMenu = new InGameMenu(gc);
         inventory = new InvetoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
+        journal = new JournalMenu(gc, player);
         loot = new LootWindow(gc, player);
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
@@ -79,6 +81,8 @@ public class UserInterface implements MouseListener
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
         if(bBar.isSkillsReq())
         	skills.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+        if(bBar.isJournalReq())
+        	journal.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
         
         if(loot.isOpenReq())
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
@@ -94,6 +98,7 @@ public class UserInterface implements MouseListener
         	igMenu.reset();
         	inventory.reset();
         	skills.reset();
+        	journal.reset();
         }
         
         update();     	
@@ -112,6 +117,7 @@ public class UserInterface implements MouseListener
         targetFrame.update();
         inventory.update();
         skills.update();
+        journal.update();
         loot.update();
         dialogue.update();
     }
@@ -122,7 +128,7 @@ public class UserInterface implements MouseListener
     public boolean isMouseOver()
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   loot.isMouseOver() || dialogue.isMouseOver();
+    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver();
     }
     /**
      * Checks if exit game is requested
