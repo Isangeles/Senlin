@@ -79,7 +79,7 @@ public class Dialogue
 		}
 		
 		List<Answer> aList = new ArrayList<>();
-		aList.add(new Answer("bye01", true));
+		aList.add(new Answer("bye01", "", true));
 		return new DialoguePart("err02", "error02", aList);
 	}
 

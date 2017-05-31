@@ -16,6 +16,7 @@ import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.TextBlock;
 import pl.isangeles.senlin.inter.TextBox;
+import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
@@ -212,17 +213,24 @@ class DialogBox extends InterfaceObject implements UiElement
 		{
 			if(isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
 			{
-				if(option != null && option.isEnd())
+				if(option != null)
 				{
-					interlocutorB.getDialog().reset();
-					close();
-				}
-				else if(option != null && !option.isEnd())
-				{
-					dialogueBoxTextA.add(option.getText());
-					dialogueBoxContent.add(new TextBlock(option.getText(), 20, ttf));
-		            textBox.add(new TextBlock(option.getText(), 20, ttf));
-				    nextDialogueStage(option);
+					Quest answerQ = option.getQuest();
+					if(answerQ != null)
+						interlocutorA.startQuest(answerQ);
+					
+					if(option.isEnd())
+					{
+						interlocutorB.getDialog().reset();
+						close();
+					}
+					else if(!option.isEnd())
+					{
+						dialogueBoxTextA.add(option.getText());
+						dialogueBoxContent.add(new TextBlock(option.getText(), 20, ttf));
+			            textBox.add(new TextBlock(option.getText(), 20, ttf));
+					    nextDialogueStage(option);
+					}
 				}
 			}
 		}

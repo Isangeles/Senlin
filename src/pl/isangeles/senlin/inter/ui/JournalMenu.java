@@ -8,14 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.TextBlock;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 /**
  * Class for UI journal menu
@@ -28,6 +31,7 @@ class JournalMenu extends InterfaceObject implements UiElement
 	private List<QuestField> questFields;
 	private List<Quest> quests = new ArrayList<>();
 	private TrueTypeFont ttf;
+	private TextBlock questDesc;
 	
 	public JournalMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException 
 	{
@@ -40,7 +44,7 @@ class JournalMenu extends InterfaceObject implements UiElement
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
 		questFields = new ArrayList<>();
-		for(int i = 0; i < 12; i ++)
+		for(int i = 0; i < 10; i ++)
 		{
 			questFields.add(new QuestField(gc));
 		}
@@ -51,15 +55,22 @@ class JournalMenu extends InterfaceObject implements UiElement
 	{
 		super.draw(x, y, false);
 		
+		ttf.drawString(x + getDis(90), y + getDis(5), TConnector.getText("ui", "jMenuQuests"));
+		
 		int qfFirstX = (int)(x + getDis(30));
 		int qfFirstY = (int)(y + getDis(20));
 		int column = 0;
 		
 		for(QuestField field : questFields)
 		{
-			field.draw(qfFirstX, qfFirstY + ((field.getHeight() * column)), false);
+			field.draw(qfFirstX, qfFirstY + ((field.getHeight() + getDis(10)) * column));
 			column ++;
 		}
+		
+		if(questDesc != null)
+			questDesc.draw(x + getDis(285), y + getDis(20));
+		
+		moveMOA(super.x, super.y);
 	}
 
 	@Override
@@ -77,21 +88,72 @@ class JournalMenu extends InterfaceObject implements UiElement
 	@Override
 	public void reset() 
 	{
-		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+		questDesc = null;
 	}
 	
 	private void addQuest(Quest quest)
 	{
 		quests.add(quest);
+		for(QuestField field : questFields)
+		{
+			if(field.isEmpty())
+			{
+				field.insertQ(quest);
+				return;
+			}
+		}
+	}
+	
+	private void setActiveQuest(Quest quest)
+	{
+		questDesc = new TextBlock(quest.getInfo()[0], 40, ttf);
+		for(int i = 1; i < quest.getInfo().length; i ++)
+		{
+			questDesc.addText(quest.getInfo()[i]);
+		}
 	}
 
 	private class QuestField extends Button
 	{
-
+		private Quest quest;
+		
 		public QuestField(GameContainer gc) throws SlickException, FontFormatException, IOException 
 		{
 			super(GConnector.getInput("field/textBg.png"), "uiJournalMenuQField", false, "", gc, "");
 		}
 		
+		@Override
+		public void draw(float x, float y)
+		{
+			super.draw(x, y, false);
+			if(!isEmpty())
+				super.drawString(quest.getName(), ttf);
+		}
+		
+		public void insertQ(Quest quest)
+		{
+			this.quest = quest;
+		}
+		
+		public boolean isEmpty()
+		{
+			if(quest == null)
+				return true;
+			else
+				return false;
+		}
+		
+		@Override
+		public void mouseReleased(int button, int x, int y)
+		{
+			super.mouseReleased(button, x, y);
+			
+			if(button == Input.MOUSE_LEFT_BUTTON)
+			{
+				if(!isEmpty() && isMouseOver())
+					setActiveQuest(quest);
+			}
+		}
 	}
 }

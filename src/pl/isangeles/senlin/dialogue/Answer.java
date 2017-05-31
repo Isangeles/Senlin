@@ -1,5 +1,7 @@
 package pl.isangeles.senlin.dialogue;
 
+import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for answer, smallest dialogue part
@@ -10,10 +12,12 @@ public class Answer
 {
 	private final String id;
 	private final boolean end;
+	private String qOn;
 	
-	public Answer(String text, boolean end) 
+	public Answer(String text, String qOn, boolean end) 
 	{
 		this.id = text;
+		this.qOn = qOn;
 		this.end = end;
 	}
 	/**
@@ -41,4 +45,8 @@ public class Answer
 		return end;
 	}
 
+	public Quest getQuest()
+	{
+		return QuestsBase.get(qOn);
+	}
 }

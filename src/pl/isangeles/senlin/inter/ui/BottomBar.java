@@ -269,7 +269,7 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     	else if(key == Input.KEY_K && skillsReq)
     		skillsReq = false;
 		
-		if(key == Input.KEY_J && !journalReq)
+		if(key == Input.KEY_L && !journalReq)
 			journalReq = true;
 		else if(key == Input.KEY_L && journalReq)
 			journalReq = false;

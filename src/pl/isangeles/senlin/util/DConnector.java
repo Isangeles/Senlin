@@ -557,11 +557,15 @@ public final class DConnector
 				{
 					Element answer = (Element)answerNode;
 					
+					String qOn = "";
 					boolean endBool = false;
 					if(answer.hasAttribute("end"))
 						endBool = Boolean.parseBoolean(answer.getAttribute("end"));
 					
-					answersList.add(new Answer(answer.getTextContent(), endBool));
+					if(answer.hasAttribute("qOn"))
+						qOn = answer.getAttribute("qOn");
+					
+					answersList.add(new Answer(answer.getTextContent(), qOn, endBool));
 				}
 			}
 			return new DialoguePart(id, on, answersList);
@@ -570,7 +574,7 @@ public final class DConnector
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
-		answersList.add(new Answer("bye01", true));
+		answersList.add(new Answer("bye01", "", true));
 		return new DialoguePart("err01", "error01", answersList);
 	}
 }

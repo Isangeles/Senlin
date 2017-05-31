@@ -687,10 +687,13 @@ public class Character implements Targetable
 	 * Adds quest to character quests list
 	 * @param quest Game quest
 	 */
-	public void addQuest(Quest quest)
+	public void startQuest(Quest quest)
 	{
 		if(quests.add(quest))
+		{
+			quest.start();
 			Log.addInformation(quest.getName() + " accepted");
+		}
 		else
 			Log.addSystem("character_quests_list_add_fail msg//fail to add quest to list");
 	}

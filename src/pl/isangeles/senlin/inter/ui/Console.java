@@ -278,7 +278,7 @@ final class Console extends TextInput implements UiElement
         	if(prefix.equals("-s") || prefix.equals("-skills"))
         	    target.addSkill(SkillsBase.getAttack(target, value));
         	if(prefix.equals("-q") || prefix.equals("-quest"))
-        		target.addQuest(QuestsBase.get(value));
+        		target.startQuest(QuestsBase.get(value));
         	
         	return;
     	}

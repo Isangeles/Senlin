@@ -67,7 +67,6 @@ public class Bar extends InterfaceObject
         barMOA.setLocation(super.x, super.y);
         if(barMOA.isMouseOver())
         	barTtf.drawString(super.x+getDis(20), super.y, label + value + "/" + baseValue);
-        
     }
     /**
      * Gives bar size based on actual value

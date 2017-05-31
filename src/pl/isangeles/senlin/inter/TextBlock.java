@@ -15,6 +15,7 @@ public class TextBlock
 {
     private List<String> textLines = new ArrayList<>();
     private String text;
+    int charsInLine;
     private TrueTypeFont ttf;
     /**
      * Text block constructor 
@@ -26,13 +27,9 @@ public class TextBlock
     {
         this.text = text;
         this.ttf = tff;
+        this.charsInLine = charsInLine;
         
-        int index = 0;
-        while(index < text.length()) 
-        {
-            textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
-            index += charsInLine;
-        }
+        addLines(text, charsInLine);
     }
     /**
      * Draws text block on specified position
@@ -49,6 +46,12 @@ public class TextBlock
                 ttf.drawString(x+Coords.getDis(10), y, textLines.get(0));
         }
     }
+    
+    public void addText(String text)
+    {
+    	textLines.add("");
+    	addLines(text, charsInLine);
+    }
     /**
      * Return string with whole text
      * @return String with whole block text
@@ -63,7 +66,16 @@ public class TextBlock
      */
     public float getTextHeight()
     {
-        return ttf.getHeight(text) * textLines.size();
-                
+        return ttf.getHeight(text) * textLines.size();        
+    }
+    
+    private void addLines(String text, int charsInLine)
+    {
+        int index = 0;
+        while(index < text.length()) 
+        {
+            textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
+            index += charsInLine;
+        }
     }
 }

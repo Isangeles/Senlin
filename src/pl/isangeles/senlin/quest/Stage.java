@@ -2,6 +2,8 @@ package pl.isangeles.senlin.quest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for quest stages
  * @author Isangeles
@@ -11,6 +13,7 @@ public class Stage
 {
     private String id;
     private String nextStage;
+    private String info;
     private List<Objective> objectives;
     /**
      * Stage constructor 
@@ -22,6 +25,7 @@ public class Stage
     {
         this.id = id;
         this.nextStage = nextStage;
+        info = TConnector.getText("quests", id);
         this.objectives = objectives;
     }
     /**
@@ -56,5 +60,10 @@ public class Stage
     public String getId()
     {
         return id;
+    }
+    
+    public String getInfo()
+    {
+    	return info;
     }
 }

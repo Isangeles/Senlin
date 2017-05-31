@@ -59,6 +59,8 @@ sMenuTitle:Character abilities;
 sMenuSkills:Skills;
 sMenuMagic:Magic;
 sMenuAbi:Abilities;
+jMenuQuests:Quests;
+jMenuCmp:Complete;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

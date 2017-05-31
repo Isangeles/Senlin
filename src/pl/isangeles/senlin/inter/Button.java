@@ -16,7 +16,6 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 /**
  * Interface button class, implements MouseListener to detect mouse click 
- * TODO delete clickArea, now every interface object has its own MOA so it simply not necessary
  * @author Isangeles
  *
  */

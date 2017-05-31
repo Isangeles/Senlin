@@ -38,9 +38,9 @@ public class QuestParser
         NodeList stagesList = stagesNode.getChildNodes();
         for(int i = 0; i < stagesList.getLength(); i ++)
         {
-            Node stageNode = stagesList.item(0);
+            Node stageNode = stagesList.item(i);
             if(stageNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-                stages.add(getStageFromNode(stageNode));
+            	stages.add(getStageFromNode(stageNode));
         }
         
         return new Quest(id, stages);
@@ -58,8 +58,7 @@ public class QuestParser
         String nextStage = stageE.getAttribute("next");
         List<Objective> objectives = new ArrayList<>();
         
-        Node objectivesNode = stageE.getElementsByTagName("objectives").item(0);
-        NodeList objectivesList = objectivesNode.getChildNodes();
+        NodeList objectivesList = stageE.getElementsByTagName("objective");
         for(int i = 0; i < objectivesList.getLength(); i ++)
         {
             Node objectiveNode = objectivesList.item(i);

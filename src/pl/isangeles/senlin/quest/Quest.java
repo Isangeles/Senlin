@@ -3,6 +3,8 @@ package pl.isangeles.senlin.quest;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.inter.TextBlock;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for game quests
@@ -13,9 +15,11 @@ public class Quest
 {
     private String id;
     private String name;
+    private String info;
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
+    private boolean active;
     /**
      * Quest constructor 
      * @param id Quest ID
@@ -26,13 +30,14 @@ public class Quest
         this.id = id;
         this.stages = stages;
         
-        name = TConnector.getText("quests", id);
+        name = TConnector.getInfo("quests", id)[0];
+        info = TConnector.getInfo("quests", id)[1];
         
         for(Stage stage : stages)
         {
-            if(stage.getId().equals(0))
-                currentStage = stage;
-        }
+            if(stage.getId().equals(id+"0"))
+            	currentStage = stage;
+        }   
     }
     /**
      * Changes current stage
@@ -41,7 +46,7 @@ public class Quest
     {
         if(currentStage.getNextStage().equals("end"))
         {
-            complete = true;
+            completed();
             return;
         }
         
@@ -53,6 +58,21 @@ public class Quest
                 break;
             }
         }
+    }
+    /**
+     * Starts quest
+     */
+    public void start()
+    {
+    	active = true;
+    }
+    /**
+     * Checks if quest is completed
+     * @return Boolean value
+     */
+    public boolean isComplete()
+    {
+    	return complete;
     }
     /**
      * Returns quest ID
@@ -69,5 +89,22 @@ public class Quest
     public String getName()
     {
     	return name;
+    }
+    /**
+     * Returns quest info
+     * @return String with quest info
+     */
+    public String[] getInfo()
+    {
+    	return new String[]{info, currentStage.getInfo()};
+    }
+    /**
+     * Marks quest as completed
+     */
+    private void completed()
+    {
+    	name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
+    	complete = true;
+    	active = false;
     }
 }
