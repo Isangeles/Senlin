@@ -27,7 +27,9 @@ public class SkillsBase
 {
 	private static GameContainer gc;
 	private static Map<String, AttackPattern> attacksMap = new HashMap<>();
-	
+	/**
+	 * Private constructor to prevent initialization
+	 */
 	private SkillsBase() 
 	{}
 	
@@ -35,7 +37,12 @@ public class SkillsBase
 	{
 		return new Attack(character, "autoA", "Attack", "Basic attack", "autoAttack.png", EffectType.NORMAL, 0, 0, 0, 2000, true, 40, null, gc);
 	}
-	
+	/**
+	 * Returns attack skill with specific ID from base
+	 * @param character Game character
+	 * @param id ID of desired skill
+	 * @return Attack skill from base
+	 */
 	public static Attack getAttack(Character character, String id)
 	{
 	    try

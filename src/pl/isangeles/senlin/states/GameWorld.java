@@ -28,8 +28,10 @@ import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.day.Day;
+import pl.isangeles.senlin.inter.Field;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
+import pl.isangeles.senlin.util.Coords;
 /**
  * State for game world
  * 
@@ -61,6 +63,7 @@ public class GameWorld extends BasicGameState
         try 
         {
         	gwCursor = new GameCursor(container);
+        	Field loadInfo = new Field(100f, 70f, "Loading...", container);
         	dayManager = new Day();
         	
         	ItemBase.loadBases(container);

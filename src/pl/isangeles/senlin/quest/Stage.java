@@ -15,6 +15,7 @@ public class Stage
     private String nextStage;
     private String info;
     private List<Objective> objectives;
+    private boolean complete;
     /**
      * Stage constructor 
      * @param id Stage ID
@@ -34,16 +35,14 @@ public class Stage
      */
     public boolean isComplete()
     {
-        boolean complete = true;
         for(Objective objecitve : objectives)
         {
             if(!objecitve.isComplete())
             {
-                complete = false;
-                break;
+                return false;
             }
         }
-        return complete;
+        return true;
     }
     /**
      * Returns next stage ID
@@ -65,5 +64,13 @@ public class Stage
     public String getInfo()
     {
     	return info;
+    }
+    
+    public void check(ObjectiveTarget ot)
+    {
+        for(Objective objective : objectives)
+        {
+            objective.check(ot);
+        }
     }
 }

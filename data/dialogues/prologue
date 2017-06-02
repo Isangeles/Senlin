@@ -9,6 +9,7 @@
             <answer end="true">bye01</answer>
         </text>
     </dialogue>
+
     <dialogue id="ericWelcome" npc="ericP01">
         <text id="ericWelcome01" on="start">
             <answer>ericWelcome01a01</answer>
@@ -24,5 +25,14 @@
         <text id="ericWelcome04" on="ericWelcome01a02">
             <answer end="true">bye01</answer>
         </text>
+    </dialogue>
+
+    <dialogue id="ewanTalk1" npc="ewanP01">
+        <text id="ewanTalk101" on="start">
+	    <answer>ewanTalk101a01</answer>
+	</text>
+	<text id="ewanTalk102" on="ewanTalk101a01">
+	    <answer end="true">bye01</answer>
+	</text>
     </dialogue>
 </base>

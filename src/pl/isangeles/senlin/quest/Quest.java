@@ -44,7 +44,7 @@ public class Quest
      */
     public void nextStage()
     {
-        if(currentStage.getNextStage().equals("end"))
+        if(currentStage.isComplete() && currentStage.getNextStage().equals("end"))
         {
             completed();
             return;
@@ -97,6 +97,14 @@ public class Quest
     public String[] getInfo()
     {
     	return new String[]{info, currentStage.getInfo()};
+    }
+    
+    public void check(ObjectiveTarget ot)
+    {
+        currentStage.check(ot);
+
+        if(currentStage.isComplete())
+            nextStage();
     }
     /**
      * Marks quest as completed

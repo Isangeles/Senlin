@@ -219,6 +219,8 @@ class DialogBox extends InterfaceObject implements UiElement
 					if(answerQ != null)
 						interlocutorA.startQuest(answerQ);
 					
+					interlocutorA.getQTracker().check(option);
+					
 					if(option.isEnd())
 					{
 						interlocutorB.getDialog().reset();

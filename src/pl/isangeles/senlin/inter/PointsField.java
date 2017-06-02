@@ -18,10 +18,10 @@ import pl.isangeles.senlin.core.Attribute;
  */
 public class PointsField extends InterfaceObject 
 {
-	Attribute value;
-	String label;
-	Font textFont;
-	TrueTypeFont textTtf;
+	private Attribute value;
+	private String label;
+	private Font textFont;
+	private TrueTypeFont textTtf;
 	
 	private float valueWidth;
 	private float valueHeight;

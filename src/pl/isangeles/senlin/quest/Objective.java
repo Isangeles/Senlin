@@ -1,4 +1,7 @@
 package pl.isangeles.senlin.quest;
+
+import pl.isangeles.senlin.data.Log;
+
 /**
  * Class for quest stage objectives
  * @author Isangeles
@@ -33,5 +36,11 @@ public class Objective
     public boolean isComplete()
     {
         return complete;
+    }
+    
+    public void check(ObjectiveTarget ot)
+    {
+        if(target.equals(ot.getId()))
+            complete = true;
     }
 }

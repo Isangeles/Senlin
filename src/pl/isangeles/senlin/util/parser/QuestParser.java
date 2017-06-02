@@ -78,7 +78,7 @@ public class QuestParser
         Element objectiveE = (Element)objectiveNode;
         
         String type = objectiveE.getAttribute("type");
-        String target = objectiveE.getAttribute("target");
+        String target = objectiveE.getTextContent();
         
         return new Objective(ObjectiveType.fromString(type), target);
     }

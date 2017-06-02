@@ -55,6 +55,7 @@ import pl.isangeles.senlin.util.parser.ScenarioParser;
  */
 public final class DConnector 
 {
+    public static final String SIMSUN_FONT = "data" + File.separator + "font" + File.separator + "SIMSUN.ttf";
 	/**
 	 * Private constructor to prevent initialization
 	 */

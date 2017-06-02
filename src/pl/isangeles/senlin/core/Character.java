@@ -30,6 +30,7 @@ import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.quest.QuestTracker;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game characters like players, NPCs, etc.
@@ -63,6 +64,7 @@ public class Character implements Targetable
 	private Map<Character, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
 	private List<Quest> quests = new ArrayList<>();
+	private QuestTracker qTracker;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -85,6 +87,7 @@ public class Character implements Targetable
 		inventory = new Inventory();
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));
+		qTracker = new QuestTracker(this);
 	}
 	/**
 	 * This constructor provides playable character
@@ -112,6 +115,7 @@ public class Character implements Targetable
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
 		dialog = DialoguesBase.getDialog(this.id);
+		qTracker = new QuestTracker(this);
 	}
 	/**
 	 * Adds one level to character
@@ -531,6 +535,11 @@ public class Character implements Targetable
 	 */
 	public List<Quest> getQuests()
 	{ return quests; }
+	
+	public QuestTracker getQTracker()
+	{
+	    return qTracker;
+	}
 	/**
 	 * Returns character dodge chance
 	 * @return Dodge chance (range 0-100)

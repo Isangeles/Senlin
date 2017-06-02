@@ -1,6 +1,7 @@
 package pl.isangeles.senlin.dialogue;
 
 import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.quest.ObjectiveTarget;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -8,7 +9,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Answer 
+public class Answer implements ObjectiveTarget
 {
 	private final String id;
 	private final boolean end;
