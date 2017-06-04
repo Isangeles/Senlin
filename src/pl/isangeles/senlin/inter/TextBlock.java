@@ -6,6 +6,7 @@ import java.util.List;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.Position;
 /**
  * Class for slick text with multiple lines
  * @author Isangeles
@@ -15,8 +16,9 @@ public class TextBlock
 {
     private List<String> textLines = new ArrayList<>();
     private String text;
-    int charsInLine;
+    private int charsInLine;
     private TrueTypeFont ttf;
+    private Position pos;
     /**
      * Text block constructor 
      * @param text String with text
@@ -29,6 +31,8 @@ public class TextBlock
         this.ttf = tff;
         this.charsInLine = charsInLine;
         
+        pos = new Position();
+        
         addLines(text, charsInLine);
     }
     /**
@@ -38,6 +42,9 @@ public class TextBlock
      */
     public void draw(float x, float y)
     {
+        pos.x = (int)x;
+        pos.y = (int)y;
+        
         for(int i = 0; i < textLines.size(); i ++)
         {
             if(textLines.size() > 1)
@@ -47,13 +54,24 @@ public class TextBlock
         }
     }
     
+    public void draw()
+    {
+        this.draw(pos.x, pos.y);
+    }
+    
+    public void move(int x, int y)
+    {
+        pos.x = x;
+        pos.y = y;
+    }
+    
     public void addText(String text)
     {
     	textLines.add("");
     	addLines(text, charsInLine);
     }
     /**
-     * Return string with whole text
+     * Returns string with whole text
      * @return String with whole block text
      */
     public String getText()
@@ -61,12 +79,17 @@ public class TextBlock
         return text;
     }
     /**
-     * Return text block height
+     * Returns text block height
      * @return Float block height
      */
     public float getTextHeight()
     {
         return ttf.getHeight(text) * textLines.size();        
+    }
+    
+    public Position getPosition()
+    {
+        return pos;
     }
     
     private void addLines(String text, int charsInLine)

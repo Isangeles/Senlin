@@ -16,8 +16,8 @@ public class QuestTracker
         this.character = character;
     }
     /**
-     * Checks 
-     * @param ot
+     * Checks if specified objective target matches to one of character quest objectives
+     * @param ot ObjectiveTraget such as dialogue answer, killed mob or item
      */
     public void check(ObjectiveTarget ot)
     {

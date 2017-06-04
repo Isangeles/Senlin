@@ -129,9 +129,9 @@ public class NewGameMenu extends BasicGameState
 		if(gameWorldReq)
 		{
 		    gameWorldReq = false;
-		    game.addState(new GameWorld(player));
-            game.getState(2).init(container, game);
-		    game.enterState(2);
+		    game.addState(new LoadingScreen(new GameWorld(player)));
+		    game.getState(4).init(container, game);
+		    game.enterState(4);
 		}
 		
 		if(fieldName.getText() != null && ptsAtributes.getValue() == 0)

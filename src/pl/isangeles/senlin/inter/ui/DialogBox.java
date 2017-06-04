@@ -77,7 +77,7 @@ class DialogBox extends InterfaceObject implements UiElement
 		interlocutorB.getPortrait().draw(x+getDis(350), y+getDis(16), 85f, 120f, false);
 		ttf.drawString(x+getDis(115), y+getDis(20), interlocutorA.getName());
 		ttf.drawString(x+getDis(265), y+getDis(20), interlocutorB.getName());
-		
+		/*
 		for(int i = 0; i < dialogueBoxContent.size(); i ++)
 		{
 			if(dialogueBoxTextB.contains(dialogueBoxContent.get(i).getText()))
@@ -85,8 +85,8 @@ class DialogBox extends InterfaceObject implements UiElement
 			if(dialogueBoxTextA.contains(dialogueBoxContent.get(i).getText()))
 				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(15), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
 		}
-		
-		//textBox.draw(x+getDis(15), y+getDis(160), 400f, 150f, true);
+		*/
+		textBox.draw(x+getDis(15), y+getDis(160), 400f, 150f, true);
 		
 		for(int i = 0; i < options.size(); i ++)
 		{

@@ -13,6 +13,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
  * Abstract super class for all interface objects
@@ -25,6 +26,8 @@ public abstract class InterfaceObject extends Image
     private float scale;
     protected float x;
     protected float y;
+    protected float width;
+    protected float height;
     
     private InfoWindow info;
     private boolean isInfo;
@@ -146,7 +149,10 @@ public abstract class InterfaceObject extends Image
     {
     	this.x = x * scale;
         this.y = y * scale;
-        super.draw(this.x, this.y, width*scale, height*scale);
+        this.width = width * scale;
+        this.height = height * scale;
+        
+        super.draw(this.x, this.y, this.width, this.height);
         
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -166,12 +172,14 @@ public abstract class InterfaceObject extends Image
     {
     	this.x = x;
     	this.y = y;
+        this.width = width * scale;
+        this.height = height * scale;
         if(scaledPos)
         {
         	this.x *= scale;
             this.y *= scale;
         }
-        super.draw(this.x, this.y, width*scale, height*scale);
+        super.draw(this.x, this.y, this.width, this.height);
         
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -240,12 +248,14 @@ public abstract class InterfaceObject extends Image
     {
     	this.x = x;
     	this.y = y;
+        this.width = width * scale;
+        this.height = height * scale;
         if(scaledPos)
         {
         	this.x *= scale;
             this.y *= scale;
         }
-        super.draw(this.x, this.y, width*scale, height*scale, filter);
+        super.draw(this.x, this.y, this.width, this.height, filter);
         
         iObjectMOA.setLocation(this.x, this.y);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -337,6 +347,41 @@ public abstract class InterfaceObject extends Image
     	return super.getHeight()*scale;
     }
     /**
+     * Returns top right corner of basic interface object texture
+     * @return Position with top right coordinates
+     */
+    protected Position getTR()
+    {
+        if(isCustomSize())
+            return new Position((int)(x + width), (int)y);
+        else
+            return new Position((int)(x + getScaledHeight()), (int)y);
+    }
+    /**
+     * Returns bottom right corner of basic interface object texture
+     * @return Position with bottom right coordinates
+     */
+    protected Position getBR()
+    {
+        if(isCustomSize())
+            return new Position((int)(x + width), (int)(y + height));
+        else
+            return new Position((int)(x + getScaledHeight()), (int)(y + getScaledWidth()));
+            
+    }
+    /**
+     * Returns bottom left corner of basic interface object texture
+     * @return Position with bottom left coordinates
+     */
+    protected Position getBL()
+    {
+        if(isCustomSize())
+            return new Position((int)x, (int)(y + height));
+        else
+            return new Position((int)x, (int)(y + getScaledHeight()));
+            
+    }
+    /**
      * Sets proportion for object based on current resolution, called by constructor
      * @throws FileNotFoundException
      */
@@ -349,5 +394,13 @@ public abstract class InterfaceObject extends Image
         float proportionX = resX / defResX;
         float proportionY = resY / defResY;
         scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
+    }
+    /**
+     * Checks if object is drawn in custom size
+     * @return True if object is drawn in custom size, false otherwise
+     */
+    private boolean isCustomSize()
+    {
+        return (width != 0 || height != 0);
     }
 }
