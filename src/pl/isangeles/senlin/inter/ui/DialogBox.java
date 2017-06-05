@@ -32,19 +32,14 @@ class DialogBox extends InterfaceObject implements UiElement
 	private Character interlocutorA;
 	private Character interlocutorB;
 	
-	private TextBox textBox;
+	private MessageBox textBox;
 
-	private List<TextBlock> dialogueBoxContent = new ArrayList<>();
-	private List<String> dialogueBoxTextA = new ArrayList<>();
-	private List<String> dialogueBoxTextB = new ArrayList<>();
 	private List<Answer> dialogueAnswers;
 	private List<DialogueOption> options = new ArrayList<>();
 	
 	private TrueTypeFont ttf;
 	
 	private boolean openReq;
-	
-	private GameContainer gc;
 	/**
 	 * Dialogue box constructor
 	 * @param gc Slick game container
@@ -60,7 +55,7 @@ class DialogBox extends InterfaceObject implements UiElement
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(13f), true);
 
-		textBox = new TextBox(gc);
+		textBox = new MessageBox(gc);
 		
 		for(int i = 0; i < 5; i ++)
 		{
@@ -77,16 +72,8 @@ class DialogBox extends InterfaceObject implements UiElement
 		interlocutorB.getPortrait().draw(x+getDis(350), y+getDis(16), 85f, 120f, false);
 		ttf.drawString(x+getDis(115), y+getDis(20), interlocutorA.getName());
 		ttf.drawString(x+getDis(265), y+getDis(20), interlocutorB.getName());
-		/*
-		for(int i = 0; i < dialogueBoxContent.size(); i ++)
-		{
-			if(dialogueBoxTextB.contains(dialogueBoxContent.get(i).getText()))
-				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(260), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
-			if(dialogueBoxTextA.contains(dialogueBoxContent.get(i).getText()))
-				dialogueBoxContent.get((dialogueBoxContent.size()-1)-i).draw(x+getDis(15), (y+getDis(300)) - (dialogueBoxContent.get(i).getTextHeight()*i));
-		}
-		*/
-		textBox.draw(x+getDis(15), y+getDis(160), 400f, 150f, true);
+		
+		textBox.draw(x+getDis(15), y+getDis(160), 410f, 160f, true);
 		
 		for(int i = 0; i < options.size(); i ++)
 		{
@@ -106,9 +93,6 @@ class DialogBox extends InterfaceObject implements UiElement
 		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 		interlocutorA = null;
 		interlocutorB = null;
-		dialogueBoxContent.clear();
-		dialogueBoxTextA.clear();
-		dialogueBoxTextB.clear();
 		textBox.clear();
 		clearAnswersBox();
 	}
@@ -128,9 +112,7 @@ class DialogBox extends InterfaceObject implements UiElement
 			this.interlocutorA = interlocutorA;
 			this.interlocutorB = interlocutorB;
 
-			dialogueBoxTextB.add(interlocutorB.getDialog().getText());
-			dialogueBoxContent.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
-			textBox.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
+			textBox.addRight(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
 			dialogueAnswers = interlocutorB.getDialog().getAnswers();
 			addOptions(dialogueAnswers);
 			openReq = true;
@@ -171,9 +153,7 @@ class DialogBox extends InterfaceObject implements UiElement
 	{
         interlocutorB.getDialog().answerOn(dialogueOption);
         clearAnswersBox();
-        dialogueBoxTextB.add(interlocutorB.getDialog().getText());
-		dialogueBoxContent.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
-        textBox.add(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
+        textBox.addRight(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
         dialogueAnswers = interlocutorB.getDialog().getAnswers();
         addOptions(dialogueAnswers);
 	}
@@ -228,9 +208,7 @@ class DialogBox extends InterfaceObject implements UiElement
 					}
 					else if(!option.isEnd())
 					{
-						dialogueBoxTextA.add(option.getText());
-						dialogueBoxContent.add(new TextBlock(option.getText(), 20, ttf));
-			            textBox.add(new TextBlock(option.getText(), 20, ttf));
+			            textBox.addLeft(new TextBlock(option.getText(), 20, ttf));
 					    nextDialogueStage(option);
 					}
 				}
@@ -250,6 +228,76 @@ class DialogBox extends InterfaceObject implements UiElement
 		public void clear()
 		{
 			option = null;
+		}
+	}
+	/**
+	 * Class for 'messaging style' text box
+	 * @author Isangeles
+	 *
+	 */
+	private class MessageBox extends TextBox
+	{
+		private List<TextBlock> textsRight = new ArrayList<>();
+		private List<TextBlock> textsLeft = new ArrayList<>();
+		
+		public MessageBox(GameContainer gc) throws SlickException, IOException, FontFormatException
+		{
+			super(gc);
+		}
+		
+		@Override
+		public void draw(float x, float y, float width, float height, boolean scaledPos)
+		{
+			super.drawWithoutText(x, y, width, height, scaledPos);
+		       
+		    for(int i = 0; i < visibleTexts.size(); i ++)
+		    {
+	           TextBlock text = visibleTexts.get(i);
+	           if(i == 0)
+	           {
+	               if(textsLeft.contains(text))
+	            	   text.draw(super.x, (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
+	               if(textsRight.contains(text))
+	            	   text.draw(super.getTR().x - text.getTextWidth(), (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
+	           }
+	           else if(i > 0)
+	           {
+	               TextBlock prevText = visibleTexts.get(i-1);
+	               if(textsLeft.contains(text))
+	            	   text.draw(super.x, (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
+	               if(textsRight.contains(text))
+	            	   text.draw(super.getTR().x - text.getTextWidth(), (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
+	           }
+	       }
+			
+		}
+		/**
+		 * Adds text on right side of box
+		 * @param text Block of text
+		 */
+		public void addRight(TextBlock text)
+		{
+			super.add(text);
+			textsRight.add(text);
+		}
+		/**
+		 * Adds text on left side of box
+		 * @param text Block of text
+		 */
+		public void addLeft(TextBlock text)
+		{
+			super.add(text);
+			textsLeft.add(text);
+		}
+		/**
+		 * Removes all text from box
+		 */
+		@Override
+		public void clear()
+		{
+			super.clear();
+			textsRight.clear();
+			textsLeft.clear();
 		}
 	}
 }

@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Position;
 /**
  * Class for scrollable text box
  * @author Isangeles
@@ -20,11 +21,17 @@ import pl.isangeles.senlin.util.GConnector;
 public class TextBox extends InterfaceObject implements MouseListener
 {
     private List<TextBlock> texts = new ArrayList<>();
+    protected List<TextBlock> visibleTexts = new ArrayList<>();
     private Button up;
     private Button down;
     private int firstIndex;
-    private int lastIndex;
-    
+    /**
+     * Text box constructor
+     * @param gc Slick game container
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public TextBox(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("field/textBoxBG.png"), "textBox", false, gc);
@@ -34,43 +41,53 @@ public class TextBox extends InterfaceObject implements MouseListener
         up = new Button(GConnector.getInput("button/buttonUp.png"), "textBoxUp", false, "", gc);
         down = new Button(GConnector.getInput("button/buttonDown.png"), "textBoxDown", false, "", gc);
     }
-    
+    /**
+     * Draws text box
+     */
     @Override
     public void draw(float x, float y, float width, float height, boolean scaledPos)
     {
        super.draw(x, y, width, height, scaledPos);
-       up.draw(getTR().x - up.getScaledWidth(), getTR().y);
+       up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y);
        down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight());
        
-       for(int i = firstIndex; i >= lastIndex; i --)
+       for(int i = 0; i < visibleTexts.size(); i ++)
        {
-           TextBlock text = texts.get(i);
-           if(i == texts.size()-1)
+           TextBlock text = visibleTexts.get(i);
+           if(i == 0)
            {
-               text.draw(super.x, (super.y + super.getScaledHeight()) - text.getTextHeight());
+               text.draw(super.x, (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
            }
-           else if(i < texts.size()-1)
+           else if(i > 0)
            {
-               TextBlock prevText = texts.get(i+1);
+               TextBlock prevText = visibleTexts.get(i-1);
                text.draw(super.x, (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
            }
        }
     }
-    
+    /**
+     * Adds text to text box
+     * @param text Block of text
+     */
     public void add(TextBlock text)
     {
         this.texts.add(text);
         firstIndex = texts.size()-1;
         setVisibleTexts();
     }
-    
+    /**
+     * Adds all text blocks to text box
+     * @param texts List with blocks of text
+     */
     public void addAll(List<TextBlock> texts)
     {
         this.texts.addAll(texts);
-        firstIndex = texts.size()-1;
+        firstIndex = this.texts.size()-1;
         setVisibleTexts();
     }
-    
+    /**
+     * Removes all text from box
+     */
     public void clear()
     {
         texts.clear();
@@ -124,7 +141,7 @@ public class TextBox extends InterfaceObject implements MouseListener
         {
             if(up.isMouseOver())
             {
-                if(firstIndex > 0 && lastIndex > 0)
+                if(firstIndex > 0)
                 {
                     firstIndex --;
                     setVisibleTexts();
@@ -132,7 +149,7 @@ public class TextBox extends InterfaceObject implements MouseListener
             }
             if(down.isMouseOver())
             {
-                if(firstIndex < texts.size() && lastIndex < texts.size())
+                if(firstIndex < texts.size()-1)
                 {
                     firstIndex ++;
                     setVisibleTexts();
@@ -144,23 +161,74 @@ public class TextBox extends InterfaceObject implements MouseListener
     @Override
     public void mouseWheelMoved(int change)
     {
+    	if(change > 0)
+    	{
+            if(firstIndex > 0)
+            {
+                firstIndex --;
+                setVisibleTexts();
+            }
+    	}
+    	else
+    	{
+            if(firstIndex < texts.size()-1)
+            {
+                firstIndex ++;
+                setVisibleTexts();
+            }
+    	}
     }
     
+    public boolean contains(String rawText)
+    {
+    	for(TextBlock text : texts)
+    	{
+    		if(text.getText().equals(rawText))
+    			return true;
+    	}
+    	
+    	return false;
+    }
+    
+    protected void drawWithoutText(float x, float y, float width, float height, boolean scaledPos)
+    {
+    	super.draw(x, y, width, height, scaledPos);
+        up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y);
+        down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight());
+    }
+    /**
+     * Returns box top right position including up/down button width
+     */
+    @Override
+    protected Position getTR()
+    {
+    	return new Position((int)(super.getTR().x - up.getScaledWidth()) - getDis(10), super.getTR().y);  
+    }
+    /**
+     * Sets list of text blocks that should be displayed in box
+     * method checks each block height and add them to list only if height of all blocks in list does not exceed text box height  
+     */
     private void setVisibleTexts()
     {
-        lastIndex = 0;
+        visibleTexts.clear();
+        
+        if(firstIndex == 0)
+        {
+        	visibleTexts.add(texts.get(firstIndex));
+        	return;
+        }
+        
         float textsHeight = 0;
         for(int i = firstIndex; i >= 0; i --)
         {
             TextBlock text = texts.get(i);
             textsHeight += text.getTextHeight();
+            Log.addSystem("hs:" + textsHeight + "/sh:" + text.getTextHeight() + "/max:" + height);
             if(textsHeight > height)
-            {
-                textsHeight -= text.getTextHeight();
-                break;
-            }
+                return;
             else
-                lastIndex ++;
+                visibleTexts.add(text);
         }
+    
     }
 }

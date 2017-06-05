@@ -15,6 +15,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 
+import pl.isangeles.senlin.inter.TextBlock;
+import pl.isangeles.senlin.inter.TextBox;
 import pl.isangeles.senlin.inter.TextInput;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
@@ -37,6 +39,7 @@ final class Console extends TextInput implements UiElement
 {
     private boolean hide;
     private Character player;
+    private TextBox logBox;
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -49,6 +52,7 @@ final class Console extends TextInput implements UiElement
     {
         super(GConnector.getInput("ui/background/consoleBG_DG.png"), "uiConsoleBg", false, gc);
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
+        logBox = new TextBox(gc);
         this.player = player;
         hide = true;
     }
@@ -79,6 +83,16 @@ final class Console extends TextInput implements UiElement
 	@Override
 	public void update() 
 	{
+		/*
+		for(String record : Log.get())
+		{
+			if(!logBox.contains(record))
+			{
+				TextBlock text = new TextBlock(record, 40, super.textTtf);
+				logBox.add(text);
+			}
+		}
+		*/
 	}
             
     @Override

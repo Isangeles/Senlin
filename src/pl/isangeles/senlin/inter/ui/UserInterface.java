@@ -125,6 +125,7 @@ public class UserInterface implements MouseListener
         journal.update();
         loot.update();
         dialogue.update();
+        gameConsole.update();
     }
     /**
      * Checks if mouse is over one of ui elements

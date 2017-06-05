@@ -86,6 +86,21 @@ public class TextBlock
     {
         return ttf.getHeight(text) * textLines.size();        
     }
+    /**
+     * Returns maximal text block width
+     * @return Text block width
+     */
+    public float getTextWidth()
+    {
+    	float maxWidth = 0;
+    	for(String line : textLines)
+    	{
+    		float lineWidth = ttf.getWidth(line);
+    		if(lineWidth > maxWidth)
+    			maxWidth = lineWidth;
+    	}
+    	return maxWidth;
+    }
     
     public Position getPosition()
     {
