@@ -32,6 +32,7 @@ public class QuestParser
         Element questE = (Element)questNode;
         
         String id = questE.getAttribute("id");
+        String flag = questE.getAttribute("flagOn");
         List<Stage> stages = new ArrayList<>();
         
         Node stagesNode = questE.getElementsByTagName("stages").item(0);
@@ -43,7 +44,7 @@ public class QuestParser
             	stages.add(getStageFromNode(stageNode));
         }
         
-        return new Quest(id, stages);
+        return new Quest(id, flag, stages);
     }
     /**
      * Parses specified stage node
@@ -56,6 +57,8 @@ public class QuestParser
         
         String id = stageE.getAttribute("id");
         String nextStage = stageE.getAttribute("next");
+        String flagOn = stageE.getAttribute("flagOn");
+        String flagOff = stageE.getAttribute("flagOff");
         List<Objective> objectives = new ArrayList<>();
         
         NodeList objectivesList = stageE.getElementsByTagName("objective");
@@ -66,7 +69,7 @@ public class QuestParser
                 objectives.add(getObjectiveFromNode(objectiveNode));
         }
         
-        return new Stage(id, nextStage, objectives);
+        return new Stage(id, flagOn, flagOff, nextStage, objectives);
     }
     /**
      * Parses specified objective node

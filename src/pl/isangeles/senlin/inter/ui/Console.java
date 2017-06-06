@@ -64,13 +64,14 @@ final class Console extends TextInput implements UiElement
      */
     public void draw(float x, float y, Graphics g)
     {
-
         super.draw(x, y, false);
-        
+        /*
         for(int i = 1; i < 10; i ++)
         {
         	super.textTtf.drawString(super.x, (super.y + super.getScaledHeight() - 7) - textField.getHeight()*i, Log.get(Log.size()-i));
         }
+        */
+        logBox.draw(x, y, 630f, 180f, false);
         
         if(!hide)
         {   
@@ -83,16 +84,11 @@ final class Console extends TextInput implements UiElement
 	@Override
 	public void update() 
 	{
-		/*
-		for(String record : Log.get())
+		for(int i = 0; i < Log.size(); i ++)
 		{
-			if(!logBox.contains(record))
-			{
-				TextBlock text = new TextBlock(record, 40, super.textTtf);
-				logBox.add(text);
-			}
+			if(!logBox.contains(Log.get(i)))
+				logBox.add(new TextBlock(Log.get(i), 80, textTtf));
 		}
-		*/
 	}
             
     @Override
@@ -227,6 +223,11 @@ final class Console extends TextInput implements UiElement
         	setCommands(prefix, player);
             return;
         }
+        if(command.equals("show"))
+        {
+        	showCommands(prefix, player);
+        	return;
+        }
         
         Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
     }
@@ -341,8 +342,28 @@ final class Console extends TextInput implements UiElement
     	}
 
     }
+    /**
+     * Checks show command for target, last command check
+     * @param commLine Rest of command line (after command)
+     * @param target Target of command
+     */
+    private void showCommands(String commandLine, Character target)
+    {
+    	Scanner scann = new Scanner(commandLine);
+    	String prefix = scann.next();
+    	scann.close();
+    	
+    	if(prefix.equals("-f"))
+    	{
+    		Log.addSystem(target.getName() + "//flags: " + target.getFlags().list());
+    		return;
+    	}
+    	
+        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
+    }
 	@Override
-	public void draw(float x, float y) {
+	public void draw(float x, float y)
+	{
 		// TODO Auto-generated method stub
 		
 	}

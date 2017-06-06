@@ -61,7 +61,7 @@ public class TextBox extends InterfaceObject implements MouseListener
            else if(i > 0)
            {
                TextBlock prevText = visibleTexts.get(i-1);
-               text.draw(super.x, (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
+               text.draw(super.x, (prevText.getPosition().y) - text.getTextHeight());
            }
        }
     }
@@ -91,6 +91,11 @@ public class TextBox extends InterfaceObject implements MouseListener
     public void clear()
     {
         texts.clear();
+    }
+    
+    public void useContainer(List<TextBlock> container)
+    {
+    	texts = container;
     }
 
     @Override
@@ -161,21 +166,24 @@ public class TextBox extends InterfaceObject implements MouseListener
     @Override
     public void mouseWheelMoved(int change)
     {
-    	if(change > 0)
+    	if(isMouseOver())
     	{
-            if(firstIndex > 0)
-            {
-                firstIndex --;
-                setVisibleTexts();
-            }
-    	}
-    	else
-    	{
-            if(firstIndex < texts.size()-1)
-            {
-                firstIndex ++;
-                setVisibleTexts();
-            }
+    		if(change > 0)
+        	{
+                if(firstIndex > 0)
+                {
+                    firstIndex --;
+                    setVisibleTexts();
+                }
+        	}
+        	else
+        	{
+                if(firstIndex < texts.size()-1)
+                {
+                    firstIndex ++;
+                    setVisibleTexts();
+                }
+        	}
     	}
     }
     
@@ -222,8 +230,8 @@ public class TextBox extends InterfaceObject implements MouseListener
         for(int i = firstIndex; i >= 0; i --)
         {
             TextBlock text = texts.get(i);
-            textsHeight += text.getTextHeight();
-            Log.addSystem("hs:" + textsHeight + "/sh:" + text.getTextHeight() + "/max:" + height);
+            textsHeight += text.getTextHeight() + 5f;
+            //Log.addSystem("hs:" + textsHeight + "/sh:" + text.getTextHeight() + "/max:" + height); //TEST LINE
             if(textsHeight > height)
                 return;
             else

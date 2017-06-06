@@ -45,6 +45,7 @@ import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
 import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.util.parser.DialogueParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
 
@@ -317,24 +318,12 @@ public final class DConnector
 		NodeList nl = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < nl.getLength(); i ++)
 		{
-			Node dialogNode = nl.item(i);
-			if(dialogNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			Node dialogueNode = nl.item(i);
+			if(dialogueNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
-				Element dialog = (Element)dialogNode;
-				String dialogId = dialog.getAttribute("id");
-				String npcId = dialog.getAttribute("npc");
-				List<DialoguePart> partsList = new ArrayList<>();
+				Dialogue dialogueOb = DialogueParser.getDialogueFromNode(dialogueNode);
 				
-				NodeList parts = dialog.getChildNodes();
-				for(int j = 0; j < dialog.getElementsByTagName("text").getLength(); j ++)
-				{
-					Node textNode = dialog.getElementsByTagName("text").item(j);
-					//Element text = (Element)dialog.getElementsByTagName("text").item(j);
-					partsList.add(getDialoguePartFromNode(textNode));
-				}
-				Dialogue dialogueOb = new Dialogue(dialogId, npcId, partsList);
-				
-				dialogsMap.put(npcId, dialogueOb);
+				dialogsMap.put(dialogueOb.getId(), dialogueOb);
 			}
 		}
 		
@@ -535,47 +524,5 @@ public final class DConnector
 	    }
 	    
 	    return questsMap;
-	}
-	/**
-	 * Returns dialogue part from specified XML node
-	 * @param textNode XML node from dialogues base file
-	 * @return DialoguePart object
-	 */
-	private static DialoguePart getDialoguePartFromNode(Node textNode)
-	{
-		List<Answer> answersList = new ArrayList<>();
-		if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-		{
-			Element text = (Element)textNode;
-			String id = text.getAttribute("id");
-			String on = text.getAttribute("on");
-			
-			NodeList answers = textNode.getChildNodes();
-			for(int i = 0; i < answers.getLength(); i ++)
-			{
-				Node answerNode = answers.item(i);
-				if(answerNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-				{
-					Element answer = (Element)answerNode;
-					
-					String qOn = "";
-					boolean endBool = false;
-					if(answer.hasAttribute("end"))
-						endBool = Boolean.parseBoolean(answer.getAttribute("end"));
-					
-					if(answer.hasAttribute("qOn"))
-						qOn = answer.getAttribute("qOn");
-					
-					answersList.add(new Answer(answer.getTextContent(), qOn, endBool));
-				}
-			}
-			return new DialoguePart(id, on, answersList);
-		}
-		else
-		{
-			Log.addSystem("dialog_builder_msg//fail");
-		}
-		answersList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err01", "error01", answersList);
 	}
 }

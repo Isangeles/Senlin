@@ -1,7 +1,9 @@
 package pl.isangeles.senlin.data;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,9 +26,15 @@ public class DialoguesBase
 	 */
 	private DialoguesBase() {}
 	
-	public static Dialogue getDialog(String npcId)
+	public static List<Dialogue> getDialogues(String npcId)
 	{
-		return dialogsMap.get(npcId);
+		List<Dialogue> dialogues = new ArrayList<>();
+		for(Dialogue dialogue : dialogsMap.values())
+		{
+			if(dialogue.getNpcId().equals(npcId))
+				dialogues.add(dialogue);
+		}
+		return dialogues;
 	}
 	/**
 	 * Loads base

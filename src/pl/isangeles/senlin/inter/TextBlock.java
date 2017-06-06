@@ -20,6 +20,24 @@ public class TextBlock
     private TrueTypeFont ttf;
     private Position pos;
     /**
+     * Converts list with string values to TextBlocks list
+     * @param rawStrings List with strings
+     * @param charsInLine Maximal number of characters in line
+     * @param ttf TrueTypeFont for text
+     * @return ArrayList with blocks of text
+     */
+    public static List<TextBlock> toTextBlocks(List<String> rawStrings, int charsInLine, TrueTypeFont ttf)
+    {
+    	List<TextBlock> blocks = new ArrayList<>();
+    	
+    	for(String string : rawStrings)
+    	{
+    		blocks.add(new TextBlock(string, charsInLine, ttf));
+    	}
+    	
+    	return blocks;
+    }
+    /**
      * Text block constructor 
      * @param text String with text
      * @param charsInLine Maximum number of chars in single line

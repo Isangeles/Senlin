@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<base>
+    <dialogue id="banditTalk" npc="bandit01">
+        <text id="banditTalk01" on="start">
+            <answer>banditTalk01a01</answer>
+            <answer end="true">bye01</answer>        
+        </text>
+        <text id="banditTalk02" on="banditTalk01a01">
+            <answer end="true">bye01</answer>
+        </text>
+    </dialogue>
+
+    <dialogue id="ericWelcome" npc="ericP01">
+        <text id="ericWelcome01" on="start">
+            <answer>ericWelcome01a01</answer>
+            <answer>ericWelcome01a02</answer>
+        </text>
+        <text id="ericWelcome02" on="ericWelcome01a01">
+            <answer qOn="pLumberTalk">ericWelcome02a01</answer>
+            <answer end="true">bye01</answer>
+        </text>
+        <text id="ericWelcome03" on="ericWelcome02a01">
+            <answer end="true">bye01</answer>
+        </text>
+        <text id="ericWelcome04" on="ericWelcome01a02">
+            <answer end="true">bye01</answer>
+        </text>
+    </dialogue>
+
+    <dialogue id="ericTalk0" npc="ericP01" flagReq="qpLumberTalkStart">
+        <text id="ericTalk001" on="start">
+            <answer end="true">bye01</answer>
+        </text>
+    </dialogue>
+
+    <dialogue id="ericTalk1" npc="ericP01" flagReq="qpLumberTalkFinish">
+        <text id="ericTalk101" on="start">
+            <answer end="true">bye01</answer>
+        </text>
+    </dialogue>
+
+    <dialogue id="ewanTalk1" npc="ewanP01">
+        <text id="ewanTalk101" on="start">
+	    <answer>ewanTalk101a01</answer>
+	</text>
+	<text id="ewanTalk102" on="ewanTalk101a01">
+	    <answer end="true">bye01</answer>
+	</text>
+    </dialogue>
+</base>

@@ -112,8 +112,8 @@ class DialogBox extends InterfaceObject implements UiElement
 			this.interlocutorA = interlocutorA;
 			this.interlocutorB = interlocutorB;
 
-			textBox.addRight(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
-			dialogueAnswers = interlocutorB.getDialog().getAnswers();
+			textBox.addRight(new TextBlock(interlocutorB.getDialogueFor(interlocutorA).getText(), 20, ttf));
+			dialogueAnswers = interlocutorB.getDialogueFor(interlocutorA).getAnswers();
 			addOptions(dialogueAnswers);
 			openReq = true;
 		}
@@ -151,10 +151,10 @@ class DialogBox extends InterfaceObject implements UiElement
 	 */
 	private void nextDialogueStage(Answer dialogueOption)
 	{
-        interlocutorB.getDialog().answerOn(dialogueOption);
+        interlocutorB.getDialogueFor(interlocutorA).answerOn(dialogueOption);
         clearAnswersBox();
-        textBox.addRight(new TextBlock(interlocutorB.getDialog().getText(), 20, ttf));
-        dialogueAnswers = interlocutorB.getDialog().getAnswers();
+        textBox.addRight(new TextBlock(interlocutorB.getDialogueFor(interlocutorA).getText(), 20, ttf));
+        dialogueAnswers = interlocutorB.getDialogueFor(interlocutorA).getAnswers();
         addOptions(dialogueAnswers);
 	}
 	/**
@@ -203,7 +203,7 @@ class DialogBox extends InterfaceObject implements UiElement
 					
 					if(option.isEnd())
 					{
-						interlocutorB.getDialog().reset();
+						interlocutorB.getDialogueFor(interlocutorA).reset();
 						close();
 					}
 					else if(!option.isEnd())

@@ -16,6 +16,7 @@ public class Quest
     private String id;
     private String name;
     private String info;
+    private String flagOn;
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
@@ -25,10 +26,11 @@ public class Quest
      * @param id Quest ID
      * @param stages List of quest stages
      */
-    public Quest(String id, List<Stage> stages)
+    public Quest(String id, String flag, List<Stage> stages)
     {
         this.id = id;
         this.stages = stages;
+        this.flagOn = flag;
         
         name = TConnector.getInfo("quests", id)[0];
         info = TConnector.getInfo("quests", id)[1];
@@ -44,7 +46,7 @@ public class Quest
      */
     public void nextStage()
     {
-        if(currentStage.isComplete() && currentStage.getNextStage().equals("end"))
+        if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
         {
             completed();
             return;
@@ -91,6 +93,35 @@ public class Quest
     	return name;
     }
     /**
+     * Returns list of flags from quest and completed stages that should be set for character
+     * @return List with flags IDs to set
+     */
+    public List<String> getFlagsToSet()
+    {
+    	List<String> flags = new ArrayList<>();
+    	flags.add(flagOn);
+    	for(Stage stage : stages)
+    	{
+    		if(stage.isComplete())
+    			flags.add(stage.getFlagToSet());
+    	}
+    	return flags;
+    }
+    /**
+     * Returns list of flags from quest and completed stages that should bet removed from character
+     * @return List with flags IDs to remove
+     */
+    public List<String> getFlagsToRemove()
+    {
+    	List<String> flags = new ArrayList<>();
+    	for(Stage stage : stages)
+    	{
+    		if(stage.isComplete())
+    			flags.add(stage.getFlagToRemove());
+    	}
+    	return flags;
+    }
+    /**
      * Returns quest info
      * @return String with quest info
      */
@@ -98,13 +129,70 @@ public class Quest
     {
     	return new String[]{info, currentStage.getInfo()};
     }
-    
+    /**
+     * Checks if specified objective target meets any current stage objective requirements
+     * @param ot Some objective target like dialogue answer, item, character, etc.
+     */
     public void check(ObjectiveTarget ot)
     {
         currentStage.check(ot);
 
         if(currentStage.isComplete())
             nextStage();
+    }
+    /**
+     * Clears all quest flags(stages flags too)
+     */
+    public void clearFlags()
+    {
+    	flagOn = "";
+    	for(Stage stage : stages)
+    	{
+    		stage.clearFlags();
+    	}
+    }
+    /**
+     * Clears specified flag
+     * @param flag Flag ID
+     */
+    public void clearFlag(String flag)
+    {
+    	if(flagOn.equals(flag))
+    	{
+    		flagOn = "";
+    		return;
+    	}
+    	
+    	for(Stage stage : stages)
+    	{
+    		stage.clearFlag(flag);
+    		return;
+    	}
+    }
+    /**
+     * Checks if quest is completed
+     * @return True if quest is completed, false otherwise
+     */
+    public boolean isCompleted()
+    {
+    	return complete;
+    }
+    /**
+     * Checks if quest have any flag
+     * @return True if quest have any flag, false otherwise
+     */
+    public boolean hasFlag()
+    {
+    	if(flagOn != "")
+    		return true;
+    	
+    	for(Stage stage : stages)
+    	{
+    		if(stage.hasFlag())
+    			return true;
+    	}
+    	
+    	return false;
     }
     /**
      * Marks quest as completed

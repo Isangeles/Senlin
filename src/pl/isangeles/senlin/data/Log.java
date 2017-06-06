@@ -3,6 +3,7 @@ package pl.isangeles.senlin.data;
 import java.util.LinkedList;
 import java.util.List;
 
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Static class for all in-game communicates
@@ -24,7 +25,7 @@ public class Log
 	public static void addInformation(String information)
 	{
 		clearOld();
-		commList.add(information);
+		add(information);
 	}
 	/**
 	 * Adds new warning to communicates stack
@@ -33,7 +34,7 @@ public class Log
 	public static void addWarning(String warning)
 	{
 		clearOld();
-		commList.add(TConnector.getText("ui", "logWarn") + ": " + warning);
+		add(TConnector.getText("ui", "logWarn") + ": " + warning);
 	}
 	/**
 	 * Adds new debug message to list
@@ -43,7 +44,7 @@ public class Log
 	{
 		clearOld();
 		if(debugMode)
-			commList.add(TConnector.getText("ui", "logDebug") + ": " + debug);
+			add(TConnector.getText("ui", "logDebug") + ": " + debug);
 	}
 	/**
 	 * Adds new system message to list
@@ -52,7 +53,7 @@ public class Log
 	public static void addSystem(String systemMsg)
 	{
 		clearOld();
-		commList.add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
+		add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
 	}
 	/**
 	 * Adds new speech message to log
@@ -62,7 +63,7 @@ public class Log
 	public static void addSpeech(String who, String speech)
 	{
 		clearOld();
-		commList.add(who + " " + TConnector.getText("ui", "logSpeech") + ": " + speech);
+		add(who + " " + TConnector.getText("ui", "logSpeech") + ": " + speech);
 	}
 	/**
 	 * Adds message about character points loss
@@ -171,5 +172,11 @@ public class Log
 	{
 		if(commList.size() > 25)
 			commList.remove(0);
+	}
+	
+	private static void add(String text)
+	{
+		String record = Stopwatch.timeFromMillis(System.currentTimeMillis()) + ":" + text;
+		commList.add(record);
 	}
 }

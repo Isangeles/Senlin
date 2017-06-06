@@ -60,10 +60,11 @@ public class Character implements Targetable
 	private Inventory inventory;
 	private Abilities abilities;
 	private Targetable target;
-	private Dialogue dialog;
+	private List<Dialogue> dialogues;
 	private Map<Character, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
 	private List<Quest> quests = new ArrayList<>();
+	private Flags flags = new Flags();
 	private QuestTracker qTracker;
 	private Random numberGenerator = new Random();
 	/**
@@ -114,7 +115,7 @@ public class Character implements Targetable
 		abilities = new Abilities();
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
-		dialog = DialoguesBase.getDialog(this.id);
+		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
 	}
 	/**
@@ -220,6 +221,14 @@ public class Character implements Targetable
     {
     	return inventory.setTrinket(trinket);
     }
+    /**
+     * Sets specified flag for character
+     * @param flag Flag ID
+     */
+    public void setFlag(String flag)
+    {
+    	flags.add(flag);
+    }
 	/**
 	 * Removes specific item from equippment
 	 * @param item Equipped character item
@@ -300,12 +309,12 @@ public class Character implements Targetable
 	    abilities.update(delta);
 		avatar.update(delta);
 		effects.update(delta, this);
+		flags.update(quests);
 	}
 	/**
 	 * Moves character to given position  
 	 * @param x Position on X axis
 	 * @param y Position on Y axis
-	 * @return False if given position is same as actual or true if else
 	 */
 	public void moveTo(int x, int y)
 	{
@@ -454,6 +463,12 @@ public class Character implements Targetable
 	public Guild getGuild()
 	{ return guild; }
 	/**
+	 * Returns all character flags
+	 * @return Container with flags IDs
+	 */
+	public Flags getFlags()
+	{ return flags; }
+	/**
 	 * Returns current character position
 	 * @return Table with x and y position
 	 */
@@ -547,9 +562,15 @@ public class Character implements Targetable
 	public float getDodgeChance()
 	{ return attributes.getDodge() * 100f; }
 	
-	public Dialogue getDialog()
+	public Dialogue getDialogueFor(Character character)
 	{
-		return dialog;
+		for(Dialogue dialogue : dialogues)
+		{
+			if(character.getFlags().contains(dialogue.getReqFlag()))
+				return dialogue;
+		}
+		
+		return dialogues.get(0);
 	}
 	/**
 	 * Subtract specified value from character health value 
@@ -704,7 +725,7 @@ public class Character implements Targetable
 			Log.addInformation(quest.getName() + " accepted");
 		}
 		else
-			Log.addSystem("character_quests_list_add_fail msg//fail to add quest to list");
+			Log.addSystem("character_startQuest_fail msg//fail to add quest to list");
 	}
 	/**
      * Adds gold to character inventory

@@ -13,6 +13,7 @@ public class Dialogue
 {
 	private final String id;
 	private final String npcId;
+	private final String flagReq;
 	private final List<DialoguePart> parts;
 	private DialoguePart currentStage;
 	/**
@@ -21,10 +22,11 @@ public class Dialogue
 	 * @param npcId NPC ID holding that dialogue 
 	 * @param parts List with all parts of this dialogue
 	 */
-	public Dialogue(String id, String npcId, List<DialoguePart> parts) 
+	public Dialogue(String id, String npcId, String flagReq, List<DialoguePart> parts) 
 	{
 		this.id = id;
 		this.npcId = npcId;
+		this.flagReq = flagReq;
 		this.parts = parts;
 		currentStage = getPart("start");
 	}
@@ -58,6 +60,21 @@ public class Dialogue
 	public void reset()
 	{
 		currentStage = getPart("start");
+	}
+	
+	public String getId()
+	{
+		return id;
+	}
+	
+	public String getNpcId()
+	{
+		return npcId;
+	}
+	
+	public String getReqFlag()
+	{
+		return flagReq;
 	}
 	/**
 	 * Get dialogue part corresponding to specified trigger

@@ -69,8 +69,8 @@ public class GameWorld extends BasicGameState
         	ItemBase.loadBases(container);
         	GuildsBase.load();
         	NpcBase.load(container);
-        	DialoguesBase.load("prologue");
-        	QuestsBase.load("prologue");
+        	DialoguesBase.load("dPrologue");
+        	QuestsBase.load("qPrologue");
         	ScenariosBase.load();
         	
         	scenario = ScenariosBase.getScenario("prologue01");
