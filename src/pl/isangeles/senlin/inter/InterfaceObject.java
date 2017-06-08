@@ -13,6 +13,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
@@ -290,6 +291,30 @@ public abstract class InterfaceObject extends Image
     	return size * scale;
     }
     /**
+     * Returns width of object corrected by scale
+     * @return Width of object multiplied by scale
+     */
+    public float getScaledWidth()
+    {
+    	return super.getWidth()*scale;
+    }
+    /**
+     * Returns height of object corrected by scale
+     * @return Height of object multiplied by scale
+     */
+    public float getScaledHeight()
+    {
+    	return super.getHeight()*scale;
+    }
+    /**
+     * Returns position in the center of the screen for this object and current resolution
+     * @return Position in the center of the screen
+     */
+    public Position atCenter()
+    {
+    	return new Position(Coords.getX("CE", 0) - (getScaledWidth()/2), Coords.getY("CE", 0) - (getScaledHeight()/2));
+    }
+    /**
      * Draws object in default scale on unscaled position
      * @param x
      * @param y
@@ -329,22 +354,6 @@ public abstract class InterfaceObject extends Image
     protected float getCenteredCoord(float bgCoord, float bgSize, float obSize)
     {
     	return (bgCoord + (bgSize/2)) - obSize/2; 
-    }
-    /**
-     * Returns width of object corrected by scale
-     * @return Width of object multiplied by scale
-     */
-    protected float getScaledWidth()
-    {
-    	return super.getWidth()*scale;
-    }
-    /**
-     * Returns height of object corrected by scale
-     * @return Height of object multiplied by scale
-     */
-    protected float getScaledHeight()
-    {
-    	return super.getHeight()*scale;
     }
     /**
      * Returns top right corner of basic interface object texture

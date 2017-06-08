@@ -61,20 +61,56 @@ public class Dialogue
 	{
 		currentStage = getPart("start");
 	}
-	
+	/**
+	 * Sets quest trigger for specified answer 
+	 * @param answerId Answer ID
+	 * @param questId Quest ID
+	 */
+	public void setQTrigger(String answerId, String questId)
+	{
+		for(DialoguePart dp : parts)
+		{
+			for(Answer answer : dp.getAnswers())
+			{
+				if(answer.getId().equals(answerId))
+					answer.setQTrigger(questId);
+			}
+		}
+	}
+	/**
+	 * Returns dialogue ID
+	 * @return String with dialogue ID
+	 */
 	public String getId()
 	{
 		return id;
 	}
-	
+	/**
+	 * Returns dialogue owner ID
+	 * @return String with NPC ID
+	 */
 	public String getNpcId()
 	{
 		return npcId;
 	}
-	
+	/**
+	 * Returns flag requested for that dialogue
+	 * @return String with flag ID
+	 */
 	public String getReqFlag()
 	{
 		return flagReq;
+	}
+	/**
+	 * Checks if dialogue require some flag on character 
+	 * @return True if flag is required, false otherwise
+	 */
+	public boolean isReqFlag()
+	{
+		if(flagReq == null || flagReq == "")
+			return false;
+		else
+			return true;
 	}
 	/**
 	 * Get dialogue part corresponding to specified trigger
@@ -83,6 +119,7 @@ public class Dialogue
 	 */
 	private DialoguePart getPart(String trigger)
 	{
+		Log.addDebug("d_trigger_req//" + trigger);
 		for(DialoguePart dp : parts)
 		{
 			if(dp.getTrigger().equals(trigger))

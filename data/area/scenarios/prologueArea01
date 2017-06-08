@@ -10,7 +10,7 @@
         <mob max="3">bandit01</mob>
     </mobs>
     <quests>
-	<quest>pLumberTalk</quest>
+	    <quest qOn="start">pLumberTalk</quest>
     </quests>
     <exits>
         <exit position="100;100">prologue02</exit>

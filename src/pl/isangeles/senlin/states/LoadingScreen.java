@@ -10,17 +10,26 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.inter.Field;
+import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
-
+import pl.isangeles.senlin.core.Character;
+/**
+ * Class for game loading state
+ * @author Isangeles
+ *
+ */
 public class LoadingScreen extends BasicGameState
 {
     private Field loadingInfo;
-    private BasicGameState stateToLoad;
+    private Character player;
+    private UserInterface ui;
+    private GameWorld gw;
+    private int loadCounter;
     
-    public LoadingScreen(BasicGameState stateToLoad)
+    public LoadingScreen(Character player)
     {
-        this.stateToLoad = stateToLoad;
+    	this.player = player;
     }
     
     @Override
@@ -30,7 +39,8 @@ public class LoadingScreen extends BasicGameState
         try
         {
             loadingInfo = new Field(100f, 70f, "Loading...", container);
-        } catch (IOException | FontFormatException e)
+        } 
+        catch (IOException | FontFormatException e)
         {
             e.printStackTrace();
         }
@@ -41,17 +51,42 @@ public class LoadingScreen extends BasicGameState
             throws SlickException
     {
         g.clear();
-        loadingInfo.draw(Coords.getX("CE", 0), Coords.getY("CE", 0));
+        loadingInfo.draw(loadingInfo.atCenter().x, loadingInfo.atCenter().y, 250f, 100f, false);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-        
-        game.addState(stateToLoad);
-        game.getState(stateToLoad.getID()).init(container, game);
-        game.enterState(stateToLoad.getID());
+		try 
+		{
+			switch(loadCounter)
+			{
+			case 0:
+	            loadingInfo.setText("loading user interface...");
+				break;
+			case 1:
+				ui = new UserInterface(container, player);
+				break;
+			case 2:
+				loadingInfo.setText("loading game world...");
+				break;
+			case 3:
+		        gw = new GameWorld(player, ui);
+		        break;
+			case 4:
+		        game.addState(gw);
+		        game.getState(gw.getID()).init(container, game);
+		        game.enterState(gw.getID());
+		        break;
+			}
+			
+			loadCounter ++;
+		} 
+		catch (IOException | FontFormatException e) 
+		{
+			e.printStackTrace();
+		}
     }
 
     @Override

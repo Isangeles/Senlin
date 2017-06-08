@@ -63,6 +63,7 @@ public class ScenarioParser
 					String mapFile = scenarioE.getAttribute("map");
 					Map<String, Position> npcs = new HashMap<>();
 					List<MobsArea> mobs = new ArrayList<>();
+					Map<String, String[]> quests = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
 					
 					
@@ -99,9 +100,22 @@ public class ScenarioParser
 							}
 							catch(NumberFormatException e)
 							{
-								Log.addSystem("scenario_builder_mob_fail msg///mobs area corrupted");
+								Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
 								break;
 							}
+						}
+					}
+					
+					NodeList questsNl = scenarioE.getElementsByTagName("quests").item(0).getChildNodes();
+					for(int j = 0; j < questsNl.getLength(); j ++)
+					{
+						Node questNode = questsNl.item(j);
+						if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+						{
+							Element questE = (Element)questNode;
+							Log.addSystem(questE.getAttribute("trigger"));
+							String[] trigger = new String[]{questE.getAttribute("qOn"), questE.getAttribute("trigger")};
+							quests.put(questE.getTextContent(), trigger);
 						}
 					}
 					
@@ -116,7 +130,7 @@ public class ScenarioParser
 						}
 					}
 					
-					return new Scenario(id, mapFile, npcs, mobs, exits);	
+					return new Scenario(id, mapFile, npcs, mobs, quests, exits);	
 			}
 		}
 		

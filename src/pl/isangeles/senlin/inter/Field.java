@@ -12,7 +12,7 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.GConnector;
 /**
- * 
+ * Class for field containing one line of text
  * @author Isangeles
  *
  */

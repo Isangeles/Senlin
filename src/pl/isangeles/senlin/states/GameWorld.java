@@ -51,9 +51,10 @@ public class GameWorld extends BasicGameState
 	private float[] cameraPos = {0f, 0f};
 	private GameCursor gwCursor;
 	
-	public GameWorld(Character player)
+	public GameWorld(Character player, UserInterface ui)
 	{
         this.player = player;
+        this.ui = ui;
 	}
 	
     @Override
@@ -63,7 +64,6 @@ public class GameWorld extends BasicGameState
         try 
         {
         	gwCursor = new GameCursor(container);
-        	Field loadInfo = new Field(100f, 70f, "Loading...", container);
         	dayManager = new Day();
         	
         	ItemBase.loadBases(container);
@@ -75,9 +75,8 @@ public class GameWorld extends BasicGameState
         	
         	scenario = ScenariosBase.getScenario("prologue01");
             areaMap = scenario.getMap();
-            ui = new UserInterface(container, player);
             
-           
+            scenario.startQuests(player);
             player.setPosition(1700, 500);
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
@@ -88,7 +87,7 @@ public class GameWorld extends BasicGameState
         } 
         catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
         {
-            System.err.println(e.getMessage());
+            System.err.println("Error message: " + e.getMessage());
         }
     }
 

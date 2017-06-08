@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.core.Character;
 /**
@@ -26,18 +27,21 @@ public class Scenario
 	private List<Character> npcs = new ArrayList<>();
 	private Map<String, Position> exits;
 	private List<MobsArea> mobsAreas;
+	private List<Quest> quests = new ArrayList<>();
+	private List<Quest> questsToStart = new ArrayList<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
 	 * @param mapFile Scenario TMX map file
 	 * @param npcs Map with NPCs IDs as keys and its positions as values
 	 * @param mobsAreas List containing areas with mobs in scenario
+	 * @param quests List with quests IDs
 	 * @param exits Exits from map
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, Position> exits) 
+	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> exits) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -54,6 +58,13 @@ public class Scenario
 		for(MobsArea mobsArea : mobsAreas)
 		{
 			this.npcs.addAll(mobsArea.spawnMobs());
+		}
+		
+		for(String qId : quests.keySet())
+		{
+			Quest quest = QuestsBase.get(qId);
+			setQTrigger(quest, quests.get(qId));
+			this.quests.add(quest);
 		}
 		this.exits = exits;
 		this.mobsAreas = mobsAreas;
@@ -74,9 +85,41 @@ public class Scenario
 	{
 		return map;
 	}
-	
+	/**
+	 * Returns list with all NPCs in scenario
+	 * @return ArrayList with game characters
+	 */
 	public List<Character> getNpcs()
 	{
 		return npcs;
+	}
+	/**
+	 * Starts all scenario quests with "start" trigger for specified character
+	 * @param player Player character
+	 */
+	public void startQuests(Character player)
+	{
+		for(Quest q : questsToStart)
+		{
+			player.startQuest(q);
+		}
+	}
+	/**
+	 * Sets triggers for all scenario quests 
+	 * @param quest Scenario quests
+	 * @param trigger Table with trigger type[0] and trigger ID[1]
+	 */
+	private void setQTrigger(Quest quest, String[] trigger)
+	{
+		Log.addSystem(trigger[0]);
+		switch(trigger[0])	
+		{
+		case "start":
+			questsToStart.add(quest);
+			return;
+		case "talk":
+			DialoguesBase.setTrigger(trigger[1], quest.getId());
+			return;
+		}
 	}
 }

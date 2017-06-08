@@ -54,7 +54,7 @@ public class Quest
         
         for(Stage stage : stages)
         {
-            if(stage.getId() == currentStage.getNextStage())
+            if(stage.getId().equals(currentStage.getNextStage()))
             {
                 currentStage = stage;
                 break;
@@ -136,9 +136,9 @@ public class Quest
     public void check(ObjectiveTarget ot)
     {
         currentStage.check(ot);
-
+        
         if(currentStage.isComplete())
-            nextStage();
+        	nextStage();
     }
     /**
      * Clears all quest flags(stages flags too)

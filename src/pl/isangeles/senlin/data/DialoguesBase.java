@@ -25,7 +25,11 @@ public class DialoguesBase
 	 * Private constructor to prevent initialization
 	 */
 	private DialoguesBase() {}
-	
+	/**
+	 * Returns all dialogues for specified NPC
+	 * @param npcId NPC ID
+	 * @return List with dialogues
+	 */
 	public static List<Dialogue> getDialogues(String npcId)
 	{
 		List<Dialogue> dialogues = new ArrayList<>();
@@ -35,6 +39,27 @@ public class DialoguesBase
 				dialogues.add(dialogue);
 		}
 		return dialogues;
+	}
+	/**
+	 * Returns default dialogue from base
+	 * @return Dialogue object
+	 */
+	public static Dialogue getDefaultDialogue()
+	{
+		return dialogsMap.get("default");
+	}
+	/**
+	 * Sets quest trigger for specific dialogue answer 
+	 * @param answerId Dialogue answer ID
+	 * @param questId Quest ID
+	 */
+	public static void setTrigger(String answerId, String questId)
+	{
+		System.out.println("dBase_req_for//" + answerId);
+		for(Dialogue dialogue : dialogsMap.values())
+		{
+			dialogue.setQTrigger(answerId, questId);
+		}
 	}
 	/**
 	 * Loads base

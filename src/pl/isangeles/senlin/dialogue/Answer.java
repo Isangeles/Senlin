@@ -14,12 +14,22 @@ public class Answer implements ObjectiveTarget
 	private final String id;
 	private final boolean end;
 	private String qOn;
-	
+	/**
+	 * Answer constructor
+	 * @param text Answer text content ID
+	 * @param qOn ID of quest triggered on answer selection 
+	 * @param end If Dialogue should end after this answer
+	 */
 	public Answer(String text, String qOn, boolean end) 
 	{
 		this.id = text;
 		this.qOn = qOn;
 		this.end = end;
+	}
+	
+	public void setQTrigger(String questId)
+	{
+		qOn = questId;
 	}
 	/**
 	 * Returns answer ID

@@ -561,7 +561,11 @@ public class Character implements Targetable
 	 */
 	public float getDodgeChance()
 	{ return attributes.getDodge() * 100f; }
-	
+	/**
+	 * Returns dialogue for specified character
+	 * @param character Game character
+	 * @return Dialogue object for specified character or default dialogue from base if no proper dialogue was found
+	 */
 	public Dialogue getDialogueFor(Character character)
 	{
 		for(Dialogue dialogue : dialogues)
@@ -570,7 +574,13 @@ public class Character implements Targetable
 				return dialogue;
 		}
 		
-		return dialogues.get(0);
+		for(Dialogue dialogue : dialogues)
+		{
+			if(!dialogue.isReqFlag())
+				return dialogue;
+		}
+		
+		return DialoguesBase.getDefaultDialogue();
 	}
 	/**
 	 * Subtract specified value from character health value 

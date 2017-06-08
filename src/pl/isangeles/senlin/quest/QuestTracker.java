@@ -10,7 +10,10 @@ import pl.isangeles.senlin.data.Log;
 public class QuestTracker
 {
     private Character character;
-    
+    /**
+     * Quest tracker constructor
+     * @param character Game character with quests for quest tracker 
+     */
     public QuestTracker(Character character)
     {
         this.character = character;
