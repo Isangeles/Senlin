@@ -18,6 +18,7 @@ import pl.isangeles.senlin.dialogue.DialoguePart;
  */
 public class DialogueParser 
 {
+	private static Node defaultDialogueNode;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -25,6 +26,15 @@ public class DialogueParser
 	{
 	}
 	
+	public static Node getDefDialogueNode()
+	{
+		return defaultDialogueNode;
+	}
+	/**
+	 * Parses XML dialogue node
+	 * @param dialogueNode Dialogue node from XML dialogues base
+	 * @return Dialogue object
+	 */
 	public static Dialogue getDialogueFromNode(Node dialogueNode)
 	{
 		Element dialog = (Element)dialogueNode;
@@ -38,6 +48,9 @@ public class DialogueParser
 			Node textNode = dialog.getElementsByTagName("text").item(j);
 			partsList.add(getDialoguePartFromNode(textNode));
 		}
+		if(dialogId.equals("default"))
+			defaultDialogueNode = dialogueNode;
+		
 		return new Dialogue(dialogId, npcId, flagReq, partsList);
 	}
 	/**

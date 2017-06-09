@@ -218,6 +218,7 @@ public final class DConnector
 					Element npc = (Element)npcNode;
 					String id = npc.getAttribute("id");
 					String attitude = npc.getAttribute("attitude");
+					boolean trade = Boolean.parseBoolean(npc.getAttribute("trade"));
 					int guildID = Integer.parseInt(npc.getAttribute("guild"));
 					int level = Integer.parseInt(npc.getAttribute("level"));
 					NpcPattern npcP;
@@ -254,7 +255,7 @@ public final class DConnector
 						ItemPattern ip = new ItemPattern(itemInId, ifRandom);
 					}
 					
-					npcP = new NpcPattern(id, attitude, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
+					npcP = new NpcPattern(id, attitude, trade, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
 										  neck, fingerA, fingerB, artifact, spritesheet, portraitName, gold, itemsIn);
 					npcMap.put(id, npcP);
 				}

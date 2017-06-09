@@ -1,6 +1,8 @@
 package pl.isangeles.senlin.core;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
@@ -219,6 +221,14 @@ public final class Inventory extends LinkedList<Item>
     		return value;
     	else
     		return 0;
+    }
+    
+    public List<Item> getWithoutEq()
+    {
+    	List<Item> invWithoutEq = new ArrayList<>();
+    	invWithoutEq.addAll(this);
+    	invWithoutEq.removeAll(equipment.getAll());
+    	return invWithoutEq;
     }
     /**
      * UNSED Now slots draws items

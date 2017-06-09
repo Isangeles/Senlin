@@ -34,6 +34,7 @@ public class UserInterface implements MouseListener
     private SkillsMenu skills;
     private JournalMenu journal;
     private LootWindow loot;
+    private TradeWindow trade;
     private DialogBox dialogue;
     private CastBar cast;
     private Warning uiWarning;
@@ -59,6 +60,7 @@ public class UserInterface implements MouseListener
         skills = new SkillsMenu(gc, player);
         journal = new JournalMenu(gc, player);
         loot = new LootWindow(gc, player);
+        trade = new TradeWindow(gc, player);
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
         uiWarning = new Warning(gc, "");
@@ -95,6 +97,9 @@ public class UserInterface implements MouseListener
         if(loot.isOpenReq())
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
+        if(trade.isOpenReq())
+        	trade.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
         if(dialogue.isOpenReq())
         	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
@@ -115,6 +120,12 @@ public class UserInterface implements MouseListener
     {
     	if(player.getTarget() != null)
     		targetFrame.setCharacter(player.getTarget());
+    	
+    	if(dialogue.isTradeReq())
+    	{
+    		trade.open((Character)player.getTarget());
+    		dialogue.tradeReq(false);
+    	}
     	
     	bBar.update(skills.getDragged());
         charFrame.update();

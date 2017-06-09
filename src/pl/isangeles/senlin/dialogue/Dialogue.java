@@ -78,6 +78,18 @@ public class Dialogue
 		}
 	}
 	/**
+	 * Adds new option to first dialogue part
+	 * @param option Answer on first dialogue part
+	 */
+	public void addOption(Answer option)
+	{
+		if(parts.size() >= 1)
+		{
+			if(parts.get(0) != null)
+				parts.get(0).addAnswer(option);
+		}
+	}
+	/**
 	 * Returns dialogue ID
 	 * @return String with dialogue ID
 	 */

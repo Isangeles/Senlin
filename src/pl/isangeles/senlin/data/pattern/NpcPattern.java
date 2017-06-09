@@ -26,6 +26,7 @@ public class NpcPattern
 	private final String npcId;
 	private final String npcName;
 	private final Attitude npcAttitude;
+	private final boolean trade;
 	private final int guildID;
 	private final int level;
 	private final String constructorLine;
@@ -61,7 +62,7 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, int guildID, int level, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, boolean trade, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
 					  String portraitName, int gold, List<ItemPattern> invItems) 
@@ -82,6 +83,7 @@ public class NpcPattern
 		default:
 			npcAttitude = Attitude.NEUTRAL;
 		}
+		this.trade = trade;
 		this.guildID = guildID;
 		this.level = level;
 		this.constructorLine = constructorLine;
@@ -118,6 +120,7 @@ public class NpcPattern
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  portrait, spritesheet, gc);
 		scann.close();
+		npc.setTrade(trade);
 		Item helmet = ItemBase.getItem(headItem);
 		Item chest = ItemBase.getItem(chestItem);
 		Item gloves = ItemBase.getItem(handsItem);

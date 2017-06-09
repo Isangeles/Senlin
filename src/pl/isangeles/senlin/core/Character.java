@@ -26,6 +26,7 @@ import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
@@ -56,6 +57,7 @@ public class Character implements Targetable
 	private Attributes attributes;
 	private Portrait portrait;
 	private boolean live;
+	private boolean trade;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -229,8 +231,23 @@ public class Character implements Targetable
     {
     	flags.add(flag);
     }
+    /**
+     * Allows or disallows trade with this character
+     * @param trade True to allow trade, false to disallow
+     */
+    public void setTrade(boolean trade)
+    {
+    	if(dialogues.size() == 0)
+    		dialogues.add(DialoguesBase.getDefaultDialogue());
+    	this.trade = trade;
+    	for(Dialogue dialogue : dialogues)
+    	{
+    		if(!dialogue.isReqFlag())
+    			dialogue.addOption(new Answer("tradeReq", "", true));
+    	}
+    }
 	/**
-	 * Removes specific item from equippment
+	 * Removes specific item from equipment
 	 * @param item Equipped character item
 	 */
 	public void unequipp(Item item)

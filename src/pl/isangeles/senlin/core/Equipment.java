@@ -1,5 +1,7 @@
 package pl.isangeles.senlin.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import pl.isangeles.senlin.core.item.Armor;
@@ -239,5 +241,25 @@ public class Equipment
 		
 		return rating;
 		
+	}
+	/**
+	 * Returns list with all equipment items 
+	 * @return ArrayList with items
+	 */
+	public List<Item> getAll()
+	{
+		List<Item> eq = new ArrayList<>();
+		eq.add(weaponMain);
+		eq.add(weaponSec);
+		eq.add(boots);
+		eq.add(gloves);
+		eq.add(shield);
+		eq.add(chest);
+		eq.add(helmet);
+		eq.add(ring);
+		eq.add(ringSec);
+		eq.add(amulet);
+		eq.add(artifact);
+		return eq;
 	}
 }

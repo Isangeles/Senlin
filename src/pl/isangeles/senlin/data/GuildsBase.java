@@ -42,6 +42,6 @@ public class GuildsBase
 
 	public static void load() throws ParserConfigurationException, SAXException, IOException
 	{
-		guildsBase = DConnector.getGuildsMap("guilds.xml");
+		guildsBase = DConnector.getGuildsMap("guilds");
 	}
 }

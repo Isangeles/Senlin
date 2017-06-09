@@ -16,6 +16,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Slot;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
@@ -23,6 +24,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
 /**
  * Class for loot window
+ * TODO disable items dragging, fix for multiple pages
  * @author Isangeles
  *
  */
@@ -118,11 +120,10 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	public void open(Character characterToLoot) throws SlickException, IOException
 	{
 		lootedChar = characterToLoot;
-		if(openReq == false)
+		if(!openReq)
 		{
 			if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
 			{
-				lootedChar = characterToLoot;
 				loadLoot();
 				openReq = true;
 			}
@@ -186,6 +187,9 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
+		Slot slot = slotsPages.get(pageIndex).getDragged();
+		if(slot != null)
+			slot.dragged(false);
 	}
 
 	@Override

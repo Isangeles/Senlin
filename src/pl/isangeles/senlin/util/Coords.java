@@ -44,6 +44,15 @@ public class Coords
     	return Math.round(rawDistance * Coords.getScale());
     }
     /**
+     * Returns size corrected by scale
+     * @param rawSize Size on 1920x1080
+     * @return Size scaled to current resolution
+     */
+    public static float getSize(float rawSize)
+    {
+    	return Math.round(rawSize * Coords.getScale());
+    }
+    /**
      * Returns scale based on current resolution
      * @return Float scale value
      */

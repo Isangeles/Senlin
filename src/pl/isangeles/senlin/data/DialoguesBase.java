@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.util.DConnector;
+import pl.isangeles.senlin.util.parser.DialogueParser;
 /**
  * Static class for dialogues base
  * @author Isangeles
@@ -46,7 +47,8 @@ public class DialoguesBase
 	 */
 	public static Dialogue getDefaultDialogue()
 	{
-		return dialogsMap.get("default");
+		//return dialogsMap.get("default");
+		return DialogueParser.getDialogueFromNode(DialogueParser.getDefDialogueNode());
 	}
 	/**
 	 * Sets quest trigger for specific dialogue answer 

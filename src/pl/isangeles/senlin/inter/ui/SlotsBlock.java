@@ -1,6 +1,7 @@
 package pl.isangeles.senlin.inter.ui;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -17,7 +18,12 @@ import pl.isangeles.senlin.util.Coords;
 public class SlotsBlock
 {
 	private Slot[][] slots;
-	
+	/**
+	 * Slots block constructor
+	 * @param slotsTab Initialized multidimensional table with slots
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public SlotsBlock(Slot[][] slotsTab) throws SlickException, IOException
 	{
 		slots = slotsTab;
@@ -51,6 +57,7 @@ public class SlotsBlock
 	/**
 	 * Inserts content to first empty slot
 	 * @param content Some slot content
+	 * @return True if content was successfully inserted into slot, false otherwise
 	 */
 	public boolean insertContent(SlotContent content)
 	{
@@ -66,6 +73,20 @@ public class SlotsBlock
 			}
 		}
 		return false;
+	}
+	/**
+	 * Insert whole content collection to block 
+	 * @param contentCollection Collection with SlotContent
+	 * @return True if all content was inserted successfully, false if at least one insertion fail
+	 */
+	public boolean insertContent(Collection<SlotContent> contentCollection)
+	{
+		for(SlotContent content : contentCollection)
+		{
+			if(!insertContent(content))
+				return false;
+		}
+		return true;
 	}
 	/**
 	 * Removes content from all slots

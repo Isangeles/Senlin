@@ -40,6 +40,7 @@ class DialogBox extends InterfaceObject implements UiElement
 	private TrueTypeFont ttf;
 	
 	private boolean openReq;
+	private boolean tradeReq;
 	/**
 	 * Dialogue box constructor
 	 * @param gc Slick game container
@@ -126,6 +127,11 @@ class DialogBox extends InterfaceObject implements UiElement
 		openReq = false;
 		reset();
 	}
+	
+	public void tradeReq(boolean tradeReq)
+	{
+		this.tradeReq = tradeReq;
+	}
 	/**
 	 * Checks if dialog box is open
 	 * @return True if dialog box is open, false otherwise
@@ -133,6 +139,11 @@ class DialogBox extends InterfaceObject implements UiElement
 	public boolean isOpenReq()
 	{
 		return openReq;
+	}
+	
+	public boolean isTradeReq()
+	{
+		return tradeReq;
 	}
 	/**
 	 * Adds all current dialogue answers to box
@@ -200,6 +211,9 @@ class DialogBox extends InterfaceObject implements UiElement
 						interlocutorA.startQuest(answerQ);
 					
 					interlocutorA.getQTracker().check(option);
+					
+					if(option.getId().equals("tradeReq"))
+						tradeReq = true;
 					
 					if(option.isEnd())
 					{

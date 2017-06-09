@@ -21,6 +21,11 @@ public class DialoguePart
 		this.on = on;
 		this.answers = answers;
 	}
+	
+	public void addAnswer(Answer answer)
+	{
+		answers.add(answer);
+	}
 
 	public String getTrigger()
 	{
