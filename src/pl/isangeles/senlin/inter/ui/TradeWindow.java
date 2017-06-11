@@ -68,7 +68,8 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	private List<Item> buyerAssortment = new ArrayList<>();
 	private List<Item> itemsToSell = new ArrayList<>();
 	private List<Item> itemsToBuy = new ArrayList<>();
-	int tradeValue;
+	int buyValue;
+	int sellValue;
 	private boolean openReq;
 	/**
 	 * Trade window constructor
@@ -144,22 +145,10 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	 */
 	@Override
 	public void update() 
-	{
-	   int buyValue = 0;
-	   for(Item item : itemsToBuy)
-	   {
-	       buyValue += item.getValue();
-	   }
-	   
-	   int sellValue = 0;
-	   for(Item item : itemsToSell)
-	   {
-	       sellValue += item.getValue();
-	   }
-	   
-	   tradeValue = sellValue - buyValue;
-	   
-	   trade.setLabel("Trade: " + tradeValue + " gold");
+	{	   
+	    int tradeValue = sellValue - buyValue;
+		   
+	    trade.setLabel("Trade: " + tradeValue + " gold");
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.inter.ui.UiElement#reset()
@@ -170,8 +159,10 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 		trader = null;
 		slotsBuy.clear();
+		slotsSell.clear();
 		traderAssortment.clear();
 		buyerAssortment.clear();
+		resetTrade();
 	}
 	/**
 	 * Opens window and starts trade
@@ -273,33 +264,37 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
 			Slot slotBuy = slotsBuy.getMouseOver();
-			if(slotBuy != null)
+			if(slotBuy != null && !slotBuy.isNull())
 			{
 			    Item itemBuy = (Item)slotBuy.getContent();
 			    if(itemsToBuy.contains(itemBuy))
 			    {
 			        itemsToBuy.remove(itemBuy);
+			        buyValue -= itemBuy.getValue();
 			        slotBuy.click(false);
 			    }
 			    else
 			    {
 			        itemsToBuy.add(itemBuy);
+			        buyValue += itemBuy.getValue();
 	                slotBuy.click(true);
 			    }
 			}
 			
 			Slot slotSell = slotsSell.getMouseOver();
-			if(slotSell != null)
+			if(slotSell != null && !slotSell.isNull())
 			{
 			    Item itemSell = (Item)slotSell.getContent();
 			    if(itemsToSell.contains(itemSell))
 			    {
 			        itemsToSell.remove(itemSell);
+			        sellValue -= itemSell.getValue();
 	                slotSell.click(false);
 			    }
 			    else
 			    {
 			        itemsToSell.add(itemSell);
+			        sellValue += itemSell.getValue();
 	                slotSell.click(true);
 			    }
 			}
@@ -309,7 +304,11 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		    if(exit.isMouseOver())
 		        close();
 		    if(trade.isMouseOver())
-	            resetTrade();
+	        {
+		    	trade();
+		    	resetTrade();
+				loadAssortment();
+            }
 		}
 	}
 	/* (non-Javadoc)
@@ -342,51 +341,23 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	 */
 	private boolean trade()
 	{
-	   if(tradeValue < 0)
+	   if(((trader.getInventory().getGold()+buyValue)-sellValue) >= 0 && ((buyer.getInventory().getGold()+sellValue)-buyValue) >= 0)
 	   {
-	       if(tradeValue*-1 <= buyer.getInventory().getGold())
-	       {
-	           deal();
-	           return true;
-	       }
-           else
-           {
-               Log.addInformation("");
-               return false;
-           }
+		   deal();
+		   return true;
 	   }
-	   if(tradeValue > 0)
-	   {
-	       if(tradeValue <= trader.getInventory().getGold())
-	       {
-	           deal();
-	           return true;
-	       }
-	       else
-	       {
-	           Log.addInformation("");
-	           return false;
-	       }
-	   }
-	   
-	   deal();
-	   return true;
+	   else
+		   return false;
 	}
 	/**
 	 * Completes trade over both characters
 	 */
 	private void deal()
 	{
-	    if(tradeValue > 0)
-	    {    
-	        buyer.addGold(tradeValue*-1);
-	        trader.addGold(tradeValue);
-	    }
-	    else
-	    {
-            buyer.addGold(tradeValue);
-	        trader.addGold(tradeValue*-1);
-	    }
+		buyer.addGold(sellValue);
+        trader.getInventory().takeGold(sellValue);
+        buyer.getInventory().takeGold(buyValue);
+        trader.addGold(buyValue);
 	    
 	    for(Item item : itemsToBuy)
 	    {
@@ -416,6 +387,9 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
         }
 	    itemsToSell.clear();
 	    itemsToBuy.clear();
-	    tradeValue = 0;
+	    slotsSell.clear();
+	    slotsBuy.clear();
+	    sellValue = 0;
+	    buyValue = 0;
 	}
 }
