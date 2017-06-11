@@ -4,6 +4,7 @@ import java.util.Random;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.Log;
 /**
  * Class for items patterns
  * @author Isangeles

@@ -117,4 +117,21 @@ public class SlotsBlock
 		}
 		return null;
 	}
+	/**
+	 * Returns slot on which mouse cursor is pointed
+	 * @return Slot pointed by mouse or null if such slot was not found
+	 */
+	public Slot getMouseOver()
+	{
+	    for(Slot slotsLine[] : slots)
+        {
+            for(Slot slot : slotsLine)
+            {
+                if(slot.isMouseOver())
+                    return slot;
+            }
+        }
+	    
+	    return null;
+	}
 }

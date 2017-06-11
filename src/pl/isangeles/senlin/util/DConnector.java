@@ -253,6 +253,7 @@ public final class DConnector
 						boolean ifRandom = Boolean.parseBoolean(itemNode.getAttribute("random"));
 						String itemInId = itemNode.getTextContent();
 						ItemPattern ip = new ItemPattern(itemInId, ifRandom);
+						itemsIn.add(ip);
 					}
 					
 					npcP = new NpcPattern(id, attitude, trade, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,

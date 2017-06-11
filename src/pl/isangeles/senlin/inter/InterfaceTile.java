@@ -10,7 +10,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 /**
- * Base class for graphical representations of skills, items, etc. in ui   
+ * Base class for graphical representations of skills, items, etc. in UI   
  * @author Isangeles
  *
  */
@@ -19,20 +19,36 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	private static int counter; //TODO check if necessary
 	private Input gameInput;
 	private boolean dragged;
+	private Color clickColor;
 	protected boolean clicked;
-	
+	/**
+	 * InterfaceTile constructor
+	 * @param fileInput Input stream to image
+	 * @param ref Name for image
+	 * @param flipped If image should be filpped
+	 * @param gc Slick game container
+	 * @param info Info from content
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public InterfaceTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(fileInput, ref+counter, flipped, gc, info);
 		gameInput = gc.getInput();
 		gameInput.addMouseListener(this);
-		
+        clickColor = new Color(73, 73, 73);
 		counter ++;
 	}
 	@Override
 	public void draw(float x, float y, boolean scaledPos)
 	{
+	    if(clicked)
+	    {
+	        draw(x, y, 45f, 40f, clickColor, scaledPos);
+	        return;
+	    }
 		if(!dragged)
 			super.draw(x, y, 45f, 40f, scaledPos);
 		else

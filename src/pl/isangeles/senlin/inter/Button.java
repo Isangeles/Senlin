@@ -122,10 +122,21 @@ public class Button extends InterfaceObject implements MouseListener
     {
         return active;
     }
-    
+    /**
+     * Sets button active or inactive
+     * @param bool True to set button as active, false to set as inactive  
+     */
     public void setActive(boolean bool)
     {
     	active = bool;
+    }
+    /**
+     * Sets text as button label
+     * @param text String with text
+     */
+    public void setLabel(String text)
+    {
+        label = text;
     }
 
 	@Override

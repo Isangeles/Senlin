@@ -40,8 +40,10 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Slot;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 /**
@@ -66,14 +68,13 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	private List<Item> buyerAssortment = new ArrayList<>();
 	private List<Item> itemsToSell = new ArrayList<>();
 	private List<Item> itemsToBuy = new ArrayList<>();
+	int tradeValue;
 	private boolean openReq;
 	/**
 	 * Trade window constructor
-	 * @param fileInput
-	 * @param ref
-	 * @param flipped
-	 * @param gc
-	 * @throws SlickException
+	 * @param gc Slick game container
+	 * @param player Player character
+	 * @throws SlickException 
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
@@ -144,8 +145,21 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	@Override
 	public void update() 
 	{
-		// TODO Auto-generated method stub
-
+	   int buyValue = 0;
+	   for(Item item : itemsToBuy)
+	   {
+	       buyValue += item.getValue();
+	   }
+	   
+	   int sellValue = 0;
+	   for(Item item : itemsToSell)
+	   {
+	       sellValue += item.getValue();
+	   }
+	   
+	   tradeValue = sellValue - buyValue;
+	   
+	   trade.setLabel("Trade: " + tradeValue + " gold");
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.inter.ui.UiElement#reset()
@@ -157,8 +171,12 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		trader = null;
 		slotsBuy.clear();
 		traderAssortment.clear();
+		buyerAssortment.clear();
 	}
-	
+	/**
+	 * Opens window and starts trade
+	 * @param trader Game character to trade with
+	 */
 	public void open(Character trader)
 	{
 		this.trader = trader;
@@ -173,13 +191,18 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		else
 			close();
 	}
-	
+	/**
+	 * Closes window
+	 */
 	public void close()
 	{
 		openReq = false;
 		reset();
 	}
-	
+	/**
+	 * Checks if window open is requested
+	 * @return True if window should be opened, false otherwise
+	 */
 	public boolean isOpenReq()
 	{
 		return openReq;
@@ -249,7 +272,44 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	{
 		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
+			Slot slotBuy = slotsBuy.getMouseOver();
+			if(slotBuy != null)
+			{
+			    Item itemBuy = (Item)slotBuy.getContent();
+			    if(itemsToBuy.contains(itemBuy))
+			    {
+			        itemsToBuy.remove(itemBuy);
+			        slotBuy.click(false);
+			    }
+			    else
+			    {
+			        itemsToBuy.add(itemBuy);
+	                slotBuy.click(true);
+			    }
+			}
 			
+			Slot slotSell = slotsSell.getMouseOver();
+			if(slotSell != null)
+			{
+			    Item itemSell = (Item)slotSell.getContent();
+			    if(itemsToSell.contains(itemSell))
+			    {
+			        itemsToSell.remove(itemSell);
+	                slotSell.click(false);
+			    }
+			    else
+			    {
+			        itemsToSell.add(itemSell);
+	                slotSell.click(true);
+			    }
+			}
+		}
+		if(button == Input.MOUSE_LEFT_BUTTON)
+		{
+		    if(exit.isMouseOver())
+		        close();
+		    if(trade.isMouseOver())
+	            resetTrade();
 		}
 	}
 	/* (non-Javadoc)
@@ -259,7 +319,9 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 	public void mouseWheelMoved(int change) 
 	{
 	}
-	
+	/**
+	 * Loads all unequipped items as assortment for both trading characters 
+	 */
 	private void loadAssortment()
 	{
 		traderAssortment = trader.getInventory().getWithoutEq();
@@ -267,5 +329,93 @@ public class TradeWindow extends InterfaceObject implements UiElement, MouseList
 		{
 			slotsBuy.insertContent(item);
 		}
+		
+		buyerAssortment = buyer.getInventory().getWithoutEq();
+		for(Item item : buyerAssortment)
+		{
+		    slotsSell.insertContent(item);
+		}
+	}
+	/**
+	 * Tries to trade items and gold over both characters
+	 * @return True if trade was successfully, false otherwise
+	 */
+	private boolean trade()
+	{
+	   if(tradeValue < 0)
+	   {
+	       if(tradeValue*-1 <= buyer.getInventory().getGold())
+	       {
+	           deal();
+	           return true;
+	       }
+           else
+           {
+               Log.addInformation("");
+               return false;
+           }
+	   }
+	   if(tradeValue > 0)
+	   {
+	       if(tradeValue <= trader.getInventory().getGold())
+	       {
+	           deal();
+	           return true;
+	       }
+	       else
+	       {
+	           Log.addInformation("");
+	           return false;
+	       }
+	   }
+	   
+	   deal();
+	   return true;
+	}
+	/**
+	 * Completes trade over both characters
+	 */
+	private void deal()
+	{
+	    if(tradeValue > 0)
+	    {    
+	        buyer.addGold(tradeValue*-1);
+	        trader.addGold(tradeValue);
+	    }
+	    else
+	    {
+            buyer.addGold(tradeValue);
+	        trader.addGold(tradeValue*-1);
+	    }
+	    
+	    for(Item item : itemsToBuy)
+	    {
+            item.getTile().click(false);
+	        buyer.addItem(item);
+	        trader.getInventory().remove(item);
+	    }
+	    for(Item item : itemsToSell)
+	    {
+	        item.getTile().click(false);
+	        trader.addItem(item);
+	        buyer.getInventory().remove(item);
+	    }
+	}
+	/**
+	 * Resets trade
+	 */
+	private void resetTrade()
+	{
+	    for(Item item : itemsToSell)
+	    {
+	        item.getTile().click(false);
+	    }
+	    for(Item item : itemsToBuy)
+        {
+            item.getTile().click(false);
+        }
+	    itemsToSell.clear();
+	    itemsToBuy.clear();
+	    tradeValue = 0;
 	}
 }

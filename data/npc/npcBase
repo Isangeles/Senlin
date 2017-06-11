@@ -16,8 +16,8 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">acCS00</item>;
-            <item random="true">wSOHI</item>;
+            <item random="false">acCS00</item>
+            <item random="true">wSOHI</item>
         </in>
     </eq>
 </npc>
@@ -56,6 +56,7 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
+	    <item random="false">wSOHI</item>
         </in>
     </eq>
 </npc>

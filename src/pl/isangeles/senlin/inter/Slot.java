@@ -38,6 +38,10 @@ public abstract class Slot extends InterfaceObject
 	 * Removes content from slot
 	 */
 	public abstract void removeContent();
+	/**
+	 * Returns slot content
+	 * @return Slot content or null
+	 */
 	public abstract SlotContent getContent();
 	
 	@Override

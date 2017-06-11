@@ -135,6 +135,7 @@ public class UserInterface implements MouseListener
         skills.update();
         journal.update();
         loot.update();
+        trade.update();
         dialogue.update();
         gameConsole.update();
     }
@@ -144,10 +145,8 @@ public class UserInterface implements MouseListener
      */
     public boolean isMouseOver()
     {
-    	if(journal.isMouseOver())
-    		Log.addSystem("m over journal");
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver();
+    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver();
     }
     /**
      * Checks if exit game is requested

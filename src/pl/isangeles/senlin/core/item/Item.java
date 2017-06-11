@@ -81,6 +81,14 @@ public abstract class Item implements SlotContent
     	return itemNumber;
     }
     /**
+     * Returns item value
+     * @return Item value
+     */
+    public int getValue()
+    {
+        return value;
+    }
+    /**
      * Returns items name
      */
     @Override

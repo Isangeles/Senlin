@@ -284,6 +284,8 @@ final class Console extends TextInput implements UiElement
     	}
     	try
     	{
+    	    if(prefix.equals("-g") || prefix.equals("-gold"))
+    	        target.addGold(Integer.parseInt(value));
     		if(prefix.equals("-h"))
     		    target.addHealth(Integer.parseInt(value));
         	if(prefix.equals("-m"))
