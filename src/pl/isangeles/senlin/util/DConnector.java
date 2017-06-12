@@ -63,11 +63,13 @@ import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.pattern.ItemPattern;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
+import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.parser.DialogueParser;
+import pl.isangeles.senlin.util.parser.ObjectParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
 
@@ -548,5 +550,37 @@ public final class DConnector
 	    }
 	    
 	    return questsMap;
+	}
+	
+	public static Map<String, ObjectPattern> getObjects(String objectsBase) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, ObjectPattern> objectsMap = new HashMap<>();
+		
+		String objectsDir = "data" + File.separator + "objects" + File.separator + objectsBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(objectsDir);
+		
+		NodeList objectsList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < objectsList.getLength(); i ++)
+		{
+			Node objectNode = objectsList.item(i);
+			if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					ObjectPattern pattern = ObjectParser.getObjectFormNode(objectNode);
+					objectsMap.put(pattern.getId(), pattern);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("object_parser_fail_msg///base corrupted");
+					break;
+				}
+			}
+		}
+		
+		return objectsMap;
 	}
 }

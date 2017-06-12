@@ -44,6 +44,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.util.Position;
 /**
  * Static class for scenario XMLs parsing methods
@@ -86,6 +87,7 @@ public class ScenarioParser
 					Map<String, Position> npcs = new HashMap<>();
 					List<MobsArea> mobs = new ArrayList<>();
 					Map<String, String[]> quests = new HashMap<>();
+					Map<String, Position> objects = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
 					
 					
@@ -135,9 +137,19 @@ public class ScenarioParser
 						if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 						{
 							Element questE = (Element)questNode;
-							Log.addSystem(questE.getAttribute("trigger"));
 							String[] trigger = new String[]{questE.getAttribute("qOn"), questE.getAttribute("trigger")};
 							quests.put(questE.getTextContent(), trigger);
+						}
+					}
+					
+					NodeList objectsNl = scenarioE.getElementsByTagName("objects").item(0).getChildNodes();
+					for(int j = 0; j < objectsNl.getLength(); j ++)
+					{
+						Node objectNode = objectsNl.item(j);
+						if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+						{
+							Element objectE = (Element)objectNode;
+							objects.put(objectE.getTextContent(), new Position(objectE.getAttribute("position")));
 						}
 					}
 					
@@ -152,7 +164,7 @@ public class ScenarioParser
 						}
 					}
 					
-					return new Scenario(id, mapFile, npcs, mobs, quests, exits);	
+					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits);	
 			}
 		}
 		

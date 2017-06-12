@@ -46,14 +46,18 @@ import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemBase;
 import pl.isangeles.senlin.data.NpcBase;
+import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.graphic.GameObject;
+import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.day.Day;
 import pl.isangeles.senlin.inter.Field;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.GConnector;
 /**
  * State for game world
  * 
@@ -68,6 +72,7 @@ public class GameWorld extends BasicGameState
 	private TiledMap areaMap;
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
+	private List<GameObject> gwObjects = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
@@ -93,6 +98,7 @@ public class GameWorld extends BasicGameState
         	NpcBase.load(container);
         	DialoguesBase.load("dPrologue");
         	QuestsBase.load("qPrologue");
+        	ObjectsBase.load("animObjects");
         	ScenariosBase.load();
         	
         	scenario = ScenariosBase.getScenario("prologue01");
@@ -103,7 +109,8 @@ public class GameWorld extends BasicGameState
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             player.addItem(ItemBase.getItem("wSOHI")); //test line
             areaNpcs = scenario.getNpcs(); //test line
-
+            gwObjects = scenario.getObjects();
+            
         	npcsAi = new CharacterAi(this);
             npcsAi.addNpcs(areaNpcs);
         } 
@@ -119,9 +126,11 @@ public class GameWorld extends BasicGameState
     {
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
-        player.draw();
+        for(GameObject object : gwObjects)
+        	object.draw(1f);
         for(Character npc : areaNpcs)
         	npc.draw();
+        player.draw();
         g.translate(cameraPos[0], cameraPos[1]);
         dayManager.draw();
         ui.draw(g);

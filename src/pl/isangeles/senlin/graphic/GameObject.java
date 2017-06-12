@@ -1,3 +1,25 @@
+/*
+ * GameObject.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.graphic;
 
 import java.awt.FontFormatException;
@@ -12,6 +34,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.InfoWindow;
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
  * Class for game object like avatars etc.
@@ -20,7 +43,7 @@ import pl.isangeles.senlin.util.Settings;
  */
 public abstract class GameObject extends Image
 {
-    private float scale;
+    protected float scale;
     private InfoWindow objectInfo;
     protected float x;
     protected float y;
@@ -95,6 +118,28 @@ public abstract class GameObject extends Image
         	if(gObjectMOA.isMouseOver())
         		objectInfo.draw(x, y);
         }
+    }
+    
+    public void draw(float reqSize)
+    {
+    	this.x *= scale;
+        this.y *= scale;
+        
+        super.draw(this.x, this.y, scale*reqSize);
+        
+        if(gObjectMOA != null)
+        {
+        	gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+        	
+        	if(gObjectMOA.isMouseOver())
+        		objectInfo.draw(x, y);
+        }
+    }
+    
+    public void setPosition(Position pos)
+    {
+    	this.x = pos.x;
+    	this.y = pos.y;
     }
     
     public float getScale()

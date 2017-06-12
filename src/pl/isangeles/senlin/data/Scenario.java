@@ -1,3 +1,25 @@
+/*
+ * GameObject.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
@@ -12,6 +34,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.data.pattern.ObjectPattern;
+import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.core.Character;
@@ -25,10 +49,11 @@ public class Scenario
 	private final String id;
 	private TiledMap map;
 	private List<Character> npcs = new ArrayList<>();
-	private Map<String, Position> exits;
 	private List<MobsArea> mobsAreas;
 	private List<Quest> quests = new ArrayList<>();
 	private List<Quest> questsToStart = new ArrayList<>();
+	private List<GameObject> objects = new ArrayList<>();
+	private Map<String, Position> exits;
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -41,7 +66,7 @@ public class Scenario
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> exits) 
+	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> objects, Map<String, Position> exits) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -66,8 +91,23 @@ public class Scenario
 			setQTrigger(quest, quests.get(qId));
 			this.quests.add(quest);
 		}
+		
+		for(String oId : objects.keySet())
+		{
+			GameObject go = ObjectsBase.get(oId);
+			go.setPosition(objects.get(oId));
+			this.objects.add(go);
+		}
 		this.exits = exits;
 		this.mobsAreas = mobsAreas;
+	}
+	
+	public void drawObjects()
+	{
+		for(GameObject object : objects)
+		{
+			object.draw(1f);
+		}
 	}
 	/**
 	 * Returns scenario ID
@@ -92,6 +132,11 @@ public class Scenario
 	public List<Character> getNpcs()
 	{
 		return npcs;
+	}
+	
+	public List<GameObject> getObjects()
+	{
+		return objects;
 	}
 	/**
 	 * Starts all scenario quests with "start" trigger for specified character

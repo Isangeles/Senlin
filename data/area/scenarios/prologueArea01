@@ -12,6 +12,9 @@
     <quests>
 	    <quest qOn="start">pLumberTalk</quest>
     </quests>
+    <objects>
+        <object position="1900;200">cFire01</object>
+    </objects>
     <exits>
         <exit position="100;100">prologue02</exit>
     </exits>
