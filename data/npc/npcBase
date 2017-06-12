@@ -3,7 +3,7 @@
 <npc id="bandit01" attitude="hostile" guild="1" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet>cloth12221-45x55-2.png</spritesheet>
+    <spritesheet>cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -24,7 +24,7 @@
 <npc id="ericP01" attitude="friendly" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait0.jpg</portrait>
-    <spritesheet>cloth12221-45x55-2.png</spritesheet>
+    <spritesheet>cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -43,7 +43,7 @@
 <npc id="kianP01" attitude="friendly" trade="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait1.jpg</portrait>
-    <spritesheet>cloth12221-45x55-2.png</spritesheet>
+    <spritesheet>cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -63,7 +63,7 @@
 <npc id="ewanP01" attitude="friendly" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet>cloth12221-45x55-2.png</spritesheet>
+    <spritesheet>cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>

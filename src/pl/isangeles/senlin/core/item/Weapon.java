@@ -55,7 +55,7 @@ public class Weapon extends Equippable
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
-        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false);
+        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 60, 70);
 	}
 	/**
 	 * Returns weapon maximal and minimal damage

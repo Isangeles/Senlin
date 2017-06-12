@@ -73,8 +73,8 @@ public class Avatar implements MouseListener
 		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
 		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
 		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
-		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), "clothSS", false);
-		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-45x55.png"), "headBlackSS", false);
+		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), "clothSS", false, 60, 70);
+		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-60x70.png"), "headBlackSS", false, 60, 70);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);

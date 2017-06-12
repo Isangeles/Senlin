@@ -108,7 +108,7 @@ public class Character implements Targetable
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
-		avatar = new Avatar(this, gc, "cloth12221-45x55-2.png");
+		avatar = new Avatar(this, gc, "cloth12221-60x70.png");
 		inventory = new Inventory();
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));

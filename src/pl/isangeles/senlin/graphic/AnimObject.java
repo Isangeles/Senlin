@@ -55,10 +55,10 @@ public class AnimObject extends GameObject
 	 * @param flipped True if image should be flipped
 	 * @throws SlickException 
 	 */
-	public AnimObject(InputStream is, String ref, boolean flipped) throws SlickException
+	public AnimObject(InputStream is, String ref, boolean flipped, int fWidth, int fHeight) throws SlickException
 	{
 		super(is, ref, flipped);
-		SpriteSheet ss = new SpriteSheet(this, 45, 55);
+		SpriteSheet ss = new SpriteSheet(this, fWidth, fHeight);
 
 		Sprite[] moveUpList = {new Sprite(ss.getSprite(1, 0)), new Sprite(ss.getSprite(2, 0))};
 		Sprite[] moveRightList = {new Sprite(ss.getSprite(1, 1)), new Sprite(ss.getSprite(2, 1))};

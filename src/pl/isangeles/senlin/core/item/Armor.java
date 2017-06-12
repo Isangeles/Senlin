@@ -122,17 +122,17 @@ public class Armor extends Equippable
 		switch(material)
 		{
 		case CLOTH:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		case LEATHER:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		case IRON:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		case STEEL:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		case NEPHRITE:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		default:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-45x55-2.png"), "sprite"+id, false);
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		}
 	}
 }

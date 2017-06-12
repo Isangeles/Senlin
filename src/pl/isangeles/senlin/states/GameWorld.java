@@ -124,6 +124,7 @@ public class GameWorld extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
+    	//game world
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
         for(GameObject object : gwObjects)
@@ -131,6 +132,7 @@ public class GameWorld extends BasicGameState
         for(Character npc : areaNpcs)
         	npc.draw();
         player.draw();
+        //interface
         g.translate(cameraPos[0], cameraPos[1]);
         dayManager.draw();
         ui.draw(g);
