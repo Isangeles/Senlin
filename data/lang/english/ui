@@ -36,6 +36,7 @@ armRat:Armor;
 dodgeCh:Dodge chance;
 matCloth:Cloth;
 matLeath:Leather;
+matWood:Wood;
 matIron:Iron;
 matSteel:Steel;
 matNephr:Nephrite;

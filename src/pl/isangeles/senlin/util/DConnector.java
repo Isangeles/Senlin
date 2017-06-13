@@ -59,9 +59,12 @@ import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
-import pl.isangeles.senlin.data.pattern.ItemPattern;
+import pl.isangeles.senlin.data.pattern.RandomItem;
+import pl.isangeles.senlin.data.pattern.TrinketPattern;
+import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.dialogue.Answer;
@@ -69,6 +72,7 @@ import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.parser.DialogueParser;
+import pl.isangeles.senlin.util.parser.ItemParser;
 import pl.isangeles.senlin.util.parser.ObjectParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
@@ -85,133 +89,6 @@ public final class DConnector
 	 * Private constructor to prevent initialization
 	 */
 	private DConnector(){}
-	/**
-	 * Build and returns item with the specified id 
-	 * @param itemId Item id in base file
-	 * @param gc Slick game container for item constructor
-	 * @return New object of specific item from base file
-	 * @throws SlickException
-	 * @throws IOException
-	 * @throws FontFormatException
-	 */
-	@Deprecated
-	private static Item getItem(String itemId, GameContainer gc) throws SlickException, IOException, FontFormatException
-	{
-		Item item;
-		switch(itemId.toCharArray()[0])
-		{
-		case 'w':
-		{
-			File base = new File("data" + File.separator + "item" + File.separator + "weaponBase");
-			Scanner scann = new Scanner(base);
-			scann.useDelimiter(";\r?\n");
-			String baseLine;
-			while((baseLine = scann.findInLine(itemId+".*[^;]")) == null)
-			{
-			    scann.nextLine();
-			}
-			scann.close();
-			
-			scann = new Scanner(baseLine);
-			scann.useDelimiter(":|;");
-			item =  new Weapon(scann.next(), 
-					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-					scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), scann.next(), gc);
-			scann.close();
-			return item;
-		}
-		default:
-		{
-			return null;
-		}
-		}
-	}
-	/**
-	 * Builds and returns weapon from line of text
-	 * @param line String with text in this form: 
-	 * [id]:[name]:[basic info]:[type(0-5)]:[material(0-2)]:[value]:[min damage]:[max damage]:[bonus str]:[bonus con]:[bonus dex]:[bonus int]:[bonus wis]:[bonus dmg]:[bonus haste]:[required level]:[img file name];
-	 * @param gc Slick game container
-	 * @return New weapon
-	 * @throws SlickException
-	 * @throws IOException
-	 * @throws FontFormatException
-	 */
-	public static Weapon getWeaponFromLine(String line, GameContainer gc) throws SlickException, IOException, FontFormatException
-	{
-		Scanner scann = new Scanner(line);
-		scann.useDelimiter(":|;");
-		Weapon item =  new Weapon(scann.next(),
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), new Bonuses(scann.nextInt(), scann.nextInt(), 
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), scann.nextInt(), scann.next(), scann.next(), gc);
-		scann.close();
-		return item;
-	}
-	/**
-	 * Builds and returns armor from line of text
-	 * @param line String with text in this form: 
-	 * [id]:[name]:[basic info]:[type(0-5)]:[material(0-4)]:[value]:[armor rating]:[bonus str]:[bonus con]:[bonus dex]:[bonus int]:[bonus wis]:[bonus dmg]:[bonus haste]:[required level]:[img file name];
-	 * @param gc Slick game container
-	 * @return New armor
-	 * @throws SlickException
-	 * @throws IOException
-	 * @throws FontFormatException
-	 */
-	public static Armor getArmorFromLine(String line, GameContainer gc) throws SlickException, IOException, FontFormatException
-	{
-		Scanner scann = new Scanner(line);
-		scann.useDelimiter(":|;");
-		Armor item = new Armor(scann.next(),
-				scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(),
-				new Bonuses(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextFloat()), 
-				scann.nextInt(), scann.next(), gc);
-		scann.close();
-		return item;
-	}
-	/**
-	 * UNUSED Builds and returns list of all weapons in base file
-	 * @param baseName name of base in data/item/ directory
-	 * @param gc Slick game container for item constructor
-	 * @return Linked list with items
-	 * @throws SlickException
-	 * @throws IOException
-	 * @throws FontFormatException
-	 */
-	public static List<Weapon> getWeaponBase(String baseName, GameContainer gc) throws SlickException, IOException, FontFormatException
-	{
-		List<Weapon> itemList = new LinkedList<>();
-		
-		File baseFile = new File("data" + File.separator + "item" + File.separator + baseName);
-		Scanner scann = new Scanner(baseFile);
-		scann.useDelimiter(";\r?\n");
-		
-		while(scann.hasNextLine())
-		{
-			itemList.add((Weapon)getWeaponFromLine(scann.nextLine(), gc));
-		}
-		scann.close();
-		
-		return itemList;
-	}
-	/**
-	 * Returns map with lines from base file as values and lines item IDs as keys
-	 * @return Map with item lines from base file
-	 * @throws FileNotFoundException If file was not found
-	 */
-	public static Map<String, String> getItemsLinesMap(String itemBaseName) throws FileNotFoundException
-	{
-		Map<String, String> map = new HashMap<>();
-		File baseFile = new File("data" + File.separator + "item" + File.separator + itemBaseName);
-		Scanner scann = new Scanner(baseFile);
-		scann.useDelimiter(";\r?\n");
-		
-		while(scann.hasNextLine())
-		{
-			String line = scann.nextLine();
-			map.put(line.split(":|;")[0], line);
-		}
-		scann.close();
-		return map;
-	}
 	/**
 	 * Parses XML NPC base to map with NPC IDs as keys assigned to specific NPC pattern
 	 * @param baseName Name of base in data/npc dir
@@ -269,14 +146,14 @@ public final class DConnector
 					Element in = (Element)eq.getElementsByTagName("in").item(0);
 					int gold = Integer.parseInt(in.getAttribute("gold"));
 					
-					List<ItemPattern> itemsIn = new LinkedList<>();
+					List<RandomItem> itemsIn = new LinkedList<>();
 					
 					for(int j = 0; j < in.getElementsByTagName("item").getLength(); j ++)
 					{
 						Element itemNode = (Element)in.getElementsByTagName("item").item(j);
 						boolean ifRandom = Boolean.parseBoolean(itemNode.getAttribute("random"));
 						String itemInId = itemNode.getTextContent();
-						ItemPattern ip = new ItemPattern(itemInId, ifRandom);
+						RandomItem ip = new RandomItem(itemInId, ifRandom);
 						itemsIn.add(ip);
 					}
 					
@@ -384,6 +261,7 @@ public final class DConnector
                     String id = skill.getAttribute("id");
                     String type = skill.getAttribute("type");
                     boolean useWeapon = Boolean.parseBoolean(skill.getAttribute("useWeapon"));
+                    String reqWeapon = skill.getAttribute("reqWeapon");
                     
                     String imgName = skill.getElementsByTagName("icon").item(0).getTextContent();
                     int range = Integer.parseInt(skill.getElementsByTagName("range").item(0).getTextContent());
@@ -406,12 +284,14 @@ public final class DConnector
                         }
                     }
                     
-                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, range, effects);
+                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects);
                     attacksMap.put(id, pattern);
                 }
                 catch(NumberFormatException e)
                 {
                     Log.addSystem("attacks_base_builder-fail msg///base node corrupted!");
+
+            		e.printStackTrace();
                     break;
                 }
             }
@@ -551,7 +431,14 @@ public final class DConnector
 	    
 	    return questsMap;
 	}
-	
+	/**
+	 * Parses specified XML base with game objects to map with objects patterns as values and objects IDs as keys
+	 * @param objectsBase Name of base file in data/objects
+	 * @return Map with objects patterns as values and objects IDs as keys
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static Map<String, ObjectPattern> getObjects(String objectsBase) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, ObjectPattern> objectsMap = new HashMap<>();
@@ -582,5 +469,90 @@ public final class DConnector
 		}
 		
 		return objectsMap;
+	}
+	/**
+	 * Parses specified XML base and returns map with weapon patterns
+	 * @param weaponsBase Name of base file in data/item dir
+	 * @return Map with weapon patterns as values and weapons IDs as keys
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Map<String, WeaponPattern> getWeapons(String weaponsBase) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, WeaponPattern> weaponsMap = new HashMap<>();
+		
+		String weaponsDir = "data" + File.separator + "item" + File.separator + weaponsBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(weaponsDir);
+		
+		NodeList weaponsList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < weaponsList.getLength(); i ++)
+		{
+			Node itemNode = weaponsList.item(i);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					WeaponPattern wp = ItemParser.getWeaponFromNode(itemNode);
+					weaponsMap.put(wp.getId(), wp);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("weapons_builder_fail_msg///base corrupted");
+					break;
+				}
+			}
+		}
+		
+		return weaponsMap;
+	}
+	/**
+	 * Parses specified XML base and returns map with armor patterns
+	 * @param armorBase Name of XML base in data/item dir
+	 * @return Map with armor patterns as values and armor IDs as keys
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static Map<String, ArmorPattern> getArmors(String armorBase) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, ArmorPattern> armorsMap = new HashMap<>();
+		
+		String armorsDir = "data" + File.separator + "item" + File.separator + armorBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(armorsDir);
+		
+		NodeList armorsList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < armorsList.getLength(); i ++)
+		{
+			Node itemNode = armorsList.item(i);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					ArmorPattern ap = ItemParser.getArmorFromNode(itemNode);
+					armorsMap.put(ap.getId(), ap);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("armors_builder_fail_msg///base corrupted");
+					break;
+				}
+			}
+		}
+		
+		return armorsMap;
+	}
+	
+	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase)
+	{
+		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
+		
+		return trinketsMap;
 	}
 }

@@ -114,7 +114,8 @@ public class NewGameMenu extends BasicGameState
 			buttNext.setActive(false);
 			
 			
-		} catch (IOException | FontFormatException | SAXException | ParserConfigurationException e) 
+		} 
+		catch (IOException | FontFormatException | SAXException | ParserConfigurationException e) 
 		{
 			System.err.println(e.getMessage());
 		}

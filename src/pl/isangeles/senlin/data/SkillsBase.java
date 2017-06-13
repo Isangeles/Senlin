@@ -17,6 +17,7 @@ import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.EffectType;
+import pl.isangeles.senlin.core.item.WeaponType;
 /**
  * Static class for skills
  * loaded at newGameMenu initialization
@@ -35,7 +36,8 @@ public class SkillsBase
 	
 	public static Attack getAutoAttack(Character character) throws SlickException, IOException, FontFormatException
 	{
-		return new Attack(character, "autoA", "Attack", "Basic attack", "autoAttack.png", EffectType.NORMAL, 0, 0, 0, 2000, true, 40, null, gc);
+		//return new Attack(character, "autoA", "Attack", "Basic attack", "autoAttack.png", EffectType.NORMAL, 0, 0, 0, 2000, false, WeaponType.FIST, 40, null, gc);
+		return attacksMap.get("autoA").make(character, gc);
 	}
 	/**
 	 * Returns attack skill with specific ID from base

@@ -44,7 +44,7 @@ import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
@@ -93,7 +93,7 @@ public class GameWorld extends BasicGameState
         	gwCursor = new GameCursor(container);
         	dayManager = new Day();
         	
-        	ItemBase.loadBases(container);
+        	ItemsBase.loadBases(container);
         	GuildsBase.load();
         	NpcBase.load(container);
         	DialoguesBase.load("dPrologue");
@@ -106,8 +106,8 @@ public class GameWorld extends BasicGameState
             
             scenario.startQuests(player);
             player.setPosition(1700, 500);
-            player.addItem(ItemBase.getItem("wSOHI")); //test line
-            player.addItem(ItemBase.getItem("wSOHI")); //test line
+            player.addItem(ItemsBase.getItem("wSOHI")); //test line
+            player.addItem(ItemsBase.getItem("wSOHI")); //test line
             areaNpcs = scenario.getNpcs(); //test line
             gwObjects = scenario.getObjects();
             

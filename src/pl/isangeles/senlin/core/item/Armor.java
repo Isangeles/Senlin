@@ -1,3 +1,25 @@
+/*
+ * Armor.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
@@ -46,7 +68,7 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int type, int material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+	public Armor(String id, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, type, material);
@@ -96,21 +118,7 @@ public class Armor extends Equippable
 	
 	private String getMaterialName()
 	{
-		switch(material)
-		{
-		case CLOTH:
-			return TConnector.getText("ui", "matCloth");
-		case LEATHER:
-			return TConnector.getText("ui", "matLeath");
-		case IRON:
-			return TConnector.getText("ui", "matIron");
-		case STEEL:
-			return TConnector.getText("ui", "matSteel");
-		case NEPHRITE:
-			return TConnector.getText("ui", "matNephr");
-		default:
-			return TConnector.getText("ui", "errorName");
-		}
+		return material.toString();
 	}
 	/**
 	 * Sets sprite for item depended on item material 

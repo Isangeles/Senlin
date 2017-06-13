@@ -49,7 +49,7 @@ import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.ItemsBase;
 /**
  * Class for game console
  * command syntax: $[target] [command] [-prefix] [value]
@@ -299,7 +299,7 @@ final class Console extends TextInput implements UiElement
     	
     	if(prefix.equals("-i"))
     	{
-    		if(target.addItem(ItemBase.getItem(value)))
+    		if(target.addItem(ItemsBase.getItem(value)))
                 Log.addInformation(TConnector.getText("ui", "logAddI"));
             else
                 Log.addInformation(TConnector.getText("ui", "logAddIFail"));

@@ -13,6 +13,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
@@ -26,6 +27,7 @@ public class Attack extends Skill
 {
 	private int damage;
 	private int range;
+	private WeaponType reqWeapon;
 	/**
 	 * Attack constructor
 	 * @param character Skill owner
@@ -44,12 +46,13 @@ public class Attack extends Skill
 	 * @throws FontFormatException
 	 */
 	public Attack(Character character, String id, String name, String info, String imgName, EffectType type, int damage, int magickaCost,
-				  int castTime, int cooldown, boolean useWeapon, int range, List<Effect> effects, GameContainer gc)
+				  int castTime, int cooldown, boolean useWeapon, WeaponType reqWeapon, int range, List<Effect> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
 		this.damage = damage;
 		this.range = range;
+		this.reqWeapon = reqWeapon;
 		setTile(gc);
 		setSoundEffect();
 	}
@@ -69,7 +72,7 @@ public class Attack extends Skill
 	@Override
 	public boolean prepare(Character user, Targetable target) 
 	{
-		if(super.isActive())
+		if(super.isActive() && weaponOk(user))
 		{
 			if(target != null)
 			{
@@ -117,5 +120,18 @@ public class Attack extends Skill
 	        target.takeAttack(owner.getHit()+damage, effectsToPass);
 	        ready = false;
 	    }
+	}
+	
+	private boolean weaponOk(Character user)
+	{
+		if(useWeapon)
+		{
+			if(user.getInventory().getMainWeapon() != null && user.getInventory().getMainWeapon().getType() == reqWeapon.getId())
+				return true;
+			else
+				return false;
+		}
+		else
+			return true;
 	}
 }

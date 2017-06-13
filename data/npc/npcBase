@@ -57,6 +57,7 @@
         <artifact></artifact>    
         <in gold="2">
 	    <item random="false">wSOHI</item>
+	    <item random="false">wBTHW</item>
         </in>
     </eq>
 </npc>

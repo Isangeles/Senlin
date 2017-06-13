@@ -31,7 +31,7 @@ import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.ItemsBase;
 /**
  * Class for character inventory, contains all player items
  * @author Isangeles
@@ -200,7 +200,7 @@ public final class Inventory extends LinkedList<Item>
     		if(super.get(i).getId() == itemId)
     			return super.get(i);
     	}
-    	return ItemBase.getErrorItem(itemId);
+    	return ItemsBase.getErrorItem(itemId);
     }
     /**
      * Returns item with specific index in inventory container

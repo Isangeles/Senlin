@@ -217,6 +217,18 @@ public class Avatar implements MouseListener
 		if(weapon != null)
 			weapon.meleeAttack(attackSkill.getCastSpeed());
 	}
+	
+	public void rangeAttack(Attack attackSkill)
+	{
+		if(weapon != null)
+		{
+			usedSkill = attackSkill;
+			useSkill = true;
+			torso.rangeAttack(attackSkill.getCastSpeed());
+			head.rangeAttack(attackSkill.getCastSpeed());
+			weapon.rangeAttack(attackSkill.getCastSpeed());
+		}
+	}
 	/**
 	 * Draws specified string in speech window
 	 * Text is drawn for 1.5 seconds

@@ -811,7 +811,12 @@ public class Character implements Targetable
     	if(live && abilities.contains(skill) && skill.prepare(this, target))
     	{
     	    if(Attack.class.isInstance(skill))
-    	        avatar.meleeAttack((Attack)skill);
+    	    {
+    	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
+    	    		avatar.rangeAttack((Attack)skill);
+    	    	else
+        	        avatar.meleeAttack((Attack)skill);
+    	    }
     	}
     	else
     		Log.addWarning(TConnector.getText("ui", "logUnable"));

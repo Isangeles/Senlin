@@ -1,15 +1,43 @@
+/*
+ * ItemsBase.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.item.ErrorItem;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.data.pattern.ArmorPattern;
+import pl.isangeles.senlin.data.pattern.TrinketPattern;
+import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Class with containers with all items in game
@@ -17,17 +45,17 @@ import pl.isangeles.senlin.util.DConnector;
  * @author Isangeles
  *
  */
-public class ItemBase 
+public class ItemsBase 
 {
 	//public static List<Weapon> weapons; //UNUSED
-	public static Map<String, String> weaponsMap;
-	public static Map<String, String> armorsMap;
-	public static Map<String, String> trinketsMap;
+	public static Map<String, WeaponPattern> weaponsMap;
+	public static Map<String, ArmorPattern> armorsMap;
+	public static Map<String, TrinketPattern> trinketsMap;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
 	 */
-	private ItemBase(){}
+	private ItemsBase(){}
 	/**
 	 * Returns new copy of item with specific id from base
 	 * @param id Item id
@@ -48,10 +76,10 @@ public class ItemBase
 		try
 		{
 			if(weaponsMap.get(id) != null)
-				return DConnector.getWeaponFromLine(weaponsMap.get(id), gc);
+				return weaponsMap.get(id).make(gc);
 			
 			if(armorsMap.get(id) != null)
-				return DConnector.getArmorFromLine(armorsMap.get(id), gc);
+				return armorsMap.get(id).make(gc);
 			
 			if(trinketsMap.get(id) != null)
 				return null; //TODO write trinket builder
@@ -88,13 +116,15 @@ public class ItemBase
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 */
-	public static void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException
+	public static void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
 	{
-		ItemBase.gc = gc;
+		ItemsBase.gc = gc;
 		//weapons = DConnector.getWeaponBase("weaponBase", gc); //UNUSED
-		weaponsMap = DConnector.getItemsLinesMap("weaponBase");
-		armorsMap = DConnector.getItemsLinesMap("armorBase");
-		trinketsMap = DConnector.getItemsLinesMap("trinketBase");
+		weaponsMap = DConnector.getWeapons("weaponsBase");
+		armorsMap = DConnector.getArmors("armorBase");
+		trinketsMap = DConnector.getTrinkets("trinketsBase");
 	}
 }

@@ -41,8 +41,10 @@ public class AnimObject extends GameObject
 	private Sprite lie, lieUp, lieRight, lieDown, lieLeft;
 	private Animation move, moveUp, moveRight, moveDown, moveLeft;
 	private Animation melee, meleeUp, meleeRight, meleeDown, meleeLeft; 
+	private Animation range, rangeUp, rangeRight, rangeDown, rangeLeft;
 	private boolean isMove;
 	private boolean meleeReq;
+	private boolean rangeReq;
 	private boolean lieReq;
 	
 	private float animProgress;
@@ -70,6 +72,11 @@ public class AnimObject extends GameObject
 		Sprite[] meleeDownList = {new Sprite(ss.getSprite(3, 2)), new Sprite(ss.getSprite(4, 2))};
 		Sprite[] meleeLeftList = {new Sprite(ss.getSprite(3, 3)), new Sprite(ss.getSprite(4, 3))};
 		
+		Sprite[] rangeUpList = {new Sprite(ss.getSprite(5, 0)), new Sprite(ss.getSprite(6, 0))};
+		Sprite[] rangeRightList = {new Sprite(ss.getSprite(5, 1)), new Sprite(ss.getSprite(6, 1))};
+		Sprite[] rangeDownList = {new Sprite(ss.getSprite(5, 2)), new Sprite(ss.getSprite(6, 2))};
+		Sprite[] rangeLeftList = {new Sprite(ss.getSprite(5, 3)), new Sprite(ss.getSprite(6, 3))};
+ 		
 		idleUp = new Sprite(ss.getSprite(0, 0));
 		idleRight = new Sprite(ss.getSprite(0, 1));
 		idleDown = new Sprite(ss.getSprite(0, 2));
@@ -94,6 +101,12 @@ public class AnimObject extends GameObject
 		meleeDown = new Animation(meleeDownList, duration, false);
 		meleeLeft = new Animation(meleeLeftList, duration, false);
 		melee = meleeDown;	
+		
+		rangeUp = new Animation(rangeUpList, duration, false);
+		rangeRight = new Animation(rangeRightList, duration, false);
+		rangeDown = new Animation(rangeDownList, duration, false);
+		rangeLeft = new Animation(rangeLeftList, duration, false);
+		range = rangeDown;
 	}
 	/**
 	 * Draws object
@@ -124,6 +137,15 @@ public class AnimObject extends GameObject
 				animTime = 0f;
 			}
 		}
+		if(rangeReq)
+		{
+			range.draw(x, y, (range.getCurrentFrame().getWidth() * getScale())*scale, (range.getCurrentFrame().getHeight() * getScale())*scale);
+			if(range.isStopped())
+			{
+				rangeReq = false;
+				animTime = 0f;
+			}
+		}
 	}
 	/**
 	 * Switches object move animation
@@ -142,7 +164,17 @@ public class AnimObject extends GameObject
 		melee.setSpeed(animSpeed);
 		melee.setLooping(false);
 		melee.restart();
-		animDuration = melee.getFrameCount() * (0.25f/animSpeed);
+		animDuration = melee.getFrameCount() * (0.3f/animSpeed);
+		animProgress = 0f;
+	}
+	
+	public void rangeAttack(float animSpeed)
+	{
+		rangeReq = true;
+		range.setSpeed(animSpeed);
+		range.setLooping(false);
+		range.restart();
+		animDuration = range.getFrameCount() * (0.3f/animSpeed);
 		animProgress = 0f;
 	}
 	/**
@@ -161,11 +193,12 @@ public class AnimObject extends GameObject
 	{
 		move.update(delta);
 		melee.update(delta);
-	    if(meleeReq)
+		range.update(delta);
+	    if(meleeReq || rangeReq)
 	    	animTime += delta;
-	    if(animTime > 250)
+	    if(animTime > 300)
 	    {
-	    	animProgress += 0.25f;
+	    	animProgress += 0.3f;
 	    	animTime = 0f;
 	    }
 	}
@@ -177,6 +210,7 @@ public class AnimObject extends GameObject
 		move = moveUp;
 		idle = idleUp;
 		melee = meleeUp;
+		range = rangeUp;
 		lie = lieUp;
 	}
 	/**
@@ -187,6 +221,7 @@ public class AnimObject extends GameObject
 		move = moveRight;
 		idle = idleRight;
 		melee = meleeRight;
+		range = rangeRight;
 		lie = lieRight;
 	}
 	/**
@@ -197,6 +232,7 @@ public class AnimObject extends GameObject
 		move = moveDown;
 		idle = idleDown;
 		melee = meleeDown;
+		range = rangeDown;
 		lie = lieDown;
 	}
 	/**
@@ -207,6 +243,7 @@ public class AnimObject extends GameObject
 		move = moveLeft;
 		idle = idleLeft;
 		melee = meleeLeft;
+		range = rangeLeft;
 		lie = lieLeft;
 	}
 	
@@ -250,10 +287,12 @@ public class AnimObject extends GameObject
 	 */
 	public boolean isAttackAnimStopped()
 	{
-	    if(melee.isStopped())
-	        return true;
-	    else
-	        return false;
+	    return melee.isStopped();
+	}
+	
+	public boolean isRangeAttackAnimStopped()
+	{
+		return range.isStopped();
 	}
 	
 }

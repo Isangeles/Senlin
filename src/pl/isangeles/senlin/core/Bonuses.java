@@ -57,6 +57,18 @@ public class Bonuses
 		dmgBonus = dmg;
 		hasteBonus = haste;
 	}
+	
+	public Bonuses(String bonLine) throws NumberFormatException
+	{
+		String[] values = bonLine.split(";");
+		strBonus = Integer.parseInt(values[0]);
+		conBonus = Integer.parseInt(values[1]);
+		dexBonus = Integer.parseInt(values[2]);
+		intBonus = Integer.parseInt(values[3]);
+		wisBonus = Integer.parseInt(values[4]);
+		dmgBonus = Integer.parseInt(values[5]);
+		hasteBonus = Integer.parseInt(values[6]);
+	}
 	/**
 	 * Check if any bonus occurs
 	 * @return

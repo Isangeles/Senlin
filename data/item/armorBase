@@ -1,1 +1,7 @@
-acCS00:4:0:2:0:0:0:0:0:0:0:0:1:shirtWhite.png;
+<?xml version="1.0"?>
+<base>
+    <item id="acCS00" type="chest" material="cloth" value="2" armRat="0" reqLvl="1">
+        <bonuses>0;0;0;0;0;0;0;</bonuses>
+        <icon>shirtWhite.png</icon>
+    </item>
+</base>

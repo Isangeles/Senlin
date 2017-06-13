@@ -9,7 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.data.ItemBase;
+import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -43,7 +43,7 @@ public class NpcPattern
 	private final String spritesheet;
 	private final String portraitName;
 	private final int gold;
-	private final List<ItemPattern> invItems;
+	private final List<RandomItem> invItems;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId NPC id
@@ -65,7 +65,7 @@ public class NpcPattern
 	public NpcPattern(String npcId, String attitude, boolean trade, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
-					  String portraitName, int gold, List<ItemPattern> invItems) 
+					  String portraitName, int gold, List<RandomItem> invItems) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -121,16 +121,16 @@ public class NpcPattern
 									  portrait, spritesheet, gc);
 		scann.close();
 		npc.setTrade(trade);
-		Item helmet = ItemBase.getItem(headItem);
-		Item chest = ItemBase.getItem(chestItem);
-		Item gloves = ItemBase.getItem(handsItem);
-		Item mainWeap = ItemBase.getItem(mainHandItem);
-		Item offHand = ItemBase.getItem(offHandItem);
-		Item boots = ItemBase.getItem(feetItem);
-		Item amulet = ItemBase.getItem(neckItem);
-		Item ringA = ItemBase.getItem(fingerAItem);
-		Item ringB = ItemBase.getItem(fingerBItem);
-		Item artifact = ItemBase.getItem(this.artifact);
+		Item helmet = ItemsBase.getItem(headItem);
+		Item chest = ItemsBase.getItem(chestItem);
+		Item gloves = ItemsBase.getItem(handsItem);
+		Item mainWeap = ItemsBase.getItem(mainHandItem);
+		Item offHand = ItemsBase.getItem(offHandItem);
+		Item boots = ItemsBase.getItem(feetItem);
+		Item amulet = ItemsBase.getItem(neckItem);
+		Item ringA = ItemsBase.getItem(fingerAItem);
+		Item ringB = ItemsBase.getItem(fingerBItem);
+		Item artifact = ItemsBase.getItem(this.artifact);
 		
 		npc.addItem(helmet);
 		npc.addItem(chest);
@@ -155,7 +155,7 @@ public class NpcPattern
 		npc.setTrinket(artifact);
 		
 		npc.addGold(gold);
-		for(ItemPattern ip : invItems)
+		for(RandomItem ip : invItems)
 		{
 			Item it = ip.make();
 			if(it != null)

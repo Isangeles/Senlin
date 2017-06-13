@@ -27,7 +27,7 @@ public class Weapon extends Equippable
 	
 	public static final int IRON = 0,
 							STEEL = 1,
-							NEPHRITE = 2;;
+							NEPHRITE = 2;
 	private int maxDamage;
 	private int minDamage;
 	/**
@@ -48,7 +48,7 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, int type, int material,int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+	public Weapon(String id, int type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, picName, gc, reqLevel, bonuses, type, material);
@@ -64,6 +64,11 @@ public class Weapon extends Equippable
 	public int[] getDamage()
 	{
 		return new int[]{minDamage, maxDamage};
+	}
+	
+	public int getType()
+	{
+		return type;
 	}
 	/**
 	 * Returns full info about item
@@ -103,16 +108,6 @@ public class Weapon extends Equippable
 	
 	private String getMaterialName()
 	{
-		switch(super.material)
-		{
-		case IRON:
-			return TConnector.getText("ui", "matIron");
-		case STEEL:
-			return TConnector.getText("ui", "matSteel");
-		case NEPHRITE:
-			return TConnector.getText("ui", "matNephr");
-		default:
-			return TConnector.getText("ui", "errorName");
-		}
+		return material.toString();
 	}
 }
