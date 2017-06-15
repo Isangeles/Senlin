@@ -76,7 +76,7 @@ public class Attack extends Skill
 		{
 			if(target != null)
 			{
-				Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition())); //TEST LINE
+				Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.target = target;
@@ -87,7 +87,7 @@ public class Attack extends Skill
 				}
 				else
 				{
-	                user.moveTo(target);
+	                user.moveTo(target, range);
 					Log.addWarning(TConnector.getText("ui", "logNoRange"));
 				}
 			}
@@ -117,7 +117,7 @@ public class Attack extends Skill
 		        	effectsToPass.add(EffectsBase.getEffect(effect.getId()));
 		        }
 	        }
-	        target.takeAttack(owner.getHit()+damage, effectsToPass);
+	        target.takeAttack(owner, owner.getHit()+damage, effectsToPass);
 	        ready = false;
 	    }
 	}

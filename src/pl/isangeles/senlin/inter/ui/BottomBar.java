@@ -71,6 +71,7 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
         bBarMOA = new MouseOverArea(gc, this, 0, 0);
         
         sSlots.slots[0].insertContent(player.getSkills().get("autoA"));
+        sSlots.slots[1].insertContent(player.getSkills().get("shot"));
     }
     /**
      * Draws bar

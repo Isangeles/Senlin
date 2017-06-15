@@ -107,13 +107,10 @@ public class NewGameMenu extends BasicGameState
 			
 			fieldName = new TextInput(GConnector.getInput("field/textFieldBG.png"), "fieldName", false, container);
 			
-
 			buttNext = new Button(GConnector.getInput("button/buttonNext.png"), "buttN", false, "", container);
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "buttB", false, "", container);
 			
 			buttNext.setActive(false);
-			
-			
 		} 
 		catch (IOException | FontFormatException | SAXException | ParserConfigurationException e) 
 		{

@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,9 +58,10 @@ public class Stopwatch
     
     public static String timeFromMillis(long timeInMillis)
     {
-    	String hmsTime = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeInMillis),
-    								   TimeUnit.MILLISECONDS.toMinutes(timeInMillis) % TimeUnit.HOURS.toMinutes(1),
-    								   TimeUnit.MILLISECONDS.toSeconds(timeInMillis) % TimeUnit.MINUTES.toSeconds(1));
-    	return hmsTime;
+    	Date date = new Date(timeInMillis);
+    	SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+    	String hms = format.format(date);
+    	
+    	return hms;
     }
 }

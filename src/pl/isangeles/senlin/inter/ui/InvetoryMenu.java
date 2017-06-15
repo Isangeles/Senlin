@@ -1,3 +1,25 @@
+/*
+ * InventoryMenu.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.inter.ui;
 
 import java.awt.Font;
@@ -35,7 +57,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 	private Character player;
 	private ItemSlot[][] slots;
 	private EquipmentSlots eqSlots;
-	private List<Integer> itemsIn = new ArrayList<>();
+	private List<Item> itemsIn = new ArrayList<>();
 	private TrueTypeFont textTtf;
 	/**
 	 * Inventory constructor 
@@ -192,15 +214,6 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 	public void mouseWheelMoved(int change) 
 	{
 	}
-	/**
-     * Checks if specific item is in inventory menu
-     * @param indexInInventory Index of item in character inventory container
-     * @return True if item is in inventory menu, false otherwise
-     */
-    private boolean isIn(int indexInInventory)
-    {
-    	return itemsIn.contains(indexInInventory);
-    }
     /**
      * Adds all player items into inventory menu 
      */
@@ -212,9 +225,9 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     	    {
     	        for(ItemSlot slot : slotsLine)
     	        {
-    	            if(slot.isNull() && !isIn(item.getNumber()))
+    	            if(slot.isNull() && !itemsIn.contains(item))
     	            {
-    	                itemsIn.add(item.getNumber());
+    	                itemsIn.add(item);
     	                slot.insertContent(item);
     	                Log.addInformation(item.toString() + " added to inventory menu");
     	                break;

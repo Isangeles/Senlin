@@ -31,13 +31,30 @@ public class SkillsBase
 	/**
 	 * Private constructor to prevent initialization
 	 */
-	private SkillsBase() 
-	{}
-	
+	private SkillsBase(){}
+	/**
+	 * Returns auto attack skill from base
+	 * @param character Game character for skill
+	 * @return Auto attack skill
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public static Attack getAutoAttack(Character character) throws SlickException, IOException, FontFormatException
 	{
-		//return new Attack(character, "autoA", "Attack", "Basic attack", "autoAttack.png", EffectType.NORMAL, 0, 0, 0, 2000, false, WeaponType.FIST, 40, null, gc);
 		return attacksMap.get("autoA").make(character, gc);
+	}
+	/**
+	 * Returns shot skill from base
+	 * @param character Game character for skill
+	 * @return Shot skill
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public static Attack getShot(Character character) throws SlickException, IOException, FontFormatException
+	{
+		return attacksMap.get("shot").make(character, gc);
 	}
 	/**
 	 * Returns attack skill with specific ID from base

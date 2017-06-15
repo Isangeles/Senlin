@@ -50,7 +50,7 @@ public interface Targetable
 	
 	public void takeHealth(int value);
 	public void takeMagicka(int value);
-	public void takeAttack(int attackDamage, List<Effect> effects);
+	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> effects);
 	
 	public boolean isLive();
 }

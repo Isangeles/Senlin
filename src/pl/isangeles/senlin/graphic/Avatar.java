@@ -99,7 +99,7 @@ public class Avatar implements MouseListener
 	public void draw(float x, float y)
 	{
 		if(isTargeted)
-			target.draw(x+target.getDis(10), y+target.getDis(45), false);
+			target.draw(x+target.getDis(15), y+target.getDis(50), false);
 		
 		torso.draw(x, y, 1.5f);
 		head.draw(x, y, 1.5f);

@@ -85,7 +85,7 @@ public class Character implements Targetable
 	private Abilities abilities;
 	private Targetable target;
 	private List<Dialogue> dialogues;
-	private Map<Character, Attitude> attitudeMem = new HashMap<>();
+	private Map<Targetable, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
 	private List<Quest> quests = new ArrayList<>();
 	private Flags flags = new Flags();
@@ -112,6 +112,7 @@ public class Character implements Targetable
 		inventory = new Inventory();
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));
+		abilities.add(SkillsBase.getShot(this));
 		qTracker = new QuestTracker(this);
 	}
 	/**
@@ -139,6 +140,7 @@ public class Character implements Targetable
 		abilities = new Abilities();
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
+		//abilities.add(SkillsBase.getShot(this));
 		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
 	}
@@ -362,14 +364,29 @@ public class Character implements Targetable
 	}
 	/**
 	 * Moves character to given target position   
-	 * @param x Position on X axis
-	 * @param y Position on Y axis
-	 * @return False if given position is same as actual or true if else
+	 * @param target Some targetable character
 	 */
 	public void moveTo(Targetable target)
 	{
 		destPoint[0] = target.getPosition()[0];
 		destPoint[1] = target.getPosition()[1];
+	}
+	/**
+	 * Moves character on maximal range from specified target
+	 * @param target Some targetable object
+	 * @param maxRange Maximal range from target
+	 */
+	public void moveTo(Targetable target, int maxRange)
+	{
+		if(target.getPosition()[0] > position[0])
+			destPoint[0] = target.getPosition()[0];// - maxRange;
+		if(target.getPosition()[0] < position[0])
+			destPoint[0] = target.getPosition()[0];// + maxRange;
+		
+		if(target.getPosition()[1] > position[1])
+			destPoint[1] = target.getPosition()[1];// - maxRange;
+		if(target.getPosition()[1] < position[1])
+			destPoint[1] = target.getPosition()[1];// + maxRange;
 	}
 	/**
 	 * Moves character by specified values
@@ -636,6 +653,25 @@ public class Character implements Targetable
 		}
 	}
 	/**
+	 * Subtract specified value from character health value 
+	 * @param value Value to subtract
+	 */
+	public void takeHealth(Targetable who, int value)
+	{
+		health -= value;
+		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
+		if(health <= 0)
+		{
+			live = false;
+			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
+			if(Character.class.isInstance(who))
+			{
+				Character ch = (Character)who;
+				ch.addExperience(level * 100);
+			}
+		}
+	}
+	/**
 	 * Subtract specified value from character magicka value 
 	 * @param value Value to subtract
 	 */
@@ -660,15 +696,16 @@ public class Character implements Targetable
 	/**
 	 * Handles attacks
 	 */
-	public void takeAttack(int attackDamage, List<Effect> attackEffects)
+	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> attackEffects)
 	{
+		attitudeMem.put(aggressor, Attitude.HOSTILE);
 		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
 		{
 			Log.addInformation(name + ":" + TConnector.getText("ui", "logDodge"));
 		}
 		else
 		{
-			takeHealth(attackDamage - inventory.getArmorRating());
+			takeHealth(aggressor, attackDamage - inventory.getArmorRating());
 			for(Effect effect : attackEffects)
 			{
 				effect.turnOn(this);

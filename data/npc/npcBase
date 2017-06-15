@@ -55,7 +55,7 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in gold="20">
 	    <item random="false">wSOHI</item>
 	    <item random="false">wBTHW</item>
         </in>

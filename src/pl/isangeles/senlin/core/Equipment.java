@@ -61,18 +61,16 @@ public class Equipment
      */
 	public boolean setWeapon(Weapon weapon)
 	{
-		if(this.weaponMain == null) 
-		{
-			weaponMain = weapon;
-			return true;
-		}
-		
-		if(shield == null) 
-		{
-			weaponSec = weapon;
-			return true;
-		}
-		
+		weaponMain = weapon;
+		return true;
+	}
+	/**
+	 * TODO implements secondary weapons
+	 * @param weapon
+	 * @return
+	 */
+	public boolean setSecWeapon(Weapon weapon)
+	{
 		return false;
 	}
 	/**

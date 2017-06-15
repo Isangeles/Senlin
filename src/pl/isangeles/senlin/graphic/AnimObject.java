@@ -120,11 +120,11 @@ public class AnimObject extends GameObject
 			lie.draw(x, y, scale, false);
 			return;
 		}
-		if(isMove && !meleeReq) 
+		if(isMove && !meleeReq && !rangeReq) 
 		{
 			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*scale, (move.getCurrentFrame().getHeight() * getScale())*scale);
 		} 
-		else if(!meleeReq)
+		else if(!meleeReq && !rangeReq)
 		{
 			idle.draw(x, y, scale, false);
 		}
@@ -287,7 +287,7 @@ public class AnimObject extends GameObject
 	 */
 	public boolean isAttackAnimStopped()
 	{
-	    return melee.isStopped();
+	    return melee.isStopped() || range.isStopped();
 	}
 	
 	public boolean isRangeAttackAnimStopped()

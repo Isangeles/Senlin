@@ -24,7 +24,10 @@ public class CharacterAi
 	private int moveTimer;
 	
 	private GameWorld gw;
-	
+	/**
+	 * Characters AI constructor
+	 * @param gw Slick game container
+	 */
 	public CharacterAi(GameWorld gw) 
 	{	
 		this.gw = gw;

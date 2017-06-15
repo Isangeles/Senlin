@@ -24,10 +24,6 @@ public class Weapon extends Equippable
 							SPEAR = 4,
 							BOW = 5,
 							FIST = 6;
-	
-	public static final int IRON = 0,
-							STEEL = 1,
-							NEPHRITE = 2;
 	private int maxDamage;
 	private int minDamage;
 	/**

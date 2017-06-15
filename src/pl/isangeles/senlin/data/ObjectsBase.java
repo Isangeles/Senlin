@@ -46,12 +46,24 @@ public class ObjectsBase
 	 * Private constructor to prevent initialization
 	 */
 	private ObjectsBase(){}
-	
+	/**
+	 * Returns game object with specified ID
+	 * @param objectId String with desired object ID
+	 * @return New game object from base or null if desired object was not found 
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public static GameObject get(String objectId) throws SlickException, IOException
 	{
 		return objectsMap.get(objectId).make();
 	}
-
+	/**
+	 * Loads specified objects base
+	 * @param baseName Name of XML base in data/objects
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static void load(String baseName) throws ParserConfigurationException, SAXException, IOException
 	{
 		objectsMap = DConnector.getObjects(baseName);

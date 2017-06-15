@@ -58,12 +58,20 @@ public class ObjectPattern
 		this.fHeight = fHeight;
 		this.flipped = false;
 	}
-	
+	/**
+	 * Return ID of this pattern object 
+	 * @return String with object ID
+	 */
 	public String getId()
 	{
 		return id;
 	}
-	
+	/**
+	 * Creates new game object from this pattern
+	 * @return New game object
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public GameObject make() throws SlickException, IOException
 	{
 		switch(type)

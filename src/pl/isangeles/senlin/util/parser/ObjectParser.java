@@ -40,7 +40,12 @@ public class ObjectParser
 	 * Private constructor to prevent initialization
 	 */
 	private ObjectParser() {}
-
+	/**
+	 * Parses object node from XML base to game objects pattern
+	 * @param objectNode Node from XML base
+	 * @return New object pattern
+	 * @throws NumberFormatException
+	 */
 	public static ObjectPattern getObjectFormNode(Node objectNode) throws NumberFormatException
 	{
 		Element objectE = (Element)objectNode;
