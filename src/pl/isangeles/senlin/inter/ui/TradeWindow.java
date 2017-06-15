@@ -51,7 +51,7 @@ import pl.isangeles.senlin.util.GConnector;
  * @author Isangeles
  *
  */
-public class TradeWindow extends InterfaceObject implements UiElement, MouseListener
+class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character buyer;
 	private Character trader;

@@ -9,7 +9,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.ItemsBase;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -27,6 +29,7 @@ public class NpcPattern
 	private final String npcName;
 	private final Attitude npcAttitude;
 	private final boolean trade;
+	private final boolean train;
 	private final int guildID;
 	private final int level;
 	private final String constructorLine;
@@ -44,6 +47,7 @@ public class NpcPattern
 	private final String portraitName;
 	private final int gold;
 	private final List<RandomItem> invItems;
+	private final List<String> skills;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId NPC id
@@ -62,10 +66,10 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, boolean trade, int guildID, int level, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
-					  String portraitName, int gold, List<RandomItem> invItems) 
+					  String portraitName, int gold, List<RandomItem> invItems, List<String> skills) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -84,6 +88,7 @@ public class NpcPattern
 			npcAttitude = Attitude.NEUTRAL;
 		}
 		this.trade = trade;
+		this.train = train;
 		this.guildID = guildID;
 		this.level = level;
 		this.constructorLine = constructorLine;
@@ -101,7 +106,7 @@ public class NpcPattern
 		this.portraitName = portraitName;
 		this.gold = gold;
 		this.invItems = invItems;
-		
+		this.skills = skills;
 	}
 	/**
 	 * Creates new character from all pattern fields
@@ -120,7 +125,10 @@ public class NpcPattern
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  portrait, spritesheet, gc);
 		scann.close();
-		npc.setTrade(trade);
+		if(trade)
+			npc.setTrade();
+		if(train)
+			npc.setTrain();
 		Item helmet = ItemsBase.getItem(headItem);
 		Item chest = ItemsBase.getItem(chestItem);
 		Item gloves = ItemsBase.getItem(handsItem);
@@ -160,6 +168,10 @@ public class NpcPattern
 			Item it = ip.make();
 			if(it != null)
 				npc.addItem(it);
+		}
+		for(String skillId : skills)
+		{
+			npc.addSkill(SkillsBase.getSkill(npc, skillId));
 		}
 		
 		return npc;

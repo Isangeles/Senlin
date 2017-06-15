@@ -259,15 +259,48 @@ public class Character implements Targetable
      * Allows or disallows trade with this character
      * @param trade True to allow trade, false to disallow
      */
-    public void setTrade(boolean trade)
+    public void setTrade()
     {
-    	if(dialogues.size() == 0)
+    	boolean hasDefD = false;
+    	for(Dialogue dialogue : dialogues)
+    	{
+    		if(!dialogue.isReqFlag())
+    		{
+    			hasDefD = true;
+    			break;
+    		}
+    	}
+    	if(!hasDefD)
     		dialogues.add(DialoguesBase.getDefaultDialogue());
-    	this.trade = trade;
+    	
     	for(Dialogue dialogue : dialogues)
     	{
     		if(!dialogue.isReqFlag())
     			dialogue.addOption(new Answer("tradeReq", "", true));
+    	}
+    }
+    /**
+     * 
+     * @param train 
+     */
+    public void setTrain()
+    {
+    	boolean hasDefD = false;
+    	for(Dialogue dialogue : dialogues)
+    	{
+    		if(!dialogue.isReqFlag())
+    		{
+    			hasDefD = true;
+    			break;
+    		}
+    	}
+    	if(!hasDefD)
+    		dialogues.add(DialoguesBase.getDefaultDialogue());
+    	
+    	for(Dialogue dialogue : dialogues)
+    	{
+    		if(!dialogue.isReqFlag())
+    			dialogue.addOption(new Answer("trainReq", "", true));
     	}
     }
 	/**

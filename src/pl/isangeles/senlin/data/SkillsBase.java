@@ -56,6 +56,14 @@ public class SkillsBase
 	{
 		return attacksMap.get("shot").make(character, gc);
 	}
+	
+	public static Skill getSkill(Character character, String id) throws SlickException, IOException, FontFormatException
+	{
+		if(attacksMap.containsKey(id))
+			return attacksMap.get(id).make(character, gc);
+		
+		return null;
+	}
 	/**
 	 * Returns attack skill with specific ID from base
 	 * @param character Game character

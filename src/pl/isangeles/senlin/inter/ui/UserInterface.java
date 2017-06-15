@@ -57,6 +57,7 @@ public class UserInterface implements MouseListener
     private JournalMenu journal;
     private LootWindow loot;
     private TradeWindow trade;
+    private TrainerWindow train;
     private DialogBox dialogue;
     private CastBar cast;
     private Warning uiWarning;
@@ -83,6 +84,7 @@ public class UserInterface implements MouseListener
         journal = new JournalMenu(gc, player);
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
+        train = new TrainerWindow(gc, player);
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
         uiWarning = new Warning(gc, "");
@@ -122,6 +124,9 @@ public class UserInterface implements MouseListener
         if(trade.isOpenReq())
         	trade.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
+        if(train.isOpenReq())
+        	train.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
         if(dialogue.isOpenReq())
         	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
@@ -148,6 +153,11 @@ public class UserInterface implements MouseListener
     		trade.open((Character)player.getTarget());
     		dialogue.tradeReq(false);
     	}
+    	if(dialogue.isTrainReq())
+    	{
+    		train.open(((Character)player.getTarget()));
+    		dialogue.trainReq(false);
+    	}
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
@@ -168,7 +178,7 @@ public class UserInterface implements MouseListener
     public boolean isMouseOver()
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver();
+    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver();
     }
     /**
      * Checks if exit game is requested

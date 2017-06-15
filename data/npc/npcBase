@@ -20,6 +20,8 @@
             <item random="true">wSOHI</item>
         </in>
     </eq>
+    <skills>
+    </skills>
 </npc>
 <npc id="ericP01" attitude="friendly" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -39,8 +41,10 @@
         <in gold="2">
         </in>
     </eq>
+    <skills>
+    </skills>
 </npc>
-<npc id="kianP01" attitude="friendly" trade="true" guild="0" level="2">
+<npc id="kianP01" attitude="friendly" trade="true" train="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait1.jpg</portrait>
     <spritesheet>cloth12221-60x70.png</spritesheet>
@@ -60,8 +64,10 @@
 	    <item random="false">wBTHW</item>
         </in>
     </eq>
+    <skills>
+    </skills>
 </npc>
-<npc id="ewanP01" attitude="friendly" guild="0" level="2">
+<npc id="ewanP01" attitude="friendly" train="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
     <spritesheet>cloth12221-60x70.png</spritesheet>
@@ -79,5 +85,8 @@
         <in gold="2">
         </in>
     </eq>
+    <skills>
+	<skill>slash</skill>
+    </skills>
 </npc>
 </base>

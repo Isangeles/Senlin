@@ -42,6 +42,7 @@ public final class Inventory extends LinkedList<Item>
 	private static final long serialVersionUID = 1L;
 	private Equipment equipment;
 	private int gold;
+	private boolean mod;
 	
 	public Inventory()
 	{
@@ -56,10 +57,22 @@ public final class Inventory extends LinkedList<Item>
         if(item != null)
         {
             super.add(item);
+            mod = true;
             return true;
         }
         else 
             return false;
+    }
+	
+    public boolean remove(Item item)
+    {
+    	if(super.remove(item))
+    	{
+    		mod = true;
+    		return true;
+    	}
+    	else
+    		return false;
     }
     /**
      * Adds gold to inventory
@@ -68,6 +81,13 @@ public final class Inventory extends LinkedList<Item>
     public void addGold(int value)
     {
     	gold += value;
+    }
+    /**
+     * Marks inventory as updated, used by GUI
+     */
+    public void updated()
+    {
+    	mod = false;
     }
     /**
      * Returns all gold in inventory
@@ -251,6 +271,11 @@ public final class Inventory extends LinkedList<Item>
     	invWithoutEq.addAll(this);
     	invWithoutEq.removeAll(equipment.getAll());
     	return invWithoutEq;
+    }
+    
+    public boolean isMod()
+    {
+    	return mod;
     }
     /**
      * UNSED Now slots draws items

@@ -36,6 +36,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Slot;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -55,7 +56,7 @@ import pl.isangeles.senlin.data.Log;
 class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character player;
-	private ItemSlot[][] slots;
+	private SlotsBlock slots;
 	private EquipmentSlots eqSlots;
 	private List<Item> itemsIn = new ArrayList<>();
 	private TrueTypeFont textTtf;
@@ -77,14 +78,16 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(font.deriveFont(12f), true);
         
-        slots = new ItemSlot[5][20];
+        Slot[][] slotsT = new ItemSlot[5][20];
         for(int i = 0; i < 5; i ++)
         {
         	for(int j = 0; j < 20; j ++)
         	{
-        		slots[i][j] = new ItemSlot(gc);
+        		slotsT[i][j] = new ItemSlot(gc);
         	}
         }
+        
+        slots = new SlotsBlock(slotsT);
         
         eqSlots = new EquipmentSlots(gc);
     }
@@ -97,14 +100,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
         //Slots drawing
         float firstSlotX = x+getDis(48);
     	float firstSlotY = y+getDis(323);
-    	
-        for(int i = 0; i < 5; i ++)
-        {
-        	for(int j = 0; j < 20; j ++)
-        	{
-        		slots[i][j].draw(firstSlotX + (j*getDis(45)), firstSlotY + (i*getDis(40)), false);
-        	}
-        }
+    	slots.draw(firstSlotX, firstSlotY);
         //Eq slots drawing
         eqSlots.draw(x, y);
         
@@ -144,6 +140,12 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
      */
     public void update()
     {
+        if(player.getInventory().isMod())
+        {
+        	itemsIn.clear();
+        	slots.clear();
+        	player.getInventory().updated();
+        }
         addItems();
     }
     
@@ -186,18 +188,13 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 		if(getDragged() != null)
 		{
 			ItemSlot draggedSlot = getDragged();
-			for(ItemSlot[] slotsLine : slots)
+			ItemSlot slotOver = (ItemSlot)slots.getMouseOver();
+			if(slotOver != null)
 			{
-				for(ItemSlot slot : slotsLine)
-				{
-					if(slot.isMouseOver())
-					{
-						if(eqSlots.contains(draggedSlot))
-							eqSlots.removeFromEq(draggedSlot);
-						moveItem(draggedSlot, slot);
-						return;
-					}
-				}
+				if(eqSlots.contains(draggedSlot))
+					eqSlots.removeFromEq(draggedSlot);
+				moveItem(draggedSlot, slotOver);
+				return;
 			}
 			
 			if(eqSlots.getMouseOverSlot() != null)
@@ -221,20 +218,13 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     {
     	for(Item item : player.getItems())
     	{
-    	    for(ItemSlot[] slotsLine : slots)
-    	    {
-    	        for(ItemSlot slot : slotsLine)
-    	        {
-    	            if(slot.isNull() && !itemsIn.contains(item))
-    	            {
-    	                itemsIn.add(item);
-    	                slot.insertContent(item);
-    	                Log.addInformation(item.toString() + " added to inventory menu");
-    	                break;
-    	            }
-    	                
-    	        }
-    	    }
+    		if(!itemsIn.contains(item))
+            {
+                itemsIn.add(item);
+                if(slots.insertContent(item))
+                    Log.addInformation(item.toString() + " added to inventory menu");
+                break;
+            }
     	}
     }
     /**
@@ -243,16 +233,9 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
      */
     private ItemSlot getDragged()
     {
-    	for(ItemSlot[] slotsLine : slots)
-		{
-			for(ItemSlot slot : slotsLine)
-			{
-				if(slot.isItemDragged())
-				{
-					return slot;
-				}
-			}
-		}
+    	ItemSlot nSlot = (ItemSlot)slots.getDragged();
+    	if(nSlot != null)
+    		return nSlot;
     	
     	for(ItemSlot slot : eqSlots.slotsTable)
     	{

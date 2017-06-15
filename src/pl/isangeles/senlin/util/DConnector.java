@@ -120,6 +120,7 @@ public final class DConnector
 					String id = npc.getAttribute("id");
 					String attitude = npc.getAttribute("attitude");
 					boolean trade = Boolean.parseBoolean(npc.getAttribute("trade"));
+					boolean train = Boolean.parseBoolean(npc.getAttribute("train"));
 					int guildID = Integer.parseInt(npc.getAttribute("guild"));
 					int level = Integer.parseInt(npc.getAttribute("level"));
 					NpcPattern npcP;
@@ -157,8 +158,21 @@ public final class DConnector
 						itemsIn.add(ip);
 					}
 					
-					npcP = new NpcPattern(id, attitude, trade, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
-										  neck, fingerA, fingerB, artifact, spritesheet, portraitName, gold, itemsIn);
+					Node skillsNode = npcNodes.item(2);
+					NodeList skillList = skillsNode.getChildNodes();
+					List<String> skills = new ArrayList<>();
+					for(int j = 0; j < skillList.getLength(); j++)
+					{
+						Node skillNode = skillList.item(j);
+						if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+						{
+							Element skillE = (Element)skillNode;
+							skills.add(skillE.getTextContent());
+						}
+					}
+					
+					npcP = new NpcPattern(id, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
+										  neck, fingerA, fingerB, artifact, spritesheet, portraitName, gold, itemsIn, skills);
 					npcMap.put(id, npcP);
 				}
 				catch(NumberFormatException e)
