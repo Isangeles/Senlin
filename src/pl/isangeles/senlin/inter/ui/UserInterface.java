@@ -57,7 +57,7 @@ public class UserInterface implements MouseListener
     private JournalMenu journal;
     private LootWindow loot;
     private TradeWindow trade;
-    private TrainerWindow train;
+    private TrainingWindow train;
     private DialogBox dialogue;
     private CastBar cast;
     private Warning uiWarning;
@@ -84,7 +84,7 @@ public class UserInterface implements MouseListener
         journal = new JournalMenu(gc, player);
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
-        train = new TrainerWindow(gc, player);
+        train = new TrainingWindow(gc, player);
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
         uiWarning = new Warning(gc, "");
@@ -168,6 +168,7 @@ public class UserInterface implements MouseListener
         journal.update();
         loot.update();
         trade.update();
+        train.update();
         dialogue.update();
         gameConsole.update();
     }

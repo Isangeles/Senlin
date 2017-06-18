@@ -53,7 +53,9 @@ import pl.isangeles.senlin.util.Position;
  */
 public class ScenarioParser 
 {
-
+    /**
+     * Private constructor to prevent initialization
+     */
 	private ScenarioParser() {}
 	/**
 	 * Parses XML file to scenario object

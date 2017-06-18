@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.ItemsBase;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;

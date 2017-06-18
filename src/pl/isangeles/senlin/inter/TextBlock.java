@@ -150,7 +150,24 @@ public class TextBlock
     private void addLines(String text, int charsInLine)
     {
         int index = 0;
+        /* TODO Line separator detecting, don't work
         while(index < text.length()) 
+        {
+            String range = text.substring(index, Math.min(index + charsInLine,text.length()));
+            if(range.contains("$sep"))
+            {
+                String line = text.substring(index, range.indexOf("$sep"));
+                textLines.add(line);
+                index += line.length();
+            }
+            else
+            {
+                textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
+                index += charsInLine;
+            }
+        }
+        */
+        while(index < text.length())
         {
             textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
             index += charsInLine;

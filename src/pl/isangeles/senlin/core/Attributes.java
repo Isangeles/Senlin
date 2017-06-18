@@ -28,15 +28,22 @@ package pl.isangeles.senlin.core;
  */
 public class Attributes 
 {
-	private Attribute strenght;
+	private Attribute strength;
 	private Attribute constitution;
 	private Attribute dexterity;
 	private Attribute intelligence;
 	private Attribute wisdom;
-	
+	/**
+	 * Attributes constructor
+	 * @param str Strength value
+	 * @param con Constitution value
+	 * @param dex Dexterity value
+	 * @param inte Intelligence value
+	 * @param wis Wisdom value
+	 */
 	public Attributes(int str, int con, int dex, int inte, int wis)
 	{
-		strenght = new Attribute(str);
+		strength = new Attribute(str);
 		constitution = new Attribute(con);
 		dexterity = new Attribute(dex);
 		intelligence = new Attribute(inte);
@@ -44,7 +51,7 @@ public class Attributes
 	}
 	public int addHealth()
 	{
-		return constitution.value * 10 + strenght.value;
+		return constitution.value * 10 + strength.value;
 	}
 	public int addMagicka()
 	{
@@ -60,7 +67,7 @@ public class Attributes
 	 */
 	public int getBasicHit()
 	{
-		return strenght.value *2 + constitution.value;
+		return strength.value *2 + constitution.value;
 	}
 	
 	public int getBasicSpell()
@@ -81,11 +88,11 @@ public class Attributes
 	 */
 	public Attributes nagative()
 	{
-		return new Attributes(-strenght.value, -constitution.value, -dexterity.value, -intelligence.value, -wisdom.value);
+		return new Attributes(-strength.value, -constitution.value, -dexterity.value, -intelligence.value, -wisdom.value);
 	}
 	
 	public int getStr()
-	{ return strenght.value; }
+	{ return strength.value; }
 	
 	public int getCon()
 	{ return constitution.value; }
@@ -100,10 +107,10 @@ public class Attributes
 	{ return wisdom.value; }
 	
 	public void addStr()
-	{ strenght.value ++; }
+	{ strength.value ++; }
 	
 	public void addStr(int value)
-	{ strenght.value += value; }
+	{ strength.value += value; }
 	
 	public void addCon()
 	{ constitution.value ++; }
@@ -134,10 +141,33 @@ public class Attributes
 	 */
 	public void addAll(Attributes attributes)
 	{
-		strenght.value += attributes.getStr();
+		strength.value += attributes.getStr();
 		constitution.value += attributes.getCon();
 		dexterity.value += attributes.getDex();
 		intelligence.value += attributes.getInt();
 		wisdom.value += attributes.getWis();
+	}
+	/**
+	 * Compares this attributes to other some attributes 
+	 * @param otherAtt Some other attributes
+	 * @return False if specified attributes have any attribute greater, true if all attributes are lower or equal
+	 */
+	public boolean compareTo(Attributes otherAtt)
+	{
+	    if(strength.getValue() < otherAtt.getStr() || constitution.getValue() < otherAtt.getCon() || dexterity.getValue() < otherAtt.getDex() || 
+	       intelligence.getValue() < otherAtt.getInt() || wisdom.getValue() < otherAtt.getWis())
+	        return false;
+	    
+	    if(strength.getValue() >= otherAtt.getStr() && constitution.getValue() >= otherAtt.getCon() && dexterity.getValue() >= otherAtt.getDex() && 
+           intelligence.getValue() >= otherAtt.getInt() && wisdom.getValue() >= otherAtt.getWis())
+            return true;
+	    
+	    return false;
+	}
+	
+	@Override
+	public String toString()
+	{
+	    return " s:" + strength.value + " c:" + constitution.value + " d:" + dexterity.value + " i:" + intelligence.value + " w:" + wisdom.value;
 	}
 }

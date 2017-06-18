@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
+import pl.isangeles.senlin.data.pattern.SkillPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.EffectType;
@@ -64,6 +65,18 @@ public class SkillsBase
 		
 		return null;
 	}
+	/**
+	 * Returns pattern for skill with specified ID
+	 * @param id String with desired skill ID
+	 * @return SkillPattern with desired skill or null if skill was not found
+	 */
+	public static SkillPattern getPattern(String id)
+    {
+        if(attacksMap.containsKey(id))
+            return attacksMap.get(id);
+        
+        return null;
+    }
 	/**
 	 * Returns attack skill with specific ID from base
 	 * @param character Game character

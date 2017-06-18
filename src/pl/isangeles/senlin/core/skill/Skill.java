@@ -14,6 +14,7 @@ import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
@@ -72,12 +73,20 @@ public abstract class Skill implements SlotContent
 		owner = character;
 		active = true;
 	}
-	
+	/**
+	 * Draws skill UI icon
+	 * @param x Position on x-axis 
+	 * @param y Position on y-axis
+	 * @param scaledPos If position should be scaled to resolution
+	 */
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		tile.draw(x, y, scaledPos);
 	}
-	
+	/**
+	 * Updates skill
+	 * @param delta Time between game updates
+	 */
 	public void update(int delta)
 	{
 		tile.setActive(active);
@@ -89,33 +98,50 @@ public abstract class Skill implements SlotContent
 			timer = 0;
 		}
 	}
-	
+	/**
+	 * Sets skill active or inactive
+	 * @param active True if skill should be active, false otherwise
+	 */
 	public void setActive(boolean active)
 	{
 		this.active = active;
 		tile.setActive(active);
 	}
-
+	/**
+	 * Returns skill casting speed
+	 * @return Casting speed
+	 */
     public float getCastSpeed()
     {
         return (owner.getHaste()-castTime);
     }
-    
+    /**
+     * Returns skill ID
+     * @return String with ID
+     */
 	public String getId()
 	{
 		return id;
 	}
-	
+	/**
+	 * Returns skill name 
+	 * @return String with name
+	 */
 	public String getName()
 	{
 	    return name;
 	}
-	
+	/**
+	 * Returns skill UI icon
+	 */
 	public SkillTile getTile()
 	{
 		return tile;
 	}
-	
+	/**
+	 * Checks if skill is magical
+	 * @return True if skill is magical, false otherwise
+	 */
 	public boolean isMagic()
 	{
 		if(magickaCost > 0)
@@ -123,7 +149,10 @@ public abstract class Skill implements SlotContent
 		else
 			return false;
 	}
-	
+	/**
+	 * Checks if skill is active
+	 * @return True if skill is active, false otherwise
+	 */
 	public boolean isActive()
 	{
 		return active;

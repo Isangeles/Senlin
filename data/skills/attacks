@@ -9,6 +9,7 @@
     <cooldown>2</cooldown>
     <effects>
     </effects>
+    <trainReq gold="0">0;0;0;0;0;</trainReq>
 </skill>
 <skill id="slash" type="normal" useWeapon="true" reqWeapon="sword">
     <icon>slash.png</icon>
@@ -20,6 +21,7 @@
     <effects>
         <effect>bleed</effect>
     </effects>
+    <trainReq gold="100">3;0;4;0;0;</trainReq>
 </skill>
 <skill id="shot" type="normal" useWeapon="true" reqWeapon="bow">
     <icon>shot.png</icon>
@@ -30,5 +32,6 @@
     <cooldown>3</cooldown>
     <effects>
     </effects>
+    <trainReq gold="0">0;0;0;0;0;</trainReq>
 </skill>
 </base>

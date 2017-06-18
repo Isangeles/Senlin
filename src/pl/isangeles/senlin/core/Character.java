@@ -498,6 +498,10 @@ public class Character implements Targetable
 	public int getMaxMagicka()
 	{ return maxMagicka; }
 	
+	public Attributes getAttributes()
+	{
+	    return attributes;
+	}
 	public int getStr()
 	{ return attributes.getStr(); }
 	

@@ -109,9 +109,9 @@ public final class DConnector
 		//Iterates over all npc nodes
 		for(int i = 0; i < nList.getLength(); i ++)
 		{
-			//Puts all nodes inside npc node to list
+			//Puts all nodes inside npcs node to list
 			Node npcNode = nList.item(i);
-			//Iterates over all nodes inside npc node
+			//Iterates over all nodes inside npcs node
 			if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				try
@@ -158,7 +158,7 @@ public final class DConnector
 						itemsIn.add(ip);
 					}
 					
-					Node skillsNode = npcNodes.item(2);
+					Node skillsNode = npc.getElementsByTagName("skills").item(0);
 					NodeList skillList = skillsNode.getChildNodes();
 					List<String> skills = new ArrayList<>();
 					for(int j = 0; j < skillList.getLength(); j++)
@@ -284,6 +284,12 @@ public final class DConnector
                     int manaCost = Integer.parseInt(skill.getElementsByTagName("manaCost").item(0).getTextContent());
                     int cooldown = Integer.parseInt(skill.getElementsByTagName("cooldown").item(0).getTextContent());
                     List<Effect> effects = new ArrayList<>();
+                    Element trainReqE = (Element)skill.getElementsByTagName("trainReq").item(0);
+                    int reqGold = Integer.parseInt(trainReqE.getAttribute("gold"));
+                    String reqAttText = trainReqE.getTextContent();
+                    Scanner scann = new Scanner(reqAttText);
+                    scann.useDelimiter(";");
+                    Attributes reqAtt = new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt());
                     
                     NodeList enl = skill.getElementsByTagName("effects").item(0).getChildNodes();
                     for(int j = 0; j < enl.getLength(); j ++)
@@ -298,10 +304,10 @@ public final class DConnector
                         }
                     }
                     
-                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects);
+                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects, reqGold, reqAtt);
                     attacksMap.put(id, pattern);
                 }
-                catch(NumberFormatException e)
+                catch(NumberFormatException | NoSuchElementException e)
                 {
                     Log.addSystem("attacks_base_builder-fail msg///base node corrupted!");
 
