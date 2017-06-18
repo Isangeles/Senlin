@@ -57,4 +57,19 @@ public class Abilities extends LinkedList<Skill>
 		
 		return attacks;
 	}
+	/**
+	 * Checks if skill with same ID as specified skill is already on skills list
+	 * @param skill Some skill
+	 * @return True if skill with same ID is already on list, false otherwise
+	 */
+	public boolean isKnown(Skill skill)
+	{
+		for(Skill tSkill : this)
+		{
+			if(tSkill.getId().equals(skill.getId()))
+				return true;
+		}
+		
+		return false;
+	}
 }

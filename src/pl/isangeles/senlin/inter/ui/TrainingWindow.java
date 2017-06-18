@@ -166,13 +166,16 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private void addSkill(Skill skill)
 	{
-		skills.add(skill);
-		for(SkillField field : fields)
+		if(!player.getSkills().isKnown(skill))
 		{
-			if(field.isEmpty())
+			skills.add(skill);
+			for(SkillField field : fields)
 			{
-				field.insertSkill(skill);
-				return;
+				if(field.isEmpty())
+				{
+					field.insertSkill(skill);
+					return;
+				}
 			}
 		}
 	}
@@ -268,7 +271,7 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
                     } 
                     catch (SlickException | IOException| FontFormatException e)
                     {
-                        Log.addSystem("train_win_skill_builder_fail_msg///" + e);
+                        Log.addSystem("train_win_skill_builder_fail_msg///" + e.getMessage());
                     }
                 }
             }
