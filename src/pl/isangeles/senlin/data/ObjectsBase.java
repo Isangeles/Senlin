@@ -31,6 +31,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.util.DConnector;
@@ -53,7 +54,7 @@ public class ObjectsBase
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public static GameObject get(String objectId) throws SlickException, IOException
+	public static SimpleGameObject get(String objectId) throws SlickException, IOException
 	{
 		return objectsMap.get(objectId).make();
 	}

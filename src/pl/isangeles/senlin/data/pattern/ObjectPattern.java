@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
@@ -72,14 +73,14 @@ public class ObjectPattern
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public GameObject make() throws SlickException, IOException
+	public SimpleGameObject make() throws SlickException, IOException
 	{
 		switch(type)
 		{
 		case "simpleA":
-			return new SimpleAnimObject(GConnector.getInput("object/"+mainTexture), id, flipped, fWidth, fHeight, frames);
-		default:
-			return new Sprite(GConnector.getInput("object/"+mainTexture), id, flipped);
+		    SimpleAnimObject texture = new SimpleAnimObject(GConnector.getInput("object/"+mainTexture), id, flipped, fWidth, fHeight, frames);
+			return new SimpleGameObject(texture);
 		}
+		return null;
 	}
 }

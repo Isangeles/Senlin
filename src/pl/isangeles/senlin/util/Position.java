@@ -40,5 +40,10 @@ public class Position
 		this.x = Integer.parseInt(xSemicolonY.split(";")[0]);
 		this.y = Integer.parseInt(xSemicolonY.split(";")[1]);
 	}
+	
+	public int[] asTable()
+	{
+	    return new int[]{x, y};
+	}
 
 }

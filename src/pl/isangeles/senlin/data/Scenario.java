@@ -39,6 +39,7 @@ import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.SimpleGameObject;
 /**
  * Class for game scenarios, defines used map, map exits, NPCs and its positions, etc. 
  * @author Isangeles
@@ -52,7 +53,7 @@ public class Scenario
 	private List<MobsArea> mobsAreas;
 	private List<Quest> quests = new ArrayList<>();
 	private List<Quest> questsToStart = new ArrayList<>();
-	private List<GameObject> objects = new ArrayList<>();
+	private List<SimpleGameObject> objects = new ArrayList<>();
 	private Map<String, Position> exits;
 	/**
 	 * Scenario constructor 
@@ -94,7 +95,7 @@ public class Scenario
 		
 		for(String oId : objects.keySet())
 		{
-			GameObject go = ObjectsBase.get(oId);
+			SimpleGameObject go = ObjectsBase.get(oId);
 			go.setPosition(objects.get(oId));
 			this.objects.add(go);
 		}
@@ -104,7 +105,7 @@ public class Scenario
 	
 	public void drawObjects()
 	{
-		for(GameObject object : objects)
+		for(SimpleGameObject object : objects)
 		{
 			object.draw(1f);
 		}
@@ -134,7 +135,7 @@ public class Scenario
 		return npcs;
 	}
 	
-	public List<GameObject> getObjects()
+	public List<SimpleGameObject> getObjects()
 	{
 		return objects;
 	}

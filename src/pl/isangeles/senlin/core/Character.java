@@ -590,6 +590,22 @@ public class Character implements Targetable
 	public boolean isMouseOver()
 	{ return avatar.isMouseOver(); }
 	
+	public boolean isNearby(Targetable object)
+	{
+	    if(this.getRangeFrom(object.getPosition()) <= 400)
+	        return true;
+	    else
+	        return false;
+	}
+	
+	public boolean isNearby(Position pos)
+	{
+	    if(getRangeFrom(pos.asTable()) <= 400)
+	        return true;
+	    else
+	        return false;
+	}
+	
 	public Portrait getPortrait()
 	{
 		return portrait;

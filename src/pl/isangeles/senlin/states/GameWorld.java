@@ -30,6 +30,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -40,6 +41,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.DialoguesBase;
@@ -53,11 +55,13 @@ import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.day.Day;
+import pl.isangeles.senlin.graphic.day.FogOfWar;
 import pl.isangeles.senlin.inter.Field;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Position;
 /**
  * State for game world
  * 
@@ -69,10 +73,11 @@ public class GameWorld extends BasicGameState
 {
 	private Scenario scenario;
 	private Day dayManager;
+	private FogOfWar fow;
 	private TiledMap areaMap;
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
-	private List<GameObject> gwObjects = new ArrayList<>();
+	private List<SimpleGameObject> gwObjects = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
@@ -92,6 +97,7 @@ public class GameWorld extends BasicGameState
         {
         	gwCursor = new GameCursor(container);
         	dayManager = new Day();
+        	fow = new FogOfWar();
         	
         	ItemsBase.loadBases(container);
         	GuildsBase.load();
@@ -118,6 +124,9 @@ public class GameWorld extends BasicGameState
         {
             System.err.println("Error message: " + e.getMessage());
         }
+        
+
+        GL11.glEnable(GL11.GL_BLEND);
     }
 
     @Override
@@ -127,18 +136,24 @@ public class GameWorld extends BasicGameState
     	//game world
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
-        for(GameObject object : gwObjects)
-        	object.draw(1f);
+        for(SimpleGameObject object : gwObjects)
+        {
+            if(player.isNearby(object))
+                object.draw(1f);
+        }
         for(Character npc : areaNpcs)
-        	npc.draw();
+        {
+            if(player.isNearby(npc))
+                npc.draw();
+        }
         player.draw();
+        drawFOW();
+        //fow.draw(0, 0, areaMap.getTileWidth() * areaMap.getWidth(), areaMap.getTileHeight() * areaMap.getHeight());
         //interface
         g.translate(cameraPos[0], cameraPos[1]);
         dayManager.draw();
         ui.draw(g);
-        
         //gwCursor.draw();
-        
     }
 
     @Override
@@ -235,5 +250,25 @@ public class GameWorld extends BasicGameState
             return false;
     	
     	return true;
+    }
+    /**
+     * Draws fog of war on all map tiles except these ones in player field of view
+     */
+    private void drawFOW()
+    {
+        int x = 0;
+        int y = 0;
+        for(int i = 0; i < areaMap.getHeight(); i ++)
+        {
+            for(int j = 0; j < areaMap.getWidth(); j ++)
+            {
+                if(!player.isNearby(new Position(x, y)))
+                    fow.drawTile(x, y, Coords.getScale());
+
+                x = x + 32;
+            }
+            x = 0;
+            y = y + 32;
+        }
     }
 }
