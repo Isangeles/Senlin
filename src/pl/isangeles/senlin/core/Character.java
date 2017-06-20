@@ -598,9 +598,9 @@ public class Character implements Targetable
 	        return false;
 	}
 	
-	public boolean isNearby(Position pos)
+	public boolean isNearby(int[] pos)
 	{
-	    if(getRangeFrom(pos.asTable()) <= 400)
+	    if(getRangeFrom(pos) <= 400)
 	        return true;
 	    else
 	        return false;

@@ -1,5 +1,5 @@
 /*
- * GameObject.java
+ * Scenario.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 

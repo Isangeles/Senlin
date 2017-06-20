@@ -59,6 +59,7 @@ public class SenlinGame extends StateBasedGame
             AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
             appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
             appGC.setTargetFrameRate(60);
+            //appGC.setClearEachFrame(false);
             appGC.start();
         }
         catch(SlickException e)

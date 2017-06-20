@@ -1,3 +1,25 @@
+/*
+ * Coords.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.util;
 /**
  * Static class with methods returning scaled positions for current resolution
@@ -98,5 +120,21 @@ public class Coords
         default:
             return new float[]{disX, disY};
         }
+    }
+    /**
+     * Checks if specified coordinates are between two specified positions
+     * @param posToCheck Position to check
+     * @param posStart Start of area
+     * @param posEnd End of area
+     * @return True if specified position are inside specified area
+     */
+    public static boolean isIn(Position posToCheck, Position posStart, Position posEnd)
+    {
+    	if(posToCheck.x >= posStart.x && posToCheck.y >= posStart.y)
+    	{
+    		if(posToCheck.x <= posEnd.x && posToCheck.y <= posEnd.y)
+    			return true;
+    	}
+    	return false;
     }
 }

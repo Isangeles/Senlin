@@ -22,10 +22,13 @@
  */
 package pl.isangeles.senlin.graphic.day;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
@@ -40,12 +43,16 @@ public class FogOfWar
     public Image fowTex;
     public Image visArea;
     public Image fowTile;
+    public BufferedImage fowTileBuf;
+    public Shape fogShape;
     
     public FogOfWar() throws SlickException, IOException
     {
         fowTex = new Image(GConnector.getInput("day/fow.png"), "fowLight", false);
         visArea = new Image(GConnector.getInput("day/visArea.png"), "visArea", false);
         fowTile = new Image(GConnector.getInput("day/fowTile.png"), "fowTile", false);
+        fowTileBuf = new BufferedImage(32, 32, BufferedImage.TYPE_BYTE_BINARY);
+        
     }
     
     public void draw(float x, float y, float width, float height)
@@ -65,6 +72,6 @@ public class FogOfWar
      */
     public void drawTile(float x, float y, float scale)
     {
-        fowTile.draw(x, y, scale);
+    	fowTile.draw(x, y);
     }
 }

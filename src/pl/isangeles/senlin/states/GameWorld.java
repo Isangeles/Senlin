@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.states;
 
 import java.awt.FontFormatException;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Settings;
 /**
  * State for game world
  * 
@@ -124,15 +126,13 @@ public class GameWorld extends BasicGameState
         {
             System.err.println("Error message: " + e.getMessage());
         }
-        
-
-        GL11.glEnable(GL11.GL_BLEND);
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
+    	Toolkit.getDefaultToolkit().sync();
     	//game world
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
@@ -147,8 +147,7 @@ public class GameWorld extends BasicGameState
                 npc.draw();
         }
         player.draw();
-        drawFOW();
-        //fow.draw(0, 0, areaMap.getTileWidth() * areaMap.getWidth(), areaMap.getTileHeight() * areaMap.getHeight());
+        drawFOW(g);
         //interface
         g.translate(cameraPos[0], cameraPos[1]);
         dayManager.draw();
@@ -243,7 +242,12 @@ public class GameWorld extends BasicGameState
     {
         return ui.isPauseReq();
     }
-    
+    /**
+     * Checks if specified xy positions are moveable on game world map
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @return True if position are moveable, false otherwise
+     */
     private boolean isMovable(int x, int y)
     {
         if(areaMap.getTileId(x/areaMap.getTileWidth(), y/areaMap.getTileHeight(), 1) != 0)
@@ -254,7 +258,7 @@ public class GameWorld extends BasicGameState
     /**
      * Draws fog of war on all map tiles except these ones in player field of view
      */
-    private void drawFOW()
+    private void drawFOW(Graphics g)
     {
         int x = 0;
         int y = 0;
@@ -262,13 +266,14 @@ public class GameWorld extends BasicGameState
         {
             for(int j = 0; j < areaMap.getWidth(); j ++)
             {
-                if(!player.isNearby(new Position(x, y)))
+            	Position tilePos = new Position(x, y);
+                if(!player.isNearby(new int[]{x, y}) && (Settings.getFowType().equals("full FOW") || tilePos.isIn(Global.getCameraStartPos(), Global.getCameraEndPos())))
                     fow.drawTile(x, y, Coords.getScale());
 
-                x = x + 32;
+                x += 32;
             }
             x = 0;
-            y = y + 32;
+            y += 32;
         }
     }
 }

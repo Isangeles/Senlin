@@ -1,3 +1,25 @@
+/*
+ * SettingsMenu.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.states;
 
 import java.awt.FontFormatException;
@@ -26,13 +48,14 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class SettingsMenu extends BasicGameState
 {
-	TextSwitch switchResolution;
-	TextSwitch switchLanguage;
-	Button buttBack;
-	Message message;
+	private TextSwitch switchResolution;
+	private TextSwitch switchLanguage;
+	private TextSwitch switchFOW;
+	private Button buttBack;
+	private Message message;
 	
-	boolean backReq;
-	boolean changed;
+	private boolean backReq;
+	private boolean changed;
 	
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -43,6 +66,7 @@ public class SettingsMenu extends BasicGameState
     	{
     		switchResolution = new TextSwitch(container, Settings.getResList(), ";");
 			switchLanguage = new TextSwitch(container, "english;polish", ";");
+			switchFOW = new TextSwitch(container, Settings.getFowTypes(), ";");
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
 			message = new Message(container, "");
 		} 
@@ -58,6 +82,7 @@ public class SettingsMenu extends BasicGameState
     {
     	switchResolution.draw(700, 400);
     	switchLanguage.draw(700, 550);
+    	switchFOW.draw(700, 700);
     	buttBack.draw(10, 900);
     	if(changed)
     		message.show(TConnector.getText("menu", "settMessConf"));
@@ -78,8 +103,11 @@ public class SettingsMenu extends BasicGameState
 				pw.write(";" + System.lineSeparator());
 				pw.write(switchResolution.getString());
                 pw.write(";" + System.lineSeparator());
+                pw.write(switchFOW.getString());
+                pw.write(";" + System.lineSeparator());
 				pw.close();
-			} catch (FileNotFoundException e) 
+			} 
+    		catch (FileNotFoundException e) 
     		{
 				e.printStackTrace();
 			}

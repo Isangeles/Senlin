@@ -1,3 +1,25 @@
+/*
+ * Settings.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.util;
 
 import java.io.File;
@@ -14,6 +36,7 @@ public class Settings
     private static float resWidth;
     private static float resHeight;
     private static float scale;
+    private static String fowType;
     /**
      * Private constructor to prevent initialization
      */
@@ -32,13 +55,14 @@ public class Settings
 		} 
 		catch (FileNotFoundException e) 
 		{
-			String defSettings = "english;" + System.lineSeparator() + "1920x1080;";
+			String defSettings = "english;" + System.lineSeparator() + "1920x1080;" + System.lineSeparator() + "lightFOW";
 			scann = new Scanner(defSettings);
 		}
         scann.useDelimiter(";\r?\n");
         
         langId = scann.next();
         setRes(scann.next());
+        fowType = scann.next();
         scann.close();
         setScale();
     }
@@ -66,6 +90,11 @@ public class Settings
     {
     	return "1920x1080;1600x800;1280x720";
     }
+    
+    public static String getFowTypes()
+    {
+    	return "light FOW;full FOW";
+    }
     /**
      * Returns scale for current resolution
      * @return Float scale value
@@ -73,6 +102,11 @@ public class Settings
     public static float getScale()
     {
     	return scale;
+    }
+    
+    public static String getFowType()
+    {
+    	return fowType;
     }
     /**
      * Sets resolution from provided string

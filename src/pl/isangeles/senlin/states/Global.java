@@ -1,7 +1,31 @@
+/*
+ * Global.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.inter.GameCursor;
+import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Settings;
 /**
  * Class for game globals, like player character, targeted characters, etc. 
  * @author Isangeles
@@ -83,6 +107,16 @@ public class Global
 	{
 		return cameraPos;
 	}
+	
+	public static Position getCameraStartPos()
+	{
+		return new Position(cameraPos[0], cameraPos[1]);
+	}
+	
+	public static Position getCameraEndPos()
+	{
+		return new Position(cameraPos[0] + Settings.getResolution()[0], cameraPos[1] + Settings.getResolution()[1]);
+	}
 	/**
 	 * Converts raw x position to in game x position
 	 * @param x Position on x-axis
@@ -119,4 +153,6 @@ public class Global
 	{
 		return y - cameraPos[1];
 	}
+	
+	
 }
