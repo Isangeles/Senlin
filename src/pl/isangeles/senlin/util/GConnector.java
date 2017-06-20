@@ -46,7 +46,9 @@ public final class GConnector
      */
     public static Image getPortrait(String fileName) throws SlickException
     {
-    	return new Image("data" + File.separator + "portrait" + File.separator + fileName);
+    	Image portrait = new Image("data" + File.separator + "portrait" + File.separator + fileName);
+    	portrait.setName(fileName);
+    	return portrait;
     }
     /**
      * This static method reads file with image names in portrait folder and adds these files to Image List

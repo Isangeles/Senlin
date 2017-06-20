@@ -45,6 +45,11 @@ public class Guild
 			return name;
 	}
 	
+	public String getId()
+	{
+		return id+"";
+	}
+	
 	public String toString()
 	{
 		return name;

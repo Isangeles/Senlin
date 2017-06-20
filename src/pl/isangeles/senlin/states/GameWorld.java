@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
@@ -51,6 +52,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.data.SaveMaker;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.GameObject;
@@ -121,8 +123,10 @@ public class GameWorld extends BasicGameState
             
         	npcsAi = new CharacterAi(this);
             npcsAi.addNpcs(areaNpcs);
+            
+            SaveMaker.saveGame(player, "test.ssg"); //test line
         } 
-        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
+        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException | TransformerException e) 
         {
             System.err.println("Error message: " + e.getMessage());
         }

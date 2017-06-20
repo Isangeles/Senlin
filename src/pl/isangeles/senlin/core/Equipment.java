@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
@@ -280,6 +287,63 @@ public class Equipment
 		eq.add(ringSec);
 		eq.add(amulet);
 		eq.add(artifact);
+		return eq;
+	}
+	
+	public Element getSave(Document doc) throws ParserConfigurationException
+	{
+		Element eq = doc.createElement("eq");
+		
+		Element headE = doc.createElement("head");
+		if(helmet != null)
+			headE.setTextContent(helmet.getId());
+		eq.appendChild(headE);
+		
+		Element chestE = doc.createElement("chest");
+		if(chest != null)
+			chestE.setTextContent(chest.getId());
+		eq.appendChild(chestE);
+		
+		Element handsE = doc.createElement("hands");
+		if(gloves != null)
+			handsE.setTextContent(gloves.getId());
+		eq.appendChild(handsE);
+		
+		Element mainhandE = doc.createElement("mainhand");
+		if(weaponMain != null)
+			mainhandE.setTextContent(weaponMain.getId());
+		eq.appendChild(mainhandE)
+		;
+		Element offhandE = doc.createElement("offhand");
+		if(weaponSec != null)
+			offhandE.setTextContent(weaponSec.getId());
+		eq.appendChild(offhandE);
+		
+		Element feetE = doc.createElement("feet");
+		if(boots != null)
+			feetE.setTextContent(boots.getId());
+		eq.appendChild(feetE);
+		
+		Element neckE = doc.createElement("neck");
+		if(amulet != null)
+			neckE.setTextContent(amulet.getId());
+		eq.appendChild(neckE);
+		
+		Element finger1E = doc.createElement("finger1");
+		if(ring != null)
+			finger1E.setTextContent(ring.getId());
+		eq.appendChild(finger1E);
+		
+		Element finger2E = doc.createElement("finger2");
+		if(ringSec != null)
+			finger2E.setTextContent(ringSec.getId());
+		eq.appendChild(finger2E);
+		
+		Element artifactE = doc.createElement("artifact");
+		if(artifact != null)
+			artifactE.setTextContent(artifact.getId());
+		eq.appendChild(artifactE);
+		
 		return eq;
 	}
 }

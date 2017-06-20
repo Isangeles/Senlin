@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 /**
  * Class for all skills acquired by character
  * @author Isangeles
@@ -71,5 +78,18 @@ public class Abilities extends LinkedList<Skill>
 		}
 		
 		return false;
+	}
+	
+	public Element getSave(Document doc) throws ParserConfigurationException
+	{	
+		Element skillsE = doc.createElement("skills");
+		for(Skill skill : this)
+		{
+			Element skillE = doc.createElement("skill");
+			skillE.setTextContent(skill.getId());
+			skillsE.appendChild(skillE);
+		}
+		
+		return skillsE;
 	}
 }

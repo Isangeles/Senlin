@@ -165,6 +165,11 @@ public class Attributes
 	    return false;
 	}
 	
+	public String toLine()
+	{
+		return strength.value + ";" + constitution.value + ";" + dexterity.value + ";" + intelligence.value + ";" +wisdom.value + ";";
+	}
+	
 	@Override
 	public String toString()
 	{

@@ -33,10 +33,18 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.item.Item;
@@ -175,6 +183,11 @@ public class Character implements Targetable
 	public void setPortrait(Portrait img)
 	{
 	    portrait = img;
+	    String[] path = portrait.getResourceReference().split(File.separator);
+	    if(path.length >= 0)
+	    {
+	    	portrait.setName(path[path.length-1]);
+	    }
 	}
 	/**
 	 * Sets character name
@@ -953,5 +966,31 @@ public class Character implements Targetable
             return false;
         
         return true;
+	}
+	
+	public Element getSave(Document doc) throws ParserConfigurationException
+	{	
+		Element charE = doc.createElement("character");
+		charE.setAttribute("id", this.id);
+		charE.setAttribute("attitude", this.attitude.toString());
+		charE.setAttribute("guild", this.guild.getId());
+		charE.setAttribute("level", this.level+"");
+		
+		Element statsE = doc.createElement("stats");
+		statsE.setTextContent(attributes.toLine());
+		charE.appendChild(statsE);
+		
+		Element portraitE = doc.createElement("portrait");
+		portraitE.setTextContent(portrait.getName());
+		charE.appendChild(portraitE);
+		
+		Element spritesheetE = doc.createElement("spritesheet");
+		spritesheetE.setTextContent(avatar.getDefTorso().getName());
+		charE.appendChild(spritesheetE);
+		
+		charE.appendChild(inventory.getSave(doc));
+		charE.appendChild(abilities.getSave(doc));
+		
+		return charE;
 	}
 }

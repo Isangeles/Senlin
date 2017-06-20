@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
@@ -289,6 +296,22 @@ public final class Inventory extends LinkedList<Item>
     	{
     		super.get(i).getTile().draw(x, y);
     	}
+    }
+    
+    public Element getSave(Document doc) throws ParserConfigurationException
+    {	
+    	Element eq = equipment.getSave(doc);
+    	Element in = doc.createElement("in");
+    	in.setAttribute("gold", gold+"");
+    	for(Item item : this)
+    	{
+    		Element itemE = doc.createElement("item");
+    		itemE.setTextContent(item.getId());
+    		in.appendChild(itemE);
+    	}
+    	eq.appendChild(in);
+		
+		return eq;
     }
     
 }
