@@ -44,6 +44,8 @@ import pl.isangeles.senlin.core.Character;
  */
 public class SaveMaker 
 {
+	public static final String SAVES_PATH = "savegames" + File.separator;
+	
 	public static void saveGame(Character player, String saveName) throws ParserConfigurationException, TransformerException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -57,8 +59,10 @@ public class SaveMaker
 		TransformerFactory trf = TransformerFactory.newInstance();
 		Transformer tr = trf.newTransformer();
 		DOMSource doms = new DOMSource(doc);
-		StreamResult sr = new StreamResult(new File("savegames" + File.separator + saveName));
+		StreamResult sr = new StreamResult(new File(SAVES_PATH + saveName + ".ssg"));
 		
 		tr.transform(doms, sr);
+		
+		Log.addSystem("Game saved");
 	}
 }

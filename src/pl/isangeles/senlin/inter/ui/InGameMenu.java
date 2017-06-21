@@ -1,3 +1,25 @@
+/*
+ * InGameMenu.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.inter.ui;
 
 import java.awt.FontFormatException;
@@ -31,6 +53,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	private Warning menuWarning;
 	
 	private boolean resumeReq;
+	private boolean saveReq;
 	private boolean exitReq;
 	/**
 	 * In-game menu constructor
@@ -109,15 +132,26 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		return resumeReq;
 	}
+	
+	public boolean isSaveReq()
+	{
+		return saveReq;
+	}
 	/**
 	 * Resets menu to default state
 	 */
 	public void reset()
 	{
 		resumeReq = false;
+		saveReq = false;
 		exitReq = false;
 		menuWarning.close();
 		menuMOA.setLocation(Coords.getX("BR", 0), Coords.getY("BR", 0));
+	}
+	
+	public void saveReq(boolean saveReq)
+	{
+		this.saveReq = saveReq;
 	}
 
 	@Override
@@ -164,13 +198,18 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_LEFT_BUTTON && exit.isMouseOver())
+		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-			exitReq = true;
-			menuWarning.open();
+			if(exit.isMouseOver())
+			{
+				exitReq = true;
+				menuWarning.open();
+			}
+			if(resume.isMouseOver())
+				resumeReq = true;
+			if(save.isMouseOver())
+				saveReq = true;
 		}
-		if(button == Input.MOUSE_LEFT_BUTTON && resume.isMouseOver())
-			resumeReq = true;
 	}
 
 	@Override

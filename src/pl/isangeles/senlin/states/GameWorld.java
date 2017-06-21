@@ -124,9 +124,9 @@ public class GameWorld extends BasicGameState
         	npcsAi = new CharacterAi(this);
             npcsAi.addNpcs(areaNpcs);
             
-            SaveMaker.saveGame(player, "test.ssg"); //test line
+            //SaveMaker.saveGame(player, "test"); //test line
         } 
-        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException | TransformerException e) 
+        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
         {
             System.err.println("Error message: " + e.getMessage());
         }
@@ -171,6 +171,17 @@ public class GameWorld extends BasicGameState
     	player.update(delta, areaMap);
     	npcsAi.update(delta);
     	
+    	if(ui.takeSaveReq() == true)
+    	{
+			try 
+			{
+				SaveMaker.saveGame(player, ui.getSaveName());
+			} 
+			catch (ParserConfigurationException | TransformerException e) 
+			{
+				Log.addSystem("save_maker_fail_msg///" + e.getMessage());
+			}
+    	}
     	if(ui.isExitReq())
     		container.exit();
     }

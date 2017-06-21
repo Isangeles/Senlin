@@ -60,6 +60,7 @@ public class UserInterface implements MouseListener
     private TrainingWindow train;
     private DialogBox dialogue;
     private CastBar cast;
+    private SaveGameWindow save;
     private Warning uiWarning;
     /**
      * UI constructor, calls all ui elements constructors
@@ -87,6 +88,7 @@ public class UserInterface implements MouseListener
         train = new TrainingWindow(gc, player);
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
+        save = new SaveGameWindow(gc);
         uiWarning = new Warning(gc, "");
     }
     /**
@@ -132,10 +134,13 @@ public class UserInterface implements MouseListener
         
         if(bBar.isMenuReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
+        if(save.isOpenReq())
+        	save.draw(Coords.getX("CE", -100), Coords.getY("CE", -100), g);
+        
         if(igMenu.isResumeReq() || !bBar.isMenuReq())
         {
-        	bBar.hideMenu();
-        	igMenu.reset();
+        	hideMenu();
         }
         
         update();     	
@@ -158,6 +163,12 @@ public class UserInterface implements MouseListener
     		train.open(((Character)player.getTarget()));
     		dialogue.trainReq(false);
     	}
+    		
+    	if(igMenu.isSaveReq())
+    	{
+    		save.open();
+    		hideMenu();
+    	}
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
@@ -170,6 +181,7 @@ public class UserInterface implements MouseListener
         trade.update();
         train.update();
         dialogue.update();
+        save.update();
         gameConsole.update();
     }
     /**
@@ -179,7 +191,8 @@ public class UserInterface implements MouseListener
     public boolean isMouseOver()
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver();
+    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
+    		   save.isMouseOver();
     }
     /**
      * Checks if exit game is requested
@@ -196,6 +209,16 @@ public class UserInterface implements MouseListener
     public boolean isPauseReq()
     {
         return !gameConsole.isHidden() || bBar.isPauseReq();
+    }
+    
+    public boolean takeSaveReq()
+    {
+    	return save.takeSaveReq();
+    }
+    
+    public String getSaveName()
+    {
+    	return save.getSaveName();
     }
 	@Override
 	public void inputEnded()
@@ -280,6 +303,12 @@ public class UserInterface implements MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+	}
+	
+	private void hideMenu()
+	{
+		bBar.hideMenu();
+    	igMenu.reset();
 	}
     
 }
