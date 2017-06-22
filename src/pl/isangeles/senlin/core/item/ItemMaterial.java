@@ -55,7 +55,11 @@ public enum ItemMaterial
 			return 0;
 		}
 	}
-
+	/**
+	 * Converts material name to ItemMaterial enum
+	 * @param material String with material name
+	 * @return ItemMaterial corresponding to specified name
+	 */
 	public static ItemMaterial fromName(String material)
 	{
 		switch(material)
@@ -76,7 +80,9 @@ public enum ItemMaterial
 			return ItemMaterial.IRON;
 		}
 	}
-	
+	/**
+	 * Return material name
+	 */
 	public String toString()
 	{
 		switch(this)

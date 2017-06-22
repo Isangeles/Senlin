@@ -290,7 +290,7 @@ public class Equipment
 		return eq;
 	}
 	
-	public Element getSave(Document doc) throws ParserConfigurationException
+	public Element getSave(Document doc)
 	{
 		Element eq = doc.createElement("eq");
 		

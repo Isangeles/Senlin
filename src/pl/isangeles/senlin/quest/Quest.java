@@ -39,6 +39,7 @@ public class Quest
     private String name;
     private String info;
     private String flagOn;
+    private String flagOff;
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
@@ -48,14 +49,22 @@ public class Quest
      * @param id Quest ID
      * @param stages List of quest stages
      */
-    public Quest(String id, String flag, List<Stage> stages)
+    public Quest(String id, String flagOn, String flagOff, List<Stage> stages)
     {
         this.id = id;
         this.stages = stages;
-        this.flagOn = flag;
+        this.flagOn = flagOn;
+        this.flagOff = flagOff;
         
-        name = TConnector.getInfo("quests", id)[0];
-        info = TConnector.getInfo("quests", id)[1];
+        try
+        {
+        	name = TConnector.getInfo("quests", id)[0];
+            info = TConnector.getInfo("quests", id)[1];
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+        	info = "quests_lang_file_corrupted";
+        }
         
         for(Stage stage : stages)
         {
@@ -114,6 +123,11 @@ public class Quest
     {
     	return name;
     }
+    
+    public String getCurrentStageId()
+    {
+    	return currentStage.getId();
+    }
     /**
      * Returns list of flags from quest and completed stages that should be set for character
      * @return List with flags IDs to set
@@ -136,6 +150,7 @@ public class Quest
     public List<String> getFlagsToRemove()
     {
     	List<String> flags = new ArrayList<>();
+    	flags.add(flagOff);
     	for(Stage stage : stages)
     	{
     		if(stage.isComplete())

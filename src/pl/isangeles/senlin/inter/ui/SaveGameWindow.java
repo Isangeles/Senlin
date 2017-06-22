@@ -35,7 +35,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.SaveMaker;
+import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.TextButton;
@@ -88,7 +88,12 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 			saveSlots.add(new SaveSlot(gc));
 		}
 	}
-	
+	/**
+	 * Draws window
+	 * @param x Position on x axis
+	 * @param y Position on y axis
+	 * @param g Slick graphics context
+	 */
 	public void draw(float x, float y, Graphics g)
 	{
 		super.draw(x, y, false);
@@ -102,20 +107,24 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 		
 		float firstSlotX = x + getDis(15);
 		float firstSlotY = y + getDis(40);
-		int column = 0;
+		int row = 0;
 		for(SaveSlot slot : saveSlots)
 		{
-			slot.draw(firstSlotX, firstSlotY + ((slot.getScaledHeight() + getDis(10)) * column), false);
-			column ++;
+			slot.draw(firstSlotX, firstSlotY + ((slot.getScaledHeight() + getDis(10)) * row), false);
+			row ++;
 		}
 	}
-	
+	/**
+	 * Opens window
+	 */
 	public void open()
 	{
 		openReq = true;
 		loadSaves();
 	}
-	
+	/**
+	 * Closes window
+	 */
 	public void close()
 	{
 		openReq = false;
@@ -128,11 +137,6 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void update() 
 	{
-		if(openReq)
-		{
-			if(selSave != null)
-				fileName.setText(selSave.getName());
-		}
 	}
 
 	/* (non-Javadoc)
@@ -149,12 +153,18 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 		}
 		fileName.clear();
 	}
-
+	/**
+	 * Checks if window open is requested
+	 * @return
+	 */
 	public boolean isOpenReq()
 	{
 		return openReq;
 	}
-	
+	/**
+	 * Takes save request from window
+	 * @return True if save is requested, false otherwise
+	 */
 	public boolean takeSaveReq()
 	{
 		boolean valueToReturn = saveReq;
@@ -162,10 +172,13 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 			saveReq = false;
 		return valueToReturn;
 	}
-	
+	/**
+	 * Returns current value of text field
+	 * @return String with current value of text field
+	 */
 	public String getSaveName()
 	{
-		return fileName.getText();
+		return fileName.getText();//.replace(".sgg", "");
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
@@ -271,11 +284,32 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+		if(isMouseOver())
+		{
+			if(change > 0)
+			{
+				if(startIndex > 0)
+				{
+					startIndex --;
+					updateSlots();
+				}
+			}
+			else
+			{
+				if(startIndex < saves.size()-1)
+				{
+					startIndex ++;
+					updateSlots();
+				}
+			}
+		}
 	}
-	
+	/**
+	 * Loads save files to list
+	 */
 	private void loadSaves()
 	{
-		File savesDir = new File(SaveMaker.SAVES_PATH);
+		File savesDir = new File(SaveEngine.SAVES_PATH);
 		for(File save : savesDir.listFiles())
 		{
 			if(save.getName().endsWith(".ssg"))
@@ -299,7 +333,9 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 			}
 		}
 	}
-	
+	/**
+	 * Clears all slots
+	 */
 	private void clearSlots()
 	{
 		for(SaveSlot slot : saveSlots)
@@ -307,7 +343,9 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 			slot.clear();
 		}
 	}
-	
+	/**
+	 * Updates slots
+	 */
 	private void updateSlots()
 	{
 		saves.clear();
@@ -321,7 +359,7 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	private void selectSave(File save)
 	{
 		selSave = save;
-		fileName.setText(save.getName().replaceAll(".ssg", ""));
+		fileName.setText(save.getName().replaceAll("[.]ssg$", ""));
 	}
 	/**
 	 * Inner class for saves slots
@@ -331,28 +369,45 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	private class SaveSlot extends TextButton
 	{
 		private File saveFile;
-		
+		/**
+		 * SaveSlot constructor
+		 * @param gc Slick game container
+		 * @throws SlickException 
+		 * @throws FontFormatException
+		 * @throws IOException
+		 */
 		public SaveSlot(GameContainer gc) throws SlickException, FontFormatException, IOException
 		{
 			super(gc);
 		}
-		
+		/**
+		 * Inserts file into slot
+		 * @param saveFile
+		 */
 		public void insertSave(File saveFile)
 		{
 			this.saveFile = saveFile;
-			setLabel(saveFile.getName());
+			setLabel(saveFile.getName().replaceAll("[.]ssg$", ""));
 		}
-		
+		/**
+		 * Clears slot(removes save file from slot)
+		 */
 		public void clear()
 		{
 			saveFile = null;
 		}
-		
+		/**
+		 * Returns save file inside slot
+		 * @return Save file
+		 */
 		public File getSaveFile()
 		{
 			return saveFile;
 		}
-		
+		/**
+		 * Checks if slot is empty
+		 * @return True if slot is empty, false otherwise
+		 */
 		public boolean isEmpty()
 		{
 			return (saveFile == null);

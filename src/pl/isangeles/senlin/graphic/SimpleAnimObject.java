@@ -80,4 +80,9 @@ public class SimpleAnimObject extends GameObject
 	{
 		anim.draw(x ,y, (anim.getCurrentFrame().getWidth() * getScale())*scale, (anim.getCurrentFrame().getHeight() * getScale())*scale);
 	}
+	
+	public String getId()
+	{
+		return id;
+	}
 }

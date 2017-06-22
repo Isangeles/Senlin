@@ -60,6 +60,7 @@ import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.quest.ObjectiveTarget;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.quest.QuestTracker;
 import pl.isangeles.senlin.states.Global;
@@ -68,7 +69,7 @@ import pl.isangeles.senlin.states.Global;
  * @author Isangeles
  *
  */
-public class Character implements Targetable
+public class Character implements Targetable, ObjectiveTarget
 {
 	private String id;
 	private String name;
@@ -533,6 +534,14 @@ public class Character implements Targetable
 	public float getHaste()
 	{ return haste; }
 	/**
+	 * Returns character ID
+	 * @return String with character ID
+	 */
+	public String getId()
+	{
+		return id;
+	}
+	/**
 	 * Returns character name
 	 * @return String with name
 	 */
@@ -915,10 +924,14 @@ public class Character implements Targetable
     	{
     	    if(Attack.class.isInstance(skill))
     	    {
+    	    	boolean isLiveBefore = target.isLive();
     	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
     	    		avatar.rangeAttack((Attack)skill);
     	    	else
         	        avatar.meleeAttack((Attack)skill);
+    	    	
+    	    	if(!target.isLive() && isLiveBefore)
+    	    		qTracker.check(target);
     	    }
     	}
     	else
@@ -968,7 +981,7 @@ public class Character implements Targetable
         return true;
 	}
 	
-	public Element getSave(Document doc) throws ParserConfigurationException
+	public Element getSave(Document doc)
 	{	
 		Element charE = doc.createElement("character");
 		charE.setAttribute("id", this.id);
@@ -990,6 +1003,37 @@ public class Character implements Targetable
 		
 		charE.appendChild(inventory.getSave(doc));
 		charE.appendChild(abilities.getSave(doc));
+		
+		Element questsE = doc.createElement("quests");
+		for(Quest q : quests)
+		{
+			Element questE = doc.createElement("quest");
+			questE.setAttribute("stage", q.getCurrentStageId());
+			questE.setTextContent(q.getId());
+			questsE.appendChild(questE);
+		}
+		charE.appendChild(questsE);
+		
+		Element flagsE = doc.createElement("flags");
+		for(String flag : flags)
+		{
+			Element flagE = doc.createElement("flag");
+			flagE.setTextContent(flag);
+			flagsE.appendChild(flagE);
+		}
+		charE.appendChild(flagsE);
+		
+		Element pointsE = doc.createElement("points");
+		Element hpE = doc.createElement("hp");
+		Element manaE = doc.createElement("mana");
+		Element expE = doc.createElement("exp");
+		hpE.setTextContent(health+"");
+		manaE.setTextContent(magicka+"");
+		expE.setTextContent(experience+"");
+		pointsE.appendChild(hpE);
+		pointsE.appendChild(manaE);
+		pointsE.appendChild(expE);
+		charE.appendChild(pointsE);
 		
 		return charE;
 	}

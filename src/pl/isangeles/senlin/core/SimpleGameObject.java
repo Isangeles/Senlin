@@ -34,12 +34,14 @@ import pl.isangeles.senlin.util.Position;
  */
 public class SimpleGameObject implements Targetable
 {
+	private String id;
     private SimpleAnimObject texture;
     private Position pos;
     
     public SimpleGameObject(SimpleAnimObject texture)
     {
         this.texture = texture;
+        this.id = texture.getId();
     }
     
     public void draw(float x, float y, boolean scaledPos)
@@ -76,7 +78,10 @@ public class SimpleGameObject implements Targetable
         // TODO Auto-generated method stub
         return null;
     }
-
+    public String getId()
+	{
+		return id;
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getName()
      */

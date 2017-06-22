@@ -11,6 +11,7 @@
     </mobs>
     <quests>
 	    <quest qOn="start">pLumberTalk</quest>
+        <quest qOn="talk" target="ewanTalk201">pBanditsKilling</quest>
     </quests>
     <objects>
         <object position="1900;200">cFire01</object>

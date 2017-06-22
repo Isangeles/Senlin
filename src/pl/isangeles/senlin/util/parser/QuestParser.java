@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.quest.Objective;
 import pl.isangeles.senlin.quest.ObjectiveType;
 import pl.isangeles.senlin.quest.Quest;
@@ -54,7 +55,8 @@ public class QuestParser
         Element questE = (Element)questNode;
         
         String id = questE.getAttribute("id");
-        String flag = questE.getAttribute("flagOn");
+        String flagOn = questE.getAttribute("flagOn");
+        String flagOff = questE.getAttribute("flagOff");
         List<Stage> stages = new ArrayList<>();
         
         Node stagesNode = questE.getElementsByTagName("stages").item(0);
@@ -66,7 +68,7 @@ public class QuestParser
             	stages.add(getStageFromNode(stageNode));
         }
         
-        return new Quest(id, flag, stages);
+        return new Quest(id, flagOn, flagOff, stages);
     }
     /**
      * Parses specified stage node
@@ -103,8 +105,18 @@ public class QuestParser
         Element objectiveE = (Element)objectiveNode;
         
         String type = objectiveE.getAttribute("type");
+        int amount = 0;
+        try
+        {
+        	if(type.equals("kill") || type.equals("gather"))
+            	amount = Integer.parseInt(objectiveE.getAttribute("amount"));
+        }
+        catch(NumberFormatException e)
+        {
+        	Log.addWarning("quest_builder_objective_fail_msg//node corrupted");;
+        }
         String target = objectiveE.getTextContent();
         
-        return new Objective(ObjectiveType.fromString(type), target);
+        return new Objective(ObjectiveType.fromString(type), target, amount);
     }
 }

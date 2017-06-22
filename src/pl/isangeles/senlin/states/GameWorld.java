@@ -52,7 +52,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.SaveMaker;
+import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.GameObject;
@@ -175,7 +175,7 @@ public class GameWorld extends BasicGameState
     	{
 			try 
 			{
-				SaveMaker.saveGame(player, ui.getSaveName());
+				SaveEngine.saveGame(player, scenario, ui.getSaveName());
 			} 
 			catch (ParserConfigurationException | TransformerException e) 
 			{

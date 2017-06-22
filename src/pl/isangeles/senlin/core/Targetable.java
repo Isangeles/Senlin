@@ -25,13 +25,14 @@ package pl.isangeles.senlin.core;
 import java.util.List;
 
 import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.quest.ObjectiveTarget;
 
 /**
  * Interface for targetable objects
  * @author Isangeles
  *
  */
-public interface Targetable 
+public interface Targetable extends ObjectiveTarget
 {
 	public void setTarget(Targetable target);
 	public Targetable getTarget();

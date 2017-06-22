@@ -10,4 +10,14 @@
 		</stage> 
 	   </stages>
 	</quest>
+    <quest id="pBanditsKilling" flagOn="qpBanditsKillingStart" flagOff="qpLumberTalkFinish">
+	   <stages>
+        <stage id="pBanditsKilling0" next="pBanditsKilling1" flagOn="qpBanditsKilling0" flagOff="qpBanditsKillingStart">
+            <objective type="kill" amount="2">bandit01</objective>
+        </stage>
+	    <stage id="pBanditsKilling1"  next="end" flagOn="qpBanditsKillingFinish" flagOff="qpBanditsKilling0">
+			<objective type="talk">ewanTalk301a01</objective>	
+		</stage> 
+	   </stages>
+	</quest>
 </base>

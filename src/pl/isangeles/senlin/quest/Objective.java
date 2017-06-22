@@ -11,13 +11,15 @@ public class Objective
 {
     private ObjectiveType type;
     private String target;
+    private int reqAmount;
+    private int amount;
     private boolean complete;
     /**
      * Objective constructor
      * @param type Objective type
      * @param target Objective target
      */
-    public Objective(ObjectiveType type, String target)
+    public Objective(ObjectiveType type, String target, int reqAmount)
     {
         this.type = type;
         this.target = target;
@@ -41,6 +43,9 @@ public class Objective
     public void check(ObjectiveTarget ot)
     {
         if(target.equals(ot.getId()))
-            complete = true;
+            amount ++;
+        
+        if(amount >= reqAmount)
+        	complete = true;
     }
 }

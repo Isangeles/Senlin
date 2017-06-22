@@ -1,5 +1,5 @@
 /*
- * SaveMaker.java
+ * SaveEngine.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -39,14 +39,15 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Character;
 /**
+ * Class for saving and loading game state
  * @author Isangeles
  *
  */
-public class SaveMaker 
+public class SaveEngine 
 {
 	public static final String SAVES_PATH = "savegames" + File.separator;
 	
-	public static void saveGame(Character player, String saveName) throws ParserConfigurationException, TransformerException
+	public static void saveGame(Character player, Scenario scenario, String saveName) throws ParserConfigurationException, TransformerException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -54,7 +55,14 @@ public class SaveMaker
 		
 		Element saveE = doc.createElement("save");
 		doc.appendChild(saveE);
-		saveE.appendChild(player.getSave(doc));
+		
+		Element playerE = doc.createElement("player");
+		playerE.appendChild(player.getSave(doc));
+		saveE.appendChild(playerE);
+		
+		Element scenariosE = doc.createElement("scenarios");
+		scenariosE.appendChild(scenario.getSave(doc));
+		saveE.appendChild(scenariosE);
 		
 		TransformerFactory trf = TransformerFactory.newInstance();
 		Transformer tr = trf.newTransformer();

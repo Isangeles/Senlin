@@ -30,8 +30,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
@@ -48,6 +53,7 @@ import pl.isangeles.senlin.core.SimpleGameObject;
 public class Scenario 
 {
 	private final String id;
+	private String mapFileName;
 	private TiledMap map;
 	private List<Character> npcs = new ArrayList<>();
 	private List<MobsArea> mobsAreas;
@@ -71,6 +77,7 @@ public class Scenario
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
+		mapFileName = mapFile;
 		map = new TiledMap("data" + File.separator + "area" + File.separator + "map" + File.separator + mapFile);
 		
 		for(String key : npcs.keySet())
@@ -149,6 +156,42 @@ public class Scenario
 		{
 			player.startQuest(q);
 		}
+	}
+	
+	public Element getSave(Document doc)
+	{
+		Element scenarioE = doc.createElement("scenario");
+		scenarioE.setAttribute("id", id);
+		scenarioE.setAttribute("map", mapFileName);
+		
+		Element npcsE = doc.createElement("npcs");
+		for(Character npc : npcs)
+		{
+			Element npcE = doc.createElement("npc");
+			npcE.setAttribute("position", new Position(npc.getPosition()).toString());
+			npcE.setTextContent(npc.getId());
+			npcsE.appendChild(npcE);
+		}
+		scenarioE.appendChild(npcsE);
+		
+		Element objectsE = doc.createElement("objects");
+		for(SimpleGameObject object : objects)
+		{
+			Element objectE = doc.createElement("object");
+			objectE.setAttribute("position", new Position(object.getPosition()).toString());
+			objectE.setTextContent(object.getId());
+			objectsE.appendChild(objectE);
+		}
+		scenarioE.appendChild(objectsE);
+		
+		Element charactersE = doc.createElement("characters");
+		for(Character npc : npcs)
+		{
+			charactersE.appendChild(npc.getSave(doc));
+		}
+		scenarioE.appendChild(charactersE);
+		
+		return scenarioE;
 	}
 	/**
 	 * Sets triggers for all scenario quests 

@@ -298,7 +298,7 @@ public final class Inventory extends LinkedList<Item>
     	}
     }
     
-    public Element getSave(Document doc) throws ParserConfigurationException
+    public Element getSave(Document doc)
     {	
     	Element eq = equipment.getSave(doc);
     	Element in = doc.createElement("in");

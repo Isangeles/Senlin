@@ -47,4 +47,17 @@
 	        <answer end="true">bye01</answer>
 	    </text>
     </dialogue>
+
+    <dialogue id="ewanTalk2" npc="ewanP01" flagReq="qpLumberTalkFinish">
+        <text id="ewanTalk201" on="start">
+            <answer end="true">ewanTalk201a01</answer>
+            <answer end="true">bye01</answer>
+        </text>
+    </dialogue>
+
+    <dialogue id="ewanTalk3" npc="ewanP01" flagReq="qpBanditsKilling0">
+        <text id="ewanTalk301" on="start">
+            <answer end="true">ewanTalk301a01</answer>
+        </text>
+    </dialogue>
 </base>
