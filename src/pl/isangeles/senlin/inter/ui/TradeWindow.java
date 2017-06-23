@@ -261,54 +261,57 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(button == Input.MOUSE_RIGHT_BUTTON)
+		if(openReq)
 		{
-			Slot slotBuy = slotsBuy.getMouseOver();
-			if(slotBuy != null && !slotBuy.isNull())
+			if(button == Input.MOUSE_RIGHT_BUTTON)
 			{
-			    Item itemBuy = (Item)slotBuy.getContent();
-			    if(itemsToBuy.contains(itemBuy))
-			    {
-			        itemsToBuy.remove(itemBuy);
-			        buyValue -= itemBuy.getValue();
-			        slotBuy.click(false);
-			    }
-			    else
-			    {
-			        itemsToBuy.add(itemBuy);
-			        buyValue += itemBuy.getValue();
-	                slotBuy.click(true);
-			    }
+				Slot slotBuy = slotsBuy.getMouseOver();
+				if(slotBuy != null && !slotBuy.isNull())
+				{
+				    Item itemBuy = (Item)slotBuy.getContent();
+				    if(itemsToBuy.contains(itemBuy))
+				    {
+				        itemsToBuy.remove(itemBuy);
+				        buyValue -= itemBuy.getValue();
+				        slotBuy.click(false);
+				    }
+				    else
+				    {
+				        itemsToBuy.add(itemBuy);
+				        buyValue += itemBuy.getValue();
+		                slotBuy.click(true);
+				    }
+				}
+				
+				Slot slotSell = slotsSell.getMouseOver();
+				if(slotSell != null && !slotSell.isNull())
+				{
+				    Item itemSell = (Item)slotSell.getContent();
+				    if(itemsToSell.contains(itemSell))
+				    {
+				        itemsToSell.remove(itemSell);
+				        sellValue -= itemSell.getValue();
+		                slotSell.click(false);
+				    }
+				    else
+				    {
+				        itemsToSell.add(itemSell);
+				        sellValue += itemSell.getValue();
+		                slotSell.click(true);
+				    }
+				}
 			}
-			
-			Slot slotSell = slotsSell.getMouseOver();
-			if(slotSell != null && !slotSell.isNull())
+			if(button == Input.MOUSE_LEFT_BUTTON)
 			{
-			    Item itemSell = (Item)slotSell.getContent();
-			    if(itemsToSell.contains(itemSell))
-			    {
-			        itemsToSell.remove(itemSell);
-			        sellValue -= itemSell.getValue();
-	                slotSell.click(false);
-			    }
-			    else
-			    {
-			        itemsToSell.add(itemSell);
-			        sellValue += itemSell.getValue();
-	                slotSell.click(true);
-			    }
+			    if(exit.isMouseOver())
+			        close();
+			    if(trade.isMouseOver())
+		        {
+			    	trade();
+			    	resetTrade();
+					loadAssortment();
+	            }
 			}
-		}
-		if(button == Input.MOUSE_LEFT_BUTTON)
-		{
-		    if(exit.isMouseOver())
-		        close();
-		    if(trade.isMouseOver())
-	        {
-		    	trade();
-		    	resetTrade();
-				loadAssortment();
-            }
 		}
 	}
 	/* (non-Javadoc)

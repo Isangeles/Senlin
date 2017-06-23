@@ -265,8 +265,15 @@ public class GameWorld extends BasicGameState
      */
     private boolean isMovable(int x, int y)
     {
-        if(areaMap.getTileId(x/areaMap.getTileWidth(), y/areaMap.getTileHeight(), 1) != 0)
-            return false;
+        try
+        {
+        	if(areaMap.getTileId(x/areaMap.getTileWidth(), y/areaMap.getTileHeight(), 1) != 0)
+                return false;
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+        	return false;
+        }
     	
     	return true;
     }

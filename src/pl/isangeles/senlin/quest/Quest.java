@@ -129,6 +129,14 @@ public class Quest
     	return currentStage.getId();
     }
     /**
+     * Returns list with current stage objectives
+     * @return List with objectives
+     */
+    public List<Objective> getCurrentObjectives()
+    {
+    	return currentStage.getObjectives();
+    }
+    /**
      * Returns list of flags from quest and completed stages that should be set for character
      * @return List with flags IDs to set
      */

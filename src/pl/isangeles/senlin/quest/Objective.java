@@ -23,6 +23,9 @@ public class Objective
     {
         this.type = type;
         this.target = target;
+        this.reqAmount = reqAmount;
+        if(reqAmount == 0)
+        	reqAmount = 1;
     }
     /**
      * Completes objective
@@ -43,9 +46,20 @@ public class Objective
     public void check(ObjectiveTarget ot)
     {
         if(target.equals(ot.getId()))
-            amount ++;
-        
-        if(amount >= reqAmount)
-        	complete = true;
+        {
+        	amount ++;
+        	if(amount >= reqAmount)
+            	complete = true;
+        }
+    }
+    
+    public int getCurrentAmount()
+    {
+    	return amount;
+    }
+    
+    public int getReqAmount()
+    {
+    	return reqAmount;
     }
 }

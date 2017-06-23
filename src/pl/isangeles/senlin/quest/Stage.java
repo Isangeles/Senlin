@@ -109,6 +109,11 @@ public class Stage
     {
     	return flagOff;
     }
+    
+    public List<Objective> getObjectives()
+    {
+    	return objectives;
+    }
     /**
      * Checks if specified objective target meets any stage objective requirements
      * @param ot Some objective target like dialogue answer, item, character, etc.

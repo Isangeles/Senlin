@@ -73,7 +73,10 @@ public class Dialogue
 			for(Answer answer : dp.getAnswers())
 			{
 				if(answer.getId().equals(answerId))
+				{
 					answer.setQTrigger(questId);
+					Log.addSystem("trigger_seted_for//" + answer.getId());
+				}
 			}
 		}
 	}

@@ -22,6 +22,9 @@
  */
 package pl.isangeles.senlin.quest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.Log;
 /**
@@ -46,11 +49,13 @@ public class QuestTracker
      */
     public void check(ObjectiveTarget ot)
     {
+    	List<Quest> qCompleted = new ArrayList<>();
         for(Quest quest : character.getQuests())
         {
             quest.check(ot);
             if(quest.isComplete())
-                Log.addInformation(quest.getName() + " completed");
+                qCompleted.add(quest);
         }
+        character.getQuests().markAsCompleted(qCompleted);
     }
 }

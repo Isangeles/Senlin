@@ -60,6 +60,7 @@ import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.quest.Journal;
 import pl.isangeles.senlin.quest.ObjectiveTarget;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.quest.QuestTracker;
@@ -96,7 +97,7 @@ public class Character implements Targetable, ObjectiveTarget
 	private List<Dialogue> dialogues;
 	private Map<Targetable, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
-	private List<Quest> quests = new ArrayList<>();
+	private Journal quests = new Journal();
 	private Flags flags = new Flags();
 	private QuestTracker qTracker;
 	private Random numberGenerator = new Random();
@@ -398,6 +399,7 @@ public class Character implements Targetable, ObjectiveTarget
 		avatar.update(delta);
 		effects.update(delta, this);
 		flags.update(quests);
+		quests.update();
 	}
 	/**
 	 * Moves character to given position  
@@ -679,7 +681,7 @@ public class Character implements Targetable, ObjectiveTarget
 	 * Returns all character quests
 	 * @return List with quests
 	 */
-	public List<Quest> getQuests()
+	public Journal getQuests()
 	{ return quests; }
 	
 	public QuestTracker getQTracker()
@@ -729,6 +731,7 @@ public class Character implements Targetable, ObjectiveTarget
 	}
 	/**
 	 * Subtract specified value from character health value 
+	 * @param who Aggressor
 	 * @param value Value to subtract
 	 */
 	public void takeHealth(Targetable who, int value)
@@ -743,6 +746,7 @@ public class Character implements Targetable, ObjectiveTarget
 			{
 				Character ch = (Character)who;
 				ch.addExperience(level * 100);
+				ch.getQTracker().check(this);
 			}
 		}
 	}
@@ -924,14 +928,10 @@ public class Character implements Targetable, ObjectiveTarget
     	{
     	    if(Attack.class.isInstance(skill))
     	    {
-    	    	boolean isLiveBefore = target.isLive();
     	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
     	    		avatar.rangeAttack((Attack)skill);
     	    	else
         	        avatar.meleeAttack((Attack)skill);
-    	    	
-    	    	if(!target.isLive() && isLiveBefore)
-    	    		qTracker.check(target);
     	    }
     	}
     	else
@@ -1003,16 +1003,7 @@ public class Character implements Targetable, ObjectiveTarget
 		
 		charE.appendChild(inventory.getSave(doc));
 		charE.appendChild(abilities.getSave(doc));
-		
-		Element questsE = doc.createElement("quests");
-		for(Quest q : quests)
-		{
-			Element questE = doc.createElement("quest");
-			questE.setAttribute("stage", q.getCurrentStageId());
-			questE.setTextContent(q.getId());
-			questsE.appendChild(questE);
-		}
-		charE.appendChild(questsE);
+		charE.appendChild(quests.getSave(doc));
 		
 		Element flagsE = doc.createElement("flags");
 		for(String flag : flags)
@@ -1034,6 +1025,10 @@ public class Character implements Targetable, ObjectiveTarget
 		pointsE.appendChild(manaE);
 		pointsE.appendChild(expE);
 		charE.appendChild(pointsE);
+		
+		Element nameE = doc.createElement("name");
+		nameE.setTextContent(name);
+		charE.appendChild(nameE);
 		
 		return charE;
 	}
