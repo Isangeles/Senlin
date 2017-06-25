@@ -297,7 +297,11 @@ public final class Inventory extends LinkedList<Item>
     		super.get(i).getTile().draw(x, y);
     	}
     }
-    
+    /**
+     * Parses inventory to XML document element
+     * @param doc Document for save game file
+     * @return XML document element
+     */
     public Element getSave(Document doc)
     {	
     	Element eq = equipment.getSave(doc);

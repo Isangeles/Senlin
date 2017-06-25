@@ -289,7 +289,11 @@ public class Equipment
 		eq.add(artifact);
 		return eq;
 	}
-	
+	/**
+	 * Parses equipment to XML document element
+	 * @param doc Document for game save file
+	 * @return XML document element
+	 */
 	public Element getSave(Document doc)
 	{
 		Element eq = doc.createElement("eq");

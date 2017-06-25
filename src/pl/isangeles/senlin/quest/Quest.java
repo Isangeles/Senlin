@@ -99,6 +99,15 @@ public class Quest
     {
     	active = true;
     }
+    
+    public void setStage(String stageId)
+    {
+        for(Stage stage : stages)
+        {
+            if(stage.getId().equals(stageId))
+                currentStage = stage;
+        }
+    }
     /**
      * Checks if quest is completed
      * @return Boolean value

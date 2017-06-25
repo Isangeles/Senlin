@@ -1,0 +1,254 @@
+/*
+ * LoadMenu.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
+package pl.isangeles.senlin.states;
+
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+
+import pl.isangeles.senlin.data.SaveEngine;
+import pl.isangeles.senlin.inter.Button;
+import pl.isangeles.senlin.inter.TextButton;
+import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.GConnector;
+
+/**
+ * @author Isangeles
+ *
+ */
+public class LoadMenu extends BasicGameState
+{
+    private Button backB;
+    private Button loadB;
+    private Button upB;
+    private Button downB;
+    private File selSave;
+    private List<File> saves = new ArrayList<>(); 
+    private List<SaveSlot> saveSlots;
+    private int startIndex;
+    
+    private boolean backReq;
+    private boolean loadReq;
+    
+    public LoadMenu()
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
+     */
+    @Override
+    public void init(GameContainer container, StateBasedGame game)
+            throws SlickException
+    {
+        try
+        {
+            backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSaveGWinSave", false, "back", container);
+            loadB = new Button(GConnector.getInput("button/buttonS.png"), "uiSaveGWinExit", false, "load", container);
+            upB = new Button(GConnector.getInput("button/buttonUp.png"), "uiSaveGWinUp", false, "", container);
+            downB = new Button(GConnector.getInput("button/buttonDown.png"), "uiSaveGWinDown", false, "", container);
+            
+            saveSlots = new ArrayList<>();
+            for(int i = 0; i < 10; i ++)
+            {
+                saveSlots.add(new SaveSlot(container));
+            }
+        } 
+        catch (FontFormatException | IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        loadSaves();
+    }
+
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
+     */
+    @Override
+    public void render(GameContainer container, StateBasedGame game, Graphics g)
+            throws SlickException
+    {
+        loadB.draw(310, 460, true);
+        backB.draw(20, 460, true);
+        upB.draw(355, 25, true);
+        downB.draw(355, 425, true);
+        
+        float firstSlotX = 15;
+        float firstSlotY = 40;
+        int row = 0;
+        for(SaveSlot slot : saveSlots)
+        {
+            slot.draw(firstSlotX, firstSlotY + ((slot.getScaledHeight() + 10) * row), true);
+            row ++;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
+     */
+    @Override
+    public void update(GameContainer container, StateBasedGame game, int delta)
+            throws SlickException
+    {
+        if(backReq)
+        {
+            backReq = false;
+            game.enterState(0);
+        }
+        if(loadReq)
+        {
+            loadReq = false;
+            game.addState(new LoadingScreen(selSave.getName().replaceAll("[.]ssg$", "")));
+            game.getState(4).init(container, game);
+            game.enterState(4);
+        }
+    }
+    
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        if(button == Input.MOUSE_LEFT_BUTTON)
+        {
+            if(backB.isMouseOver())
+                backReq = true;
+            if(loadB.isMouseOver())
+                loadReq = true;
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.state.BasicGameState#getID()
+     */
+    @Override
+    public int getID()
+    {
+        return 4;
+    }
+    /**
+     * Loads save files to list
+     */
+    private void loadSaves()
+    {
+        File savesDir = new File(SaveEngine.SAVES_PATH);
+        for(File save : savesDir.listFiles())
+        {
+            if(save.getName().endsWith(".ssg"))
+            {
+                saves.add(save);
+                addSave(save);
+            }
+        }
+    }
+    /**
+     * Adds saves files to list and insert them to slots
+     */
+    private void addSave(File save)
+    {
+        for(SaveSlot slot : saveSlots)
+        {
+            if(slot.isEmpty())
+            {
+                slot.insertSave(save);
+                break;
+            }
+        }
+    }
+    /**
+     * Selects specified save file
+     * @param save Save game file
+     */
+    private void selectSave(File save)
+    {
+        selSave = save;
+    }
+    /**
+     * Inner class for saves slots
+     * @author Isangeles
+     *
+     */
+    private class SaveSlot extends TextButton
+    {
+        private File saveFile;
+        /**
+         * SaveSlot constructor
+         * @param gc Slick game container
+         * @throws SlickException 
+         * @throws FontFormatException
+         * @throws IOException
+         */
+        public SaveSlot(GameContainer gc) throws SlickException, FontFormatException, IOException
+        {
+            super(gc);
+        }
+        /**
+         * Inserts file into slot
+         * @param saveFile
+         */
+        public void insertSave(File saveFile)
+        {
+            this.saveFile = saveFile;
+            setLabel(saveFile.getName().replaceAll("[.]ssg$", ""));
+        }
+        /**
+         * Clears slot(removes save file from slot)
+         */
+        public void clear()
+        {
+            saveFile = null;
+        }
+        /**
+         * Returns save file inside slot
+         * @return Save file
+         */
+        public File getSaveFile()
+        {
+            return saveFile;
+        }
+        /**
+         * Checks if slot is empty
+         * @return True if slot is empty, false otherwise
+         */
+        public boolean isEmpty()
+        {
+            return (saveFile == null);
+        }
+        
+        @Override
+        public void mouseReleased(int button, int x, int y)
+        {
+            if(button == Input.MOUSE_LEFT_BUTTON && isMouseOver())
+            {
+                selectSave(saveFile);
+            }
+        }
+    }
+}

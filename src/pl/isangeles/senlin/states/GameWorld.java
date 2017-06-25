@@ -53,6 +53,7 @@ import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SaveEngine;
+import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.graphic.GameObject;
@@ -75,7 +76,8 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class GameWorld extends BasicGameState
 {
-	private Scenario scenario;
+    private List<Scenario> scenarios = new ArrayList<>();
+	private Scenario activeScenario;
 	private Day dayManager;
 	private FogOfWar fow;
 	private TiledMap areaMap;
@@ -86,13 +88,33 @@ public class GameWorld extends BasicGameState
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
 	private GameCursor gwCursor;
-	
+	/**
+	 * Creates game world for new game
+	 * @param player Player character
+	 * @param ui User interface
+	 */
 	public GameWorld(Character player, UserInterface ui)
 	{
-        this.player = player;
         this.ui = ui;
+        this.player = player;
+        player.setPosition(1700, 500);
+        player.addItem(ItemsBase.getItem("wSOHI")); //test line
+        player.addItem(ItemsBase.getItem("wSOHI")); //test line
+        scenarios.add(ScenariosBase.getScenario("prologue01"));
+        activeScenario = scenarios.get(0); //test line
+        activeScenario.startQuests(player);
 	}
-	
+	/**
+	 * Creates game world for saved game
+	 * @param savedGame Saved game
+	 */
+	public GameWorld(SavedGame savedGame, UserInterface ui)
+	{
+	    this.ui = ui;
+	    this.player = savedGame.getPlayer();
+	    this.scenarios = savedGame.getScenarios();
+	    this.activeScenario = savedGame.getActiveScenario();
+	}
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
@@ -102,31 +124,16 @@ public class GameWorld extends BasicGameState
         	gwCursor = new GameCursor(container);
         	dayManager = new Day();
         	fow = new FogOfWar();
-        	
-        	ItemsBase.loadBases(container);
-        	GuildsBase.load();
-        	NpcBase.load(container);
-        	DialoguesBase.load("dPrologue");
-        	QuestsBase.load("qPrologue");
-        	ObjectsBase.load("animObjects");
-        	ScenariosBase.load();
-        	
-        	scenario = ScenariosBase.getScenario("prologue01");
-            areaMap = scenario.getMap();
+      
+            areaMap = activeScenario.getMap();
             
-            scenario.startQuests(player);
-            player.setPosition(1700, 500);
-            player.addItem(ItemsBase.getItem("wSOHI")); //test line
-            player.addItem(ItemsBase.getItem("wSOHI")); //test line
-            areaNpcs = scenario.getNpcs(); //test line
-            gwObjects = scenario.getObjects();
+            areaNpcs = activeScenario.getNpcs(); //test line
+            gwObjects = activeScenario.getObjects();
             
         	npcsAi = new CharacterAi(this);
             npcsAi.addNpcs(areaNpcs);
-            
-            //SaveMaker.saveGame(player, "test"); //test line
         } 
-        catch (SlickException | IOException | FontFormatException | ParserConfigurationException | SAXException e) 
+        catch (SlickException | IOException e) 
         {
             System.err.println("Error message: " + e.getMessage());
         }
@@ -175,7 +182,7 @@ public class GameWorld extends BasicGameState
     	{
 			try 
 			{
-				SaveEngine.saveGame(player, scenario, ui.getSaveName());
+				SaveEngine.save(player, scenarios, activeScenario.getId(), ui.getSaveName());
 			} 
 			catch (ParserConfigurationException | TransformerException e) 
 			{

@@ -50,6 +50,11 @@ public class EffectsBase
             return null;
 	    }
 	}
+	
+	public static EffectPattern getPattern(String id)
+	{
+	    return effectsMap.get(id);
+	}
 
 	public static void load(GameContainer gc) throws SAXException, IOException, ParserConfigurationException
 	{

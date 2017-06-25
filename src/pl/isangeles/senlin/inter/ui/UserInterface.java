@@ -63,7 +63,7 @@ public class UserInterface implements MouseListener
     private SaveGameWindow save;
     private Warning uiWarning;
     /**
-     * UI constructor, calls all ui elements constructors
+     * UI constructor, calls all UI elements constructors
      * @param gc Game container for superclass and ui elements
      * @param player Player character 
      * @throws SlickException

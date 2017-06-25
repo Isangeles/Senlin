@@ -260,7 +260,6 @@ public class Avatar implements MouseListener
 	public void speak(String text)
 	{
 		speakWindow.setText(text);
-		Log.addSpeech(character.getName(), text);
 		isSpeaking = true;
 	}
 	/**

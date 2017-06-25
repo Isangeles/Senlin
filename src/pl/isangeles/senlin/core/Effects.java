@@ -24,6 +24,9 @@ package pl.isangeles.senlin.core;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 /**
  * Container for character effects
  * @author Isangeles
@@ -58,5 +61,18 @@ public class Effects extends ArrayList<Effect>
 			}
 		}
 		this.removeAll(effectsToRemove);
+	}
+	
+	public Element getSave(Document doc)
+	{
+	    Element effectsE = doc.createElement("effects");
+	    for(Effect effect : this)
+	    {
+	        Element effectE = doc.createElement("effect");
+	        effectE.setAttribute("duration", effect.getTime()+"");
+	        effectE.setTextContent(effect.getId());
+	        effectsE.appendChild(effectE);
+	    }
+	    return effectsE;
 	}
 }

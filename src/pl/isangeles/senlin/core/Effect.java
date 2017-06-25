@@ -154,7 +154,7 @@ public class Effect
 		return on;
 	}
 	/**
-	 * Updates effect current time
+	 * Updates effect time
 	 * @param delta Time from last game loop update
 	 */
 	public void updateTime(int delta)
@@ -178,6 +178,16 @@ public class Effect
 		character.modHealth(hpMod);
 		character.modMgicka(manaMod);
 		character.modAttributes(attMod);
+	}
+	
+	public void setTime(int timeInMillis)
+	{
+	    time = timeInMillis;
+	}
+	
+	public int getTime()
+	{
+	    return time;
 	}
 	/**
 	 * Returns effect UI icon

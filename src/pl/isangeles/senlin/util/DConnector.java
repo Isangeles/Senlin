@@ -73,6 +73,7 @@ import pl.isangeles.senlin.dialogue.DialoguePart;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 import pl.isangeles.senlin.util.parser.ItemParser;
+import pl.isangeles.senlin.util.parser.NpcParser;
 import pl.isangeles.senlin.util.parser.ObjectParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
@@ -114,72 +115,11 @@ public final class DConnector
 			//Iterates over all nodes inside npcs node
 			if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
-				try
-				{
-					Element npc = (Element)npcNode;
-					String id = npc.getAttribute("id");
-					String attitude = npc.getAttribute("attitude");
-					boolean trade = Boolean.parseBoolean(npc.getAttribute("trade"));
-					boolean train = Boolean.parseBoolean(npc.getAttribute("train"));
-					int guildID = Integer.parseInt(npc.getAttribute("guild"));
-					int level = Integer.parseInt(npc.getAttribute("level"));
-					NpcPattern npcP;
-					
-					String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
-					String portraitName = npc.getElementsByTagName("portrait").item(0).getTextContent();
-					String spritesheet = npc.getElementsByTagName("spritesheet").item(0).getTextContent();
-					
-					NodeList npcNodes = npcNode.getChildNodes();
-					Node eqNode = npcNodes.item(1);
-					Element eq = (Element)npcNodes;
-					
-					String head = eq.getElementsByTagName("head").item(0).getTextContent();
-					String chest = eq.getElementsByTagName("chest").item(0).getTextContent();
-					String hands = eq.getElementsByTagName("hands").item(0).getTextContent();
-					String mainHand = eq.getElementsByTagName("mainhand").item(0).getTextContent();
-					String offHand = eq.getElementsByTagName("offhand").item(0).getTextContent();
-					String feet = eq.getElementsByTagName("feet").item(0).getTextContent();
-					String neck = eq.getElementsByTagName("neck").item(0).getTextContent();
-					String fingerA = eq.getElementsByTagName("finger1").item(0).getTextContent();
-					String fingerB = eq.getElementsByTagName("finger2").item(0).getTextContent();
-					String artifact = eq.getElementsByTagName("artifact").item(0).getTextContent();
-					
-					Element in = (Element)eq.getElementsByTagName("in").item(0);
-					int gold = Integer.parseInt(in.getAttribute("gold"));
-					
-					List<RandomItem> itemsIn = new LinkedList<>();
-					
-					for(int j = 0; j < in.getElementsByTagName("item").getLength(); j ++)
-					{
-						Element itemNode = (Element)in.getElementsByTagName("item").item(j);
-						boolean ifRandom = Boolean.parseBoolean(itemNode.getAttribute("random"));
-						String itemInId = itemNode.getTextContent();
-						RandomItem ip = new RandomItem(itemInId, ifRandom);
-						itemsIn.add(ip);
-					}
-					
-					Node skillsNode = npc.getElementsByTagName("skills").item(0);
-					NodeList skillList = skillsNode.getChildNodes();
-					List<String> skills = new ArrayList<>();
-					for(int j = 0; j < skillList.getLength(); j++)
-					{
-						Node skillNode = skillList.item(j);
-						if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							Element skillE = (Element)skillNode;
-							skills.add(skillE.getTextContent());
-						}
-					}
-					
-					npcP = new NpcPattern(id, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
-										  neck, fingerA, fingerB, artifact, spritesheet, portraitName, gold, itemsIn, skills);
-					npcMap.put(id, npcP);
-				}
-				catch(NumberFormatException e)
-				{
-					Log.addSystem("npc_base_parser_fail msg///npc node corrputed");
-					break;
-				}
+				NpcPattern npcp = NpcParser.getNpcFromNode(npcNode);
+				if(npcp == null)
+				    break;
+				else
+				    npcMap.put(npcp.getId(), npcp);
 			}
 		}
 		

@@ -90,6 +90,7 @@ public class Character implements Targetable, ObjectiveTarget
 	private Portrait portrait;
 	private boolean live;
 	private boolean trade;
+	private boolean train;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -178,6 +179,21 @@ public class Character implements Targetable, ObjectiveTarget
 			levelUp();
 		}
 	}
+	
+	public void setHealth(int value)
+	{
+	    health = value;
+	}
+	
+	public void setMagicka(int value)
+	{
+	    magicka = value;
+	}
+	
+	public void setExperience(int value)
+	{
+	    experience = value;
+	}
 	/**
 	 * Sets specific portrait from portrait catalog to character 
 	 * @param img
@@ -185,11 +201,8 @@ public class Character implements Targetable, ObjectiveTarget
 	public void setPortrait(Portrait img)
 	{
 	    portrait = img;
-	    String[] path = portrait.getResourceReference().split(File.separator);
-	    if(path.length >= 0)
-	    {
-	    	portrait.setName(path[path.length-1]);
-	    }
+	    File fileForName = new File(portrait.getResourceReference());
+	    portrait.setName(fileForName.getName());
 	}
 	/**
 	 * Sets character name
@@ -235,6 +248,17 @@ public class Character implements Targetable, ObjectiveTarget
 		destPoint[0] = x;
 		destPoint[1] = y;
 	}
+	/**
+     * Instantly sets character position
+     * @param pos XY position
+     */
+    public void setPosition(Position pos)
+    {
+        position[0] = pos.x;
+        position[1] = pos.y;
+        destPoint[0] = pos.x;
+        destPoint[1] = pos.y;
+    }
 	/**
 	 * Sets item as one of character weapon
 	 * @param weapon Any item that can be casted to weapon
@@ -293,6 +317,7 @@ public class Character implements Targetable, ObjectiveTarget
     		if(!dialogue.isReqFlag())
     			dialogue.addOption(new Answer("tradeReq", "", true));
     	}
+    	trade = true;
     }
     /**
      * 
@@ -317,6 +342,7 @@ public class Character implements Targetable, ObjectiveTarget
     		if(!dialogue.isReqFlag())
     			dialogue.addOption(new Answer("trainReq", "", true));
     	}
+    	train = true;
     }
 	/**
 	 * Removes specific item from equipment
@@ -956,10 +982,14 @@ public class Character implements Targetable, ObjectiveTarget
 	{
 	    attitudeMem.put(character, attitude);
 	}
-	
+	/**
+	 * Makes the character speaks specified text
+	 * @param what String with text to say
+	 */
 	public void speak(String what)
 	{
 	    avatar.speak(what);
+        Log.addSpeech(name, what);
 	}
 	@Override
 	public void setTarget(Targetable target)
@@ -971,7 +1001,13 @@ public class Character implements Targetable, ObjectiveTarget
 	{
 		return target;
 	}
-	
+	/**
+	 * Checks if specified position is 'moveable' on map 
+	 * @param x Position on x axis
+	 * @param y Position on y axis
+	 * @param map Tiled map on which player is located
+	 * @return
+	 */
 	private boolean isMovable(int x, int y, TiledMap map)
 	{
 	    if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || 
@@ -980,7 +1016,11 @@ public class Character implements Targetable, ObjectiveTarget
         
         return true;
 	}
-	
+	/**
+	 * Parses character to XML document element for game save file
+	 * @param doc Document for game save
+	 * @return XML document element 
+	 */
 	public Element getSave(Document doc)
 	{	
 		Element charE = doc.createElement("character");
@@ -988,6 +1028,8 @@ public class Character implements Targetable, ObjectiveTarget
 		charE.setAttribute("attitude", this.attitude.toString());
 		charE.setAttribute("guild", this.guild.getId());
 		charE.setAttribute("level", this.level+"");
+        charE.setAttribute("trade", this.trade+"");
+		charE.setAttribute("train", this.train+"");
 		
 		Element statsE = doc.createElement("stats");
 		statsE.setTextContent(attributes.toLine());
@@ -1003,6 +1045,7 @@ public class Character implements Targetable, ObjectiveTarget
 		
 		charE.appendChild(inventory.getSave(doc));
 		charE.appendChild(abilities.getSave(doc));
+		charE.appendChild(effects.getSave(doc));
 		charE.appendChild(quests.getSave(doc));
 		
 		Element flagsE = doc.createElement("flags");
@@ -1029,6 +1072,10 @@ public class Character implements Targetable, ObjectiveTarget
 		Element nameE = doc.createElement("name");
 		nameE.setTextContent(name);
 		charE.appendChild(nameE);
+		
+		Element positionE = doc.createElement("position");
+		positionE.setTextContent(new Position(position).toString());
+		charE.appendChild(positionE);
 		
 		return charE;
 	}

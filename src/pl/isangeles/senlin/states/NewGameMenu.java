@@ -72,8 +72,8 @@ public class NewGameMenu extends BasicGameState
 	private Button buttNext;
 	private Button buttBack;
 	
-	boolean mainMenuReq;
-	boolean gameWorldReq;
+	private boolean mainMenuReq;
+	private boolean gameWorldReq;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException 

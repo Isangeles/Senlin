@@ -101,7 +101,11 @@ public class Abilities extends LinkedList<Skill>
 		
 		return false;
 	}
-	
+	/**
+	 * Parses all skills to XML document element
+	 * @param doc Document for game save file
+	 * @return XML document element
+	 */
 	public Element getSave(Document doc)
 	{	
 		Element skillsE = doc.createElement("skills");

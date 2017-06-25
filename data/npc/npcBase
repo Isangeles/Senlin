@@ -22,6 +22,8 @@
     </eq>
     <skills>
     </skills>
+    <effects>
+    </effects>
 </npc>
 <npc id="ericP01" attitude="friendly" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -43,6 +45,8 @@
     </eq>
     <skills>
     </skills>
+    <effects>
+    </effects>
 </npc>
 <npc id="kianP01" attitude="friendly" trade="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -66,6 +70,8 @@
     </eq>
     <skills>
     </skills>
+    <effects>
+    </effects>
 </npc>
 <npc id="ewanP01" attitude="friendly" train="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -88,5 +94,7 @@
     <skills>
 	<skill>slash</skill>
     </skills>
+    <effects>
+    </effects>
 </npc>
 </base>

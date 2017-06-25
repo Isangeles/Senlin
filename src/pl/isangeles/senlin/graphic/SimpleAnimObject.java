@@ -38,9 +38,9 @@ public class SimpleAnimObject extends GameObject
 	private Animation anim;
 	/**
 	 * SimpleAnimObject constructor
-	 * @param is
-	 * @param ref
-	 * @param flipped
+	 * @param is InputStream to sprite sheet file
+	 * @param ref Name for sprite sheet
+	 * @param flipped If sprite sheet should be flipped
 	 * @throws SlickException
 	 */
 	public SimpleAnimObject(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames) throws SlickException 
@@ -80,7 +80,10 @@ public class SimpleAnimObject extends GameObject
 	{
 		anim.draw(x ,y, (anim.getCurrentFrame().getWidth() * getScale())*scale, (anim.getCurrentFrame().getHeight() * getScale())*scale);
 	}
-	
+	/**
+	 * Returns object ID
+	 * @return String with object ID
+	 */
 	public String getId()
 	{
 		return id;

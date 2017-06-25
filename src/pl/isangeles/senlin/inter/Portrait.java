@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.inter;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.newdawn.slick.GameContainer;
@@ -33,7 +34,7 @@ public class Portrait extends InterfaceObject
 
 	public Portrait(String pathToTex, GameContainer gc) throws SlickException, FileNotFoundException 
 	{
-		super(pathToTex,gc);
+		super(pathToTex, gc);
 	}
 	
 	public Portrait(Image image, GameContainer gc) throws FileNotFoundException

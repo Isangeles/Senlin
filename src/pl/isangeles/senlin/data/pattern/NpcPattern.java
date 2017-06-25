@@ -25,6 +25,7 @@ package pl.isangeles.senlin.data.pattern;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.newdawn.slick.GameContainer;
@@ -32,6 +33,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -40,6 +42,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Attitude;
 /**
  * Class for NPC patterns used to create specific NPC by NpcBase class
@@ -71,6 +74,7 @@ public class NpcPattern
 	private final int gold;
 	private final List<RandomItem> invItems;
 	private final List<String> skills;
+	private final Map<String, Integer> effects;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId NPC id
@@ -92,7 +96,7 @@ public class NpcPattern
 	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
 					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
-					  String portraitName, int gold, List<RandomItem> invItems, List<String> skills) 
+					  String portraitName, int gold, List<RandomItem> invItems, List<String> skills, Map<String, Integer> effects) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -130,7 +134,16 @@ public class NpcPattern
 		this.gold = gold;
 		this.invItems = invItems;
 		this.skills = skills;
+		this.effects = effects;
 	}
+	/**
+	 * Returns ID of NPC from this pattern
+	 * @return String with NPC pattern
+	 */
+    public String getId()
+    {
+        return npcId;
+    }
 	/**
 	 * Creates new character from all pattern fields
 	 * @param gc Slick game container
@@ -142,6 +155,7 @@ public class NpcPattern
 	public Character make(GameContainer gc) throws IOException, FontFormatException, SlickException
 	{
 		Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
+		portrait.setName(portraitName);
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
 		Character npc = new Character(npcId, npcAttitude, guildID, npcName, level,
@@ -196,7 +210,14 @@ public class NpcPattern
 		{
 			npc.addSkill(SkillsBase.getSkill(npc, skillId));
 		}
+		for(String effectId : effects.keySet())
+		{
+		    Effect effect = EffectsBase.getEffect(effectId);
+		    effect.setTime(effects.get(effectId));
+		    npc.getEffects().add(effect);
+		}
 		
 		return npc;
 	}
+	
 }

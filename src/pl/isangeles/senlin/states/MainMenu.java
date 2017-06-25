@@ -37,6 +37,7 @@ public class MainMenu extends BasicGameState
 		   	       buttExit;
     private boolean closeReq;
     private boolean newGameReq;
+    private boolean loadGameReq;
     private boolean settingsReq;
     private AudioPlayer menuMusic;
 
@@ -82,6 +83,11 @@ public class MainMenu extends BasicGameState
     	    newGameReq = false;
     		game.enterState(1); 
     	}
+    	if(loadGameReq)
+    	{
+    	    loadGameReq = false;
+    	    game.enterState(4);
+    	}
     	if(settingsReq)
     	{
     		settingsReq = false;
@@ -100,12 +106,17 @@ public class MainMenu extends BasicGameState
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if(buttNewGame.isMouseOver())
-    		newGameReq = true;
-    	if(button == Input.MOUSE_LEFT_BUTTON && buttOptions.isMouseOver())
-    		settingsReq = true;
-    	if(buttExit.isMouseOver())
-    		closeReq = true;
+    	if(button == Input.MOUSE_LEFT_BUTTON)
+    	{
+    	    if(buttNewGame.isMouseOver())
+                newGameReq = true;
+    	    if(buttLoadGame.isMouseOver())
+    	        loadGameReq = true;
+            if(buttOptions.isMouseOver())
+                settingsReq = true;
+            if(buttExit.isMouseOver())
+                closeReq = true;
+    	}
     }
 
 }

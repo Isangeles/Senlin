@@ -109,7 +109,9 @@ public class Scenario
 		this.exits = exits;
 		this.mobsAreas = mobsAreas;
 	}
-	
+	/**
+	 * Draws all scenario objects
+	 */
 	public void drawObjects()
 	{
 		for(SimpleGameObject object : objects)
@@ -141,7 +143,10 @@ public class Scenario
 	{
 		return npcs;
 	}
-	
+	/**
+	 * Returns all scenario objects
+	 * @return List with scenario SimpleGameObjects
+	 */
 	public List<SimpleGameObject> getObjects()
 	{
 		return objects;
@@ -158,21 +163,25 @@ public class Scenario
 		}
 	}
 	
+	public void setNpcs(List<Character> npcs)
+	{
+	    this.npcs = npcs;
+	}
+	
+	public void setObjects(List<SimpleGameObject> objects)
+	{
+	    this.objects = objects;
+	}
+	/**
+	 * Parses all scenario objects to XML document element
+	 * @param doc Document for game save
+	 * @return XML document element
+	 */
 	public Element getSave(Document doc)
 	{
 		Element scenarioE = doc.createElement("scenario");
 		scenarioE.setAttribute("id", id);
 		scenarioE.setAttribute("map", mapFileName);
-		
-		Element npcsE = doc.createElement("npcs");
-		for(Character npc : npcs)
-		{
-			Element npcE = doc.createElement("npc");
-			npcE.setAttribute("position", new Position(npc.getPosition()).toString());
-			npcE.setTextContent(npc.getId());
-			npcsE.appendChild(npcE);
-		}
-		scenarioE.appendChild(npcsE);
 		
 		Element objectsE = doc.createElement("objects");
 		for(SimpleGameObject object : objects)

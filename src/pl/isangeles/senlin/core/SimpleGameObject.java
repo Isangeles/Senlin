@@ -29,6 +29,7 @@ import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.Position;
 
 /**
+ * Class for simple game objects
  * @author Isangeles
  *
  */
@@ -37,7 +38,10 @@ public class SimpleGameObject implements Targetable
 	private String id;
     private SimpleAnimObject texture;
     private Position pos;
-    
+    /**
+     * Simple game object constructor 
+     * @param texture Graphical representation of object
+     */
     public SimpleGameObject(SimpleAnimObject texture)
     {
         this.texture = texture;
