@@ -189,6 +189,13 @@ public class GameWorld extends BasicGameState
 				Log.addSystem("save_maker_fail_msg///" + e.getMessage());
 			}
     	}
+    	if(ui.takeLoadReq() == true)
+    	{
+    	   game.addState(new LoadingScreen(ui.getLoadName()));
+    	   game.getState(4).init(container, game);
+    	   System.gc();
+    	   game.enterState(4);
+    	}
     	if(ui.isExitReq())
     		container.exit();
     }

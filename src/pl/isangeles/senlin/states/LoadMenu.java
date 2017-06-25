@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -47,6 +48,7 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public class LoadMenu extends BasicGameState
 {
+    private Image bg;
     private Button backB;
     private Button loadB;
     private Button upB;
@@ -71,10 +73,11 @@ public class LoadMenu extends BasicGameState
     {
         try
         {
-            backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSaveGWinSave", false, "back", container);
-            loadB = new Button(GConnector.getInput("button/buttonS.png"), "uiSaveGWinExit", false, "load", container);
-            upB = new Button(GConnector.getInput("button/buttonUp.png"), "uiSaveGWinUp", false, "", container);
-            downB = new Button(GConnector.getInput("button/buttonDown.png"), "uiSaveGWinDown", false, "", container);
+            bg = new Image(GConnector.getInput("field/messageBG.png"), "loadMenuBg", false);
+            backB = new Button(GConnector.getInput("button/buttonS.png"), "loadMenuBack", false, "back", container);
+            loadB = new Button(GConnector.getInput("button/buttonS.png"), "loadMenuLoad", false, "load", container);
+            upB = new Button(GConnector.getInput("button/buttonUp.png"), "loadMenuUp", false, "", container);
+            downB = new Button(GConnector.getInput("button/buttonDown.png"), "loadMenuDown", false, "", container);
             
             saveSlots = new ArrayList<>();
             for(int i = 0; i < 10; i ++)
@@ -97,17 +100,20 @@ public class LoadMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
-        loadB.draw(310, 460, true);
-        backB.draw(20, 460, true);
-        upB.draw(355, 25, true);
-        downB.draw(355, 425, true);
+        float bgX = Coords.getX("CE", -400);
+        float bgY = Coords.getY("CE", -250);
+        bg.draw(bgX, bgY, Coords.getSize(800), Coords.getDis(500));
+        loadB.draw(bgX+Coords.getDis(700), bgY+Coords.getDis(460), false);
+        backB.draw(bgX+Coords.getDis(20), bgY+Coords.getDis(460), false);
+        upB.draw(bgX+Coords.getDis(700), bgY+Coords.getDis(25), false);
+        downB.draw(bgX+Coords.getDis(700), bgY+Coords.getDis(425), false);
         
-        float firstSlotX = 15;
-        float firstSlotY = 40;
+        float firstSlotX = bgX+Coords.getDis(300);
+        float firstSlotY = bgY+Coords.getDis(20);
         int row = 0;
         for(SaveSlot slot : saveSlots)
         {
-            slot.draw(firstSlotX, firstSlotY + ((slot.getScaledHeight() + 10) * row), true);
+            slot.draw(firstSlotX, firstSlotY + ((slot.getScaledHeight() + 10) * row), false);
             row ++;
         }
     }

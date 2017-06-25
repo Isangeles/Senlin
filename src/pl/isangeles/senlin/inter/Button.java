@@ -108,6 +108,20 @@ public class Button extends InterfaceObject implements MouseListener
         super.drawString(label, ttf);
     }
     
+    @Override
+    public void draw(float x, float y, Color color, boolean scaledPos)
+    {
+
+        if(!isClicked && active)
+            super.draw(x, y, color, scaledPos);
+        else
+            super.draw(x, y, clickColor, scaledPos);
+        
+        moveMOA(super.x, super.y);
+        
+        super.drawString(label, ttf);
+    }
+    
     public boolean clicked()
     {
     	return isClicked;

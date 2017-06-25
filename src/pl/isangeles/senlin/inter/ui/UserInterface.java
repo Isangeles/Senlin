@@ -61,6 +61,7 @@ public class UserInterface implements MouseListener
     private DialogBox dialogue;
     private CastBar cast;
     private SaveGameWindow save;
+    private LoadGameWindow load;
     private Warning uiWarning;
     /**
      * UI constructor, calls all UI elements constructors
@@ -89,6 +90,7 @@ public class UserInterface implements MouseListener
         dialogue = new DialogBox(gc);
         cast = new CastBar(gc, player);
         save = new SaveGameWindow(gc);
+        load = new LoadGameWindow(gc);
         uiWarning = new Warning(gc, "");
     }
     /**
@@ -138,6 +140,9 @@ public class UserInterface implements MouseListener
         if(save.isOpenReq())
         	save.draw(Coords.getX("CE", -100), Coords.getY("CE", -100), g);
         
+        if(load.isOpenReq())
+            load.draw(Coords.getX("CE", -100), Coords.getY("CE", -100), g);
+        
         if(igMenu.isResumeReq() || !bBar.isMenuReq())
         {
         	hideMenu();
@@ -169,6 +174,11 @@ public class UserInterface implements MouseListener
     		save.open();
     		hideMenu();
     	}
+    	if(igMenu.isLoadReq())
+    	{
+    	    load.open();
+    	    hideMenu();
+    	}
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
@@ -182,6 +192,7 @@ public class UserInterface implements MouseListener
         train.update();
         dialogue.update();
         save.update();
+        load.update();
         gameConsole.update();
     }
     /**
@@ -192,7 +203,7 @@ public class UserInterface implements MouseListener
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
     		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
-    		   save.isMouseOver();
+    		   save.isMouseOver() || load.isMouseOver();
     }
     /**
      * Checks if exit game is requested
@@ -216,9 +227,19 @@ public class UserInterface implements MouseListener
     	return save.takeSaveReq();
     }
     
+    public boolean takeLoadReq()
+    {
+        return load.takeLoadReq();
+    }
+    
     public String getSaveName()
     {
     	return save.getSaveName();
+    }
+    
+    public String getLoadName()
+    {
+        return load.getSaveName();
     }
 	@Override
 	public void inputEnded()

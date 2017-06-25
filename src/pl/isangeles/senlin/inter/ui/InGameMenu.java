@@ -54,6 +54,8 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	
 	private boolean resumeReq;
 	private boolean saveReq;
+	private boolean loadReq;
+	private boolean settingsReq;
 	private boolean exitReq;
 	/**
 	 * In-game menu constructor
@@ -137,6 +139,16 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		return saveReq;
 	}
+	
+	public boolean isLoadReq()
+	{
+	    return loadReq;
+	}
+	
+	public boolean isSettingsReq()
+	{
+	    return settingsReq;
+	}
 	/**
 	 * Resets menu to default state
 	 */
@@ -144,6 +156,8 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		resumeReq = false;
 		saveReq = false;
+		loadReq = false;
+		settingsReq = false;
 		exitReq = false;
 		menuWarning.close();
 		menuMOA.setLocation(Coords.getX("BR", 0), Coords.getY("BR", 0));
@@ -152,6 +166,16 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	public void saveReq(boolean saveReq)
 	{
 		this.saveReq = saveReq;
+	}
+	
+	public void loadReq(boolean loadReq)
+	{
+	    this.loadReq = loadReq;
+	}
+	
+	public void settingsReq(boolean settingsReq)
+	{
+	    this.settingsReq = settingsReq;
 	}
 
 	@Override
@@ -209,6 +233,10 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 				resumeReq = true;
 			if(save.isMouseOver())
 				saveReq = true;
+			if(load.isMouseOver())
+			    loadReq = true;
+			if(settings.isMouseOver())
+			    settingsReq = true;
 		}
 	}
 
