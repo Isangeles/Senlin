@@ -15,6 +15,9 @@
  <tileset firstgid="724" name="ruins" tilewidth="32" tileheight="32" tilecount="378">
   <image source="tile/camp/ruins.png" width="600" height="700"/>
  </tileset>
+ <tileset firstgid="1102" name="flora1" tilewidth="32" tileheight="32" tilecount="240">
+  <image source="tile/fomeFlora.png" width="640" height="400"/>
+ </tileset>
  <layer name="terrainA" width="70" height="50">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
@@ -22,7 +25,7 @@
  </layer>
  <layer name="terrainB" width="70" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3UuwrCQBQE0CWVYqHYRBsFBdGAj///OkewsEjSyz0HprlbzRTbGgAAwH+6dq3duvG33cS9gme6v0b6H3I7zuyyKrzZZab7tvAuv07Z4ZwskmWyL7zLPd0f3/6fP2hI1smm8CZTepsAAAAAAAAAAEA5b7vPDsWwNgAA
+   H4sIAAAAAAAAA+VaWW7VMBSNygsCigTipy0fLQIJQaGlDAthkmABTBIsgEnAP0MR9Jt5B4xbgFVxIsWS5d7ra8eOn2Mf6ShN/Nz43pzj6wxNkxY3Zk1zc8a3X0bbFfAqeA28bvmtjof43SPwMfgEfOrYj+ufGvdxzgfaec083cLft8E74F3wntbG5ewltq/A1+AbcBt86xEb1T8FVOzPwOfgC+28Zp5s153K2QfwI/gJ/Ax+Ab+C3xxj4/qngIr9Hfge3OnPa+ZJuu5czr5j+wP8Cf4Cf4N/PGKj+o8NSiNKP3qepOvu4pW/2P8XEFNofx+YGulgekeBu+6hXpkCKP2YoK5bqFdyB6UfH0h1vlZwHqwZLh6sEaEerBGnFprm9ALdtswcp1Da/HUOsW8R8a/i2JolL4tGW03z10lLXo70bUontc5fx5GHE+A+cD+40udF6cRn/hp67x8TIWPYQOybffzdHLQOHgIP98eG1jnbvX8qxB7DkuatoXUu9JlPDIw5BkmLVHvoM58YsI0hhsclLZrtOdzHSmOI4S9Ji1R7DvextjHYYnLRkuQHqT3lMxsO5hikMUtakrSYg1984TJml7la8kMOfvGFbcw+9cKlHimtzmv9NgSmv3z171uP5rF+iwUf/Q+pR1OF8obSEqf90Ho0Nbhov8R6JMFV+yXWIw5DtC+tz3JYv4VgiPZzeI6SAr7aL6kOu8BV+yXV4VgorQ7HQIl1OBbGqMMlvYOKWYdregflCu7dQkkacoUeM/duoUYNSd+Y1vgdhss3plP5DuNA2zSL4ME2/H/ZvjHNaU7Zg1hnYAvubXfvd1jFdg08FiEvCtQ3ptScMq9cLSHWZXAFPNru3j8PXgAvgpci5sXMATenpJh/TS2sg2fAs+AGuEnsd6B8FOItKgfUnJJq/jW1QMHVRyHekuZVymNjgdJGBzMPLj4ay1sKOaxdzDyYueP8ErNG6chh7cJpSAfnlzFqVIcprF04v1DH/wODZ8+PsDYAAA==
   </data>
  </layer>
  <layer name="terrainC" width="70" height="50">

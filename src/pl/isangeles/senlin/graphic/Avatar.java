@@ -50,34 +50,34 @@ import pl.isangeles.senlin.util.*;
  */
 public class Avatar implements MouseListener
 {
-	private AnimObject torso;
+	protected AnimObject torso;
 	private AnimObject head;
 	private AnimObject weapon;
 	
 	private AnimObject defTorso;
 	private AnimObject defHead;
 	
-	private MouseOverArea avMOA;
-	private InfoWindow avName;
-	private InfoWindow speakWindow;
+	protected MouseOverArea avMOA;
+	protected InfoWindow avName;
+	protected InfoWindow speakWindow;
 	
-	private Character character;
+	protected Character character;
 	
-	private Sprite hostileT;
-	private Sprite neutralT;
-	private Sprite friendlyT;
-	private Sprite deadT;
-	private Sprite target;
+	protected Sprite hostileT;
+	protected Sprite neutralT;
+	protected Sprite friendlyT;
+	protected Sprite deadT;
+	protected Sprite target;
 	
-	private TrueTypeFont ttf;
+	protected TrueTypeFont ttf;
 	
-	private boolean isMove;
-	private boolean isTargeted;
-	private boolean isSpeaking;
-	private int speechTime;
+	protected boolean isMove;
+	protected boolean isTargeted;
+	protected boolean isSpeaking;
+	protected int speechTime;
 	
-	private Skill usedSkill;
-	private boolean useSkill;
+	protected Skill usedSkill;
+	protected boolean useSkill;
 	/**
 	 * Character avatar constructor
 	 * @param character Character to represent by avatar
@@ -95,9 +95,17 @@ public class Avatar implements MouseListener
 		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
 		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
 		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
-		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 60, 70);
-		defTorso.setName(spritesheet);
-		defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-60x70.png"), "headBlackSS", false, 60, 70);
+		if(isStatic())
+		{
+			defTorso = new AnimObject(GConnector.getInput("sprite/mob/"+spritesheet), spritesheet, false, 60, 70);
+			defTorso.setName(spritesheet);
+		}
+		else
+		{
+			defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 60, 70);
+			defTorso.setName(spritesheet);
+			defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-60x70.png"), "headBlackSS", false, 60, 70);
+		}
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -381,9 +389,17 @@ public class Avatar implements MouseListener
 	{
 	}
 	/**
+	 * Checks if avatar is static
+	 * @return True if avatar is static, false otherwise
+	 */
+	public boolean isStatic()
+	{
+		return false;
+	}
+	/**
 	 * Sets color of target circle based on character attitude
 	 */
-	private void setTargetSprite()
+	protected void setTargetSprite()
 	{
 		switch(character.getAttitudeTo(Global.getPlayer()))
 		{

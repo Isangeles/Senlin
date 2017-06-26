@@ -36,9 +36,7 @@ public class Effects extends ArrayList<Effect>
 {
 	private static final long serialVersionUID = 1L;
 
-	public Effects() 
-	{
-	}
+	public Effects(){}
 	/**
 	 * Updates all effects in container
 	 * @param delta Time (in milliseconds) from last update

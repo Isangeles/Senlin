@@ -91,6 +91,11 @@ public class Settings
     	return "1920x1080;1600x800;1280x720";
     }
     
+    public static String getLangList()
+    {
+    	return "english;polish";
+    }
+    
     public static String getFowTypes()
     {
     	return "light FOW;full FOW";

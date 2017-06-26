@@ -48,6 +48,22 @@ public abstract class InterfaceObject extends Image
         iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
+     * Object constructor with custom MOA size that uses raw path(outside graphical archive)
+     * @param pathToTex Path to image file
+     * @param gc Slick game container
+     * @param moaWidth MouseOverArea width
+     * @param moaHeight MouseOverArea height
+     * @throws SlickException
+     * @throws FileNotFoundException 
+     */
+    protected InterfaceObject(String pathToTex, int moaWidth, int moaHeight, GameContainer gc) throws SlickException, FileNotFoundException
+    {
+        super(pathToTex);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
+    }
+    /**
      * Object constructor that uses another image
      * @param image Slick image object
      * @param gc Slick game container
@@ -59,6 +75,21 @@ public abstract class InterfaceObject extends Image
         this.gc = gc;
         setProportion();
         iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
+    }
+    /**
+     * Object with custom MOA size constructor that uses another image
+     * @param image Slick image object
+     * @param gc Slick game container
+     * @param moaWidth MouseOverArea width
+     * @param moaHeight MouseOverArea height
+     * @throws FileNotFoundException
+     */
+    protected InterfaceObject(Image image, int moaWidth, int moaHeight, GameContainer gc) throws FileNotFoundException
+    {
+    	super(image);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
     }
     /**
      * Constructor for interface object without info window, implicitly scales object for current resolution
@@ -90,6 +121,28 @@ public abstract class InterfaceObject extends Image
     protected InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String textForInfo) throws SlickException, IOException, FontFormatException
     {
     	this(fileInput, ref, flipped, gc);
+    	isInfo = true;
+    	info = new InfoWindow(gc, textForInfo);
+    }
+    /**
+     * Constructor for interface object with info window and custom MOA size, implicitly scales object for current resolution
+     * @param fileInput in - The input stream to read the image from
+     * @param ref The name that should be assigned to the image
+     * @param flipped True if the image should be flipped on the y-axis on load
+     * @param gc GameContainer for mouse position 
+     * @param textForInfo Text for info window to display
+     * @param moaWidth MouseOverArea width
+     * @param moaHeight MouseOverArea height
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    protected InterfaceObject(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String textForInfo, int moaWidth, int moaHeight) throws SlickException, IOException, FontFormatException
+    {
+    	super(fileInput, ref, flipped);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     }

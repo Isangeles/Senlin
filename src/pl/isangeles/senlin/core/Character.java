@@ -59,6 +59,7 @@ import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.graphic.StaticAvatar;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.quest.Journal;
 import pl.isangeles.senlin.quest.ObjectiveTarget;
@@ -136,7 +137,7 @@ public class Character implements Targetable, ObjectiveTarget
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, GameContainer gc) 
+	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
@@ -146,7 +147,10 @@ public class Character implements Targetable, ObjectiveTarget
 		this.attributes = atributes;
 		this.portrait = portrait;
 		live = true;
-		avatar = new Avatar(this, gc, spritesheet);
+		if(staticAvatar)
+			avatar = new StaticAvatar(this, gc, spritesheet);
+		else
+			avatar = new Avatar(this, gc, spritesheet);
 		inventory = new Inventory();
 		abilities = new Abilities();
 		addLevel(level);
@@ -814,7 +818,6 @@ public class Character implements Targetable, ObjectiveTarget
 			for(Effect effect : attackEffects)
 			{
 				effect.turnOn(this);
-				effects.add(effect);
 			}
 		}
 	}
@@ -935,7 +938,7 @@ public class Character implements Targetable, ObjectiveTarget
     	Log.addInformation(name + ": " + value + " " + TConnector.getText("ui", "hpName"));
     }
     
-    public void modMgicka(int value)
+    public void modMagicka(int value)
     {
     	maxMagicka += value;
     }
@@ -1040,6 +1043,7 @@ public class Character implements Targetable, ObjectiveTarget
 		charE.appendChild(portraitE);
 		
 		Element spritesheetE = doc.createElement("spritesheet");
+		spritesheetE.setAttribute("static", avatar.isStatic()+"");
 		spritesheetE.setTextContent(avatar.getDefTorso().getName());
 		charE.appendChild(spritesheetE);
 		

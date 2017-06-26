@@ -13,6 +13,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import pl.isangeles.senlin.inter.Bar;
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Targetable;
@@ -70,9 +71,9 @@ class CharacterFrame extends InterfaceObject
     public void draw(float x, float y)
     {
         super.draw(x, y);
-        character.getPortrait().draw(x+40, y+9, 95f, 130f);
+        character.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f));
         textTtf.drawString(super.x+getDis(150), super.y+getDis(15), character.getName());
-        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), "Level:" + character.getLevel());
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + character.getLevel());
         health.draw(x+139, y+36);
         magicka.draw(x+139, y+62);
         experience.draw(x+139, y+88);

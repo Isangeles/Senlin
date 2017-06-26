@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.item.ErrorItem;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
+import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.TrinketPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.util.DConnector;
@@ -51,6 +52,7 @@ public class ItemsBase
 	public static Map<String, WeaponPattern> weaponsMap;
 	public static Map<String, ArmorPattern> armorsMap;
 	public static Map<String, TrinketPattern> trinketsMap;
+	public static Map<String, MiscPattern> miscMap;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
@@ -83,6 +85,9 @@ public class ItemsBase
 			
 			if(trinketsMap.get(id) != null)
 				return null; //TODO write trinket builder
+			
+			if(miscMap.get(id) != null)
+				return miscMap.get(id).make(gc);
 			
 			return new ErrorItem(id, gc);
 		}
@@ -122,9 +127,9 @@ public class ItemsBase
 	public static void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
 	{
 		ItemsBase.gc = gc;
-		//weapons = DConnector.getWeaponBase("weaponBase", gc); //UNUSED
 		weaponsMap = DConnector.getWeapons("weaponsBase");
 		armorsMap = DConnector.getArmors("armorBase");
 		trinketsMap = DConnector.getTrinkets("trinketsBase");
+		miscMap = DConnector.getMisc("miscBase");
 	}
 }

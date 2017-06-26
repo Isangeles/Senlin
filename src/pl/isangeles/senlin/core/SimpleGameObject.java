@@ -236,4 +236,34 @@ public class SimpleGameObject implements Targetable
         return false;
     }
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#modHealth(int)
+	 */
+	@Override
+	public void modHealth(int value) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#modMagicka(int)
+	 */
+	@Override
+	public void modMagicka(int value) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#modAttributes(pl.isangeles.senlin.core.Attributes)
+	 */
+	@Override
+	public void modAttributes(Attributes attributes)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

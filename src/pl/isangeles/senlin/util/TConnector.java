@@ -66,7 +66,17 @@ public final class TConnector
 	 */
 	public static String[] getInfo(String langFile, String id)
 	{
-		return getText(langFile, id).split(";");
+		String[] nameAndInfo = new String[]{"", ""};
+		try
+		{
+			nameAndInfo[0] = getText(langFile, id).split(";")[0];
+			nameAndInfo[1] = getText(langFile, id).split(";")[1];
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.addSystem("tc_get_info_fail_msg///No name or info in " + langFile + " for: " + id);
+		}
+		return nameAndInfo;
 	}
 	/**
 	 * Returns random text from "random" file in data/lang directory

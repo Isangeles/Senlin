@@ -76,7 +76,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 		exit = new Button(GConnector.getInput("ui/button/buttonMenuSmall.png"), "buttIGM", false, TConnector.getText("menu", "exitName"), gc);
 		
 		menuMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
-		menuWarning = new Warning(gc, "");
+		menuWarning = new Warning(gc);
 	}
 	/**
 	 * Draws menu
@@ -95,8 +95,8 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 		
 		menuMOA.setLocation(super.x, super.y);
 		
-		if(exitReq)
-			menuWarning.show(TConnector.getText("menu", "warnConf"));
+		if(menuWarning.isOpen())
+			menuWarning.draw();
 		if(!menuWarning.isUndecided() && menuWarning.isCancel())
 		{
 			exitReq = false;
@@ -227,7 +227,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 			if(exit.isMouseOver())
 			{
 				exitReq = true;
-				menuWarning.open();
+				menuWarning.show(TConnector.getText("menu", "warnConf"));
 			}
 			if(resume.isMouseOver())
 				resumeReq = true;

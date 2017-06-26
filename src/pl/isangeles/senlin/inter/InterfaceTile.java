@@ -9,6 +9,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+
+import pl.isangeles.senlin.util.Coords;
 /**
  * Base class for graphical representations of skills, items, etc. in UI   
  * @author Isangeles
@@ -35,7 +37,7 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	public InterfaceTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(fileInput, ref+counter, flipped, gc, info);
+		super(fileInput, ref+counter, flipped, gc, info, (int)Coords.getSize(45), (int)Coords.getSize(40));
 		gameInput = gc.getInput();
 		gameInput.addMouseListener(this);
         clickColor = new Color(73, 73, 73);
@@ -53,6 +55,7 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 			super.draw(x, y, 45f, 40f, scaledPos);
 		else
 			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, scaledPos);
+		
 	}
 	@Override
 	public void draw(float x, float y, Color filter, boolean scaledPos)

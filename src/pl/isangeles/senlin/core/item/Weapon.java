@@ -7,9 +7,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.graphic.AnimObject;
+import pl.isangeles.senlin.inter.ui.ItemTile;
 /**
  * Class for weapons
  * @author Isangeles
@@ -106,4 +108,20 @@ public class Weapon extends Equippable
 	{
 		return material.toString();
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Usable#use(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
+	 */
+	@Override
+	public boolean use(Targetable user, Targetable target) 
+	{
+		return onUse.start(user, target);
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
+	 */
+	@Override
+	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
+    {
+    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    }
 }

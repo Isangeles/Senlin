@@ -185,26 +185,37 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(getDragged() != null)
+		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-			ItemSlot draggedSlot = getDragged();
-			ItemSlot slotOver = (ItemSlot)slots.getMouseOver();
-			if(slotOver != null)
+			if(getDragged() != null)
 			{
-				if(eqSlots.contains(draggedSlot))
-					eqSlots.removeFromEq(draggedSlot);
-				moveItem(draggedSlot, slotOver);
-				return;
+				ItemSlot draggedSlot = getDragged();
+				ItemSlot slotOver = (ItemSlot)slots.getMouseOver();
+				if(slotOver != null)
+				{
+					if(eqSlots.contains(draggedSlot))
+						eqSlots.removeFromEq(draggedSlot);
+					moveItem(draggedSlot, slotOver);
+					return;
+				}
+				
+				if(eqSlots.getMouseOverSlot() != null)
+				{
+					if(eqSlots.setEqItem(draggedSlot.getContent(), eqSlots.getMouseOverSlot()))
+						moveItem(draggedSlot, eqSlots.getMouseOverSlot());
+					return;
+				}
+				
+				draggedSlot.dragged(false);
 			}
-			
-			if(eqSlots.getMouseOverSlot() != null)
+		}
+		if(button == Input.MOUSE_RIGHT_BUTTON)
+		{
+			if(slots.getMouseOver() != null)
 			{
-				if(eqSlots.setEqItem(draggedSlot.getContent(), eqSlots.getMouseOverSlot()))
-					moveItem(draggedSlot, eqSlots.getMouseOverSlot());
-				return;
+				Item item = (Item)slots.getMouseOver().getContent();
+				item.use(player, player.getTarget());
 			}
-			
-			draggedSlot.dragged(false);
 		}
 	}
 	@Override

@@ -53,5 +53,9 @@ public interface Targetable extends ObjectiveTarget
 	public void takeMagicka(int value);
 	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> effects);
 	
+	public void modHealth(int value);
+	public void modMagicka(int value);
+	public void modAttributes(Attributes attributes);
+	
 	public boolean isLive();
 }

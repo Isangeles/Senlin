@@ -9,4 +9,13 @@
         <dmgMod>0</dmgMod>
         <dot>-1</dot>
     </effect>
+    <effect id="lunch" duration="5" type="normal" icon="lunch.png">
+        <hpMod>0</hpMod>
+        <manaMod>0</manaMod>
+        <attributesMod str="0" con="0" dex="0" int="0" wis="0"></attributesMod>
+        <hasteMod>0</hasteMod>
+        <dodgeMod>0</dodgeMod>
+        <dmgMod>0</dmgMod>
+        <dot>+1</dot>
+    </effect>
 </base>

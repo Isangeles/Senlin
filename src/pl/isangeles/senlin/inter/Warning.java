@@ -29,9 +29,9 @@ public class Warning extends Message
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Warning(GameContainer gc, String textMessage) throws SlickException, IOException, FontFormatException 
+	public Warning(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(gc, textMessage);
+		super(gc);
 		
 		abort = new Button(GConnector.getInput("button/buttonNo.png"), "bWarnNo", false, "", gc);
 		cancel = true;
@@ -45,9 +45,17 @@ public class Warning extends Message
 	}
 	
 	@Override
+	public void draw()
+	{
+		super.draw(Coords.getX("CE", -200), Coords.getY("CE", -80), false);
+		abort.draw(x+getDis(50), y+super.getScaledHeight()-getDis(50), false);
+	}
+	
+	@Override
 	public void show(String textWarning)
 	{
 		super.show(textWarning);
+		undecided = true;
 	}
 	
 	@Override
@@ -55,12 +63,6 @@ public class Warning extends Message
 	{
 		undecided = false;
 		super.close();
-	}
-	
-	@Override
-	public void open()
-	{
-		undecided = true;
 	}
 	
 	public boolean isCancel()

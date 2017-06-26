@@ -29,6 +29,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.inter.ui.ItemTile;
+import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for trinkets like rings, amulets, etc.
@@ -70,4 +73,21 @@ public class Trinket extends Equippable
 			return TConnector.getText("ui", "errorName");
 		}
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Usable#use(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
+	 */
+	@Override
+	public boolean use(Targetable user, Targetable target) 
+	{
+		return onUse.start(user, target);
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
+	 */
+	@Override
+	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
+    {
+    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    }
 }

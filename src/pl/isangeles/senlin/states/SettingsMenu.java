@@ -61,14 +61,13 @@ public class SettingsMenu extends BasicGameState
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
     {
-    	
     	try 
     	{
     		switchResolution = new TextSwitch(container, Settings.getResList(), ";");
-			switchLanguage = new TextSwitch(container, "english;polish", ";");
+			switchLanguage = new TextSwitch(container, Settings.getLangList(), ";");
 			switchFOW = new TextSwitch(container, Settings.getFowTypes(), ";");
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
-			message = new Message(container, "");
+			message = new Message(container);
 		} 
     	catch (FontFormatException | IOException e) 
     	{
@@ -84,8 +83,8 @@ public class SettingsMenu extends BasicGameState
     	switchLanguage.draw(700, 550);
     	switchFOW.draw(700, 700);
     	buttBack.draw(10, 900);
-    	if(changed)
-    		message.show(TConnector.getText("menu", "settMessConf"));
+    	if(message.isOpen())
+    		message.draw();
     }
 
     @Override
@@ -95,22 +94,7 @@ public class SettingsMenu extends BasicGameState
     	if(backReq && !message.isOpen())
     	{
     		backReq = false;
-    		File settingsFile = new File("settings.txt");
-    		try 
-    		{
-				PrintWriter pw = new PrintWriter(settingsFile);
-				pw.write(switchLanguage.getString());
-				pw.write(";" + System.lineSeparator());
-				pw.write(switchResolution.getString());
-                pw.write(";" + System.lineSeparator());
-                pw.write(switchFOW.getString());
-                pw.write(";" + System.lineSeparator());
-				pw.close();
-			} 
-    		catch (FileNotFoundException e) 
-    		{
-				e.printStackTrace();
-			}
+    		saveSettings();
     		game.enterState(0);
     	}
     }
@@ -123,7 +107,7 @@ public class SettingsMenu extends BasicGameState
     	    backReq = true;
     	    if(switchResolution.isChange())
     	    {
-    	    	message.open();
+    	    	message.show(TConnector.getText("menu", "settMessConf"));
     	    	changed = true;
     	    }
     	}
@@ -133,6 +117,28 @@ public class SettingsMenu extends BasicGameState
     public int getID()
     {
         return 3;
+    }
+    /**
+     * Saves current settings to settings file
+     */
+    private void saveSettings()
+    {
+		File settingsFile = new File("settings.txt");
+		try 
+		{
+			PrintWriter pw = new PrintWriter(settingsFile);
+			pw.write(switchLanguage.getString());
+			pw.write(";" + System.lineSeparator());
+			pw.write(switchResolution.getString());
+            pw.write(";" + System.lineSeparator());
+            pw.write(switchFOW.getString());
+            pw.write(";" + System.lineSeparator());
+			pw.close();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
     }
 
 }

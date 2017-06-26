@@ -39,7 +39,7 @@ public class MainMenu extends BasicGameState
     private boolean newGameReq;
     private boolean loadGameReq;
     private boolean settingsReq;
-    private AudioPlayer menuMusic;
+    private static AudioPlayer menuMusic;
 
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -117,6 +117,11 @@ public class MainMenu extends BasicGameState
             if(buttExit.isMouseOver())
                 closeReq = true;
     	}
+    }
+    
+    public static AudioPlayer getMusicPlayer()
+    {
+    	return menuMusic;
     }
 
 }

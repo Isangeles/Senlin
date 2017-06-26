@@ -62,6 +62,7 @@ public class UserInterface implements MouseListener
     private CastBar cast;
     private SaveGameWindow save;
     private LoadGameWindow load;
+    private SettingsMenu settings;
     private Warning uiWarning;
     /**
      * UI constructor, calls all UI elements constructors
@@ -91,11 +92,12 @@ public class UserInterface implements MouseListener
         cast = new CastBar(gc, player);
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
-        uiWarning = new Warning(gc, "");
+        settings = new SettingsMenu(gc);
+        
+        uiWarning = new Warning(gc);
     }
     /**
      * Draws ui elements
-     * TODO looks pretty chaotic
      */
     public void draw(Graphics g)
     {
@@ -143,6 +145,9 @@ public class UserInterface implements MouseListener
         if(load.isOpenReq())
             load.draw(Coords.getX("CE", -100), Coords.getY("CE", -100), g);
         
+        if(settings.isOpenReq())
+        	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
         if(igMenu.isResumeReq() || !bBar.isMenuReq())
         {
         	hideMenu();
@@ -179,6 +184,11 @@ public class UserInterface implements MouseListener
     	    load.open();
     	    hideMenu();
     	}
+    	if(igMenu.isSettingsReq())
+    	{
+    		settings.open();
+    		hideMenu();
+    	}
     	
     	bBar.update(skills.getDragged());
         charFrame.update();
@@ -193,6 +203,7 @@ public class UserInterface implements MouseListener
         dialogue.update();
         save.update();
         load.update();
+        settings.update();
         gameConsole.update();
     }
     /**
@@ -203,7 +214,7 @@ public class UserInterface implements MouseListener
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
     		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
-    		   save.isMouseOver() || load.isMouseOver();
+    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver();
     }
     /**
      * Checks if exit game is requested

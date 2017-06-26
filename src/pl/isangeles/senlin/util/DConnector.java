@@ -62,6 +62,7 @@ import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
+import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
 import pl.isangeles.senlin.data.pattern.TrinketPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
@@ -514,5 +515,36 @@ public final class DConnector
 		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
 		
 		return trinketsMap;
+	}
+	
+	public static Map<String, MiscPattern> getMisc(String miscBase) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, MiscPattern> miscMap = new HashMap<>();
+		
+		String miscDir = "data" + File.separator + "item" + File.separator + miscBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(miscDir);
+		
+		NodeList miscList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < miscList.getLength(); i ++)
+		{
+			Node itemNode = miscList.item(i);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					MiscPattern mp = ItemParser.getMiscFromNode(itemNode);
+					miscMap.put(mp.getId(), mp);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("miscItems_builder_fail_msg///base corrupted");
+				}
+			}
+		}
+		
+		return miscMap;
 	}
 }

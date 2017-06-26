@@ -70,6 +70,7 @@ public class NpcPattern
 	private final String fingerBItem;
 	private final String artifact;
 	private final String spritesheet;
+	private final boolean staticAvatar;
 	private final String portraitName;
 	private final int gold;
 	private final List<RandomItem> invItems;
@@ -94,9 +95,9 @@ public class NpcPattern
 	 * @param invItems List of all items in character inventory
 	 */
 	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
-					  String handsItem, String mainHandItem, String offHandItem, String feetItem,
-					  String neckItem, String fingerAItem, String fingerBItem, String artifact, String spritesheet,
-					  String portraitName, int gold, List<RandomItem> invItems, List<String> skills, Map<String, Integer> effects) 
+					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
+					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
+					  Map<String, Integer> effects) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -130,6 +131,7 @@ public class NpcPattern
 		this.fingerBItem = fingerBItem;
 		this.artifact = artifact;
 		this.spritesheet = spritesheet;
+		this.staticAvatar = staticAvatar;
 		this.portraitName = portraitName;
 		this.gold = gold;
 		this.invItems = invItems;
@@ -160,7 +162,7 @@ public class NpcPattern
 		scann.useDelimiter(";");
 		Character npc = new Character(npcId, npcAttitude, guildID, npcName, level,
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
-									  portrait, spritesheet, gc);
+									  portrait, spritesheet, staticAvatar, gc);
 		scann.close();
 		if(trade)
 			npc.setTrade();

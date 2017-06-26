@@ -42,6 +42,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
@@ -87,6 +88,7 @@ public class GameWorld extends BasicGameState
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
+	private AudioPlayer gwMusic;
 	private GameCursor gwCursor;
 	/**
 	 * Creates game world for new game
@@ -119,6 +121,7 @@ public class GameWorld extends BasicGameState
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
     {
+    	MainMenu.getMusicPlayer().stop();
         try 
         {
         	gwCursor = new GameCursor(container);

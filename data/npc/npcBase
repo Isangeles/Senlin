@@ -3,7 +3,7 @@
 <npc id="bandit01" attitude="hostile" guild="1" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet>cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -28,7 +28,7 @@
 <npc id="ericP01" attitude="friendly" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait0.jpg</portrait>
-    <spritesheet>cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -51,7 +51,7 @@
 <npc id="kianP01" attitude="friendly" trade="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait1.jpg</portrait>
-    <spritesheet>cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -66,6 +66,7 @@
         <in gold="20">
 	    <item random="false">wSOHI</item>
 	    <item random="false">wBTHW</item>
+	    <item random="false">mMeat01</item>
         </in>
     </eq>
     <skills>
@@ -76,7 +77,7 @@
 <npc id="ewanP01" attitude="friendly" train="true" guild="0" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet>cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -93,6 +94,29 @@
     </eq>
     <skills>
 	<skill>slash</skill>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="goblin01" attitude="hostille" guild="0" level="1">
+    <stats>2;2;3;1;1;</stats>
+    <portrait>goblin01.jpg</portrait>
+    <spritesheet static="true">goblin12221-60x70.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+        </in>
+    </eq>
+    <skills>
     </skills>
     <effects>
     </effects>

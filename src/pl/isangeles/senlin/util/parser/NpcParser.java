@@ -61,7 +61,9 @@ public class NpcParser
             
             String stats = npc.getElementsByTagName("stats").item(0).getTextContent();
             String portraitName = npc.getElementsByTagName("portrait").item(0).getTextContent();
-            String spritesheet = npc.getElementsByTagName("spritesheet").item(0).getTextContent();
+            Element spritesheetE = (Element)npc.getElementsByTagName("spritesheet").item(0);
+            String spritesheet = spritesheetE.getTextContent();
+            boolean ssType = Boolean.parseBoolean(spritesheetE.getAttribute("static"));
             
             NodeList npcNodes = npcNode.getChildNodes();
             Node eqNode = npcNodes.item(1);
@@ -119,7 +121,7 @@ public class NpcParser
             }
             
             npcP = new NpcPattern(id, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
-                                  neck, fingerA, fingerB, artifact, spritesheet, portraitName, gold, itemsIn, skills, effects);
+                                  neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, gold, itemsIn, skills, effects);
             return npcP;
         }
         catch(NumberFormatException e)

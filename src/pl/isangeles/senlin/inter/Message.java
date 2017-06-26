@@ -34,12 +34,11 @@ public class Message extends InterfaceObject implements MouseListener
      * @throws IOException
      * @throws FontFormatException
      */
-    public Message(GameContainer gc, String textMessage) throws SlickException, IOException, FontFormatException
+    public Message(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("field/messageBG.png"), "messageBg", false, gc);
         gc.getInput().addMouseListener(this);
-        
-        this.textMessage = textMessage;
+       
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
@@ -62,31 +61,30 @@ public class Message extends InterfaceObject implements MouseListener
         isOpen = false;
     }
     /**
-     * Force message to open
-     */
-    public void open()
-    {
-    	isOpen = true;
-    }
-    /**
      * Draws message
      */
     @Override
-    public void draw(float x, float y)
+    public void draw(float x, float y, boolean scaledPos)
     {
-        super.draw(x, y, false);
+        super.draw(x, y, scaledPos);
+        textTtf.drawString(super.x+getDis(20), super.y+getDis(10), textMessage);
+        buttonOk.draw(x+getDis(200), y+super.getScaledHeight()-getDis(50), false);
+    }
+    @Override
+    public void draw()
+    {
+        draw(Coords.getX("CE", -200), Coords.getY("CE", -80), false);
         textTtf.drawString(super.x+getDis(20), super.y+getDis(10), textMessage);
         buttonOk.draw(x+getDis(200), y+super.getScaledHeight()-getDis(50), false);
     }
     /**
-     * Sets text and draws message 
+     * Sets text and opens message 
      * @param textMessage Text for message
      */
     public void show(String textMessage)
     {
     	set(textMessage);
         isOpen = true;
-        draw(Coords.getX("CE", -200), Coords.getY("CE", -80));
     }
     
     private void set(String textMessage)

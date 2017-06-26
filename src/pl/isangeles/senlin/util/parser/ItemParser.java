@@ -27,6 +27,7 @@ import org.w3c.dom.Node;
 
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
+import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 
 /**
@@ -84,5 +85,20 @@ public class ItemParser
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon);
+	}
+	
+	public static MiscPattern getMiscFromNode(Node itemNode) throws NumberFormatException
+	{
+		Element itemE = (Element)itemNode;
+		
+		String id = itemE.getAttribute("id");
+		int value = Integer.parseInt(itemE.getAttribute("value"));
+		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		
+		Element action = (Element)itemE.getElementsByTagName("action").item(0);
+		String actionType = action.getAttribute("type");
+		String actionId = action.getTextContent();
+		
+		return new MiscPattern(id, value, icon, actionType, actionId);
 	}
 }

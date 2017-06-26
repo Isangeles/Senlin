@@ -7,7 +7,7 @@ package pl.isangeles.senlin.inter.ui;
 interface UiElement
 {
     /**
-     * Draws UI element
+     * Draws UI element, specified positions should be scaled to current screen resolution
      * @param x Position on X-axis
      * @param y Position on Y-axis
      */

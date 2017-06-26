@@ -62,7 +62,13 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     
     private boolean openReq;
     private boolean loadReq;
-    
+    /**
+     * LoadGameWindow constructor
+     * @param gc Slick game container
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public LoadGameWindow(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/saveBG.png"), "uiLoadGWinBg", false, gc);
@@ -249,6 +255,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
             if(loadB.isMouseOver())
             {
                 loadReq = true;
+                close();
             }
             if(exitB.isMouseOver())
                 close();

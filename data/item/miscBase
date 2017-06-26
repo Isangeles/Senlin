@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<base>
+    <item id="mMeat01" value="1">
+        <icon>food01.png</icon>
+        <action type="effectUser">lunch</action>
+    </item>
+</base>

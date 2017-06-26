@@ -6,6 +6,9 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Action;
+import pl.isangeles.senlin.core.ActionType;
+import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -16,7 +19,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public abstract class Item implements SlotContent
+public abstract class Item implements SlotContent, Usable
 {
 	private static int itemCounter;
 	protected int itemNumber = itemCounter;
@@ -26,6 +29,7 @@ public abstract class Item implements SlotContent
     protected String imgName;
     protected int value;
     protected ItemTile itemTile;
+    protected Action onUse;
     /**
      * Basic item constructor
      * @param id Item ID, unique for all items
@@ -41,10 +45,11 @@ public abstract class Item implements SlotContent
     public Item(String id, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         this.id = id;
-        this.name = TConnector.getText("items", id+"-name");
-        this.info = TConnector.getText("items", id+"-info");
+        this.name = TConnector.getInfo("items", id)[0];
+        this.info = TConnector.getInfo("items", id)[1];
         this.value = value;
         this.imgName = imgName;
+        this.onUse = new Action();
         itemCounter ++;   
     }
     /**
@@ -128,10 +133,7 @@ public abstract class Item implements SlotContent
      * @throws IOException
      * @throws FontFormatException
      */
-    protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
-    {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
-    }
+    protected abstract ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException;
     /**
      * Sets specific item tile as this item tile
      * UNUSED

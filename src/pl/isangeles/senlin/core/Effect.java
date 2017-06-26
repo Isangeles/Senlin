@@ -107,10 +107,10 @@ public class Effect
 	 * Removes affect from specified character
 	 * @param character Some game character
 	 */
-	public void removeFrom(Character character)
+	public void removeFrom(Targetable character)
 	{
 		character.modHealth(-hpMod);
-		character.modMgicka(-manaMod);
+		character.modMagicka(-manaMod);
 		character.modAttributes(attMod.nagative());
 	}
 	
@@ -172,11 +172,12 @@ public class Effect
 	/**
 	 * Starts effect timer
 	 */
-	public void turnOn(Character character)
+	public void turnOn(Targetable character)
 	{
 		on = true;
+		character.getEffects().add(this);
 		character.modHealth(hpMod);
-		character.modMgicka(manaMod);
+		character.modMagicka(manaMod);
 		character.modAttributes(attMod);
 	}
 	
