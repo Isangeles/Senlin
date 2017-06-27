@@ -2,6 +2,10 @@ package pl.isangeles.senlin.audio;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.newdawn.slick.Music;
@@ -14,12 +18,19 @@ import pl.isangeles.senlin.util.AConnector;
  * @author Isangeles
  *
  */
-public class AudioPlayer extends ArrayList<Music>
+public class AudioPlayer extends HashMap<String, Music>
 {
 	private static final long serialVersionUID = 1L;
+	
+	private Map<String, List<String>> playlist = new HashMap<>();
+	private Random rng = new Random();
 
 	public AudioPlayer() 
 	{
+		playlist.put("menu", new ArrayList<String>());
+		playlist.put("world", new ArrayList<String>());
+		playlist.put("combat", new ArrayList<String>());
+		playlist.put("none", new ArrayList<String>());
 	}
 	/**
 	 * Adds one specified music track to player
@@ -33,7 +44,7 @@ public class AudioPlayer extends ArrayList<Music>
 		try
 		{
 			Music track = new Music(AConnector.getInput("music/" +  trackName), trackName);
-			this.add(track);
+			this.put(trackName, track);
 		}
 		catch(IOException | SlickException e)
 		{
@@ -53,11 +64,27 @@ public class AudioPlayer extends ArrayList<Music>
 		{
 			try
 			{
-				String trackName = scann.next();
-				Music track = new Music(AConnector.getInput(category + "/" + trackName), trackName);
-				this.add(track);
+				String catAndTrack[] = scann.next().split(";");
+				System.out.println(catAndTrack[0] + "||" + catAndTrack[1]);
+				switch(catAndTrack[0])
+				{
+				case "menu":
+					playlist.get("menu").add(catAndTrack[1]);
+					break;
+				case "world":
+					playlist.get("world").add(catAndTrack[1]);
+					break;
+				case "combat":
+					playlist.get("combat").add(catAndTrack[1]);
+					break;
+				default:
+					playlist.get("none").add(catAndTrack[1]);
+					break;
+				}
+				Music track = new Music(AConnector.getInput(category + "/" + catAndTrack[1]), catAndTrack[1]);
+				this.put(catAndTrack[1], track);
 			}
-			catch(IOException | SlickException e)
+			catch(IOException | SlickException | ArrayIndexOutOfBoundsException e)
 			{
 				Log.addSystem("audio_player_" + category + "_fail msg///playlist error");
 				break;
@@ -70,17 +97,42 @@ public class AudioPlayer extends ArrayList<Music>
 	 * @param pitch
 	 * @param volume
 	 */
-	public void play(float pitch, float volume)
+	public void play(float pitch, float volume, String trackName)
 	{
 		if(this.size() == 1)
-			this.get(0).play(pitch, volume);
+			this.get(trackName).play(pitch, volume);
+	}
+	/**
+	 * Starts audio player
+	 * @param pitch
+	 * @param volume
+	 */
+	public void playRandom(float pitch, float volume, String category)
+	{
+		switch(category)
+		{
+		case "menu":
+			List<String> menuTracks = playlist.get("menu");
+			this.get(menuTracks.get(rng.nextInt(menuTracks.size()))).play(pitch, volume);
+			break;
+		case "world":
+			List<String> worldTracks = playlist.get("world");
+			this.get(worldTracks.get(rng.nextInt(worldTracks.size()))).play(pitch, volume);
+			break;
+		case "combat":
+			List<String> combatTracks = playlist.get("combat");
+			this.get(combatTracks.get(rng.nextInt(combatTracks.size()))).play(pitch, volume);
+			break;
+		default:
+			break;
+		}
 	}
 	/**
 	 * Stops audio player
 	 */
 	public void stop()
 	{
-		for(Music track : this)
+		for(Music track : this.values())
 		{
 			if(track.playing())
 				track.stop();

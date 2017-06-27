@@ -266,4 +266,14 @@ public class SimpleGameObject implements Targetable
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#isMouseOver()
+	 */
+	@Override
+	public boolean isMouseOver() 
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

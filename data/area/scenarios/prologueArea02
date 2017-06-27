@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<base>
+<scenario id="prologue02" map="area01.tmx">
+    <npcs>
+    </npcs>
+    <quests>
+    </quests>
+    <objects>
+    </objects>
+    <exits>
+    </exits>
+</scenario>
+</base>

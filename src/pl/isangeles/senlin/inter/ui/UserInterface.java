@@ -47,6 +47,7 @@ import pl.isangeles.senlin.data.Log;
 public class UserInterface implements MouseListener
 {
     private Character player;
+    private static GameCursor cursor;
     private Console gameConsole;
     private BottomBar bBar;
     private CharacterFrame charFrame;
@@ -77,6 +78,7 @@ public class UserInterface implements MouseListener
         this.player = player;
         gc.getInput().addMouseListener(this);
         
+        //cursor = new GameCursor(gc);
         gameConsole = new Console(gc, player);
         bBar = new BottomBar(gc, player);
         charFrame = new CharacterFrame(gc, player);
@@ -153,6 +155,7 @@ public class UserInterface implements MouseListener
         	hideMenu();
         }
         
+        //cursor.draw();
         update();     	
     }
     /**
@@ -293,34 +296,37 @@ public class UserInterface implements MouseListener
 		try
 		{
 			Character target = (Character)player.getTarget();
-			if(button == Input.MOUSE_RIGHT_BUTTON && target.isMouseOver())
+			if(target.isMouseOver())
 			{
-				if(target.isLive())
+				if(button == Input.MOUSE_RIGHT_BUTTON)
 				{
-					switch(target.getAttitudeTo(player))
+					if(target.isLive())
 					{
-					case FRIENDLY:
-						dialogue.open(player, target);
-						break;
-					case HOSTILE:
-						player.useSkill(player.getSkills().get("autoA"));
-						break;
-					case NEUTRAL:
-						player.useSkill(player.getSkills().get("autoA"));
-						break;
-					case DEAD:
-						break;
+						switch(target.getAttitudeTo(player))
+						{
+						case FRIENDLY:
+							dialogue.open(player, target);
+							break;
+						case HOSTILE:
+							player.useSkill(player.getSkills().get("autoA"));
+							break;
+						case NEUTRAL:
+							player.useSkill(player.getSkills().get("autoA"));
+							break;
+						case DEAD:
+							break;
+						}
 					}
-				}
-				else
-				{
-					try 
+					else
 					{
-						loot.open(target);
-					} 
-					catch (SlickException | IOException e) 
-					{
-						Log.addSystem("Loot load fail!msg/// " + e.getMessage());
+						try 
+						{
+							loot.open(target);
+						} 
+						catch (SlickException | IOException e) 
+						{
+							Log.addSystem("Loot load fail!msg/// " + e.getMessage());
+						}
 					}
 				}
 			}
@@ -335,6 +341,11 @@ public class UserInterface implements MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+	}
+	
+	public static GameCursor getUiCursor()
+	{
+		return cursor;
 	}
 	
 	private void hideMenu()

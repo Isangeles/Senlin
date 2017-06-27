@@ -22,19 +22,24 @@
  */
 package pl.isangeles.senlin.data;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.graphic.GameObject;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.DConnector;
+import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Static class for game objects base
  * @author Isangeles
@@ -43,6 +48,7 @@ import pl.isangeles.senlin.util.DConnector;
 public class ObjectsBase 
 {
 	private static Map<String, ObjectPattern> objectsMap = new HashMap<>();
+	private static Sprite exitAreaTex;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -58,15 +64,23 @@ public class ObjectsBase
 	{
 		return objectsMap.get(objectId).make();
 	}
+	
+	public static Sprite getExitTex()
+	{
+		return exitAreaTex;
+	}
 	/**
 	 * Loads specified objects base
 	 * @param baseName Name of XML base in data/objects
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
+	 * @throws SlickException 
+	 * @throws FontFormatException 
 	 */
-	public static void load(String baseName) throws ParserConfigurationException, SAXException, IOException
+	public static void load(String baseName, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		objectsMap = DConnector.getObjects(baseName);
+		exitAreaTex =  new Sprite(GConnector.getInput("object/exit.png"), "areaExit", true, TConnector.getText("objects", "areaExit"), gc);
 	}
 }

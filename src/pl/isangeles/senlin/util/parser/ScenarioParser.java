@@ -42,8 +42,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.util.Position;
 /**

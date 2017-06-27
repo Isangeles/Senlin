@@ -58,4 +58,5 @@ public interface Targetable extends ObjectiveTarget
 	public void modAttributes(Attributes attributes);
 	
 	public boolean isLive();
+	public boolean isMouseOver();
 }

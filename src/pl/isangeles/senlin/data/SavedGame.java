@@ -26,6 +26,7 @@ import java.util.List;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.data.area.Scenario;
 
 /**
  * Class for saved games

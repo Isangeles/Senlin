@@ -55,8 +55,9 @@ import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.data.SavedGame;
-import pl.isangeles.senlin.data.Scenario;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.area.Exit;
+import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.day.Day;
@@ -85,11 +86,14 @@ public class GameWorld extends BasicGameState
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
 	private List<SimpleGameObject> gwObjects = new ArrayList<>();
+	private List<Exit> areaExits = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private float[] cameraPos = {0f, 0f};
 	private AudioPlayer gwMusic;
 	private GameCursor gwCursor;
+	private Scenario nextArea;
+	private boolean changeAreaReq;
 	/**
 	 * Creates game world for new game
 	 * @param player Player character
@@ -124,17 +128,23 @@ public class GameWorld extends BasicGameState
     	MainMenu.getMusicPlayer().stop();
         try 
         {
+        	gwMusic = new AudioPlayer();
+        	gwMusic.add("worldExploring.ogg");
+        	gwMusic.play(1.0f, 1.0f, "worldExploring.ogg");
+        	
         	gwCursor = new GameCursor(container);
         	dayManager = new Day();
         	fow = new FogOfWar();
       
+        	System.out.println(activeScenario.getId());
             areaMap = activeScenario.getMap();
             
             areaNpcs = activeScenario.getNpcs(); //test line
             gwObjects = activeScenario.getObjects();
+            areaExits = activeScenario.getExits();
             
         	npcsAi = new CharacterAi(this);
-            npcsAi.addNpcs(areaNpcs);
+            npcsAi.addNpcs(areaNpcs); 
         } 
         catch (SlickException | IOException e) 
         {
@@ -153,7 +163,12 @@ public class GameWorld extends BasicGameState
         for(SimpleGameObject object : gwObjects)
         {
             if(player.isNearby(object))
-                object.draw(1f);
+                object.draw(Coords.getSize(1f));
+        }
+        for(Exit exit : areaExits)
+        {
+        	if(player.isNearby(exit.getPos().asTable()))
+        		exit.draw();
         }
         for(Character npc : areaNpcs)
         {
@@ -199,6 +214,8 @@ public class GameWorld extends BasicGameState
     	   System.gc();
     	   game.enterState(4);
     	}
+    	if(changeAreaReq)
+    		changeArea(container, game);
     	if(ui.isExitReq())
     		container.exit();
     }
@@ -239,6 +256,29 @@ public class GameWorld extends BasicGameState
     		{
     			player.moveTo(worldX, worldY);
     			Log.addInformation("Move: " + worldX + "/" + worldY + " " + areaMap.getTileId(worldX/areaMap.getTileWidth(), worldY/areaMap.getTileHeight(), 1)); //TEST LINE
+    		}
+    		if(button == Input.MOUSE_RIGHT_BUTTON)
+    		{
+    			for(Exit exit : areaExits)
+    			{
+    				if(exit.isMouseOver())
+    				{
+    					for(Scenario savedScenario : scenarios)
+    					{
+    						if(savedScenario.getId().equals(exit.exitTo()))
+    						{
+    							nextArea = savedScenario;
+    							changeAreaReq = true;
+    						}
+    					}
+
+						if(nextArea == null)
+						{
+							nextArea = ScenariosBase.getScenario(exit.exitTo());
+							changeAreaReq = true;
+						}
+    				}
+    			}
     		}
     	}
     }
@@ -314,5 +354,15 @@ public class GameWorld extends BasicGameState
             x = 0;
             y += 32;
         }
+    }
+    
+    private void changeArea(GameContainer gc, StateBasedGame game) throws SlickException
+    {
+    	this.activeScenario = nextArea;
+    	game.addState(new ReloadScreen());
+    	changeAreaReq = false;
+    	nextArea = null;
+    	game.getState(5).init(gc, game);
+    	game.enterState(5);
     }
 }

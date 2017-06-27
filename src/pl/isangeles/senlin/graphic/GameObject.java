@@ -55,6 +55,13 @@ public abstract class GameObject extends Image
     	setScale();
     }
     
+    public GameObject(InputStream is, String ref, boolean flipped, String infoText, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+    	this(is, ref, flipped);
+    	gObjectMOA = new MouseOverArea(gc, this, 0, 0); 
+    	objectInfo = new InfoWindow(gc, infoText);
+    }
+    
     public GameObject(Image img)
     {
     	super(img);

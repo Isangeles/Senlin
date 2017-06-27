@@ -1,3 +1,25 @@
+/*
+ * MainMenu.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
@@ -39,7 +61,8 @@ public class MainMenu extends BasicGameState
     private boolean newGameReq;
     private boolean loadGameReq;
     private boolean settingsReq;
-    private static AudioPlayer menuMusic;
+    private static AudioPlayer menuMusic = new AudioPlayer();
+    private static GameCursor cursor;
 
     @Override
     public void init(GameContainer container, StateBasedGame game)
@@ -47,15 +70,15 @@ public class MainMenu extends BasicGameState
     {
         try
         {
-            container.setMouseCursor(new GameCursor(container), Math.round(10 * Settings.getScale()), 0);
+        	cursor = new GameCursor(container);
+            container.setMouseCursor(cursor, Math.round(10 * Settings.getScale()), 0);
             logo = new Sprite(GConnector.getInput("field/logox3green.png"), "menuLogo", false);
         	buttNewGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtNG", false, TConnector.getText("menu", "ngName"), container);
         	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLG", false, TConnector.getText("menu", "lgName"), container);
         	buttOptions = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtO", false, TConnector.getText("menu", "settName"), container);
             buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtExit", false, TConnector.getText("menu", "exitName"), container);
-            menuMusic = new AudioPlayer();
             menuMusic.add("mainTheme.ogg");
-            menuMusic.play(1.0f, 1.0f);
+            menuMusic.play(1.0f, 1.0f, "mainTheme.ogg");
         }
         catch(IOException | FontFormatException e)
         {
@@ -122,6 +145,11 @@ public class MainMenu extends BasicGameState
     public static AudioPlayer getMusicPlayer()
     {
     	return menuMusic;
+    }
+    
+    public static GameCursor getCursor()
+    {
+    	return cursor;
     }
 
 }

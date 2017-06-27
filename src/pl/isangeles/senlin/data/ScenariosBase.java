@@ -25,6 +25,7 @@ package pl.isangeles.senlin.data;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Static base for game scenarios

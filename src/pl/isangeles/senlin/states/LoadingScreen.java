@@ -121,7 +121,7 @@ public class LoadingScreen extends BasicGameState
 	            NpcBase.load(container);
 	            DialoguesBase.load("dPrologue");
 	            QuestsBase.load("qPrologue");
-	            ObjectsBase.load("animObjects");
+	            ObjectsBase.load("animObjects", container);
 	            ScenariosBase.load();
 			    break;
 			case 2:
@@ -154,6 +154,7 @@ public class LoadingScreen extends BasicGameState
 			case 8:
 		        game.addState(gw);
 		        game.getState(gw.getID()).init(container, game);
+		        loadCounter = 0;
 		        game.enterState(gw.getID());
 		        break;
 			}

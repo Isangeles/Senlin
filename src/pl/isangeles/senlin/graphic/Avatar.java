@@ -36,6 +36,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InfoWindow;
+import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
@@ -141,8 +142,9 @@ public class Avatar implements MouseListener
 		avMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		
 		if(avMOA.isMouseOver())
+		{
 			avName.draw(x, y);
-		
+		}
 		if(isSpeaking && speechTime < 1500)
 			speakWindow.draw(x, y);
 		else if(speechTime > 1500)
