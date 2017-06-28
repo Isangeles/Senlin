@@ -30,6 +30,7 @@ import org.w3c.dom.Element;
 import java.util.ArrayList;
 
 /**
+ * Class for game character quests container 
  * @author Isangeles
  *
  */
@@ -37,12 +38,17 @@ public class Journal extends ArrayList<Quest>
 {
 	private static final long serialVersionUID = 1L;
 	private List<Quest> qCompleted = new ArrayList<>();
-	
+	/**
+	 * Updates journal
+	 */
 	public void update()
 	{
 		this.removeAll(qCompleted);
 	}
-	
+	/**
+	 * Marks specified quest as completed by adding it on list with completed quests (only if quest is in container, course)
+	 * @param quests List with game quests in character journal
+	 */
 	public void markAsCompleted(List<Quest> quests)
 	{
 		for(Quest quest : quests)
@@ -53,7 +59,12 @@ public class Journal extends ArrayList<Quest>
 			}
 		}
 	}
-	
+	/**
+	 * Returns XML document element with parsed quests
+	 * TODO save completed quests
+	 * @param doc Game save XML document
+	 * @return XML element with quests data
+	 */
 	public Element getSave(Document doc)
 	{
 		Element questsE = doc.createElement("quests");

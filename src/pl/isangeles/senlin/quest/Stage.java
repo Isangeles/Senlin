@@ -109,7 +109,10 @@ public class Stage
     {
     	return flagOff;
     }
-    
+    /**
+     * Returns list with all objectives of this stage
+     * @return List with objectives
+     */
     public List<Objective> getObjectives()
     {
     	return objectives;

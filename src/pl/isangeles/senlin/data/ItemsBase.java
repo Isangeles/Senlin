@@ -42,7 +42,6 @@ import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Class with containers with all items in game
- * TODO rewrite it for patterns
  * @author Isangeles
  *
  */

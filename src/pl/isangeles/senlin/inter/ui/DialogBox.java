@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -45,19 +46,23 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.dialogue.Answer;
 /**
- * Class for UI dialogue box
+ * Class for UI dialog box
  * @author Isangeles
  *
  */
-class DialogBox extends InterfaceObject implements UiElement 
+class DialogBox extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character interlocutorA;
 	private Character interlocutorB;
 	
 	private MessageBox textBox;
+	
+	private Button optionsUp;
+	private Button optionsDown;
 
 	private List<Answer> dialogueAnswers;
 	private List<DialogueOption> options = new ArrayList<>();
+	private int startIndex;
 	
 	private TrueTypeFont ttf;
 	
@@ -65,7 +70,7 @@ class DialogBox extends InterfaceObject implements UiElement
 	private boolean tradeReq;
 	private boolean trainReq;
 	/**
-	 * Dialogue box constructor
+	 * Dialog box constructor
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
@@ -75,11 +80,16 @@ class DialogBox extends InterfaceObject implements UiElement
 	{
 		super(GConnector.getInput("ui/background/dialogBoxBG.png"), "uiDialogBoxBg", false, gc);
 		
+		gc.getInput().addMouseListener(this);
+		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(13f), true);
 
 		textBox = new MessageBox(gc);
+		
+		optionsUp = new Button(GConnector.getInput("button/buttonUp.png"), "uiDialogBoxOUp", false, "", gc);
+		optionsDown = new Button(GConnector.getInput("button/buttonDown.png"), "uiDialogBoxODown", false, "", gc);
 		
 		for(int i = 0; i < 5; i ++)
 		{
@@ -98,6 +108,9 @@ class DialogBox extends InterfaceObject implements UiElement
 		ttf.drawString(x+getDis(265), y+getDis(20), interlocutorB.getName());
 		
 		textBox.draw(x+getDis(15), y+getDis(160), 410f, 160f, true);
+		
+		optionsUp.draw(x+getDis(420), y+getDis(350), false);
+		optionsDown.draw(x+getDis(420), y+getDis(490), false);
 		
 		for(int i = 0; i < options.size(); i ++)
 		{
@@ -184,15 +197,123 @@ class DialogBox extends InterfaceObject implements UiElement
 	{
 		return trainReq;
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
+	 */
+	@Override
+	public void inputEnded()
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
+	 */
+	@Override
+	public void inputStarted() 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
+	 */
+	@Override
+	public boolean isAcceptingInput() 
+	{
+		return openReq;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
+	 */
+	@Override
+	public void setInput(Input input)
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
+	 */
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
+	 */
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
+	 */
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
+	 */
+	@Override
+	public void mousePressed(int button, int x, int y)
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
+	 */
+	@Override
+	public void mouseReleased(int button, int x, int y) 
+	{
+		if(button == Input.MOUSE_LEFT_BUTTON)
+		{
+			if(optionsUp.isMouseOver())
+			{
+				if(startIndex > 0)
+				{
+					startIndex --;
+					clearAnswersBox();
+					addOptions(dialogueAnswers);
+				}
+			}
+			if(optionsDown.isMouseOver())
+			{
+				if(startIndex < dialogueAnswers.size()-1)
+				{
+					startIndex ++;
+					clearAnswersBox();
+					addOptions(dialogueAnswers);
+				}
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
+	 */
+	@Override
+	public void mouseWheelMoved(int change) 
+	{
+	}
 	/**
 	 * Adds all current dialogue answers to box
 	 * @param answers Current dialogue answers
 	 */
 	private void addOptions(List<Answer> answers)
 	{
-		for(int i = 0; i < answers.size(); i ++)
+		for(int i = startIndex; i < answers.size(); i ++)
 		{
-			options.get(i).putOption(answers.get(i));
+			for(DialogueOption option : options)
+			{
+				if(option.isEmpty())
+				{
+					option.putOption(answers.get(i));
+					break;
+				}
+			}
 		}
 	}
 	/**
@@ -283,6 +404,13 @@ class DialogBox extends InterfaceObject implements UiElement
 		public void clear()
 		{
 			option = null;
+		}
+		/**
+		 * Checks if answer slot is empty
+		 */
+		public boolean isEmpty()
+		{
+			return option == null;
 		}
 	}
 	/**

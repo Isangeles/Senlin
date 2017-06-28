@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 /**
- * Class  for graphical bars like hp, magicka, experience bars etc.
+ * Class  for graphical bars like target frame bars etc.
  * @author Isangeles
  *
  */

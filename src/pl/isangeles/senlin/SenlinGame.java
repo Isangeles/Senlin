@@ -61,6 +61,7 @@ public class SenlinGame extends StateBasedGame
             appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
             appGC.setTargetFrameRate(60);
             //appGC.setClearEachFrame(false);
+            appGC.setIcon("icon.png");
             appGC.start();
         }
         catch(SlickException e)

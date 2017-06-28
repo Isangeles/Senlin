@@ -34,7 +34,7 @@ import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
- * Class for area exit
+ * Class for area exits
  * @author Isangeles
  *
  */
@@ -43,29 +43,46 @@ public class Exit
 	private final String exitToId;
 	private final Position pos;
 	private Sprite exitArea;
-	
+	/**
+	 * Area exit constructor 
+	 * @param pos Position on area map
+	 * @param exitToId ID of scenario to enter after using this exit
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public Exit(Position pos, String exitToId) throws SlickException, IOException
 	{
 		this.exitToId = exitToId;
 		this.pos = pos;
 		this.exitArea = ObjectsBase.getExitTex();
 	}
-	
+	/**
+	 * Draws exit area texture
+	 */
 	public void draw()
 	{
 		exitArea.draw(pos.x, pos.y, true);
 	}
-	
-	public String exitTo()
+	/**
+	 * Returns ID of scenario to enter after using this exit
+	 * @return String with scenario ID
+	 */
+	public String getScenarioId()
 	{
 		return exitToId;
 	}
-	
+	/**
+	 * Checks if mouse is over exit area texture
+	 * @return True if mouse is over exit area texture, false otherwise
+	 */
 	public boolean isMouseOver()
 	{
 		return exitArea.isMouseOver();
 	}
-	
+	/**
+	 * Returns exit position on area map
+	 * @return Exit position
+	 */
 	public Position getPos()
 	{
 		return pos;

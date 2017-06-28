@@ -509,14 +509,25 @@ public final class DConnector
 		
 		return armorsMap;
 	}
-	
+	/**
+	 * TODO write trinkets map builder
+	 * @param trinketsBase
+	 * @return
+	 */
 	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase)
 	{
 		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
 		
 		return trinketsMap;
 	}
-	
+	/**
+	 * Returns map with miscellaneous item patterns as values and its IDs as keys
+	 * @param miscBase Name of misc items base in data/item 
+	 * @return Map with miscellaneous item patterns as values and its IDs as keys
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static Map<String, MiscPattern> getMisc(String miscBase) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, MiscPattern> miscMap = new HashMap<>();

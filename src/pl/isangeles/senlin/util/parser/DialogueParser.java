@@ -47,7 +47,10 @@ public class DialogueParser
 	private DialogueParser() 
 	{
 	}
-	
+	/**
+	 * Returns default dialogue XML node
+	 * @return Node with parsed default dialogue
+	 */
 	public static Node getDefDialogueNode()
 	{
 		return defaultDialogueNode;

@@ -90,12 +90,18 @@ public class Settings
     {
     	return "1920x1080;1600x800;1280x720";
     }
-    
+    /**
+     * Returns string with language options
+     * @return String with languages options delimited by semicolons(;)
+     */
     public static String getLangList()
     {
     	return "english;polish";
     }
-    
+    /**
+     * Returns string with fog of war options
+     * @return String with FOW options delimited by semicolons(;)
+     */
     public static String getFowTypes()
     {
     	return "light FOW;full FOW";
@@ -108,7 +114,10 @@ public class Settings
     {
     	return scale;
     }
-    
+    /**
+     * Returns current fog of war type
+     * @return String with current FOW type name
+     */
     public static String getFowType()
     {
     	return fowType;

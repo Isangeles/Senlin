@@ -42,10 +42,17 @@ import pl.isangeles.senlin.data.pattern.RandomItem;
  * @author Isangeles
  *
  */
-public class NpcParser
+public final class NpcParser
 {
+	/**
+	 * Private constructor to prevent initialization
+	 */
     private NpcParser(){};
-    
+    /**
+     * Parses specified npc node to NPC pattern 
+     * @param npcNode npc node from document(NPCs base or save file)
+     * @return NPC pattern from specified node
+     */
     public static NpcPattern getNpcFromNode(Node npcNode)
     {
         try

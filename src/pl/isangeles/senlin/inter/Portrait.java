@@ -30,10 +30,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.util.Coords;
-
+/**
+ * Class for game objects portraits
+ * @author Isangeles
+ *
+ */
 public class Portrait extends InterfaceObject 
 {
-
 	public Portrait(String pathToTex, GameContainer gc) throws SlickException, FileNotFoundException 
 	{
 		super(pathToTex, (int)Coords.getSize(95), (int)Coords.getSize(130), gc);

@@ -45,6 +45,7 @@ import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game cursor
+ * TODO clean this mess
  * @author Isangeles
  *
  */
@@ -59,7 +60,7 @@ public class GameCursor extends InterfaceObject implements MouseListener
 	
 	public GameCursor(GameContainer gc) throws SlickException, IOException 
 	{
-		super(GConnector.getInput("ui/cursorNormal.png"), "gameCursor", false, gc);
+		super(GConnector.getInput("ui/cursorBlack.png"), "gameCursor", false, gc);
 		gc.getInput().addMouseListener(this);
 		this.gc = gc;
 		x = gc.getInput().getMouseX();

@@ -31,6 +31,7 @@ import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
@@ -42,8 +43,8 @@ import pl.isangeles.senlin.inter.TextButton;
 import pl.isangeles.senlin.inter.TextInput;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
-
 /**
+ * Class for save loading menu
  * @author Isangeles
  *
  */
@@ -129,7 +130,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         openReq = false;
         reset();
     }
-    
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.inter.ui.UiElement#update()
      */
@@ -137,7 +137,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void update() 
     {
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.inter.ui.UiElement#reset()
      */
@@ -151,6 +150,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
             slot.clear();
         }
         fileName.clear();
+		unselectAll();
     }
     /**
      * Checks if window open is requested
@@ -186,7 +186,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void inputEnded() 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
      */
@@ -194,7 +193,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void inputStarted() 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
      */
@@ -203,7 +201,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     {
         return true;
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
      */
@@ -211,7 +208,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void setInput(Input input) 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
      */
@@ -219,7 +215,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void mouseClicked(int button, int x, int y, int clickCount) 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
      */
@@ -227,7 +222,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void mouseDragged(int oldx, int oldy, int newx, int newy) 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
      */
@@ -235,7 +229,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void mouseMoved(int oldx, int oldy, int newx, int newy) 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
      */
@@ -243,7 +236,6 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     public void mousePressed(int button, int x, int y) 
     {
     }
-
     /* (non-Javadoc)
      * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
      */
@@ -361,7 +353,9 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         selSave = save;
         fileName.setText(save.getName().replaceAll("[.]ssg$", ""));
     }
-    
+    /**
+     * Deselects all save slots
+     */
     private void unselectAll()
     {
         for(SaveSlot slot : saveSlots)
@@ -378,6 +372,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
     private class SaveSlot extends TextButton
     {
         private File saveFile;
+        private Image selectTex;
         private boolean select;
         /**
          * SaveSlot constructor
@@ -389,14 +384,15 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         public SaveSlot(GameContainer gc) throws SlickException, FontFormatException, IOException
         {
             super(gc);
+            selectTex = new Image(GConnector.getInput("field/select.png"), "sSlotSelect", false);
         }
         @Override
         public void draw(float x, float y, boolean scaledPos)
         {
             if(select)
-                super.draw(x, y, Color.white, scaledPos);
-            else
-                super.draw(x, y, scaledPos);
+            	selectTex.draw(x, y);
+            
+            super.draw(x, y, scaledPos);
         }
         /**
          * Inserts file into slot
@@ -414,7 +410,9 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         {
             saveFile = null;
         }
-        
+        /**
+         * Deselects slot
+         */
         public void unselect()
         {
             select = false;

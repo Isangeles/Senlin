@@ -45,8 +45,8 @@ public class Armor extends Equippable
 	public static final int FEET = 0,
 							HANDS = 1,
 							OFFHAND = 2,
-							CHEST = 4,
-							HEAD = 5;
+							CHEST = 3,
+							HEAD = 4;
 	private int armorRating;
 	/**
 	 * Armor constructor

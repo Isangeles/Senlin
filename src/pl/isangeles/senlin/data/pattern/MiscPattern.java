@@ -34,6 +34,7 @@ import pl.isangeles.senlin.core.item.Misc;
 import pl.isangeles.senlin.data.EffectsBase;
 
 /**
+ * Class for miscellaneous item patterns
  * @author Isangeles
  *
  */
@@ -41,24 +42,23 @@ public class MiscPattern
 {
 	private final String id;
 	private final int value;
+	private final boolean disposable;
 	private final String icon;
 	private final String actionType;
 	private final String actionId;
 	/**
 	 * Misc item pattern constructor
-	 * @param id Armor ID
-	 * @param reqLvl Level required to use this item
-	 * @param type Armor type
-	 * @param material Armor material
+	 * @param id Item ID
 	 * @param value Item value
-	 * @param armRat Armor rating
-	 * @param bonuses Item bonuses
-	 * @param icon Item UI icon
+	 * @param disposable If item disappears after use
+	 * @param imgName Item image name, for icon
+	 * @param onUse Action on use(ppm click in inventory)
 	 */
-	public MiscPattern(String id, int value, String icon, String actionType, String actionId) 
+	public MiscPattern(String id, int value, boolean disposable, String icon, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.value = value;
+		this.disposable = disposable;
 		this.icon = icon;
 		this.actionType = actionType;
 		this.actionId = actionId;
@@ -94,6 +94,6 @@ public class MiscPattern
 		default:
 			action = new Action();
 		}
-		return new Misc(id, value, icon, action, gc);
+		return new Misc(id, value, disposable, icon, action, gc);
 	}
 }

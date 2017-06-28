@@ -28,15 +28,26 @@ import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.quest.ObjectiveTarget;
 
 /**
- * Interface for targetable objects
+ * Interface for targetable game objects
  * @author Isangeles
  *
  */
 public interface Targetable extends ObjectiveTarget
 {
+	/**
+	 * Sets this game objects target on another targetable game object
+	 * @param target Targetable game object
+	 */
 	public void setTarget(Targetable target);
+	/**
+	 * Returns this object target
+	 * @return Targetable game object or null if this object has no target
+	 */
 	public Targetable getTarget();
-	
+	/**
+	 * Returns object name
+	 * @return String with object name
+	 */
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();

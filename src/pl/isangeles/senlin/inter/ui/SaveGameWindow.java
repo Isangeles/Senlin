@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
@@ -153,6 +154,7 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 			slot.clear();
 		}
 		fileName.clear();
+		unselectAll();
 	}
 	/**
 	 * Checks if window open is requested
@@ -203,7 +205,7 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public boolean isAcceptingInput() 
 	{
-		return true;
+		return openReq;
 	}
 
 	/* (non-Javadoc)
@@ -362,6 +364,14 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 		selSave = save;
 		fileName.setText(save.getName().replaceAll("[.]ssg$", ""));
 	}
+	
+    private void unselectAll()
+    {
+        for(SaveSlot slot : saveSlots)
+        {
+            slot.unselect();
+        }
+    }
 	/**
 	 * Inner class for saves slots
 	 * @author Isangeles
@@ -370,6 +380,8 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 	private class SaveSlot extends TextButton
 	{
 		private File saveFile;
+        private Image selectTex;
+        private boolean select;
 		/**
 		 * SaveSlot constructor
 		 * @param gc Slick game container
@@ -380,7 +392,16 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 		public SaveSlot(GameContainer gc) throws SlickException, FontFormatException, IOException
 		{
 			super(gc);
+            selectTex = new Image(GConnector.getInput("field/select.png"), "sSlotSelect", false);
 		}
+		@Override
+        public void draw(float x, float y, boolean scaledPos)
+        {
+            if(select)
+            	selectTex.draw(x, y);
+            
+            super.draw(x, y, scaledPos);
+        }
 		/**
 		 * Inserts file into slot
 		 * @param saveFile
@@ -413,13 +434,22 @@ class SaveGameWindow extends InterfaceObject implements UiElement, MouseListener
 		{
 			return (saveFile == null);
 		}
+        /**
+         * Deselects slot
+         */
+        public void unselect()
+        {
+            select = false;
+        }
 		
 		@Override
 		public void mouseReleased(int button, int x, int y)
 		{
 			if(openReq && button == Input.MOUSE_LEFT_BUTTON && isMouseOver())
 			{
-				selectSave(saveFile);
+				unselectAll();
+                selectSave(saveFile);
+                select = true;
 			}
 		}
 	}

@@ -66,7 +66,10 @@ public class Position
 		this.x = Integer.parseInt(xSemicolonY.split(";")[0]);
 		this.y = Integer.parseInt(xSemicolonY.split(";")[1]);
 	}
-	
+	/**
+	 * Returns position as normal table with two values: x[0] and y[1]
+	 * @return Table with x[0] and y[1] position
+	 */
 	public int[] asTable()
 	{
 	    return new int[]{x, y};

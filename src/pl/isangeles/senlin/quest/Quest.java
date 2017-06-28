@@ -132,7 +132,10 @@ public class Quest
     {
     	return name;
     }
-    
+    /**
+     * Returns current stage ID
+     * @return String with current stage ID
+     */
     public String getCurrentStageId()
     {
     	return currentStage.getId();

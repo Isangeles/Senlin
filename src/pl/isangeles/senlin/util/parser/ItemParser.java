@@ -31,7 +31,7 @@ import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 
 /**
- * Class for XML items bases parsing
+ * Class for XML items bases nodes parsing
  * @author Isangeles
  *
  */
@@ -86,19 +86,25 @@ public class ItemParser
 		
 		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon);
 	}
-	
+	/**
+	 * Parses item node from miscellaneous items base
+	 * @param itemNode item node from XML miscellaneous items base 
+	 * @return New miscellaneous items pattern
+	 * @throws NumberFormatException
+	 */
 	public static MiscPattern getMiscFromNode(Node itemNode) throws NumberFormatException
 	{
 		Element itemE = (Element)itemNode;
 		
 		String id = itemE.getAttribute("id");
 		int value = Integer.parseInt(itemE.getAttribute("value"));
+		boolean disposable = Boolean.parseBoolean(itemE.getAttribute("disposable"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		Element action = (Element)itemE.getElementsByTagName("action").item(0);
 		String actionType = action.getAttribute("type");
 		String actionId = action.getTextContent();
 		
-		return new MiscPattern(id, value, icon, actionType, actionId);
+		return new MiscPattern(id, value, disposable, icon, actionType, actionId);
 	}
 }

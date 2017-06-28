@@ -23,10 +23,17 @@
 package pl.isangeles.senlin.core;
 
 /**
+ * Interface for usable game objects
  * @author Isangeles
  *
  */
 public interface Usable 
 {
+	/**
+	 * Activates object on-use action
+	 * @param user Object user
+	 * @param target Object user target
+	 * @return True if object was successfully used
+	 */
 	public boolean use(Targetable user, Targetable target);
 }

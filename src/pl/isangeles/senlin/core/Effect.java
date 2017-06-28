@@ -67,6 +67,7 @@ public class Effect
 	 * @param hasteMod Affect on haste
 	 * @param dodgeMod Affect on dodge rating
 	 * @param dmgMod Affect on damage
+     * @param dot Damage over time effect value (positive value heals target) 
 	 * @param duration Effect duration
 	 * @param type Effect type
 	 * @throws FontFormatException 
@@ -112,6 +113,8 @@ public class Effect
 		character.modHealth(-hpMod);
 		character.modMagicka(-manaMod);
 		character.modAttributes(attMod.nagative());
+		time = 0;
+		dotTimer = 0;
 	}
 	
 	public int getHpMod()
@@ -180,12 +183,18 @@ public class Effect
 		character.modMagicka(manaMod);
 		character.modAttributes(attMod);
 	}
-	
+	/**
+	 * Sets current effect time 
+	 * @param timeInMillis Time in milliseconds
+	 */
 	public void setTime(int timeInMillis)
 	{
 	    time = timeInMillis;
 	}
-	
+	/**
+	 * Returns current effect time
+	 * @return Effect time in milliseconds
+	 */
 	public int getTime()
 	{
 	    return time;
@@ -198,7 +207,10 @@ public class Effect
 	{
 		return tile;
 	}
-	
+	/**
+	 * Returns effect Id
+	 * @return String with effect ID
+	 */
 	public String getId()
 	{
 		return id;

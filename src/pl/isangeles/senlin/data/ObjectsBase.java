@@ -64,7 +64,10 @@ public class ObjectsBase
 	{
 		return objectsMap.get(objectId).make();
 	}
-	
+	/**
+	 * Returns texture for areas exits
+	 * @return Sprite for areas exits
+	 */
 	public static Sprite getExitTex()
 	{
 		return exitAreaTex;

@@ -1,9 +1,8 @@
 package pl.isangeles.senlin.quest;
 
 import pl.isangeles.senlin.data.Log;
-
 /**
- * Class for quest stage objectives
+ * Class for quest stage objectives, smallest quest part
  * @author Isangeles
  *
  */
@@ -72,12 +71,18 @@ public class Objective
     {
     	return reqAmount;
     }
-    
+    /**
+     * Sets objective complete or incomplete
+     * @param complete True to set objective as complete, false otherwise
+     */
     public void setComplete(boolean complete)
     {
         this.complete = complete;
     }
-    
+    /**
+     * Sets objective targets amount
+     * @param amount Value for current amount of targets 
+     */
     public void setAmount(int amount)
     {
         this.amount = amount;

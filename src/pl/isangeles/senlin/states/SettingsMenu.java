@@ -56,7 +56,9 @@ public class SettingsMenu extends BasicGameState
 	
 	private boolean backReq;
 	private boolean changed;
-	
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
+	 */
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
@@ -74,7 +76,9 @@ public class SettingsMenu extends BasicGameState
 			e.printStackTrace();
 		}
     }
-
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
+	 */
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
@@ -86,7 +90,9 @@ public class SettingsMenu extends BasicGameState
     	if(message.isOpen())
     		message.draw();
     }
-
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
+	 */
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
@@ -112,7 +118,9 @@ public class SettingsMenu extends BasicGameState
     	    }
     	}
     }
-    
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.BasicGameState#getID()
+	 */
     @Override
     public int getID()
     {

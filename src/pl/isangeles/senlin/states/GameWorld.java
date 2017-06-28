@@ -121,6 +121,9 @@ public class GameWorld extends BasicGameState
 	    this.scenarios = savedGame.getScenarios();
 	    this.activeScenario = savedGame.getActiveScenario();
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
+	 */
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException
@@ -151,7 +154,9 @@ public class GameWorld extends BasicGameState
             System.err.println("Error message: " + e.getMessage());
         }
     }
-
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#render(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, org.newdawn.slick.Graphics)
+	 */
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
@@ -183,7 +188,9 @@ public class GameWorld extends BasicGameState
         ui.draw(g);
         //gwCursor.draw();
     }
-
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
+	 */
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
@@ -265,7 +272,7 @@ public class GameWorld extends BasicGameState
     				{
     					for(Scenario savedScenario : scenarios)
     					{
-    						if(savedScenario.getId().equals(exit.exitTo()))
+    						if(savedScenario.getId().equals(exit.getScenarioId()))
     						{
     							nextArea = savedScenario;
     							changeAreaReq = true;
@@ -274,7 +281,7 @@ public class GameWorld extends BasicGameState
 
 						if(nextArea == null)
 						{
-							nextArea = ScenariosBase.getScenario(exit.exitTo());
+							nextArea = ScenariosBase.getScenario(exit.getScenarioId());
 							changeAreaReq = true;
 						}
     				}
@@ -287,7 +294,9 @@ public class GameWorld extends BasicGameState
     public void keyPressed(int key, char c)
     {
     }
-
+    /* (non-Javadoc)
+	 * @see org.newdawn.slick.state.BasicGameState#getID()
+	 */
     @Override
     public int getID()
     {

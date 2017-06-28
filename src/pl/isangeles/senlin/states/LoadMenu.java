@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -36,8 +37,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.inter.Button;
+import pl.isangeles.senlin.inter.Field;
 import pl.isangeles.senlin.inter.TextButton;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
@@ -174,6 +177,13 @@ public class LoadMenu extends BasicGameState
             }
         }
     }
+    private void unselectAll()
+    {
+        for(SaveSlot slot : saveSlots)
+        {
+            slot.unselect();
+        }
+    }
     /**
      * Adds saves files to list and insert them to slots
      */
@@ -204,6 +214,8 @@ public class LoadMenu extends BasicGameState
     private class SaveSlot extends TextButton
     {
         private File saveFile;
+        private Image selectTex;
+        private boolean select;
         /**
          * SaveSlot constructor
          * @param gc Slick game container
@@ -214,6 +226,15 @@ public class LoadMenu extends BasicGameState
         public SaveSlot(GameContainer gc) throws SlickException, FontFormatException, IOException
         {
             super(gc);
+            selectTex = new Image(GConnector.getInput("field/select.png"), "sSlotSelect", false);
+        }
+        @Override
+        public void draw(float x, float y, boolean scaledPos)
+        {
+            if(select)
+            	selectTex.draw(x, y);
+            
+            super.draw(x, y, scaledPos);
         }
         /**
          * Inserts file into slot
@@ -247,13 +268,21 @@ public class LoadMenu extends BasicGameState
         {
             return (saveFile == null);
         }
-        
+        /**
+         * Deselects slot
+         */
+        public void unselect()
+        {
+            select = false;
+        }
         @Override
         public void mouseReleased(int button, int x, int y)
         {
             if(button == Input.MOUSE_LEFT_BUTTON && isMouseOver())
             {
+                unselectAll();
                 selectSave(saveFile);
+                select = true;
             }
         }
     }
