@@ -24,6 +24,7 @@ package pl.isangeles.senlin.inter.ui;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -155,5 +156,10 @@ public class SlotsBlock
         }
 	    
 	    return null;
+	}
+	
+	public Slot[][] getSlots()
+	{
+		return slots;
 	}
 }

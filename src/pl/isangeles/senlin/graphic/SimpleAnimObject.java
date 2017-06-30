@@ -22,11 +22,19 @@
  */
 package pl.isangeles.senlin.graphic;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.gui.MouseOverArea;
+
+import pl.isangeles.senlin.inter.InfoWindow;
+import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Coords;
 /**
  * Class for simple animated objects
  * @author Isangeles
@@ -34,20 +42,24 @@ import org.newdawn.slick.SpriteSheet;
  */
 public class SimpleAnimObject extends GameObject 
 {
-	private String id;
+	private String info;
 	private Animation anim;
+	private MouseOverArea objectMOA;
+	private InfoWindow infoWin;
 	/**
 	 * SimpleAnimObject constructor
 	 * @param is InputStream to sprite sheet file
 	 * @param ref Name for sprite sheet
 	 * @param flipped If sprite sheet should be flipped
 	 * @throws SlickException
+	 * @throws FontFormatException 
+	 * @throws IOException 
 	 */
-	public SimpleAnimObject(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames) throws SlickException 
+	public SimpleAnimObject(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames, String info, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(is, ref, flipped);
 		
-		id = ref;
+		this.info = info;
 		
 		SpriteSheet ss = new SpriteSheet(this, frameWidth, frameHeight);
 		Sprite[] frames;
@@ -67,25 +79,25 @@ public class SimpleAnimObject extends GameObject
 		}
 		
 		anim = new Animation(frames, duration, true);
+		objectMOA = new MouseOverArea(gc, anim.getCurrentFrame(), (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0));
+		infoWin = new InfoWindow(gc, info);
 	}
 	
 	@Override
 	public void draw(float x, float y, float scale, boolean scaledPos)
 	{
+		objectMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		anim.draw(x ,y, (anim.getCurrentFrame().getWidth() * getScale())*scale, (anim.getCurrentFrame().getHeight() * getScale())*scale);
+		if(objectMOA.isMouseOver())
+			infoWin.draw(x, y);
 	}
 	
 	@Override
 	public void draw(float reqSize)
 	{
+		objectMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		anim.draw(x ,y, (anim.getCurrentFrame().getWidth() * getScale())*scale, (anim.getCurrentFrame().getHeight() * getScale())*scale);
-	}
-	/**
-	 * Returns object ID
-	 * @return String with object ID
-	 */
-	public String getId()
-	{
-		return id;
+		if(objectMOA.isMouseOver())
+			infoWin.draw(x, y);
 	}
 }

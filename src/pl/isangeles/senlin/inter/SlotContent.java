@@ -7,4 +7,6 @@ package pl.isangeles.senlin.inter;
 public interface SlotContent 
 {
 	public InterfaceTile getTile();
+	
+	public String getId();
 }

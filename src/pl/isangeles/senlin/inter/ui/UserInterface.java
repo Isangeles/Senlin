@@ -30,6 +30,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Document;
 
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.Warning;
@@ -38,6 +40,7 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.Log;
 /**
  * Class containing all ui elements
@@ -291,51 +294,53 @@ public class UserInterface implements MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(player.getTarget() == null)
-			return;
-		try
+		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
-			Character target = (Character)player.getTarget();
-			if(target.isMouseOver())
+			Targetable target = player.getTarget();
+			if(target != null)
 			{
-				if(button == Input.MOUSE_RIGHT_BUTTON)
+				try
 				{
-					if(target.isLive())
+					Character targetedChar = (Character)target;
+					if(target.isMouseOver())
 					{
-						switch(target.getAttitudeTo(player))
+						if(target.isLive())
 						{
-						case FRIENDLY:
-							dialogue.open(player, target);
-							break;
-						case HOSTILE:
-							player.useSkill(player.getSkills().get("autoA"));
-							break;
-						case NEUTRAL:
-							player.useSkill(player.getSkills().get("autoA"));
-							break;
-						case DEAD:
-							break;
+							switch(targetedChar.getAttitudeTo(player))
+							{
+							case FRIENDLY:
+								dialogue.open(player, targetedChar);
+								break;
+							case HOSTILE:
+								player.useSkill(player.getSkills().get("autoA"));
+								break;
+							case NEUTRAL:
+								player.useSkill(player.getSkills().get("autoA"));
+								break;
+							case DEAD:
+								break;
+							}
 						}
-					}
-					else
-					{
-						try 
+						else
 						{
-							loot.open(target);
-						} 
-						catch (SlickException | IOException e) 
-						{
-							Log.addSystem("Loot load fail!msg/// " + e.getMessage());
+							try 
+							{
+								loot.open(targetedChar);
+							} 
+							catch (SlickException | IOException e) 
+							{
+								Log.addSystem("Loot load fail!msg/// " + e.getMessage());
+							}
 						}
 					}
 				}
+				catch(ClassCastException | NullPointerException e)
+				{
+					Log.addSystem("ui_mcheck_fail!msg///"+e);
+					e.printStackTrace();
+					return;
+				}
 			}
-		}
-		catch(ClassCastException | NullPointerException e)
-		{
-			Log.addSystem("ui_mcheck_fail!msg///"+e);
-			e.printStackTrace();
-			return;
 		}
 	}
 	@Override
@@ -346,6 +351,18 @@ public class UserInterface implements MouseListener
 	public static GameCursor getUiCursor()
 	{
 		return cursor;
+	}
+    /**
+     * Saves UI configuration to XML document element
+     * @param doc Document for save game file
+     * @return XML document element
+     */
+	public Element getSave(Document doc)
+	{
+		Element uiE = doc.createElement("ui");
+		uiE.appendChild(inventory.getSave(doc));
+		uiE.appendChild(bBar.getSave(doc));
+		return uiE;
 	}
 	
 	private void hideMenu()

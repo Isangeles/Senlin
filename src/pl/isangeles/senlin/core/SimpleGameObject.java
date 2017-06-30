@@ -24,7 +24,9 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.Position;
 
@@ -36,16 +38,22 @@ import pl.isangeles.senlin.util.Position;
 public class SimpleGameObject implements Targetable
 {
 	private String id;
-    private SimpleAnimObject texture;
+    private GameObject texture;
     private Position pos;
     /**
      * Simple game object constructor 
      * @param texture Graphical representation of object
      */
-    public SimpleGameObject(SimpleAnimObject texture)
+    public SimpleGameObject(String id, SimpleAnimObject texture)
     {
         this.texture = texture;
-        this.id = texture.getId();
+        this.id = id;
+    }
+    
+    public SimpleGameObject(String id, Sprite texture)
+    {
+    	this.texture = texture;
+    	this.id = id;
     }
     
     public void draw(float x, float y, boolean scaledPos)

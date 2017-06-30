@@ -207,7 +207,7 @@ public class GameWorld extends BasicGameState
     	{
 			try 
 			{
-				SaveEngine.save(player, scenarios, activeScenario.getId(), ui.getSaveName());
+				SaveEngine.save(player, scenarios, activeScenario.getId(), ui, ui.getSaveName());
 			} 
 			catch (ParserConfigurationException | TransformerException e) 
 			{

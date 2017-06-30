@@ -34,6 +34,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.inter.InterfaceObject;
 import pl.isangeles.senlin.inter.Slot;
@@ -221,6 +223,16 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+	}
+    /**
+     * Saves inventory menu configuration to XML document element
+     * @param doc Document for save game file
+     * @return XML document element
+     */
+	public Element getSave(Document doc)
+	{
+		Element inventoryE = doc.createElement("inventory");
+		return inventoryE;
 	}
     /**
      * Adds all player items into inventory menu 

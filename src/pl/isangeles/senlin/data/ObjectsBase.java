@@ -49,6 +49,7 @@ public class ObjectsBase
 {
 	private static Map<String, ObjectPattern> objectsMap = new HashMap<>();
 	private static Sprite exitAreaTex;
+	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -59,10 +60,11 @@ public class ObjectsBase
 	 * @return New game object from base or null if desired object was not found 
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public static SimpleGameObject get(String objectId) throws SlickException, IOException
+	public static SimpleGameObject get(String objectId) throws SlickException, IOException, FontFormatException
 	{
-		return objectsMap.get(objectId).make();
+		return objectsMap.get(objectId).make(gc);
 	}
 	/**
 	 * Returns texture for areas exits
@@ -83,6 +85,7 @@ public class ObjectsBase
 	 */
 	public static void load(String baseName, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
+		ObjectsBase.gc = gc;
 		objectsMap = DConnector.getObjects(baseName);
 		exitAreaTex =  new Sprite(GConnector.getInput("object/exit.png"), "areaExit", true, TConnector.getText("objects", "areaExit"), gc);
 	}

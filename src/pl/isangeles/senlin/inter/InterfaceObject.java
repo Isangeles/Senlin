@@ -45,7 +45,7 @@ public abstract class InterfaceObject extends Image
         super(pathToTex);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Object constructor with custom MOA size that uses raw path(outside graphical archive)
@@ -61,7 +61,7 @@ public abstract class InterfaceObject extends Image
         super(pathToTex);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
      * Object constructor that uses another image
@@ -74,7 +74,7 @@ public abstract class InterfaceObject extends Image
     	super(image);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Object with custom MOA size constructor that uses another image
@@ -89,7 +89,7 @@ public abstract class InterfaceObject extends Image
     	super(image);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
      * Constructor for interface object without info window, implicitly scales object for current resolution
@@ -105,7 +105,7 @@ public abstract class InterfaceObject extends Image
         super(fileInput, ref, flipped);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, (int)getScaledWidth(), (int)getScaledHeight());
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Constructor for interface object with info window, implicitly scales object for current resolution
@@ -142,7 +142,7 @@ public abstract class InterfaceObject extends Image
     	super(fileInput, ref, flipped);
         this.gc = gc;
         setProportion();
-        iObjectMOA = new MouseOverArea(gc, this, 0, 0, moaWidth, moaHeight);
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     }

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<base>
+    <object id="cFire01" mainTex="campFire.png" type="anim" frames="5" fWidth="64" fHeight="64"></object>
+    <object id="hAloe" mainTex="aloe.png" type="static"></object>
+</base>

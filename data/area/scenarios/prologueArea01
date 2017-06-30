@@ -18,6 +18,7 @@
     </quests>
     <objects>
         <object position="1900;200">cFire01</object>
+        <object position="1800;500">hAloe</object>
     </objects>
     <exits>
         <exit position="0;0">prologue02</exit>

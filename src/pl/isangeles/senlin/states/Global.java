@@ -124,7 +124,7 @@ public class Global
 	 */
 	public static float worldX(float x)
 	{
-		return x + cameraPos[0];
+		return (x + cameraPos[0]) - GameCursor.WIDTH;
 	}
 	/**
 	 * Converts raw y position to in game y position
@@ -133,10 +133,10 @@ public class Global
 	 */
 	public static float worldY(float y)
 	{
-		return y + cameraPos[1];
+		return (y + cameraPos[1]) - GameCursor.HEIGHT;
 	}
 	/**
-	 * Converts world x position to in ui x position
+	 * Converts world x position to ui x position
 	 * @param x Position on x-axis
 	 * @return Ui position on x-axis
 	 */

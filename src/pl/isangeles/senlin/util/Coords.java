@@ -26,7 +26,7 @@ package pl.isangeles.senlin.util;
  * @author Isangeles
  *
  */
-public class Coords
+public final class Coords
 {
 	public static final int UP = 0,
 							RIGHT = 1,

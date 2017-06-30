@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.parser.SSGParser;
 /**
  * Class for saving and loading game state
@@ -65,7 +66,7 @@ public class SaveEngine
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	public static void save(Character player, List<Scenario> scenarios, String currentScenario, String saveName) throws ParserConfigurationException, TransformerException
+	public static void save(Character player, List<Scenario> scenarios, String currentScenario, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -87,6 +88,8 @@ public class SaveEngine
 		    scenariosE.appendChild(scenario.getSave(doc));
 		}
 		saveE.appendChild(scenariosE);
+		
+		saveE.appendChild(ui.getSave(doc));
 		
 		TransformerFactory trf = TransformerFactory.newInstance();
 		Transformer tr = trf.newTransformer();

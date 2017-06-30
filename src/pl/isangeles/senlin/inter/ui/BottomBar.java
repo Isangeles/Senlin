@@ -12,10 +12,13 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.inter.Button;
 import pl.isangeles.senlin.inter.GameCursor;
 import pl.isangeles.senlin.inter.InterfaceObject;
+import pl.isangeles.senlin.inter.Slot;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -397,6 +400,11 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
 		    }
 		    return null;
 		}
+		
+		public SkillSlot[] getAll()
+		{
+			return slots;
+		}
 	}
 
     @Override
@@ -404,5 +412,25 @@ class BottomBar extends InterfaceObject implements UiElement, MouseListener, Key
     {
         // TODO Auto-generated method stub
         
+    }
+    /**
+     * Saves bottom bar configuration to XML document element
+     * @param doc Document for save game file
+     * @return XML document element
+     */
+    public Element getSave(Document doc)
+    {
+    	Element barE = doc.createElement("bar");
+    	for(int i = 0; i < 5; i ++)
+    	{
+    		if(!sSlots.slots[i].isNull())
+    		{
+    			Element slotE = doc.createElement("slot");
+    			slotE.setAttribute("id", i+"");
+    			slotE.setTextContent(sSlots.slots[i].getContent().getId());
+    			barE.appendChild(slotE);
+    		}
+    	}
+    	return barE;
     }
 }

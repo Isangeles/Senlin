@@ -52,9 +52,15 @@ public class ObjectParser
 		String id = objectE.getAttribute("id");
 		String mainTex = objectE.getAttribute("mainTex");
 		String type = objectE.getAttribute("type");
-		int frames = Integer.parseInt(objectE.getAttribute("frames"));
-		int fWidth = Integer.parseInt(objectE.getAttribute("fWidth"));
-		int fHeight = Integer.parseInt(objectE.getAttribute("fHeight"));
+		int frames = 0;
+		int fWidth = 0;
+		int fHeight = 0;
+		if(type.equals("anim"))
+		{
+			frames = Integer.parseInt(objectE.getAttribute("frames"));
+			fWidth = Integer.parseInt(objectE.getAttribute("fWidth"));
+			fHeight = Integer.parseInt(objectE.getAttribute("fHeight"));
+		}
 		
 		return new ObjectPattern(id, mainTex, type, frames, fWidth, fHeight);
 	}

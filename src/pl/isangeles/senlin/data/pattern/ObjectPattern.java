@@ -22,8 +22,10 @@
  */
 package pl.isangeles.senlin.data.pattern;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.SimpleGameObject;
@@ -31,6 +33,7 @@ import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for game objects patterns
@@ -40,6 +43,7 @@ import pl.isangeles.senlin.util.GConnector;
 public class ObjectPattern 
 {
 	private String id;
+	private String info;
 	private String mainTexture;
 	private String type;
 	private int frames;
@@ -52,6 +56,7 @@ public class ObjectPattern
 	public ObjectPattern(String id, String mainTexture, String type, int frames, int fWidth, int fHeight) 
 	{
 		this.id = id;
+		this.info = TConnector.getText("objects", id);
 		this.mainTexture = mainTexture;
 		this.type = type;
 		this.frames = frames;
@@ -72,14 +77,18 @@ public class ObjectPattern
 	 * @return New game object
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public SimpleGameObject make() throws SlickException, IOException
+	public SimpleGameObject make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		switch(type)
 		{
-		case "simpleA":
-		    SimpleAnimObject texture = new SimpleAnimObject(GConnector.getInput("object/"+mainTexture), id, flipped, fWidth, fHeight, frames);
-			return new SimpleGameObject(texture);
+		case "anim":
+		    SimpleAnimObject animTexture = new SimpleAnimObject(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
+			return new SimpleGameObject(id, animTexture);
+		case "static":
+			Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
+			return new SimpleGameObject(id, staticTexture);
 		}
 		return null;
 	}

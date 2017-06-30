@@ -51,6 +51,8 @@ import pl.isangeles.senlin.states.Global;
  */
 public class GameCursor extends InterfaceObject implements MouseListener
 {
+	public static final int WIDTH = 50;
+	public static final int HEIGHT = 40;
 	private GameContainer gc;
 	private int x;
 	private int y;
