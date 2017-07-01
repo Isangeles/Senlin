@@ -43,6 +43,7 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.item.Item;
 /**
  * Class for loot window
@@ -53,7 +54,7 @@ import pl.isangeles.senlin.core.item.Item;
 class LootWindow extends InterfaceObject implements UiElement, MouseListener, KeyListener
 {
 	private Character lootingChar;
-	private Character lootedChar;
+	private Targetable lootedChar;
 	private GameContainer gc;
 	private TrueTypeFont ttf;
 	private Button next;
@@ -128,10 +129,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 		lootedChar = null;
 		pageIndex = 0;
-		for(SlotsBlock page : slotsPages)
-		{
-			page.clear();
-		}
+		clearSlots();
 	}
 	/**
 	 * Opens loot window
@@ -139,21 +137,20 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public void open(Character characterToLoot) throws SlickException, IOException
+	public void open(Targetable characterToLoot) throws SlickException, IOException
 	{
-		lootedChar = characterToLoot;
-		if(!openReq)
+		if(openReq == false)
 		{
-			if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
-			{
-				loadLoot();
-				openReq = true;
-			}
-			else
-				lootingChar.moveTo(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
+	        lootedChar = characterToLoot;
+		    if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
+	        {
+		        clearSlots();
+	            loadLoot();
+	            openReq = true;
+	        }
+	        else
+	            lootingChar.moveTo(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
 		}
-		else
-			close();
 	}
 	/**
 	 * Closes and resets loot window
@@ -161,6 +158,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	public void close()
 	{
 		openReq = false;
+		lootingChar.looting(false);
 		reset();
 	}
 	
@@ -183,7 +181,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public boolean isAcceptingInput()
 	{
-		return true;
+		return openReq;
 	}
 
 	@Override
@@ -221,7 +219,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		{
 			if(takeAll.isMouseOver())
 			{
-				for(Item lootedItem : lootedChar.getItems())
+				for(Item lootedItem : lootedChar.getInventory())
 				{
 					lootingChar.addItem(lootedChar.getInventory().takeItem(lootedItem));
 				}
@@ -288,7 +286,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	 */
 	private void loadLoot() throws SlickException, IOException
 	{
-		for(Item item : lootedChar.getItems())
+		for(Item item : lootedChar.getInventory())
 		{
 			if(slotsPages.get(pageIndex).insertContent(item) == false)
 			{
@@ -298,5 +296,13 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 			}
 		}
 		pageIndex = 0;
+	}
+	
+	private void clearSlots()
+	{
+        for(SlotsBlock page : slotsPages)
+        {
+            page.clear();
+        }
 	}
 }

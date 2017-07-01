@@ -167,8 +167,20 @@ public class UserInterface implements MouseListener
     private void update()
     {
     	if(player.getTarget() != null)
+    	{
     		targetFrame.setCharacter(player.getTarget());
-    	
+    		if(player.isLooting())
+    		{
+    		    try 
+                {
+                    loot.open(player.getTarget());
+                } 
+                catch (SlickException | IOException e) 
+                {
+                    Log.addSystem("Loot load fail!msg/// " + e.getMessage());
+                }
+    		}
+    	}
     	if(dialogue.isTradeReq())
     	{
     		trade.open((Character)player.getTarget());
@@ -301,11 +313,11 @@ public class UserInterface implements MouseListener
 			{
 				try
 				{
-					Character targetedChar = (Character)target;
 					if(target.isMouseOver())
 					{
 						if(target.isLive())
 						{
+		                    Character targetedChar = (Character)target;
 							switch(targetedChar.getAttitudeTo(player))
 							{
 							case FRIENDLY:
@@ -323,14 +335,7 @@ public class UserInterface implements MouseListener
 						}
 						else
 						{
-							try 
-							{
-								loot.open(targetedChar);
-							} 
-							catch (SlickException | IOException e) 
-							{
-								Log.addSystem("Loot load fail!msg/// " + e.getMessage());
-							}
+							player.looting(true);
 						}
 					}
 				}

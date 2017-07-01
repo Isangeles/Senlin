@@ -92,6 +92,7 @@ public class Character implements Targetable, ObjectiveTarget
 	private boolean live;
 	private boolean trade;
 	private boolean train;
+	private boolean looting;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -424,6 +425,8 @@ public class Character implements Targetable, ObjectiveTarget
                 }
             }
         }
+	    if(target == null && looting)
+	        looting = false;
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
@@ -659,6 +662,14 @@ public class Character implements Targetable, ObjectiveTarget
 	    else
 	        return false;
 	}
+	/**
+	 * Checks if character looting his target
+	 * @return True if looting is on, false otherwise
+	 */
+	public boolean isLooting()
+	{
+	    return looting;
+	}
 	
 	public Portrait getPortrait()
 	{
@@ -678,12 +689,6 @@ public class Character implements Targetable, ObjectiveTarget
 	 */
 	public Item getItem(int index)
 	{ return inventory.get(index); }
-	/**
-	 * Returns table with all character items in inventory
-	 * @return Table with items
-	 */
-	public Item[] getItems()
-	{ return inventory.getItems(); }
 	/**
 	 * Returns character inventory
 	 * @return Inventory
@@ -965,6 +970,11 @@ public class Character implements Targetable, ObjectiveTarget
     	}
     	else
     		Log.addWarning(TConnector.getText("ui", "logUnable"));
+    }
+    
+    public void looting(boolean looting)
+    {
+        this.looting = looting;
     }
 	/**
 	 * Draws all character items (called by inventory menu)

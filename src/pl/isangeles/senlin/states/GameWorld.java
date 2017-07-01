@@ -85,7 +85,7 @@ public class GameWorld extends BasicGameState
 	private TiledMap areaMap;
 	private Character player;
 	private List<Character> areaNpcs = new ArrayList<>();
-	private List<SimpleGameObject> gwObjects = new ArrayList<>();
+	private List<SimpleGameObject> areaObjects = new ArrayList<>();
 	private List<Exit> areaExits = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
@@ -143,7 +143,7 @@ public class GameWorld extends BasicGameState
             areaMap = activeScenario.getMap();
             
             areaNpcs = activeScenario.getNpcs(); //test line
-            gwObjects = activeScenario.getObjects();
+            areaObjects = activeScenario.getObjects();
             areaExits = activeScenario.getExits();
             
         	npcsAi = new CharacterAi(this);
@@ -165,7 +165,7 @@ public class GameWorld extends BasicGameState
     	//game world
         g.translate(-cameraPos[0], -cameraPos[1]);
         areaMap.render(0, 0);
-        for(SimpleGameObject object : gwObjects)
+        for(SimpleGameObject object : areaObjects)
         {
             if(player.isNearby(object))
                 object.draw(Coords.getSize(1f));
@@ -286,6 +286,16 @@ public class GameWorld extends BasicGameState
 						}
     				}
     			}
+    			
+    			for(SimpleGameObject object : areaObjects)
+    			{
+    			    if(object.isMouseOver())
+    			    {
+    			        player.setTarget(object);
+    			        return;
+    			    }
+    			}
+    			player.setTarget(null);
     		}
     	}
     }

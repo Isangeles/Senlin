@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.action;
 
 /**
  * Enumeration for action types
@@ -29,7 +29,7 @@ package pl.isangeles.senlin.core;
  */
 public enum ActionType 
 {
-	NONE, ATTACK, EFFECTUSER, EFFECTTARGET, READ;
+	NONE, ATTACK, EFFECTUSER, EFFECTTARGET, READ, LOOT;
 	/**
 	 * Converts action type name to ActionType enum
 	 * @param actionName String with action type name
@@ -47,6 +47,8 @@ public enum ActionType
 			return ActionType.EFFECTTARGET;
 		case "read":
 			return ActionType.READ;
+		case "loot":
+		    return ActionType.LOOT;
 		default:
 			return ActionType.NONE;
 		}

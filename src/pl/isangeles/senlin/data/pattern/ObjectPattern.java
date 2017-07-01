@@ -24,14 +24,24 @@ package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.action.EffectAction;
+import pl.isangeles.senlin.core.action.LootAction;
+import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
+import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -42,27 +52,38 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class ObjectPattern 
 {
-	private String id;
-	private String info;
-	private String mainTexture;
-	private String type;
-	private int frames;
-	private int fWidth;
-	private int fHeight;
-	private boolean flipped;
+	private final String id;
+	private final String info;
+	private final String mainTexture;
+	private final String portrait;
+	private final String type;
+	private final int frames;
+	private final int fWidth;
+	private final int fHeight;
+	private final boolean flipped;
+	private final ActionType action;
+	private final int gold;
+	private final List<RandomItem> objectItems = new ArrayList<>();
 	/**
 	 * ObjectPattern constructor
 	 */
-	public ObjectPattern(String id, String mainTexture, String type, int frames, int fWidth, int fHeight) 
+	public ObjectPattern(String id, String mainTexture, String portrait, String type, int frames, int fWidth, int fHeight, String action, int gold, Map<String, Boolean> items) 
 	{
 		this.id = id;
 		this.info = TConnector.getText("objects", id);
 		this.mainTexture = mainTexture;
+		this.portrait = portrait;
 		this.type = type;
 		this.frames = frames;
 		this.fWidth = fWidth;
 		this.fHeight = fHeight;
 		this.flipped = false;
+		this.action = ActionType.fromString(action);
+		this.gold = gold;
+		for(String itemId : items.keySet())
+		{
+		    objectItems.add(new RandomItem(itemId, items.get(itemId)));
+		}
 	}
 	/**
 	 * Return ID of this pattern object 
@@ -81,14 +102,31 @@ public class ObjectPattern
 	 */
 	public SimpleGameObject make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
+	    Portrait uiPortrait = new Portrait(GConnector.getObjectPortrait(portrait), gc);
+	    Action objectAction;
+	    switch(action)
+	    {
+	    case LOOT:
+	        objectAction = new LootAction();
+	        break;
+	    default:
+	        objectAction = new EffectAction();
+	    }
+	    
+	    List<Item> itemsIn = new ArrayList<>();
+	    for(RandomItem rItem : objectItems)
+	    {
+	        itemsIn.add(rItem.make());
+	    }
+	    
 		switch(type)
 		{
 		case "anim":
 		    SimpleAnimObject animTexture = new SimpleAnimObject(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
-			return new SimpleGameObject(id, animTexture);
+			return new SimpleGameObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn);
 		case "static":
 			Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
-			return new SimpleGameObject(id, staticTexture);
+			return new SimpleGameObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
 		}
 		return null;
 	}

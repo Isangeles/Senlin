@@ -24,11 +24,15 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.inter.Portrait;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for simple game objects
@@ -38,22 +42,37 @@ import pl.isangeles.senlin.util.Position;
 public class SimpleGameObject implements Targetable
 {
 	private String id;
+	private String name;
     private GameObject texture;
+    private Portrait portrait;
     private Position pos;
+    private Inventory inventory = new Inventory();
+    private Effects effects = new Effects();
+    private Action onClick;
     /**
      * Simple game object constructor 
      * @param texture Graphical representation of object
      */
-    public SimpleGameObject(String id, SimpleAnimObject texture)
+    public SimpleGameObject(String id, SimpleAnimObject texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
         this.texture = texture;
+        this.portrait = portrait;
         this.id = id;
+        this.onClick = onClick;
+        name = TConnector.getText("objects", id);
+        inventory.addAll(items);
+        inventory.addGold(gold);
     }
     
-    public SimpleGameObject(String id, Sprite texture)
+    public SimpleGameObject(String id, Sprite texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
     	this.texture = texture;
+    	this.portrait = portrait;
     	this.id = id;
+        this.onClick = onClick;
+        name = TConnector.getText("objects", id);
+        inventory.addAll(items);
+        inventory.addGold(gold);
     }
     
     public void draw(float x, float y, boolean scaledPos)
@@ -70,6 +89,15 @@ public class SimpleGameObject implements Targetable
     {
         this.pos = pos;
         texture.setPosition(pos);
+    }
+    
+    public void startAction(Targetable user)
+    {
+        if(onClick.getType() == ActionType.LOOT)
+        {
+            user.setTarget(this);
+            user.looting(true);
+        }
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#setTarget(pl.isangeles.senlin.core.Targetable)
@@ -100,8 +128,7 @@ public class SimpleGameObject implements Targetable
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return name;
     }
 
     /* (non-Javadoc)
@@ -110,8 +137,7 @@ public class SimpleGameObject implements Targetable
     @Override
     public Portrait getPortrait()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return portrait;
     }
 
     /* (non-Javadoc)
@@ -120,8 +146,7 @@ public class SimpleGameObject implements Targetable
     @Override
     public Effects getEffects()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return effects;
     }
 
     /* (non-Javadoc)
@@ -280,8 +305,36 @@ public class SimpleGameObject implements Targetable
 	@Override
 	public boolean isMouseOver() 
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return texture.isMouseOver();
 	}
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#getInventory()
+     */
+    @Override
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#looting(boolean)
+     */
+    @Override
+    public void looting(boolean looting)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#isLooting()
+     */
+    @Override
+    public boolean isLooting()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

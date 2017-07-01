@@ -73,7 +73,7 @@ class CharacterFrame extends InterfaceObject
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(11f), true);
+        textTtf = new TrueTypeFont(textFont.deriveFont(getSize(11f)), true);
         
         frameMOA = new MouseOverArea(gc, this, 0, 0);
     }
@@ -95,10 +95,13 @@ class CharacterFrame extends InterfaceObject
         super.draw(x, y);
         character.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f));
         textTtf.drawString(super.x+getDis(150), super.y+getDis(15), character.getName());
-        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + character.getLevel());
-        health.draw(x+139, y+36);
-        magicka.draw(x+139, y+62);
-        experience.draw(x+139, y+88);
+        if(Character.class.isInstance(character))
+        {
+            textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + character.getLevel());
+            health.draw(x+139, y+36);
+            magicka.draw(x+139, y+62);
+            experience.draw(x+139, y+88);
+        }
         
         //Draws effects
     	int row = 0;

@@ -28,8 +28,9 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Action;
-import pl.isangeles.senlin.core.ActionType;
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.action.EffectAction;
 import pl.isangeles.senlin.core.item.Misc;
 import pl.isangeles.senlin.data.EffectsBase;
 
@@ -86,13 +87,13 @@ public class MiscPattern
 		switch(at)
 		{
 		case EFFECTUSER:
-			action = new Action(EffectsBase.getEffect(actionId), "user");
+			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
 			break;
 		case EFFECTTARGET:
-			action = new Action(EffectsBase.getEffect(actionId), "target");
+			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
 			break;
 		default:
-			action = new Action();
+			action = new EffectAction();
 		}
 		return new Misc(id, value, disposable, icon, action, gc);
 	}

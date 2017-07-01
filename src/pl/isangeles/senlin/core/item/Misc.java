@@ -29,9 +29,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Action;
-import pl.isangeles.senlin.core.ActionType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 /**

@@ -22,8 +22,12 @@
  */
 package pl.isangeles.senlin.util.parser;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
@@ -52,6 +56,7 @@ public class ObjectParser
 		String id = objectE.getAttribute("id");
 		String mainTex = objectE.getAttribute("mainTex");
 		String type = objectE.getAttribute("type");
+		String action = objectE.getAttribute("action");
 		int frames = 0;
 		int fWidth = 0;
 		int fHeight = 0;
@@ -62,6 +67,32 @@ public class ObjectParser
 			fHeight = Integer.parseInt(objectE.getAttribute("fHeight"));
 		}
 		
-		return new ObjectPattern(id, mainTex, type, frames, fWidth, fHeight);
+		String portrait;
+		Element portraitE = (Element)objectE.getElementsByTagName("portrait").item(0);
+		if(portraitE != null)
+		    portrait = portraitE.getTextContent();
+		else
+		    portrait = "default.png";
+		
+		Map<String, Boolean> items = new HashMap<>(); 
+		Element inE = (Element)objectE.getElementsByTagName("in").item(0);
+        int gold = 0;
+		if(inE != null)
+		{
+		    gold = Integer.parseInt(inE.getAttribute("gold"));
+		    NodeList itemsList = inE.getChildNodes();
+	        for(int i = 0; i < itemsList.getLength(); i ++)
+	        {
+	            Node itemNode = itemsList.item(i);
+	            if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+	            {
+	                Element itemE = (Element)itemNode;
+	                Boolean random = Boolean.parseBoolean(itemE.getAttribute("random"));
+	                items.put(itemE.getTextContent(), random);
+	            }
+	        }
+		}
+		
+		return new ObjectPattern(id, mainTex, portrait, type, frames, fWidth, fHeight, action, gold, items);
 	}
 }

@@ -73,6 +73,19 @@ public final class GConnector
     	return portrait;
     }
     /**
+     * Returns image from object/portrait dir in graphic archive
+     * @param fileName Name of img file
+     * @return New image
+     * @throws SlickException
+     * @throws IOException
+     */
+    public static Image getObjectPortrait(String fileName) throws SlickException, IOException
+    {
+        Image portrait = new Image(getInput("object/portrait/"+fileName), fileName, false);
+        portrait.setName(fileName);
+        return portrait;
+    }
+    /**
      * This static method reads file with image names in portrait folder and adds these files to Image List
      * @return List with images
      * @throws FileNotFoundException

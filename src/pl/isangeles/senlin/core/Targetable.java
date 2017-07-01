@@ -51,6 +51,7 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
+	public Inventory getInventory();
 	public int getHealth();
 	public int getMaxHealth();
 	public int getMagicka();
@@ -67,7 +68,9 @@ public interface Targetable extends ObjectiveTarget
 	public void modHealth(int value);
 	public void modMagicka(int value);
 	public void modAttributes(Attributes attributes);
+	public void looting(boolean looting);
 	
 	public boolean isLive();
 	public boolean isMouseOver();
+	public boolean isLooting();
 }

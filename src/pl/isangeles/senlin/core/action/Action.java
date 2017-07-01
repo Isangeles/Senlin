@@ -20,8 +20,10 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.action;
 
+import pl.isangeles.senlin.core.Effect;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.skill.Skill;
 
 /**
@@ -29,11 +31,9 @@ import pl.isangeles.senlin.core.skill.Skill;
  * @author Isangeles
  *
  */
-public class Action 
+public abstract class Action 
 {
-	public ActionType type;
-	public Skill skill;
-	public Effect effect;
+	protected ActionType type;
 	/**
 	 * Default constructor, action do nothing
 	 */
@@ -42,38 +42,12 @@ public class Action
 		type = ActionType.NONE;
 	}
 	/**
-	 * Constructor for action causing specified effect on user/target
-	 * @param effectOnAction Effect of action
-	 * @param target String with 'user' for effect on user, 'target' for effect on target
-	 */
-	public Action(Effect effectOnAction, String target)
-	{
-		if(target.equals("user"))
-			type = ActionType.EFFECTUSER;
-		if(target.equals("target"))
-			type = ActionType.EFFECTTARGET;
-		
-		effect = effectOnAction;
-		if(effect == null)
-			type = ActionType.NONE;
-	}
-	/**
 	 * Starts action
 	 * @param user Action user
 	 * @param target User target 
 	 * @return 
 	 */
-	public boolean start(Targetable user, Targetable target)
-	{
-		switch(type)
-		{
-		case EFFECTUSER:
-			effect.turnOn(user);
-			return true;
-		default:
-			return true;
-		}
-	}
+	public abstract boolean start(Targetable user, Targetable target);
 	/**
 	 * Returns action type
 	 * @return ActionType enumeration

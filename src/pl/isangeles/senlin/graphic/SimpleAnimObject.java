@@ -100,4 +100,10 @@ public class SimpleAnimObject extends GameObject
 		if(objectMOA.isMouseOver())
 			infoWin.draw(x, y);
 	}
+	
+	@Override
+	public boolean isMouseOver()
+	{
+	    return objectMOA.isMouseOver();
+	}
 }

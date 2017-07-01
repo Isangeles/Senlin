@@ -6,9 +6,10 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Action;
-import pl.isangeles.senlin.core.ActionType;
 import pl.isangeles.senlin.core.Usable;
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.action.EffectAction;
 import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.inter.ui.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -49,7 +50,7 @@ public abstract class Item implements SlotContent, Usable
         this.info = TConnector.getInfo("items", id)[1];
         this.value = value;
         this.imgName = imgName;
-        this.onUse = new Action();
+        this.onUse = new EffectAction();
         itemCounter ++;   
     }
     /**

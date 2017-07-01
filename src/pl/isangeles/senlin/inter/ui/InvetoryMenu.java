@@ -72,7 +72,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 	 */
     public InvetoryMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
-        super(GConnector.getInput("ui/background/inventoryBG.png"), "uiInventory", false, gc);
+        super(GConnector.getInput("ui/background/inventoryBG.png"), "uiInventoryBg", false, gc);
         this.player = player;
         gc.getInput().addMouseListener(this);
         
@@ -136,6 +136,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
     public void reset()
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+        slots.draw(Coords.getX("BR", 0), Coords.getY("BR", 0)); //to force MOA relocation
     }
     /**
      * Updates inventory menu
@@ -216,7 +217,8 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
 			if(slots.getMouseOver() != null)
 			{
 				Item item = (Item)slots.getMouseOver().getContent();
-				item.use(player, player.getTarget());
+				if(item != null)
+				    item.use(player, player.getTarget());
 			}
 		}
 	}
@@ -239,7 +241,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
      */
     private void addItems()
     {
-    	for(Item item : player.getItems())
+    	for(Item item : player.getInventory())
     	{
     		if(!itemsIn.contains(item))
             {
