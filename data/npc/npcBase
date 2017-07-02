@@ -98,7 +98,7 @@
     <effects>
     </effects>
 </npc>
-<npc id="goblin01" attitude="hostille" guild="0" level="1">
+<npc id="goblin01" attitude="hostile" guild="2" level="1">
     <stats>2;2;3;1;1;</stats>
     <portrait>goblin01.jpg</portrait>
     <spritesheet static="true">goblin12221-60x70.png</spritesheet>

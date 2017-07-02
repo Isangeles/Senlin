@@ -38,13 +38,14 @@ import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.data.SaveElement;
 
 /**
  * Class for character equipment
  * @author Isangeles
  *
  */
-public class Equipment 
+public class Equipment implements SaveElement
 {
 	private Weapon weaponMain;
 	private Weapon weaponSec;

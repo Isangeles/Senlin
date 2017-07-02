@@ -42,12 +42,13 @@ import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.SaveElement;
 /**
  * Class containing all ui elements
  * @author Isangeles
  *
  */
-public class UserInterface implements MouseListener
+public class UserInterface implements MouseListener, SaveElement
 {
     private Character player;
     private static GameCursor cursor;

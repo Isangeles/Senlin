@@ -44,6 +44,7 @@ import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.quest.Quest;
@@ -55,7 +56,7 @@ import pl.isangeles.senlin.core.SimpleGameObject;
  * @author Isangeles
  *
  */
-public class Scenario 
+public class Scenario implements SaveElement
 {
 	private final String id;
 	private String mapFileName;

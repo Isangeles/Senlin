@@ -273,6 +273,14 @@ public class Avatar implements MouseListener
 		isSpeaking = true;
 	}
 	/**
+	 * Informs avatar that his character is targeted or not
+	 * @param isTargeted True if is targeted, false otherwise
+	 */
+	public void targeted(boolean isTargeted)
+	{
+	    this.isTargeted = isTargeted;
+	}
+	/**
 	 * Checks if character is in move
 	 * @return
 	 */
@@ -364,23 +372,6 @@ public class Avatar implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		if(button == Input.MOUSE_RIGHT_BUTTON)
-		{	
-			if(avMOA.isMouseOver())
-			{
-				Global.getPlayer().setTarget(character);
-				isTargeted = true;
-			}
-			else if(!avMOA.isMouseOver() && Global.getPlayer().getTarget() != character)
-			{
-				isTargeted = false;
-			}
-			else if(!avMOA.isMouseOver() && Global.getPlayer().getTarget() == character)
-			{
-				Global.getPlayer().setTarget(null);
-				isTargeted = false;
-			}
-		}
 	}
 	@Override
 	public void mouseReleased(int arg0, int arg1, int arg2) 

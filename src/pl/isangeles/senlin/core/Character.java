@@ -55,6 +55,7 @@ import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
@@ -71,7 +72,7 @@ import pl.isangeles.senlin.states.Global;
  * @author Isangeles
  *
  */
-public class Character implements Targetable, ObjectiveTarget
+public class Character implements Targetable, ObjectiveTarget, SaveElement
 {
 	private String id;
 	private String name;
@@ -601,7 +602,7 @@ public class Character implements Targetable, ObjectiveTarget
 		    return Attitude.DEAD;
 		if(attitudeMem.containsKey(character))
 		    return attitudeMem.get(character);
-		if(guild == character.getGuild())
+		if(!guild.getId().equals("0") && guild == character.getGuild())
 			return Attitude.FRIENDLY;
 		else
 			return attitude;
@@ -1014,6 +1015,78 @@ public class Character implements Targetable, ObjectiveTarget
 	{
 		return target;
 	}
+    /**
+     * Informs character that is targeted or not
+     * @param isTargeted True if is targeted, false otherwise
+     */
+    public void targeted(boolean isTargeted)
+    {
+        avatar.targeted(isTargeted);
+    }
+    /**
+     * Parses character to XML document element for game save file
+     * @param doc Document for game save
+     * @return XML document element 
+     */
+    public Element getSave(Document doc)
+    {   
+        Element charE = doc.createElement("character");
+        charE.setAttribute("id", this.id);
+        charE.setAttribute("attitude", this.attitude.toString());
+        charE.setAttribute("guild", this.guild.getId());
+        charE.setAttribute("level", this.level+"");
+        charE.setAttribute("trade", this.trade+"");
+        charE.setAttribute("train", this.train+"");
+        
+        Element statsE = doc.createElement("stats");
+        statsE.setTextContent(attributes.toLine());
+        charE.appendChild(statsE);
+        
+        Element portraitE = doc.createElement("portrait");
+        portraitE.setTextContent(portrait.getName());
+        charE.appendChild(portraitE);
+        
+        Element spritesheetE = doc.createElement("spritesheet");
+        spritesheetE.setAttribute("static", avatar.isStatic()+"");
+        spritesheetE.setTextContent(avatar.getDefTorso().getName());
+        charE.appendChild(spritesheetE);
+        
+        charE.appendChild(inventory.getSave(doc));
+        charE.appendChild(abilities.getSave(doc));
+        charE.appendChild(effects.getSave(doc));
+        charE.appendChild(quests.getSave(doc));
+        
+        Element flagsE = doc.createElement("flags");
+        for(String flag : flags)
+        {
+            Element flagE = doc.createElement("flag");
+            flagE.setTextContent(flag);
+            flagsE.appendChild(flagE);
+        }
+        charE.appendChild(flagsE);
+        
+        Element pointsE = doc.createElement("points");
+        Element hpE = doc.createElement("hp");
+        Element manaE = doc.createElement("mana");
+        Element expE = doc.createElement("exp");
+        hpE.setTextContent(health+"");
+        manaE.setTextContent(magicka+"");
+        expE.setTextContent(experience+"");
+        pointsE.appendChild(hpE);
+        pointsE.appendChild(manaE);
+        pointsE.appendChild(expE);
+        charE.appendChild(pointsE);
+        
+        Element nameE = doc.createElement("name");
+        nameE.setTextContent(name);
+        charE.appendChild(nameE);
+        
+        Element positionE = doc.createElement("position");
+        positionE.setTextContent(new Position(position).toString());
+        charE.appendChild(positionE);
+        
+        return charE;
+    }
 	/**
 	 * Checks if specified position is 'moveable' on map 
 	 * @param x Position on x axis
@@ -1028,69 +1101,5 @@ public class Character implements Targetable, ObjectiveTarget
             return false;
         
         return true;
-	}
-	/**
-	 * Parses character to XML document element for game save file
-	 * @param doc Document for game save
-	 * @return XML document element 
-	 */
-	public Element getSave(Document doc)
-	{	
-		Element charE = doc.createElement("character");
-		charE.setAttribute("id", this.id);
-		charE.setAttribute("attitude", this.attitude.toString());
-		charE.setAttribute("guild", this.guild.getId());
-		charE.setAttribute("level", this.level+"");
-        charE.setAttribute("trade", this.trade+"");
-		charE.setAttribute("train", this.train+"");
-		
-		Element statsE = doc.createElement("stats");
-		statsE.setTextContent(attributes.toLine());
-		charE.appendChild(statsE);
-		
-		Element portraitE = doc.createElement("portrait");
-		portraitE.setTextContent(portrait.getName());
-		charE.appendChild(portraitE);
-		
-		Element spritesheetE = doc.createElement("spritesheet");
-		spritesheetE.setAttribute("static", avatar.isStatic()+"");
-		spritesheetE.setTextContent(avatar.getDefTorso().getName());
-		charE.appendChild(spritesheetE);
-		
-		charE.appendChild(inventory.getSave(doc));
-		charE.appendChild(abilities.getSave(doc));
-		charE.appendChild(effects.getSave(doc));
-		charE.appendChild(quests.getSave(doc));
-		
-		Element flagsE = doc.createElement("flags");
-		for(String flag : flags)
-		{
-			Element flagE = doc.createElement("flag");
-			flagE.setTextContent(flag);
-			flagsE.appendChild(flagE);
-		}
-		charE.appendChild(flagsE);
-		
-		Element pointsE = doc.createElement("points");
-		Element hpE = doc.createElement("hp");
-		Element manaE = doc.createElement("mana");
-		Element expE = doc.createElement("exp");
-		hpE.setTextContent(health+"");
-		manaE.setTextContent(magicka+"");
-		expE.setTextContent(experience+"");
-		pointsE.appendChild(hpE);
-		pointsE.appendChild(manaE);
-		pointsE.appendChild(expE);
-		charE.appendChild(pointsE);
-		
-		Element nameE = doc.createElement("name");
-		nameE.setTextContent(name);
-		charE.appendChild(nameE);
-		
-		Element positionE = doc.createElement("position");
-		positionE.setTextContent(new Position(position).toString());
-		charE.appendChild(positionE);
-		
-		return charE;
 	}
 }

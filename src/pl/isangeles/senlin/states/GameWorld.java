@@ -211,7 +211,7 @@ public class GameWorld extends BasicGameState
 			} 
 			catch (ParserConfigurationException | TransformerException e) 
 			{
-				Log.addSystem("save_maker_fail_msg///" + e.getMessage());
+				Log.addSystem("save_builder_fail_msg///" + e.getMessage());
 			}
     	}
     	if(ui.takeLoadReq() == true)
@@ -294,6 +294,18 @@ public class GameWorld extends BasicGameState
     			        player.setTarget(object);
     			        return;
     			    }
+    			}
+    			
+    			for(Character npc : areaNpcs)
+    			{
+    			    if(npc.isMouseOver())
+    			    {
+    			        player.setTarget(npc);
+    			        npc.targeted(true);
+    			        return;
+    			    }
+    			    else
+    			        npc.targeted(false);
     			}
     			player.setTarget(null);
     		}

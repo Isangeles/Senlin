@@ -49,13 +49,14 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.SaveElement;
 /**
  * Graphical representation of character inventory
  * TODO this UI element is terrible slow 
  * @author Isangeles
  *
  */
-class InvetoryMenu extends InterfaceObject implements UiElement, MouseListener
+class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, MouseListener
 {
 	private Character player;
 	private SlotsBlock slots;

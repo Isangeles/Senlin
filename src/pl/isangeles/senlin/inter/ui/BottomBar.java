@@ -24,12 +24,13 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.SaveElement;
 /**
  * UI bottom bar class, sends requests to show various parts of ui
  * @author Isangeles
  *
  */
-class BottomBar extends InterfaceObject implements UiElement, MouseListener, KeyListener
+class BottomBar extends InterfaceObject implements UiElement, SaveElement, MouseListener, KeyListener
 {
     private Button quests;
     private Button inventory;

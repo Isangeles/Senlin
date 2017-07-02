@@ -27,12 +27,14 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import pl.isangeles.senlin.data.SaveElement;
 /**
  * Container for character effects
  * @author Isangeles
  *
  */
-public class Effects extends ArrayList<Effect>
+public class Effects extends ArrayList<Effect> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 

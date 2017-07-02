@@ -24,9 +24,13 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
@@ -39,7 +43,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class SimpleGameObject implements Targetable
+public class SimpleGameObject implements Targetable, SaveElement
 {
 	private String id;
 	private String name;
@@ -337,4 +341,18 @@ public class SimpleGameObject implements Targetable
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+     */
+    @Override
+    public Element getSave(Document doc)
+    {
+        Element objectE = doc.createElement("object");
+        objectE.setAttribute("id", id);
+        objectE.appendChild(inventory.getSave(doc));
+        
+        return objectE;
+    }
+
+    
 }
