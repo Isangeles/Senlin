@@ -42,7 +42,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SavedGame;
@@ -154,8 +156,11 @@ public class SSGParser
             if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
                 Element objectE = (Element)objectNode;
-                SimpleGameObject object = ObjectsBase.get(objectE.getTextContent());
+                SimpleGameObject object = ObjectsBase.get(objectE.getAttribute("id"));
                 object.setPosition(new Position(objectE.getAttribute("position")));
+                Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
+                if(eqE != null)
+                	object.setInventory(getObjectInventory(eqE));
                 objects.add(object);
             }
         }
@@ -232,5 +237,31 @@ public class SSGParser
             }
         }
         return flags;
+    }
+    /**
+     * Parses specified save eq element to inventory(ignores equipment)
+     * @param eqE SSG eq doc element
+     * @return New inventory object
+     */
+    private static Inventory getObjectInventory(Element eqE)
+    {
+    	Inventory objectInventory = new Inventory();
+    	Node inNode = eqE.getElementsByTagName("in").item(0);
+    	
+    	Element inE = (Element)inNode;
+    	objectInventory.addGold(Integer.parseInt(inE.getAttribute("gold")));
+    	
+    	NodeList itemsList = inNode.getChildNodes();
+    	for(int i = 0; i < itemsList.getLength(); i ++)
+    	{
+    		Node itemNode = itemsList.item(0);
+    		if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element itemE = (Element)itemNode;
+    			objectInventory.add(ItemsBase.getItem(itemE.getTextContent()));
+    		}
+    	}
+    	
+    	return objectInventory;
     }
 }

@@ -45,6 +45,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.dialogue.Answer;
+import pl.isangeles.senlin.dialogue.Dialogue;
 /**
  * Class for UI dialog box
  * @author Isangeles
@@ -54,6 +55,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character interlocutorA;
 	private Character interlocutorB;
+	
+	private Dialogue currentDialogue;
 	
 	private MessageBox textBox;
 	
@@ -135,8 +138,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	}
 	/**
 	 * Opens dialogue box if 
-	 * @param interlocutorA 
-	 * @param interlocutorB
+	 * @param interlocutorA First character, dialogue owner(e.g. NPC, some game object)
+	 * @param interlocutorB Second character(e.g. player)
 	 */
 	public void open(Character interlocutorA, Character interlocutorB)
 	{
@@ -148,9 +151,11 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		{
 			this.interlocutorA = interlocutorA;
 			this.interlocutorB = interlocutorB;
+			
+			currentDialogue = interlocutorB.getDialogueFor(interlocutorA);
 
-			textBox.addRight(new TextBlock(interlocutorB.getDialogueFor(interlocutorA).getText(), 20, ttf));
-			dialogueAnswers = interlocutorB.getDialogueFor(interlocutorA).getAnswers();
+			textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
+			dialogueAnswers = currentDialogue.getAnswers();
 			addOptions(dialogueAnswers);
 			openReq = true;
 		}
@@ -376,6 +381,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 						tradeReq = true;
 					if(option.getId().equals("trainReq"))
 						trainReq = true;
+
+					currentDialogue.getCurrentStage().transfer(interlocutorB, interlocutorA);
 					
 					if(option.isEnd())
 					{

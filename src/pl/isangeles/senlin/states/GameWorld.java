@@ -294,6 +294,7 @@ public class GameWorld extends BasicGameState
     			        player.setTarget(object);
     			        return;
     			    }
+    			    	
     			}
     			
     			for(Character npc : areaNpcs)

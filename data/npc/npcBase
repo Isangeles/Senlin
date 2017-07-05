@@ -89,7 +89,8 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in gold="12">
+	    <item random="false">mMeat01</item>
         </in>
     </eq>
     <skills>

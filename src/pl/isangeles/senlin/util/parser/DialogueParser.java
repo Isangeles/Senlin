@@ -110,6 +110,58 @@ public class DialogueParser
 					
 					answersList.add(new Answer(answer.getTextContent(), qOn, endBool));
 				}
+				
+				
+			}
+			Element transferE = (Element)text.getElementsByTagName("transfer").item(0);
+			if(transferE != null)
+			{
+				List<String> iToGive = new ArrayList<>();
+				List<String> iToTake = new ArrayList<>();
+				int gToGive = 0;
+				int gToTake = 0;
+				
+				Element giveE = (Element)transferE.getElementsByTagName("give").item(0);
+				try
+				{
+					gToGive = Integer.parseInt(giveE.getAttribute("gold"));
+				}
+				catch(NumberFormatException e)
+				{
+					gToGive = 0;
+				}
+				NodeList itemsToGiveList = giveE.getChildNodes();
+				for(int j = 0; j < itemsToGiveList.getLength(); j ++)
+				{
+					Node itemNode = itemsToGiveList.item(j);
+					if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+					{
+						Element itemE = (Element)itemNode;
+						iToGive.add(itemE.getTextContent());
+					}
+				}
+				
+				Element takeE = (Element)transferE.getElementsByTagName("take").item(0);
+				try
+				{
+					gToTake = Integer.parseInt(takeE.getAttribute("gold"));
+				}
+				catch(NumberFormatException e)
+				{
+					gToTake = 0;
+				}
+				NodeList itemsToTakeList = takeE.getChildNodes();
+				for(int j = 0; j < itemsToTakeList.getLength(); j ++)
+				{
+					Node itemNode = itemsToTakeList.item(j);
+					if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+					{
+						Element itemE = (Element)itemNode;
+						iToTake.add(itemE.getTextContent());
+					}
+				}
+
+				return new DialoguePart(id, on, answersList, iToGive, iToTake, gToGive, gToTake);
 			}
 			return new DialoguePart(id, on, answersList);
 		}

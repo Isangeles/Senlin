@@ -737,6 +737,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Dialogue getDialogueFor(Character character)
 	{
+		Log.addSystem(id + "-checking_dList");
 		for(Dialogue dialogue : dialogues)
 		{
 			if(character.getFlags().contains(dialogue.getReqFlag()))

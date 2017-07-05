@@ -260,6 +260,25 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     		return null;
     }
     /**
+     * Removes item with specified ID from inventory and returns it
+     * @param item Item in inventory to remove
+     * @return Removed item or null if inventory does not contain item with such ID
+     */
+    public Item takeItem(String itemId)
+    {
+    	Item itemToTake = null;
+    	for(Item item : this)
+    	{
+    		if(item.getId().equals(itemId))
+    		{
+    			itemToTake = item;
+    			break;
+    		}
+    	}
+    	this.remove(itemToTake);
+    	return itemToTake;
+    }
+    /**
      * Removes specified amount of gold from inventory
      * @param value Amount of gold to remove
      * @return Removed value or 0 if value is to big to remove
@@ -318,5 +337,24 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 		
 		return eq;
     }
-    
+    /**
+     * Parses inventory without equipment to XML document element
+     * @param doc Document for save game file
+     * @return XML document element
+     */
+    public Element getSaveWithoutEq(Document doc)
+    {
+    	Element eq = doc.createElement("eq");
+    	Element in = doc.createElement("in");
+    	in.setAttribute("gold", gold+"");
+    	for(Item item : this)
+    	{
+    		Element itemE = doc.createElement("item");
+    		itemE.setTextContent(item.getId());
+    		in.appendChild(itemE);
+    	}
+    	eq.appendChild(in);
+		
+		return eq;
+    }
 }

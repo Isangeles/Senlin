@@ -302,6 +302,11 @@ public class SimpleGameObject implements Targetable, SaveElement
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void setInventory(Inventory inventory)
+	{
+		this.inventory = inventory;
+	}
 
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#isMouseOver()
@@ -349,7 +354,8 @@ public class SimpleGameObject implements Targetable, SaveElement
     {
         Element objectE = doc.createElement("object");
         objectE.setAttribute("id", id);
-        objectE.appendChild(inventory.getSave(doc));
+        objectE.setAttribute("position", pos.toString());
+        objectE.appendChild(inventory.getSaveWithoutEq(doc));
         
         return objectE;
     }

@@ -69,6 +69,14 @@ public class Dialogue
 		return currentStage.getAnswers();
 	}
 	/**
+	 * Returns current dialogue part
+	 * @return Current dialogue part of this dialogue
+	 */
+	public DialoguePart getCurrentStage()
+	{
+		return currentStage;
+	}
+	/**
 	 * Changes current dialogue stage to answer-associated dialog part 
 	 * @param answer Some answer
 	 */

@@ -206,10 +206,7 @@ public class Scenario implements SaveElement
 		Element objectsE = doc.createElement("objects");
 		for(SimpleGameObject object : objects)
 		{
-			Element objectE = doc.createElement("object");
-			objectE.setAttribute("position", new Position(object.getPosition()).toString());
-			objectE.setTextContent(object.getId());
-			objectsE.appendChild(objectE);
+			objectsE.appendChild(object.getSave(doc));
 		}
 		scenarioE.appendChild(objectsE);
 		
