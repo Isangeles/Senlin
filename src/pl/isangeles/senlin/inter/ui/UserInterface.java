@@ -172,14 +172,7 @@ public class UserInterface implements MouseListener, SaveElement
     		targetFrame.setCharacter(player.getTarget());
     		if(player.isLooting())
     		{
-    		    try 
-                {
-                    loot.open(player.getTarget());
-                } 
-                catch (SlickException | IOException e) 
-                {
-                    Log.addSystem("Loot load fail!msg/// " + e.getMessage());
-                }
+    			loot.open(player.getTarget());
     		}
     	}
     	if(dialogue.isTradeReq())

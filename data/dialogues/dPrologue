@@ -24,13 +24,6 @@
         <text id="ericWelcome02" on="ericWelcome01a01">
             <answer>ericWelcome02a01</answer>
             <answer end="true">bye01</answer>
-            <transfer>
-                <give gold="10">
-                    <item>mMeat01</item>            
-                </give>
-                <take>
-                </take>
-            </transfer>
         </text>
         <text id="ericWelcome03" on="ericWelcome02a01">
             <answer end="true">bye01</answer>
@@ -65,6 +58,13 @@
     <dialogue id="ewanTalk3" npc="ewanP01" flagReq="qpBanditsKilling0">
         <text id="ewanTalk301" on="start">
             <answer end="true">ewanTalk301a01</answer>
+            <transfer>
+                <give gold="10">
+                    <item>mMeat01</item>            
+                </give>
+                <take>
+                </take>
+            </transfer>
         </text>
     </dialogue>
 </base>

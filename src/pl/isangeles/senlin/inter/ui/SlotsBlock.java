@@ -162,4 +162,14 @@ public class SlotsBlock
 	{
 		return slots;
 	}
+	
+	public float getWidth()
+	{
+		return slots[0][0].getScaledWidth() * slots[0].length;
+	}
+	
+	public float getHeight()
+	{
+		return slots[0][0].getScaledHeight() * slots.length;
+	}
 }

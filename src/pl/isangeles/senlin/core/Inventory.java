@@ -40,6 +40,7 @@ import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.inter.SlotContent;
 /**
  * Class for character inventory, contains all player items
  * @author Isangeles
@@ -303,6 +304,16 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     public boolean isMod()
     {
     	return mod;
+    }
+    /**
+     * Returns all inventory as list with slot content
+     * @return List with slot content
+     */
+    public List<SlotContent> asSlotsContent()
+    {
+    	List<SlotContent> slotsContent = new ArrayList<>();
+    	slotsContent.addAll(this);
+    	return slotsContent;
     }
     /**
      * UNSED Now slots draws items

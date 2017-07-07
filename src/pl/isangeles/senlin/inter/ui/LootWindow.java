@@ -55,13 +55,10 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 {
 	private Character lootingChar;
 	private Targetable lootedChar;
-	private GameContainer gc;
 	private TrueTypeFont ttf;
-	private Button next;
-	private Button back;
 	private Button takeAll;
 	private Button takeGold;
-	private List<SlotsBlock> slotsPages = new ArrayList<>();
+	private SlotsPages slotsP;
 	private int pageIndex;
 	private boolean openReq;
 	/**
@@ -83,15 +80,18 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
-		next = new Button(GConnector.getInput("button/buttonBack.png"), "uiLootBN", false, "",  gc);
-		back = new Button(GConnector.getInput("button/buttonNext.png"), "uiLootBB", false, "",  gc);
 		takeAll = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB1S", false, "Take all",  gc);
 		takeGold = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB2S", false, "Take gold",  gc);
 		
-		next.setActive(false);
-		back.setActive(false);
-		
-		slotsPages.add(newPage());
+		ItemSlot[][] isTab = new ItemSlot[8][6]; 
+		for(int i = 0; i < isTab.length; i ++)
+		{
+			for(int j = 0; j < isTab[i].length; j ++)
+			{
+				isTab[i][j] = new ItemSlot(gc);
+			}
+		}
+		slotsP = new SlotsPages(isTab, gc);
 	}
 	
 	@Override
@@ -104,10 +104,8 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(windowTitle)), y, windowTitle);
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
 		//Slots
-		slotsPages.get(pageIndex).draw(x+getDis(15), y+getDis(70));
+		slotsP.draw(x+getDis(15), y+getDis(70), false);
 		//Buttons
-		next.draw(x+getDis(265), y+getDis(350), false);
-		back.draw(x+getDis(0), y+getDis(350), false);
 		takeAll.draw(x+getDis(159), y+getDis(350), false);
 		takeGold.draw(x+getDis(70), y+getDis(350), false);
 	}
@@ -115,10 +113,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public void update() 
 	{
-		if(slotsPages.size() > 1)
-			next.setActive(true);
-		if(pageIndex > 0)
-			back.setActive(true);
+		slotsP.update();
 	}
 	/**
 	 * Resets loot window to default state
@@ -137,7 +132,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public void open(Targetable characterToLoot) throws SlickException, IOException
+	public void open(Targetable characterToLoot)
 	{
 		if(openReq == false)
 		{
@@ -207,7 +202,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		Slot slot = slotsPages.get(pageIndex).getDragged();
+		Slot slot = slotsP.getSlots().getDragged();
 		if(slot != null)
 			slot.dragged(false);
 	}
@@ -219,10 +214,14 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		{
 			if(takeAll.isMouseOver())
 			{
+				List<Item> itemsToTake = new ArrayList<>();
 				for(Item lootedItem : lootedChar.getInventory())
 				{
-					lootingChar.addItem(lootedChar.getInventory().takeItem(lootedItem));
+					lootingChar.getInventory().add(lootedItem);
+					itemsToTake.add(lootedItem);
 				}
+				lootedChar.getInventory().removeAll(itemsToTake);
+				
 				lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
 				close();
 			}
@@ -230,17 +229,6 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 			{
 				lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
 				close();
-			}
-			
-			if(next.isMouseOver() && next.isActive())
-			{
-				if(pageIndex < slotsPages.size())
-					pageIndex ++;
-			}
-			if(back.isMouseOver() && back.isActive())
-			{
-				if(pageIndex > 0)
-					pageIndex --;
 			}
 		}
 	}
@@ -262,47 +250,17 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	{
 	}
 	/**
-	 * Generates and returns new slots block
-	 * @return New slots block
-	 * @throws SlickException
-	 * @throws IOException
-	 */
-	private SlotsBlock newPage() throws SlickException, IOException
-	{
-		ItemSlot[][] isTab = new ItemSlot[8][6]; 
-		for(int i = 0; i < isTab.length; i ++)
-		{
-			for(int j = 0; j < isTab[i].length; j ++)
-			{
-				isTab[i][j] = new ItemSlot(gc);
-			}
-		}
-		return new SlotsBlock(isTab);
-	}
-	/**
 	 * Loads all items from looted character to window
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	private void loadLoot() throws SlickException, IOException
+	private void loadLoot()
 	{
-		for(Item item : lootedChar.getInventory())
-		{
-			if(slotsPages.get(pageIndex).insertContent(item) == false)
-			{
-				slotsPages.add(newPage());
-				pageIndex ++;
-				slotsPages.get(pageIndex).insertContent(item);
-			}
-		}
-		pageIndex = 0;
+		slotsP.insertContent(lootedChar.getInventory().asSlotsContent());
 	}
 	
 	private void clearSlots()
 	{
-        for(SlotsBlock page : slotsPages)
-        {
-            page.clear();
-        }
+        slotsP.clear();
 	}
 }

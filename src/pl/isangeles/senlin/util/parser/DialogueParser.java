@@ -88,11 +88,11 @@ public class DialogueParser
 		List<Answer> answersList = new ArrayList<>();
 		if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 		{
-			Element text = (Element)textNode;
-			String id = text.getAttribute("id");
-			String on = text.getAttribute("on");
+			Element textE = (Element)textNode;
+			String id = textE.getAttribute("id");
+			String on = textE.getAttribute("on");
 			
-			NodeList answers = textNode.getChildNodes();
+			NodeList answers = textE.getElementsByTagName("answer");
 			for(int i = 0; i < answers.getLength(); i ++)
 			{
 				Node answerNode = answers.item(i);
@@ -113,7 +113,7 @@ public class DialogueParser
 				
 				
 			}
-			Element transferE = (Element)text.getElementsByTagName("transfer").item(0);
+			Element transferE = (Element)textE.getElementsByTagName("transfer").item(0);
 			if(transferE != null)
 			{
 				List<String> iToGive = new ArrayList<>();
