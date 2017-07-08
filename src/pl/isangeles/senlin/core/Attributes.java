@@ -49,6 +49,30 @@ public class Attributes
 		intelligence = new Attribute(inte);
 		wisdom = new Attribute(wis);
 	}
+	/**
+	 * Attributes constructor
+	 * @param attLine Strength value
+	 */
+	public Attributes(String attLine)
+	{
+		String[] atts = attLine.split(";");
+		try
+		{
+			strength = new Attribute(Integer.parseInt(atts[0]));
+			constitution = new Attribute(Integer.parseInt(atts[1]));
+			dexterity = new Attribute(Integer.parseInt(atts[2]));
+			intelligence = new Attribute(Integer.parseInt(atts[3]));
+			wisdom = new Attribute(Integer.parseInt(atts[4]));
+		}
+		catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
+		{
+			strength = new Attribute(0);
+			constitution = new Attribute(0);
+			dexterity = new Attribute(0);
+			intelligence = new Attribute(0);
+			wisdom = new Attribute(0);
+		}
+	}
 	public int addHealth()
 	{
 		return constitution.value * 10 + strength.value;

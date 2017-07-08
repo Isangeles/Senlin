@@ -152,7 +152,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 			this.interlocutorA = interlocutorA;
 			this.interlocutorB = interlocutorB;
 			
-			currentDialogue = interlocutorB.getDialogueFor(interlocutorA);
+			currentDialogue = interlocutorB.startDialogueWith(interlocutorA);
 
 			textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
 			dialogueAnswers = currentDialogue.getAnswers();
@@ -166,6 +166,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	public void close()
 	{
 		openReq = false;
+		interlocutorA.talking(false);
+		interlocutorB.talking(false);
 		reset();
 	}
 	
@@ -327,10 +329,10 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private void nextDialogueStage(Answer dialogueOption)
 	{
-        interlocutorB.getDialogueFor(interlocutorA).answerOn(dialogueOption);
+        currentDialogue.answerOn(dialogueOption);
         clearAnswersBox();
-        textBox.addRight(new TextBlock(interlocutorB.getDialogueFor(interlocutorA).getText(), 20, ttf));
-        dialogueAnswers = interlocutorB.getDialogueFor(interlocutorA).getAnswers();
+        textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
+        dialogueAnswers = currentDialogue.getAnswers();
         addOptions(dialogueAnswers);
 	}
 	/**
@@ -386,7 +388,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 					
 					if(option.isEnd())
 					{
-						interlocutorB.getDialogueFor(interlocutorA).reset();
+						currentDialogue.reset();
 						close();
 					}
 					else if(!option.isEnd())

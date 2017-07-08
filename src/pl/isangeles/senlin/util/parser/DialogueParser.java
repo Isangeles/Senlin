@@ -23,12 +23,18 @@
 package pl.isangeles.senlin.util.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.req.ReqType;
+import pl.isangeles.senlin.core.req.Requirements;
+import pl.isangeles.senlin.core.req.StatsRequirements;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
@@ -113,6 +119,15 @@ public class DialogueParser
 				
 				
 			}
+
+			Map<Requirements, String> oTextsMap = null;
+			
+			Node otherTextsNode = textE.getElementsByTagName("otherTexts").item(0);
+			if(otherTextsNode != null)
+			{
+				oTextsMap = getOtherTexts(otherTextsNode);
+			}
+			
 			Element transferE = (Element)textE.getElementsByTagName("transfer").item(0);
 			if(transferE != null)
 			{
@@ -161,15 +176,41 @@ public class DialogueParser
 					}
 				}
 
-				return new DialoguePart(id, on, answersList, iToGive, iToTake, gToGive, gToTake);
+				return new DialoguePart(id, on, oTextsMap, answersList, iToGive, iToTake, gToGive, gToTake);
 			}
-			return new DialoguePart(id, on, answersList);
+			return new DialoguePart(id, on, oTextsMap, answersList);
 		}
 		else
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
 		answersList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err01", "error01", answersList);
+		return new DialoguePart("err01", "error01", null, answersList);
+	}
+	
+	public static Map<Requirements, String> getOtherTexts(Node otherTextsNode)
+	{
+		Map<Requirements, String> textsMap = new HashMap<>();
+		Element otherTextsE = (Element)otherTextsNode;
+		NodeList textsList = otherTextsE.getElementsByTagName("text");
+		for(int i = 0; i < textsList.getLength(); i ++)
+		{
+			Node textNode = textsList.item(i);
+			if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element textE = (Element)textNode;
+				String typeId = textE.getAttribute("if").split(":")[0];
+				String req = textE.getAttribute("if").split(":")[1];
+				ReqType type = ReqType.fromString(typeId);
+				switch(type)
+				{
+				case STATS:
+					textsMap.put(new StatsRequirements(new Attributes(req)), textE.getTextContent());
+					break;
+				}
+			}
+		}
+		
+		return textsMap;
 	}
 }

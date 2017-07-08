@@ -202,7 +202,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		Slot slot = slotsP.getSlots().getDragged();
+		Slot slot = slotsP.getDragged();
 		if(slot != null)
 			slot.dragged(false);
 	}

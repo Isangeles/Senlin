@@ -94,6 +94,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean trade;
 	private boolean train;
 	private boolean looting;
+	private boolean talking;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -327,6 +328,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     }
     /**
      * 
+     * @param talking
+     */
+    public void talking(boolean talking)
+    {
+    	this.talking = talking;
+    }
+    /**
+     * Marks this character as trainer
      * @param train 
      */
     public void setTrain()
@@ -461,15 +470,22 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(Targetable target, int maxRange)
 	{
+		Position pos = new Position(position);
+		Position hitBoxStart = new Position(target.getPosition()[0] - maxRange, target.getPosition()[1] - maxRange);
+		Position hitBoxEnd = new Position(target.getPosition()[0] + maxRange, target.getPosition()[1] + maxRange);
+		
+		if(pos.isIn(hitBoxStart, hitBoxEnd))
+			return;
+		
 		if(target.getPosition()[0] > position[0])
-			destPoint[0] = target.getPosition()[0];// - maxRange;
+			destPoint[0] = target.getPosition()[0];// - Coords.getDis(maxRange);
 		if(target.getPosition()[0] < position[0])
-			destPoint[0] = target.getPosition()[0];// + maxRange;
+			destPoint[0] = target.getPosition()[0];// + Coords.getDis(maxRange);
 		
 		if(target.getPosition()[1] > position[1])
-			destPoint[1] = target.getPosition()[1];// - maxRange;
+			destPoint[1] = target.getPosition()[1];// - Coords.getDis(maxRange);
 		if(target.getPosition()[1] < position[1])
-			destPoint[1] = target.getPosition()[1];// + maxRange;
+			destPoint[1] = target.getPosition()[1];// + Coords.getDis(maxRange);
 	}
 	/**
 	 * Moves character by specified values
@@ -632,8 +648,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public int getRangeFrom(int[] xyPos)
 	{
-		return (int)Math.sqrt((position[0]-xyPos[0]) * (position[0]-xyPos[0]) +
-				 (position[1]-xyPos[1]) * (position[1]-xyPos[1]));
+		return (int)Math.hypot(xyPos[0]-position[0], xyPos[1]-position[1]);
 	}
 	/**
 	 * Checks if character is live
@@ -670,6 +685,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public boolean isLooting()
 	{
 	    return looting;
+	}
+	/**
+	 * Checks if character talking with someone
+	 * @return
+	 */
+	public boolean isTalking()
+	{
+		return talking;
 	}
 	
 	public Portrait getPortrait()
@@ -730,28 +753,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public float getDodgeChance()
 	{ return attributes.getDodge() * 100f; }
-	/**
-	 * Returns dialogue for specified character
-	 * @param character Game character
-	 * @return Dialogue object for specified character or default dialogue from base if no proper dialogue was found
-	 */
-	public Dialogue getDialogueFor(Character character)
-	{
-		Log.addSystem(id + "-checking_dList");
-		for(Dialogue dialogue : dialogues)
-		{
-			if(character.getFlags().contains(dialogue.getReqFlag()))
-				return dialogue;
-		}
-		
-		for(Dialogue dialogue : dialogues)
-		{
-			if(!dialogue.isReqFlag())
-				return dialogue;
-		}
-		
-		return DialoguesBase.getDefaultDialogue();
-	}
 	/**
 	 * Subtract specified value from character health value 
 	 * @param value Value to subtract
@@ -1006,6 +1007,19 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    avatar.speak(what);
         Log.addSpeech(name, what);
 	}
+	/**
+	 * Starts dialogue with specified game character
+	 * @param dialogueTarget
+	 * @return
+	 */
+	public Dialogue startDialogueWith(Character dialogueTarget)
+	{
+		talking = true;
+		dialogueTarget.talking(true);
+		Dialogue dialogue = getDialogueFor(dialogueTarget);
+		dialogue.startFor(dialogueTarget);
+		return dialogue;
+	}
 	@Override
 	public void setTarget(Targetable target)
 	{
@@ -1088,6 +1102,28 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         
         return charE;
     }
+	/**
+	 * Returns dialogue for specified character
+	 * @param character Game character
+	 * @return Dialogue object for specified character or default dialogue from base if no proper dialogue was found
+	 */
+	private Dialogue getDialogueFor(Character character)
+	{
+		Log.addSystem(id + "-checking_dList");
+		for(Dialogue dialogue : dialogues)
+		{
+			if(character.getFlags().contains(dialogue.getReqFlag()))
+				return dialogue;
+		}
+		
+		for(Dialogue dialogue : dialogues)
+		{
+			if(!dialogue.isReqFlag())
+				return dialogue;
+		}
+		
+		return DialoguesBase.getDefaultDialogue();
+	}
 	/**
 	 * Checks if specified position is 'moveable' on map 
 	 * @param x Position on x axis

@@ -290,6 +290,11 @@ public class Equipment implements SaveElement
 		eq.add(artifact);
 		return eq;
 	}
+	
+	public boolean isEquipped(Item item)
+	{
+		return getAll().contains(item);
+	}
 	/**
 	 * Parses equipment to XML document element
 	 * @param doc Document for game save file

@@ -20,6 +20,9 @@
         <text id="ericWelcome01" on="start">
             <answer>ericWelcome01a01</answer>
             <answer>ericWelcome01a02</answer>
+            <otherTexts>
+                <text if="statsReq:4;0;0;0;0;">ericWelcome01o1</text>
+            </otherTexts>
         </text>
         <text id="ericWelcome02" on="ericWelcome01a01">
             <answer>ericWelcome02a01</answer>

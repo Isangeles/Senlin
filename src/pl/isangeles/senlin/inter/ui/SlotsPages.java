@@ -38,38 +38,38 @@ import pl.isangeles.senlin.inter.SlotContent;
 import pl.isangeles.senlin.util.GConnector;
 
 /**
+ * Class for slots block with multiple pages
  * @author Isangeles
  *
  */
-public class SlotsPages implements MouseListener
+public class SlotsPages extends SlotsBlock implements MouseListener
 {
 	private List<SlotContent> content = new ArrayList<>();
-	private SlotsBlock slots;
 	private int startIndex;
 	private Button next;
 	private Button prev;
 	
 	public SlotsPages(Slot[][] pageSlots, GameContainer gc) throws SlickException, FontFormatException, IOException
 	{
+		super(pageSlots);
 		gc.getInput().addMouseListener(this);
 		
-		slots = new SlotsBlock(pageSlots);
 		next = new Button(GConnector.getInput("button/buttonNext.png"), "buttonNext", false, "", gc);
 		prev = new Button(GConnector.getInput("button/buttonBack.png"), "buttonBack", false, "", gc);
 	}
 	
 	public void draw(float x, float y, boolean scaledPos)
 	{
-		slots.draw(x, y);
-		next.draw(x + slots.getWidth(), y, scaledPos);
+		super.draw(x, y);
+		next.draw(x + super.getWidth(), y, scaledPos);
 		prev.draw(x - prev.getScaledWidth(), y, scaledPos);
 	}
 	
 	public void update()
 	{
-		slots.clear();
+		super.clear();
 		List<SlotContent> contentToDisplay = content.subList(startIndex, content.size());
-		slots.insertContent(contentToDisplay);
+		super.insertContent(contentToDisplay);
 	}
 	
 	public void insertContent(List<SlotContent> content)
@@ -79,14 +79,8 @@ public class SlotsPages implements MouseListener
 	
 	public void clear()
 	{
-		slots.clear();
+		super.clear();
 	}
-	
-	public SlotsBlock getSlots()
-	{
-		return slots;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
 	 */

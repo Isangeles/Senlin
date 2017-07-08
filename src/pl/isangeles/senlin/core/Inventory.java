@@ -340,9 +340,12 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	in.setAttribute("gold", gold+"");
     	for(Item item : this)
     	{
-    		Element itemE = doc.createElement("item");
-    		itemE.setTextContent(item.getId());
-    		in.appendChild(itemE);
+    		if(!equipment.isEquipped(item))
+    		{
+    			Element itemE = doc.createElement("item");
+        		itemE.setTextContent(item.getId());
+        		in.appendChild(itemE);
+    		}
     	}
     	eq.appendChild(in);
 		

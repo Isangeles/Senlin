@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.core.Character;
 /**
  * Class for characters dialogues
  * @author Isangeles
@@ -38,6 +39,7 @@ public class Dialogue
 	private final String flagReq;
 	private final List<DialoguePart> parts;
 	private DialoguePart currentStage;
+	private Character dialogueTarget;
 	/**
 	 * Dialogue constructor
 	 * @param id Dialogue unique ID
@@ -52,13 +54,18 @@ public class Dialogue
 		this.parts = parts;
 		currentStage = getPart("start");
 	}
+	
+	public void startFor(Character target)
+	{
+		dialogueTarget = target;
+	}
 	/**
 	 * Returns text of current dialogue part
 	 * @return String with dialogue part text
 	 */
 	public String getText()
 	{
-		return currentStage.getText();
+		return currentStage.getText(dialogueTarget);
 	}
 	/**
 	 * Returns all answers on current dialogue part
@@ -90,6 +97,7 @@ public class Dialogue
 	public void reset()
 	{
 		currentStage = getPart("start");
+		dialogueTarget = null;
 	}
 	/**
 	 * Sets quest trigger for specified answer 
@@ -179,7 +187,7 @@ public class Dialogue
 		
 		List<Answer> aList = new ArrayList<>();
 		aList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err02", "error02", aList);
+		return new DialoguePart("err02", "error02", null, aList);
 	}
 
 }
