@@ -10,8 +10,8 @@ import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
-import pl.isangeles.senlin.inter.SlotContent;
-import pl.isangeles.senlin.inter.ui.ItemTile;
+import pl.isangeles.senlin.gui.SlotContent;
+import pl.isangeles.senlin.gui.elements.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 

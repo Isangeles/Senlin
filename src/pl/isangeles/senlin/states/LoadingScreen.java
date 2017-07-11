@@ -35,8 +35,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.inter.Field;
-import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Character;
@@ -49,6 +47,8 @@ import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.gui.Field;
+import pl.isangeles.senlin.gui.elements.UserInterface;
 /**
  * Class for game loading state
  * @author Isangeles

@@ -24,7 +24,7 @@ package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.graphic.Sprite;
-import pl.isangeles.senlin.inter.*;
+import pl.isangeles.senlin.gui.*;
 import pl.isangeles.senlin.util.*;
 
 import java.io.File;

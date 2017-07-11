@@ -27,26 +27,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import pl.isangeles.senlin.util.*;
+import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
@@ -61,7 +54,7 @@ import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.graphic.StaticAvatar;
-import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.quest.Journal;
 import pl.isangeles.senlin.quest.ObjectiveTarget;
 import pl.isangeles.senlin.quest.Quest;
@@ -95,6 +88,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean train;
 	private boolean looting;
 	private boolean talking;
+	private boolean fighting;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -334,6 +328,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {
     	this.talking = talking;
     }
+    
+    public void combat(boolean fighting)
+    {
+    	this.fighting = fighting;
+    }
     /**
      * Marks this character as trainer
      * @param train 
@@ -386,8 +385,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Updates character avatar animation
 	 * @param delta
+	 * @throws GameLogErr 
 	 */
-	public void update(int delta, TiledMap map)
+	public void update(int delta, TiledMap map) throws GameLogErr
 	{
 		if(!live)
 		{
@@ -435,6 +435,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
                 }
             }
         }
+		if(fighting && target != null)
+		{
+			useSkillOn(target, abilities.get("autoA"));
+		}
+		else
+			fighting = false;
+		
 	    if(target == null && looting)
 	        looting = false;
 	    
@@ -641,6 +648,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public int[] getPosition()
 	{ return position; }
+	
+	public Position getDestPoint()
+	{
+		return new Position(destPoint);
+	}
 	/**
 	 * Returns range from specified xy point
 	 * @param xyPos Table with x and y position
@@ -693,6 +705,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public boolean isTalking()
 	{
 		return talking;
+	}
+	
+	public boolean isFighting()
+	{
+		return fighting;
 	}
 	
 	public Portrait getPortrait()
@@ -959,7 +976,27 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * Activates specified skill, if character know this skill
      * @param skill Some skill known by this character
      */
-    public void useSkill(Skill skill)
+    public void useSkill(Skill skill) throws GameLogErr
+    {
+		if(live && abilities.contains(skill) && skill.prepare(this, target))
+    	{
+    	    if(Attack.class.isInstance(skill))
+    	    {
+    	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
+    	    		avatar.rangeAttack((Attack)skill);
+    	    	else
+        	        avatar.meleeAttack((Attack)skill);
+    	    }
+    	}
+    	else
+    		Log.addWarning(TConnector.getText("ui", "logUnable"));
+    }
+    /**
+     * Activates specified skill, if character know this skill
+     * @param skill Some skill known by this character
+     * @param target Skill target
+     */
+    public void useSkillOn(Targetable target, Skill skill) throws GameLogErr
     {
     	if(live && abilities.contains(skill) && skill.prepare(this, target))
     	{

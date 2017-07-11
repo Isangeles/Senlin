@@ -28,7 +28,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.inter.ui.EffectTile;
+import pl.isangeles.senlin.gui.elements.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
 
 /**

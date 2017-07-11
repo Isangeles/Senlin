@@ -23,7 +23,7 @@
 package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.inter.GameCursor;
+import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**

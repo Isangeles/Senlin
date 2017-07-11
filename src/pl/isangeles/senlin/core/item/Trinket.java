@@ -30,7 +30,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.inter.ui.ItemTile;
+import pl.isangeles.senlin.gui.elements.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 /**

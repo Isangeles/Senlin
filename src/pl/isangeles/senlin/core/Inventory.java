@@ -40,7 +40,7 @@ import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.SaveElement;
-import pl.isangeles.senlin.inter.SlotContent;
+import pl.isangeles.senlin.gui.SlotContent;
 /**
  * Class for character inventory, contains all player items
  * @author Isangeles

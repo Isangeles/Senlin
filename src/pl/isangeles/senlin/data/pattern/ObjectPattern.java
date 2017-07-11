@@ -41,7 +41,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
-import pl.isangeles.senlin.inter.Portrait;
+import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 

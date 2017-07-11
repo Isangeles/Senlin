@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.area.Scenario;
-import pl.isangeles.senlin.inter.ui.UserInterface;
+import pl.isangeles.senlin.gui.elements.UserInterface;
 import pl.isangeles.senlin.util.parser.SSGParser;
 /**
  * Class for saving and loading game state

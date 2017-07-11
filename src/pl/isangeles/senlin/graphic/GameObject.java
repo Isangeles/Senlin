@@ -32,7 +32,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
-import pl.isangeles.senlin.inter.InfoWindow;
+import pl.isangeles.senlin.gui.InfoWindow;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;

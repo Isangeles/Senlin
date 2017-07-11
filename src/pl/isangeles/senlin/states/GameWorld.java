@@ -46,6 +46,7 @@ import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
+import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
@@ -62,9 +63,9 @@ import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.day.Day;
 import pl.isangeles.senlin.graphic.day.FogOfWar;
-import pl.isangeles.senlin.inter.Field;
-import pl.isangeles.senlin.inter.GameCursor;
-import pl.isangeles.senlin.inter.ui.UserInterface;
+import pl.isangeles.senlin.gui.Field;
+import pl.isangeles.senlin.gui.GameCursor;
+import pl.isangeles.senlin.gui.elements.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
@@ -181,7 +182,8 @@ public class GameWorld extends BasicGameState
                 npc.draw();
         }
         player.draw();
-        drawFOW(g);
+        if(!Settings.getFowType().equals("OFF"))
+            drawFOW(g);
         //interface
         g.translate(cameraPos[0], cameraPos[1]);
         dayManager.draw();
@@ -200,7 +202,14 @@ public class GameWorld extends BasicGameState
         if(!isPause())
             keyDown(container.getInput());
     	
-    	player.update(delta, areaMap);
+    	try
+    	{
+    		player.update(delta, areaMap);
+    	}
+    	catch(GameLogErr e)
+    	{
+    		e.printToLog();
+    	}
     	npcsAi.update(delta);
     	
     	if(ui.takeSaveReq() == true)

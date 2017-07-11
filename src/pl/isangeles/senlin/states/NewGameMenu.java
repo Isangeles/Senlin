@@ -37,12 +37,12 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.inter.*;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.gui.*;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.core.Attributes;
 /**

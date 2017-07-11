@@ -104,7 +104,7 @@ public class Settings
      */
     public static String getFowTypes()
     {
-    	return "light FOW;full FOW";
+    	return "light FOW;full FOW;OFF";
     }
     /**
      * Returns scale for current resolution

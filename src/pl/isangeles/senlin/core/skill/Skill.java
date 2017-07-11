@@ -31,8 +31,6 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import pl.isangeles.senlin.inter.SlotContent;
-import pl.isangeles.senlin.inter.ui.SkillTile;
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -41,6 +39,9 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.gui.SlotContent;
+import pl.isangeles.senlin.gui.elements.SkillTile;
 
 /**
  * Class for character skills like attacks, spells, etc.
@@ -197,7 +198,7 @@ public abstract class Skill implements SlotContent
      * @param target Character targeted by skill user
      * @return True if skill was successfully activate, false otherwise 
 	 */
-	public abstract boolean prepare(Character user, Targetable target);
+	public abstract boolean prepare(Character user, Targetable target) throws GameLogErr;
 	
 	protected abstract String getInfo();
 	

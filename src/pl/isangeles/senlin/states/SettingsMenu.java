@@ -35,9 +35,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import pl.isangeles.senlin.inter.Button;
-import pl.isangeles.senlin.inter.Message;
-import pl.isangeles.senlin.inter.TextSwitch;
+import pl.isangeles.senlin.gui.Button;
+import pl.isangeles.senlin.gui.Message;
+import pl.isangeles.senlin.gui.TextSwitch;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;

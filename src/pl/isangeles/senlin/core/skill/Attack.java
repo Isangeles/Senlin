@@ -35,6 +35,10 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.core.exc.NoRangeInfo;
+import pl.isangeles.senlin.core.exc.NoTargetInfo;
+import pl.isangeles.senlin.core.exc.NotReadyInfo;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
@@ -92,13 +96,13 @@ public class Attack extends Skill
 		return fullInfo;
 	}
 	@Override
-	public boolean prepare(Character user, Targetable target) 
+	public boolean prepare(Character user, Targetable target) throws GameLogErr
 	{
 		if(super.isActive() && weaponOk(user))
 		{
 			if(target != null)
 			{
-				Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
+				//Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.target = target;
@@ -110,16 +114,14 @@ public class Attack extends Skill
 				else
 				{
 	                user.moveTo(target, range);
-					Log.addWarning(TConnector.getText("ui", "logNoRange"));
+					throw new NoRangeInfo();
 				}
 			}
 			else
-				Log.addWarning(TConnector.getText("ui", "logNoTar"));
+				throw new NoTargetInfo();
 		}
 		else
-			Log.addWarning(TConnector.getText("ui", "logNotRdy"));
-		
-		return false;
+			throw new NotReadyInfo();
 	}
     /**
      * Activates attack skill

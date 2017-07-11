@@ -95,5 +95,13 @@ public class Position
 	{
 		return x + ";" + y;
 	}
+	
+	public boolean equals(Position pos)
+	{
+		if(x == pos.x && y == pos.y)
+			return true;
+		else
+			return false;
+	}
 
 }

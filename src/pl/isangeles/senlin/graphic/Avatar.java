@@ -34,15 +34,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
-import pl.isangeles.senlin.inter.GameCursor;
-import pl.isangeles.senlin.inter.InfoWindow;
-import pl.isangeles.senlin.inter.ui.UserInterface;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.gui.GameCursor;
+import pl.isangeles.senlin.gui.InfoWindow;
+import pl.isangeles.senlin.gui.elements.UserInterface;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical representation of character
@@ -130,6 +130,9 @@ public class Avatar implements MouseListener
 	 */
 	public void draw(float x, float y)
 	{
+		x -= Coords.getDis(15);
+		y -= Coords.getDis(70);
+		
 		if(isTargeted)
 			target.draw(x+target.getDis(15), y+target.getDis(50), false);
 		
