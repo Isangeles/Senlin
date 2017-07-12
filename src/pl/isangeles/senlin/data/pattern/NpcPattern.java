@@ -190,16 +190,16 @@ public class NpcPattern
 		npc.addItem(ringB);
 		npc.addItem(artifact);
 		
-		npc.setArmor(helmet);
-		npc.setArmor(chest);
-		npc.setArmor(gloves);
-		npc.setWeapon(mainWeap);
-		npc.setWeapon(offHand);
-		npc.setArmor(boots);
-		npc.setTrinket(amulet);
-		npc.setTrinket(ringA);
-		npc.setTrinket(ringB);
-		npc.setTrinket(artifact);
+		npc.equipItem(helmet);
+		npc.equipItem(chest);
+		npc.equipItem(gloves);
+		npc.equipItem(mainWeap);
+		npc.equipItem(offHand);
+		npc.equipItem(boots);
+		npc.equipItem(amulet);
+		npc.equipItem(ringA);
+		npc.equipItem(ringB);
+		npc.equipItem(artifact);
 		
 		npc.addGold(gold);
 		for(RandomItem ip : invItems)

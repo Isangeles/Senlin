@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
@@ -61,6 +62,7 @@ public class LoadingScreen extends BasicGameState
     private SavedGame gameToLoad;
     private String saveName;
     private UserInterface ui;
+    private CommandInterface cli;
     private GameWorld gw;
     private String loadType;
     private int loadCounter;
@@ -147,7 +149,8 @@ public class LoadingScreen extends BasicGameState
                 loadingInfo.setText("loading user interface...");
                 break;
             case 5:
-                ui = new UserInterface(container, player);
+            	cli = new CommandInterface(player);
+                ui = new UserInterface(container, cli, player);
                 break;
 			case 6:
 				loadingInfo.setText("loading game world...");

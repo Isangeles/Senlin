@@ -260,32 +260,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         destPoint[0] = pos.x;
         destPoint[1] = pos.y;
     }
-	/**
-	 * Sets item as one of character weapon
-	 * @param weapon Any item that can be casted to weapon
-	 * @return True if item was successful inserted, false otherwise
-	 */
-	public boolean setWeapon(Item weapon)
-    {
-		return inventory.setWeapon(weapon);
-    }
     /**
-     * Sets item as one of character armor parts
-     * @param armorPart Item that can be casted to armor
-     * @return True if item was successful inserted, false otherwise
+     * Equips specified item, if item is in character inventory and its equippable
+     * @param item Equippable item in chracter inventory
+     * @return True if item was successfully equipped, false otherwise
      */
-    public boolean setArmor(Item armorPart)
+    public boolean equipItem(Item item)
     {
-    	return inventory.setArmor(armorPart);
-    }
-    /**
-     * Sets item as one of character trinkets
-     * @param trinket Item that can be casted to trinket
-     * @return True if item was successful inserted, false otherwise
-     */
-    public boolean setTrinket(Item trinket)
-    {
-    	return inventory.setTrinket(trinket);
+    	return inventory.equip(item);
     }
     /**
      * Sets specified flag for character

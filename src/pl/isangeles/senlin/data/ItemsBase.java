@@ -88,7 +88,7 @@ public class ItemsBase
 			if(miscMap.get(id) != null)
 				return miscMap.get(id).make(gc);
 			
-			return new ErrorItem(id, gc);
+			return null;
 		}
 		catch(SlickException | IOException | FontFormatException e)
 		{

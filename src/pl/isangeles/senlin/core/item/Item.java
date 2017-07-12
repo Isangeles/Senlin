@@ -121,6 +121,11 @@ public abstract class Item implements SlotContent, Usable
     		return false;
     	}
     }
+    
+    public ActionType getActionType()
+    {
+    	return onUse.getType();
+    }
     /**
      * Returns full info about item for item tile
      * @return String with basic info

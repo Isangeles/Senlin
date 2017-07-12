@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.action.EquipAction;
 import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for equippable items
@@ -31,6 +32,7 @@ public abstract class Equippable extends Item
 		this.bonuses = bonuses;
 		this.type = type;
 		this.material = material;
+		onUse = new EquipAction(this);
 	}
 	/**
 	 * Return item type

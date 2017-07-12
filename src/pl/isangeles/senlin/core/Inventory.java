@@ -106,69 +106,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
         return gold;
     }
-	/**
-	 * Sets item as one of character weapon, item must be in inventory
-	 * @param weapon Any item that can be casted to weapon
-	 * @return True if item was successful inserted, false otherwise
-	 */
-    public boolean setWeapon(Item weapon)
-    {
-    	if(this.contains(weapon))
-    	{
-    		try
-        	{
-        		return equipment.setWeapon((Weapon) weapon);
-        	}
-        	catch(ClassCastException e)
-        	{
-        		return false;
-        	}
-    	}
-    	else
-    		return false;
-    }
-    /**
-     * Sets item as one of character armor parts, item must be in inventory
-     * @param armorPart Item that can be casted to armor
-     * @return True if item was successful inserted, false otherwise
-     */
-    public boolean setArmor(Item armorPart)
-    {
-    	if(this.contains(armorPart))
-    	{
-    		try
-        	{
-        		return equipment.setArmor((Armor) armorPart);
-        	}
-        	catch(ClassCastException e)
-        	{
-        		return false;
-        	}
-    	}
-    	else
-    		return false;
-    }
-    /**
-     * Sets item as one of character trinkets, item must be in inventory
-     * @param trinket Item that can be casted to trinket
-     * @return True if item was successful inserted, false otherwise
-     */
-    public boolean setTrinket(Item trinket)
-    {
-    	if(this.contains(trinket))
-    	{
-    		try
-        	{
-        		return equipment.setTrinket((Trinket) trinket);
-        	}
-        	catch(ClassCastException e)
-        	{
-        		return false;
-        	}
-    	}
-    	else
-    		return false;
-    }
     /**
 	 * Removes specific item from equippment
 	 * @param item Equipped character item
@@ -178,8 +115,31 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	equipment.unequipp(item);
     }
     /**
+     * Equips specified item, if item is in character inventory and its equippable
+     * @param item Equippable item in chracter inventory
+     * @return True if item was successfully equipped, false otherwise
+     */
+    public boolean equip(Item item)
+    {
+    	if(this.contains(item) && Equippable.class.isInstance(item))
+    	{
+    		return equipment.equip((Equippable)item);
+    	}
+    	else
+    		return false;
+    }
+	/**
+	 * Checks if specified item is equipped
+	 * @param item Game item
+	 * @return True if specified item is equipped, false otherwise
+	 */
+    public boolean isEquipped(Item item)
+    {
+    	return equipment.isEquipped(item);
+    }
+    /**
      * Returns weapon damage of equipment items
-     * @return Table with minimal[0] and maximal[1] damge
+     * @return Table with minimal[0] and maximal[1] damage
      */
     public int[] getWeaponDamage()
     {

@@ -29,7 +29,7 @@ package pl.isangeles.senlin.core.action;
  */
 public enum ActionType 
 {
-	NONE, ATTACK, EFFECTUSER, EFFECTTARGET, READ, LOOT;
+	NONE, ATTACK, EFFECTUSER, EFFECTTARGET, READ, LOOT, EQUIP;
 	/**
 	 * Converts action type name to ActionType enum
 	 * @param actionName String with action type name
@@ -49,6 +49,8 @@ public enum ActionType
 			return ActionType.READ;
 		case "loot":
 		    return ActionType.LOOT;
+		case "equip":
+			return ActionType.EQUIP;
 		default:
 			return ActionType.NONE;
 		}

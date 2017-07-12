@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SaveElement;
 
 /**
@@ -67,7 +68,7 @@ public class Equipment implements SaveElement
      * @param weapon Any weapon
      * @return True if item was successful inserted, false otherwise
      */
-	public boolean setWeapon(Weapon weapon)
+	private boolean setWeapon(Weapon weapon)
 	{
 		weaponMain = weapon;
 		return true;
@@ -77,7 +78,7 @@ public class Equipment implements SaveElement
 	 * @param weapon
 	 * @return
 	 */
-	public boolean setSecWeapon(Weapon weapon)
+	private boolean setSecWeapon(Weapon weapon)
 	{
 		return false;
 	}
@@ -86,7 +87,7 @@ public class Equipment implements SaveElement
 	 * @param armorPart Armor item with proper type
 	 * @return True if item was successful inserted to equipment
 	 */
-	public boolean setArmor(Armor armorPart)
+	private boolean setArmor(Armor armorPart)
 	{
 		if(armorPart.type() == Armor.FEET)
 		{
@@ -125,7 +126,7 @@ public class Equipment implements SaveElement
      * @param trinket Trinket item with proper type (finger, neck or artifact)
      * @return True if item was successful inserted, false otherwise
      */
-	public boolean setTrinket(Trinket trinket)
+	private boolean setTrinket(Trinket trinket)
 	{
 		if(trinket.type() == Trinket.FINGER)
 		{
@@ -211,6 +212,23 @@ public class Equipment implements SaveElement
 		}
 			
 	}
+    /**
+     * Equips specified equippable item
+     * @param item Equippable item
+     * @return True if item was successfully equipped, false otherwise
+     */
+	public boolean equip(Equippable item)
+	{
+		Log.addSystem("equipping: " + item.getId());
+		if(Armor.class.isInstance(item))
+			return setArmor((Armor)item);
+		
+		if(Weapon.class.isInstance(item))
+			return setWeapon((Weapon)item);
+		
+		if(Trinket.class.isInstance(item));
+			return setTrinket((Trinket)item);
+	}
 	/**
 	 * Return character helmet
 	 * @return Equipped armor item, type head OR null if not equipped
@@ -290,7 +308,11 @@ public class Equipment implements SaveElement
 		eq.add(artifact);
 		return eq;
 	}
-	
+	/**
+	 * Checks if specified item is equipped
+	 * @param item Game item
+	 * @return True if specified item is equipped, false otherwise
+	 */
 	public boolean isEquipped(Item item)
 	{
 		return getAll().contains(item);

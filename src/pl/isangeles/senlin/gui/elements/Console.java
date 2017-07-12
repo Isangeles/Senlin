@@ -40,6 +40,7 @@ import org.newdawn.slick.gui.TextField;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.Log;
@@ -62,6 +63,7 @@ final class Console extends TextInput implements UiElement
     private boolean hide;
     private Character player;
     private TextBox logBox;
+    private CommandInterface cli;
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -70,12 +72,13 @@ final class Console extends TextInput implements UiElement
      * @throws FontFormatException
      * @throws IOException
      */
-    public Console(GameContainer gc, Character player) throws SlickException, FontFormatException, IOException
+    public Console(GameContainer gc, CommandInterface cli, Character player) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("ui/background/consoleBG_DG.png"), "uiConsoleBg", false, gc);
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
-        logBox = new TextBox(gc);
         this.player = player;
+        this.cli = cli;
+        logBox = new TextBox(gc);
         hide = true;
     }
     /**
@@ -131,7 +134,7 @@ final class Console extends TextInput implements UiElement
         if(key == Input.KEY_ENTER && !hide)
         {
             if(super.getText() != null)
-            	checkCommand(super.getText());
+            	cli.checkCommand(super.getText());
             super.clear();
         }
     }
@@ -147,243 +150,6 @@ final class Console extends TextInput implements UiElement
     public boolean isHidden()
     {
         return hide;
-    }
-    /**
-     * Checks entered command target, first command check  
-     * @param command Text line with command to check 
-     */
-    private void checkCommand(String line)
-    {
-    	//If not a game command
-    	if(!line.startsWith("$"))
-    	{
-    		player.getAvatar().speak(line);
-    		return;
-    	}
-    	
-        Scanner scann = new Scanner(line);
-        String commandTarget = "";
-        String command = "";
-        try
-        {
-            commandTarget = scann.next();
-            command = scann.nextLine();
-        }
-        catch(NoSuchElementException e)
-        {
-        	Log.addDebug("Command scann error: " + line);
-        }
-        scann.close();
-        
-        if(commandTarget.equals("$debug"))
-        {
-        	if(command.equals("on"))
-        	{
-        		Log.setDebug(true);
-        	}
-        	else if(command.equals("off"))
-        	{
-        		Log.setDebug(false);
-        	}
-        	
-        	return;
-        }
-        
-        if(commandTarget.equals("$player"))
-        {
-        	Log.addDebug("In player check");
-        	playerCommands(command);
-        	return;
-        }
-        
-        if(commandTarget.equals("$system"))
-        {
-        	systemCommands(command);
-        	return;
-        }
-        
-        Log.addWarning(commandTarget + " " + TConnector.getText("ui", "logCmdFail"));
-       
-    }
-    /**
-     * Checks entered command for system, second command check
-     * @param commandLine Rest of command line (after target) 
-     */
-    private void systemCommands(String commandLine)
-    {
-    	Scanner scann = new Scanner(commandLine);
-        String command = scann.next();
-        String prefix = scann.nextLine();
-        scann.close();
-        
-
-        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdSys"));
-    }
-    /**
-     * Checks entered command for player, second command check
-     * @param commandLine Rest of command line (after target) 
-     */
-    private void playerCommands(String commandLine)
-    {
-        Scanner scann = new Scanner(commandLine);
-        String command = scann.next();
-        String prefix = scann.nextLine();
-        scann.close();
-        
-        if(command.equals("add"))
-        {
-            addCommands(prefix, player);
-            return;
-        }
-        if(command.equals("remove"))
-        {
-        	removeCommands(prefix, player);
-            return;
-        }
-        if(command.equals("set"))
-        {
-        	setCommands(prefix, player);
-            return;
-        }
-        if(command.equals("show"))
-        {
-        	showCommands(prefix, player);
-        	return;
-        }
-        
-        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
-    }
-    /**
-     * Checks set command for target, last command check
-     * @param commandLine Rest of command line (after command)
-     * @param target Target of command
-     */
-    private void setCommands(String commandLine, Character target)
-    {
-    	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String value = scann.next();
-    	scann.close();
-    	
-    	if(prefix.equals("-guild"))
-    	{
-    		try
-    		{
-    			Guild guild = GuildsBase.getGuild(Integer.parseInt(value));
-        		target.setGuild(guild);
-    		}
-    		catch(NumberFormatException | NoSuchElementException e)
-    		{
-    			Log.addSystem("bad value: " + value);
-    		}
-    		return;
-    	}
-    	if(prefix.equals("-attitude"))
-    	{
-    		return;
-    	}
-
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
-    }
-    /**
-     * Checks add command for target, last command check
-     * @param commandLine Rest of command line (after command)
-     * @param target Target of command
-     */
-    private void addCommands(String commandLine, Character target)
-    {
-    	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String value = scann.next();
-    	scann.close();
-    	
-    	if(prefix.equals("-i"))
-    	{
-    		if(target.addItem(ItemsBase.getItem(value)))
-                Log.addInformation(TConnector.getText("ui", "logAddI"));
-            else
-                Log.addInformation(TConnector.getText("ui", "logAddIFail"));
-    	}
-    	try
-    	{
-    	    if(prefix.equals("-g") || prefix.equals("-gold"))
-    	        target.addGold(Integer.parseInt(value));
-    		if(prefix.equals("-h"))
-    		    target.addHealth(Integer.parseInt(value));
-        	if(prefix.equals("-m"))
-        	    target.addMagicka(Integer.parseInt(value));
-        	if(prefix.equals("-e"))
-        	    target.addExperience(Integer.parseInt(value));
-        	if(prefix.equals("-s") || prefix.equals("-skills"))
-        	    target.addSkill(SkillsBase.getAttack(target, value));
-        	if(prefix.equals("-q") || prefix.equals("-quest"))
-        		target.startQuest(QuestsBase.get(value));
-        	
-        	return;
-    	}
-    	catch(NumberFormatException e)
-    	{
-    		Log.addWarning(TConnector.getText("ui", "logBadVal"));
-    	}
-
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
-    }
-    /**
-     * Checks remove command for target, last command check
-     * @param commLine Rest of command line (after command)
-     * @param target Target of command
-     */
-    private void removeCommands(String commandLine, Character target)
-    {
-    	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String value = scann.next();
-    	scann.close();
-    	
-    	try
-    	{
-    		if(prefix.equals("-h"))
-    		{
-    		    player.takeHealth(Integer.parseInt(value));
-    		    return;
-    		}
-        	if(prefix.equals("-m"))
-        	{
-        	    player.takeMagicka(Integer.parseInt(value));
-        	    return;
-        	}
-        	if(prefix.equals("-e"))
-        	{
-        	    player.takeExperience(Integer.parseInt(value));
-        	    return;
-        	}
-        	
-            Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
-    	}
-    	catch(NumberFormatException e)
-    	{
-    		Log.addInformation(TConnector.getText("ui", "logBadVal"));
-    	}
-
-    }
-    /**
-     * Checks show command for target, last command check
-     * @param commLine Rest of command line (after command)
-     * @param target Target of command
-     */
-    private void showCommands(String commandLine, Character target)
-    {
-    	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	scann.close();
-    	
-    	if(prefix.equals("-f"))
-    	{
-    		Log.addSystem(target.getName() + "//flags: " + target.getFlags().list());
-    		return;
-    	}
-    	
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
     }
 	@Override
 	public void draw(float x, float y)

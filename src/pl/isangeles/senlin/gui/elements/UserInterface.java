@@ -35,6 +35,7 @@ import org.w3c.dom.Document;
 
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
@@ -44,7 +45,7 @@ import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.Warning;
 import pl.isangeles.senlin.gui.elements.*;
 /**
- * Class containing all ui elements
+ * Class for game graphical interface
  * @author Isangeles
  *
  */
@@ -78,13 +79,13 @@ public class UserInterface implements MouseListener, SaveElement
      * @throws IOException
      * @throws FontFormatException
      */
-    public UserInterface(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
+    public UserInterface(GameContainer gc, CommandInterface cli, Character player) throws SlickException, IOException, FontFormatException
     {
         this.player = player;
         gc.getInput().addMouseListener(this);
         
         //cursor = new GameCursor(gc);
-        gameConsole = new Console(gc, player);
+        gameConsole = new Console(gc, cli, player);
         bBar = new BottomBar(gc, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new CharacterFrame(gc, player);

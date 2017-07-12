@@ -41,6 +41,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
@@ -219,7 +220,16 @@ class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, Mo
 			{
 				Item item = (Item)slots.getMouseOver().getContent();
 				if(item != null)
-				    item.use(player, player.getTarget());
+				{
+					if(item.use(player, player.getTarget()))
+					{
+						if(item.getActionType() == ActionType.EQUIP)
+						{
+							moveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
+						}
+					}
+					
+				}
 			}
 		}
 	}
@@ -247,8 +257,13 @@ class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, Mo
     		if(!itemsIn.contains(item))
             {
                 itemsIn.add(item);
-                if(slots.insertContent(item))
-                    Log.addInformation(item.toString() + " added to inventory menu");
+
+                if(!player.getInventory().isEquipped(item))
+                {
+                    if(slots.insertContent(item))
+                        Log.addInformation(item.toString() + " added to inventory menu");
+                }
+                	
                 break;
             }
     	}
@@ -402,15 +417,26 @@ class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, Mo
     		{
     			return false;
     		}
+
+    		if(eqSlot == weapon && Weapon.class.isInstance(eqItem))
+    			return player.equipItem(eqItem);
+    		if((eqSlot == feet || eqSlot == hands || eqSlot == chest || eqSlot == head) && Armor.class.isInstance(eqItem))
+    			return player.equipItem(eqItem);
+    		if((eqSlot == finger || eqSlot == neck || eqSlot == artifact) && Trinket.class.isInstance(eqItem))
+    			return player.equipItem(eqItem);
     		
-    		if(eqSlot == weapon)
-    			return player.setWeapon(eqItem);
-    		if(eqSlot == feet || eqSlot == hands || eqSlot == chest || eqSlot == head)
-    			return player.setArmor(eqItem);
-    		if(eqSlot == finger || eqSlot == neck || eqSlot == artifact)
-    			return player.setTrinket(eqItem);
-    		   		
     		return false;
+    	}
+    	/**
+    	 * Inserts item to one of equipment slots
+    	 * @param slot Equippable item
+    	 * @return True if item was successful inserted, false otherwise
+    	 */
+    	public boolean insertItem(Equippable eqItem)
+    	{
+    		ItemSlot eqSlot = getSlotFor(eqItem);
+    		
+    		return eqSlot.insertContent(eqItem);
     	}
     	/**
     	 * Returns slot on which mouse is over
@@ -477,6 +503,45 @@ class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, Mo
     		}
     		
     		return true;
+    	}
+    	/**
+    	 * Returns slot for specific equippable item
+    	 * @param item Equippable item
+    	 * @return ItemsSlot for this specific item, or null
+    	 */
+    	public ItemSlot getSlotFor(Equippable item)
+    	{
+    		if(Weapon.class.isInstance(item))
+    		{
+    			return weapon;
+    		}
+    		
+    		if(Armor.class.isInstance(item))
+    		{
+    			switch(item.type())
+    			{
+    			case Armor.FEET:
+    				return feet;
+    			case Armor.HANDS:
+    				return hands;
+    			case Armor.CHEST:
+    				return chest;
+    			}
+    		}
+    		if(Trinket.class.isInstance(item))
+    		{
+    			switch(item.type())
+    			{
+    			case Trinket.ARTIFACT:
+    				return artifact;
+    			case Trinket.FINGER:
+    				return finger;
+    			case Trinket.NECK:
+    				return neck;
+    			}
+    		}
+    		
+    		return null;
     	}
     }
 }
