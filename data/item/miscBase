@@ -8,4 +8,8 @@
         <icon>herb01.png</icon>
         <action type="effectUser">heal01</action>
     </item>
+    <item id="mAloeBalm" value="5" disposable="true">
+        <icon></icon>
+        <action></action>
+    </item>
 </base>

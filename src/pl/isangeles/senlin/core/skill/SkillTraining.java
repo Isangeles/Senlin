@@ -30,6 +30,7 @@ import java.util.List;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
@@ -41,7 +42,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Training
+public class SkillTraining implements Training
 {
     private SkillPattern skill;
     private String name;
@@ -50,7 +51,7 @@ public class Training
      * Training constructor 
      * @param skillID ID of skill to train
      */
-    public Training(String skillID)
+    public SkillTraining(String skillID)
     {
         skill = SkillsBase.getPattern(skillID);
         name = TConnector.getInfo("skills", skillID)[0];

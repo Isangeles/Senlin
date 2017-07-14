@@ -29,6 +29,8 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;

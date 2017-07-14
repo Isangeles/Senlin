@@ -26,10 +26,16 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -39,6 +45,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.*;
+import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.craft.ProfessionType;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
@@ -94,6 +104,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Abilities abilities;
 	private Targetable target;
 	private List<Dialogue> dialogues;
+	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<Targetable, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
 	private Journal quests = new Journal();
@@ -730,6 +741,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Abilities getSkills()
 	{ return abilities; }
+	
+	public Profession getProfession(ProfessionType proType)
+	{
+		return crafting.get(proType);
+	}
 	/**
 	 * Returns all effects on character
 	 */
@@ -900,19 +916,32 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean addItem(Item item)
 	{ return inventory.add(item); }
-	
+	/**
+	 * Adds skill to player abilities set
+	 * @param skill Game skill
+	 * @return True if skill was successfully added, false otherwise
+	 */
 	public boolean addSkill(Skill skill)
 	{
 	    if(abilities.add(skill))
-	    {
-	        Log.addInformation(skill.getName() + " added to container");
 	        return true;
-	    }
 	    else
-	    {
-	        Log.addInformation(skill.getName() + " add fail!");
 	        return false;
-	    }
+	}
+	/**
+	 * Adds profession to character professions set
+	 * @param profession Game profession
+	 * @return True if profession was successfully added
+	 */
+	public boolean addProfession(Profession profession)
+	{
+		if(crafting.get(profession.getType()) == null)
+		{
+			crafting.put(profession.getType(), profession);
+			return true;
+		}
+		else
+			return false;
 	}
 	/**
 	 * Adds quest to character quests list
@@ -1088,6 +1117,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.appendChild(inventory.getSave(doc));
         charE.appendChild(abilities.getSave(doc));
         charE.appendChild(effects.getSave(doc));
+        
+        Element craftingE = doc.createElement("crafting");
+        for(Profession profession : crafting.values())
+        {
+        	craftingE.appendChild(profession.getSave(doc));
+        }
+        charE.appendChild(craftingE);
+        
         charE.appendChild(quests.getSave(doc));
         
         Element flagsE = doc.createElement("flags");

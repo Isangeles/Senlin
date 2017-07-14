@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.effect;
 /**
  * Enumeration for effect types used by items, skills, etc.
  * @author Isangeles

@@ -89,8 +89,12 @@ public class Scenario implements SaveElement
 		
 		for(String key : npcs.keySet())
 		{
-			this.npcs.add(NpcBase.spawnAt(key, npcs.get(key)));
-			Log.addSystem(key + " spawned");
+			Character npc = NpcBase.spawnAt(key, npcs.get(key));
+			if(npc != null)
+			{
+				this.npcs.add(npc);
+				Log.addSystem(key + " spawned");
+			}
 		}
 		
 		this.mobsAreas = mobsAreas;

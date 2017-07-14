@@ -33,8 +33,8 @@ import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.req.ReqType;
-import pl.isangeles.senlin.core.req.Requirements;
-import pl.isangeles.senlin.core.req.StatsRequirements;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.StatsRequirement;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
@@ -120,7 +120,7 @@ public class DialogueParser
 				
 			}
 
-			Map<Requirements, String> oTextsMap = null;
+			Map<Requirement, String> oTextsMap = null;
 			
 			Node otherTextsNode = textE.getElementsByTagName("otherTexts").item(0);
 			if(otherTextsNode != null)
@@ -188,9 +188,9 @@ public class DialogueParser
 		return new DialoguePart("err01", "error01", null, answersList);
 	}
 	
-	public static Map<Requirements, String> getOtherTexts(Node otherTextsNode)
+	public static Map<Requirement, String> getOtherTexts(Node otherTextsNode)
 	{
-		Map<Requirements, String> textsMap = new HashMap<>();
+		Map<Requirement, String> textsMap = new HashMap<>();
 		Element otherTextsE = (Element)otherTextsNode;
 		NodeList textsList = otherTextsE.getElementsByTagName("text");
 		for(int i = 0; i < textsList.getLength(); i ++)
@@ -205,7 +205,7 @@ public class DialogueParser
 				switch(type)
 				{
 				case STATS:
-					textsMap.put(new StatsRequirements(new Attributes(req)), textE.getTextContent());
+					textsMap.put(new StatsRequirement(new Attributes(req)), textE.getTextContent());
 					break;
 				}
 			}

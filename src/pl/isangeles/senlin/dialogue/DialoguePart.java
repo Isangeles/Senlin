@@ -28,7 +28,7 @@ import java.util.Map;
 
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.req.Requirements;
+import pl.isangeles.senlin.core.req.Requirement;
 /**
  * Class for dialogue parts, contains id corresponding to text in current lang directory and answers 
  * @author Isangeles
@@ -38,7 +38,7 @@ public class DialoguePart
 {
 	private final String id;
 	private final String on;
-	private final Map<Requirements, String> otherTexts;
+	private final Map<Requirement, String> otherTexts;
 	private final List<Answer> answers;
 	private final List<String> itemsToGive;
 	private final List<String> itemsToTake;
@@ -50,7 +50,7 @@ public class DialoguePart
 	 * @param on Dialogue part trigger(e.g. dialogue answer ID or 'start' to display this part at dialogue start)
 	 * @param answers List of answers on that dialogue part
 	 */
-	public DialoguePart(String id, String on, Map<Requirements, String> otherTexts, List<Answer> answers) 
+	public DialoguePart(String id, String on, Map<Requirement, String> otherTexts, List<Answer> answers) 
 	{
 		this.id = id;
 		this.on = on;
@@ -71,7 +71,7 @@ public class DialoguePart
 	 * @param goldToGive Amount of gold to give to player on this dialogue part start
 	 * @param goldToTake Amount of gold to take from player on this dialogue part start
 	 */
-	public DialoguePart(String id, String on, Map<Requirements, String> otherTexts, List<Answer> answers, List<String> itemsToGive, List<String> itemsToTake, int goldToGive, int goldToTake) 
+	public DialoguePart(String id, String on, Map<Requirement, String> otherTexts, List<Answer> answers, List<String> itemsToGive, List<String> itemsToTake, int goldToGive, int goldToTake) 
 	{
 		this.id = id;
 		this.on = on;
@@ -97,9 +97,9 @@ public class DialoguePart
 	{
 		if(dialogueTarget != null && otherTexts != null)
 		{
-			for(Requirements req : otherTexts.keySet())
+			for(Requirement req : otherTexts.keySet())
 			{
-				if(req.isMeet(dialogueTarget))
+				if(req.isMetBy(dialogueTarget))
 				{
 					return TConnector.getDialogueText(otherTexts.get(req));
 				}

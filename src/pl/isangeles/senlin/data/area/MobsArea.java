@@ -74,8 +74,12 @@ public class MobsArea
 			for(int i = 0; i <  1 + rng.nextInt(mobs.get(mobId)); i ++)
 			{
 				Position mobPos = new Position(startPoint.x + rng.nextInt(endPoint.x), startPoint.y + rng.nextInt(endPoint.y));
-				mobsList.add(NpcBase.spawnAt(mobId, mobPos));
-				Log.addSystem(mobId + " spawned");
+				Character mob = NpcBase.spawnAt(mobId, mobPos);
+				if(mob != null)
+				{
+					mobsList.add(mob);
+					Log.addSystem(mobId + " spawned");
+				}
 			}
 		}
 		

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<base>
+    <recipe id="raAloeBalm" type="alchemy" level="novice">
+        <result>
+            <item amount="1">mAloeBalm</item>
+        </result>
+        <components>
+            <item amount="4">aloeL</item>
+        </components>
+        <trainReq>
+            <goldReq>10</goldReq>
+            <statsReq>0;0;0;2;1;</statsReq>
+        </trainReq>
+    </recipe>
+</base>

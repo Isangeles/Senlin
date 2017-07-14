@@ -1,5 +1,5 @@
 /*
- * StatsRequirements.java
+ * GoldRequirement.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -22,29 +22,47 @@
  */
 package pl.isangeles.senlin.core.req;
 
-import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.skill.Abilities;
 
 /**
+ * Class for gold requirement
  * @author Isangeles
  *
  */
-public class StatsRequirements extends Requirements 
+public class GoldRequirement implements Requirement 
 {
-	private Attributes minStats;
-
-	public StatsRequirements(Attributes minStats)
+	private int reqGold;
+	private boolean meet;
+	
+	public GoldRequirement(int reqGold)
 	{
-		this.minStats = minStats;
+		this.reqGold = reqGold;
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.req.Requirements#isMeet(pl.isangeles.senlin.core.Character)
+	 * @see pl.isangeles.senlin.core.req.Requirement#isMeet(pl.isangeles.senlin.core.Character)
 	 */
 	@Override
-	public boolean isMeet(Character character) 
+	public boolean isMetBy(Character character) 
 	{
-		return character.getAttributes().compareTo(minStats);
+		if(character.getInventory().getGold() >= reqGold)
+		{
+			meet = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
+	 */
+	@Override
+	public void charge(Character character) 
+	{
+		if(meet)
+		{
+			character.getInventory().takeGold(reqGold);
+			meet = false;
+		}
 	}
 
 }

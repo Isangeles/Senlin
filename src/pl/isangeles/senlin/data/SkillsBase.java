@@ -39,7 +39,7 @@ import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.SkillPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.EffectType;
+import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
 /**
  * Static class for skills

@@ -49,9 +49,10 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Bonuses;
-import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
@@ -77,6 +78,7 @@ import pl.isangeles.senlin.util.parser.ItemParser;
 import pl.isangeles.senlin.util.parser.NpcParser;
 import pl.isangeles.senlin.util.parser.ObjectParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
+import pl.isangeles.senlin.util.parser.RecipeParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
 
 /**
@@ -116,11 +118,18 @@ public final class DConnector
 			//Iterates over all nodes inside npcs node
 			if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
-				NpcPattern npcp = NpcParser.getNpcFromNode(npcNode);
-				if(npcp == null)
-				    break;
-				else
-				    npcMap.put(npcp.getId(), npcp);
+				try
+				{
+					NpcPattern npcp = NpcParser.getNpcFromNode(npcNode);
+					npcMap.put(npcp.getId(), npcp);
+				}
+				catch(NumberFormatException | NullPointerException e)
+				{
+					Log.addSystem("npc_builder_fail_msg///node corrupted!");
+					e.printStackTrace();
+					continue;
+				}
+				    
 			}
 		}
 		
@@ -557,5 +566,42 @@ public final class DConnector
 		}
 		
 		return miscMap;
+	}
+	/**
+	 * Parses specified recipes base to list with recipe objects
+	 * @param recipesBase String with recipes base name in data/item catalog
+	 * @return List with recipes objects
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static List<Recipe> getRecipes(String recipesBase) throws ParserConfigurationException, SAXException, IOException
+	{
+		List<Recipe> recipes = new ArrayList<>();
+		
+		String baseDir = "data" + File.separator + "item" + File.separator + recipesBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(baseDir);
+		
+		NodeList recipesList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < recipesList.getLength(); i ++)
+		{
+			Node recipeNode = recipesList.item(i);
+			if(recipeNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					recipes.add(RecipeParser.getRecipeFromNode(recipeNode));
+				}
+				catch(NullPointerException e)
+				{
+					continue;
+				}
+			}
+		}
+		
+		return recipes;
 	}
 }

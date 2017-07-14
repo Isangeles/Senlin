@@ -42,7 +42,8 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Effect;
+import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.Attitude;
 /**
  * Class for NPC patterns used to create specific NPC by NpcBase class
@@ -76,6 +77,7 @@ public class NpcPattern
 	private final List<RandomItem> invItems;
 	private final List<String> skills;
 	private final Map<String, Integer> effects;
+	private final List<Profession> professions;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId NPC id
@@ -97,7 +99,7 @@ public class NpcPattern
 	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
 					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
-					  Map<String, Integer> effects) 
+					  Map<String, Integer> effects, List<Profession> professions) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -137,6 +139,7 @@ public class NpcPattern
 		this.invItems = invItems;
 		this.skills = skills;
 		this.effects = effects;
+		this.professions = professions;
 	}
 	/**
 	 * Returns ID of NPC from this pattern
@@ -217,6 +220,10 @@ public class NpcPattern
 		    Effect effect = EffectsBase.getEffect(effectId);
 		    effect.setTime(effects.get(effectId));
 		    npc.getEffects().add(effect);
+		}
+		for(Profession profession : professions)
+		{
+			npc.addProfession(profession);
 		}
 		
 		return npc;

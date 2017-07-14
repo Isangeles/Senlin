@@ -22,11 +22,103 @@
  */
 package pl.isangeles.senlin.core.craft;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import pl.isangeles.senlin.data.SaveElement;
+
 /**
+ * Class for game professions
  * @author Isangeles
  *
  */
-public class Profession
+public class Profession extends ArrayList<Recipe> implements SaveElement
 {
+	private static final long serialVersionUID = 1L;
+	
+	private final ProfessionType type;
+	private ProfessionLevel level;
+	/**
+	 * Profession constructor 
+	 * @param type Profession type
+	 */
+	public Profession(ProfessionType type)
+	{
+		this.type = type;
+		level = ProfessionLevel.NOVICE;
+	}
+	
+	public Profession(ProfessionType type, ProfessionLevel level, List<Recipe> recipes)
+	{
+		this.type = type;
+		this.level = level;
+		this.addAll(recipes);
+	}
+	
+	public void setLevel(ProfessionLevel level)
+	{
+		this.level = level;
+	}
+	
+	public ProfessionType getType()
+	{
+		return type;
+	}
+	
+	public ProfessionLevel getLevel()
+	{
+		return level;
+	}
+	
+	public Recipe get(String id)
+	{
+		for(Recipe recipe : this)
+		{
+			if(recipe.getId().equals(id))
+				return recipe;
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean add(Recipe recipe)
+	{
+		if(!this.contains(recipe))
+		{
+			if(recipe.getType() == this.type && recipe.getLevel().ordinal() <= this.level.ordinal())
+				return super.add(recipe);
+		}
+		
+		return false;
+			
+	}
+	
+	public boolean equals(Profession profession)
+	{
+		return (profession.getType() == this.type);
+	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element professionE = doc.createElement("profession");
+		
+		professionE.setAttribute("type", type.toString());
+		professionE.setAttribute("level", level.toString());
+		for(Recipe recipe : this)
+		{
+			Element recipeE = doc.createElement("recipe");
+			recipeE.setTextContent(recipe.getId());
+			professionE.appendChild(recipeE);
+		}
+		
+		return professionE;
+	}
 }

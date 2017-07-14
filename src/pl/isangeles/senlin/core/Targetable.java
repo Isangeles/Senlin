@@ -24,6 +24,8 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.quest.ObjectiveTarget;
 

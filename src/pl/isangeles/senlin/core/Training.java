@@ -1,5 +1,5 @@
 /*
- * Requirements.java
+ * Training.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,14 +20,26 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.req;
+package pl.isangeles.senlin.core;
 
-import pl.isangeles.senlin.core.Character;
+import java.awt.FontFormatException;
+import java.io.IOException;
+
+import org.newdawn.slick.SlickException;
+
 /**
+ * Interface for training classes
  * @author Isangeles
  *
  */
-public abstract class Requirements 
+public interface Training 
 {
-	public abstract boolean isMeet(Character character);
+	/**
+	 * Teaches specified character
+	 * @param trainingCharacter Game character
+	 * @throws SlickException 
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public void teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException;
 }

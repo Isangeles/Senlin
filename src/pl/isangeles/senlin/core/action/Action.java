@@ -22,8 +22,8 @@
  */
 package pl.isangeles.senlin.core.action;
 
-import pl.isangeles.senlin.core.Effect;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.skill.Skill;
 
 /**

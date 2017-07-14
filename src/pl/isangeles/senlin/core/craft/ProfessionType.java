@@ -22,11 +22,48 @@
  */
 package pl.isangeles.senlin.core.craft;
 
+import pl.isangeles.senlin.util.TConnector;
+
 /**
+ * Enumeration for professions types
  * @author Isangeles
  *
  */
 public enum ProfessionType
 {
-
+	ARMORCRAFTING, WEAPONCRAFTING, ALCHEMY, ENCHANTING;
+	
+	public static ProfessionType fromString(String proTypeName)
+	{
+		switch(proTypeName)
+		{
+		case "armor crafting":
+			return ProfessionType.ARMORCRAFTING;
+		case "weapon crafting":
+			return ProfessionType.WEAPONCRAFTING;
+		case "alchemy":
+			return ProfessionType.ALCHEMY;
+		case "enchanting":
+			return ProfessionType.ENCHANTING;
+		default:
+			return ProfessionType.ARMORCRAFTING;
+		}
+	}
+	
+	public String toString()
+	{
+		switch(this)
+		{
+		case ARMORCRAFTING:
+			return TConnector.getText("ui", "proArm");
+		case WEAPONCRAFTING:
+			return TConnector.getText("ui", "proWea");
+		case ALCHEMY:
+			return TConnector.getText("ui", "proAlch");
+		case ENCHANTING:
+			return TConnector.getText("ui", "proEnch");
+		default:
+			return TConnector.getText("ui", "errorName");
+		}
+	}
 }

@@ -45,6 +45,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SaveEngine;
 import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.ScenariosBase;
@@ -126,6 +127,7 @@ public class LoadingScreen extends BasicGameState
 			    break;
 			case 1:
 	            ItemsBase.loadBases(container);
+	            RecipesBase.load();
 	            GuildsBase.load();
 	            NpcBase.load(container);
 	            DialoguesBase.load("dPrologue");

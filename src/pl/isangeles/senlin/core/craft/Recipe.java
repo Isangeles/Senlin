@@ -22,24 +22,88 @@
  */
 package pl.isangeles.senlin.core.craft;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.req.ItemsRequirement;
+import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.ItemsBase;
 
 /**
+ * Class for game professions recipes
  * @author Isangeles
  *
  */
 public class Recipe
 {
+	private final String id;
     private final ProfessionType type;
-    private final List<String> reagents;
-    private final String result;
-    
-    public Recipe(ProfessionType type, List<String> reagents, String result)
+    private final ProfessionLevel level;
+    private final ItemsRequirement reqComponents;
+    private final List<String> result;
+    /**
+     * Recipe constructor 
+     * @param id Recipe ID
+     * @param type Recipe type(profession type)
+     * @param reqComponents List of components required for item created by this recipe
+     * @param result ID of item created by this recipe
+     */
+    public Recipe(String id, ProfessionType type, ProfessionLevel level, ItemsRequirement reqComponents, List<String> result)
     {
+    	this.id = id;
         this.type = type;
-        this.reagents = reagents;
+        this.level = level;
+        this.reqComponents = reqComponents;
         this.result = result;
+    }
+    /**
+     * Creates item from this recipe
+     * @param components List with items IDs
+     * @return New item
+     */
+    public List<Item> create(Character crafter)
+    {	
+    	if(reqComponents.isMetBy(crafter))
+    	{
+    		reqComponents.charge(crafter);
+    		List<Item> resultItems = new ArrayList<>();
+    		for(String itemId : result)
+    		{
+    			resultItems.add(ItemsBase.getItem(itemId));
+    		}
+    		return resultItems;
+    	}
+    	else
+    		return null;
+    }
+    /**
+     * Returns recipe ID
+     * @return String with recipe ID
+     */
+    public String getId()
+    {
+    	return id;
+    }
+    /**
+     * Returns recipe type(profession type)
+     * @return Profession type
+     */
+    public ProfessionType getType()
+    {
+    	return type;
+    }
+    
+    public ProfessionLevel getLevel()
+    {
+    	return level;
+    }
+    
+    public boolean equals(Recipe recipe)
+    {
+    	return (recipe.getId().equals(id));
     }
 }

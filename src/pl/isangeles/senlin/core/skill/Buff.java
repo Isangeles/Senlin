@@ -3,9 +3,9 @@ package pl.isangeles.senlin.core.skill;
 import java.util.List;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Effect;
-import pl.isangeles.senlin.core.EffectType;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectType;
 
 public class Buff extends Skill 
 {

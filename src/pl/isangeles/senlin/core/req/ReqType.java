@@ -23,12 +23,13 @@
 package pl.isangeles.senlin.core.req;
 
 /**
+ * Enumeration for requirements types
  * @author Isangeles
  *
  */
 public enum ReqType 
 {
-	NONE, STATS, SEX, GUILD;
+	NONE, STATS, SEX, GUILD, GOLD, ITEMS;
 	
 	public static ReqType fromString(String typeName)
 	{
@@ -40,6 +41,10 @@ public enum ReqType
 			return ReqType.SEX;
 		case "guildReq":
 			return ReqType.GUILD;
+		case "goldReq":
+			return ReqType.GOLD;
+		case "itemsReq":
+			return ReqType.ITEMS;
 		default:
 			return ReqType.NONE;
 		}

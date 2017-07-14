@@ -13,7 +13,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.core.Effect;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.util.DConnector;
 /**

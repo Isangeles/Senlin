@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.effect;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -28,6 +28,9 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.gui.elements.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
 

@@ -37,7 +37,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.core.skill.Training;
+import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
@@ -292,7 +292,7 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private class SkillField extends Button
 	{
-		private Training skillTraining;
+		private SkillTraining skillTraining;
 		private TextBlock description;
 		
 		public SkillField(GameContainer gc) throws SlickException, FontFormatException, IOException 
@@ -318,7 +318,7 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
 		 */
 		public void insertSkill(Skill skill)
 		{
-			this.skillTraining = new Training(skill.getId());
+			this.skillTraining = new SkillTraining(skill.getId());
 			List<String> desc = skillTraining.getInfo();
 			description = new TextBlock(desc.get(0), 50, ttf);
 			for(int i = 1; i < desc.size(); i ++)
@@ -349,7 +349,7 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
 		 * Returns training from field
 		 * @return Training object
 		 */
-		public Training getTraining()
+		public SkillTraining getTraining()
 		{
 		    return skillTraining;
 		}

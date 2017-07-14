@@ -98,6 +98,11 @@
     </skills>
     <effects>
     </effects>
+    <crafting>
+	<profession type="alchemy" level="apprentice">
+		<recipe>raAloeBalam</recipe>
+	</profession>
+    </crafting>
 </npc>
 <npc id="goblin01" attitude="hostile" guild="2" level="1">
     <stats>2;2;3;1;1;</stats>

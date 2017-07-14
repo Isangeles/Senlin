@@ -59,7 +59,7 @@ import pl.isangeles.senlin.util.Position;
  * @author Isangeles
  *
  */
-public class SSGParser
+public final class SSGParser
 {
     /**
      * Private constructor to prevent initialization
@@ -86,7 +86,6 @@ public class SSGParser
         Element playerE = (Element)saveE.getElementsByTagName("player").item(0); 
         Character player = getCharFromSave((Element)playerE.getElementsByTagName("character").item(0), gc);
         
-
         List<Scenario> scenarios = new ArrayList<>();
         Element scenariosE = (Element)saveE.getElementsByTagName("scenarios").item(0);
         NodeList scenariosList = scenariosE.getElementsByTagName("scenario");

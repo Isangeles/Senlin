@@ -29,8 +29,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Attributes;
-import pl.isangeles.senlin.core.Effect;
-import pl.isangeles.senlin.core.EffectType;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Pattern for creating effects
