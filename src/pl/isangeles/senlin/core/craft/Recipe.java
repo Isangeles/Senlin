@@ -32,15 +32,19 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemsBase;
+import pl.isangeles.senlin.gui.ScrollableContent;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for game professions recipes
  * @author Isangeles
  *
  */
-public class Recipe
+public class Recipe implements ScrollableContent
 {
 	private final String id;
+	private final String name;
+	private final String info;
     private final ProfessionType type;
     private final ProfessionLevel level;
     private final ItemsRequirement reqComponents;
@@ -59,6 +63,8 @@ public class Recipe
         this.level = level;
         this.reqComponents = reqComponents;
         this.result = result;
+        name = TConnector.getText("items", "recName") + ":" + TConnector.getText("items", result.get(0));
+        info = TConnector.getInfo("item", result.get(0))[1];
     }
     /**
      * Creates item from this recipe
@@ -106,4 +112,17 @@ public class Recipe
     {
     	return (recipe.getId().equals(id));
     }
+    
+    public String getInfo()
+    {
+    	return info;
+    }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.ScrollableContent#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return name;
+	}
 }

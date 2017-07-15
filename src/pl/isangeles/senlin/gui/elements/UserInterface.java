@@ -60,6 +60,7 @@ public class UserInterface implements MouseListener, SaveElement
     private InGameMenu igMenu;
     private InvetoryMenu inventory;
     private SkillsMenu skills;
+    private CraftingMenu crafting;
     private JournalMenu journal;
     private LootWindow loot;
     private TradeWindow trade;
@@ -92,6 +93,7 @@ public class UserInterface implements MouseListener, SaveElement
         igMenu = new InGameMenu(gc);
         inventory = new InvetoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
+        crafting = new CraftingMenu(gc, player);
         journal = new JournalMenu(gc, player);
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
@@ -149,6 +151,9 @@ public class UserInterface implements MouseListener, SaveElement
         if(bBar.isMenuReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
+        if(crafting.isOpenReq())
+        	crafting.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+        	
         if(save.isOpenReq())
         	save.draw(Coords.getX("CE", -100), Coords.getY("CE", -100), g);
         
@@ -206,12 +211,18 @@ public class UserInterface implements MouseListener, SaveElement
     		hideMenu();
     	}
     	
+    	if(bBar.takeCraftingReq() && !crafting.isOpenReq())
+    	{
+    		crafting.open();
+    	}
+    	
     	bBar.update(skills.getDragged());
         charFrame.update();
         cast.update();
         targetFrame.update();
         inventory.update();
         skills.update();
+        crafting.update();
         journal.update();
         loot.update();
         trade.update();
@@ -230,7 +241,7 @@ public class UserInterface implements MouseListener, SaveElement
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
     		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
-    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver();
+    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver();
     }
     /**
      * Checks if exit game is requested

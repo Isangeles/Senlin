@@ -55,6 +55,23 @@ public enum ProfessionLevel
 		switch(this)
 		{
 		case NOVICE:
+			return "novice";
+		case APPRENTICE:
+			return "apprentice";
+		case SPECIALIST:
+			return "specialist";
+		case MASTER:
+			return "master";
+		default:
+			return "error";
+		}
+	}
+	
+	public String getName()
+	{
+		switch(this)
+		{
+		case NOVICE:
 			return TConnector.getText("ui", "proLevN");
 		case APPRENTICE:
 			return TConnector.getText("ui", "proLevA");

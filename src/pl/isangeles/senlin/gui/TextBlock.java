@@ -63,17 +63,29 @@ public class TextBlock
      * Text block constructor 
      * @param text String with text
      * @param charsInLine Maximum number of chars in single line
-     * @param tff Slick TrueTypeFont
+     * @param ttf Slick TrueTypeFont
      */
-    public TextBlock(String text, int charsInLine, TrueTypeFont tff)
+    public TextBlock(String text, int charsInLine, TrueTypeFont ttf)
     {
         this.text = text;
-        this.ttf = tff;
+        this.ttf = ttf;
         this.charsInLine = charsInLine;
         
         pos = new Position();
         
         addLines(text, charsInLine);
+    }
+    /**
+     * Creates new empty text block
+     * @param charsInLine Maximum number of characters in one line
+     * @param ttf Slick TTF for text
+     */
+    public TextBlock(int charsInLine, TrueTypeFont ttf)
+    {
+        this.ttf = ttf;
+        this.charsInLine = charsInLine;
+        
+        pos = new Position();
     }
     /**
      * Draws text block on specified position
@@ -109,6 +121,11 @@ public class TextBlock
     {
     	textLines.add("");
     	addLines(text, charsInLine);
+    }
+    
+    public void setText(String text)
+    {
+    	this.text = text;
     }
     /**
      * Returns string with whole text

@@ -48,6 +48,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     private boolean menuReq;
     private boolean inventoryReq;
     private boolean skillsReq;
+    private boolean craftingReq;
     private boolean journalReq;
     /**
      * Bottom bar constructor
@@ -137,6 +138,13 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     public boolean isSkillsReq()
     {
     	return skillsReq;
+    }
+    
+    public boolean takeCraftingReq()
+    {
+    	boolean returnReq = craftingReq;
+    	craftingReq = false;
+    	return returnReq;
     }
     /**
      * Checks if journal menu is requested
@@ -273,6 +281,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     		skillsReq = true;
     	else if(key == Input.KEY_K && skillsReq)
     		skillsReq = false;
+		
+		if(key == Input.KEY_P && !craftingReq)
+			craftingReq = true;
+		else if(key == Input.KEY_P && craftingReq)
+			craftingReq = false;
 		
 		if(key == Input.KEY_L && !journalReq)
 			journalReq = true;

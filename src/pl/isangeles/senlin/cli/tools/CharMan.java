@@ -27,10 +27,14 @@ import java.util.Scanner;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
+import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.craft.ProfessionType;
+import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -166,6 +170,7 @@ public class CharMan implements CliTool
     	}
     	try
     	{
+    		Boolean out = false;
     	    if(prefix.equals("-g") || prefix.equals("-gold"))
     	        target.addGold(Integer.parseInt(value));
     		if(prefix.equals("-h"))
@@ -175,15 +180,24 @@ public class CharMan implements CliTool
         	if(prefix.equals("-e"))
         	    target.addExperience(Integer.parseInt(value));
         	if(prefix.equals("-s") || prefix.equals("-skills"))
-        	    target.addSkill(SkillsBase.getAttack(target, value));
+        		out = target.addSkill(SkillsBase.getAttack(target, value));
+        	if(prefix.equals("-p") || prefix.equals("-profession"))
+        		out = target.addProfession(new Profession(ProfessionType.fromString(value)));
+        	if(prefix.equals("-r") || prefix.equals("-recipe"))
+        	{
+        		Recipe recipe = RecipesBase.get(value);
+        		if(recipe != null && target.getProfession(recipe.getType()) != null)
+        			out = target.getProfession(recipe.getType()).add(recipe);
+        	}
         	if(prefix.equals("-q") || prefix.equals("-quest"))
         		target.startQuest(QuestsBase.get(value));
         	
+        	Log.addSystem("Command out:" + out.toString());
         	return;
     	}
     	catch(NumberFormatException e)
     	{
-    		Log.addWarning(TConnector.getText("ui", "logBadVal"));
+    		Log.addSystem(TConnector.getText("ui", "logBadVal"));
     	}
 
         Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
@@ -235,6 +249,7 @@ public class CharMan implements CliTool
     {
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
+    	String value = scann.next();
     	scann.close();
     	
     	if(prefix.equals("-f"))
@@ -242,7 +257,11 @@ public class CharMan implements CliTool
     		Log.addSystem(target.getName() + "//flags: " + target.getFlags().list());
     		return;
     	}
-    	
+    	if(prefix.equals("-r"))
+    	{
+    		Log.addSystem(target.getProfession(ProfessionType.fromString(value)).toString());
+    		return;
+    	}
         Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
     }
 }

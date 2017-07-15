@@ -741,10 +741,22 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Abilities getSkills()
 	{ return abilities; }
-	
+	/**
+	 * Returns specified character profession
+	 * @param proType Type of desired profession
+	 * @return Desired character profession or null if character don't know such profession
+	 */
 	public Profession getProfession(ProfessionType proType)
 	{
 		return crafting.get(proType);
+	}
+	/**
+	 * Returns all character professions
+	 * @return Collection with all character professions
+	 */
+	public Collection<Profession> getProfessions()
+	{
+		return crafting.values();
 	}
 	/**
 	 * Returns all effects on character

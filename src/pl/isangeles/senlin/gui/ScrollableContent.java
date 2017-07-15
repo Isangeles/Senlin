@@ -1,5 +1,5 @@
 /*
- * UiElement.java
+ * ScrollableContent.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,26 +20,13 @@
  * 
  * 
  */
-package pl.isangeles.senlin.gui.elements;
+package pl.isangeles.senlin.gui;
+
 /**
- * Interface for ui elements
  * @author Isangeles
  *
  */
-interface UiElement
+public interface ScrollableContent 
 {
-    /**
-     * Draws UI element, specified positions should be scaled to current screen resolution
-     * @param x Position on X-axis
-     * @param y Position on Y-axis
-     */
-    public void draw(float x, float y);
-    /**
-     * Updates UI element
-     */
-    public void update();
-    /**
-     * Resets UI element
-     */
-    public void reset();
+	public String getName();
 }

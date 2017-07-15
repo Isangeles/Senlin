@@ -30,13 +30,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.gui.ScrollableContent;
 
 /**
  * Class for game professions
  * @author Isangeles
  *
  */
-public class Profession extends ArrayList<Recipe> implements SaveElement
+public class Profession extends ArrayList<Recipe> implements SaveElement, ScrollableContent
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -114,11 +115,23 @@ public class Profession extends ArrayList<Recipe> implements SaveElement
 		professionE.setAttribute("level", level.toString());
 		for(Recipe recipe : this)
 		{
-			Element recipeE = doc.createElement("recipe");
-			recipeE.setTextContent(recipe.getId());
-			professionE.appendChild(recipeE);
+			if(recipe != null)
+			{
+				Element recipeE = doc.createElement("recipe");
+				recipeE.setTextContent(recipe.getId());
+				professionE.appendChild(recipeE);
+			}
 		}
 		
 		return professionE;
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.ScrollableContent#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return type.getName();
 	}
 }

@@ -55,6 +55,23 @@ public enum ProfessionType
 		switch(this)
 		{
 		case ARMORCRAFTING:
+			return "armor crafting";
+		case WEAPONCRAFTING:
+			return "weapon crafting";
+		case ALCHEMY:
+			return "alchemy";
+		case ENCHANTING:
+			return "enchanting";
+		default:
+			return "error";
+		}
+	}
+	
+	public String getName()
+	{
+		switch(this)
+		{
+		case ARMORCRAFTING:
 			return TConnector.getText("ui", "proArm");
 		case WEAPONCRAFTING:
 			return TConnector.getText("ui", "proWea");

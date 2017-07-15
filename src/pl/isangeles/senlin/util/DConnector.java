@@ -597,7 +597,9 @@ public final class DConnector
 				}
 				catch(NullPointerException e)
 				{
-					continue;
+					System.out.println("recipes_builder_fail_msg///" + e.getMessage());
+					e.printStackTrace();
+					recipes.remove(null);
 				}
 			}
 		}
