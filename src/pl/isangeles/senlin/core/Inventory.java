@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * Adds item to inventory
      * @return True if item successfully added, false otherwise 
      */
+	@Override
     public boolean add(Item item)
     {
         if(item != null)
@@ -72,6 +74,19 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         else 
             return false;
     }
+	
+	public boolean addAllItems(Collection<Item> items)
+	{
+    	boolean isOk = true;
+		for(Item item : items)
+		{
+			if(!add(item))
+				isOk = false;
+		}
+		
+		return isOk; 
+	}
+    
 	
     public boolean remove(Item item)
     {

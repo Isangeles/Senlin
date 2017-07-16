@@ -63,8 +63,10 @@ public class Recipe implements ScrollableContent
         this.level = level;
         this.reqComponents = reqComponents;
         this.result = result;
-        name = TConnector.getText("items", "recName") + ":" + TConnector.getText("items", result.get(0));
-        info = TConnector.getInfo("item", result.get(0))[1];
+        name = TConnector.getText("items", "recName") + ":" + TConnector.getInfo("items", result.get(0))[0];
+        info = name + " " + System.lineSeparator() + TConnector.getInfo("items", result.get(0))[1] + " " + System.lineSeparator() + 
+        	   TConnector.getText("ui", "cMenuLevel") + ":" + level.getName() + " " + System.lineSeparator() + 
+        	   reqComponents.getInfo();
     }
     /**
      * Creates item from this recipe

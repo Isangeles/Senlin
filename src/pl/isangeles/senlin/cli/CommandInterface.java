@@ -63,7 +63,7 @@ public class CommandInterface
     	//If not a game command
     	if(!line.startsWith("$"))
     	{
-    		player.getAvatar().speak(line);
+    		player.speak(line);
     		return;
     	}
     	

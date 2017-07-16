@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -36,6 +37,7 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
@@ -60,8 +62,16 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	private Profession selectedPro;
 	private Recipe selectedRec;
 	private Button closeB;
+	private Button createB;
 	private boolean openReq;
-	
+	/**
+	 * Crafting menu constructor
+	 * @param gc Slick game container
+	 * @param player Player character
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public CraftingMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
 	{
 		super(GConnector.getInput("ui/background/craftingMenuBG.png"), "uiCraftingMenu", false, gc);
@@ -73,9 +83,10 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
-		recipeInfo = new TextBlock(20, ttf);
+		recipeInfo = new TextBlock("", 60, ttf);
 		
 		closeB = new Button(GConnector.getInput("button/buttonS.png"), "uiButtonClose", false, TConnector.getText("ui", "winClose"), gc);
+		createB = new Button(GConnector.getInput("button/buttonS.png"), "uiButtonClose", false, TConnector.getText("ui", "cMenuCreate"), gc);
 	}
 	
 	public void draw(float x, float y)
@@ -85,12 +96,13 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 		recipesList.draw(x + getDis(280), y + getDis(30), false);
 		recipeInfo.draw(x + getDis(280), y + getDis(340));
 		closeB.draw(x + getDis(600), y + getDis(20), false);
+		createB.draw(x + getDis(590), y + getDis(450), false);
 	}
 	
 	public void open()
 	{
 		openReq = true;
-		professionsList.addAll(player.getProfessions());
+		professionsList.getContent().addAll(player.getProfessions());
 		professionsList.setFocus(true);
 		recipesList.setFocus(true);
 		professionsList.update();
@@ -121,7 +133,7 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 		if(pro != null && selectedPro != pro)
 		{
 			selectedPro = pro;
-			recipesList.addAll(selectedPro);
+			recipesList.getContent().addAll(selectedPro);
 			recipesList.update();
 		}
 		
@@ -129,7 +141,8 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 		if(rec != null && selectedRec != rec)
 		{
 			selectedRec = rec;
-			recipeInfo.setText(selectedRec.getInfo());
+			recipeInfo.clear();
+			recipeInfo.addText(selectedRec.getInfo());
 		}
 	}
 	/* (non-Javadoc)
@@ -139,11 +152,15 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	public void reset() 
 	{
 		this.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+		selectedPro = null;
+		selectedRec = null;
 		professionsList.setFocus(false);
 		professionsList.clear();
 
 		recipesList.setFocus(false);
 		recipesList.clear();
+		
+		recipeInfo.clear();
 	}
 
 	public boolean isOpenReq()
@@ -157,8 +174,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void inputEnded()
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -167,8 +182,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void inputStarted() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -185,8 +198,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void setInput(Input input) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
@@ -194,8 +205,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
@@ -203,8 +212,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
@@ -212,8 +219,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
@@ -221,8 +226,6 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
@@ -232,6 +235,20 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
+			if(createB.isMouseOver())
+			{
+				if(selectedRec != null)
+				{
+					List<Item> createdItems = selectedRec.create(player);
+					if(createdItems != null)
+					{
+						Log.addInformation(TConnector.getText("ui", "cMenuCreateInfo"));
+						player.getInventory().addAllItems(createdItems);
+					}
+					else
+						Log.addInformation(TConnector.getText("ui", "cMenuCreateFail"));
+				}
+			}
 			if(closeB.isMouseOver())
 				close();
 		}

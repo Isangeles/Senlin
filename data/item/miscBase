@@ -9,7 +9,7 @@
         <action type="effectUser">heal01</action>
     </item>
     <item id="mAloeBalm" value="5" disposable="true">
-        <icon></icon>
-        <action></action>
+        <icon>potGreen.png</icon>
+        <action type="effectUser">heal01</action>
     </item>
 </base>

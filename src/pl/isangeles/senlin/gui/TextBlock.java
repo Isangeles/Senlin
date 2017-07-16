@@ -123,9 +123,9 @@ public class TextBlock
     	addLines(text, charsInLine);
     }
     
-    public void setText(String text)
+    public void clear()
     {
-    	this.text = text;
+    	textLines.clear();
     }
     /**
      * Returns string with whole text
@@ -167,27 +167,20 @@ public class TextBlock
     private void addLines(String text, int charsInLine)
     {
         int index = 0;
-        /* TODO Line separator detecting, don't work
-        while(index < text.length()) 
+        
+        while(index < text.length())
         {
-            String range = text.substring(index, Math.min(index + charsInLine,text.length()));
-            if(range.contains("$sep"))
+            if(text.contains(System.lineSeparator()) && text.indexOf(System.lineSeparator()) != text.length()-1)
             {
-                String line = text.substring(index, range.indexOf("$sep"));
-                textLines.add(line);
-                index += line.length();
+            	textLines.add(text.substring(index, Math.min(Math.min(index + charsInLine, index + text.indexOf(System.lineSeparator())), text.length())));
+                index += text.indexOf(System.lineSeparator());
             }
             else
             {
-                textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
+            	textLines.add(text.substring(index, Math.min(index + charsInLine, text.length())));
                 index += charsInLine;
             }
         }
-        */
-        while(index < text.length())
-        {
-            textLines.add(text.substring(index, Math.min(index + charsInLine,text.length())));
-            index += charsInLine;
-        }
+        
     }
 }

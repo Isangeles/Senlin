@@ -12,7 +12,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.MouseOverArea;
 
 /**
  * Interface button class, implements MouseListener to detect mouse click 

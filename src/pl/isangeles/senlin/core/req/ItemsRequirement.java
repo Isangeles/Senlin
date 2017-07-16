@@ -29,6 +29,7 @@ import java.util.Map;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for items requirements
@@ -38,7 +39,7 @@ import pl.isangeles.senlin.core.item.Item;
 public class ItemsRequirement implements Requirement 
 {
 	private Map<String, Integer> reqItems;
-	private List<Item> itemsToRemove;
+	private List<Item> itemsToRemove = new ArrayList<>();
 	private boolean meet;
 	/**
 	 * Items requirement constructor
@@ -60,21 +61,25 @@ public class ItemsRequirement implements Requirement
     		countMap.put(reqItId, 0);
     	}
     	
-    	if(!countMap.equals(reqItems))
-    		return false;
+    	for(Item item : character.getInventory())
+    	{
+    		if(countMap.containsKey(item.getId()))
+    		{
+    			int amount = countMap.get(item.getId());
+    			countMap.put(item.getId(), amount + 1);
+    			itemsToRemove.add(item);
+    		}
+    	}
+    	
+    	if(countMap.equals(reqItems))
+    	{
+    		meet = true;
+    		character.getInventory().removeAll(itemsToRemove);
+    		return true;
+    	}
     	else
     	{
-    		for(Item item : character.getInventory())
-        	{
-        		if(countMap.containsKey(item.getId()))
-        		{
-        			int amount = countMap.get(item.getId());
-        			countMap.put(item.getId(), amount + 1);
-        			itemsToRemove.add(item);
-        		}
-        	}
-    		meet = true;
-    		return true;
+    		return false;
     	}
 	}
 	/* (non-Javadoc)
@@ -89,6 +94,20 @@ public class ItemsRequirement implements Requirement
 			itemsToRemove = null;
 			meet = false;
 		}
+	}
+	
+	public String getInfo()
+	{
+		String reqInfo = "";
+		
+		for(String itemId : reqItems.keySet())
+		{
+			String itemName = TConnector.getInfo("items", itemId)[0];
+			String amount = "" + reqItems.get(itemId);
+			reqInfo = TConnector.getText("ui", "reqName") + ": " + itemName + " " + amount;
+		}
+		
+		return reqInfo;
 	}
 
 }

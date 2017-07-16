@@ -43,10 +43,10 @@ import pl.isangeles.senlin.util.GConnector;
  * @author Isangeles
  *
  */
-public class ScrollableList extends LinkedList<ScrollableContent> implements MouseListener 
+public class ScrollableList extends InterfaceObject implements MouseListener
 {
-	private static final long serialVersionUID = 1L;
 	private List<ScrollableSlot> slots;
+	private List<ScrollableContent> content = new ArrayList<>();
 	private Image selectTex;
 	private Button upB;
 	private Button downB;
@@ -55,11 +55,19 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	private float fieldHeight;
 	private int startIndex;
 	private boolean focus;
-	
+	/**
+	 * Scrollable list constructor 
+	 * @param slotsAmount Amount of visible slots in list
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws FontFormatException
+	 * @throws IOException
+	 */
 	public ScrollableList(int slotsAmount, GameContainer gc) throws SlickException, FontFormatException, IOException
 	{
-		super();
+		super(GConnector.getInput("field/textBoxBG.png"), "uiScrollListBg", false, gc);
 		gc.getInput().addMouseListener(this);
+		
 		slots = new ArrayList<>();
 		for(int i = 0; i < slotsAmount; i ++)
 		{
@@ -90,11 +98,11 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	
 	public void update()
 	{
-		for(int i = startIndex, j = 0; i < this.size() && j < slots.size(); i ++, j ++)
+		for(int i = startIndex, j = 0; i < content.size() && j < slots.size(); i ++, j ++)
 		{
 			if(slots.get(j).isEmpty())
 			{
-				slots.get(j).insertContent(this.get(i));
+				slots.get(j).insertContent(content.get(i));
 				break;
 			}
 		}
@@ -104,7 +112,9 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	{
 		this.focus = focus;
 	}
-	
+	/**
+	 * Clears list
+	 */
 	public void clear()
 	{
 		selectedS = null;
@@ -112,7 +122,7 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 		{
 			slot.clear();
 		}
-		super.clear();
+		content.clear();
 	}
 	
 	public ScrollableContent getSelected()
@@ -122,14 +132,17 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 		else
 			return null;
 	}
+	
+	public List<ScrollableContent> getContent()
+	{
+		return content;
+	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
 	 */
 	@Override
 	public void inputEnded() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -138,8 +151,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void inputStarted() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -157,8 +168,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void setInput(Input input) 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -167,8 +176,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -177,8 +184,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -187,8 +192,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -197,8 +200,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -209,8 +210,6 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-
-			Log.addSystem("checking");
 			if(upB.isMouseOver())
 			{
 				if(startIndex > 0)
@@ -221,7 +220,7 @@ public class ScrollableList extends LinkedList<ScrollableContent> implements Mou
 			}
 			if(downB.isMouseOver())
 			{
-				if(startIndex < this.size()-1)
+				if(startIndex < content.size()-1)
 				{
 					startIndex ++;
 					update();
