@@ -94,7 +94,7 @@
         </in>
     </eq>
     <skills>
-	<skill>slash</skill>
+	    <skill>slash</skill>
     </skills>
     <effects>
     </effects>
@@ -103,6 +103,23 @@
 		<recipe>raAloeBalam</recipe>
 	</profession>
     </crafting>
+    <training>
+        <professions>
+            <profession type="alchemy" level="novice">
+                <trainReq>
+		    <pointsReq>1</pointsReq>
+                    <goldReq>10</goldReq>
+                    <statsReq>0;0;0;2;1;</statsReq>
+                </trainReq>        
+            </profession>
+        </professions>
+        <recipes>
+            <recipe>raAloeBalm</recipe>
+        </recipes>
+        <skills>
+            <skill>slash</skill>
+        </skills>
+    </training>
 </npc>
 <npc id="goblin01" attitude="hostile" guild="2" level="1">
     <stats>2;2;3;1;1;</stats>

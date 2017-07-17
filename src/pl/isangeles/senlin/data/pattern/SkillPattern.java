@@ -22,31 +22,19 @@
  */
 package pl.isangeles.senlin.data.pattern;
 
+import java.util.List;
+
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.req.Requirement;
 /**
  * Interface for skill patterns
  * @author Isangeles
  *
  */
 public interface SkillPattern
-{
-    /**
-     * Checks if specified game character meets skill requirements
-     * @param gameChar Game character
-     * @return True if specified character meets skill requirements, false otherwise
-     */
-    public boolean isMeetReq(Character gameChar);
-    /**
-     * Returns required amount of gold to learn skill
-     * @return Required gold value
-     */
-    public int getPrice();
-    /**
-     * Returns set of required attributes value
-     * @return Attributes object with minimal required attributes values
-     */
-    public Attributes getReqAttributes();
+{   
+    public List<Requirement> getRequirements();
     /**
      * Returns ID of skill from this pattern
      * @return String with skill ID

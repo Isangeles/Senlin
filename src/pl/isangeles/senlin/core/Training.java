@@ -26,14 +26,20 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.gui.ScrollableContent;
 
 /**
  * Interface for training classes
  * @author Isangeles
  *
  */
-public interface Training 
+public abstract class Training implements SaveElement, ScrollableContent
 {
+	protected String info;
 	/**
 	 * Teaches specified character
 	 * @param trainingCharacter Game character
@@ -41,5 +47,12 @@ public interface Training
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public void teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException;
+	public abstract boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException;
+	
+	public abstract Element getSave(Document doc);
+	
+	public String getInfo()
+	{
+		return info;
+	}
 }

@@ -34,6 +34,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -56,7 +57,7 @@ public class AttackPattern implements SkillPattern
     private final int damage;
     private final int range;
     private final List<Effect> effects;
-    private SkillRequirements skillReq;
+    private final List<Requirement> skillReq;
     /**
      * 
      * Attack pattern constructor
@@ -72,7 +73,7 @@ public class AttackPattern implements SkillPattern
      * @param range Maximal range from target
      * @param effects Skill use effects
      */
-    public AttackPattern(String id, String imgName, String type, int damage, int magickaCost, int castTime, int cooldown, boolean useWeapon, String reqWeapon, int range, List<Effect> effects, int reqGold, Attributes reqAtt)
+    public AttackPattern(String id, String imgName, String type, int damage, int magickaCost, int castTime, int cooldown, boolean useWeapon, String reqWeapon, int range, List<Effect> effects, List<Requirement> skillReq)
     {
         this.type = EffectType.fromString(type);
         this.id = id;
@@ -87,7 +88,7 @@ public class AttackPattern implements SkillPattern
         this.damage = damage;
         this.range = range;
         this.effects = effects;
-        skillReq = new SkillRequirements(reqGold, reqAtt);
+        this.skillReq = skillReq;
     }
     /**
      * Creates attack from this pattern
@@ -102,27 +103,7 @@ public class AttackPattern implements SkillPattern
     {
         return new Attack(character, id, name, info, imgName, type, damage, magickaCost, castTime, cooldown, useWeapon, reqWeapon, range, effects, gc);
     }
-    
-    public boolean isMeetReq(Character gameChar)
-    {
-        return skillReq.isMeetReq(gameChar);
-    }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.data.pattern.SkillPattern#getPrice()
-     */
-    @Override
-    public int getPrice()
-    {
-        return skillReq.getPrice();
-    }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.data.pattern.SkillPattern#getReqAttributes()
-     */
-    @Override
-    public Attributes getReqAttributes()
-    {
-        return skillReq.getReqAttributes();
-    }
+
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.pattern.SkillPattern#getId()
      */
@@ -131,4 +112,12 @@ public class AttackPattern implements SkillPattern
     {
         return id;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.pattern.SkillPattern#getRequirements()
+	 */
+	@Override
+	public List<Requirement> getRequirements() 
+	{
+		return skillReq;
+	}
 }

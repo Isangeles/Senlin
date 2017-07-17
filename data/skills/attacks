@@ -21,7 +21,11 @@
     <effects>
         <effect>bleed</effect>
     </effects>
-    <trainReq gold="100">3;0;4;0;0;</trainReq>
+    <trainReq>
+        <goldReq>100</goldReq>
+        <statsReq>3;0;4;0;0;</statsReq>
+        <pointsReq>1</pointsReq>
+    </trainReq>
 </skill>
 <skill id="shot" type="normal" useWeapon="true" reqWeapon="bow">
     <icon>shot.png</icon>

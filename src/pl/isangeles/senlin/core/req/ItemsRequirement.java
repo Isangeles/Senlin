@@ -27,8 +27,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -36,7 +40,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class ItemsRequirement implements Requirement 
+public class ItemsRequirement extends Requirement
 {
 	private Map<String, Integer> reqItems;
 	private List<Item> itemsToRemove = new ArrayList<>();
@@ -108,6 +112,16 @@ public class ItemsRequirement implements Requirement
 		}
 		
 		return reqInfo;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		// TODO Auto-generated method stub
+		Element itemReq = doc.createElement("itemReq");
+		return itemReq;
 	}
 
 }

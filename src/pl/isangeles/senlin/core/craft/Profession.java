@@ -44,7 +44,7 @@ public class Profession extends ArrayList<Recipe> implements SaveElement, Scroll
 	private final ProfessionType type;
 	private ProfessionLevel level;
 	/**
-	 * Profession constructor 
+	 * Creates new novice profession of specified type
 	 * @param type Profession type
 	 */
 	public Profession(ProfessionType type)
@@ -52,7 +52,12 @@ public class Profession extends ArrayList<Recipe> implements SaveElement, Scroll
 		this.type = type;
 		level = ProfessionLevel.NOVICE;
 	}
-	
+	/**
+	 * Profession constructor
+	 * @param type Profession type
+	 * @param level Profession level
+	 * @param recipes List with recipes for profession
+	 */
 	public Profession(ProfessionType type, ProfessionLevel level, List<Recipe> recipes)
 	{
 		this.type = type;

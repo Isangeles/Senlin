@@ -42,6 +42,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.Attitude;
@@ -78,6 +79,7 @@ public class NpcPattern
 	private final List<String> skills;
 	private final Map<String, Integer> effects;
 	private final List<Profession> professions;
+	private final List<Training> trainings;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId NPC id
@@ -99,7 +101,7 @@ public class NpcPattern
 	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
 					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
-					  Map<String, Integer> effects, List<Profession> professions) 
+					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getText("npc", npcId);
@@ -140,6 +142,7 @@ public class NpcPattern
 		this.skills = skills;
 		this.effects = effects;
 		this.professions = professions;
+		this.trainings = trainings;
 	}
 	/**
 	 * Returns ID of NPC from this pattern
@@ -170,7 +173,7 @@ public class NpcPattern
 		if(trade)
 			npc.setTrade();
 		if(train)
-			npc.setTrain();
+			npc.setTrain(trainings);
 		Item helmet = ItemsBase.getItem(headItem);
 		Item chest = ItemsBase.getItem(chestItem);
 		Item gloves = ItemsBase.getItem(handsItem);

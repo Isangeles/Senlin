@@ -23,24 +23,30 @@
 package pl.isangeles.senlin.core.craft;
 
 import java.awt.FontFormatException;
+import java.awt.Window.Type;
 import java.io.IOException;
 import java.util.List;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.gui.ScrollableContent;
 
 /**
  * Class for professions training
  * @author Isangeles
  *
  */
-public class ProfessionTraining implements Training 
+public class ProfessionTraining extends Training
 {
 	private Profession profession;
 	private List<Requirement> trainingReq;
+	private String name;
 	/**
 	 * Profession training constructor 
 	 * @param type Type of profession to train
@@ -52,22 +58,32 @@ public class ProfessionTraining implements Training
 		profession = new Profession(type);
 		profession.setLevel(level);
 		this.trainingReq = trainingReq;
+		name = type.getName() + ": " + level.getName();
+		info = name;
+		for(Requirement req : trainingReq)
+		{
+			info += System.lineSeparator() + req.getInfo();
+		}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Training#teach(pl.isangeles.senlin.core.Character)
 	 */
 	@Override
-	public void teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException
+	public boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException
 	{
 		for(Requirement req : trainingReq)
 		{
 			if(!req.isMetBy(trainingCharacter))
-				return;
+				return false;
 		}
 		
 		if(profession.getLevel() == ProfessionLevel.NOVICE)
 		{
-			trainingCharacter.addProfession(profession);
+			for(Requirement req : trainingReq)
+			{
+				req.charge(trainingCharacter);
+			}
+			return trainingCharacter.addProfession(profession);
 		}
 		else
 		{
@@ -75,9 +91,41 @@ public class ProfessionTraining implements Training
 			if(pro != null)
 			{
 				if(pro.getLevel().ordinal()+1 == profession.getLevel().ordinal())
+				{
+					for(Requirement req : trainingReq)
+					{
+						req.charge(trainingCharacter);
+					}
 					pro.setLevel(profession.getLevel());
+					return true;
+				}
 			}
+			return false;
 		}
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.ScrollableContent#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return name;
+	}
+	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element professionE = doc.createElement("profession");
+		professionE.setAttribute("type", profession.getType().toString());
+		professionE.setAttribute("level", profession.getLevel().toString());
+		for(Requirement req : trainingReq)
+		{
+			professionE.appendChild(req.getSave(doc));
+		}
+		return professionE;
 	}
 
 }

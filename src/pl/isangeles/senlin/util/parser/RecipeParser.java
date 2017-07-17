@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.craft.ProfessionLevel;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
+import pl.isangeles.senlin.core.req.Requirement;
 
 /**
  * Class for parsing recipes bases elements
@@ -61,8 +62,9 @@ public final class RecipeParser
 		ProfessionLevel level = ProfessionLevel.fromString(recipeE.getAttribute("level"));
 		ItemsRequirement reqItems = new ItemsRequirement(getComponents(recipeE.getElementsByTagName("components").item(0)));
 		List<String> result = getResult(recipeE.getElementsByTagName("result").item(0));
+		List<Requirement> requirements = RequirementsParser.getReqFromNode(recipeE.getElementsByTagName("trainReq").item(0));
 		
-		return new Recipe(id, type, level, reqItems, result);
+		return new Recipe(id, type, level, reqItems, result, requirements);
 	}
 	/**
 	 * Parses specified components node to map with items IDs as keys and amount of these items as values

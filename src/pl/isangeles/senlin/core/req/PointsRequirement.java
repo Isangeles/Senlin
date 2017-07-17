@@ -1,5 +1,5 @@
 /*
- * StatsRequirements.java
+ * PointsRequirement.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -25,40 +25,21 @@ package pl.isangeles.senlin.core.req;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.skill.Abilities;
-import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
  * @author Isangeles
  *
  */
-public class StatsRequirement extends Requirement
+public class PointsRequirement extends Requirement 
 {
-	private Attributes minStats;
-
-	public StatsRequirement(Attributes minStats)
+	private int reqPoints;
+	
+	public PointsRequirement(int reqPoints)
 	{
-		this.minStats = minStats;
-		info = TConnector.getText("ui", "reqStats") + ": " + minStats.toString();
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.req.Requirements#isMeet(pl.isangeles.senlin.core.Character)
-	 */
-	@Override
-	public boolean isMetBy(Character character) 
-	{
-		return character.getAttributes().compareTo(minStats);
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
-	 */
-	@Override
-	public void charge(Character character) 
-	{
-		return;
+		this.reqPoints = reqPoints;
+		info = TConnector.getText("ui", "reqPoints") + ": " + reqPoints;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
@@ -66,9 +47,30 @@ public class StatsRequirement extends Requirement
 	@Override
 	public Element getSave(Document doc) 
 	{
-		Element statsReqE = doc.createElement("statsReq");
-		statsReqE.setTextContent(minStats.toLine());
-		return statsReqE;
+		Element pointsReqE = doc.createElement("pointsReq");
+		pointsReqE.setTextContent(""+reqPoints);
+		return pointsReqE;
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.req.Requirement#isMetBy(pl.isangeles.senlin.core.Character)
+	 */
+	@Override
+	public boolean isMetBy(Character character) 
+	{
+		if(character.getLearnPoints() >= reqPoints)
+			return true;
+		else
+			return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
+	 */
+	@Override
+	public void charge(Character character) 
+	{
+		character.takeLearnPoints(reqPoints);
 	}
 
 }

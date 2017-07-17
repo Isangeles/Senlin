@@ -25,6 +25,7 @@ package pl.isangeles.senlin.gui;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,14 +99,33 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 	
 	public void update()
 	{
+		for(ScrollableSlot slot : slots)
+		{
+			slot.clear();
+		}
 		for(int i = startIndex, j = 0; i < content.size() && j < slots.size(); i ++, j ++)
 		{
 			if(slots.get(j).isEmpty())
 			{
 				slots.get(j).insertContent(content.get(i));
-				break;
 			}
 		}
+	}
+	
+	public boolean add(ScrollableContent contentToAdd)
+	{
+		return content.add(contentToAdd);
+	}
+	
+	public boolean addAll(Collection<ScrollableContent> contentToAdd)
+	{
+		boolean isOk = true;
+		for(ScrollableContent con : contentToAdd)
+		{
+			if(!add(con))
+				isOk = false;
+		}
+		return isOk;
 	}
 	
 	public void setFocus(boolean focus)

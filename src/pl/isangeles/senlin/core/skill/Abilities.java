@@ -53,6 +53,14 @@ public class Abilities extends LinkedList<Skill>
 			skill.update(delta);
 		}
 	}
+	@Override
+	public boolean add(Skill skill)
+	{
+		if(!isKnown(skill))
+			return super.add(skill);
+		else
+			return false;
+	}
 	/**
 	 * Returns skill with specified ID
 	 * @param skillId String with desired skill ID

@@ -30,6 +30,7 @@ import java.util.Map;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.gui.ScrollableContent;
@@ -49,6 +50,7 @@ public class Recipe implements ScrollableContent
     private final ProfessionLevel level;
     private final ItemsRequirement reqComponents;
     private final List<String> result;
+    private final List<Requirement> trainReq;
     /**
      * Recipe constructor 
      * @param id Recipe ID
@@ -56,13 +58,14 @@ public class Recipe implements ScrollableContent
      * @param reqComponents List of components required for item created by this recipe
      * @param result ID of item created by this recipe
      */
-    public Recipe(String id, ProfessionType type, ProfessionLevel level, ItemsRequirement reqComponents, List<String> result)
+    public Recipe(String id, ProfessionType type, ProfessionLevel level, ItemsRequirement reqComponents, List<String> result, List<Requirement> trainReq)
     {
     	this.id = id;
         this.type = type;
         this.level = level;
         this.reqComponents = reqComponents;
         this.result = result;
+        this.trainReq = trainReq;
         name = TConnector.getText("items", "recName") + ":" + TConnector.getInfo("items", result.get(0))[0];
         info = name + " " + System.lineSeparator() + TConnector.getInfo("items", result.get(0))[1] + " " + System.lineSeparator() + 
         	   TConnector.getText("ui", "cMenuLevel") + ":" + level.getName() + " " + System.lineSeparator() + 
@@ -126,5 +129,10 @@ public class Recipe implements ScrollableContent
 	public String getName() 
 	{
 		return name;
+	}
+	
+	public List<Requirement> getTrainRequirements()
+	{
+		return trainReq;
 	}
 }

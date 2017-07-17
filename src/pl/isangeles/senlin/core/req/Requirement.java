@@ -22,22 +22,33 @@
  */
 package pl.isangeles.senlin.core.req;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.SaveElement;
 /**
+ * Abstract class for requirements
  * @author Isangeles
  *
  */
-public interface Requirement 
+public abstract class Requirement implements SaveElement
 {
+	protected String info;
 	/**
 	 * Checks if specified character meets this requirement
 	 * @param character Game character
 	 * @return True if specified  character meet this requirements, false otherwise
 	 */
-	public boolean isMetBy(Character character);
+	public abstract boolean isMetBy(Character character);
 	/**
 	 * Takes items/gold required by this requirement from specified character
 	 * @param character Game character
 	 */
-	public void charge(Character character);
+	public abstract void charge(Character character);
+	
+	public String getInfo()
+	{
+		return info;
+	}
 }

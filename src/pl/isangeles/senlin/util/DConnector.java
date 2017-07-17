@@ -56,6 +56,7 @@ import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.area.MobsArea;
@@ -79,6 +80,7 @@ import pl.isangeles.senlin.util.parser.NpcParser;
 import pl.isangeles.senlin.util.parser.ObjectParser;
 import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.RecipeParser;
+import pl.isangeles.senlin.util.parser.RequirementsParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
 
 /**
@@ -235,11 +237,7 @@ public final class DConnector
                     int cooldown = Integer.parseInt(skill.getElementsByTagName("cooldown").item(0).getTextContent());
                     List<Effect> effects = new ArrayList<>();
                     Element trainReqE = (Element)skill.getElementsByTagName("trainReq").item(0);
-                    int reqGold = Integer.parseInt(trainReqE.getAttribute("gold"));
-                    String reqAttText = trainReqE.getTextContent();
-                    Scanner scann = new Scanner(reqAttText);
-                    scann.useDelimiter(";");
-                    Attributes reqAtt = new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt());
+                    List<Requirement> trainReq = RequirementsParser.getReqFromNode(trainReqE);
                     
                     NodeList enl = skill.getElementsByTagName("effects").item(0).getChildNodes();
                     for(int j = 0; j < enl.getLength(); j ++)
@@ -254,7 +252,7 @@ public final class DConnector
                         }
                     }
                     
-                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects, reqGold, reqAtt);
+                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects, trainReq);
                     attacksMap.put(id, pattern);
                 }
                 catch(NumberFormatException | NoSuchElementException e)

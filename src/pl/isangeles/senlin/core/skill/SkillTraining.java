@@ -28,13 +28,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.SkillPattern;
+import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -42,20 +47,26 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class SkillTraining implements Training
+public class SkillTraining extends Training
 {
-    private SkillPattern skill;
+    private String skillId;
+    private List<Requirement> trainReq;
     private String name;
     private String info;
     /**
      * Training constructor 
      * @param skillID ID of skill to train
      */
-    public SkillTraining(String skillID)
+    public SkillTraining(String skillId)
     {
-        skill = SkillsBase.getPattern(skillID);
-        name = TConnector.getInfo("skills", skillID)[0];
-        info = TConnector.getInfo("skills", skillID)[1];
+        this.skillId = skillId;
+        trainReq = SkillsBase.getPattern(skillId).getRequirements();
+        name = TConnector.getInfo("skills", skillId)[0];
+        info = name + " " + TConnector.getInfo("skills", skillId)[1];
+        for(Requirement req : trainReq)
+        {
+        	info += System.lineSeparator() + req.getInfo();
+        }
     }
     /**
      * Teaches specified game character skill from this training
@@ -64,17 +75,20 @@ public class SkillTraining implements Training
      * @throws IOException
      * @throws FontFormatException
      */
-    public void teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException
+    public boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException
     {
-        if(skill.isMeetReq(trainingCharacter))
-        {
-            trainingCharacter.getInventory().takeGold(skill.getPrice());
-            trainingCharacter.addSkill(SkillsBase.getSkill(trainingCharacter, skill.getId()));
-        }
-        else
-        {
-            Log.addInformation(TConnector.getText("ui", "trainWinReqErr"));
-        }
+    	for(Requirement req : trainReq)
+    	{
+    		if(!req.isMetBy(trainingCharacter))
+    			return false;
+    	}
+    	
+    	for(Requirement req : trainReq)
+    	{
+    		req.charge(trainingCharacter);
+    	}
+    	
+    	return trainingCharacter.addSkill(SkillsBase.getSkill(trainingCharacter, skillId));
     }
     /**
      * Returns training name
@@ -88,12 +102,18 @@ public class SkillTraining implements Training
      * Returns training info
      * @return String with training info
      */
-    public List<String> getInfo()
+    public String getInfo()
     {
-        List<String> fullInfo = new ArrayList<>();
-        fullInfo.add(info);
-        fullInfo.add(TConnector.getText("ui", "trainWinReqAtt") + ": " + skill.getReqAttributes().toString());
-        fullInfo.add(TConnector.getText("ui", "trainWinPrice") + ": " + skill.getPrice());
-        return fullInfo;
+        return info;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Training#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element skillE = doc.createElement("skill");
+		skillE.setTextContent(skillId);
+		return skillE;
+	}
 }

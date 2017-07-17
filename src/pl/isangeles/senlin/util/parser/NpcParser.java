@@ -32,11 +32,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionLevel;
+import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
@@ -112,9 +117,12 @@ public final class NpcParser
         Node craftingNode = npc.getElementsByTagName("crafting").item(0);
         List<Profession> professions = getProfessions(craftingNode);
         
+        Node trainingNode = npc.getElementsByTagName("training").item(0);
+        List<Training> trainings = getTrainings(trainingNode);
+        
         npcP = new NpcPattern(id, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
                               neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, gold, itemsIn, skills, effects,
-                              professions);
+                              professions, trainings);
         return npcP;
     }
     /**
@@ -227,5 +235,70 @@ public final class NpcParser
     	}
     	return recipes;
     }
-    
+    /**
+     * Parses training node from NPC node to List with trainings
+     * @param trainingNode Node from NPC node (training node)
+     * @return List with trainings objects
+     */
+    private static List<Training> getTrainings(Node trainingNode)
+    {
+    	List<Training> trainings = new ArrayList<>();
+    	if(trainingNode == null)
+    		return trainings;
+    	
+    	Element trainingE = (Element)trainingNode;
+    	
+    	Element professionsE = (Element)trainingE.getElementsByTagName("professions").item(0);
+    	if(professionsE != null)
+    	{
+    		NodeList professionsList = professionsE.getElementsByTagName("profession");
+    		for(int i = 0; i < professionsList.getLength(); i ++)
+    		{
+    			Node professionNode = professionsList.item(i);
+    			if(professionNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    			{
+    				Element professionE = (Element)professionNode;
+    				ProfessionType proType = ProfessionType.fromString(professionE.getAttribute("type"));
+    				ProfessionLevel proLevel = ProfessionLevel.fromString(professionE.getAttribute("level"));
+    				List<Requirement> proReqs = RequirementsParser.getReqFromNode(professionE.getElementsByTagName("trainReq").item(0));
+    				ProfessionTraining proTrain = new ProfessionTraining(proType, proLevel, proReqs);
+    				trainings.add(proTrain);
+    			}
+    		}
+    	}
+    	
+    	Element recipesE = (Element)trainingE.getElementsByTagName("recipes").item(0);
+    	if(recipesE != null)
+    	{
+    		NodeList recipesList = recipesE.getElementsByTagName("recipe");
+    		for(int i = 0; i < recipesList.getLength(); i ++)
+    		{
+    			Node recipeNode = recipesList.item(i);
+    			if(recipeNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    			{
+    				Element recipeE = (Element)recipeNode;
+    				RecipeTraining recTrain = new RecipeTraining(recipeE.getTextContent());
+    				trainings.add(recTrain);
+    			}
+    		}
+    	}
+    	
+    	Element skillsE = (Element)trainingE.getElementsByTagName("skills").item(0);
+    	if(skillsE != null)
+    	{
+    		NodeList skillsList = skillsE.getElementsByTagName("skill");
+    		for(int i = 0; i < skillsList.getLength(); i ++)
+    		{
+    			Node skillNode = skillsList.item(i);
+    			if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    			{
+    				Element skillE = (Element)skillNode;
+    				SkillTraining skillTrain = new SkillTraining(skillE.getTextContent());
+    				trainings.add(skillTrain);
+    			}
+    		}
+    	}
+    	
+    	return trainings;
+    }
 }

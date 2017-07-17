@@ -22,14 +22,19 @@
  */
 package pl.isangeles.senlin.core.req;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for gold requirement
  * @author Isangeles
  *
  */
-public class GoldRequirement implements Requirement 
+public class GoldRequirement extends Requirement 
 {
 	private int reqGold;
 	private boolean meet;
@@ -37,6 +42,7 @@ public class GoldRequirement implements Requirement
 	public GoldRequirement(int reqGold)
 	{
 		this.reqGold = reqGold;
+		info = TConnector.getText("ui", "reqGold") + " " + reqGold;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#isMeet(pl.isangeles.senlin.core.Character)
@@ -63,6 +69,16 @@ public class GoldRequirement implements Requirement
 			character.getInventory().takeGold(reqGold);
 			meet = false;
 		}
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element goldReqE = doc.createElement("goldReq");
+		goldReqE.setTextContent(""+reqGold);
+		return goldReqE;
 	}
 
 }

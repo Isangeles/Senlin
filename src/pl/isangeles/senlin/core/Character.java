@@ -46,7 +46,9 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
+import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.exc.GameLogErr;
@@ -55,6 +57,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.Log;
@@ -88,6 +91,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private int maxHealth;
 	private int magicka;
 	private int maxMagicka;
+	private int learnPoints;
 	private int[] position = {0, 0};
 	private int[] destPoint = {position[0], position[1]};
 	private float haste;
@@ -109,6 +113,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Effects effects = new Effects();
 	private Journal quests = new Journal();
 	private Flags flags = new Flags();
+	private List<Training> trainings = new ArrayList<>();
 	private QuestTracker qTracker;
 	private Random numberGenerator = new Random();
 	/**
@@ -173,6 +178,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void levelUp()
 	{
 		level ++;
+		learnPoints ++;
 		maxHealth = attributes.addHealth();
 		health = maxHealth;
 		maxMagicka = attributes.addMagicka();
@@ -330,7 +336,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * Marks this character as trainer
      * @param train 
      */
-    public void setTrain()
+    public void setTrain(List<Training> trainings)
     {
     	boolean hasDefD = false;
     	for(Dialogue dialogue : dialogues)
@@ -350,6 +356,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     			dialogue.addOption(new Answer("trainReq", "", true));
     	}
     	train = true;
+    	this.trainings = trainings;
+    }
+    
+    public Collection<Training> getTrainings()
+    {
+    	return trainings;
     }
 	/**
 	 * Removes specific item from equipment
@@ -585,6 +597,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	
 	public float getHaste()
 	{ return haste; }
+	
+	public int getLearnPoints()
+	{ return learnPoints; }
 	/**
 	 * Returns character ID
 	 * @return String with character ID
@@ -837,6 +852,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(experience < 0)
 			experience = 0;
 	}
+	
+	public void takeLearnPoints(int value)
+	{
+		learnPoints -= value;
+	}
 	/**
 	 * Handles attacks
 	 */
@@ -885,6 +905,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	
 	public void addWis(int value) 
 	{ attributes.addWis(value); }
+	
+	public void addLearnPoints(int value)
+	{  learnPoints += value; }
 	/**
 	 * Adds specified value to character health points
 	 * @param value Value to add
@@ -1136,6 +1159,30 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         	craftingE.appendChild(profession.getSave(doc));
         }
         charE.appendChild(craftingE);
+        
+        Element trainingE = doc.createElement("training");
+        Element professionsE = doc.createElement("professions");
+        Element recipesE = doc.createElement("recipes");
+        Element skillsE = doc.createElement("skills");
+        for(Training training : trainings)
+        {
+        	if(ProfessionTraining.class.isInstance(training))
+        	{
+        		professionsE.appendChild(training.getSave(doc));
+        	}
+        	if(RecipeTraining.class.isInstance(training))
+        	{
+        		recipesE.appendChild(training.getSave(doc));
+        	}
+        	if(SkillTraining.class.isInstance(training))
+        	{
+        		skillsE.appendChild(training.getSave(doc));
+        	}
+        }
+        trainingE.appendChild(professionsE);
+        trainingE.appendChild(recipesE);
+        trainingE.appendChild(skillsE);
+        charE.appendChild(trainingE);
         
         charE.appendChild(quests.getSave(doc));
         

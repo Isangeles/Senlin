@@ -24,6 +24,7 @@ package pl.isangeles.senlin.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.newdawn.slick.TrueTypeFont;
 
@@ -120,7 +121,7 @@ public class TextBlock
     public void addText(String text)
     {
     	textLines.add("");
-    	addLines(text, charsInLine);
+    	add(text);
     }
     
     public void clear()
@@ -170,17 +171,38 @@ public class TextBlock
         
         while(index < text.length())
         {
+        	textLines.add(text.substring(index, Math.min(index + charsInLine, text.length())));
+            index += charsInLine;
+            /*
             if(text.contains(System.lineSeparator()) && text.indexOf(System.lineSeparator()) != text.length()-1)
             {
             	textLines.add(text.substring(index, Math.min(Math.min(index + charsInLine, index + text.indexOf(System.lineSeparator())), text.length())));
-                index += text.indexOf(System.lineSeparator());
+            	
+            	if((index + charsInLine) > (index + text.indexOf(System.lineSeparator())))
+                	index += text.indexOf(System.lineSeparator());
+                else
+                	index += charsInLine;
             }
             else
             {
             	textLines.add(text.substring(index, Math.min(index + charsInLine, text.length())));
                 index += charsInLine;
             }
+            */
         }
         
+    }
+    
+    private void add(String text)
+    {
+    	Scanner scann = new Scanner(text);
+        scann.useDelimiter("\r?\n");
+        
+        while(scann.hasNext())
+        {
+        	addLines(scann.next(), charsInLine);
+        }
+        
+        scann.close();
     }
 }
