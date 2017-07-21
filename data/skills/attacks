@@ -9,7 +9,8 @@
     <cooldown>2</cooldown>
     <effects>
     </effects>
-    <trainReq gold="0">0;0;0;0;0;</trainReq>
+    <trainReq>
+    </trainReq>
 </skill>
 <skill id="slash" type="normal" useWeapon="true" reqWeapon="sword">
     <icon>slash.png</icon>
@@ -36,6 +37,7 @@
     <cooldown>3</cooldown>
     <effects>
     </effects>
-    <trainReq gold="0">0;0;0;0;0;</trainReq>
+    <trainReq>
+    </trainReq>
 </skill>
 </base>

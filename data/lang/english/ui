@@ -28,6 +28,7 @@ hastName:Haste;
 hpName:Health;
 manaName:Magicka;
 expName:Experience;
+lpName:Learning points;
 rangeName:Range;
 castName:Cast time;
 cdName:Cooldown;

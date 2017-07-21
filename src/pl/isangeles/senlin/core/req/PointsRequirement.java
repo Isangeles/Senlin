@@ -29,6 +29,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
+ * Class for learning points requirement
  * @author Isangeles
  *
  */

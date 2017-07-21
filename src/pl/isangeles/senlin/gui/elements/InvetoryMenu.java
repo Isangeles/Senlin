@@ -323,7 +323,7 @@ class InvetoryMenu extends InterfaceObject implements UiElement, SaveElement, Mo
     {
     	return new String[]{player.getName(), TConnector.getText("ui", "levelName") + ": " + player.getLevel(), 
     			TConnector.getText("ui", "expName") + ": " + player.getExperience() + "/" + player.getMaxExperience(), TConnector.getText("ui", "guildName") + ": " + player.getGuild().toString(), 
-    			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(),
+    			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(), TConnector.getText("ui", "lpName") + ": " + player.getLearnPoints(),
     			TConnector.getText("ui", "hastName") + ": " + player.getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
     			TConnector.getText("ui", "armRat") + ": " + player.getArmorRating(), TConnector.getText("ui", "dodgeCh") + ": " + player.getDodgeChance() + "%", 
     			TConnector.getText("ui", "attStrName") + ": " + player.getStr(), TConnector.getText("ui", "attConName") + ": " + player.getCon(), 

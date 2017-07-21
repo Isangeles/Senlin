@@ -126,6 +126,7 @@ public final class SSGParser
         player.setHealth(Integer.parseInt(pointsE.getElementsByTagName("hp").item(0).getTextContent()));
         player.setMagicka(Integer.parseInt(pointsE.getElementsByTagName("mana").item(0).getTextContent()));
         player.setExperience(Integer.parseInt(pointsE.getElementsByTagName("exp").item(0).getTextContent()));
+        player.addLearnPoints(Integer.parseInt(pointsE.getElementsByTagName("lp").item(0).getTextContent()));
         
         player.setName(charE.getElementsByTagName("name").item(0).getTextContent());
         player.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));

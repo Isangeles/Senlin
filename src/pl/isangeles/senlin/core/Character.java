@@ -103,6 +103,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean looting;
 	private boolean talking;
 	private boolean fighting;
+	private boolean following;
 	private Avatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -406,6 +407,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
         else
         {
+        	if(following && target != null)
+        	{
+        		moveTo(target, 10);
+        	}
             avatar.move(true);
             if(position[0] > destPoint[0])
             {
@@ -463,6 +468,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(int x, int y)
 	{
+		following = false;
 		destPoint[0] = x;
 		destPoint[1] = y;
 	}
@@ -472,6 +478,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(Targetable target)
 	{
+		following = true;
 		destPoint[0] = target.getPosition()[0];
 		destPoint[1] = target.getPosition()[1];
 	}
@@ -482,6 +489,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(Targetable target, int maxRange)
 	{
+		following = true;
 		Position pos = new Position(position);
 		Position hitBoxStart = new Position(target.getPosition()[0] - maxRange, target.getPosition()[1] - maxRange);
 		Position hitBoxEnd = new Position(target.getPosition()[0] + maxRange, target.getPosition()[1] + maxRange);
@@ -1090,6 +1098,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    avatar.speak(what);
         Log.addSpeech(name, what);
 	}
+	
+	public void followTarget(boolean following)
+	{
+		this.following = following;
+	}
 	/**
 	 * Starts dialogue with specified game character
 	 * @param dialogueTarget
@@ -1199,12 +1212,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         Element hpE = doc.createElement("hp");
         Element manaE = doc.createElement("mana");
         Element expE = doc.createElement("exp");
+        Element lpE = doc.createElement("lp");
         hpE.setTextContent(health+"");
         manaE.setTextContent(magicka+"");
         expE.setTextContent(experience+"");
+        lpE.setTextContent(learnPoints+"");
         pointsE.appendChild(hpE);
         pointsE.appendChild(manaE);
         pointsE.appendChild(expE);
+        pointsE.appendChild(lpE);
         charE.appendChild(pointsE);
         
         Element nameE = doc.createElement("name");
