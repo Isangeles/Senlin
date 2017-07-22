@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -33,7 +34,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Quest
+public class Quest implements ScrollableContent
 {
     private String id;
     private String name;

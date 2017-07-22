@@ -117,7 +117,7 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		return content.add(contentToAdd);
 	}
 	
-	public boolean addAll(Collection<ScrollableContent> contentToAdd)
+	public boolean addAll(Collection<? extends ScrollableContent> contentToAdd)
 	{
 		boolean isOk = true;
 		for(ScrollableContent con : contentToAdd)

@@ -57,6 +57,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	private SkillSlots magic;
 	private SkillSlots passives;
 	private List<Skill> skillsIn = new ArrayList<>();
+	private boolean openReq;
 	/**
 	 * Skills menu constructor
 	 * @param gc Slick game container
@@ -100,6 +101,11 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	{
 		addSkills();
 	}
+	
+	public void open()
+	{
+		openReq = true;
+	}
 	/**
 	 * Resets skills menu to default state
 	 */
@@ -108,6 +114,20 @@ class SkillsMenu extends InterfaceObject implements UiElement
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
+	 */
+	@Override
+	public void close()
+	{
+		openReq = false;
+		reset();
+	}
+	
+	public boolean isOpenReq()
+	{
+		return openReq;
+	}
     /**
      * Returns currently dragged slot
      * @return Dragged skill slot

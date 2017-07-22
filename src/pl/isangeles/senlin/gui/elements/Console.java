@@ -161,5 +161,14 @@ final class Console extends TextInput implements UiElement
 	public void reset() 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
+	 */
+	@Override
+	public void close() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
     
 }

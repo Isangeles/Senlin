@@ -44,6 +44,7 @@ public class DialoguePart
 	private final List<String> itemsToTake;
 	private final int goldToGive;
 	private final int goldToTake;
+	private final boolean transfer;
 	/**
 	 * Dialogue part constructor without any transfer
 	 * @param id Dialogue part ID
@@ -60,6 +61,7 @@ public class DialoguePart
 		itemsToTake = new ArrayList<>();
 		goldToGive = 0;
 		goldToTake = 0;
+		transfer = false;
 	}
 	/**
 	 * Dialogue part constructor with transfer
@@ -81,6 +83,7 @@ public class DialoguePart
 		this.itemsToTake = itemsToTake;
 		this.goldToGive = goldToGive;
 		this.goldToTake = goldToTake;
+		transfer = true;
 	}
 	
 	public void addAnswer(Answer answer)
@@ -123,15 +126,18 @@ public class DialoguePart
 	 */
 	public void transfer(Character charA, Character charB)
 	{
-		for(String itemId : itemsToGive)
+		if(transfer)
 		{
-			charB.addItem(charA.getInventory().takeItem(itemId));
+			for(String itemId : itemsToGive)
+			{
+				charB.addItem(charA.getInventory().takeItem(itemId));
+			}
+			for(String itemId : itemsToTake)
+			{
+				charA.addItem(charB.getInventory().takeItem(itemId));
+			}
+			charB.addGold(charA.getInventory().takeGold(goldToGive));
+			charA.addGold(charB.getInventory().takeGold(goldToTake));
 		}
-		for(String itemId : itemsToTake)
-		{
-			charA.addItem(charB.getInventory().takeItem(itemId));
-		}
-		charB.addGold(charA.getInventory().takeGold(goldToGive));
-		charA.addGold(charB.getInventory().takeGold(goldToTake));
 	}
 }

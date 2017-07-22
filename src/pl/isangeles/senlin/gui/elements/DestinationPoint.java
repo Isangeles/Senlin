@@ -75,4 +75,14 @@ class DestinationPoint extends InterfaceObject implements UiElement
 
 	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
+	 */
+	@Override
+	public void close() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

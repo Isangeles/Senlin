@@ -58,7 +58,7 @@ public class UserInterface implements MouseListener, SaveElement
     private CharacterFrame charFrame;
     private CharacterFrame targetFrame;
     private InGameMenu igMenu;
-    private InvetoryMenu inventory;
+    private InventoryMenu inventory;
     private SkillsMenu skills;
     private CraftingMenu crafting;
     private JournalMenu journal;
@@ -87,11 +87,10 @@ public class UserInterface implements MouseListener, SaveElement
         
         //cursor = new GameCursor(gc);
         gameConsole = new Console(gc, cli, player);
-        bBar = new BottomBar(gc, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
-        inventory = new InvetoryMenu(gc, player);
+        inventory = new InventoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         crafting = new CraftingMenu(gc, player);
         journal = new JournalMenu(gc, player);
@@ -103,7 +102,9 @@ public class UserInterface implements MouseListener, SaveElement
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
         settings = new SettingsMenu(gc);
+        bBar = new BottomBar(gc, igMenu, inventory, skills, journal, crafting, player);
         point = new DestinationPoint(gc, player);
+        
         
         uiWarning = new Warning(gc);
     }
@@ -121,20 +122,14 @@ public class UserInterface implements MouseListener, SaveElement
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
-        if(bBar.isInventoryReq())
+        if(inventory.isOpenReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
-        else
-        	inventory.reset();
         
-        if(bBar.isSkillsReq())
+        if(skills.isOpenReq())
         	skills.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
-        else
-        	skills.reset();
         
-        if(bBar.isJournalReq())
+        if(journal.isOpenReq())
         	journal.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
-        else
-        	journal.reset();
         
         if(loot.isOpenReq())
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
@@ -148,7 +143,7 @@ public class UserInterface implements MouseListener, SaveElement
         if(dialogue.isOpenReq())
         	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
-        if(bBar.isMenuReq())
+        if(igMenu.isOpenReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         if(crafting.isOpenReq())
@@ -163,10 +158,6 @@ public class UserInterface implements MouseListener, SaveElement
         if(settings.isOpenReq())
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
-        if(igMenu.isResumeReq() || !bBar.isMenuReq())
-        {
-        	hideMenu();
-        }
         
         //cursor.draw();
         update();     	
@@ -209,11 +200,6 @@ public class UserInterface implements MouseListener, SaveElement
     	{
     		settings.open();
     		hideMenu();
-    	}
-    	
-    	if(bBar.takeCraftingReq() && !crafting.isOpenReq())
-    	{
-    		crafting.open();
     	}
     	
     	bBar.update(skills.getDragged());
@@ -387,8 +373,7 @@ public class UserInterface implements MouseListener, SaveElement
 	
 	private void hideMenu()
 	{
-		bBar.hideMenu();
-    	igMenu.reset();
+		igMenu.close();
 	}
     
 }

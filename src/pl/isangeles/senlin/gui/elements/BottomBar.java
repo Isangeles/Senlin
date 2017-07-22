@@ -32,11 +32,11 @@ import pl.isangeles.senlin.gui.Slot;
  */
 class BottomBar extends InterfaceObject implements UiElement, SaveElement, MouseListener, KeyListener
 {
-    private Button quests;
-    private Button inventory;
-    private Button skills;
-    private Button map;
-    private Button menu;
+    private Button questsB;
+    private Button inventoryB;
+    private Button skillsB;
+    private Button mapB;
+    private Button menuB;
     
     private SkillSlots sSlots;
     private SkillSlot sMenuDSlot;
@@ -45,11 +45,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     
     private MouseOverArea bBarMOA;
     
-    private boolean menuReq;
-    private boolean inventoryReq;
-    private boolean skillsReq;
-    private boolean craftingReq;
-    private boolean journalReq;
+    private InGameMenu menu;
+    private InventoryMenu inventory;
+    private SkillsMenu skills;
+    private JournalMenu journal;
+    private CraftingMenu crafting;
     /**
      * Bottom bar constructor
      * @param gc Game container for superclass and bar buttons
@@ -57,17 +57,23 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
      * @throws IOException
      * @throws FontFormatException
      */
-    public BottomBar(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
+    public BottomBar(GameContainer gc, InGameMenu menu, InventoryMenu inventory, SkillsMenu skills, JournalMenu journal, CraftingMenu crafting, Character player) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/bottomBar_DG.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
         gc.getInput().addKeyListener(this);
         
-        quests = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQ", false, "", gc, TConnector.getText("ui", "questsBInfo"));
-        inventory = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonI", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
-        skills = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc, TConnector.getText("ui", "skillsBInfo"));
-        map = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("ui", "mapBInfo"));
-        menu = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("ui", "menuBInfo"));
+        this.menu = menu;
+        this.inventory = inventory;
+        this.skills = skills;
+        this.journal = journal;
+        this.crafting = crafting;
+        questsB = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQ", false, "", gc, TConnector.getText("ui", "questsBInfo"));
+        inventoryB = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonI", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
+        skillsB = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc, TConnector.getText("ui", "skillsBInfo"));
+        mapB = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("ui", "mapBInfo"));
+        menuB = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("ui", "menuBInfo"));
+        
         
         sSlots = new SkillSlots(gc);
         
@@ -84,11 +90,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     public void draw(float x, float y)
     {
         super.draw(x, y, false);
-        menu.draw(x+super.getScaledWidth()-getDis(50), y+getDis(10), false);
-        map.draw(x+super.getScaledWidth()-getDis(100), y+getDis(10), false);
-        skills.draw(x+super.getScaledWidth()-getDis(150), y+getDis(10), false);
-        inventory.draw(x+super.getScaledWidth()-getDis(200), y+getDis(10), false);
-        quests.draw(x+super.getScaledWidth()-getDis(250), y+getDis(10), false);
+        menuB.draw(x+super.getScaledWidth()-getDis(50), y+getDis(10), false);
+        mapB.draw(x+super.getScaledWidth()-getDis(100), y+getDis(10), false);
+        skillsB.draw(x+super.getScaledWidth()-getDis(150), y+getDis(10), false);
+        inventoryB.draw(x+super.getScaledWidth()-getDis(200), y+getDis(10), false);
+        questsB.draw(x+super.getScaledWidth()-getDis(250), y+getDis(10), false);
         
         sSlots.draw(x+getDis(20), y+getDis(10));
         
@@ -107,6 +113,13 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     public void reset()
     {
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
+	 */
+	@Override
+	public void close() 
+	{
+	}
     /**
      * Checks if mouse is over bar
      * @return True if mouse is over or false otherwise
@@ -116,56 +129,12 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     	return bBarMOA.isMouseOver();
     }
     /**
-     * Checks if menu should be open
-     * @return Boolean true if menu should be opened or false otherwise 
-     */
-    public boolean isMenuReq()
-    {
-    	return menuReq;
-    }
-    /**
-     * Checks if inventory menu should be open
-     * @return Boolean true if menu should be opened or false otherwise
-     */
-    public boolean isInventoryReq()
-    {
-        return inventoryReq;
-    }
-    /**
-     * Checks if skills menu should be open
-     * @return Boolean true if menu should be opened or false otherwise
-     */
-    public boolean isSkillsReq()
-    {
-    	return skillsReq;
-    }
-    
-    public boolean takeCraftingReq()
-    {
-    	boolean returnReq = craftingReq;
-    	craftingReq = false;
-    	return returnReq;
-    }
-    /**
-     * Checks if journal menu is requested
-     * @return boolean value
-     */
-    public boolean isJournalReq()
-    {
-    	return journalReq;
-    }
-    /**
      * Checks if game should be paused
      * @return Boolean true if game should be paused or false otherwise
      */
     public boolean isPauseReq()
     {
-        return menuReq || inventoryReq || skillsReq;
-    }
-    
-    public void hideMenu()
-    {
-    	menuReq = false;
+        return menu.isOpenReq() || inventory.isOpenReq() || skills.isOpenReq();
     }
 
     @Override
@@ -214,25 +183,25 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     {
     	if(button == Input.MOUSE_LEFT_BUTTON)
     	{
-    		if(menu.isMouseOver() && !menuReq)
-        		menuReq = true;
-        	else if(menu.isMouseOver() && menuReq)
-        		menuReq = false;
+    		if(menuB.isMouseOver() && !menu.isOpenReq())
+        		menu.open();
+        	else if(menuB.isMouseOver() && menu.isOpenReq())
+        		menu.close();
         	
-        	if(inventory.isMouseOver() && !inventoryReq)
-                inventoryReq = true;
-            else if(inventory.isMouseOver() && inventoryReq)
-                inventoryReq = false;
+        	if(inventoryB.isMouseOver() && !inventory.isOpenReq())
+                inventory.open();
+            else if(inventoryB.isMouseOver() && inventory.isOpenReq())
+                inventory.close();
         	
-        	if(skills.isMouseOver() && !skillsReq)
-        		skillsReq = true;
-        	else if(skills.isMouseOver() && skillsReq)
-        		skillsReq = false;
+        	if(skillsB.isMouseOver() && !skills.isOpenReq())
+        		skills.open();
+        	else if(skillsB.isMouseOver() && skills.isOpenReq())
+        		skills.close();
         	
-        	if(quests.isMouseOver() && !journalReq)
-        		journalReq = true;
-        	else if(quests.isMouseOver() && journalReq)
-        		journalReq = false;
+        	if(questsB.isMouseOver() && !journal.isOpenReq())
+        		journal.open();
+        	else if(questsB.isMouseOver() && journal.isOpenReq())
+        		journal.close();
     	}
     		
     	//Slots dragging system
@@ -267,30 +236,30 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 	@Override
 	public void keyPressed(int key, char c) 
 	{
-		if(key == Input.KEY_ESCAPE && !menuReq)
-    		menuReq = true;
-    	else if(key == Input.KEY_ESCAPE && menuReq)
-    		menuReq = false;
+		if(key == Input.KEY_ESCAPE && !menu.isOpenReq())
+    		menu.open();
+    	else if(key == Input.KEY_ESCAPE && menu.isOpenReq())
+    		menu.close();
 		
-		if(key == Input.KEY_I && !inventoryReq)
-		    inventoryReq = true ;
-		else if(key == Input.KEY_I && inventoryReq)
-            inventoryReq = false ;
+		if(key == Input.KEY_I && !inventory.isOpenReq())
+		    inventory.open();
+		else if(key == Input.KEY_I && inventory.isOpenReq())
+            inventory.close();
 		
-		if(key == Input.KEY_K && !skillsReq)
-    		skillsReq = true;
-    	else if(key == Input.KEY_K && skillsReq)
-    		skillsReq = false;
+		if(key == Input.KEY_K && !skills.isOpenReq())
+    		skills.open();
+    	else if(key == Input.KEY_K && skills.isOpenReq())
+    		skills.close();
 		
-		if(key == Input.KEY_P && !craftingReq)
-			craftingReq = true;
-		else if(key == Input.KEY_P && craftingReq)
-			craftingReq = false;
+		if(key == Input.KEY_P && !crafting.isOpenReq())
+			crafting.open();
+		else if(key == Input.KEY_P && crafting.isOpenReq())
+			crafting.close();
 		
-		if(key == Input.KEY_L && !journalReq)
-			journalReq = true;
-		else if(key == Input.KEY_L && journalReq)
-			journalReq = false;
+		if(key == Input.KEY_L && !journal.isOpenReq())
+			journal.open();
+		else if(key == Input.KEY_L && journal.isOpenReq())
+			journal.close();
 		
 		if(key == Input.KEY_1)
 		{
@@ -447,4 +416,5 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     	}
     	return barE;
     }
+
 }

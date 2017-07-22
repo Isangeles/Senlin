@@ -35,6 +35,10 @@ interface UiElement
      */
     public void draw(float x, float y);
     /**
+     * Closes UI element
+     */
+    public void close();
+    /**
      * Updates UI element
      */
     public void update();

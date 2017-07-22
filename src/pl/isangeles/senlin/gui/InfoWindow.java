@@ -73,7 +73,7 @@ public class InfoWindow extends InterfaceObject
 	private float getCorrectX(float x)
 	{
 		x += 10;
-		if(x >= Settings.getResolution()[0] - getDis(40))
+		if(x >= Settings.getResolution()[0] - getDis(25))
 			x -= getWidth();
 		
 		return x;
@@ -85,7 +85,7 @@ public class InfoWindow extends InterfaceObject
 	 */
 	private float getCorrectY(float y)
 	{
-		if(y >= Settings.getResolution()[1] - getDis(40))
+		if(y >= Settings.getResolution()[1] - getDis(25))
 			y -= getHeight();
 		
 		return y;

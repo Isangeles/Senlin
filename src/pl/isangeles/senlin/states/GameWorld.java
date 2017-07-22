@@ -270,6 +270,11 @@ public class GameWorld extends BasicGameState
             int worldY = (int)Global.worldY(y);
     		if(button == Input.MOUSE_LEFT_BUTTON && isMovable(worldX, worldY))
     		{
+    			for(Character npc : areaNpcs)
+    			{
+    				if(npc.isMouseOver())
+    					return;
+    			}
     			player.moveTo(worldX, worldY);
     			Log.addInformation("Move: " + worldX + "/" + worldY + " " + areaMap.getTileId(worldX/areaMap.getTileWidth(), worldY/areaMap.getTileHeight(), 1)); //TEST LINE
     		}

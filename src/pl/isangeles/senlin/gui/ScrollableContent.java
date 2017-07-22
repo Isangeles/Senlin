@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.gui;
 
 /**
+ * Interface for content of scrollable lists
  * @author Isangeles
  *
  */

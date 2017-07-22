@@ -31,6 +31,7 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -39,21 +40,25 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
+import pl.isangeles.senlin.gui.ScrollableList;
 import pl.isangeles.senlin.gui.TextBlock;
 /**
  * Class for UI journal menu
  * @author Isangeles
  * 
  */
-class JournalMenu extends InterfaceObject implements UiElement 
+class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character player;
-	private List<QuestField> questFields;
-	private List<Quest> quests = new ArrayList<>();
+	private ScrollableList questsList;
+	private Quest selectedQuest;
 	private TrueTypeFont ttf;
 	private TextBlock questDesc;
+	private Button closeB;
+	private boolean openReq;
 	/**
 	 * Journal menu constructor
 	 * @param gc Slick game container
@@ -65,18 +70,16 @@ class JournalMenu extends InterfaceObject implements UiElement
 	public JournalMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/journalBG.png"), "uiJournalMenuBg", false, gc);
-		
+		gc.getInput().addMouseListener(this);
 		this.player = player;
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
-		questFields = new ArrayList<>();
-		for(int i = 0; i < 10; i ++)
-		{
-			questFields.add(new QuestField(gc));
-		}
+		questsList = new ScrollableList(10, gc);
+		questDesc = new TextBlock(50, ttf);
+		closeB = new Button(GConnector.getInput("button/buttonS.png"), "uiButtonClose", false, TConnector.getText("ui", "winClose"), gc);
 	}
 	
 	@Override
@@ -88,16 +91,11 @@ class JournalMenu extends InterfaceObject implements UiElement
 		
 		int qfFirstX = (int)(x + getDis(30));
 		int qfFirstY = (int)(y + getDis(20));
-		int column = 0;
 		
-		for(QuestField field : questFields)
-		{
-			field.draw(qfFirstX, qfFirstY + ((field.getHeight() + getDis(10)) * column));
-			column ++;
-		}
-		
-		if(questDesc != null)
-			questDesc.draw(x + getDis(285), y + getDis(20));
+		questsList.draw(qfFirstX, qfFirstY, false);
+
+		questDesc.draw(x + getDis(285), y + getDis(20));
+		closeB.draw(x + getDis(580), y + getDis(440), false);
 		
 		moveMOA(super.x, super.y);
 	}
@@ -105,11 +103,16 @@ class JournalMenu extends InterfaceObject implements UiElement
 	@Override
 	public void update()
 	{
-		for(Quest quest : player.getQuests())
+		questsList.update();
+		
+		Quest quest = (Quest)questsList.getSelected();
+		if(quest != null && selectedQuest != quest)
 		{
-			if(!quests.contains(quest))
+			selectedQuest = quest;
+			questDesc.clear();
+			for(String infoLine : quest.getInfo())
 			{
-				addQuest(quest);
+				questDesc.addText(infoLine);
 			}
 		}
 	}
@@ -118,71 +121,115 @@ class JournalMenu extends InterfaceObject implements UiElement
 	public void reset() 
 	{
 		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
-		questDesc = null;
+		selectedQuest = null;
+		questsList.clear();
+		questDesc.clear();
+		questsList.setFocus(false);
 	}
 	
-	private void addQuest(Quest quest)
+	public void open()
 	{
-		quests.add(quest);
-		for(QuestField field : questFields)
-		{
-			if(field.isEmpty())
-			{
-				field.insertQ(quest);
-				return;
-			}
-		}
+		openReq = true;
+		questsList.addAll(player.getQuests());
+		questsList.setFocus(true);
 	}
 	
-	private void setActiveQuest(Quest quest)
+	public void close()
 	{
-		questDesc = new TextBlock(quest.getInfo()[0], 40, ttf);
-		for(int i = 1; i < quest.getInfo().length; i ++)
+		openReq = false;
+		reset();
+	}
+	
+	public boolean isOpenReq()
+	{
+		return openReq;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
+	 */
+	@Override
+	public void inputEnded()
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
+	 */
+	@Override
+	public void inputStarted() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
+	 */
+	@Override
+	public boolean isAcceptingInput() 
+	{
+		return openReq;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
+	 */
+	@Override
+	public void setInput(Input input) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
+	 */
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
+	 */
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
+	 */
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
+	 */
+	@Override
+	public void mousePressed(int button, int x, int y) 
+	{
+	}
+
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
+	 */
+	@Override
+	public void mouseReleased(int button, int x, int y) 
+	{
+		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-			questDesc.addText(quest.getInfo()[i]);
+			if(closeB.isMouseOver())
+				close();
 		}
 	}
 
-	private class QuestField extends Button
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
+	 */
+	@Override
+	public void mouseWheelMoved(int change) 
 	{
-		private Quest quest;
-		
-		public QuestField(GameContainer gc) throws SlickException, FontFormatException, IOException 
-		{
-			super(GConnector.getInput("field/textBg.png"), "uiJournalMenuQField", false, "", gc, "");
-		}
-		
-		@Override
-		public void draw(float x, float y)
-		{
-			super.draw(x, y, false);
-			if(!isEmpty())
-				super.drawString(quest.getName(), ttf);
-		}
-		
-		public void insertQ(Quest quest)
-		{
-			this.quest = quest;
-		}
-		
-		public boolean isEmpty()
-		{
-			if(quest == null)
-				return true;
-			else
-				return false;
-		}
-		
-		@Override
-		public void mouseReleased(int button, int x, int y)
-		{
-			super.mouseReleased(button, x, y);
-			
-			if(button == Input.MOUSE_LEFT_BUTTON)
-			{
-				if(!isEmpty() && isMouseOver())
-					setActiveQuest(quest);
-			}
-		}
 	}
 }

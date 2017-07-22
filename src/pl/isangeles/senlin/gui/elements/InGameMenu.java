@@ -52,6 +52,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	private MouseOverArea menuMOA;
 	private Warning menuWarning;
 	
+	private boolean openReq;
 	private boolean resumeReq;
 	private boolean saveReq;
 	private boolean loadReq;
@@ -149,6 +150,17 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 	    return settingsReq;
 	}
+	
+	public void open()
+	{
+		openReq = true;
+	}
+	
+	public void close()
+	{
+		openReq = false;
+		reset();
+	}
 	/**
 	 * Resets menu to default state
 	 */
@@ -177,6 +189,11 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 	    this.settingsReq = settingsReq;
 	}
+	
+	public boolean isOpenReq()
+	{
+		return openReq;
+	}
 
 	@Override
 	public void inputEnded() 
@@ -191,7 +208,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public boolean isAcceptingInput() 
 	{
-		return true;
+		return openReq;
 	}
 
 	@Override
@@ -230,7 +247,10 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 				menuWarning.show(TConnector.getText("menu", "warnConf"));
 			}
 			if(resume.isMouseOver())
+			{
 				resumeReq = true;
+				close();
+			}
 			if(save.isMouseOver())
 				saveReq = true;
 			if(load.isMouseOver())
