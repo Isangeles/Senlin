@@ -36,7 +36,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.SaveEngine;
+import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.TextButton;

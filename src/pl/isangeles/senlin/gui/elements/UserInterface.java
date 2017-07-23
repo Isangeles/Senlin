@@ -24,6 +24,7 @@ package pl.isangeles.senlin.gui.elements;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -40,7 +41,7 @@ import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.Warning;
 import pl.isangeles.senlin.gui.elements.*;
@@ -105,7 +106,6 @@ public class UserInterface implements MouseListener, SaveElement
         bBar = new BottomBar(gc, igMenu, inventory, skills, journal, crafting, player);
         point = new DestinationPoint(gc, player);
         
-        
         uiWarning = new Warning(gc);
     }
     /**
@@ -119,6 +119,7 @@ public class UserInterface implements MouseListener, SaveElement
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
         cast.draw(Coords.getX("CE", -200), Coords.getY("CE", 200));
+        
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
         
@@ -159,13 +160,12 @@ public class UserInterface implements MouseListener, SaveElement
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         
-        //cursor.draw();
-        update();     	
+        //cursor.draw();   	
     }
     /**
      * Updates ui elements
      */
-    private void update()
+    public void update()
     {
     	if(player.getTarget() != null)
     	{
@@ -202,7 +202,7 @@ public class UserInterface implements MouseListener, SaveElement
     		hideMenu();
     	}
     	
-    	bBar.update(skills.getDragged());
+    	bBar.update();
         charFrame.update();
         cast.update();
         targetFrame.update();
@@ -264,6 +264,16 @@ public class UserInterface implements MouseListener, SaveElement
     public String getLoadName()
     {
         return load.getSaveName();
+    }
+    
+    public void setBBarLayout(Map<String, Integer> layout)
+    {
+    	bBar.loadLayout(layout);
+    }
+    
+    public void setInvLayout(Map<String, Integer[]> layout)
+    {
+    	inventory.loadLayout(layout);
     }
 	@Override
 	public void inputEnded()

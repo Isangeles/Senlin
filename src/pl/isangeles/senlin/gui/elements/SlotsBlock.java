@@ -24,12 +24,9 @@ package pl.isangeles.senlin.gui.elements;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.gui.Slot;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.util.Coords;
@@ -88,7 +85,7 @@ public class SlotsBlock
 		{
 			for(int j = 0; j < slots[i].length; j ++)
 			{
-				if(slots[i][j].isNull())
+				if(slots[i][j].isEmpty())
 				{
 					slots[i][j].insertContent(content);
 					return true;
@@ -102,7 +99,7 @@ public class SlotsBlock
 	 * @param contentCollection Collection with SlotContent
 	 * @return True if all content was inserted successfully, false if at least one insertion fail
 	 */
-	public boolean insertContent(Collection<SlotContent> contentCollection)
+	public boolean insertContent(Collection<? extends SlotContent> contentCollection)
 	{
 		for(SlotContent content : contentCollection)
 		{
@@ -110,6 +107,20 @@ public class SlotsBlock
 				return false;
 		}
 		return true;
+	}
+	/**
+	 * Inserts content into specified slot
+	 * @param content Content to insert
+	 * @param row Row of desired slot
+	 * @param column Column of desired slot
+	 * @return True if content was successfully inserted, false otherwise
+	 */
+	public boolean insertContentInto(SlotContent content, int row, int column)
+	{
+		if(slots[row][column].isEmpty())
+			return slots[row][column].insertContent(content);
+		else
+			return false;
 	}
 	/**
 	 * Removes content from all slots
@@ -157,17 +168,49 @@ public class SlotsBlock
 	    
 	    return null;
 	}
-	
+	/**
+	 * Return table with slots
+	 * @return Multidimensional table of this block
+	 */
 	public Slot[][] getSlots()
 	{
 		return slots;
 	}
-	
+	/**
+	 * Returns specified slot position in block
+	 * @param slotToCheck Slot from this block to check
+	 * @return Table with block row[0] and column[1] numbers
+	 */
+	public int[] getSlotPos(Slot slotToCheck)
+	{
+		int row = 0;
+		int column = 0;
+		
+		for(Slot[] line : slots)
+		{
+			for(Slot slot : line)
+			{
+				if(slot == slotToCheck)
+					return new int[] {row, column};
+				column ++;
+			}
+			row ++;
+			column = 0;
+		}
+		return new int[] {0,0};
+	}
+	/**
+	 * Returns block width
+	 * @return Block width
+	 */
 	public float getWidth()
 	{
 		return slots[0][0].getScaledWidth() * slots[0].length;
 	}
-	
+	/**
+	 * Returns block height
+	 * @return Block height
+	 */
 	public float getHeight()
 	{
 		return slots[0][0].getScaledHeight() * slots.length;

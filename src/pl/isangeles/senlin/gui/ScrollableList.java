@@ -1,5 +1,5 @@
 /*
- * ScrollableField.java
+ * ScrollableList.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -40,7 +40,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 
 /**
- * Class for scrollable fields
+ * Class for scrollable lists
  * @author Isangeles
  *
  */
@@ -81,7 +81,9 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		fieldWidth = slots.get(0).getScaledWidth();
 		fieldHeight = (slots.get(0).getScaledHeight() + Coords.getDis(5)) * slots.size();
 	}
-	
+	/**
+	 * Draws list
+	 */
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		if(selectedS != null)
@@ -96,7 +98,9 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		upB.draw(x + (fieldWidth), y, scaledPos);
 		downB.draw(x + (fieldWidth), y + (fieldHeight), scaledPos);
 	}
-	
+	/**
+	 * Updates list
+	 */
 	public void update()
 	{
 		for(ScrollableSlot slot : slots)
@@ -111,12 +115,20 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 			}
 		}
 	}
-	
+	/**
+	 * Adds content to list
+	 * @param contentToAdd Scrollable content
+	 * @return True if content was successfully added, false otherwise
+	 */
 	public boolean add(ScrollableContent contentToAdd)
 	{
 		return content.add(contentToAdd);
 	}
-	
+	/**
+	 * Adds all content from specified collection to list
+	 * @param contentToAdd Collection with scrollable content
+	 * @return True if all content was successfully added, false if at least one wasn't added
+	 */
 	public boolean addAll(Collection<? extends ScrollableContent> contentToAdd)
 	{
 		boolean isOk = true;
@@ -127,7 +139,10 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		}
 		return isOk;
 	}
-	
+	/**
+	 * Sets focus on this list
+	 * @param focus True to set focus on this list, false to unfocus
+	 */
 	public void setFocus(boolean focus)
 	{
 		this.focus = focus;
@@ -144,7 +159,10 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		}
 		content.clear();
 	}
-	
+	/**
+	 * Returns selected content
+	 * @return Scrollable content from selected slot
+	 */
 	public ScrollableContent getSelected()
 	{
 		if(selectedS != null)
@@ -152,7 +170,10 @@ public class ScrollableList extends InterfaceObject implements MouseListener
 		else
 			return null;
 	}
-	
+	/**
+	 * Returns all content of this list
+	 * @return List with scrollable content
+	 */
 	public List<ScrollableContent> getContent()
 	{
 		return content;

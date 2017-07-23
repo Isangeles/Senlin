@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -48,7 +49,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
 /**
@@ -265,7 +266,38 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	public Element getSave(Document doc)
 	{
 		Element inventoryE = doc.createElement("inventory");
+		
+		Element slotsE = doc.createElement("slots");
+		for(Slot[] line : slots.getSlots())
+		{
+			for(Slot slot : line)
+			{
+				if(!slot.isEmpty())
+				{
+					Element slotE = doc.createElement("slot");
+					int[] slotPos = slots.getSlotPos(slot);
+					slotE.setAttribute("id", slotPos[0] + "," + slotPos[1]);
+					slotE.setTextContent(slot.getContent().getId());
+					slotsE.appendChild(slotE);
+				}
+			}
+		}
+		inventoryE.appendChild(slotsE);
+		
 		return inventoryE;
+	}
+	
+	public void loadLayout(Map<String, Integer[]> layout)
+	{
+		slots.clear();
+		for(String id : layout.keySet())
+		{
+			for(Item item : itemsIn)
+			{
+				if(item.getId().equals(id))
+					slots.insertContentInto(item, layout.get(id)[0], layout.get(id)[1]);
+			}
+		}
 	}
     /**
      * Adds all player items into inventory menu 
@@ -314,7 +346,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
     	try
     	{
-    		if(!slotForItem.isNull())
+    		if(!slotForItem.isEmpty())
         	{
         		Item tmpItem;
         		tmpItem = slotForItem.getContent();

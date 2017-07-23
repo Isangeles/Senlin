@@ -46,9 +46,9 @@ import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
-import pl.isangeles.senlin.data.SaveEngine;
-import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.save.SaveEngine;
+import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.Field;
 import pl.isangeles.senlin.gui.elements.UserInterface;
 /**
@@ -153,6 +153,11 @@ public class LoadingScreen extends BasicGameState
             case 5:
             	cli = new CommandInterface(player);
                 ui = new UserInterface(container, cli, player);
+                if(loadType.equals("savedGame"))
+                {
+                	ui.setBBarLayout(gameToLoad.getBBarLayout());
+                	ui.setInvLayout(gameToLoad.getInvLayout());
+                }
                 break;
 			case 6:
 				loadingInfo.setText("loading game world...");

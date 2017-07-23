@@ -28,7 +28,7 @@ public abstract class Slot extends InterfaceObject
 	 * Checks if slot is empty
 	 * @return True if slot is empty, false otherwise
 	 */
-	public abstract boolean isNull();
+	public abstract boolean isEmpty();
 	/**
 	 * Inserts content in slot
 	 * @param content Content for slot
@@ -52,7 +52,7 @@ public abstract class Slot extends InterfaceObject
 	
 	public void click(boolean clicked)
 	{
-		if(!isNull())
+		if(!isEmpty())
 			content.getTile().click(clicked);
 	}
 	
@@ -66,7 +66,7 @@ public abstract class Slot extends InterfaceObject
 	 */
 	public boolean isContentDragged()
 	{
-		if(!isNull())
+		if(!isEmpty())
 			return content.getTile().isDragged();
 		else
 			return false;

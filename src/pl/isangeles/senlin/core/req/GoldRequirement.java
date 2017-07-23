@@ -26,7 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -38,7 +38,10 @@ public class GoldRequirement extends Requirement
 {
 	private int reqGold;
 	private boolean meet;
-	
+	/**
+	 * Gold requirement constructor
+	 * @param reqGold Minimal gold value to met that requirement
+	 */
 	public GoldRequirement(int reqGold)
 	{
 		this.reqGold = reqGold;

@@ -43,8 +43,15 @@ import pl.isangeles.senlin.data.Log;
  */
 public final class RequirementsParser 
 {
+	/**
+	 * Private constructor to prevent initialization
+	 */
 	private RequirementsParser() {}
-	
+	/**
+	 * Parses specified node to list with requirements
+	 * @param reqsNode XML document node
+	 * @return List with requirements objects
+	 */
 	public static List<Requirement> getReqFromNode(Node reqsNode)
 	{
 		List<Requirement> reqs = new ArrayList<>();

@@ -26,7 +26,9 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,9 +49,9 @@ import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.quest.Objective;
 import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
@@ -101,7 +103,11 @@ public final class SSGParser
         
         String activeScenario = playerE.getElementsByTagName("scenario").item(0).getTextContent();
         
-        return new SavedGame(player, scenarios, activeScenario);
+        Element uiE = (Element)saveE.getElementsByTagName("ui").item(0);
+        Map<String, Integer> bBarLayout = getBBarLayout(uiE.getElementsByTagName("bar").item(0));
+        Map<String, Integer[]> invLayout = getInvLayout(uiE.getElementsByTagName("inventory").item(0));
+        
+        return new SavedGame(player, scenarios, activeScenario, bBarLayout, invLayout);
     }
     /**
      * Parses specified save document element to game character 
@@ -263,5 +269,65 @@ public final class SSGParser
     	}
     	
     	return objectInventory;
+    }
+    
+    private static Map<String, Integer> getBBarLayout(Node barNode)
+    {
+    	Map<String, Integer> layout = new HashMap<>();
+    	
+    	Element barE = (Element)barNode;
+    	
+    	Element slotsE = (Element)barE.getElementsByTagName("slots").item(0);
+    	NodeList slotsList = slotsE.getElementsByTagName("slot");
+    	for(int i = 0; i < slotsList.getLength(); i ++)
+    	{
+    		Node slotNode = slotsList.item(i);
+    		if(slotNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element slotE = (Element)slotNode;
+    			try
+    			{
+    				String slotContent = slotE.getTextContent();
+        			int slotId = Integer.parseInt(slotE.getAttribute("id"));
+        			layout.put(slotContent, slotId);
+    			}
+    			catch(NumberFormatException e)
+    			{
+    				continue;
+    			}
+    		}
+    	}
+    	
+    	return layout;
+    }
+    
+    private static Map<String, Integer[]> getInvLayout(Node inventoryNode)
+    {
+    	Map<String, Integer[]> layout = new HashMap<>();
+    	
+    	Element inventoryE = (Element)inventoryNode;
+    	
+    	Element slotsE = (Element)inventoryE.getElementsByTagName("slots").item(0);
+    	NodeList slotsList = slotsE.getElementsByTagName("slot");
+    	for(int i = 0; i < slotsList.getLength(); i ++)
+    	{
+    		Node slotNode = slotsList.item(i);
+    		if(slotNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element slotE = (Element)slotNode;
+    			try
+    			{
+    				String slotContent = slotE.getTextContent();
+        			String[] slotPos = slotE.getAttribute("id").split(",");
+        			Integer[] slotId = new Integer[] {Integer.parseInt(slotPos[0]), Integer.parseInt(slotPos[1])};
+        			layout.put(slotContent, slotId);
+    			}
+    			catch(NumberFormatException e)
+    			{
+    				continue;
+    			}
+    		}
+    	}
+    	return layout;
     }
 }

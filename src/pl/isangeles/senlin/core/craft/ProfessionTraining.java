@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.req.Requirement;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
 
 /**

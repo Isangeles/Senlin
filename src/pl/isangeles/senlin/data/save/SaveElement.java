@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.data;
+package pl.isangeles.senlin.data.save;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

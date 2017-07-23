@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**

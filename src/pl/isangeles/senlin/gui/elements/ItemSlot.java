@@ -77,7 +77,7 @@ class ItemSlot extends Slot
 	 * Checks if slot is empty
 	 * @return True if slot is empty, false otherwise
 	 */
-	public boolean isNull()
+	public boolean isEmpty()
 	{
 		if(itemInSlot == null)
 			return true;

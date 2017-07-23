@@ -64,7 +64,7 @@ public class SkillSlot extends Slot implements MouseListener
 	
 	public void click(boolean clicked)
 	{
-		if(!isNull())
+		if(!isEmpty())
 			skillInSlot.getTile().click(clicked);
 	}
 	/**
@@ -110,7 +110,7 @@ public class SkillSlot extends Slot implements MouseListener
 	 */
 	public boolean isSkillDragged()
 	{
-		if(!isNull())
+		if(!isEmpty())
 			return skillInSlot.getTile().isDragged();
 		else
 			return false;
@@ -119,7 +119,7 @@ public class SkillSlot extends Slot implements MouseListener
 	 * Checks if slot is empty
 	 * @return True if slot is empty, false otherwise
 	 */
-	public boolean isNull()
+	public boolean isEmpty()
 	{
 		if(skillInSlot == null)
 			return true;
@@ -171,14 +171,14 @@ public class SkillSlot extends Slot implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		if(!isNull() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
+		if(!isEmpty() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
 			skillInSlot.getTile().click(true);
 	}
 
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(!isNull() && button == Input.MOUSE_LEFT_BUTTON)
+		if(!isEmpty() && button == Input.MOUSE_LEFT_BUTTON)
 		{
 			if(isMouseOver())
 				useSkill();

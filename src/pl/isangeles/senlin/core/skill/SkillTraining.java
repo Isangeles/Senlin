@@ -35,10 +35,10 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.SaveElement;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.SkillPattern;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.util.TConnector;
 

@@ -20,13 +20,15 @@
  * 
  * 
  */
-package pl.isangeles.senlin.data;
+package pl.isangeles.senlin.data.save;
 
 import java.util.List;
+import java.util.Map;
 
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.gui.elements.UserInterface;
 
 /**
  * Class for saved games
@@ -38,13 +40,15 @@ public class SavedGame
     private Character player;
     private List<Scenario> scenarios;
     private Scenario activeScenario;
+    private Map<String, Integer> bBarLayout;
+    private Map<String, Integer[]> invLayout;
     /**
      * Creates saved game to load 
      * @param player Player game character
      * @param scenarios List with saved game scenarios
      * @param activeScenarioId ID of active game scenario
      */
-    public SavedGame(Character player, List<Scenario> scenarios, String activeScenarioId)
+    public SavedGame(Character player, List<Scenario> scenarios, String activeScenarioId, Map<String, Integer> bBarLayout, Map<String, Integer[]> invLayout)
     {
         this.player = player;
         this.scenarios = scenarios;
@@ -53,6 +57,8 @@ public class SavedGame
             if(scenario.getId().equals(activeScenarioId))
                 activeScenario = scenario;
         }
+        this.bBarLayout = bBarLayout;
+        this.invLayout = invLayout;
     }
     /**
      * Returns saved player character
@@ -77,5 +83,15 @@ public class SavedGame
     public Scenario getActiveScenario()
     {
         return activeScenario;
+    }
+    
+    public Map<String, Integer> getBBarLayout()
+    {
+    	return bBarLayout;
+    }
+    
+    public Map<String, Integer[]> getInvLayout()
+    {
+    	return invLayout;
     }
 }

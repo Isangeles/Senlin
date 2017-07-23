@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -20,7 +21,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InterfaceObject;
@@ -34,6 +35,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 {
     private Button questsB;
     private Button inventoryB;
+    private Button craftingB;
     private Button skillsB;
     private Button mapB;
     private Button menuB;
@@ -68,11 +70,12 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         this.skills = skills;
         this.journal = journal;
         this.crafting = crafting;
-        questsB = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQ", false, "", gc, TConnector.getText("ui", "questsBInfo"));
-        inventoryB = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonI", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
-        skillsB = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonS", false, "", gc, TConnector.getText("ui", "skillsBInfo"));
-        mapB = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMa", false, "", gc, TConnector.getText("ui", "mapBInfo"));
-        menuB = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMe", false, "", gc, TConnector.getText("ui", "menuBInfo"));
+        questsB = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQue", false, "", gc, TConnector.getText("ui", "questsBInfo"));
+        inventoryB = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonInv", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
+        craftingB = new Button(GConnector.getInput("ui/button/buttonCrafting.png"), "uiButtonCraft", false, "", gc, TConnector.getText("ui", "craftingBInfo"));
+        skillsB = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonSkill", false, "", gc, TConnector.getText("ui", "skillsBInfo"));
+        mapB = new Button(GConnector.getInput("ui/button/buttonMap.png"), "uiButtonMap", false, "", gc, TConnector.getText("ui", "mapBInfo"));
+        menuB = new Button(GConnector.getInput("ui/button/buttonMenu.png"), "uiButtonQMenu", false, "", gc, TConnector.getText("ui", "menuBInfo"));
         
         
         sSlots = new SkillSlots(gc);
@@ -90,23 +93,22 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     public void draw(float x, float y)
     {
         super.draw(x, y, false);
-        menuB.draw(x+super.getScaledWidth()-getDis(50), y+getDis(10), false);
-        mapB.draw(x+super.getScaledWidth()-getDis(100), y+getDis(10), false);
-        skillsB.draw(x+super.getScaledWidth()-getDis(150), y+getDis(10), false);
-        inventoryB.draw(x+super.getScaledWidth()-getDis(200), y+getDis(10), false);
-        questsB.draw(x+super.getScaledWidth()-getDis(250), y+getDis(10), false);
+        menuB.draw(x+super.getScaledWidth()-getDis(30), y+getDis(10), false);
+        mapB.draw(x+super.getScaledWidth()-getDis(80), y+getDis(10), false);
+        skillsB.draw(x+super.getScaledWidth()-getDis(130), y+getDis(10), false);
+        inventoryB.draw(x+super.getScaledWidth()-getDis(180), y+getDis(10), false);
+        craftingB.draw(x+super.getScaledWidth()-getDis(230), y+getDis(10), false);
+        questsB.draw(x+super.getScaledWidth()-getDis(280), y+getDis(10), false);
         
         sSlots.draw(x+getDis(20), y+getDis(10));
         
         bBarMOA.setLocation(x, y);
     }
-    /**
-     * Updates bottom bar
-     * @param sMenuDSlot Dragged skill slot from skills menu to handle
-     */
-    public void update(SkillSlot sMenuDSlot)
+    
+    @Override
+    public void update()
     {
-        this.sMenuDSlot = sMenuDSlot;
+        sMenuDSlot = skills.getDragged();
     }
     
     @Override
@@ -192,6 +194,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
                 inventory.open();
             else if(inventoryB.isMouseOver() && inventory.isOpenReq())
                 inventory.close();
+        	
+        	if(craftingB.isMouseOver() && !crafting.isOpenReq())
+                crafting.open();
+            else if(craftingB.isMouseOver() && crafting.isOpenReq())
+                crafting.close();
         	
         	if(skillsB.isMouseOver() && !skills.isOpenReq())
         		skills.open();
@@ -311,7 +318,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 	private class SkillSlots
 	{
 		private SkillSlot[] slots;
-		TrueTypeFont slotsTtf;
+		private TrueTypeFont slotsTtf;
 		
 		public SkillSlots(GameContainer gc) throws SlickException, IOException, FontFormatException
 		{
@@ -352,7 +359,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 		
 		public boolean insertSkill(Skill skill, SkillSlot slot)
 		{
-		    if(slot.isNull())
+		    if(slot.isEmpty())
 		    {
 		        slot.insertContent(skill);
 		        return true;
@@ -388,14 +395,15 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 		{
 			return slots;
 		}
+		
+		public void clear()
+		{
+			for(SkillSlot slot : slots)
+			{
+				slot.removeContent();
+			}
+		}
 	}
-
-    @Override
-    public void update()
-    {
-        // TODO Auto-generated method stub
-        
-    }
     /**
      * Saves bottom bar configuration to XML document element
      * @param doc Document for save game file
@@ -404,17 +412,30 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     public Element getSave(Document doc)
     {
     	Element barE = doc.createElement("bar");
+    	
+    	Element slotsE = doc.createElement("slots");
     	for(int i = 0; i < 5; i ++)
     	{
-    		if(!sSlots.slots[i].isNull())
+    		if(!sSlots.slots[i].isEmpty())
     		{
     			Element slotE = doc.createElement("slot");
     			slotE.setAttribute("id", i+"");
     			slotE.setTextContent(sSlots.slots[i].getContent().getId());
-    			barE.appendChild(slotE);
+    			slotsE.appendChild(slotE);
     		}
     	}
+    	barE.appendChild(slotsE);
+    	
     	return barE;
+    }
+    
+    public void loadLayout(Map<String, Integer> layout)
+    {
+    	sSlots.clear();
+    	for(String id : layout.keySet())
+    	{
+    		sSlots.slots[layout.get(id)].insertContent(player.getSkills().get(id));
+    	}
     }
 
 }

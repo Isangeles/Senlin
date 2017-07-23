@@ -39,7 +39,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.Log;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 
 /**
  * Class for character equipment

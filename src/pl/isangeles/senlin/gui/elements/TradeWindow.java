@@ -266,7 +266,7 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 			if(button == Input.MOUSE_RIGHT_BUTTON)
 			{
 				Slot slotBuy = slotsBuy.getMouseOver();
-				if(slotBuy != null && !slotBuy.isNull())
+				if(slotBuy != null && !slotBuy.isEmpty())
 				{
 				    Item itemBuy = (Item)slotBuy.getContent();
 				    if(itemsToBuy.contains(itemBuy))
@@ -284,7 +284,7 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 				}
 				
 				Slot slotSell = slotsSell.getMouseOver();
-				if(slotSell != null && !slotSell.isNull())
+				if(slotSell != null && !slotSell.isEmpty())
 				{
 				    Item itemSell = (Item)slotSell.getContent();
 				    if(itemsToSell.contains(itemSell))

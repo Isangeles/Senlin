@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Abilities;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -38,7 +38,10 @@ import pl.isangeles.senlin.util.TConnector;
 public class StatsRequirement extends Requirement
 {
 	private Attributes minStats;
-
+	/**
+	 * Statistics requirement constructor 
+	 * @param minStats Minimal attributes to met that requirement
+	 */
 	public StatsRequirement(Attributes minStats)
 	{
 		this.minStats = minStats;

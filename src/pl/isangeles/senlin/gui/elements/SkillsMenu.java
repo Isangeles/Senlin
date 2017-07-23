@@ -229,7 +229,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 			{
 				for(int j = 0; j < slots[i].length; j ++)
 				{
-					if(slots[i][j].isNull())
+					if(slots[i][j].isEmpty())
 					{
 						slots[i][j].insertContent(skill);
 						return true;

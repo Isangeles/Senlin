@@ -54,11 +54,11 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.SaveEngine;
-import pl.isangeles.senlin.data.SavedGame;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.data.save.SaveEngine;
+import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.day.Day;
@@ -197,6 +197,7 @@ public class GameWorld extends BasicGameState
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
+    	ui.update();
     	dayManager.update(delta);
     	
         if(!isPause())

@@ -40,7 +40,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.SlotContent;
 /**
  * Class for character inventory, contains all player items
@@ -74,7 +74,11 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         else 
             return false;
     }
-	
+	/**
+	 * Adds all items from collection to inventory
+	 * @param items Collection with items
+	 * @return True if all items was added successfully, false if at least one wasn't added
+	 */
 	public boolean addAllItems(Collection<Item> items)
 	{
     	boolean isOk = true;
@@ -86,8 +90,11 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 		
 		return isOk; 
 	}
-    
-	
+	/**
+	 * Removes specified item from inventory
+	 * @param item Game item
+	 * @return True if item was successfully removed, false otherwise
+	 */
     public boolean remove(Item item)
     {
     	if(super.remove(item))
@@ -204,7 +211,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     		if(super.get(i).getId() == itemId)
     			return super.get(i);
     	}
-    	return ItemsBase.getErrorItem(itemId);
+    	return null;//ItemsBase.getErrorItem(itemId);
     }
     /**
      * Returns item with specific index in inventory container

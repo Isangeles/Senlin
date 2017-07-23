@@ -22,11 +22,8 @@
  */
 package pl.isangeles.senlin.core.req;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.SaveElement;
+import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Abstract class for requirements
  * @author Isangeles
