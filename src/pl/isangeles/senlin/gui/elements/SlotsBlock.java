@@ -199,6 +199,27 @@ public class SlotsBlock
 		}
 		return new int[] {0,0};
 	}
+	
+	public Slot getSlotOn(int slotRow, int slotColumn)
+	{
+		int row = 0;
+		int column = 0;
+		
+		for(Slot[] line : slots)
+		{
+			for(Slot slot : line)
+			{
+				if(row == slotRow && column == slotColumn)
+				{
+					return slot;
+				}
+				column ++;
+			}
+			row ++;
+			column = 0;
+		}
+		return null;
+	}
 	/**
 	 * Returns block width
 	 * @return Block width

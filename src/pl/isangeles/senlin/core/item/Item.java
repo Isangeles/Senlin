@@ -23,8 +23,9 @@ import pl.isangeles.senlin.util.TConnector;
 public abstract class Item implements SlotContent, Usable
 {
 	private static int itemCounter;
-	protected int itemNumber = itemCounter;
+	protected int itemNumber = itemCounter++;
 	protected String id;
+	protected String serialId;
     protected String name;
     protected String info;
     protected String imgName;
@@ -51,7 +52,14 @@ public abstract class Item implements SlotContent, Usable
         this.value = value;
         this.imgName = imgName;
         this.onUse = new EffectAction();
-        itemCounter ++;   
+        serialId = id + "_" + itemNumber;
+    }
+    
+    public Item(String id, int serial, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+    	this(id, value, imgName, gc);
+    	serialId = id + "_" + serial;
+    	itemCounter = ++serial;
     }
     /**
      * Draws item tile
@@ -77,6 +85,11 @@ public abstract class Item implements SlotContent, Usable
     public String getId()
     {
     	return id;
+    }
+    
+    public String getSerialId()
+    {
+    	return serialId;
     }
     /**
      * Returns number unique for every item in game
@@ -107,11 +120,12 @@ public abstract class Item implements SlotContent, Usable
      * @param item Item to check
      * @return True if unique item numbers are same, false otherwise
      */
+    /*
     public boolean equals(Item item)
     {
     	try
     	{
-    		if(this.itemNumber == item.getNumber())
+    		if(serialId.equals(item.getSerialId()))
         		return true;
         	else
         		return false;
@@ -121,7 +135,7 @@ public abstract class Item implements SlotContent, Usable
     		return false;
     	}
     }
-    
+    */
     public ActionType getActionType()
     {
     	return onUse.getType();

@@ -63,6 +63,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	private Character player;
 	private SlotsBlock slots;
 	private EquipmentSlots eqSlots;
+	private Map<String, Integer[]> layoutToLoad;
 	private List<Item> itemsIn = new ArrayList<>();
 	private TrueTypeFont textTtf;
 	private boolean openReq;
@@ -140,12 +141,12 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     public void reset()
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
-        slots.draw(Coords.getX("BR", 0), Coords.getY("BR", 0)); //to force MOA relocation
     }
     
     public void open()
     {
     	openReq = true;
+        addItems();
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
@@ -165,9 +166,9 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         {
         	itemsIn.clear();
         	slots.clear();
+        	addItems();
         	player.getInventory().updated();
         }
-        addItems();
     }
     
     public boolean isOpenReq()
@@ -186,7 +187,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	@Override
 	public boolean isAcceptingInput() 
 	{
-		return true;
+		return openReq;
 	}
 	@Override
 	public void setInput(Input input) 
@@ -289,13 +290,33 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	
 	public void loadLayout(Map<String, Integer[]> layout)
 	{
-		slots.clear();
+		//slots.clear();
+		/*
 		for(String id : layout.keySet())
 		{
 			for(Item item : itemsIn)
 			{
 				if(item.getId().equals(id))
-					slots.insertContentInto(item, layout.get(id)[0], layout.get(id)[1]);
+				{
+					if(!slots.insertContentInto(item, layout.get(id)[0], layout.get(id)[1]))
+						slots.insertContent(item);
+				}
+			}
+		}
+		*/
+		for(String id : layout.keySet())
+		{
+			for(Slot[] line : slots.getSlots())
+			{
+				for(Slot slot : line)
+				{
+					if(!slot.isEmpty() && slot.getContent().getId().equals(id))
+					{
+						Slot newSlot = slots.getSlotOn(layout.get(id)[0], layout.get(id)[1]);
+						if(newSlot != null)
+							slots.moveContent(slot, newSlot);
+					}
+				}
 			}
 		}
 	}
