@@ -96,4 +96,18 @@ public class WeaponPattern
 	{
 		return new Weapon(id, WeaponType.fromNameToId(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
 	}
+
+	/**
+	 * Creates new weapons from this pattern
+	 * @param gc Slick game container
+	 * @param serial Serial number for item
+	 * @return New weapon object
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Weapon make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	{
+		return new Weapon(id, serial, WeaponType.fromNameToId(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
+	}
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <base>
-    <item id="mMeat01" value="1" disposable="true">
+    <item id="mMeat01" value="1" stack="20" disposable="true">
         <icon>food01.png</icon>
         <action type="effectUser">heal01</action>
     </item>
-    <item id="aloeL" value="2" disposable="true">
+    <item id="aloeL" value="2" stack="20" disposable="true">
         <icon>herb01.png</icon>
         <action type="effectUser">heal01</action>
     </item>
-    <item id="mAloeBalm" value="5" disposable="true">
+    <item id="mAloeBalm" value="5" stack="20" disposable="true">
         <icon>potGreen.png</icon>
         <action type="effectUser">heal01</action>
     </item>

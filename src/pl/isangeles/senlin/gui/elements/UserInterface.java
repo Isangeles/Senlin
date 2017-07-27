@@ -72,6 +72,7 @@ public class UserInterface implements MouseListener, SaveElement
     private LoadGameWindow load;
     private SettingsMenu settings;
     private DestinationPoint point;
+    private Camera camera;
     private Warning uiWarning;
     /**
      * UI constructor, calls all UI elements constructors
@@ -105,6 +106,7 @@ public class UserInterface implements MouseListener, SaveElement
         settings = new SettingsMenu(gc);
         bBar = new BottomBar(gc, igMenu, inventory, skills, journal, crafting, player);
         point = new DestinationPoint(gc, player);
+        camera = new Camera();
         
         uiWarning = new Warning(gc);
     }
@@ -266,6 +268,11 @@ public class UserInterface implements MouseListener, SaveElement
         return load.getSaveName();
     }
     
+    public Camera getCamera()
+    {
+    	return camera;
+    }
+    
     public void setBBarLayout(Map<String, Integer> layout)
     {
     	bBar.loadLayout(layout);
@@ -275,6 +282,7 @@ public class UserInterface implements MouseListener, SaveElement
     {
     	inventory.loadLayout(layout);
     }
+    
 	@Override
 	public void inputEnded()
 	{
@@ -378,6 +386,7 @@ public class UserInterface implements MouseListener, SaveElement
 		Element uiE = doc.createElement("ui");
 		uiE.appendChild(inventory.getSave(doc));
 		uiE.appendChild(bBar.getSave(doc));
+		uiE.appendChild(camera.getSave(doc));
 		return uiE;
 	}
 	

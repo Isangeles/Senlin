@@ -97,6 +97,41 @@ public class ItemsBase
 		}
 		
 	}
+
+	/**
+	 * Returns new copy of item with specific id and serial number from base
+	 * @param id Item id
+	 * @param serial Serial number for item
+	 * @return Copy of item from base (by clone method) or null if item was not found 
+	 */
+	public static Item getItem(String id, int serial)
+	{
+		if(id == "")
+			return null;
+		
+		try
+		{
+			if(weaponsMap.get(id) != null)
+				return weaponsMap.get(id).make(gc, serial);
+			
+			if(armorsMap.get(id) != null)
+				return armorsMap.get(id).make(gc, serial);
+			
+			if(trinketsMap.get(id) != null)
+				return null; //TODO write trinket builder
+			
+			if(miscMap.get(id) != null)
+				return miscMap.get(id).make(gc, serial);
+			
+			return null;
+		}
+		catch(SlickException | IOException | FontFormatException e)
+		{
+			System.err.println(e.getMessage());
+			return null;
+		}
+		
+	}
 	/**
 	 * Return error item
 	 * @param itemId Id of item that cause error

@@ -208,7 +208,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
     	for(int i = 0; i < super.size(); i ++)
     	{
-    		if(super.get(i).getId() == itemId)
+    		if(super.get(i).getId().equals(itemId))
     			return super.get(i);
     	}
     	return null;//ItemsBase.getErrorItem(itemId);
@@ -322,13 +322,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	in.setAttribute("gold", gold+"");
     	for(Item item : this)
     	{
-    		if(!equipment.isEquipped(item))
-    		{
-    			Element itemE = doc.createElement("item");
-    			itemE.setAttribute("serial", ""+item.getNumber());
-        		itemE.setTextContent(item.getId());
-        		in.appendChild(itemE);
-    		}
+    		Element itemE = doc.createElement("item");
+			itemE.setAttribute("serial", ""+item.getNumber());
+    		itemE.setTextContent(item.getId());
+    		in.appendChild(itemE);
     	}
     	eq.appendChild(in);
 		

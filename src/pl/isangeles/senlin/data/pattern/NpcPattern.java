@@ -174,17 +174,25 @@ public class NpcPattern
 			npc.setTrade();
 		if(train)
 			npc.setTrain(trainings);
-		Item helmet = ItemsBase.getItem(headItem);
-		Item chest = ItemsBase.getItem(chestItem);
-		Item gloves = ItemsBase.getItem(handsItem);
-		Item mainWeap = ItemsBase.getItem(mainHandItem);
-		Item offHand = ItemsBase.getItem(offHandItem);
-		Item boots = ItemsBase.getItem(feetItem);
-		Item amulet = ItemsBase.getItem(neckItem);
-		Item ringA = ItemsBase.getItem(fingerAItem);
-		Item ringB = ItemsBase.getItem(fingerBItem);
-		Item artifact = ItemsBase.getItem(this.artifact);
 		
+		for(RandomItem ip : invItems)
+		{
+			Item it = ip.make();
+			if(it != null)
+				npc.addItem(it);
+		}
+		
+		Item helmet = npc.getItem(headItem);
+		Item chest = npc.getItem(chestItem);
+		Item gloves = npc.getItem(handsItem);
+		Item mainWeap = npc.getItem(mainHandItem);
+		Item offHand = npc.getItem(offHandItem);
+		Item boots = npc.getItem(feetItem);
+		Item amulet = npc.getItem(neckItem);
+		Item ringA = npc.getItem(fingerAItem);
+		Item ringB = npc.getItem(fingerBItem);
+		Item artifact = npc.getItem(this.artifact);
+		/*
 		npc.addItem(helmet);
 		npc.addItem(chest);
 		npc.addItem(gloves);
@@ -195,7 +203,7 @@ public class NpcPattern
 		npc.addItem(ringA);
 		npc.addItem(ringB);
 		npc.addItem(artifact);
-		
+		*/
 		npc.equipItem(helmet);
 		npc.equipItem(chest);
 		npc.equipItem(gloves);
@@ -208,12 +216,6 @@ public class NpcPattern
 		npc.equipItem(artifact);
 		
 		npc.addGold(gold);
-		for(RandomItem ip : invItems)
-		{
-			Item it = ip.make();
-			if(it != null)
-				npc.addItem(it);
-		}
 		for(String skillId : skills)
 		{
 			npc.addSkill(SkillsBase.getSkill(npc, skillId));

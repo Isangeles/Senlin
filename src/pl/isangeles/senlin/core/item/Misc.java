@@ -54,9 +54,29 @@ public class Misc extends Item
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Misc(String id, int value, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Misc(String id, int value, int maxStack, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc);
+		super(id, value, maxStack, imgName, gc);
+		this.disposable = disposable;
+		this.onUse = onUse;
+		this.itemTile = setTile(gc);
+	}
+	/**
+	 * Miscellaneous item constructor (with saved serial number)
+	 * @param id Item ID
+     * @param serial Saved serial number
+	 * @param value Item value
+	 * @param disposable If item disappears after use
+	 * @param imgName Item image name, for icon
+	 * @param onUse Action on use(ppm click in inventory)
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Misc(String id, int serial, int value, int maxStack, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	{
+		super(id, serial, maxStack, value, imgName, gc);
 		this.disposable = disposable;
 		this.onUse = onUse;
 		this.itemTile = setTile(gc);

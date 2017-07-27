@@ -157,6 +157,7 @@ public class LoadingScreen extends BasicGameState
                 {
                 	ui.setBBarLayout(gameToLoad.getBBarLayout());
                 	ui.setInvLayout(gameToLoad.getInvLayout());
+                	ui.getCamera().setPos(gameToLoad.getCameraPos());
                 }
                 break;
 			case 6:

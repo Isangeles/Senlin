@@ -50,7 +50,10 @@ import pl.isangeles.senlin.gui.elements.SkillTile;
  */
 public abstract class Skill implements SlotContent
 {
+	private static int skillCounter = 0;
+	private int serial = skillCounter ++;
 	protected String id;
+	protected String serialId;
 	protected String name;
 	protected String info;
 	protected EffectType type;
@@ -95,6 +98,7 @@ public abstract class Skill implements SlotContent
 		this.effects = effects;
 		owner = character;
 		active = true;
+		serialId = id + "_" + serial;
 	}
 	/**
 	 * Draws skill UI icon
@@ -145,6 +149,21 @@ public abstract class Skill implements SlotContent
 	public String getId()
 	{
 		return id;
+	}
+	/**
+	 * Returns serial ID
+	 */
+	public String getSerialId()
+	{
+		return serialId;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.SlotContent#getMaxStack()
+	 */
+	@Override
+	public int getMaxStack() 
+	{
+		return 1;
 	}
 	/**
 	 * Returns skill name 

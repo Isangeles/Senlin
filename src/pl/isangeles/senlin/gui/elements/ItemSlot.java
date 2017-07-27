@@ -1,10 +1,12 @@
 package pl.isangeles.senlin.gui.elements;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.gui.InterfaceObject;
@@ -21,7 +23,7 @@ class ItemSlot extends Slot
 {
 	private Item itemInSlot;
 	
-	public ItemSlot(GameContainer gc) throws SlickException, IOException 
+	public ItemSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/slot.png"), "uiISlot", false, gc);
 	}
@@ -39,28 +41,32 @@ class ItemSlot extends Slot
 	 */
 	public boolean insertContent(SlotContent item)
 	{
-		try
+		if(!isFull())
 		{
-			itemInSlot = (Item)item;
-			super.content = item;
-			return true;
+			try
+			{
+				itemInSlot = (Item)item;
+				return super.content.add(item);
+			}
+			catch(ClassCastException e)
+			{
+				return false;
+			}
 		}
-		catch(ClassCastException e)
-		{
+		else
 			return false;
-		}
-	}
-	/**
-	 * Removes item from slot
-	 */
-	public void removeContent()
-	{
-		itemInSlot = null;
 	}
 	
 	public void dragged(boolean dragged)
 	{
 		itemInSlot.getTile().dragged(dragged);
+	}
+	
+	@Override
+	public void removeContent()
+	{
+		super.removeContent();
+		itemInSlot = null;
 	}
 	/**
 	 * Checks if tile of item in slots is dragged
@@ -70,17 +76,6 @@ class ItemSlot extends Slot
 	{
 		if(itemInSlot != null)
 			return itemInSlot.getTile().isDragged();
-		else
-			return false;
-	}
-	/**
-	 * Checks if slot is empty
-	 * @return True if slot is empty, false otherwise
-	 */
-	public boolean isEmpty()
-	{
-		if(itemInSlot == null)
-			return true;
 		else
 			return false;
 	}

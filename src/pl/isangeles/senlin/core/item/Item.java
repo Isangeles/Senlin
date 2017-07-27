@@ -2,6 +2,8 @@ package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -23,6 +25,7 @@ import pl.isangeles.senlin.util.TConnector;
 public abstract class Item implements SlotContent, Usable
 {
 	private static int itemCounter;
+	private static List<Integer> reservedIDs = new ArrayList<>();
 	protected int itemNumber = itemCounter++;
 	protected String id;
 	protected String serialId;
@@ -30,6 +33,7 @@ public abstract class Item implements SlotContent, Usable
     protected String info;
     protected String imgName;
     protected int value;
+    protected int maxStack;
     protected ItemTile itemTile;
     protected Action onUse;
     /**
@@ -44,22 +48,43 @@ public abstract class Item implements SlotContent, Usable
      * @throws IOException
      * @throws FontFormatException
      */
-    public Item(String id, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
+    public Item(String id, int value, int maxStack, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         this.id = id;
         this.name = TConnector.getInfo("items", id)[0];
         this.info = TConnector.getInfo("items", id)[1];
         this.value = value;
+        this.maxStack = maxStack;
         this.imgName = imgName;
         this.onUse = new EffectAction();
+        while(reservedIDs.contains(itemNumber))
+        {
+        	itemNumber ++;
+        	itemCounter ++;
+        }
         serialId = id + "_" + itemNumber;
     }
-    
-    public Item(String id, int serial, int value, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
+
+    /**
+     * Basic item constructor (with saved serial number)
+     * @param id Item ID, unique for all items
+     * @param serial Saved serial number
+     * @param name Item name
+     * @param info Info about item
+     * @param value Item value
+     * @param imgName Item image file name in icon dir
+     * @param gc Game container for superclass
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    public Item(String id, int serial, int value, int maxStack, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-    	this(id, value, imgName, gc);
+    	this(id, value, maxStack, imgName, gc);
     	serialId = id + "_" + serial;
-    	itemCounter = ++serial;
+    	itemNumber = serial;
+    	reservedIDs.add(itemNumber);
+    	itemCounter --;
     }
     /**
      * Draws item tile
@@ -107,6 +132,14 @@ public abstract class Item implements SlotContent, Usable
     {
         return value;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.SlotContent#getMaxStack()
+	 */
+	@Override
+	public int getMaxStack() 
+	{
+		return maxStack;
+	}
     /**
      * Returns items name
      */

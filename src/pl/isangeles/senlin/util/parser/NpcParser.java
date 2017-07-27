@@ -101,10 +101,20 @@ public final class NpcParser
         
         for(int j = 0; j < in.getElementsByTagName("item").getLength(); j ++)
         {
-            Element itemNode = (Element)in.getElementsByTagName("item").item(j);
-            boolean ifRandom = Boolean.parseBoolean(itemNode.getAttribute("random"));
-            String itemInId = itemNode.getTextContent();
-            RandomItem ip = new RandomItem(itemInId, ifRandom);
+            Element itemE = (Element)in.getElementsByTagName("item").item(j);
+            boolean ifRandom = Boolean.parseBoolean(itemE.getAttribute("random"));
+            String itemInId = itemE.getTextContent();
+            String itemSerialS  = itemE.getAttribute("serial");
+            RandomItem ip;
+            if(itemSerialS == "")
+            {
+            	ip = new RandomItem(itemInId, ifRandom);
+            }
+            else
+            {
+                int itemSerial = Integer.parseInt(itemSerialS);
+                ip = new RandomItem(itemInId, itemSerial, ifRandom);
+            }
             itemsIn.add(ip);
         }
         

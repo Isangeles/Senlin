@@ -23,7 +23,11 @@
 package pl.isangeles.senlin.gui.elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.newdawn.slick.SlickException;
 
@@ -38,6 +42,7 @@ import pl.isangeles.senlin.util.Coords;
 public class SlotsBlock
 {
 	private Slot[][] slots;
+	private List<Slot> allSlots = new ArrayList<>();
 	/**
 	 * Slots block constructor
 	 * @param slotsTab Initialized multidimensional table with slots
@@ -47,6 +52,14 @@ public class SlotsBlock
 	public SlotsBlock(Slot[][] slotsTab) throws SlickException, IOException
 	{
 		slots = slotsTab;
+		
+		for(Slot[] line : slots)
+		{
+			for(Slot slot : line)
+			{
+				allSlots.add(slot);
+			}
+		}
 	}
 	/**
 	 * Draws all skill slots
@@ -175,6 +188,11 @@ public class SlotsBlock
 	public Slot[][] getSlots()
 	{
 		return slots;
+	}
+	
+	public List<Slot> getAllSlots()
+	{
+		return allSlots;
 	}
 	/**
 	 * Returns specified slot position in block

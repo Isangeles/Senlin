@@ -30,7 +30,7 @@ public class SkillSlot extends Slot implements MouseListener
 {
 	private Skill skillInSlot;
 	
-	public SkillSlot(GameContainer gc) throws SlickException, IOException 
+	public SkillSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/slotB.png"), "uiSSlot", false, gc);
 		gc.getInput().addMouseListener(this);
@@ -50,29 +50,26 @@ public class SkillSlot extends Slot implements MouseListener
 	 */
 	public boolean insertContent(SlotContent skill)
 	{
-		try
+		if(!isFull())
 		{
-			skillInSlot = (Skill)skill;
-			super.content = skill;
-			return true;
+			try
+			{
+				skillInSlot = (Skill)skill;
+				return super.content.add(skill);
+			}
+			catch(ClassCastException e)
+			{
+				return false;
+			}
 		}
-		catch(ClassCastException e)
-		{
+		else
 			return false;
-		}
 	}
 	
 	public void click(boolean clicked)
 	{
 		if(!isEmpty())
 			skillInSlot.getTile().click(clicked);
-	}
-	/**
-	 * Removes skill from slot
-	 */
-	public void removeContent()
-	{
-		skillInSlot = null;
 	}
 	/**
 	 * Uses skill in slot
@@ -115,16 +112,12 @@ public class SkillSlot extends Slot implements MouseListener
 		else
 			return false;
 	}
-	/**
-	 * Checks if slot is empty
-	 * @return True if slot is empty, false otherwise
-	 */
-	public boolean isEmpty()
+	
+	@Override
+	public void removeContent()
 	{
-		if(skillInSlot == null)
-			return true;
-		else
-			return false;
+		super.removeContent();
+		skillInSlot = null;
 	}
 	
 	public Skill getContent()

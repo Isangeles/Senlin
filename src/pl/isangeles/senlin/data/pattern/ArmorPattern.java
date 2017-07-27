@@ -91,4 +91,18 @@ public class ArmorPattern
 	{
 		return new Armor(id, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, gc);
 	}
+
+	/**
+	 * Creates item from this pattern (with specified serial number)
+	 * @param gc Slick game container
+	 * @param serial Serial number for item
+	 * @return New armor object
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Armor make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	{
+		return new Armor(id, serial, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, gc);
+	}
 }

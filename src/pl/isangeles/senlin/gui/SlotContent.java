@@ -9,4 +9,8 @@ public interface SlotContent
 	public InterfaceTile getTile();
 	
 	public String getId();
+	
+	public String getSerialId();
+	
+	public int getMaxStack();
 }

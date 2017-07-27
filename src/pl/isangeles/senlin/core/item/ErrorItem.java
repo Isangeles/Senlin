@@ -19,7 +19,7 @@ public class ErrorItem extends Misc
 
 	public ErrorItem(String id, GameContainer gc)throws SlickException, IOException, FontFormatException 
 	{
-		super("error" + id, 0, false, "unknown.png", new EffectAction(), gc);
+		super("error" + id, 0, 0, false, "unknown.png", new EffectAction(), gc);
 		name = TConnector.getText("items", "erorrItem-name");
 		info = TConnector.getText("items", "errorItem-info" + " " + id);
 	}

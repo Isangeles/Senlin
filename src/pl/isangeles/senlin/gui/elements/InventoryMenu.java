@@ -147,6 +147,11 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
     	openReq = true;
         addItems();
+        if(layoutToLoad != null)
+        {
+        	setLayout(layoutToLoad);
+        	layoutToLoad = null;
+        }
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
@@ -278,7 +283,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 					Element slotE = doc.createElement("slot");
 					int[] slotPos = slots.getSlotPos(slot);
 					slotE.setAttribute("id", slotPos[0] + "," + slotPos[1]);
-					slotE.setTextContent(slot.getContent().getId());
+					slotE.setTextContent(slot.getContent().getSerialId());
 					slotsE.appendChild(slotE);
 				}
 			}
@@ -290,35 +295,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	
 	public void loadLayout(Map<String, Integer[]> layout)
 	{
-		//slots.clear();
-		/*
-		for(String id : layout.keySet())
-		{
-			for(Item item : itemsIn)
-			{
-				if(item.getId().equals(id))
-				{
-					if(!slots.insertContentInto(item, layout.get(id)[0], layout.get(id)[1]))
-						slots.insertContent(item);
-				}
-			}
-		}
-		*/
-		for(String id : layout.keySet())
-		{
-			for(Slot[] line : slots.getSlots())
-			{
-				for(Slot slot : line)
-				{
-					if(!slot.isEmpty() && slot.getContent().getId().equals(id))
-					{
-						Slot newSlot = slots.getSlotOn(layout.get(id)[0], layout.get(id)[1]);
-						if(newSlot != null)
-							slots.moveContent(slot, newSlot);
-					}
-				}
-			}
-		}
+		layoutToLoad = layout;
 	}
     /**
      * Adds all player items into inventory menu 
@@ -340,6 +317,24 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
                 break;
             }
     	}
+    }
+    
+    private void setLayout(Map<String, Integer[]> layout)
+    {
+    	for(String id : layout.keySet())
+		{
+			for(Slot slot : slots.getAllSlots())
+			{
+				if(!slot.isEmpty() && slot.getContent().getSerialId().equals(id))
+				{
+					Slot newSlot = slots.getSlotOn(layout.get(id)[0], layout.get(id)[1]);
+					if(newSlot != null)
+						slots.moveContent(slot, newSlot);
+					
+					break;
+				}
+			}
+		}
     }
     /**
      * Returns dragged slot
@@ -426,7 +421,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 
 		private ItemSlot[] slotsTable;
 		
-    	public EquipmentSlots(GameContainer gc) throws SlickException, IOException 
+    	public EquipmentSlots(GameContainer gc) throws SlickException, IOException, FontFormatException 
     	{
     		feet = new ItemSlot(gc);
     		hands = new ItemSlot(gc);

@@ -129,7 +129,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 		return openReq;
 	}
     /**
-     * Returns currently dragged slot
+     * Returns currently dragged slote
      * @return Dragged skill slot
      */
 	public SkillSlot getDragged()
@@ -181,7 +181,7 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	{
 		private SkillSlot[][] slots;
 		
-		public SkillSlots(GameContainer gc) throws SlickException, IOException
+		public SkillSlots(GameContainer gc) throws SlickException, IOException, FontFormatException
 		{
 			slots = new SkillSlot[3][17];
 			

@@ -27,7 +27,18 @@ public abstract class Equippable extends Item
 	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
-		super(id, value, imgName, gc);
+		super(id, value, 1, imgName, gc);
+		this.reqLevel = reqLevel;
+		this.bonuses = bonuses;
+		this.type = type;
+		this.material = material;
+		onUse = new EquipAction(this);
+	}
+	
+	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, ItemMaterial material)
+			throws SlickException, IOException, FontFormatException
+	{
+		super(id, serial, value, 1, imgName, gc);
 		this.reqLevel = reqLevel;
 		this.bonuses = bonuses;
 		this.type = type;

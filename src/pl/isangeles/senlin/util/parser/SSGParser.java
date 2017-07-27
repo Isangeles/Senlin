@@ -106,8 +106,13 @@ public final class SSGParser
         Element uiE = (Element)saveE.getElementsByTagName("ui").item(0);
         Map<String, Integer> bBarLayout = getBBarLayout(uiE.getElementsByTagName("bar").item(0));
         Map<String, Integer[]> invLayout = getInvLayout(uiE.getElementsByTagName("inventory").item(0));
+        Element cameraE = (Element)uiE.getElementsByTagName("camera").item(0);
+        String[] cPosString = cameraE.getElementsByTagName("pos").item(0).getTextContent().split(";");
+        float[] cPos = {0f, 0f};
+        cPos[0] = Float.parseFloat(cPosString[0]);
+        cPos[1] = Float.parseFloat(cPosString[1]);
         
-        return new SavedGame(player, scenarios, activeScenario, bBarLayout, invLayout);
+        return new SavedGame(player, scenarios, activeScenario, bBarLayout, invLayout, cPos);
     }
     /**
      * Parses specified save document element to game character 

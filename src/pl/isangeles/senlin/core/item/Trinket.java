@@ -47,7 +47,14 @@ public class Trinket extends Equippable
 	public Trinket(String id, int type, int value, String imgName, GameContainer gc, int reqLevel,
 			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON); //0 is for material
+		super(id, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
+		this.itemTile = this.setTile(gc);
+	}
+	
+	public Trinket(String id, int serial, int type, int value, String imgName, GameContainer gc, int reqLevel,
+			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
+	{
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
 	}
 

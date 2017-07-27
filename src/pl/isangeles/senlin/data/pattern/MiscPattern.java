@@ -43,6 +43,7 @@ public class MiscPattern
 {
 	private final String id;
 	private final int value;
+	private final int maxStack;
 	private final boolean disposable;
 	private final String icon;
 	private final String actionType;
@@ -55,10 +56,11 @@ public class MiscPattern
 	 * @param imgName Item image name, for icon
 	 * @param onUse Action on use(ppm click in inventory)
 	 */
-	public MiscPattern(String id, int value, boolean disposable, String icon, String actionType, String actionId) 
+	public MiscPattern(String id, int value, int maxStack, boolean disposable, String icon, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.value = value;
+		this.maxStack = maxStack;
 		this.disposable = disposable;
 		this.icon = icon;
 		this.actionType = actionType;
@@ -95,6 +97,33 @@ public class MiscPattern
 		default:
 			action = new EffectAction();
 		}
-		return new Misc(id, value, disposable, icon, action, gc);
+		return new Misc(id, value, maxStack, disposable, icon, action, gc);
+	}
+
+	/**
+	 * Creates item from this pattern
+	 * @param gc Slick game container
+	 * @param serial Serial number for item
+	 * @return New armor object
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Misc make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	{
+		ActionType at = ActionType.fromString(actionType);
+		Action action;
+		switch(at)
+		{
+		case EFFECTUSER:
+			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
+			break;
+		case EFFECTTARGET:
+			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
+			break;
+		default:
+			action = new EffectAction();
+		}
+		return new Misc(id, serial, value, maxStack, disposable, icon, action, gc);
 	}
 }

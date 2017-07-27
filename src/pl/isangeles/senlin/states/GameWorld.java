@@ -90,7 +90,6 @@ public class GameWorld extends BasicGameState
 	private List<Exit> areaExits = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
-	private float[] cameraPos = {0f, 0f};
 	private AudioPlayer gwMusic;
 	private GameCursor gwCursor;
 	private Scenario nextArea;
@@ -164,7 +163,7 @@ public class GameWorld extends BasicGameState
     {
     	Toolkit.getDefaultToolkit().sync();
     	//game world
-        g.translate(-cameraPos[0], -cameraPos[1]);
+        g.translate(-ui.getCamera().getPos()[0], -ui.getCamera().getPos()[1]);
         areaMap.render(0, 0);
         for(SimpleGameObject object : areaObjects)
         {
@@ -185,7 +184,7 @@ public class GameWorld extends BasicGameState
         if(!Settings.getFowType().equals("OFF"))
             drawFOW(g);
         //interface
-        g.translate(cameraPos[0], cameraPos[1]);
+        g.translate(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
         dayManager.draw();
         ui.draw(g);
         //gwCursor.draw();
@@ -347,14 +346,14 @@ public class GameWorld extends BasicGameState
     private void keyDown(Input input)
     {
         if(input.isKeyDown(Input.KEY_W))
-            cameraPos[1] -= 10;
+            ui.getCamera().up(10);
         if(input.isKeyDown(Input.KEY_S))
-            cameraPos[1] += 10;
+            ui.getCamera().down(10);
         if(input.isKeyDown(Input.KEY_A))
-            cameraPos[0] -= 10;
+            ui.getCamera().left(10);
         if(input.isKeyDown(Input.KEY_D))
-            cameraPos[0] += 10;
-        Global.setCamerPos(cameraPos[0], cameraPos[1]);
+            ui.getCamera().right(10);
+        Global.setCamerPos(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
     }
     
     private boolean isPause()

@@ -78,6 +78,34 @@ public class Weapon extends Equippable
         itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 60, 70);
 	}
 	/**
+	 * Weapon constructor (with saved serial number)
+	 * @param id Weapon ID	
+     * @param serial Saved serial number
+	 * @param name Weapon name
+	 * @param info Informations about weapon
+	 * @param type Weapon type (0-5)
+	 * @param material Weapon material (0-2)
+	 * @param value Weapon value
+	 * @param maxDmg Max weapon damage
+	 * @param minDmg Min weapon damage
+	 * @param bonuses Weapon bonuses
+	 * @param reqLevel Required level
+	 * @param picName Weapon icon image file name
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Weapon(String id, int serial, int type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
+	{
+		super(id, serial, value, picName, gc, reqLevel, bonuses, type, material);
+		this.minDamage = minDmg;
+		this.maxDamage = maxDmg;
+        this.itemTile = this.setTile(gc);
+        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 60, 70);
+	}
+	/**
 	 * Returns weapon maximal and minimal damage
 	 * @return Table with min[0] and max[1] damage
 	 */

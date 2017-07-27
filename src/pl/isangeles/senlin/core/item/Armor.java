@@ -74,6 +74,34 @@ public class Armor extends Equippable
 		if(type == CHEST)
 			setSprite();
 	}
+
+	/**
+	 * Armor constructor (with saved serial number)
+	 * @param id Item ID
+     * @param serial Saved serial number
+	 * @param name Item name
+	 * @param info Item description
+	 * @param type Armor type (0-5 value)
+	 * @param material Material of which item is made (0-4 value)
+	 * @param value Item value in gold
+	 * @param armRat Armor rating value
+	 * @param bonuses Armor bonuses to statistics
+	 * @param reqLevel Level requested to wear armor
+	 * @param imgName Name of image file in icon directory for item tile
+	 * @param gc Slick game container for item tile
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Armor(String id, int serial, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
+	{
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, material);
+		armorRating = armRat;
+		this.itemTile = this.setTile(gc);
+		if(type == CHEST)
+			setSprite();
+	}
 	/**
 	 * Returns item armor rating
 	 * @return Armor rating value

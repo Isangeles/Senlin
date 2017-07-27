@@ -29,6 +29,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.util.Position;
 
 /**
  * Class for saved games
@@ -42,13 +43,15 @@ public class SavedGame
     private Scenario activeScenario;
     private Map<String, Integer> bBarLayout;
     private Map<String, Integer[]> invLayout;
+    private float[] cameraPos;
     /**
      * Creates saved game to load 
      * @param player Player game character
      * @param scenarios List with saved game scenarios
      * @param activeScenarioId ID of active game scenario
      */
-    public SavedGame(Character player, List<Scenario> scenarios, String activeScenarioId, Map<String, Integer> bBarLayout, Map<String, Integer[]> invLayout)
+    public SavedGame(Character player, List<Scenario> scenarios, String activeScenarioId, Map<String, Integer> bBarLayout, Map<String, Integer[]> invLayout, 
+    		         float[] cameraPos)
     {
         this.player = player;
         this.scenarios = scenarios;
@@ -59,6 +62,7 @@ public class SavedGame
         }
         this.bBarLayout = bBarLayout;
         this.invLayout = invLayout;
+        this.cameraPos = cameraPos;
     }
     /**
      * Returns saved player character
@@ -93,5 +97,10 @@ public class SavedGame
     public Map<String, Integer[]> getInvLayout()
     {
     	return invLayout;
+    }
+    
+    public float[] getCameraPos()
+    {
+    	return cameraPos;
     }
 }

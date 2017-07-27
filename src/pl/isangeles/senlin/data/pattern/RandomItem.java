@@ -34,6 +34,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 public class RandomItem
 {
 	private String id;
+	private int serial = -1;
 	private boolean random;
 	private Random gen = new Random();
 	/**
@@ -47,6 +48,17 @@ public class RandomItem
 		this.random = random;
 	}
 	/**
+	 * Random item constructor
+	 * @param id Item id
+	 * @param random True if item spawn should be random, false otherwise
+	 */
+	public RandomItem(String id, int serial, boolean random)
+	{
+		this.id = id;
+		this.serial = serial;
+		this.random = random;
+	}
+	/**
 	 * Creates new item, if pattern is random can return null
 	 * @return Item or null(if pattern is random)
 	 */
@@ -55,11 +67,21 @@ public class RandomItem
 		if(random)
 		{
 			if(gen.nextBoolean())
-				return ItemsBase.getItem(id);
+			{
+				if(serial == -1)
+					return ItemsBase.getItem(id);
+				else
+					return ItemsBase.getItem(id, serial);
+			}
 			else
 				return null;
 		}
 		else
-			return ItemsBase.getItem(id);
+		{
+			if(serial == -1)
+				return ItemsBase.getItem(id);
+			else
+				return ItemsBase.getItem(id, serial);
+		}
 	}
 }

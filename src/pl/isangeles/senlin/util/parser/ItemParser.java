@@ -98,6 +98,7 @@ public class ItemParser
 		
 		String id = itemE.getAttribute("id");
 		int value = Integer.parseInt(itemE.getAttribute("value"));
+		int stack = Integer.parseInt(itemE.getAttribute("stack"));
 		boolean disposable = Boolean.parseBoolean(itemE.getAttribute("disposable"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
@@ -105,6 +106,6 @@ public class ItemParser
 		String actionType = action.getAttribute("type");
 		String actionId = action.getTextContent();
 		
-		return new MiscPattern(id, value, disposable, icon, actionType, actionId);
+		return new MiscPattern(id, value, stack, disposable, icon, actionType, actionId);
 	}
 }
