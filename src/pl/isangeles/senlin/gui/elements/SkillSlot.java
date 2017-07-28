@@ -35,15 +35,6 @@ public class SkillSlot extends Slot implements MouseListener
 		super(GConnector.getInput("ui/slotB.png"), "uiSSlot", false, gc);
 		gc.getInput().addMouseListener(this);
 	}
-	
-	@Override
-	public void draw(float x, float y, boolean scaledPos)
-	{
-		if(skillInSlot != null)
-			skillInSlot.draw(x-3, y-3, scaledPos);
-		
-		super.draw(x, y, false);
-	}
 	/**
 	 * Inserts skill in slot
 	 * @param skill Skill tile

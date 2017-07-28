@@ -146,12 +146,6 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     public void open()
     {
     	openReq = true;
-        addItems();
-        if(layoutToLoad != null)
-        {
-        	setLayout(layoutToLoad);
-        	layoutToLoad = null;
-        }
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
@@ -171,9 +165,15 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         {
         	itemsIn.clear();
         	slots.clear();
-        	addItems();
         	player.getInventory().updated();
         }
+        if(layoutToLoad != null)
+        {
+        	setLayout(layoutToLoad);
+        	layoutToLoad = null;
+        }
+        else
+            addItems();
     }
     
     public boolean isOpenReq()
@@ -318,23 +318,21 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
             }
     	}
     }
-    
+    /**
+     * Sets specified layout
+     * @param layout Map with items serial IDs as keys and slots positions as values
+     */
     private void setLayout(Map<String, Integer[]> layout)
     {
     	for(String id : layout.keySet())
-		{
-			for(Slot slot : slots.getAllSlots())
-			{
-				if(!slot.isEmpty() && slot.getContent().getSerialId().equals(id))
-				{
-					Slot newSlot = slots.getSlotOn(layout.get(id)[0], layout.get(id)[1]);
-					if(newSlot != null)
-						slots.moveContent(slot, newSlot);
-					
-					break;
-				}
-			}
-		}
+    	{
+    		Slot slot = slots.getSlotOn(layout.get(id)[0], layout.get(id)[1]);
+    		Item item = player.getInventory().getItemBySerial(id);
+    		if(slot != null && item != null && slot.insertContent(item))
+    		{
+    			itemsIn.add(item);
+    		}
+    	}
     }
     /**
      * Returns dragged slot

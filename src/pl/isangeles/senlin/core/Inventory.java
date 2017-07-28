@@ -222,6 +222,16 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
     	return super.get(index);
     }
+    
+    public Item getItemBySerial(String serialId)
+    {
+    	for(int i = 0; i < super.size(); i ++)
+    	{
+    		if(super.get(i).getSerialId().equals(serialId))
+    			return super.get(i);
+    	}
+    	return null;
+    }
     /**
      * Returns array with all inventory items
      * @return Array with items

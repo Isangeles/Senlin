@@ -13,4 +13,6 @@ public interface SlotContent
 	public String getSerialId();
 	
 	public int getMaxStack();
+	
+	public void draw(float x, float y, boolean scaledPos);
 }

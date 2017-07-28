@@ -20,20 +20,10 @@ import pl.isangeles.senlin.util.GConnector;
  *
  */
 class ItemSlot extends Slot 
-{
-	private Item itemInSlot;
-	
+{	
 	public ItemSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/slot.png"), "uiISlot", false, gc);
-	}
-	
-	public void draw(float x, float y, boolean scaledPos)
-	{
-		if(itemInSlot != null)
-		    itemInSlot.draw(x-3, y-3, scaledPos);
-		
-		super.draw(x, y, false);
 	}
 	/**
 	 * Inserts item in slot
@@ -45,7 +35,6 @@ class ItemSlot extends Slot
 		{
 			try
 			{
-				itemInSlot = (Item)item;
 				return super.content.add(item);
 			}
 			catch(ClassCastException e)
@@ -57,16 +46,10 @@ class ItemSlot extends Slot
 			return false;
 	}
 	
-	public void dragged(boolean dragged)
-	{
-		itemInSlot.getTile().dragged(dragged);
-	}
-	
 	@Override
 	public void removeContent()
 	{
 		super.removeContent();
-		itemInSlot = null;
 	}
 	/**
 	 * Checks if tile of item in slots is dragged
@@ -74,14 +57,17 @@ class ItemSlot extends Slot
 	 */
 	public boolean isItemDragged()
 	{
-		if(itemInSlot != null)
-			return itemInSlot.getTile().isDragged();
+		if(!isEmpty())
+			return content.get(0).getTile().isDragged();
 		else
 			return false;
 	}
 	
 	public Item getContent()
 	{
-		return itemInSlot;
+		if(isEmpty())
+			return null;
+		else
+			return (Item)content.get(0);
 	}
 }

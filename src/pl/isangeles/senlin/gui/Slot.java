@@ -72,15 +72,25 @@ public abstract class Slot extends InterfaceObject
 	 * Returns slot content
 	 * @return Slot content or null
 	 */
-	public abstract SlotContent getContent();
+	public SlotContent getContent()
+	{
+		if(isEmpty())
+			return null;
+		else
+			return content.get(0);
+	}
 	
 	@Override
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y, false);
-		if(content.size() > 1)
+		if(!isEmpty())
 		{
-			ttf.drawString(x, y, content.size()+"");
+			content.get(0).draw(x - getDis(3), y - getDis(3), scaledPos);
+			if(content.size() > 1)
+			{
+				ttf.drawString(x, y, content.size()+"");
+			}
 		}
 	}
 	
