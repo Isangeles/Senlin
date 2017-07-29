@@ -77,6 +77,24 @@ public abstract class InterfaceObject extends Image
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
+     * Object with info window constructor that uses another image
+     * @param image Slick image object
+     * @param gc Slick game container
+     * @param textForInfo Text for info window
+     * @throws FontFormatException 
+     * @throws IOException 
+     * @throws SlickException 
+     */
+    protected InterfaceObject(Image image, GameContainer gc, String textForInfo) throws SlickException, IOException, FontFormatException
+    {
+    	super(image);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
+    	isInfo = true;
+    	info = new InfoWindow(gc, textForInfo);
+    }
+    /**
      * Object with custom MOA size constructor that uses another image
      * @param image Slick image object
      * @param gc Slick game container

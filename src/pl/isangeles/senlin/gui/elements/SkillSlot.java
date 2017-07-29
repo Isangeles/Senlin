@@ -14,6 +14,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InterfaceObject;
@@ -32,7 +33,7 @@ public class SkillSlot extends Slot implements MouseListener
 	
 	public SkillSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("ui/slotB.png"), "uiSSlot", false, gc);
+		super(GBase.get("uiSlotB"), gc);
 		gc.getInput().addMouseListener(this);
 	}
 	/**

@@ -8,6 +8,7 @@ import java.awt.FontFormatException;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
@@ -75,6 +76,35 @@ public class Button extends InterfaceObject implements MouseListener
     {
     	super(fileInput, ref, flipped, gc, textForInfo);
     	build(gc, label);
+    }
+    /**
+     * Create an button based on existing image
+     * @param texture Slick image
+     * @param label String with text for button 
+     * @param gc Game container for click detect
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
+    public Button(Image texture, String label, GameContainer gc) throws SlickException, FontFormatException, IOException
+    {
+        super(texture, gc);
+        build(gc, label);
+    }
+    /**
+     * Create an button with info window based on existing image
+     * @param texture Slick image
+     * @param label String with text for button 
+     * @param gc Game container for click detect
+     * @param textForInfo Text for info window
+     * @throws SlickException
+     * @throws FontFormatException
+     * @throws IOException
+     */
+    public Button(Image texture, String label, GameContainer gc, String textForInfo) throws SlickException, FontFormatException, IOException
+    {
+        super(texture, gc, textForInfo);
+        build(gc, label);
     }
     /**
      * Draws button (position is scaled)

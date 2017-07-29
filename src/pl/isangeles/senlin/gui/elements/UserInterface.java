@@ -34,6 +34,7 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.cli.CommandInterface;
@@ -53,6 +54,7 @@ import pl.isangeles.senlin.gui.elements.*;
 public class UserInterface implements MouseListener, SaveElement
 {
     private Character player;
+    private GameWorld gw;
     private static GameCursor cursor;
     private Console gameConsole;
     private BottomBar bBar;
@@ -82,9 +84,10 @@ public class UserInterface implements MouseListener, SaveElement
      * @throws IOException
      * @throws FontFormatException
      */
-    public UserInterface(GameContainer gc, CommandInterface cli, Character player) throws SlickException, IOException, FontFormatException
+    public UserInterface(GameContainer gc, CommandInterface cli, Character player, GameWorld gw) throws SlickException, IOException, FontFormatException
     {
         this.player = player;
+        this.gw = gw;
         gc.getInput().addMouseListener(this);
         
         //cursor = new GameCursor(gc);
@@ -95,7 +98,7 @@ public class UserInterface implements MouseListener, SaveElement
         inventory = new InventoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         crafting = new CraftingMenu(gc, player);
-        journal = new JournalMenu(gc, player);
+        journal = new JournalMenu(gc, player, gw);
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
         train = new TrainingWindow(gc, player);

@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 /**
@@ -32,7 +33,7 @@ public class InfoWindow extends InterfaceObject
 	 */
 	public InfoWindow(GameContainer gc, String textInfo) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("field/infoWindowBG.png"), "infoWinBG", false, gc);
+		super(GBase.get("infoWinBg"), gc);
 		this.textInfo = textInfo;
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");

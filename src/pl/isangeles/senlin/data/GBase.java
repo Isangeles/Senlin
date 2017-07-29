@@ -1,5 +1,5 @@
 /*
- * TextButton.java
+ * GBase.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,26 +20,40 @@
  * 
  * 
  */
-package pl.isangeles.senlin.gui;
+package pl.isangeles.senlin.data;
 
-import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
 
 /**
- * Simple button with transparent texture
+ * Base for graphical textures of UI elements
+ * Contains frequently used textures, used by some GUI elements to reduce number of accesses to gData archive
  * @author Isangeles
  *
  */
-public class TextButton extends Button 
+public final class GBase 
 {
-	public TextButton(GameContainer gc) throws SlickException, FontFormatException, IOException
+	private static Map<String, Image> texturesMap = new HashMap<>();
+	
+	private GBase() {}
+	
+	public static Image get(String name)
 	{
-		super(GBase.get("textButtonBg"), "", gc);
+		return texturesMap.get(name);
 	}
+	
+	public static void load() throws IOException, SlickException
+	{
+		texturesMap.put("uiSlotA", new Image(GConnector.getInput("ui/slot.png"), "uiSlotA", false));
+		texturesMap.put("uiSlotB", new Image(GConnector.getInput("ui/slotB.png"), "uiSlotB", false));
+		texturesMap.put("infoWinBg", new Image(GConnector.getInput("field/infoWindowBG.png"), "infoWinBg", false));
+		texturesMap.put("textButtonBg", new Image(GConnector.getInput("field/textBg.png"), "textButtonBg", false));
+	}
+
 }

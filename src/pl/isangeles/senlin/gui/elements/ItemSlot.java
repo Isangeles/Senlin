@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.InterfaceTile;
 import pl.isangeles.senlin.gui.Slot;
@@ -23,7 +24,7 @@ class ItemSlot extends Slot
 {	
 	public ItemSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("ui/slot.png"), "uiISlot", false, gc);
+		super(GBase.get("uiSlotA"), gc);
 	}
 	/**
 	 * Inserts item in slot

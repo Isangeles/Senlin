@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -26,9 +27,18 @@ public abstract class Slot extends InterfaceObject
 	protected List<SlotContent> content = new ArrayList<>();
 	private TrueTypeFont ttf;
 	
-	public Slot(InputStream is, String ref, boolean flipped, GameContainer gc) throws SlickException, IOException, FontFormatException
+	private Slot(InputStream is, String ref, boolean flipped, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		super(is, ref, flipped, gc);
+		
+		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		ttf = new TrueTypeFont(font.deriveFont(getSize(9f)), true);
+	}
+	
+	public Slot(Image tex, GameContainer gc) throws SlickException, IOException, FontFormatException
+	{
+		super(tex, gc);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);

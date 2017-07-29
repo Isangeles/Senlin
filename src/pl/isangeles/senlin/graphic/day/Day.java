@@ -58,4 +58,13 @@ public class Day
 		
 		conditions.update(delta);
 	}
+	/**
+	 * Returns current game time
+	 * @return String with game time
+	 */
+	public String getTime()
+	{
+		String[] hms = Stopwatch.timeFromMillis(time).split(":");
+		return hms[1] + ":" + hms[2];
+	}
 }

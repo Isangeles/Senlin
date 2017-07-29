@@ -147,31 +147,33 @@ public class LoadingScreen extends BasicGameState
 			        Global.setPlayer(gameToLoad.getPlayer());
 			    }
 			    break;
-            case 4:
+			case 4:
+				loadingInfo.setText("loading game world...");
+				break;
+			case 5:
+		        if(loadType.equals("newGame"))
+		            gw = new GameWorld(player);
+		        if(loadType.equals("savedGame"))
+		            gw = new GameWorld(gameToLoad);
+
+		        game.addState(gw);
+		        game.getState(gw.getID()).init(container, game);
+		        break;
+            case 6:
                 loadingInfo.setText("loading user interface...");
                 break;
-            case 5:
-            	cli = new CommandInterface(player);
-                ui = new UserInterface(container, cli, player);
+            case 7:
+            	cli = new CommandInterface(player, gw);
+                ui = new UserInterface(container, cli, player, gw);
                 if(loadType.equals("savedGame"))
                 {
                 	ui.setBBarLayout(gameToLoad.getBBarLayout());
                 	ui.setInvLayout(gameToLoad.getInvLayout());
                 	ui.getCamera().setPos(gameToLoad.getCameraPos());
                 }
+                gw.setGui(ui);
                 break;
-			case 6:
-				loadingInfo.setText("loading game world...");
-				break;
-			case 7:
-		        if(loadType.equals("newGame"))
-		            gw = new GameWorld(player, ui);
-		        if(loadType.equals("savedGame"))
-		            gw = new GameWorld(gameToLoad, ui);
-		        break;
 			case 8:
-		        game.addState(gw);
-		        game.getState(gw.getID()).init(container, game);
 		        loadCounter = 0;
 		        game.enterState(gw.getID());
 		        break;

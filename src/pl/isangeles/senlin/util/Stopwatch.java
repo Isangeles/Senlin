@@ -24,7 +24,6 @@ package pl.isangeles.senlin.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This class make slick time management easier 
@@ -55,7 +54,11 @@ public class Stopwatch
     {
         return min * 10000;
     }
-    
+    /**
+     * Returns string with specified time in HMS format
+     * @param timeInMillis Time in milliseconds
+     * @return String with time converted to hh:mm:ss format
+     */
     public static String timeFromMillis(long timeInMillis)
     {
     	Date date = new Date(timeInMillis);

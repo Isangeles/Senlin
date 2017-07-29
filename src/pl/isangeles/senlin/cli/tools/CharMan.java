@@ -46,7 +46,10 @@ import pl.isangeles.senlin.util.TConnector;
 public class CharMan implements CliTool
 {
 	private Character player;
-	
+	/**
+	 * Characters manager constructor
+	 * @param player Player character
+	 */
 	public CharMan(Character player)
 	{
 		this.player = player;

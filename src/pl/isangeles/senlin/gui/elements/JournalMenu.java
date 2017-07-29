@@ -36,6 +36,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -53,6 +54,7 @@ import pl.isangeles.senlin.gui.TextBlock;
 class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character player;
+	private GameWorld gw;
 	private ScrollableList questsList;
 	private Quest selectedQuest;
 	private TrueTypeFont ttf;
@@ -67,7 +69,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public JournalMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException 
+	public JournalMenu(GameContainer gc, Character player, GameWorld gw) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/journalBG.png"), "uiJournalMenuBg", false, gc);
 		gc.getInput().addMouseListener(this);
@@ -87,6 +89,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		super.draw(x, y, false);
 		
+		//ttf.drawString(x + getDis(150), y + getDis(5), gw.getDay().getTime());
 		ttf.drawString(x + getDis(90), y + getDis(5), TConnector.getText("ui", "jMenuQuests"));
 		
 		int qfFirstX = (int)(x + getDis(30));

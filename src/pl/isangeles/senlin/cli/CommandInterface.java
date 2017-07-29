@@ -26,6 +26,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.tools.CharMan;
+import pl.isangeles.senlin.cli.tools.WorldMan;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.GuildsBase;
@@ -33,6 +34,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -46,12 +48,16 @@ import pl.isangeles.senlin.util.TConnector;
 public class CommandInterface 
 {
 	private Character player;
+	private GameWorld gw;
 	private CharMan charman;
+	private WorldMan worldman;
 	
-	public CommandInterface(Character player)
+	public CommandInterface(Character player, GameWorld gw)
 	{
 		this.player = player;
+		this.gw = gw;
 		charman = new CharMan(player);
+		worldman = new WorldMan(gw);
 	}
 
     /**
@@ -66,6 +72,8 @@ public class CommandInterface
     		player.speak(line);
     		return;
     	}
+    	
+    	boolean out = true;
     	
         Scanner scann = new Scanner(line);
         String toolName = "";
@@ -92,23 +100,28 @@ public class CommandInterface
         		Log.setDebug(false);
         	}
         	
-        	return;
+        	out = true;
         }
         
         if(toolName.equals("$charman"))
         {
         	Log.addDebug("In charman");
-        	charman.handleCommand(command);
-        	return;
+        	out = charman.handleCommand(command);
         }
         
         if(toolName.equals("$system"))
         {
         	systemCommands(command);
-        	return;
+        	out = true;
         }
         
-        Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
+        if(toolName.equals("$worldman"))
+        {
+        	out = worldman.handleCommand(command);
+        }
+        
+        if(!out)
+        	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
        
     }
     /**

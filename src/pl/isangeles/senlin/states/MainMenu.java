@@ -23,15 +23,12 @@
 package pl.isangeles.senlin.states;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.*;
 import pl.isangeles.senlin.util.*;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.*;
 import java.awt.FontFormatException;
 
 import org.newdawn.slick.Color;
@@ -73,6 +70,7 @@ public class MainMenu extends BasicGameState
     {
         try
         {
+        	GBase.load();
         	cursor = new GameCursor(container);
             container.setMouseCursor(cursor, Math.round(10 * Settings.getScale()), 0);
             logo = new Sprite(GConnector.getInput("field/logox3green.png"), "menuLogo", false);

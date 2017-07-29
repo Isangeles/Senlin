@@ -99,9 +99,8 @@ public class GameWorld extends BasicGameState
 	 * @param player Player character
 	 * @param ui User interface
 	 */
-	public GameWorld(Character player, UserInterface ui)
+	public GameWorld(Character player)
 	{
-        this.ui = ui;
         this.player = player;
         player.setPosition(1700, 500);
         player.addItem(ItemsBase.getItem("wSOHI")); //test line
@@ -114,12 +113,19 @@ public class GameWorld extends BasicGameState
 	 * Creates game world for saved game
 	 * @param savedGame Saved game
 	 */
-	public GameWorld(SavedGame savedGame, UserInterface ui)
+	public GameWorld(SavedGame savedGame)
 	{
-	    this.ui = ui;
 	    this.player = savedGame.getPlayer();
 	    this.scenarios = savedGame.getScenarios();
 	    this.activeScenario = savedGame.getActiveScenario();
+	}
+	/**
+	 * Sets specified GUI as game UI
+	 * @param gui UserInterface object
+	 */
+	public void setGui(UserInterface gui)
+	{
+		ui = gui;
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -162,32 +168,35 @@ public class GameWorld extends BasicGameState
             throws SlickException
     {
     	Toolkit.getDefaultToolkit().sync();
-    	//game world
-        g.translate(-ui.getCamera().getPos()[0], -ui.getCamera().getPos()[1]);
-        areaMap.render(0, 0);
-        for(SimpleGameObject object : areaObjects)
-        {
-            if(player.isNearby(object))
-                object.draw(Coords.getSize(1f));
-        }
-        for(Exit exit : areaExits)
-        {
-        	if(player.isNearby(exit.getPos().asTable()))
-        		exit.draw();
-        }
-        for(Character npc : areaNpcs)
-        {
-            if(player.isNearby(npc))
-                npc.draw();
-        }
-        player.draw();
-        if(!Settings.getFowType().equals("OFF"))
-            drawFOW(g);
-        //interface
-        g.translate(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
-        dayManager.draw();
-        ui.draw(g);
-        //gwCursor.draw();
+    	if(ui != null)
+    	{
+    		//game world
+            g.translate(-ui.getCamera().getPos()[0], -ui.getCamera().getPos()[1]);
+            areaMap.render(0, 0);
+            for(SimpleGameObject object : areaObjects)
+            {
+                if(player.isNearby(object))
+                    object.draw(Coords.getSize(1f));
+            }
+            for(Exit exit : areaExits)
+            {
+            	if(player.isNearby(exit.getPos().asTable()))
+            		exit.draw();
+            }
+            for(Character npc : areaNpcs)
+            {
+                if(player.isNearby(npc))
+                    npc.draw();
+            }
+            player.draw();
+            if(!Settings.getFowType().equals("OFF"))
+                drawFOW(g);
+            //interface
+            g.translate(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
+            dayManager.draw();
+            ui.draw(g);
+            //gwCursor.draw();
+    	}
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
@@ -196,7 +205,6 @@ public class GameWorld extends BasicGameState
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-    	ui.update();
     	dayManager.update(delta);
     	
         if(!isPause())
@@ -211,29 +219,33 @@ public class GameWorld extends BasicGameState
     		e.printToLog();
     	}
     	npcsAi.update(delta);
-    	
-    	if(ui.takeSaveReq() == true)
-    	{
-			try 
-			{
-				SaveEngine.save(player, scenarios, activeScenario.getId(), ui, ui.getSaveName());
-			} 
-			catch (ParserConfigurationException | TransformerException e) 
-			{
-				Log.addSystem("save_builder_fail_msg///" + e.getMessage());
-			}
-    	}
-    	if(ui.takeLoadReq() == true)
-    	{
-    	   game.addState(new LoadingScreen(ui.getLoadName()));
-    	   game.getState(4).init(container, game);
-    	   System.gc();
-    	   game.enterState(4);
-    	}
     	if(changeAreaReq)
     		changeArea(container, game);
-    	if(ui.isExitReq())
-    		container.exit();
+
+    	if(ui != null)
+    	{
+    		ui.update();
+        	if(ui.takeSaveReq() == true)
+        	{
+    			try 
+    			{
+    				SaveEngine.save(player, scenarios, activeScenario.getId(), ui, ui.getSaveName());
+    			} 
+    			catch (ParserConfigurationException | TransformerException e) 
+    			{
+    				Log.addSystem("save_builder_fail_msg///" + e.getMessage());
+    			}
+        	}
+        	if(ui.takeLoadReq() == true)
+        	{
+        	   game.addState(new LoadingScreen(ui.getLoadName()));
+        	   game.getState(4).init(container, game);
+        	   System.gc();
+        	   game.enterState(4);
+        	}
+        	if(ui.isExitReq())
+        		container.exit();
+    	}
     }
     /**
      * Returns all nearby characters in area 
@@ -261,10 +273,15 @@ public class GameWorld extends BasicGameState
         return areaMap;
     }
     
+    public Day getDay()
+    {
+    	return dayManager;
+    }
+    
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if(!ui.isMouseOver() && !isPause())
+    	if((ui == null || !ui.isMouseOver()) && !isPause())
     	{
             int worldX = (int)Global.worldX(x);
             int worldY = (int)Global.worldY(y);
@@ -345,20 +362,26 @@ public class GameWorld extends BasicGameState
      */
     private void keyDown(Input input)
     {
-        if(input.isKeyDown(Input.KEY_W))
-            ui.getCamera().up(10);
-        if(input.isKeyDown(Input.KEY_S))
-            ui.getCamera().down(10);
-        if(input.isKeyDown(Input.KEY_A))
-            ui.getCamera().left(10);
-        if(input.isKeyDown(Input.KEY_D))
-            ui.getCamera().right(10);
-        Global.setCamerPos(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
+        if(ui != null)
+        {
+        	if(input.isKeyDown(Input.KEY_W))
+                ui.getCamera().up(10);
+            if(input.isKeyDown(Input.KEY_S))
+                ui.getCamera().down(10);
+            if(input.isKeyDown(Input.KEY_A))
+                ui.getCamera().left(10);
+            if(input.isKeyDown(Input.KEY_D))
+                ui.getCamera().right(10);
+            Global.setCamerPos(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
+        }
     }
     
     private boolean isPause()
     {
-        return ui.isPauseReq();
+        if(ui != null)
+        	return ui.isPauseReq();
+        else
+        	return false;
     }
     /**
      * Checks if specified xy positions are moveable on game world map
