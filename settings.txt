@@ -1,3 +1,4 @@
 english;
 1920x1080;
-OFF;
+FOW OFF;
+senlin;

@@ -43,7 +43,6 @@ import pl.isangeles.senlin.util.parser.DialogueParser;
 public class DialoguesBase 
 {
 	private static Map<String, Dialogue> dialogsMap = new HashMap<>();
-	private static String dialoguesBaseName;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -91,17 +90,8 @@ public class DialoguesBase
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static void load(String dialoguesBaseName) throws ParserConfigurationException, SAXException, IOException
+	public static void load(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
-		DialoguesBase.dialoguesBaseName = dialoguesBaseName;
-		dialogsMap = DConnector.getDialogueMap(dialoguesBaseName);
-	}
-	/**
-	 * Return current dialogues base name
-	 * @return String with base name
-	 */
-	public static String getBaseName()
-	{
-		return dialoguesBaseName;
+		dialogsMap = DConnector.getDialogueMap(basePath);
 	}
 }

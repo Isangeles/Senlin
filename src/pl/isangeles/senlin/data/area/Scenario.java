@@ -46,11 +46,12 @@ import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
-import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.quest.Quest;
 /**
  * Class for game scenarios, defines used map, map exits, NPCs and its positions, etc. 
  * @author Isangeles
@@ -85,7 +86,7 @@ public class Scenario implements SaveElement
 	{
 		this.id = id;
 		mapFileName = mapFile;
-		map = new TiledMap("data" + File.separator + "area" + File.separator + "map" + File.separator + mapFile);
+		map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
 		
 		for(String key : npcs.keySet())
 		{

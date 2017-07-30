@@ -37,8 +37,10 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
@@ -120,66 +122,16 @@ public class LoadingScreen extends BasicGameState
     {
 		try 
 		{
-			switch(loadCounter)
+			if(loadType.equals("newGame"))
 			{
-			case 0:
-			    loadingInfo.setText("loding game data...");
-			    break;
-			case 1:
-	            ItemsBase.load(container);
-	            RecipesBase.load();
-	            GuildsBase.load();
-	            NpcBase.load(container);
-	            DialoguesBase.load("dPrologue");
-	            QuestsBase.load("qPrologue");
-	            ObjectsBase.load("gameObjects", container);
-	            ScenariosBase.load();
-			    break;
-			case 2:
-			    if(loadType.equals("savedGame"))
-			        loadingInfo.setText("loading saved game...");
-			    break;
-			case 3:
-			    if(loadType.equals("savedGame"))
-			    {
-			        gameToLoad = SaveEngine.load(saveName, container);
-			        player = gameToLoad.getPlayer();
-			        Global.setPlayer(gameToLoad.getPlayer());
-			    }
-			    break;
-			case 4:
-				loadingInfo.setText("loading game world...");
-				break;
-			case 5:
-		        if(loadType.equals("newGame"))
-		            gw = new GameWorld(player);
-		        if(loadType.equals("savedGame"))
-		            gw = new GameWorld(gameToLoad);
-
-		        game.addState(gw);
-		        game.getState(gw.getID()).init(container, game);
-		        break;
-            case 6:
-                loadingInfo.setText("loading user interface...");
-                break;
-            case 7:
-            	cli = new CommandInterface(player, gw);
-                ui = new UserInterface(container, cli, player, gw);
-                if(loadType.equals("savedGame"))
-                {
-                	ui.setBBarLayout(gameToLoad.getBBarLayout());
-                	ui.setInvLayout(gameToLoad.getInvLayout());
-                	ui.getCamera().setPos(gameToLoad.getCameraPos());
-                }
-                gw.setGui(ui);
-                break;
-			case 8:
-		        loadCounter = 0;
-		        game.enterState(gw.getID());
-		        break;
+				if(!loadNewGame(container, game))
+					container.exit();
 			}
-			
-			loadCounter ++;
+			if(loadType.equals("savedGame"))
+			{
+				if(!loadSave(container, game))
+					container.exit();
+			}
 		} 
 		catch (IOException | FontFormatException | ParserConfigurationException | SAXException e) 
 		{
@@ -193,6 +145,126 @@ public class LoadingScreen extends BasicGameState
     public int getID()
     {
         return 4;
+    }
+    /**
+     * Loads new game
+     * @param container Slick game container
+     * @param game Slick game
+     * @return True if no errors occurred, false otherwise 
+     * @throws IOException
+     * @throws FontFormatException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws SlickException
+     */
+    private boolean loadNewGame(GameContainer container, StateBasedGame game) throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
+    {
+    	switch(loadCounter)
+		{
+		case 0:
+			Module.load(Settings.getModuleName());
+		    loadingInfo.setText("loding game data...");
+		    break;
+		case 1:
+            ItemsBase.load(container);
+            RecipesBase.load();
+            GuildsBase.load();
+            NpcBase.load(container);
+            DialoguesBase.load(Module.getDBasePath());
+            QuestsBase.load(Module.getQBasePath());
+            ObjectsBase.load("gameObjects", container);
+            ScenariosBase.load();
+		    break;
+		case 2:
+			loadingInfo.setText("loading game world...");
+			break;
+		case 3:
+	        gw = new GameWorld(player);
+	        game.addState(gw);
+	        game.getState(gw.getID()).init(container, game);
+	        break;
+        case 4:
+            loadingInfo.setText("loading user interface...");
+            break;
+        case 5:
+        	cli = new CommandInterface(player, gw);
+            ui = new UserInterface(container, cli, player, gw);
+            gw.setGui(ui);
+            break;
+		case 6:
+	        loadCounter = 0;
+	        game.enterState(gw.getID());
+	        break;
+		}
+		
+		loadCounter ++;
+		return true;
+    }
+    /**
+     * Loads game from save file
+     * @param container Slick game container
+     * @param game Slick game
+     * @return True if no errors occurred, false otherwise 
+     * @throws IOException
+     * @throws FontFormatException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws SlickException
+     */
+    private boolean loadSave(GameContainer container, StateBasedGame game) throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
+    {
+    	switch(loadCounter)
+		{
+		case 0:
+			if(SaveEngine.loadModuleFrom(saveName))
+				return false;
+		    loadingInfo.setText("loding game data...");
+		    break;
+		case 1:
+            ItemsBase.load(container);
+            RecipesBase.load();
+            GuildsBase.load();
+            NpcBase.load(container);
+            DialoguesBase.load(Module.getDBasePath());
+            QuestsBase.load(Module.getQBasePath());
+            ObjectsBase.load("gameObjects", container);
+            ScenariosBase.load();
+		    break;
+		case 2:
+	        loadingInfo.setText("loading saved game...");
+		    break;
+		case 3:
+		     gameToLoad = SaveEngine.load(saveName, container);
+		     player = gameToLoad.getPlayer();
+		     Global.setPlayer(gameToLoad.getPlayer());
+		    break;
+		case 4:
+			loadingInfo.setText("loading game world...");
+			break;
+		case 5:
+            gw = new GameWorld(gameToLoad);
+	        game.addState(gw);
+	        game.getState(gw.getID()).init(container, game);
+	        break;
+        case 6:
+            loadingInfo.setText("loading user interface...");
+            break;
+        case 7:
+        	cli = new CommandInterface(player, gw);
+            ui = new UserInterface(container, cli, player, gw);
+        	ui.setBBarLayout(gameToLoad.getBBarLayout());
+        	ui.setInvLayout(gameToLoad.getInvLayout());
+        	ui.getCamera().setPos(gameToLoad.getCameraPos());
+            gw.setGui(ui);
+            break;
+		case 8:
+	        loadCounter = 0;
+	        game.enterState(gw.getID());
+	        break;
+		}
+		
+		loadCounter ++;
+		return true;
     }
 
 }

@@ -30,10 +30,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.quest.Objective;
-import pl.isangeles.senlin.quest.ObjectiveType;
-import pl.isangeles.senlin.quest.Quest;
-import pl.isangeles.senlin.quest.Stage;
+import pl.isangeles.senlin.core.quest.Objective;
+import pl.isangeles.senlin.core.quest.ObjectiveType;
+import pl.isangeles.senlin.core.quest.Quest;
+import pl.isangeles.senlin.core.quest.Stage;
 /**
  * Class for external quest base parsing
  * @author Isangeles

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399">
+  <image source="tile/forestground06dv5.png" width="629" height="679"/>
+ </tileset>
+ <tileset firstgid="400" name="watertileset3qb2tg0" tilewidth="32" tileheight="32" tilecount="120">
+  <image source="tile/watertileset3qb2tg0.png" width="410" height="331"/>
+ </tileset>
+ <tileset firstgid="520" name="plant2" tilewidth="32" tileheight="32" tilecount="42">
+  <image source="tile/plant2.png" width="225" height="205"/>
+ </tileset>
+ <layer name="Warstwa Kafelków 1" width="70" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
+  </data>
+ </layer>
+ <layer name="Warstwa Kafelków 2" width="70" height="50">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3WvQrCMBiF4bRegfegV+zu76Sbg6OgboKbuCvopIuTox6hYpQ0dMgQ+N4HXroFeoamzgEAAAAAAAAAACB3veKbZf4Osaxouoe1rdglrO5d+2qghmpUPd+N1UTNDe4yVTO1CbSvWhrcZVGzib/L1tguK7VusMvB2C67yCafXY7qxC4/XdUt0/uonfCs/13O6hLZ5ZHxPd1R3URnhb67d/X0cqVzhSpVq8x3l5T4rwtjEwAAAABA7l6Qxs0EsDYAAA==
+  </data>
+ </layer>
+</map>

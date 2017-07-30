@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.DialoguesBase;
 /**
  * Static class giving access to external text files
@@ -41,17 +42,16 @@ public final class TConnector
 	 * Private constructor to prevent initialization 
 	 */
 	private TConnector(){}
-    /**
-     * Static method which searches specified text file in current lang directory and return string with specific id
+	/**
+     * Static method which searches specified text file and return string with specific id
      * construction of text file: [text id]:[text];[new line mark]
-     * @param fileName Name of the file in current lang directory
+     * @param filePath Path to text file
      * @param textID Id of text line
      * @return String with text or error message 
      */
-	public static String getText(String fileName ,String textID)
+	public static String getTextFromFile(String filePath, String textID)
 	{
-		String fullPath = "data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + fileName;
-		File textFile = new File(fullPath);
+		File textFile = new File(filePath);
 		try 
 		{
 			Scanner scann;
@@ -73,12 +73,24 @@ public final class TConnector
 		} 
 		catch (FileNotFoundException e) 
 		{
-			return "Text file not fonud: " + fileName;
+			return "Text file not fonud: " + filePath;
 		}
 		catch (NoSuchElementException e)
 		{
 			return "Text not found: " + textID;
 		}
+	}
+	/**
+     * Static method which searches specified text file in current lang directory and return string with specific id
+     * construction of text file: [text id]:[text];[new line mark]
+     * @param fileName Name of the file in current lang directory
+     * @param textID Id of text line
+     * @return String with text or error message 
+     */
+	public static String getText(String fileName ,String textID)
+	{
+		String fullPath = "data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + fileName;
+		return getTextFromFile(fullPath, textID);
 	}
 	/**
 	 * Returns table with name[0] and info[1] for specified lang file and ID
@@ -97,6 +109,26 @@ public final class TConnector
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			Log.addSystem("tc_get_info_fail_msg///No name or info in " + langFile + " for: " + id);
+		}
+		return nameAndInfo;
+	}
+	/**
+	 * Returns table with name[0] and info[1] from specified lang file and ID
+	 * @param filePath Path to lang file
+	 * @param id ID of line in specified file
+	 * @return Table with name[0] and info[1]
+	 */
+	public static String[] getInfoFromFile(String filePath, String id)
+	{
+		String[] nameAndInfo = new String[]{"", ""};
+		try
+		{
+			nameAndInfo[0] = getTextFromFile(filePath, id).split(";")[0];
+			nameAndInfo[1] = getTextFromFile(filePath, id).split(";")[1];
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.addSystem("tc_get_info_fail_msg///No name or info in " + filePath + " for: " + id);
 		}
 		return nameAndInfo;
 	}
@@ -141,6 +173,6 @@ public final class TConnector
 	 */
 	public static String getDialogueText(String id)
 	{
-		return getText(DialoguesBase.getBaseName(), id);
+		return getTextFromFile(Module.getLangDPath(), id);
 	}
 }

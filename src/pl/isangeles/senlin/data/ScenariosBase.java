@@ -22,9 +22,11 @@
  */
 package pl.isangeles.senlin.data;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.util.DConnector;
 /**
@@ -35,16 +37,25 @@ import pl.isangeles.senlin.util.DConnector;
 public class ScenariosBase 
 {
 	private static Map<String, Scenario> scenarios;
-	
+	/**
+	 * Private constructor to prevent initialization
+	 */ 
 	private ScenariosBase() {}
-	
+	/**
+	 * Returns scenario with specified ID
+	 * @param id String with desired scenario ID
+	 * @return Scenario from base or null if scenario with specified ID was not found
+	 */
 	public static Scenario getScenario(String id)
 	{
 		return scenarios.get(id);
 	}
-
+	/**
+	 * Loads base with scenarios for active module
+	 * @throws FileNotFoundException
+	 */
 	public static void load() throws FileNotFoundException
 	{
-		scenarios = DConnector.getScenarios("scenariosList");
+		scenarios = DConnector.getScenarios(Module.getAreaPath() + File.separator + "scenarios");
 	}
 }

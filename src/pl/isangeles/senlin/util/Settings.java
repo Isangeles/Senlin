@@ -37,6 +37,7 @@ public class Settings
     private static float resHeight;
     private static float scale;
     private static String fowType;
+    private static String module;
     /**
      * Private constructor to prevent initialization
      */
@@ -63,6 +64,7 @@ public class Settings
         langId = scann.next();
         setRes(scann.next());
         fowType = scann.next();
+        module = scann.next();
         scann.close();
         setScale();
     }
@@ -104,7 +106,7 @@ public class Settings
      */
     public static String getFowTypes()
     {
-    	return "light FOW;full FOW;OFF";
+    	return "light FOW;full FOW;FOW OFF";
     }
     /**
      * Returns scale for current resolution
@@ -121,6 +123,14 @@ public class Settings
     public static String getFowType()
     {
     	return fowType;
+    }
+    /**
+     * Returns game module name
+     * @return String with game module
+     */
+    public static String getModuleName()
+    {
+    	return module;
     }
     /**
      * Sets resolution from provided string

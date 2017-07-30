@@ -1,8 +1,8 @@
 package pl.isangeles.senlin.dialogue;
 
+import pl.isangeles.senlin.core.quest.ObjectiveTarget;
+import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.quest.ObjectiveTarget;
-import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for answer, smallest dialogue part

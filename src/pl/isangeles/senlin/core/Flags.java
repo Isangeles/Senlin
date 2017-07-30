@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.core.quest.Quest;
 /**
  * Container for character flags 
  * @author Isangeles

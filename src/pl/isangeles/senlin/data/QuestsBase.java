@@ -29,7 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.quest.Quest;
+import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Static base class for game quests 
@@ -50,9 +50,9 @@ public class QuestsBase
      * @throws SAXException
      * @throws IOException
      */
-    public static void load(String questsBaseName) throws ParserConfigurationException, SAXException, IOException
+    public static void load(String basePath) throws ParserConfigurationException, SAXException, IOException
     {
-        questsMap = DConnector.getQuests(questsBaseName);
+        questsMap = DConnector.getQuests(basePath);
     }
     /**
      * Returns quest with specified ID from base

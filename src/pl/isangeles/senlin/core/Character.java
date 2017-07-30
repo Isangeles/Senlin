@@ -55,6 +55,10 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.quest.Journal;
+import pl.isangeles.senlin.core.quest.ObjectiveTarget;
+import pl.isangeles.senlin.core.quest.Quest;
+import pl.isangeles.senlin.core.quest.QuestTracker;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
@@ -68,10 +72,6 @@ import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.graphic.StaticAvatar;
 import pl.isangeles.senlin.gui.Portrait;
-import pl.isangeles.senlin.quest.Journal;
-import pl.isangeles.senlin.quest.ObjectiveTarget;
-import pl.isangeles.senlin.quest.Quest;
-import pl.isangeles.senlin.quest.QuestTracker;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game characters like players, NPCs, etc.

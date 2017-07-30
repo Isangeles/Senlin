@@ -46,8 +46,10 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.parser.SSGParser;
 /**
  * Class for saving and loading game state
@@ -56,8 +58,10 @@ import pl.isangeles.senlin.util.parser.SSGParser;
  */
 public class SaveEngine 
 {
-	public static final String SAVES_PATH = "savegames" + File.separator;
-	
+	public static final String SAVES_PATH = "savegames" + File.separator + Settings.getModuleName() + File.separator;
+	/**
+	 * Private constructor to prevent initialization
+	 */
 	private SaveEngine(){};
 	/**
 	 * Collects save data from player character and game scenarios then saves it to file in savegames catalog
@@ -75,6 +79,13 @@ public class SaveEngine
 		
 		Element saveE = doc.createElement("save");
 		doc.appendChild(saveE);
+		
+		Element gameE = doc.createElement("game");
+		Element moduleE = doc.createElement("module");
+		moduleE.setTextContent(Module.getName());
+		moduleE.setAttribute("chapter", Module.getActiveChapter());
+		gameE.appendChild(moduleE);
+		saveE.appendChild(gameE);
 		
 		Element playerE = doc.createElement("player");
 		playerE.appendChild(player.getSave(doc));
@@ -130,5 +141,40 @@ public class SaveEngine
 	    }
 	    
 	    return SSGParser.parseSSG(saveGame, gc);
+	}
+	/**
+	 * Loads module and active chapter from save with specified name
+	 * @param saveName Save file name without .ssg extension
+	 * @return True if module was successfully loaded, false otherwise
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static boolean loadModuleFrom(String saveName) throws ParserConfigurationException, SAXException, IOException
+	{
+		saveName += ".ssg";
+	    File saveGames = new File(SAVES_PATH);
+	    File saveGame = null;
+	    for(File save : saveGames.listFiles())
+	    {
+	        if(save.getName().equals(saveName))
+	            saveGame = save;
+	    }
+	    if(saveGame == null)
+	    {
+	        return false;
+	    }
+	    
+	    boolean out = false;
+	    
+	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = dbf.newDocumentBuilder();
+        Document doc = builder.parse(saveGame);
+        
+        Element gameE = (Element)doc.getDocumentElement().getElementsByTagName("game").item(0);
+        Element moduleE = (Element)gameE.getElementsByTagName("module").item(0);
+        out = Module.load(moduleE.getTextContent());
+        out = Module.setChapter(moduleE.getAttribute("chapter"));
+        return out;
 	}
 }

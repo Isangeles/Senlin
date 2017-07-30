@@ -35,11 +35,11 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.gui.Button;

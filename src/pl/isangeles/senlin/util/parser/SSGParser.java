@@ -46,14 +46,14 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.quest.Objective;
+import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
-import pl.isangeles.senlin.quest.Objective;
-import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.Position;
 
 /**

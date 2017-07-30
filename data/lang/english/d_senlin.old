@@ -1,0 +1,26 @@
+banditTalk01:I'm bad bandit, arrr!;
+banditTalk02:Yea!;
+banditTalk01a01:Realy ?;
+ericWelcome01:Stop, are you one of them?;
+ericWelcome01o1:Stop there ! What you want ?;
+ericWelcome01a01:What them?;
+ericWelcome01a02:No;
+ericWelcome02:Red Swords, they passed this way some time ago;
+ericWelcome02a01:These Red Swords, who they are ?;
+ericWelcome03:Well, certainly you are not one of them. Enter the camp talk with others, I have to stand on guard.
+ericWelcome04:Ok;
+ericTalk001:Talk with ewan;
+ericTalk101:Welcome;
+ewanTalk101:Who are you?;
+ewanTalk101a01:Men in front of the camp told me to talk with you.;
+ewanTalk102:I see, sit by the fire and rest.;
+ewanTalk201:If you rest already, you can help us, some bandits are around, go kill them;
+ewanTalk201a01:Ok;
+ewanTalk301:Thanks for taking care of this bandits;
+ewanTalk301a01:No problem.;
+tradeReq:Show me your wears.;
+trainReq:Teach me;
+greeting01:Welcome.;
+bye01:Bye;
+err01:Dialog builder fail!;
+err02:Dialog trigger not found!;

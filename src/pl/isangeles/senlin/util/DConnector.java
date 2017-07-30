@@ -52,11 +52,13 @@ import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.area.MobsArea;
@@ -73,7 +75,6 @@ import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;
-import pl.isangeles.senlin.quest.Quest;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 import pl.isangeles.senlin.util.parser.ItemParser;
 import pl.isangeles.senlin.util.parser.NpcParser;
@@ -176,13 +177,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, Dialogue> getDialogueMap(String baseFile) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, Dialogue> getDialogueMap(String baseFilePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, Dialogue> dialogsMap = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse("data" + File.separator + "dialogues" + File.separator + baseFile);
+		Document base = db.parse(baseFilePath);
 		
 		NodeList nl = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < nl.getLength(); i ++)
@@ -335,20 +336,20 @@ public final class DConnector
 	 * @return Map with scenarios as values and its IDs as keys
 	 * @throws FileNotFoundException
 	 */
-	public static Map<String, Scenario> getScenarios(String scenariosList) throws FileNotFoundException
+	public static Map<String, Scenario> getScenarios(String scenariosDir) throws FileNotFoundException
 	{
 		Map<String, Scenario> scenariosMap = new HashMap<>();
-
-		String scenariosDir = "data" + File.separator + "area" + File.separator + "scenarios" + File.separator;
 		
 		List<File> scenariosFiles = new ArrayList<>();
-		File list = new File(scenariosDir + scenariosList);
+
+		System.out.println("slfile  " + scenariosDir + File.separator + "scenariosList");
+		File list = new File(scenariosDir + File.separator + "scenariosList");
 		
 		Scanner scann = new Scanner(list);
 		scann.useDelimiter(";\r?\n");
 		while(scann.hasNext())
 		{
-			scenariosFiles.add(new File(scenariosDir + scann.next()));
+			scenariosFiles.add(new File(scenariosDir + File.separator + scann.next()));
 		}
 		scann.close();
 		
@@ -376,15 +377,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, Quest> getQuests(String questsBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, Quest> getQuests(String questsBasePath) throws ParserConfigurationException, SAXException, IOException
 	{
 	    Map<String, Quest> questsMap = new HashMap<>();
 	    
-	    String questsDir = "data" + File.separator + "quests" + File.separator + questsBase;
-	    
 	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder db = dbf.newDocumentBuilder();
-	    Document base = db.parse(questsDir);
+	    Document base = db.parse(questsBasePath);
 	        
 	    NodeList questsList = base.getDocumentElement().getChildNodes();
 	    for(int i = 0; i < questsList.getLength(); i ++)

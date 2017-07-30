@@ -189,7 +189,7 @@ public class GameWorld extends BasicGameState
                     npc.draw();
             }
             player.draw();
-            if(!Settings.getFowType().equals("OFF"))
+            if(!Settings.getFowType().equals("FOW OFF"))
                 drawFOW(g);
             //interface
             g.translate(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
