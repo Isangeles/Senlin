@@ -74,6 +74,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 		super(GConnector.getInput("ui/background/journalBG.png"), "uiJournalMenuBg", false, gc);
 		gc.getInput().addMouseListener(this);
 		this.player = player;
+		this.gw = gw;
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -89,7 +90,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		super.draw(x, y, false);
 		
-		//ttf.drawString(x + getDis(150), y + getDis(5), gw.getDay().getTime());
+		ttf.drawString(x + getDis(150), y + getDis(5), gw.getDay().getPhase());
 		ttf.drawString(x + getDis(90), y + getDis(5), TConnector.getText("ui", "jMenuQuests"));
 		
 		int qfFirstX = (int)(x + getDis(30));

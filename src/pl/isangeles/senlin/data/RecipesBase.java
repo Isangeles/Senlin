@@ -66,6 +66,6 @@ public final class RecipesBase
 	 */
 	public static void load() throws ParserConfigurationException, SAXException, IOException
 	{
-		recipesList = DConnector.getRecipes("recipes");
+		recipesList = DConnector.getRecipes("recipes.sb");
 	}
 }

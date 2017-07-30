@@ -1,5 +1,5 @@
 /*
- * ArmorMaterial.java
+ * TrinketType.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -23,35 +23,26 @@
 package pl.isangeles.senlin.core.item;
 
 /**
- * Enumeration for armor materials
+ * Enumeration for trinkets types
  * @author Isangeles
  *
  */
-public enum ArmorMaterial 
+public enum TrinketType
 {
-	CLOTH, LEATHER, IRON, STEEL, NEPHRITE;
+	FINGER, NECK, ARTIFACT;
 	
-	/**
-	 * Converts material name to material ID
-	 * @param material String with material name
-	 * @return Material ID for item class
-	 */
-	public static int fromNameToId(String material)
+	public static TrinketType fromString(String typeName)
 	{
-		switch(material.toLowerCase())
+		switch(typeName.toLowerCase())
 		{
-		case "cloth":
-			return 0;
-		case "leather":
-			return 1;
-		case "iron":
-			return 2;
-		case "steel":
-			return 3;
-		case "nephrite":
-			return 4;
+		case "finger":
+			return TrinketType.FINGER;
+		case "neck":
+			return TrinketType.NECK;
+		case "artifact":
+			return TrinketType.ARTIFACT;
 		default:
-			return 0;
+			return TrinketType.ARTIFACT;
 		}
 	}
 }

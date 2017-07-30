@@ -30,6 +30,8 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.action.Action;
+import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.gui.elements.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -43,21 +45,54 @@ public class Trinket extends Equippable
 	public static final int FINGER = 0,
 							NECK = 1,
 							ARTIFACT = 2;
-	
-	public Trinket(String id, int type, int value, String imgName, GameContainer gc, int reqLevel,
-			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
+	/**
+	 * Trinket constructor
+	 * @param id Item ID
+	 * @param type Trinket type
+	 * @param value Item value
+	 * @param imgName Item icon image file name
+	 * @param reqLevel Level required to use this item
+	 * @param bonuses Bonuses for owner
+	 * @param onUse Action on use
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Trinket(String id, int type, int value, String imgName, int reqLevel,
+			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
+		if(onUse.getType() != ActionType.NONE)
+			this.onUse = onUse;
 	}
-	
-	public Trinket(String id, int serial, int type, int value, String imgName, GameContainer gc, int reqLevel,
-			Bonuses bonuses) throws SlickException, IOException, FontFormatException 
+	/**
+	 * Trinket constructor (with specified serial number)
+	 * @param id Item ID
+	 * @param serial Item serial number
+	 * @param type Trinket type
+	 * @param value Item value
+	 * @param imgName Item icon image file name
+	 * @param reqLevel Level required to use this item
+	 * @param bonuses Bonuses for owner
+	 * @param onUse Action on use
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Trinket(String id, int serial, int type, int value, String imgName, int reqLevel,
+			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
+		if(onUse.getType() != ActionType.NONE)
+			this.onUse = onUse;
 	}
-
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Item#getInfo()
+	 */
 	@Override
 	protected String getInfo() 
 	{
@@ -65,6 +100,7 @@ public class Trinket extends Equippable
 						  System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 		return fullInfo;
 	}
+	
 	@Override
 	protected String getTypeName()
 	{
@@ -95,6 +131,6 @@ public class Trinket extends Equippable
 	@Override
 	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    	return new ItemTile(GConnector.getInput("icon/item/trinket/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
 }

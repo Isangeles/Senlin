@@ -28,6 +28,7 @@ import org.w3c.dom.Node;
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
+import pl.isangeles.senlin.data.pattern.TrinketPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 
 /**
@@ -85,6 +86,28 @@ public class ItemParser
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon);
+	}
+	/**
+	 * Parses item node from trinkets base
+	 * @param itemNode Node from XML trinkets base (item node)
+	 * @return New trinket pattern
+	 */
+	public static TrinketPattern getTrinketFromNode(Node itemNode) throws NumberFormatException
+	{
+		Element itemE = (Element)itemNode;
+		
+		String id = itemE.getAttribute("id");
+		String type = itemE.getAttribute("type");
+		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLevel"));
+		int value = Integer.parseInt(itemE.getAttribute("value"));
+		String bonuses = itemE.getElementsByTagName("bonuses").item(0).getTextContent();
+		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		
+		Element actionE = (Element)itemE.getElementsByTagName("action").item(0);
+		String actionType = actionE.getAttribute("type");
+		String actionId = actionE.getTextContent();
+		
+		return new TrinketPattern(id, type, reqLvl, value, icon, bonuses, actionType, actionId);
 	}
 	/**
 	 * Parses item node from miscellaneous items base

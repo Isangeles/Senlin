@@ -67,4 +67,12 @@ public class Day
 		String[] hms = Stopwatch.timeFromMillis(time).split(":");
 		return hms[1] + ":" + hms[2];
 	}
+	/**
+	 * Returns current day phase name
+	 * @return String with day phase name
+	 */
+	public String getPhase()
+	{
+		return phase.toString();
+	}
 }

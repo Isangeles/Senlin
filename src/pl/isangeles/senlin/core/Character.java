@@ -445,7 +445,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
                 }
             }
         }
-		if(fighting && target != null)
+		if(fighting && target != null && !avatar.isCasting())
 		{
 			useSkillOn(target, abilities.get("autoA"));
 		}

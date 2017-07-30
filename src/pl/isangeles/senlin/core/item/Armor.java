@@ -182,6 +182,6 @@ public class Armor extends Equippable
 	@Override
 	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-    	return new ItemTile(GConnector.getInput("icon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    	return new ItemTile(GConnector.getInput("icon/item/armor/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
 }

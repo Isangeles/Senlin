@@ -38,7 +38,7 @@ public enum ArmorType
 	 */
 	public static int fromNameToId(String type)
 	{
-		switch(type)
+		switch(type.toLowerCase())
 		{
 		case "feet":
 			return 0;

@@ -126,7 +126,7 @@ public class LoadingScreen extends BasicGameState
 			    loadingInfo.setText("loding game data...");
 			    break;
 			case 1:
-	            ItemsBase.loadBases(container);
+	            ItemsBase.load(container);
 	            RecipesBase.load();
 	            GuildsBase.load();
 	            NpcBase.load(container);

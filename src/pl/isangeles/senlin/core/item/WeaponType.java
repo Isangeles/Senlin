@@ -37,7 +37,7 @@ public enum WeaponType
 	 */
 	public static int fromNameToId(String type)
 	{
-		switch(type)
+		switch(type.toLowerCase())
 		{
 		case "dagger":
 			return 0;
@@ -64,7 +64,7 @@ public enum WeaponType
 	 */
 	public static WeaponType fromName(String type)
 	{
-		switch(type)
+		switch(type.toLowerCase())
 		{
 		case "dagger":
 			return DAGGER;

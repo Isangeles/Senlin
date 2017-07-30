@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for day phases
  * @author Isangeles
@@ -72,5 +73,22 @@ class DayPhase
 			phaseId ++;
 		if(phaseId >= 3)
 			phaseId = 0;
+	}
+	@Override
+	public String toString()
+	{
+		switch(phaseId)
+		{
+		case MORNING:
+			return TConnector.getText("ui", "dayMorning");
+		case MIDDAY:
+			return TConnector.getText("ui", "dayMidday");
+		case AFTERNOON:
+			return TConnector.getText("ui", "dayAfternoon");
+		case NIGHT:
+			return TConnector.getText("ui", "dayNight");
+		default:
+			return "error";
+		}
 	}
 }

@@ -60,7 +60,7 @@ public class ItemsBase
 	/**
 	 * Returns new copy of item with specific id from base
 	 * @param id Item id
-	 * @return Copy of item from base (by clone method) or null if item was not found 
+	 * @return New instance of desired item from base or null if item was not found 
 	 */
 	public static Item getItem(String id)
 	{
@@ -83,7 +83,7 @@ public class ItemsBase
 				return armorsMap.get(id).make(gc);
 			
 			if(trinketsMap.get(id) != null)
-				return null; //TODO write trinket builder
+				return trinketsMap.get(id).make(gc);
 			
 			if(miscMap.get(id) != null)
 				return miscMap.get(id).make(gc);
@@ -102,7 +102,7 @@ public class ItemsBase
 	 * Returns new copy of item with specific id and serial number from base
 	 * @param id Item id
 	 * @param serial Serial number for item
-	 * @return Copy of item from base (by clone method) or null if item was not found 
+	 * @return New instance of desired item from base or null if item was not found 
 	 */
 	public static Item getItem(String id, int serial)
 	{
@@ -118,7 +118,7 @@ public class ItemsBase
 				return armorsMap.get(id).make(gc, serial);
 			
 			if(trinketsMap.get(id) != null)
-				return null; //TODO write trinket builder
+				return trinketsMap.get(id).make(gc, serial);
 			
 			if(miscMap.get(id) != null)
 				return miscMap.get(id).make(gc, serial);
@@ -158,12 +158,12 @@ public class ItemsBase
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
 	 */
-	public static void loadBases(GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
+	public static void load(GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
 	{
 		ItemsBase.gc = gc;
-		weaponsMap = DConnector.getWeapons("weaponsBase");
-		armorsMap = DConnector.getArmors("armorBase");
-		trinketsMap = DConnector.getTrinkets("trinketsBase");
-		miscMap = DConnector.getMisc("miscBase");
+		weaponsMap = DConnector.getWeapons("weaponsBase.sb");
+		armorsMap = DConnector.getArmors("armorBase.sb");
+		trinketsMap = DConnector.getTrinkets("trinketsBase.sb");
+		miscMap = DConnector.getMisc("miscBase.sb");
 	}
 }

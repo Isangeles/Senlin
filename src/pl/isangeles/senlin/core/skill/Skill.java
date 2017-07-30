@@ -140,7 +140,7 @@ public abstract class Skill implements SlotContent
 	 */
     public float getCastSpeed()
     {
-        return (owner.getHaste()-castTime);
+        return castTime;//(owner.getHaste()-castTime);
     }
     /**
      * Returns skill ID

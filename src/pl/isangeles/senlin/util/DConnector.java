@@ -430,8 +430,7 @@ public final class DConnector
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("object_parser_fail_msg///base corrupted");
-					break;
+					Log.addSystem("object_parser_fail_msg///base node corrupted");
 				}
 			}
 		}
@@ -469,8 +468,7 @@ public final class DConnector
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("weapons_builder_fail_msg///base corrupted");
-					break;
+					Log.addSystem("weapons_builder_fail_msg///base node corrupted");
 				}
 			}
 		}
@@ -508,8 +506,7 @@ public final class DConnector
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("armors_builder_fail_msg///base corrupted");
-					break;
+					Log.addSystem("armors_builder_fail_msg///base node corrupted");
 				}
 			}
 		}
@@ -521,9 +518,33 @@ public final class DConnector
 	 * @param trinketsBase
 	 * @return
 	 */
-	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase)
+	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
+		
+		String docDir = "data" + File.separator + "item" + File.separator + trinketsBase;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(docDir);
+		
+		NodeList trinketsList = base.getDocumentElement().getChildNodes();
+		for(int i = 0; i < trinketsList.getLength(); i ++)
+		{
+			Node itemNode = trinketsList.item(i);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					TrinketPattern tp = ItemParser.getTrinketFromNode(itemNode);
+					trinketsMap.put(tp.getId(), tp);
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("trinItems_builder_fail_msg///base node currupted");
+				}
+			}
+		}
 		
 		return trinketsMap;
 	}
@@ -558,7 +579,7 @@ public final class DConnector
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("miscItems_builder_fail_msg///base corrupted");
+					Log.addSystem("miscItems_builder_fail_msg///base node corrupted");
 				}
 			}
 		}

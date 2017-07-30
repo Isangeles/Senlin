@@ -70,6 +70,7 @@
 	    <item random="false">wSOHI</item>
 	    <item random="false">wBTHW</item>
 	    <item random="false">mMeat01</item>
+	    <item random="false">tSRing</item>
         </in>
     </eq>
     <skills>
