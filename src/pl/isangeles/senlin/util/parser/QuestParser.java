@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.quest.Objective;
 import pl.isangeles.senlin.quest.ObjectiveType;
 import pl.isangeles.senlin.quest.Quest;

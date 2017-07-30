@@ -192,7 +192,10 @@ public class TextBlock
         }
         
     }
-    
+    /**
+     * Splits specified text to lines (by new line separator) and adds them to text lines list
+     * @param text String with text
+     */
     private void add(String text)
     {
     	Scanner scann = new Scanner(text);

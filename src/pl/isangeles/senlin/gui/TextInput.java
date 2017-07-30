@@ -41,6 +41,7 @@ import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.gui.TextField;
 
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.Coords;
 /**
  * Class for text fields
@@ -49,7 +50,6 @@ import pl.isangeles.senlin.util.Coords;
  */
 public class TextInput extends InterfaceObject implements MouseListener, KeyListener, ComponentListener
 {
-	private Font textFont;
 	protected TrueTypeFont textTtf;
 	protected TextField textField;
 	private MouseOverArea fieldMOA;
@@ -74,9 +74,10 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		this.gc.getInput().addKeyListener(this);
 		width = super.getScaledWidth();
 		height = super.getScaledHeight();
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+		
+		Font font = GBase.getFont("mainUiFont");
+		textTtf = new TrueTypeFont(font.deriveFont(12f), true);
+		
 		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)width, (int)height, this);
 		fieldMOA = new MouseOverArea(this.gc, this, 0, 0);
 	}
@@ -100,9 +101,10 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		this.gc.getInput().addKeyListener(this);
 		this.width = width;
 		this.height = height;
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+		
+		Font font = GBase.getFont("mainUiFont");
+		textTtf = new TrueTypeFont(font.deriveFont(12f), true);
+		
 		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)width, (int)height, this);
 		fieldMOA = new MouseOverArea(this.gc, this, 0, 0);
 	}

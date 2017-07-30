@@ -28,8 +28,8 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.DialoguesBase;
-import pl.isangeles.senlin.data.Log;
 /**
  * Static class giving access to external text files
  * @author Isangeles

@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.graphic.day;
+package pl.isangeles.senlin.core.day;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import org.newdawn.slick.Sound;
 
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for game world weather(graphical and sound effects)
  * @author Isangeles
@@ -74,6 +75,14 @@ class Weather
 	public boolean isRaining()
 	{
 		return rain;
+	}
+	
+	public String toString()
+	{
+		if(isRaining())
+			return TConnector.getText("ui", "dayRain");
+		else
+			return TConnector.getText("ui", "daySun");
 	}
 
 }

@@ -47,6 +47,7 @@ import org.xml.sax.SAXException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Guild;
@@ -58,7 +59,6 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;

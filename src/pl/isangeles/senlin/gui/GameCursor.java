@@ -40,8 +40,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.opengl.Texture;
 
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 /**
  * Class for game cursor

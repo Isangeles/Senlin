@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.graphic.day;
+package pl.isangeles.senlin.core.day;
 
 import java.io.IOException;
 

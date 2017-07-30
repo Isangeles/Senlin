@@ -25,7 +25,7 @@ package pl.isangeles.senlin.quest;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.util.TConnector;

@@ -45,6 +45,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.*;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
@@ -60,7 +61,6 @@ import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.dialogue.Answer;

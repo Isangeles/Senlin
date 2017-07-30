@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.data;
+package pl.isangeles.senlin.cli;
 
 import java.util.LinkedList;
 import java.util.List;

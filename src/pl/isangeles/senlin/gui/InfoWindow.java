@@ -33,7 +33,7 @@ public class InfoWindow extends InterfaceObject
 	 */
 	public InfoWindow(GameContainer gc, String textInfo) throws SlickException, IOException, FontFormatException 
 	{
-		super(GBase.get("infoWinBg"), gc);
+		super(GBase.getImage("infoWinBg"), gc);
 		this.textInfo = textInfo;
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");

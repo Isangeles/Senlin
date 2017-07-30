@@ -14,6 +14,8 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.data.GBase;
+
 /**
  * Interface button class, implements MouseListener to detect mouse click 
  * @author Isangeles
@@ -22,7 +24,6 @@ import org.newdawn.slick.TrueTypeFont;
 public class Button extends InterfaceObject implements MouseListener
 {
     private String label;
-    private Font buttTextFont;
     private TrueTypeFont ttf;
     private GameContainer gc;
     private boolean isClicked;
@@ -255,9 +256,8 @@ public class Button extends InterfaceObject implements MouseListener
         isClicked = false;
         clickColor = new Color(73, 73, 73);
         
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        buttTextFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        Font font = GBase.getFont("mainUiFont");
         
-        ttf = new TrueTypeFont(buttTextFont.deriveFont(12f), true);
+        ttf = new TrueTypeFont(font.deriveFont(12f), true);
 	}
 }

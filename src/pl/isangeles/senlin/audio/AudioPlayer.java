@@ -33,7 +33,7 @@ import java.util.Scanner;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.util.AConnector;
 /**
  * Class for playing game music and sound effects

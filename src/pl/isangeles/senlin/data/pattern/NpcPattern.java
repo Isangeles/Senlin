@@ -35,7 +35,6 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.GConnector;
@@ -45,6 +44,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attitude;
 /**
  * Class for NPC patterns used to create specific NPC by NpcBase class

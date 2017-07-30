@@ -1,6 +1,6 @@
 package pl.isangeles.senlin.quest;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 /**
  * Class for quest stage objectives, smallest quest part
  * @author Isangeles

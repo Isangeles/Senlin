@@ -40,8 +40,9 @@ import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.ScrollableList;
@@ -76,8 +77,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 		this.player = player;
 		this.gw = gw;
 		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
 		questsList = new ScrollableList(10, gc);
@@ -90,7 +90,6 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 		super.draw(x, y, false);
 		
-		ttf.drawString(x + getDis(150), y + getDis(5), gw.getDay().getPhase());
 		ttf.drawString(x + getDis(90), y + getDis(5), TConnector.getText("ui", "jMenuQuests"));
 		
 		int qfFirstX = (int)(x + getDis(30));

@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.graphic.day;
+package pl.isangeles.senlin.graphic;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

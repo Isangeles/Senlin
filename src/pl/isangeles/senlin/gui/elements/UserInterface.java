@@ -38,10 +38,10 @@ import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.cli.CommandInterface;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.Warning;
@@ -73,6 +73,7 @@ public class UserInterface implements MouseListener, SaveElement
     private SaveGameWindow save;
     private LoadGameWindow load;
     private SettingsMenu settings;
+    private ConditionsInfo conditions;
     private DestinationPoint point;
     private Camera camera;
     private Warning uiWarning;
@@ -108,6 +109,7 @@ public class UserInterface implements MouseListener, SaveElement
         load = new LoadGameWindow(gc);
         settings = new SettingsMenu(gc);
         bBar = new BottomBar(gc, igMenu, inventory, skills, journal, crafting, player);
+        conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
         camera = new Camera();
         
@@ -120,7 +122,7 @@ public class UserInterface implements MouseListener, SaveElement
     {
     	point.draw();
         gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
-        
+        conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
         cast.draw(Coords.getX("CE", -200), Coords.getY("CE", 200));
@@ -223,6 +225,7 @@ public class UserInterface implements MouseListener, SaveElement
         load.update();
         settings.update();
         gameConsole.update();
+        conditions.update();
     }
     /**
      * Checks if mouse is over one of ui elements

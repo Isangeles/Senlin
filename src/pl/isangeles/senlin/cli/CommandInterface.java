@@ -31,7 +31,6 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.states.GameWorld;

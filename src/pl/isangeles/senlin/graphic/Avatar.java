@@ -35,11 +35,11 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InfoWindow;
 import pl.isangeles.senlin.gui.elements.UserInterface;

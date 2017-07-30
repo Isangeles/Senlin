@@ -31,11 +31,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.req.ReqType;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.StatsRequirement;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.dialogue.Answer;
 import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.dialogue.DialoguePart;

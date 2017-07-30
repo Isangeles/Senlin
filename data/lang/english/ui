@@ -94,6 +94,8 @@ dayMorning:Morning;
 dayMidday:Midday;
 dayAfternoon:Afternoon;
 dayNight:Night;
+dayRain:Rain;
+daySun:Sunny;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

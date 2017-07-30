@@ -24,7 +24,7 @@ class ItemSlot extends Slot
 {	
 	public ItemSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(GBase.get("uiSlotA"), gc);
+		super(GBase.getImage("uiSlotA"), gc);
 	}
 	/**
 	 * Inserts item in slot

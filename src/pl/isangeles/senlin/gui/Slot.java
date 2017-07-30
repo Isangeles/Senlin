@@ -14,6 +14,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 /**
@@ -31,8 +32,7 @@ public abstract class Slot extends InterfaceObject
 	{
 		super(is, ref, flipped, gc);
 		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(getSize(9f)), true);
 	}
 	

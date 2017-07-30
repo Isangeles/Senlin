@@ -31,9 +31,9 @@ import java.util.Random;
 
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 /**
  * Class for areas with mobs

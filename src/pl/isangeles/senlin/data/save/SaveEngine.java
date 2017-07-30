@@ -44,8 +44,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.elements.UserInterface;
 import pl.isangeles.senlin.util.parser.SSGParser;

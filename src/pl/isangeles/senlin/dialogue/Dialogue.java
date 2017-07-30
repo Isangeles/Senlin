@@ -25,7 +25,7 @@ package pl.isangeles.senlin.dialogue;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 /**
  * Class for characters dialogues

@@ -22,7 +22,7 @@
  */
 package pl.isangeles.senlin.core.exc;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 
 /**
  * @author Isangeles

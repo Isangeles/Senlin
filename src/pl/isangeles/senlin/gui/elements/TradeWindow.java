@@ -38,9 +38,9 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;

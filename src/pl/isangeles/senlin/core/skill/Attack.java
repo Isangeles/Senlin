@@ -31,6 +31,7 @@ import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
@@ -41,7 +42,6 @@ import pl.isangeles.senlin.core.exc.NoTargetInfo;
 import pl.isangeles.senlin.core.exc.NotReadyInfo;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.data.EffectsBase;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -145,7 +145,11 @@ public class Attack extends Skill
 	        ready = false;
 	    }
 	}
-	
+	/**
+	 * Checks if user has proper weapon equipped
+	 * @param user Skill user
+	 * @return True if equipped weapon is ok, false otherwise
+	 */
 	private boolean weaponOk(Character user)
 	{
 		if(useWeapon)

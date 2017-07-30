@@ -34,10 +34,10 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.Bar;
 import pl.isangeles.senlin.gui.InterfaceObject;
 /**

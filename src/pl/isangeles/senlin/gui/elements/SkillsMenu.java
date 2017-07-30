@@ -37,12 +37,12 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.gui.InterfaceObject;
 /**
  * Class for in-game skills menu

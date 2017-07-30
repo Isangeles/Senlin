@@ -22,6 +22,9 @@
  */
 package pl.isangeles.senlin.data;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,20 +43,30 @@ import pl.isangeles.senlin.util.GConnector;
 public final class GBase 
 {
 	private static Map<String, Image> texturesMap = new HashMap<>();
+	private static Map<String, Font> fontsMap = new HashMap<>();
 	
 	private GBase() {}
 	
-	public static Image get(String name)
+	public static Image getImage(String name)
 	{
 		return texturesMap.get(name);
 	}
 	
-	public static void load() throws IOException, SlickException
+	public static Font getFont(String name)
+	{
+		return fontsMap.get(name);
+	}
+	
+	public static void load() throws IOException, SlickException, FontFormatException
 	{
 		texturesMap.put("uiSlotA", new Image(GConnector.getInput("ui/slot.png"), "uiSlotA", false));
 		texturesMap.put("uiSlotB", new Image(GConnector.getInput("ui/slotB.png"), "uiSlotB", false));
 		texturesMap.put("infoWinBg", new Image(GConnector.getInput("field/infoWindowBG.png"), "infoWinBg", false));
 		texturesMap.put("textButtonBg", new Image(GConnector.getInput("field/textBg.png"), "textButtonBg", false));
+		texturesMap.put("uiCurvedBg", new Image(GConnector.getInput("field/cBgS.png"), "uiCurvedBg", false));
+		
+		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));
+		fontsMap.put("mainUiFont", simsun);
 	}
 
 }

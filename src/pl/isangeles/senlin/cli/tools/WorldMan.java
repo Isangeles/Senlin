@@ -25,7 +25,7 @@ package pl.isangeles.senlin.cli.tools;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import pl.isangeles.senlin.data.Log;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.states.GameWorld;
 
 /**

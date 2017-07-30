@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.graphic.day;
+package pl.isangeles.senlin.core.day;
 
 import java.io.IOException;
 import java.util.Random;
@@ -74,5 +74,10 @@ public class Day
 	public String getPhase()
 	{
 		return phase.toString();
+	}
+	
+	public String getWeather()
+	{
+		return conditions.toString();
 	}
 }

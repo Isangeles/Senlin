@@ -40,6 +40,6 @@ public class TextButton extends Button
 {
 	public TextButton(GameContainer gc) throws SlickException, FontFormatException, IOException
 	{
-		super(GBase.get("textButtonBg"), "", gc);
+		super(GBase.getImage("textButtonBg"), "", gc);
 	}
 }

@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionLevel;
@@ -42,7 +43,6 @@ import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.skill.SkillTraining;
-import pl.isangeles.senlin.data.Log;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
