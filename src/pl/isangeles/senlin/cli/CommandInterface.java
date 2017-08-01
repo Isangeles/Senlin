@@ -63,7 +63,7 @@ public class CommandInterface
      * Checks entered command target, first command check  
      * @param command Text line with command to check 
      */
-    public void checkCommand(String line)
+    public void executeCommand(String line)
     {
     	//If not a game command
     	if(!line.startsWith("$"))

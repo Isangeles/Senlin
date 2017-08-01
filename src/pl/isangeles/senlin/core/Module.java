@@ -117,6 +117,34 @@ public final class Module
 		else
 			return null;
 	}
+	
+	/**
+     * Returns path to npc base file in current module directory
+     * @return String with path to npc base file
+     */
+    public static String getNBasePath()
+    {
+        if(name != null && name != "none")
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "npc" + File.separator + "npc"; 
+        }
+        else
+            return null;
+    }
+    
+    /**
+     * Returns path to quests base file in current module directory
+     * @return String with path to quests base file
+     */
+    public static String getGBasePath()
+    {
+        if(name != null && name != "none")
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "npc" + File.separator + "guilds"; 
+        }
+        else
+            return null;
+    }
 
 	/**
 	 * Returns path to area directory in current module directory
@@ -131,6 +159,19 @@ public final class Module
 		else
 			return null;
 	}
+	/**
+     * Returns path to scripts directory in current module directory
+     * @return String with path to scripts directory
+     */
+    public static String getScriptsPath()
+    {
+        if(name != null && name != "none")
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "scripts"; 
+        }
+        else
+            return null;
+    }
 	/**
 	 * Returns path to dialogues lang file in current module directory
 	 * @return String with path to dialogues lang file
@@ -158,4 +199,18 @@ public final class Module
 		else
 			return null;
 	}
+	
+	/**
+     * Returns path to npc lang file in current module directory
+     * @return String with path to npc lang file
+     */
+    public static String getLangNPath()
+    {
+        if(name != null && name != "none")
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "n_" + activeChapter; 
+        }
+        else
+            return null;
+    }
 }

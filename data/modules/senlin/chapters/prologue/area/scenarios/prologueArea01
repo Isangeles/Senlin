@@ -23,5 +23,7 @@
     <exits>
         <exit position="0;0">prologue02</exit>
     </exits>
+    <scripts>
+    </scripts>
 </scenario>
 </base>

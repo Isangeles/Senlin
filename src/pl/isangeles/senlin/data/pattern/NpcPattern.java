@@ -41,6 +41,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.effect.Effect;
@@ -104,7 +105,7 @@ public class NpcPattern
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
-		this.npcName = TConnector.getText("npc", npcId);
+		this.npcName = TConnector.getTextFromFile(Module.getLangNPath(), npcId);
 		switch(attitude)
 		{
 		case "hostile":

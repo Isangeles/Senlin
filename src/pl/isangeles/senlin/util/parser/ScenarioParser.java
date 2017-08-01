@@ -45,6 +45,7 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
+import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 /**
  * Static class for scenario XMLs parsing methods
@@ -91,7 +92,7 @@ public class ScenarioParser
 					Map<String, String[]> quests = new HashMap<>();
 					Map<String, Position> objects = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
-					
+					List<String> scripts = new ArrayList<>();
 					
 					Node npcsNode = scenarioE.getElementsByTagName("npcs").item(0);
 					NodeList npcNl = npcsNode.getChildNodes();
@@ -166,7 +167,19 @@ public class ScenarioParser
 						}
 					}
 					
-					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits);	
+					NodeList sriptsNl = scenarioE.getElementsByTagName("scripts").item(0).getChildNodes();
+					for(int j = 0; j < sriptsNl.getLength(); j ++)
+                    {
+                        Node scriptNode = sriptsNl.item(j);
+                        if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+                        {
+                            Element scriptE = (Element)scriptNode;
+                            String script = DConnector.getScript(scriptE.getTextContent());
+                            scripts.add(script);
+                        }
+                    }
+					
+					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits, scripts);	
 			}
 		}
 		

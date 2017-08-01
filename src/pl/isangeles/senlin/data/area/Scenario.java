@@ -47,6 +47,7 @@ import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
@@ -68,6 +69,7 @@ public class Scenario implements SaveElement
 	private List<Quest> questsToStart = new ArrayList<>();
 	private List<SimpleGameObject> objects = new ArrayList<>();
 	private List<Exit> exits = new ArrayList<>();
+	private List<String> scripts = new ArrayList<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -81,7 +83,7 @@ public class Scenario implements SaveElement
 	 * @throws FontFormatException
 	 */
 	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> objects,
-			        Map<String, Position> exits) 
+			        Map<String, Position> exits, List<String> scripts) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -124,6 +126,8 @@ public class Scenario implements SaveElement
 			this.exits.add(new Exit(exits.get(eId), eId));
 		}
 		this.mobsAreas = mobsAreas;
+		
+		this.scripts = scripts;
 	}
 	/**
 	 * Draws all scenario objects
@@ -186,6 +190,14 @@ public class Scenario implements SaveElement
 		{
 			player.startQuest(q);
 		}
+	}
+	
+	public void runScripts(CommandInterface cli)
+	{
+	    for(String script : scripts)
+	    {
+	        cli.executeCommand(script);
+	    }
 	}
 	
 	public void setNpcs(List<Character> npcs)

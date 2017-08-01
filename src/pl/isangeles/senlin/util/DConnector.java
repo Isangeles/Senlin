@@ -104,13 +104,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, NpcPattern> getNpcMap(String baseName) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, NpcPattern> getNpcMap(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, NpcPattern> npcMap = new HashMap<>();
 		//Parses xml
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
-		Document base = builder.parse("data" + File.separator + "npc" + File.separator + baseName);
+		Document base = builder.parse(basePath);
 		//Puts all npc nodes to list
 		NodeList nList = base.getDocumentElement().getChildNodes();
 		//Iterates over all npc nodes
@@ -146,13 +146,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<Integer, Guild> getGuildsMap(String baseFile) throws ParserConfigurationException, SAXException, IOException
+	public static Map<Integer, Guild> getGuildsMap(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<Integer, Guild> guildsMap = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse("data" + File.separator + "npc" + File.separator + baseFile);
+		Document base = db.parse(basePath);
 		
 		NodeList nl = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < nl.getLength(); i ++)
@@ -623,5 +623,15 @@ public final class DConnector
 		}
 		
 		return recipes;
+	}
+	
+	public static String getScript(String scriptFile) throws FileNotFoundException
+	{
+	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFile;
+	    File script = new File(scriptPath);
+	    Scanner scann = new Scanner(script, "UTF-8");
+	    String scriptCode =  scann.useDelimiter("\\A").next();
+	    scann.close();
+	    return scriptCode;
 	}
 }

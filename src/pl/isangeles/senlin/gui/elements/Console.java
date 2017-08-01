@@ -134,7 +134,7 @@ final class Console extends TextInput implements UiElement
         if(key == Input.KEY_ENTER && !hide)
         {
             if(super.getText() != null)
-            	cli.checkCommand(super.getText());
+            	cli.executeCommand(super.getText());
             super.clear();
         }
     }
