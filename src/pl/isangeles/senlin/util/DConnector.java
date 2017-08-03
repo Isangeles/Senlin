@@ -625,13 +625,20 @@ public final class DConnector
 		return recipes;
 	}
 	
-	public static String getScript(String scriptFile) throws FileNotFoundException
+	public static List<String> getScript(String scriptFileName) throws FileNotFoundException
 	{
-	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFile;
-	    File script = new File(scriptPath);
-	    Scanner scann = new Scanner(script, "UTF-8");
-	    String scriptCode =  scann.useDelimiter("\\A").next();
+		List<String> script = new ArrayList<>();
+	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFileName;
+	    File scriptFile = new File(scriptPath);
+	    Scanner scann = new Scanner(scriptFile, "UTF-8");
+	    scann.useDelimiter(";");
+	    while(scann.hasNext())
+	    {
+	    	String command = scann.next();
+	    	if(command.startsWith("$"))
+	    		script.add(command);
+	    }
 	    scann.close();
-	    return scriptCode;
+	    return script;
 	}
 }

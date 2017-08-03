@@ -89,7 +89,9 @@ public final class SSGParser
         Character player = getCharFromSave((Element)playerE.getElementsByTagName("character").item(0), gc);
         
         List<Scenario> scenarios = new ArrayList<>();
-        Element scenariosE = (Element)saveE.getElementsByTagName("scenarios").item(0);
+        Element chapterE = (Element)saveE.getElementsByTagName("chapter").item(0);
+        String chapterId = chapterE.getAttribute("id");
+        Element scenariosE = (Element)chapterE.getElementsByTagName("scenarios").item(0);
         NodeList scenariosList = scenariosE.getElementsByTagName("scenario");
         for(int i = 0; i < scenariosList.getLength(); i ++)
         {
@@ -112,7 +114,7 @@ public final class SSGParser
         cPos[0] = Float.parseFloat(cPosString[0]);
         cPos[1] = Float.parseFloat(cPosString[1]);
         
-        return new SavedGame(player, scenarios, activeScenario, bBarLayout, invLayout, cPos);
+        return new SavedGame(player, chapterId, scenarios, activeScenario, bBarLayout, invLayout, cPos);
     }
     /**
      * Parses specified save document element to game character 

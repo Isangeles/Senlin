@@ -45,6 +45,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
@@ -71,7 +72,7 @@ public class SaveEngine
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	public static void save(Character player, List<Scenario> scenarios, String currentScenario, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
+	public static void save(Character player, Chapter chapter, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -83,23 +84,18 @@ public class SaveEngine
 		Element gameE = doc.createElement("game");
 		Element moduleE = doc.createElement("module");
 		moduleE.setTextContent(Module.getName());
-		moduleE.setAttribute("chapter", Module.getActiveChapter());
+		moduleE.setAttribute("chapter", chapter.getId());
 		gameE.appendChild(moduleE);
 		saveE.appendChild(gameE);
 		
 		Element playerE = doc.createElement("player");
 		playerE.appendChild(player.getSave(doc));
 		Element scenarioE = doc.createElement("scenario");
-		scenarioE.setTextContent(currentScenario);
+		scenarioE.setTextContent(chapter.getActiveScenario().getId());
 		playerE.appendChild(scenarioE);
 		saveE.appendChild(playerE);
 		
-		Element scenariosE = doc.createElement("scenarios");
-		for(Scenario scenario : scenarios)
-		{
-		    scenariosE.appendChild(scenario.getSave(doc));
-		}
-		saveE.appendChild(scenariosE);
+		saveE.appendChild(chapter.getSave(doc));
 		
 		saveE.appendChild(ui.getSave(doc));
 		
@@ -173,8 +169,8 @@ public class SaveEngine
         
         Element gameE = (Element)doc.getDocumentElement().getElementsByTagName("game").item(0);
         Element moduleE = (Element)gameE.getElementsByTagName("module").item(0);
-        out = Module.load(moduleE.getTextContent());
-        out = Module.setChapter(moduleE.getAttribute("chapter"));
+        out = Module.setDir(moduleE.getTextContent());
+        out = Module.loadChapter(moduleE.getAttribute("chapter"));
         return out;
 	}
 }

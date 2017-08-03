@@ -92,7 +92,7 @@ public class ScenarioParser
 					Map<String, String[]> quests = new HashMap<>();
 					Map<String, Position> objects = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
-					List<String> scripts = new ArrayList<>();
+					Map<String, List<String>> scripts = new HashMap<>();
 					
 					Node npcsNode = scenarioE.getElementsByTagName("npcs").item(0);
 					NodeList npcNl = npcsNode.getChildNodes();
@@ -174,8 +174,9 @@ public class ScenarioParser
                         if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
                         {
                             Element scriptE = (Element)scriptNode;
-                            String script = DConnector.getScript(scriptE.getTextContent());
-                            scripts.add(script);
+                            String scriptName = scriptE.getTextContent();
+                            List<String> script = DConnector.getScript(scriptName);
+                            scripts.put(scriptName, script);
                         }
                     }
 					

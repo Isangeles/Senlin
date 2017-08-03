@@ -71,9 +71,9 @@ public class NpcBase
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static void load(GameContainer gc) throws ParserConfigurationException, SAXException, IOException
+	public static void load(String basePath, GameContainer gc) throws ParserConfigurationException, SAXException, IOException
 	{
 		NpcBase.gc = gc;
-		npcs = DConnector.getNpcMap(Module.getNBasePath());
+		npcs = DConnector.getNpcMap(basePath);
 	}
 }

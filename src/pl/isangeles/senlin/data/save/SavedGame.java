@@ -25,6 +25,7 @@ package pl.isangeles.senlin.data.save;
 import java.util.List;
 import java.util.Map;
 
+import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.data.area.Scenario;
@@ -39,8 +40,7 @@ import pl.isangeles.senlin.util.Position;
 public class SavedGame
 {
     private Character player;
-    private List<Scenario> scenarios;
-    private Scenario activeScenario;
+    private Chapter chapter;
     private Map<String, Integer> bBarLayout;
     private Map<String, Integer[]> invLayout;
     private float[] cameraPos;
@@ -50,16 +50,11 @@ public class SavedGame
      * @param scenarios List with saved game scenarios
      * @param activeScenarioId ID of active game scenario
      */
-    public SavedGame(Character player, List<Scenario> scenarios, String activeScenarioId, Map<String, Integer> bBarLayout, Map<String, Integer[]> invLayout, 
+    public SavedGame(Character player, String chapterId, List<Scenario> savedScenarios, String activeScenarioId, Map<String, Integer> bBarLayout, Map<String, Integer[]> invLayout, 
     		         float[] cameraPos)
     {
         this.player = player;
-        this.scenarios = scenarios;
-        for(Scenario scenario : scenarios)
-        {
-            if(scenario.getId().equals(activeScenarioId))
-                activeScenario = scenario;
-        }
+        chapter = new Chapter(chapterId, savedScenarios, activeScenarioId);
         this.bBarLayout = bBarLayout;
         this.invLayout = invLayout;
         this.cameraPos = cameraPos;
@@ -72,21 +67,10 @@ public class SavedGame
     {
         return player;
     }
-    /**
-     * Returns list with saved scenarios
-     * @return List with game areas scenarios
-     */
-    public List<Scenario> getScenarios()
+    
+    public Chapter getChapter()
     {
-        return scenarios;
-    }
-    /**
-     * Returns active saved scenario
-     * @return Active game area scenario
-     */
-    public Scenario getActiveScenario()
-    {
-        return activeScenario;
+    	return chapter;
     }
     
     public Map<String, Integer> getBBarLayout()

@@ -43,8 +43,11 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.day.Day;
@@ -79,8 +82,8 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class GameWorld extends BasicGameState
 {
-    private List<Scenario> scenarios = new ArrayList<>();
-	private Scenario activeScenario;
+    private Chapter chapter;
+    private Scenario activeScenario;
 	private Day dayManager;
 	private FogOfWar fow;
 	private TiledMap areaMap;
@@ -90,6 +93,7 @@ public class GameWorld extends BasicGameState
 	private List<Exit> areaExits = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
+	private CommandInterface cui;
 	private AudioPlayer gwMusic;
 	private GameCursor gwCursor;
 	private Scenario nextArea;
@@ -105,9 +109,11 @@ public class GameWorld extends BasicGameState
         player.setPosition(1700, 500);
         player.addItem(ItemsBase.getItem("wSOHI")); //test line
         player.addItem(ItemsBase.getItem("wSOHI")); //test line
-        scenarios.add(ScenariosBase.getScenario("prologue01"));
-        activeScenario = scenarios.get(0); //test line
+        chapter = Module.getActiveChapter();
+        activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
+        if(cui != null)
+        	activeScenario.runScripts(cui);
 	}
 	/**
 	 * Creates game world for saved game
@@ -116,16 +122,21 @@ public class GameWorld extends BasicGameState
 	public GameWorld(SavedGame savedGame)
 	{
 	    this.player = savedGame.getPlayer();
-	    this.scenarios = savedGame.getScenarios();
-	    this.activeScenario = savedGame.getActiveScenario();
+	    this.chapter = savedGame.getChapter();
+	    this.activeScenario = chapter.getActiveScenario();
 	}
 	/**
-	 * Sets specified GUI as game UI
+	 * Sets specified GUI as game GUI
 	 * @param gui UserInterface object
 	 */
 	public void setGui(UserInterface gui)
 	{
 		ui = gui;
+	}
+	
+	public void setCli(CommandInterface cli)
+	{
+		cui = cli;
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -221,7 +232,7 @@ public class GameWorld extends BasicGameState
     	npcsAi.update(delta);
     	if(changeAreaReq)
     		changeArea(container, game);
-
+    	
     	if(ui != null)
     	{
     		ui.update();
@@ -229,7 +240,7 @@ public class GameWorld extends BasicGameState
         	{
     			try 
     			{
-    				SaveEngine.save(player, scenarios, activeScenario.getId(), ui, ui.getSaveName());
+    				SaveEngine.save(player, chapter, ui, ui.getSaveName());
     			} 
     			catch (ParserConfigurationException | TransformerException e) 
     			{
@@ -301,19 +312,12 @@ public class GameWorld extends BasicGameState
     			{
     				if(exit.isMouseOver())
     				{
-    					for(Scenario savedScenario : scenarios)
-    					{
-    						if(savedScenario.getId().equals(exit.getScenarioId()))
-    						{
-    							nextArea = savedScenario;
-    							changeAreaReq = true;
-    						}
-    					}
+    					Scenario scenario = chapter.getScenario(exit.getScenarioId());
 
-						if(nextArea == null)
+						if(scenario != null)
 						{
-							nextArea = ScenariosBase.getScenario(exit.getScenarioId());
 							changeAreaReq = true;
+							nextArea = scenario;
 						}
     				}
     			}

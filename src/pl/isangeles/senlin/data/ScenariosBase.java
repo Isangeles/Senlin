@@ -48,14 +48,15 @@ public class ScenariosBase
 	 */
 	public static Scenario getScenario(String id)
 	{
+		System.out.println("scenariob req for _ " + id);
 		return scenarios.get(id);
 	}
 	/**
 	 * Loads base with scenarios for active module
 	 * @throws FileNotFoundException
 	 */
-	public static void load() throws FileNotFoundException
+	public static void load(String areaPath) throws FileNotFoundException
 	{
-		scenarios = DConnector.getScenarios(Module.getAreaPath() + File.separator + "scenarios");
+		scenarios = DConnector.getScenarios(areaPath + File.separator + "scenarios");
 	}
 }

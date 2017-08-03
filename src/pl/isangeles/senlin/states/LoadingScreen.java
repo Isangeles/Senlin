@@ -162,18 +162,19 @@ public class LoadingScreen extends BasicGameState
     	switch(loadCounter)
 		{
 		case 0:
-			Module.load(Settings.getModuleName());
+			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
             ItemsBase.load(container);
             RecipesBase.load();
             GuildsBase.load();
-            NpcBase.load(container);
+            NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load("gameObjects", container);
-            ScenariosBase.load();
+            ScenariosBase.load(Module.getAreaPath());
+            Module.load();
 		    break;
 		case 2:
 			loadingInfo.setText("loading game world...");
@@ -190,6 +191,7 @@ public class LoadingScreen extends BasicGameState
         	cli = new CommandInterface(player, gw);
             ui = new UserInterface(container, cli, player, gw);
             gw.setGui(ui);
+            gw.setCli(cli);
             break;
 		case 6:
 	        loadCounter = 0;
@@ -216,19 +218,19 @@ public class LoadingScreen extends BasicGameState
     	switch(loadCounter)
 		{
 		case 0:
-			if(SaveEngine.loadModuleFrom(saveName))
-				return false;
+			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
             ItemsBase.load(container);
             RecipesBase.load();
             GuildsBase.load();
-            NpcBase.load(container);
+            NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load("gameObjects", container);
-            ScenariosBase.load();
+            ScenariosBase.load(Module.getAreaPath());
+			SaveEngine.loadModuleFrom(saveName);
 		    break;
 		case 2:
 	        loadingInfo.setText("loading saved game...");
@@ -256,6 +258,7 @@ public class LoadingScreen extends BasicGameState
         	ui.setInvLayout(gameToLoad.getInvLayout());
         	ui.getCamera().setPos(gameToLoad.getCameraPos());
             gw.setGui(ui);
+            gw.setCli(cli);
             break;
 		case 8:
 	        loadCounter = 0;

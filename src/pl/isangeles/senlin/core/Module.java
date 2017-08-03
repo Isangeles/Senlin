@@ -39,40 +39,78 @@ import pl.isangeles.senlin.util.TConnector;
 public final class Module 
 {
 	private static String name = "none";
-	private static String activeChapter = "none";
+	private static String modulePath;
+	private static String activeChapterName;
+	private static boolean inModDir;
+	private static Chapter activeChapter;
 	/**
 	 * Private constructor to prevent initialization
 	 */
 	private Module() {}
-	/**
-	 * Loads module with specified name
-	 * @param modName Module name
-	 * @return True if module was successfully loaded, false otherwise
-	 * @throws FileNotFoundException
-	 */
-	public static boolean load(String modName) throws FileNotFoundException
+	
+	public static boolean setDir(String modName, String chapterName)
 	{
 		File modDir = new File("data" + File.separator + "modules" + File.separator + modName);
 		if(modDir.isDirectory())
 		{
+			modulePath = "data" + File.separator + "modules" + File.separator + modName;
 			name = modName;
-			String modInfo = "data" + File.separator + "modules" + File.separator + modName + File.separator + "modInfo";
-			
-			activeChapter = TConnector.getTextFromFile(modInfo, "startChapter");
+			activeChapterName = chapterName;
+			inModDir = true;
+			return true;
 		}
 		else
 			return false;
-		
-		return true;
+	}
+	
+	public static boolean setDir(String modName)
+	{
+		File modDir = new File("data" + File.separator + "modules" + File.separator + modName);
+		if(modDir.isDirectory())
+		{
+			modulePath = "data" + File.separator + "modules" + File.separator + modName;
+			name = modName;
+			String modInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "modInfo";
+			activeChapterName = TConnector.getTextFromFile(modInfo, "startChapter");
+			inModDir = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	/**
+	 * Loads module in current directory
+	 * @return True if module was successfully loaded, false otherwise
+	 * @throws FileNotFoundException
+	 */
+	public static boolean load() throws FileNotFoundException
+	{
+		if(inModDir)
+		{
+			String modInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "modInfo";
+			
+			String chapterId = TConnector.getTextFromFile(modInfo, "startChapter");
+			
+			return loadChapter(chapterId);
+		}
+		else
+			return false;
 	}
 	/**
 	 * Sets chapter with specified ID as active chapter
 	 * @param chapterId String with desired chapter ID
 	 */
-	public static boolean setChapter(String chapterId)
+	public static boolean loadChapter(String chapterId)
 	{
-		activeChapter = chapterId;
-		return true; //TODO proper check
+		if(inModDir)
+		{
+			String chapterInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + chapterId + File.separator + "chapterInfo";
+			String startScenario = TConnector.getTextFromFile(chapterInfo, "startScenario");
+			activeChapter = new Chapter(chapterId, startScenario);
+			return true;
+		}
+		else
+			return false;
 	}
 	/**
 	 * Returns current module name
@@ -86,7 +124,7 @@ public final class Module
 	 * Returns active chapter name 
 	 * @return String with active chapter name
 	 */
-	public static String getActiveChapter()
+	public static Chapter getActiveChapter()
 	{
 		return activeChapter;
 	}
@@ -98,7 +136,7 @@ public final class Module
 	{
 		if(name != null && name != "none")
 		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters"+ File.separator + activeChapter + File.separator + "dialogues" + File.separator + "dialogues"; 
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters"+ File.separator + activeChapterName + File.separator + "dialogues" + File.separator + "dialogues"; 
 		}
 		else
 			return null;
@@ -112,7 +150,7 @@ public final class Module
 	{
 		if(name != null && name != "none")
 		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "quests" + File.separator + "quests"; 
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "quests" + File.separator + "quests"; 
 		}
 		else
 			return null;
@@ -126,7 +164,7 @@ public final class Module
     {
         if(name != null && name != "none")
         {
-            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "npc" + File.separator + "npc"; 
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "npc" + File.separator + "npc"; 
         }
         else
             return null;
@@ -140,7 +178,7 @@ public final class Module
     {
         if(name != null && name != "none")
         {
-            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "npc" + File.separator + "guilds"; 
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "npc" + File.separator + "guilds"; 
         }
         else
             return null;
@@ -154,7 +192,7 @@ public final class Module
 	{
 		if(name != null && name != "none")
 		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapter + File.separator + "area"; 
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "area"; 
 		}
 		else
 			return null;
@@ -180,7 +218,7 @@ public final class Module
 	{
 		if(name != null && name != "none")
 		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "d_" + activeChapter; 
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "d_" + activeChapterName; 
 		}
 		else
 			return null;
@@ -194,7 +232,7 @@ public final class Module
 	{
 		if(name != null && name != "none")
 		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "q_" + activeChapter; 
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "q_" + activeChapterName; 
 		}
 		else
 			return null;
@@ -208,7 +246,7 @@ public final class Module
     {
         if(name != null && name != "none")
         {
-            return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "n_" + activeChapter; 
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "n_" + activeChapterName; 
         }
         else
             return null;

@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.cli;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -63,13 +64,13 @@ public class CommandInterface
      * Checks entered command target, first command check  
      * @param command Text line with command to check 
      */
-    public void executeCommand(String line)
+    public boolean executeCommand(String line)
     {
     	//If not a game command
     	if(!line.startsWith("$"))
     	{
     		player.speak(line);
-    		return;
+    		return true;
     	}
     	
     	boolean out = true;
@@ -121,7 +122,21 @@ public class CommandInterface
         
         if(!out)
         	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
+        
+        return out;
        
+    }
+    
+    public boolean executeScript(List<String> script)
+    {
+    	for(String command : script)
+    	{
+    		if(executeCommand(command))
+    		{
+    			return false;
+    		}
+    	}
+    	return true;
     }
     /**
      * Checks entered command for system, second command check

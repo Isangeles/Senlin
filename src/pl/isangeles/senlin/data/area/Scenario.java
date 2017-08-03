@@ -26,6 +26,7 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class Scenario implements SaveElement
 	private List<Quest> questsToStart = new ArrayList<>();
 	private List<SimpleGameObject> objects = new ArrayList<>();
 	private List<Exit> exits = new ArrayList<>();
-	private List<String> scripts = new ArrayList<>();
+	private Map<String, List<String>> scripts = new HashMap<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -83,7 +84,7 @@ public class Scenario implements SaveElement
 	 * @throws FontFormatException
 	 */
 	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> objects,
-			        Map<String, Position> exits, List<String> scripts) 
+			        Map<String, Position> exits, Map<String, List<String>> scripts) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -194,9 +195,9 @@ public class Scenario implements SaveElement
 	
 	public void runScripts(CommandInterface cli)
 	{
-	    for(String script : scripts)
+	    for(String scriptName : scripts.keySet())
 	    {
-	        cli.executeCommand(script);
+	    	cli.executeScript(scripts.get(scriptName));
 	    }
 	}
 	
