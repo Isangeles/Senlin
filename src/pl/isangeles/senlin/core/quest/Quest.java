@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.quest;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +61,8 @@ public class Quest implements ScrollableContent
         
         try
         {
-        	name = TConnector.getInfoFromFile(Module.getLangQPath(), id)[0];
-            info = TConnector.getInfoFromFile(Module.getLangQPath(), id)[1];
+        	name = TConnector.getInfoFromFile(Module.getLangPath() + File.separator + "quests", id)[0];
+            info = TConnector.getInfoFromFile(Module.getLangPath() + File.separator + "quests", id)[1];
         }
         catch(IndexOutOfBoundsException e)
         {

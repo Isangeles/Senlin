@@ -146,9 +146,9 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<Integer, Guild> getGuildsMap(String basePath) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, Guild> getGuildsMap(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
-		Map<Integer, Guild> guildsMap = new HashMap<>();
+		Map<String, Guild> guildsMap = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -161,9 +161,9 @@ public final class DConnector
 			if(guildNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				Element guild = (Element)guildNode;
-				Integer guildId = Integer.parseInt(guild.getAttribute("id")); //TODO catch parse exception
-				Guild guildOb = new Guild(guildId, guild.getAttribute("name"));
-				guildsMap.put(guildId, guildOb);
+				String guildId = guild.getTextContent();
+				Guild guildOb = new Guild(guildId);
+				guildsMap.put(guildOb.getId(), guildOb);
 			}
 		}
 		

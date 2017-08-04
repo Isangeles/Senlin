@@ -40,7 +40,9 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.gui.*;
 import pl.isangeles.senlin.core.Attribute;
@@ -84,7 +86,7 @@ public class NewGameMenu extends BasicGameState
 		{
 	        EffectsBase.load(container);
         	SkillsBase.load(container);
-        	
+            
 			player = new Character(container);
 			Global.setPlayer(player);
 			

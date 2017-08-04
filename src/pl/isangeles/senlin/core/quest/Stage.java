@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.quest;
 
+import java.io.File;
 import java.util.List;
 
 import pl.isangeles.senlin.core.Module;
@@ -52,7 +53,7 @@ public class Stage
         this.nextStage = nextStage;
         this.flagOn = flagOn;
         this.flagOff = flagOff;
-        info = TConnector.getTextFromFile(Module.getLangQPath(), id);
+        info = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "quests", id);
         this.objectives = objectives;
     }
     /**

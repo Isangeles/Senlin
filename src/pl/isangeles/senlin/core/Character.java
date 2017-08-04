@@ -130,7 +130,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		name = "Name";
 		level = 0;
 		attitude = Attitude.FRIENDLY;
-		guild = GuildsBase.getGuild(0);
+		guild = GuildsBase.getGuild("none");
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
@@ -151,7 +151,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Character(String id, Attitude attitude, int guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
+	public Character(String id, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
@@ -641,17 +641,22 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		    return Attitude.DEAD;
 		if(attitudeMem.containsKey(character))
 		    return attitudeMem.get(character);
-		if(!guild.getId().equals("0") && guild == character.getGuild())
+		if(!guild.getId().equals("none") && guild == character.getGuild())
 			return Attitude.FRIENDLY;
 		else
 			return attitude;
 	}
 	/**
-	 * Returns guild id
-	 * @return Integer with guild id
+	 * Returns guild 
+	 * @return Guild
 	 */
 	public Guild getGuild()
-	{ return guild; }
+	{ 
+	  if(guild == null) 
+	    return GuildsBase.getGuild("none");
+	  else
+	    return guild;
+	}
 	/**
 	 * Returns all character flags
 	 * @return Container with flags IDs

@@ -39,9 +39,11 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.cli.CommandInterface;
+import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.DialoguesBase;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
@@ -49,6 +51,7 @@ import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.Field;
@@ -166,21 +169,22 @@ public class LoadingScreen extends BasicGameState
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
+		    EffectsBase.load(container);
+            SkillsBase.load(container);
             ItemsBase.load(container);
             RecipesBase.load();
-            GuildsBase.load();
+            GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load("gameObjects", container);
             ScenariosBase.load(Module.getAreaPath());
-            Module.load();
 		    break;
 		case 2:
 			loadingInfo.setText("loading game world...");
 			break;
 		case 3:
-	        gw = new GameWorld(player);
+	        gw = new GameWorld(player, Module.getChapter(Module.getActiveChapterName()));
 	        game.addState(gw);
 	        game.getState(gw.getID()).init(container, game);
 	        break;
@@ -222,9 +226,11 @@ public class LoadingScreen extends BasicGameState
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
+		    EffectsBase.load(container);
+            SkillsBase.load(container);
             ItemsBase.load(container);
             RecipesBase.load();
-            GuildsBase.load();
+            GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());

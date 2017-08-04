@@ -52,6 +52,7 @@ public class SkillsBase
 {
 	private static GameContainer gc;
 	private static Map<String, AttackPattern> attacksMap = new HashMap<>();
+	private static boolean loaded = false;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -130,7 +131,11 @@ public class SkillsBase
 	 */
 	public static void load(GameContainer gc) throws SlickException, IOException, FontFormatException, SAXException, ParserConfigurationException
 	{
-		SkillsBase.gc = gc;
-		attacksMap = DConnector.getAttacksMap("attacks");
+		if(!loaded)
+		{
+		    SkillsBase.gc = gc;
+	        attacksMap = DConnector.getAttacksMap("attacks");
+            loaded = true;
+		}
 	}
 }

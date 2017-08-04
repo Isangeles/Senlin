@@ -27,6 +27,7 @@ public class EffectsBase
 {
 	private static GameContainer gc;
 	private static Map<String, EffectPattern> effectsMap = new HashMap<>();
+	private static boolean loaded = false;
 	
 	private EffectsBase() 
 	{
@@ -59,7 +60,11 @@ public class EffectsBase
 
 	public static void load(GameContainer gc) throws SAXException, IOException, ParserConfigurationException
 	{
-		EffectsBase.gc = gc;
-		effectsMap = DConnector.getEffectsMap("effects");
+		if(!loaded)
+		{
+		    EffectsBase.gc = gc;
+	        effectsMap = DConnector.getEffectsMap("effects");
+            loaded = true;
+		}
 	}
 }

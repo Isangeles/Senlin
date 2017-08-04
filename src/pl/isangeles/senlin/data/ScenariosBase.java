@@ -48,7 +48,6 @@ public class ScenariosBase
 	 */
 	public static Scenario getScenario(String id)
 	{
-		System.out.println("scenariob req for _ " + id);
 		return scenarios.get(id);
 	}
 	/**

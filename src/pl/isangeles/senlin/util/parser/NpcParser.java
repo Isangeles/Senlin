@@ -70,7 +70,7 @@ public final class NpcParser
         String attitude = npc.getAttribute("attitude");
         boolean trade = Boolean.parseBoolean(npc.getAttribute("trade"));
         boolean train = Boolean.parseBoolean(npc.getAttribute("train"));
-        int guildID = Integer.parseInt(npc.getAttribute("guild"));
+        String guildID = npc.getAttribute("guild");
         int level = Integer.parseInt(npc.getAttribute("level"));
         NpcPattern npcP;
         

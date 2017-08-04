@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <base>
-    <guild name="Bandits" id="1"></guild>
-    <guild name="Beasts" id="2"></guild>
+    <guild>bandits</guild>
+    <guild>beasts</guild>
 </base>

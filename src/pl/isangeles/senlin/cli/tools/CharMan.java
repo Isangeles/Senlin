@@ -136,7 +136,7 @@ public class CharMan implements CliTool
     	{
     		try
     		{
-    			Guild guild = GuildsBase.getGuild(Integer.parseInt(value));
+    			Guild guild = GuildsBase.getGuild(value);
         		target.setGuild(guild);
     		}
     		catch(NumberFormatException | NoSuchElementException e)

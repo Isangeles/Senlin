@@ -103,13 +103,13 @@ public class GameWorld extends BasicGameState
 	 * @param player Player character
 	 * @param ui User interface
 	 */
-	public GameWorld(Character player)
+	public GameWorld(Character player, Chapter chapter)
 	{
         this.player = player;
         player.setPosition(1700, 500);
         player.addItem(ItemsBase.getItem("wSOHI")); //test line
         player.addItem(ItemsBase.getItem("wSOHI")); //test line
-        chapter = Module.getActiveChapter();
+        this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
         if(cui != null)

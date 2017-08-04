@@ -173,6 +173,6 @@ public final class TConnector
 	 */
 	public static String getDialogueText(String id)
 	{
-		return getTextFromFile(Module.getLangDPath(), id);
+		return getTextFromFile(Module.getLangPath() + File.separator + "dialogues", id);
 	}
 }

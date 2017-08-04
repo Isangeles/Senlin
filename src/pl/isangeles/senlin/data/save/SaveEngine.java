@@ -170,7 +170,6 @@ public class SaveEngine
         Element gameE = (Element)doc.getDocumentElement().getElementsByTagName("game").item(0);
         Element moduleE = (Element)gameE.getElementsByTagName("module").item(0);
         out = Module.setDir(moduleE.getTextContent());
-        out = Module.loadChapter(moduleE.getAttribute("chapter"));
         return out;
 	}
 }

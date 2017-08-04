@@ -21,6 +21,11 @@
  * 
  */
 package pl.isangeles.senlin.core;
+
+import java.io.File;
+
+import pl.isangeles.senlin.util.TConnector;
+
 /**
  * Class for game guilds
  * @author Isangeles
@@ -28,13 +33,13 @@ package pl.isangeles.senlin.core;
  */
 public class Guild 
 {
-	private final String name;
-	private final int id;
+    private String id;
+	private String name;
 	
-	public Guild(int id, String name) 
+	public Guild(String id) 
 	{
 		this.id = id;
-		this.name = name;
+		this.name = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "guilds", id);
 	}
 	
 	public String getName()
@@ -47,7 +52,7 @@ public class Guild
 	
 	public String getId()
 	{
-		return id+"";
+		return id;
 	}
 	
 	public String toString()

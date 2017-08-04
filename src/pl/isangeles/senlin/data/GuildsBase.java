@@ -41,7 +41,8 @@ import pl.isangeles.senlin.util.DConnector;
  */
 public final class GuildsBase 
 {
-	private static Map<Integer, Guild> guildsBase = new HashMap<>();
+	private static Map<String, Guild> guildsBase = new HashMap<>();
+	private static boolean loaded = false;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -52,20 +53,18 @@ public final class GuildsBase
 	 * @return Guild with specified ID
 	 * @throws NoSuchElementException If guild with specified ID was not found
 	 */
-	public static Guild getGuild(int guildId) throws NoSuchElementException
+	public static Guild getGuild(String guildId) throws NoSuchElementException
 	{
-		Guild guild = new Guild(0, "None");
-		
-		if(guildId == 0)
-			return guild;
+		Guild guild = guildsBase.get(guildId);
+		if(guild != null)
+		{
+		    return guild;
+		}
 		else
 		{
-			guild = guildsBase.get(guildId);
-			if(guild == null)
-				throw new NoSuchElementException();
-			else
-				return guild;
+            return new Guild("none");
 		}
+		           
 	}
 	/**
 	 * Loads XML guilds base file
@@ -73,8 +72,13 @@ public final class GuildsBase
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static void load() throws ParserConfigurationException, SAXException, IOException
+	public static void load(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
-		guildsBase = DConnector.getGuildsMap(Module.getGBasePath());
+		if(!loaded)
+		{
+		    guildsBase = DConnector.getGuildsMap(basePath);
+	        guildsBase.put("none", new Guild("none"));
+	        loaded = true;
+		}
 	}
 }

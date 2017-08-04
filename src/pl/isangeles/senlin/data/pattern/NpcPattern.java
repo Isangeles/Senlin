@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class NpcPattern
 	private final Attitude npcAttitude;
 	private final boolean trade;
 	private final boolean train;
-	private final int guildID;
+	private final String guildID;
 	private final int level;
 	private final String constructorLine;
 	private final String headItem;
@@ -99,13 +100,13 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, int guildID, int level, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
 					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
-		this.npcName = TConnector.getTextFromFile(Module.getLangNPath(), npcId);
+		this.npcName = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "npc", npcId);
 		switch(attitude)
 		{
 		case "hostile":
