@@ -6,7 +6,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.core.exc.CharacterOut;
+import pl.isangeles.senlin.core.out.CharacterOut;
 
 public class Buff extends Skill 
 {

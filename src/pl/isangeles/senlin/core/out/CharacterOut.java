@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.exc;
+package pl.isangeles.senlin.core.out;
 
 import pl.isangeles.senlin.util.TConnector;
 

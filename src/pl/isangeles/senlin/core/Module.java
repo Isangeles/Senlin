@@ -69,7 +69,7 @@ public final class Module
 		{
 			modulePath = "data" + File.separator + "modules" + File.separator + modName;
 			name = modName;
-			String modInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "modInfo";
+			String modInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "mod.conf";
 			activeChapterName = TConnector.getTextFromFile(modInfo, "startChapter");
 			inModDir = true;
 			return true;
@@ -83,14 +83,14 @@ public final class Module
 	 */
 	public static Chapter getChapter(String chapterId)
 	{
-		String chapterInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + chapterId + File.separator + "chapterInfo";
+		String chapterInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + chapterId + File.separator + "chapter.conf";
 		String startScenario = TConnector.getTextFromFile(chapterInfo, "startScenario");
 		return new Chapter(chapterId, startScenario);
 	}
 	
 	public static void nextChapter()
 	{
-	    String chaptersInfoPath = modulePath + File.separator + "chapters" + File.separator + "chaptersInfo";
+	    String chaptersInfoPath = modulePath + File.separator + "chapters" + File.separator + "chaptersList";
 	    String nextChapterName = TConnector.getTextFromFile(chaptersInfoPath, activeChapterName);
 	    activeChapterName = nextChapterName;
 	}
@@ -205,56 +205,5 @@ public final class Module
         }
         else
             return null;
-    }
-	/**
-	 * Returns path to dialogues lang file in current module directory
-	 * @return String with path to dialogues lang file
-	 */
-	private static String getLangDPath()
-	{
-		if(inModDir)
-		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "d_" + activeChapterName; 
-		}
-		else
-			return null;
-	}
-
-	/**
-	 * Returns path to quests lang file in current module directory
-	 * @return String with path to quests lang file
-	 */
-	private static String getLangQPath()
-	{
-		if(inModDir)
-		{
-			return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "q_" + activeChapterName; 
-		}
-		else
-			return null;
-	}
-	
-	/**
-     * Returns path to npc lang file in current module directory
-     * @return String with path to npc lang file
-     */
-	private static String getLangNPath()
-    {
-        if(inModDir)
-        {
-            return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "n_" + activeChapterName; 
-        }
-        else
-            return null;
-    }
-    
-	private static String getLangGPath()
-    {
-        if(inModDir)
-        {
-            return "data" + File.separator + "modules" + File.separator + name + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "g_" + activeChapterName;
-        }
-        else
-            return "";
     }
 }

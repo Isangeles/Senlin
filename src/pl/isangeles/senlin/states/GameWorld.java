@@ -51,7 +51,7 @@ import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.day.Day;
-import pl.isangeles.senlin.core.exc.CharacterOut;
+import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;

@@ -49,6 +49,7 @@ public class ArmorPattern
 	private final int armRat;
 	private final Bonuses bonuses;
 	private final String icon;
+	private final String sprite;
 	/**
 	 * Armor pattern constructor
 	 * @param id Armor ID
@@ -60,7 +61,7 @@ public class ArmorPattern
 	 * @param bonuses Item bonuses
 	 * @param icon Item UI icon
 	 */
-	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, Bonuses bonuses, String icon) 
+	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, Bonuses bonuses, String icon, String sprite) 
 	{
 		this.id = id;
 		this.reqLvl = reqLvl;
@@ -70,6 +71,7 @@ public class ArmorPattern
 		this.armRat = armRat;
 		this.bonuses = bonuses;
 		this.icon = icon;
+		this.sprite = sprite;
 	}
 	/**
 	 * Returns pattern item ID
@@ -89,7 +91,7 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, gc);
+		return new Armor(id, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
 	}
 
 	/**
@@ -103,6 +105,6 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, serial, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, gc);
+		return new Armor(id, serial, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
 	}
 }

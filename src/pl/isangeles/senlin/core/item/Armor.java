@@ -65,14 +65,14 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+	public Armor(String id, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, type, material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == CHEST)
-			setSprite();
+		if(type == CHEST && spriteName != "")
+			setSprite(spriteName);
 	}
 
 	/**
@@ -93,14 +93,14 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, GameContainer gc) 
+	public Armor(String id, int serial, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == CHEST)
-			setSprite();
+		if(type == CHEST && spriteName != "")
+			setSprite(spriteName);
 	}
 	/**
 	 * Returns item armor rating
@@ -174,6 +174,23 @@ public class Armor extends Equippable
 			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
 		default:
 			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 60, 70);
+		}
+	}
+
+	/**
+	 * Sets specified sprite for item
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	private void setSprite(String spriteFileName) throws SlickException, IOException
+	{
+		try
+		{
+			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 60, 70);
+		}
+		catch(SlickException | IOException e)
+		{
+			setSprite();
 		}
 	}
 	/* (non-Javadoc)

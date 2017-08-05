@@ -12,8 +12,8 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.GameCursor;

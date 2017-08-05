@@ -39,7 +39,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.core.exc.CharacterOut;
+import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.elements.SkillTile;
 
