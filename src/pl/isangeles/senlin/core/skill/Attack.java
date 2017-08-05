@@ -36,10 +36,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.core.exc.GameLogErr;
-import pl.isangeles.senlin.core.exc.NoRangeInfo;
-import pl.isangeles.senlin.core.exc.NoTargetInfo;
-import pl.isangeles.senlin.core.exc.NotReadyInfo;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.states.Global;
@@ -96,7 +93,7 @@ public class Attack extends Skill
 		return fullInfo;
 	}
 	@Override
-	public boolean prepare(Character user, Targetable target) throws GameLogErr
+	public CharacterOut prepare(Character user, Targetable target)
 	{
 		if(super.isActive() && weaponOk(user))
 		{
@@ -109,19 +106,19 @@ public class Attack extends Skill
 				    ready = true;
 				    active = false;
 		            playSoundEffect();
-				    return true;
+				    return CharacterOut.SUCCESS;
 				}
 				else
 				{
 	                user.moveTo(target, range);
-					throw new NoRangeInfo();
+	                return CharacterOut.NORANGE;
 				}
 			}
 			else
-				throw new NoTargetInfo();
+				return CharacterOut.NOTARGET;
 		}
 		else
-			throw new NotReadyInfo();
+		    return CharacterOut.NOREADY;
 	}
     /**
      * Activates attack skill

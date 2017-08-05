@@ -78,7 +78,8 @@ public class MainMenu extends BasicGameState
         	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "lgName"), container);
         	buttOptions = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "settName"), container);
             buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "exitName"), container);
-            menuMusic.add("mainTheme.ogg");
+            menuMusic.add("special", "mainTheme.ogg");
+            menuMusic.addAll("special");
             menuMusic.play(1.0f, 1.0f, "mainTheme.ogg");
         }
         catch(IOException | FontFormatException e)

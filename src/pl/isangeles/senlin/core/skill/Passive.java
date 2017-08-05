@@ -6,6 +6,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 
 public class Passive extends Skill 
 {
@@ -29,10 +30,10 @@ public class Passive extends Skill
     }
 
     @Override
-    public boolean prepare(Character user, Targetable target)
+    public CharacterOut prepare(Character user, Targetable target)
     {
         // TODO Auto-generated method stub
-        return false;
+        return CharacterOut.UNKNOWN;
     }
 
 }

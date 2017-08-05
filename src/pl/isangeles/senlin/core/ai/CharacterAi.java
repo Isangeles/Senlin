@@ -31,7 +31,6 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.exc.GameLogErr;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.TConnector;
@@ -78,13 +77,8 @@ public class CharacterAi
 					attack(npc, nearbyChar);
 				}
 			}
-			try 
-			{
-				npc.update(delta, gw.getAreaMap());
-			} 
-			catch (GameLogErr e) 
-			{
-			}
+
+			npc.update(delta, gw.getAreaMap());
 			
 			//Removing NPCs dynamically causes ConcurrentModificationException   
 			if(!npc.isLive())
@@ -146,16 +140,8 @@ public class CharacterAi
 		}
 		else if(aggressor.getTarget() != null && !target.isLive())
             aggressor.setTarget(null);
-		
-		try 
-		{
-			aggressor.useSkill(aggressor.getSkills().get("autoA"));
-		} 
-		catch (GameLogErr e) 
-		{
-			
-			return;
-		}
+
+		aggressor.useSkill(aggressor.getSkills().get("autoA"));
 	}
 	/**
 	 * Urges NPC to say something

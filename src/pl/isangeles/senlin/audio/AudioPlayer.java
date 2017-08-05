@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.audio;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,15 +45,10 @@ public class AudioPlayer extends HashMap<String, Music>
 {
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, List<String>> playlist = new HashMap<>();
 	private Random rng = new Random();
 
 	public AudioPlayer() 
 	{
-		playlist.put("menu", new ArrayList<String>());
-		playlist.put("world", new ArrayList<String>());
-		playlist.put("combat", new ArrayList<String>());
-		playlist.put("none", new ArrayList<String>());
 	}
 	/**
 	 * Adds one specified music track to player
@@ -60,57 +56,32 @@ public class AudioPlayer extends HashMap<String, Music>
 	 * @throws SlickException If audio file format is wrong
 	 * @throws IOException If audio archive not found
 	 */
-	public void add(String trackName) throws SlickException, IOException
+	public void add(String category, String trackName) throws SlickException, IOException
 	{
 		
 		try
 		{
-			Music track = new Music(AConnector.getInput("music/" +  trackName), trackName);
+			Music track = new Music(AConnector.getInput("music/" + category + "/" +  trackName), trackName);
 			this.put(trackName, track);
 		}
 		catch(IOException | SlickException e)
 		{
-			Log.addSystem("audio_player_fail msg///playlist error");
+			Log.addSystem("audioPlayer_fail_msg///adding error: " + trackName);
 		}
 	}
 	/**
 	 * Adds all tracks from specified category to player
 	 * @param category Catalog name in audio archive
 	 * @throws IOException If audio archive or playlist file not found
+	 * @throws SlickException 
 	 */
-	public void addAll(String category) throws IOException
+	public void addAll(String category) throws IOException, SlickException
 	{
-		Scanner scann = new Scanner(AConnector.getInput(category + "/playlist"));
+		Scanner scann = new Scanner(AConnector.getInput("music/" + category + "/playlist"));
 		scann.useDelimiter(";\r?\n");
 		while(scann.hasNext())
 		{
-			try
-			{
-				String catAndTrack[] = scann.next().split(";");
-				System.out.println(catAndTrack[0] + "||" + catAndTrack[1]);
-				switch(catAndTrack[0])
-				{
-				case "menu":
-					playlist.get("menu").add(catAndTrack[1]);
-					break;
-				case "world":
-					playlist.get("world").add(catAndTrack[1]);
-					break;
-				case "combat":
-					playlist.get("combat").add(catAndTrack[1]);
-					break;
-				default:
-					playlist.get("none").add(catAndTrack[1]);
-					break;
-				}
-				Music track = new Music(AConnector.getInput(category + "/" + catAndTrack[1]), catAndTrack[1]);
-				this.put(catAndTrack[1], track);
-			}
-			catch(IOException | SlickException | ArrayIndexOutOfBoundsException e)
-			{
-				Log.addSystem("audio_player_" + category + "_fail msg///playlist error");
-				break;
-			}
+		    add(category, scann.next());
 		}
 		scann.close();
 	}
@@ -121,33 +92,31 @@ public class AudioPlayer extends HashMap<String, Music>
 	 */
 	public void play(float pitch, float volume, String trackName)
 	{
-		if(this.size() == 1)
-			this.get(trackName).play(pitch, volume);
+	    Music track = this.get(trackName);
+		if(track != null)
+			track.play(pitch, volume);
+		else
+		    Log.addSystem("audioPlayer_fail_msg///no such track: " + trackName);
 	}
 	/**
 	 * Starts audio player
 	 * @param pitch
 	 * @param volume
 	 */
-	public void playRandom(float pitch, float volume, String category)
-	{
-		switch(category)
-		{
-		case "menu":
-			List<String> menuTracks = playlist.get("menu");
-			this.get(menuTracks.get(rng.nextInt(menuTracks.size()))).play(pitch, volume);
-			break;
-		case "world":
-			List<String> worldTracks = playlist.get("world");
-			this.get(worldTracks.get(rng.nextInt(worldTracks.size()))).play(pitch, volume);
-			break;
-		case "combat":
-			List<String> combatTracks = playlist.get("combat");
-			this.get(combatTracks.get(rng.nextInt(combatTracks.size()))).play(pitch, volume);
-			break;
-		default:
-			break;
-		}
+	public void playRandom(float pitch, float volume)
+	{	
+		Music[] tracks = new Music[this.values().size()];
+		this.values().toArray(tracks);
+		
+        if(tracks.length > 0)
+        {
+            int trackId = rng.nextInt(tracks.length);
+            tracks[trackId].play(pitch, volume);
+        }
+        else
+        {
+            Log.addSystem("audioPlayer_fail_msg///no tracks inside");
+        }
 	}
 	/**
 	 * Stops audio player

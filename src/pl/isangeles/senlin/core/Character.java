@@ -52,7 +52,7 @@ import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
-import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.quest.Journal;
@@ -393,13 +393,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @param delta
 	 * @throws GameLogErr 
 	 */
-	public void update(int delta, TiledMap map) throws GameLogErr
+	public CharacterOut update(int delta, TiledMap map)
 	{
+	    CharacterOut out = CharacterOut.SUCCESS;
 		if(!live)
 		{
 			avatar.kill();
 			attitude = Attitude.DEAD;
-			return;
+			return CharacterOut.SUCCESS;
 		}
 	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
         {
@@ -447,7 +448,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
 		if(fighting && target != null && !avatar.isCasting())
 		{
-			useSkillOn(target, abilities.get("autoA"));
+		    out = useSkillOn(target, abilities.get("autoA"));
 		}
 		else
 			fighting = false;
@@ -460,6 +461,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		effects.update(delta, this);
 		flags.update(quests);
 		quests.update();
+		return out;
 	}
 	/**
 	 * Moves character to given position  
@@ -1035,9 +1037,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * Activates specified skill, if character know this skill
      * @param skill Some skill known by this character
      */
-    public void useSkill(Skill skill) throws GameLogErr
+    public CharacterOut useSkill(Skill skill)
     {
-		if(live && abilities.contains(skill) && skill.prepare(this, target))
+		if(live && abilities.contains(skill) && skill.prepare(this, target).isSuccess())
     	{
     	    if(Attack.class.isInstance(skill))
     	    {
@@ -1045,19 +1047,24 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    		avatar.rangeAttack((Attack)skill);
     	    	else
         	        avatar.meleeAttack((Attack)skill);
+    	    	return CharacterOut.SUCCESS;
+    	    }
+    	    else
+    	    {
+                return CharacterOut.UNKNOWN;
     	    }
     	}
     	else
-    		Log.addWarning(TConnector.getText("ui", "logUnable"));
+    		return CharacterOut.UNABLE;
     }
     /**
      * Activates specified skill, if character know this skill
      * @param skill Some skill known by this character
      * @param target Skill target
      */
-    public void useSkillOn(Targetable target, Skill skill) throws GameLogErr
+    public CharacterOut useSkillOn(Targetable target, Skill skill)
     {
-    	if(live && abilities.contains(skill) && skill.prepare(this, target))
+    	if(live && abilities.contains(skill) && skill.prepare(this, target).isSuccess())
     	{
     	    if(Attack.class.isInstance(skill))
     	    {
@@ -1065,10 +1072,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    		avatar.rangeAttack((Attack)skill);
     	    	else
         	        avatar.meleeAttack((Attack)skill);
+
+                return CharacterOut.SUCCESS;
+    	    }
+    	    else
+    	    {
+                return CharacterOut.UNKNOWN;
     	    }
     	}
     	else
-    		Log.addWarning(TConnector.getText("ui", "logUnable"));
+            return CharacterOut.UNABLE;
     }
     
     public void looting(boolean looting)

@@ -199,6 +199,6 @@ public class Log
 	private static void add(String text)
 	{
 		String record = Stopwatch.timeFromMillis(System.currentTimeMillis()) + ":" + text;
-		commList.add(record);
+	    commList.add(record);
 	}
 }

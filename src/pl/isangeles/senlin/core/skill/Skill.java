@@ -39,7 +39,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.elements.SkillTile;
 
@@ -217,7 +217,7 @@ public abstract class Skill implements SlotContent
      * @param target Character targeted by skill user
      * @return True if skill was successfully activate, false otherwise 
 	 */
-	public abstract boolean prepare(Character user, Targetable target) throws GameLogErr;
+	public abstract CharacterOut prepare(Character user, Targetable target);
 	
 	protected abstract String getInfo();
 	

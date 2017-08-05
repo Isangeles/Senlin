@@ -12,7 +12,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GBase;
@@ -70,13 +70,11 @@ public class SkillSlot extends Slot implements MouseListener
 	{
 		if(skillInSlot != null)
 		{
-			try
+		    CharacterOut out;
+			out = skillInSlot.getOwner().useSkill(skillInSlot);
+			if(out != CharacterOut.SUCCESS)
 			{
-				skillInSlot.getOwner().useSkill(skillInSlot);
-			}
-			catch(GameLogErr e)
-			{
-				Log.addWarning(e.getMessage());
+	            Log.addSystem(out.toString());
 			}
 		}
 	}

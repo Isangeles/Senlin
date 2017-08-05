@@ -25,10 +25,17 @@ public class AConnector
 	 */
 	public static InputStream getInput(String pathInArch) throws IOException
 	{
-		String fullPath = "audio/" + pathInArch;
-		ZipFile aData = new ZipFile("data" + File.separator + "aData");
-		ZipEntry aFile = aData.getEntry(fullPath);
-		InputStream is = aData.getInputStream(aFile);
-		return is;
+		try
+		{
+		    String fullPath = "audio/" + pathInArch;
+	        ZipFile aData = new ZipFile("data" + File.separator + "aData");
+	        ZipEntry aFile = aData.getEntry(fullPath);
+	        InputStream is = aData.getInputStream(aFile);
+	        return is;
+		}
+		catch(NullPointerException e)
+		{
+		    throw new IOException();
+		}
 	}
 }

@@ -51,7 +51,7 @@ import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.day.Day;
-import pl.isangeles.senlin.core.exc.GameLogErr;
+import pl.isangeles.senlin.core.exc.CharacterOut;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
@@ -149,8 +149,8 @@ public class GameWorld extends BasicGameState
         try 
         {
         	gwMusic = new AudioPlayer();
-        	gwMusic.add("worldExploring.ogg");
-        	gwMusic.play(1.0f, 1.0f, "worldExploring.ogg");
+        	gwMusic.addAll("exploring");
+        	gwMusic.playRandom(1.0f, 1.0f);
         	
         	gwCursor = new GameCursor(container);
         	dayManager = new Day();
@@ -221,14 +221,11 @@ public class GameWorld extends BasicGameState
         if(!isPause())
             keyDown(container.getInput());
     	
-    	try
-    	{
-    		player.update(delta, areaMap);
-    	}
-    	catch(GameLogErr e)
-    	{
-    		e.printToLog();
-    	}
+        CharacterOut out;
+        out = player.update(delta, areaMap);
+        if(out != CharacterOut.SUCCESS)
+            Log.addWarning(out.toString());
+    	
     	npcsAi.update(delta);
     	if(changeAreaReq)
     		changeArea(container, game);
