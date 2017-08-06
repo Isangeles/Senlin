@@ -24,6 +24,7 @@
         <exit position="0;0">prologue02</exit>
     </exits>
     <scripts>
+        <script>prologueStart.gs</script>
     </scripts>
 </scenario>
 </base>

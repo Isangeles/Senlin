@@ -54,6 +54,7 @@ import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
+import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.util.Position;
 
 /**
@@ -105,16 +106,10 @@ public final class SSGParser
         
         String activeScenario = playerE.getElementsByTagName("scenario").item(0).getTextContent();
         
-        Element uiE = (Element)saveE.getElementsByTagName("ui").item(0);
-        Map<String, Integer> bBarLayout = getBBarLayout(uiE.getElementsByTagName("bar").item(0));
-        Map<String, Integer[]> invLayout = getInvLayout(uiE.getElementsByTagName("inventory").item(0));
-        Element cameraE = (Element)uiE.getElementsByTagName("camera").item(0);
-        String[] cPosString = cameraE.getElementsByTagName("pos").item(0).getTextContent().split(";");
-        float[] cPos = {0f, 0f};
-        cPos[0] = Float.parseFloat(cPosString[0]);
-        cPos[1] = Float.parseFloat(cPosString[1]);
+        Node uiNode = saveE.getElementsByTagName("ui").item(0);
+        UiLayout uiLayout = getUiLayout(uiNode);
         
-        return new SavedGame(player, chapterId, scenarios, activeScenario, bBarLayout, invLayout, cPos);
+        return new SavedGame(player, chapterId, scenarios, activeScenario, uiLayout);
     }
     /**
      * Parses specified save document element to game character 
@@ -277,7 +272,29 @@ public final class SSGParser
     	
     	return objectInventory;
     }
-    
+    /**
+     * Parses ui node to UI layout 
+     * @param uiNode Node for ssg save (ui node)
+     * @return UI layout 
+     */
+    private static UiLayout getUiLayout(Node uiNode)
+    {
+    	Element uiE = (Element)uiNode;
+        Map<String, Integer> bBarLayout = getBBarLayout(uiE.getElementsByTagName("bar").item(0));
+        Map<String, Integer[]> invLayout = getInvLayout(uiE.getElementsByTagName("inventory").item(0));
+        Element cameraE = (Element)uiE.getElementsByTagName("camera").item(0);
+        String[] cPosString = cameraE.getElementsByTagName("pos").item(0).getTextContent().split(";");
+        float[] cPos = {0f, 0f};
+        cPos[0] = Float.parseFloat(cPosString[0]);
+        cPos[1] = Float.parseFloat(cPosString[1]);
+        
+        return new UiLayout(bBarLayout, invLayout, cPos);
+    }
+    /**
+     * Parses bar node to UI bottom bar layout
+     * @param barNode Node from ui node (bar node)
+     * @return Map with skills IDs as keys and slots IDs as values
+     */
     private static Map<String, Integer> getBBarLayout(Node barNode)
     {
     	Map<String, Integer> layout = new HashMap<>();
@@ -307,7 +324,11 @@ public final class SSGParser
     	
     	return layout;
     }
-    
+    /**
+     * Parses inventory node to UI inventory menu layout
+     * @param inventoryNode Node from ui node (inventory node)
+     * @return Map with items IDs as keys and slots IDs as values
+     */
     private static Map<String, Integer[]> getInvLayout(Node inventoryNode)
     {
     	Map<String, Integer[]> layout = new HashMap<>();

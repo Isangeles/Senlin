@@ -32,7 +32,11 @@ import pl.isangeles.senlin.util.TConnector;
 public enum ProfessionType
 {
 	ARMORCRAFTING, WEAPONCRAFTING, ALCHEMY, ENCHANTING;
-	
+	/**
+	 * Converts profession ID to profession type
+	 * @param proTypeName String with type ID
+	 * @return Profession type enum
+	 */
 	public static ProfessionType fromString(String proTypeName)
 	{
 		switch(proTypeName)
@@ -49,7 +53,9 @@ public enum ProfessionType
 			return ProfessionType.ARMORCRAFTING;
 		}
 	}
-	
+	/**
+	 * Returns type ID
+	 */
 	public String toString()
 	{
 		switch(this)
@@ -66,7 +72,10 @@ public enum ProfessionType
 			return "error";
 		}
 	}
-	
+	/**
+	 * Returns profession type name for UI
+	 * @return String with profession name
+	 */
 	public String getName()
 	{
 		switch(this)

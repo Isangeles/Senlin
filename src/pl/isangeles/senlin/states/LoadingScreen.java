@@ -260,9 +260,7 @@ public class LoadingScreen extends BasicGameState
         case 7:
         	cli = new CommandInterface(player, gw);
             ui = new UserInterface(container, cli, player, gw);
-        	ui.setBBarLayout(gameToLoad.getBBarLayout());
-        	ui.setInvLayout(gameToLoad.getInvLayout());
-        	ui.getCamera().setPos(gameToLoad.getCameraPos());
+        	ui.setLayout(gameToLoad.getUiLayout());
             gw.setGui(ui);
             gw.setCli(cli);
             break;

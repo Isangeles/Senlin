@@ -109,12 +109,6 @@ public class CommandInterface
         	out = charman.handleCommand(command);
         }
         
-        if(toolName.equals("$system"))
-        {
-        	systemCommands(command);
-        	out = true;
-        }
-        
         if(toolName.equals("$worldman"))
         {
         	out = worldman.handleCommand(command);
@@ -127,29 +121,75 @@ public class CommandInterface
        
     }
     
-    public boolean executeScript(List<String> script)
+    public boolean executeScript(Script script)
     {
-    	for(String command : script)
+    	boolean out = true;
+    	String scriptCode = script.toString();
+    	String ifCode = script.getIfCode();
+    	String endCode = script.getEndCode();
+    	
+    	Scanner scann = new Scanner(scriptCode);
+    	scann.useDelimiter(";\r?\n");
+    	
+    	while(scann.hasNext())
     	{
-    		if(executeCommand(command))
-    		{
-    			return false;
-    		}
+    		if(checkCondition(script, ifCode))
+        	{
+    			String command = scann.next();
+    			command.replaceFirst("^\\s*", "");
+        		if(!executeCommand(command))
+        		{
+        			out = false;
+        			break;
+        		}
+        		script.used();
+        	}
+    		else
+    			break;
     	}
-    	return true;
+    	scann.close();
+    	
+    	if(checkEndCondition(script))
+    		script.finish();
+    	
+    	return out;
     }
-    /**
-     * Checks entered command for system, second command check
-     * @param commandLine Rest of command line (after target) 
-     */
-    private void systemCommands(String commandLine)
+    
+    private boolean checkCondition(Script script, String ifCode)
     {
-    	Scanner scann = new Scanner(commandLine);
-        String command = scann.next();
-        String prefix = scann.nextLine();
-        scann.close();
-        
-
-        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdSys"));
+    	boolean out = false;
+    	Scanner scann = new Scanner(ifCode);
+    	scann.useDelimiter(";");
+    	
+    	String command = scann.next();
+    	if(command.equals("true"))
+    		out = true;
+    	if(command.startsWith("use="))
+    	{
+    		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
+    		if(script.getUseCount() == value)
+    			out = true;
+    	}
+    	
+    	scann.close();
+    	
+    	return out;
+    }
+    
+    private boolean checkEndCondition(Script script)
+    {
+    	boolean out = false;
+    	Scanner scann = new Scanner(script.getEndCode());
+    	scann.useDelimiter(":\r?\n");
+    	if(scann.next().equals("if"))
+    	{
+    		String ifCommand = scann.next();
+    		ifCommand.replaceFirst("^\\s*", "");
+    		
+    		out = checkCondition(script, ifCommand);
+    	}
+    	
+    	scann.close();
+    	return out;
     }
 }

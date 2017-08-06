@@ -32,7 +32,11 @@ import pl.isangeles.senlin.util.TConnector;
 public enum ProfessionLevel 
 {
 	NOVICE, APPRENTICE, SPECIALIST, MASTER;
-	
+	/**
+	 * Converts profession level ID to profession level enum
+	 * @param proTypeName String with level ID
+	 * @return Profession level enum
+	 */
 	public static ProfessionLevel fromString(String proLvlName)
 	{
 		switch(proLvlName)
@@ -49,7 +53,9 @@ public enum ProfessionLevel
 			return ProfessionLevel.MASTER;
 		}
 	}
-	
+	/**
+	 * Returns level ID
+	 */
 	public String toString()
 	{
 		switch(this)
@@ -66,7 +72,10 @@ public enum ProfessionLevel
 			return "error";
 		}
 	}
-	
+	/**
+	 * Returns profession level name for UI
+	 * @return String with profession level
+	 */
 	public String getName()
 	{
 		switch(this)

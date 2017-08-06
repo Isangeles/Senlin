@@ -48,6 +48,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Guild;
@@ -342,7 +343,6 @@ public final class DConnector
 		
 		List<File> scenariosFiles = new ArrayList<>();
 
-		System.out.println("slfile  " + scenariosDir + File.separator + "scenariosList");
 		File list = new File(scenariosDir + File.separator + "scenariosList");
 		
 		Scanner scann = new Scanner(list);
@@ -513,9 +513,9 @@ public final class DConnector
 		return armorsMap;
 	}
 	/**
-	 * TODO write trinkets map builder
-	 * @param trinketsBase
-	 * @return
+	 * Parses specified XML base and returns map with trinkets patterns
+	 * @param trinketsBase Name of XML base in data/item dir
+	 * @return Map with trinkets patterns as values and its IDs as keys
 	 */
 	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase) throws ParserConfigurationException, SAXException, IOException
 	{
@@ -624,8 +624,14 @@ public final class DConnector
 		
 		return recipes;
 	}
-	
-	public static List<String> getScript(String scriptFileName) throws FileNotFoundException
+	/**
+	 * TODO write proper scripts parser
+	 * Parses script with specified name in current module script dir
+	 * @param scriptFileName Name of script in current module script dir
+	 * @return List with commands for game CLI
+	 * @throws FileNotFoundException
+	 */
+	public static Script getScript(String scriptFileName) throws FileNotFoundException
 	{
 		List<String> script = new ArrayList<>();
 	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFileName;
@@ -639,6 +645,6 @@ public final class DConnector
 	    		script.add(command);
 	    }
 	    scann.close();
-	    return script;
+	    return null;
 	}
 }

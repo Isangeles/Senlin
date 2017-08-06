@@ -66,7 +66,6 @@ public class RecipeTraining extends Training
 	{
 		return recipe.getName();
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Training#teach(pl.isangeles.senlin.core.Character)
 	 */

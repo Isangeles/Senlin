@@ -39,7 +39,6 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 
-	public Effects(){}
 	/**
 	 * Updates all effects in container
 	 * @param delta Time (in milliseconds) from last update
@@ -63,7 +62,9 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 		}
 		this.removeAll(effectsToRemove);
 	}
-	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
 	public Element getSave(Document doc)
 	{
 	    Element effectsE = doc.createElement("effects");

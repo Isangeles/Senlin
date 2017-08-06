@@ -44,6 +44,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.GameCursor;
+import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.gui.Warning;
 import pl.isangeles.senlin.gui.elements.*;
 /**
@@ -278,15 +279,15 @@ public class UserInterface implements MouseListener, SaveElement
     {
     	return camera;
     }
-    
-    public void setBBarLayout(Map<String, Integer> layout)
+    /**
+     * Sets specified UI layout
+     * @param layout UI layout to set
+     */
+    public void setLayout(UiLayout layout)
     {
-    	bBar.loadLayout(layout);
-    }
-    
-    public void setInvLayout(Map<String, Integer[]> layout)
-    {
-    	inventory.loadLayout(layout);
+    	bBar.loadLayout(layout.getBarLayout());
+    	inventory.loadLayout(layout.getInvLayouyt());
+    	camera.setPos(layout.getCameraPos());
     }
     
 	@Override

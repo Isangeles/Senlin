@@ -1,2 +1,8 @@
 #Script for prologue start
-$charman player add -item acCS01;
+script:
+    $charman player add -item acCS01;
+if:
+    true;
+end: 
+    if:
+        use=1;

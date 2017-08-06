@@ -22,9 +22,7 @@
  */
 package pl.isangeles.senlin.states;
 
-import java.awt.FontFormatException;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,43 +38,30 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
-import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
-import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.day.Day;
 import pl.isangeles.senlin.core.out.CharacterOut;
-import pl.isangeles.senlin.data.DialoguesBase;
-import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.NpcBase;
-import pl.isangeles.senlin.data.ObjectsBase;
-import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.graphic.FogOfWar;
-import pl.isangeles.senlin.graphic.GameObject;
-import pl.isangeles.senlin.graphic.SimpleAnimObject;
-import pl.isangeles.senlin.gui.Field;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.elements.UserInterface;
 import pl.isangeles.senlin.util.Coords;
-import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
  * State for game world
  * 
- * System cursor currently in use
  * @author Isangeles
  *
  */
@@ -95,7 +80,7 @@ public class GameWorld extends BasicGameState
 	private UserInterface ui;
 	private CommandInterface cui;
 	private AudioPlayer gwMusic;
-	private GameCursor gwCursor;
+	private GameCursor gwCursor; //UNUSED
 	private Scenario nextArea;
 	private boolean changeAreaReq;
 	/**
@@ -112,8 +97,6 @@ public class GameWorld extends BasicGameState
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
-        if(cui != null)
-        	activeScenario.runScripts(cui);
 	}
 	/**
 	 * Creates game world for saved game
@@ -229,6 +212,9 @@ public class GameWorld extends BasicGameState
     	npcsAi.update(delta);
     	if(changeAreaReq)
     		changeArea(container, game);
+    	
+    	if(cui != null)
+    		activeScenario.runScripts(cui);
     	
     	if(ui != null)
     	{

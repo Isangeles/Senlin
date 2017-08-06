@@ -42,6 +42,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
@@ -92,7 +93,7 @@ public class ScenarioParser
 					Map<String, String[]> quests = new HashMap<>();
 					Map<String, Position> objects = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
-					Map<String, List<String>> scripts = new HashMap<>();
+					List<Script> scripts = new ArrayList<>();
 					
 					Node npcsNode = scenarioE.getElementsByTagName("npcs").item(0);
 					NodeList npcNl = npcsNode.getChildNodes();
@@ -175,8 +176,7 @@ public class ScenarioParser
                         {
                             Element scriptE = (Element)scriptNode;
                             String scriptName = scriptE.getTextContent();
-                            List<String> script = DConnector.getScript(scriptName);
-                            scripts.put(scriptName, script);
+                            scripts.add(DConnector.getScript(scriptName));
                         }
                     }
 					
@@ -185,7 +185,6 @@ public class ScenarioParser
 		}
 		
 		return null;
-			
 	}
 	/**
 	 * Parses node to MobsArea object
