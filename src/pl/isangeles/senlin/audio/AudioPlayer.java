@@ -78,7 +78,7 @@ public class AudioPlayer extends HashMap<String, Music>
 	public void addAll(String category) throws IOException, SlickException
 	{
 		Scanner scann = new Scanner(AConnector.getInput("music/" + category + "/playlist"));
-		scann.useDelimiter(";\r?\n");
+		scann.useDelimiter(";|(;\\r?\\n)");
 		while(scann.hasNext())
 		{
 		    add(category, scann.next());

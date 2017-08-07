@@ -72,6 +72,7 @@ public class Scenario implements SaveElement
 	private List<SimpleGameObject> objects = new ArrayList<>();
 	private List<Exit> exits = new ArrayList<>();
 	private List<Script> scripts = new ArrayList<>();
+	private List<Script> finishedScripts = new ArrayList<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -196,7 +197,18 @@ public class Scenario implements SaveElement
 	
 	public void runScripts(CommandInterface cli)
 	{
-
+		for(Script script : scripts)
+		{
+			if(script.isFinished())
+			{
+				finishedScripts.add(script);
+			}
+			else
+			{
+				cli.executeScript(script);
+			}
+		}
+		scripts.removeAll(finishedScripts);
 	}
 	
 	public void setNpcs(List<Character> npcs)

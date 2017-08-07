@@ -88,6 +88,14 @@ public class Script
 		return useCount;
 	}
 	/**
+	 * Checks if script is finished
+	 * @return True if script should not be executed, false otherwise
+	 */
+	public boolean isFinished()
+	{
+		return end;
+	}
+	/**
 	 * Increases number of uses of this script
 	 */
 	public void used()

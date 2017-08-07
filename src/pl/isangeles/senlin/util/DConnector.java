@@ -633,18 +633,67 @@ public final class DConnector
 	 */
 	public static Script getScript(String scriptFileName) throws FileNotFoundException
 	{
-		List<String> script = new ArrayList<>();
 	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFileName;
 	    File scriptFile = new File(scriptPath);
 	    Scanner scann = new Scanner(scriptFile, "UTF-8");
-	    scann.useDelimiter(";");
-	    while(scann.hasNext())
+	    
+	    String scriptCode = "";
+	    String ifCode = "";
+	    String endCode = "";
+	    
+	    while(scann.hasNextLine())
 	    {
-	    	String command = scann.next();
-	    	if(command.startsWith("$"))
-	    		script.add(command);
+	    	String line = scann.nextLine().replaceFirst("^\\s*", "");
+	    	if(!line.startsWith("#"))
+	    	{
+	    		if(line.startsWith("script:"))
+	    		{
+	    			while(scann.hasNextLine())
+	    			{
+	    				line = scann.nextLine().replaceFirst("^\\s*", "");
+		    			if(line.startsWith("if:") || line.startsWith("end:"))
+		    			{
+		    				break;
+		    			}
+		    			if(!line.startsWith("#"))
+		    			{
+		    				scriptCode += line;
+		    			}
+	    			}
+	    		}
+	    		if(line.startsWith("if:"))
+	    		{
+	    			while(scann.hasNextLine())
+	    			{
+	    				line = scann.nextLine().replaceFirst("^\\s*", "");
+		    			if(line.startsWith("script:") || line.startsWith("end:"))
+		    			{
+		    				break;
+		    			}
+		    			if(!line.startsWith("#"))
+		    			{
+		    				ifCode += line;
+		    			}
+	    			}
+	    		}
+	    		if(line.startsWith("end:"))
+	    		{
+	    			while(scann.hasNextLine())
+	    			{
+	    				line = scann.nextLine().replaceFirst("^\\s*", "");
+		    			if(line.startsWith("script:"))
+		    			{
+		    				break;
+		    			}
+		    			if(!line.startsWith("#"))
+		    			{
+		    				endCode += line;
+		    			}
+	    			}
+	    		}
+	    	}
 	    }
 	    scann.close();
-	    return null;
+	    return new Script(scriptFileName, scriptCode, ifCode, endCode);
 	}
 }

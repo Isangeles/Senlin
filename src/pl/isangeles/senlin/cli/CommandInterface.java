@@ -129,14 +129,14 @@ public class CommandInterface
     	String endCode = script.getEndCode();
     	
     	Scanner scann = new Scanner(scriptCode);
-    	scann.useDelimiter(";\r?\n");
+    	scann.useDelimiter(";|(;\r?\n)");
     	
     	while(scann.hasNext())
     	{
     		if(checkCondition(script, ifCode))
         	{
-    			String command = scann.next();
-    			command.replaceFirst("^\\s*", "");
+    			String command = scann.next().replaceFirst("^\\s*", "");
+    			
         		if(!executeCommand(command))
         		{
         			out = false;
@@ -159,9 +159,9 @@ public class CommandInterface
     {
     	boolean out = false;
     	Scanner scann = new Scanner(ifCode);
-    	scann.useDelimiter(";");
+    	scann.useDelimiter(":|(:\r?\n)");
     	
-    	String command = scann.next();
+    	String command = scann.next().replaceFirst("^\\s*", "");
     	if(command.equals("true"))
     		out = true;
     	if(command.startsWith("use="))
@@ -169,6 +169,8 @@ public class CommandInterface
     		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
     		if(script.getUseCount() == value)
     			out = true;
+    		else
+    			out = false;
     	}
     	
     	scann.close();
@@ -180,7 +182,7 @@ public class CommandInterface
     {
     	boolean out = false;
     	Scanner scann = new Scanner(script.getEndCode());
-    	scann.useDelimiter(":\r?\n");
+    	scann.useDelimiter(":|(:\r?\n)");
     	if(scann.next().equals("if"))
     	{
     		String ifCommand = scann.next();
