@@ -1,6 +1,6 @@
 #Script for prologue start
 script:
-    $charman player add -item acCS01;
+    $charman player add -item acCS00;
 if:
     true;
 end: 

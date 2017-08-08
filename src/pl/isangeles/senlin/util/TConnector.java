@@ -93,6 +93,18 @@ public final class TConnector
 		return getTextFromFile(fullPath, textID);
 	}
 	/**
+     * 
+     * construction of text file: [text id]:[text];[new line mark]
+     * @param fileName Name of the file in current lang directory
+     * @param textID Id of text line
+     * @return String with text or error message 
+     */
+	public static String getTextFromModule(String fileName ,String textID)
+	{
+		String fullPath = Module.getGlobalLangPath() + File.separator + fileName;
+		return getTextFromFile(fullPath, textID);
+	}
+	/**
 	 * Returns table with name[0] and info[1] for specified lang file and ID
 	 * @param langFile Some file in current lang directory
 	 * @param id ID of line in specified file
@@ -129,6 +141,27 @@ public final class TConnector
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			Log.addSystem("tc_get_info_fail_msg///No name or info in " + filePath + " for: " + id);
+		}
+		return nameAndInfo;
+	}
+
+	/**
+	 * 
+	 * @param langFile Some file in current lang directory
+	 * @param id ID of line in specified file
+	 * @return Table with name[0] and info[1]
+	 */
+	public static String[] getInfoFromModule(String langFile, String id)
+	{
+		String[] nameAndInfo = new String[]{"", ""};
+		try
+		{
+			nameAndInfo[0] = getTextFromFile(Module.getGlobalLangPath() + File.separator + langFile, id).split(";")[0];
+			nameAndInfo[1] = getTextFromFile(Module.getGlobalLangPath() + File.separator + langFile, id).split(";")[1];
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.addSystem("tc_get_info_fail_msg///No name or info in " + langFile + " for: " + id);
 		}
 		return nameAndInfo;
 	}

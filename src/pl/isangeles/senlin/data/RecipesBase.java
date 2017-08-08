@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.data;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -64,8 +65,8 @@ public final class RecipesBase
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static void load() throws ParserConfigurationException, SAXException, IOException
+	public static void load(String itemsPath) throws ParserConfigurationException, SAXException, IOException
 	{
-		recipesList = DConnector.getRecipes("recipes.sb");
+		recipesList = DConnector.getRecipes(itemsPath + File.separator + "recipes.sb");
 	}
 }

@@ -169,15 +169,15 @@ public class LoadingScreen extends BasicGameState
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
-		    EffectsBase.load(container);
-            SkillsBase.load(container);
-            ItemsBase.load(container);
-            RecipesBase.load();
+			EffectsBase.load(Module.getSkillsPath(), container);
+            SkillsBase.load(Module.getSkillsPath(), container);
+            ItemsBase.load(Module.getItemsPath(), container);
+            RecipesBase.load(Module.getItemsPath());
             GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
-            ObjectsBase.load("gameObjects", container);
+            ObjectsBase.load(Module.getObjectsPath(), container);
             ScenariosBase.load(Module.getAreaPath());
 		    break;
 		case 2:
@@ -226,15 +226,15 @@ public class LoadingScreen extends BasicGameState
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
-		    EffectsBase.load(container);
-            SkillsBase.load(container);
-            ItemsBase.load(container);
-            RecipesBase.load();
+		    EffectsBase.load(Module.getSkillsPath(), container);
+            SkillsBase.load(Module.getSkillsPath(), container);
+            ItemsBase.load(Module.getItemsPath(), container);
+            RecipesBase.load(Module.getItemsPath());
             GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
-            ObjectsBase.load("gameObjects", container);
+            ObjectsBase.load(Module.getObjectsPath(), container);
             ScenariosBase.load(Module.getAreaPath());
 			SaveEngine.loadModuleFrom(saveName);
 		    break;

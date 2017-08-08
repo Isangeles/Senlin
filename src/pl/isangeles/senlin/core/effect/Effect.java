@@ -33,6 +33,7 @@ import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.gui.elements.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for effects used by items, skills, etc.
@@ -77,12 +78,12 @@ public class Effect
 	 * @throws IOException 
 	 * @throws SlickException 
 	 */
-	public Effect(String id, String name, String info, String imgName, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, 
+	public Effect(String id, String imgName, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, 
 				  int dmgMod, int dot, int duration, EffectType type, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
-	    this.name = name;
-	    this.info = info;
+	    this.name = TConnector.getInfoFromModule("effects", id)[0];
+	    this.info = TConnector.getInfoFromModule("effects", id)[1];
 	    this.imgName = imgName;
 		this.type = type;
 		this.hpMod = hpMod;

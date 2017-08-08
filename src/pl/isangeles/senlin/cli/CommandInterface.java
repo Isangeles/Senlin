@@ -66,6 +66,8 @@ public class CommandInterface
      */
     public boolean executeCommand(String line)
     {
+
+		System.out.println("executing_cli_" + line);
     	//If not a game command
     	if(!line.startsWith("$"))
     	{
@@ -82,40 +84,37 @@ public class CommandInterface
         {
             toolName = scann.next();
             command = scann.nextLine();
+            
+            if(toolName.equals("$debug"))
+            {
+            	if(command.equals("on"))
+            	{
+            		Log.setDebug(true);
+            	}
+            	else if(command.equals("off"))
+            	{
+            		Log.setDebug(false);
+            	}
+            	
+            	out = true;
+            }
+            else if(toolName.equals("$charman"))
+            {
+            	Log.addDebug("In charman");
+            	out = charman.handleCommand(command);
+            }
+            else if(toolName.equals("$worldman"))
+            {
+            	out = worldman.handleCommand(command);
+            }
+            else
+            	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
         }
         scann.close();
-        
-        if(toolName.equals("$debug"))
-        {
-        	if(command.equals("on"))
-        	{
-        		Log.setDebug(true);
-        	}
-        	else if(command.equals("off"))
-        	{
-        		Log.setDebug(false);
-        	}
-        	
-        	out = true;
-        }
-        
-        if(toolName.equals("$charman"))
-        {
-        	Log.addDebug("In charman");
-        	out = charman.handleCommand(command);
-        }
-        
-        if(toolName.equals("$worldman"))
-        {
-        	out = worldman.handleCommand(command);
-        }
-        
-        if(!out)
-        	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
         
         return out;
        
@@ -131,43 +130,52 @@ public class CommandInterface
     	Scanner scann = new Scanner(scriptCode);
     	scann.useDelimiter(";|(;\r?\n)");
     	
-    	while(scann.hasNext())
+    	try
     	{
-    		if(checkCondition(script, ifCode))
+    		while(scann.hasNext())
         	{
-    			String command = scann.next().replaceFirst("^\\s*", "");
-    			
-        		if(!executeCommand(command))
-        		{
-        			out = false;
+        		if(checkCondition(script, ifCode))
+            	{
+        			String command = scann.next().replaceFirst("^\\s*", "");
+
+            		script.used();
+            		if(!executeCommand(command))
+            		{
+            			out = false;
+            			break;
+            		}
+            	}
+        		else
         			break;
-        		}
-        		script.used();
         	}
-    		else
-    			break;
+        	scann.close();
+        	
+        	if(checkEndCondition(script))
+        		script.finish();
     	}
-    	scann.close();
-    	
-    	if(checkEndCondition(script))
+    	catch(IndexOutOfBoundsException e)
+    	{
+    		Log.addSystem("cli_script_corrupted:" + script.getName());
     		script.finish();
+    	}
     	
     	return out;
     }
     
-    private boolean checkCondition(Script script, String ifCode)
+    private boolean checkCondition(Script script, String ifCode) throws IndexOutOfBoundsException
     {
     	boolean out = false;
     	Scanner scann = new Scanner(ifCode);
-    	scann.useDelimiter(":|(:\r?\n)");
+    	scann.useDelimiter("\r?\n");
     	
     	String command = scann.next().replaceFirst("^\\s*", "");
-    	if(command.equals("true"))
+    	if(command.equals("true;"))
     		out = true;
     	if(command.startsWith("use="))
     	{
     		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
-    		if(script.getUseCount() == value)
+    		System.out.print(value + "?=" + script.getUseCount());
+    		if(script.getUseCount() >= value)
     			out = true;
     		else
     			out = false;
@@ -178,7 +186,7 @@ public class CommandInterface
     	return out;
     }
     
-    private boolean checkEndCondition(Script script)
+    private boolean checkEndCondition(Script script) throws IndexOutOfBoundsException
     {
     	boolean out = false;
     	Scanner scann = new Scanner(script.getEndCode());

@@ -40,8 +40,6 @@ import pl.isangeles.senlin.util.TConnector;
 public class EffectPattern
 {
     private String id;
-    private String name;
-    private String info;
     private String imgName;
     private EffectType type;
     private int hpMod;
@@ -69,8 +67,6 @@ public class EffectPattern
     public EffectPattern(String id, String imgName, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, int dmgMod, int dot, int duration, String type)
     {
         this.id = id;
-        this.name = TConnector.getInfo("effects", id)[0];
-        this.info = TConnector.getInfo("effects", id)[1];
         this.imgName = imgName;
         this.type = EffectType.fromString(type);
         this.hpMod = hpMod;
@@ -92,6 +88,6 @@ public class EffectPattern
      */
     public Effect make(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Effect(id, name, info, imgName, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, dot, duration, type, gc);
+        return new Effect(id, imgName, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, dot, duration, type, gc);
     }
 }

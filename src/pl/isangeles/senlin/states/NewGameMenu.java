@@ -38,6 +38,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
@@ -84,8 +85,9 @@ public class NewGameMenu extends BasicGameState
 	{
 		try 
 		{
-	        EffectsBase.load(container);
-        	SkillsBase.load(container);
+			Module.setDir(Settings.getModuleName());
+	        EffectsBase.load(Module.getSkillsPath(), container);
+        	SkillsBase.load(Module.getSkillsPath(), container);
             
 			player = new Character(container);
 			Global.setPlayer(player);

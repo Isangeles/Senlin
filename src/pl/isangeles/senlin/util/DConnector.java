@@ -208,13 +208,13 @@ public final class DConnector
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Map<String, AttackPattern> getAttacksMap(String baseFile) throws SAXException, IOException, ParserConfigurationException
+	public static Map<String, AttackPattern> getAttacksMap(String basePath) throws SAXException, IOException, ParserConfigurationException
 	{
 	    Map<String, AttackPattern> attacksMap = new HashMap<>();
 	    
 	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        Document base = db.parse("data" + File.separator + "skills" + File.separator + baseFile);
+        Document base = db.parse(basePath);
 	    
         NodeList nl = base.getDocumentElement().getChildNodes();
         //Iterating skills nodes
@@ -276,13 +276,13 @@ public final class DConnector
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	public static Map<String, EffectPattern> getEffectsMap(String baseFile) throws SAXException, IOException, ParserConfigurationException
+	public static Map<String, EffectPattern> getEffectsMap(String basePath) throws SAXException, IOException, ParserConfigurationException
 	{
 		Map<String, EffectPattern> effectsMap = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse("data" + File.separator + "skills" + File.separator + baseFile);
+		Document base = db.parse(basePath);
 		
 		NodeList nl = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < nl.getLength(); i ++)
@@ -406,15 +406,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, ObjectPattern> getObjects(String objectsBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, ObjectPattern> getObjects(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, ObjectPattern> objectsMap = new HashMap<>();
 		
-		String objectsDir = "data" + File.separator + "objects" + File.separator + objectsBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(objectsDir);
+		Document base = db.parse(basePath);
 		
 		NodeList objectsList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < objectsList.getLength(); i ++)
@@ -444,15 +442,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, WeaponPattern> getWeapons(String weaponsBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, WeaponPattern> getWeapons(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, WeaponPattern> weaponsMap = new HashMap<>();
 		
-		String weaponsDir = "data" + File.separator + "item" + File.separator + weaponsBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(weaponsDir);
+		Document base = db.parse(basePath);
 		
 		NodeList weaponsList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < weaponsList.getLength(); i ++)
@@ -482,15 +478,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, ArmorPattern> getArmors(String armorBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, ArmorPattern> getArmors(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, ArmorPattern> armorsMap = new HashMap<>();
 		
-		String armorsDir = "data" + File.separator + "item" + File.separator + armorBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(armorsDir);
+		Document base = db.parse(basePath);
 		
 		NodeList armorsList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < armorsList.getLength(); i ++)
@@ -517,15 +511,13 @@ public final class DConnector
 	 * @param trinketsBase Name of XML base in data/item dir
 	 * @return Map with trinkets patterns as values and its IDs as keys
 	 */
-	public static Map<String, TrinketPattern> getTrinkets(String trinketsBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, TrinketPattern> getTrinkets(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
 		
-		String docDir = "data" + File.separator + "item" + File.separator + trinketsBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(docDir);
+		Document base = db.parse(basePath);
 		
 		NodeList trinketsList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < trinketsList.getLength(); i ++)
@@ -555,15 +547,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, MiscPattern> getMisc(String miscBase) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, MiscPattern> getMisc(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, MiscPattern> miscMap = new HashMap<>();
 		
-		String miscDir = "data" + File.separator + "item" + File.separator + miscBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(miscDir);
+		Document base = db.parse(basePath);
 		
 		NodeList miscList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < miscList.getLength(); i ++)
@@ -593,15 +583,13 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static List<Recipe> getRecipes(String recipesBase) throws ParserConfigurationException, SAXException, IOException
+	public static List<Recipe> getRecipes(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		List<Recipe> recipes = new ArrayList<>();
 		
-		String baseDir = "data" + File.separator + "item" + File.separator + recipesBase;
-		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(baseDir);
+		Document base = db.parse(basePath);
 		
 		NodeList recipesList = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < recipesList.getLength(); i ++)

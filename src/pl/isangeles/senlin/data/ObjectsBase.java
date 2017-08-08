@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,10 +84,10 @@ public class ObjectsBase
 	 * @throws SlickException 
 	 * @throws FontFormatException 
 	 */
-	public static void load(String baseName, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
+	public static void load(String objectsPath, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		ObjectsBase.gc = gc;
-		objectsMap = DConnector.getObjects(baseName);
-		exitAreaTex =  new Sprite(GConnector.getInput("object/exit.png"), "areaExit", true, TConnector.getText("objects", "areaExit"), gc);
+		objectsMap = DConnector.getObjects(objectsPath + File.separator + "gameObjects");
+		exitAreaTex =  new Sprite(GConnector.getInput("object/exit.png"), "areaExit", true, TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 }

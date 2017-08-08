@@ -193,6 +193,48 @@ public final class Module
             return null;
     }
 
+	/**
+     * Returns path to items directory in current module directory
+     * @return String with path to items directory
+     */
+    public static String getItemsPath()
+    {
+        if(inModDir)
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "items"; 
+        }
+        else
+            return null;
+    }
+
+	/**
+     * Returns path to skills directory in current module directory
+     * @return String with path to skills directory
+     */
+    public static String getSkillsPath()
+    {
+        if(inModDir)
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "skills"; 
+        }
+        else
+            return null;
+    }
+
+	/**
+     * Returns path to objects directory in current module directory
+     * @return String with path to objects directory
+     */
+    public static String getObjectsPath()
+    {
+        if(inModDir)
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "objects"; 
+        }
+        else
+            return null;
+    }
+
     /**
      * Returns path to dialogues lang file in current module directory
      * @return String with path to dialogues lang file
@@ -202,6 +244,19 @@ public final class Module
         if(inModDir)
         {
             return modulePath + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "lang" + File.separator +  Settings.getLang(); 
+        }
+        else
+            return null;
+    }
+    /**
+     * Returns path to global lang dir in current module directory
+     * @return String with path to dialogues lang file
+     */
+    public static String getGlobalLangPath()
+    {
+        if(inModDir)
+        {
+            return modulePath + File.separator + "lang"  + File.separator +  Settings.getLang(); 
         }
         else
             return null;

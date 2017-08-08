@@ -45,8 +45,6 @@ import pl.isangeles.senlin.util.TConnector;
 public class AttackPattern implements SkillPattern
 {
     private final String id;
-    private final String name;
-    private final String info;
     private final EffectType type;
     private final int magickaCost;
     private final boolean useWeapon;
@@ -77,8 +75,6 @@ public class AttackPattern implements SkillPattern
     {
         this.type = EffectType.fromString(type);
         this.id = id;
-        this.name = TConnector.getInfo("skills", id)[0];
-        this.info = TConnector.getInfo("skills", id)[1];
         this.imgName = imgName;
         this.magickaCost = magickaCost;
         this.castTime = castTime*1000;
@@ -101,7 +97,7 @@ public class AttackPattern implements SkillPattern
      */
     public Attack make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Attack(character, id, name, info, imgName, type, damage, magickaCost, castTime, cooldown, useWeapon, reqWeapon, range, effects, gc);
+        return new Attack(character, id, imgName, type, damage, magickaCost, castTime, cooldown, useWeapon, reqWeapon, range, effects, gc);
     }
 
     /* (non-Javadoc)

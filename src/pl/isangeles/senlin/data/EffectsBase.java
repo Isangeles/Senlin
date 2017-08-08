@@ -1,6 +1,7 @@
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,12 +59,12 @@ public class EffectsBase
 	    return effectsMap.get(id);
 	}
 
-	public static void load(GameContainer gc) throws SAXException, IOException, ParserConfigurationException
+	public static void load(String skillsPath, GameContainer gc) throws SAXException, IOException, ParserConfigurationException
 	{
 		if(!loaded)
 		{
 		    EffectsBase.gc = gc;
-	        effectsMap = DConnector.getEffectsMap("effects");
+	        effectsMap = DConnector.getEffectsMap(skillsPath + File.separator + "effects");
             loaded = true;
 		}
 	}

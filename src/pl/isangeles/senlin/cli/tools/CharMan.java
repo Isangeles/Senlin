@@ -61,6 +61,7 @@ public class CharMan implements CliTool
 	@Override
 	public boolean handleCommand(String line) 
 	{
+		boolean out = false;
 		Scanner scann = new Scanner(line);
         String commandTarget = "";
         String command = "";
@@ -68,21 +69,21 @@ public class CharMan implements CliTool
         {
             commandTarget = scann.next();
             command = scann.nextLine();
+            
+            if(commandTarget.equals("player"))
+            	out = playerCommands(command);
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
-        	return false;
+        	out = false;
         }
         finally
         {
             scann.close();
         }
         
-        if(commandTarget.equals("player"))
-        	playerCommands(command);
-        
-		return true;
+		return out;
 	}
 	
 
@@ -90,8 +91,9 @@ public class CharMan implements CliTool
      * Checks entered command for player, second command check
      * @param commandLine Rest of command line (after target) 
      */
-    private void playerCommands(String commandLine)
+    private boolean playerCommands(String commandLine)
     {
+    	boolean out = false;
         Scanner scann = new Scanner(commandLine);
         String command = scann.next();
         String prefix = scann.nextLine();
@@ -99,119 +101,123 @@ public class CharMan implements CliTool
         
         if(command.equals("add"))
         {
-            addCommands(prefix, player);
-            return;
+        	out = addCommands(prefix, player);
         }
-        if(command.equals("remove"))
+        else if(command.equals("remove"))
         {
-        	removeCommands(prefix, player);
-            return;
+        	out = removeCommands(prefix, player);
         }
-        if(command.equals("set"))
+        else if(command.equals("set"))
         {
-        	setCommands(prefix, player);
-            return;
+        	out = setCommands(prefix, player);
         }
-        if(command.equals("show"))
+        else if(command.equals("show"))
         {
-        	showCommands(prefix, player);
-        	return;
+        	out = showCommands(prefix, player);
         }
-        
-        Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
+        else
+        	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
+        return out;
     }
     /**
      * Checks set command for target, last command check
      * @param commandLine Rest of command line (after command)
      * @param target Target of command
      */
-    private void setCommands(String commandLine, Character target)
+    private boolean setCommands(String commandLine, Character target)
     {
+    	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
     	String value = scann.next();
     	scann.close();
     	
-    	if(prefix.equals("-guild"))
+    	try
     	{
-    		try
-    		{
+    		if(prefix.equals("-guild"))
+        	{
     			Guild guild = GuildsBase.getGuild(value);
         		target.setGuild(guild);
-    		}
-    		catch(NumberFormatException | NoSuchElementException e)
-    		{
-    			Log.addSystem("bad value: " + value);
-    		}
-    		return;
+        		out = true;
+        	}
+        	else if(prefix.equals("-attitude"))
+        	{
+        		out = true;
+        	}
+        	else
+            	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
     	}
-    	if(prefix.equals("-attitude"))
-    	{
-    		return;
-    	}
-
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
+    	catch(NumberFormatException | NoSuchElementException e)
+		{
+			Log.addSystem("bad value: " + value);
+		}
+        return out;
     }
     /**
      * Checks add command for target, last command check
      * @param commandLine Rest of command line (after command)
      * @param target Target of command
      */
-    private void addCommands(String commandLine, Character target)
+    private boolean addCommands(String commandLine, Character target)
     {
+		boolean out = false;
+		
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
     	String value = scann.next();
     	scann.close();
     	
-    	if(prefix.equals("-i"))
-    	{
-    		if(target.addItem(ItemsBase.getItem(value)))
-                Log.addInformation(TConnector.getText("ui", "logAddI"));
-            else
-                Log.addInformation(TConnector.getText("ui", "logAddIFail"));
-    	}
     	try
     	{
-    		Boolean out = false;
-    	    if(prefix.equals("-g") || prefix.equals("-gold"))
+    		if(prefix.equals("-i") || prefix.equals("-item"))
+        	{
+    			out = target.addItem(ItemsBase.getItem(value));
+        		if(out)
+                    Log.addInformation(TConnector.getText("ui", "logAddI"));
+                else
+                    Log.addInformation(TConnector.getText("ui", "logAddIFail"));
+        	}
+    		else if(prefix.equals("-g") || prefix.equals("-gold"))
     	        target.addGold(Integer.parseInt(value));
-    		if(prefix.equals("-h"))
+    		else if(prefix.equals("-h"))
     		    target.addHealth(Integer.parseInt(value));
-        	if(prefix.equals("-m"))
+    		else if(prefix.equals("-m"))
         	    target.addMagicka(Integer.parseInt(value));
-        	if(prefix.equals("-e"))
+    		else if(prefix.equals("-e"))
         	    target.addExperience(Integer.parseInt(value));
-        	if(prefix.equals("-s") || prefix.equals("-skills"))
+    		else if(prefix.equals("-s") || prefix.equals("-skills"))
         		out = target.addSkill(SkillsBase.getAttack(target, value));
-        	if(prefix.equals("-p") || prefix.equals("-profession"))
+    		else if(prefix.equals("-p") || prefix.equals("-profession"))
         		out = target.addProfession(new Profession(ProfessionType.fromString(value)));
-        	if(prefix.equals("-r") || prefix.equals("-recipe"))
+    		else if(prefix.equals("-r") || prefix.equals("-recipe"))
         	{
         		Recipe recipe = RecipesBase.get(value);
         		if(recipe != null && target.getProfession(recipe.getType()) != null)
         			out = target.getProfession(recipe.getType()).add(recipe);
         	}
-        	if(prefix.equals("-q") || prefix.equals("-quest"))
+    		else if(prefix.equals("-q") || prefix.equals("-quest"))
         		target.startQuest(QuestsBase.get(value));
+    		else
+            	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
         	
-        	Log.addSystem("Command out:" + out.toString());
-        	return;
+    		Log.addSystem("Command out:" + out);
+        	
     	}
     	catch(NumberFormatException e)
     	{
     		Log.addSystem(TConnector.getText("ui", "logBadVal"));
     	}
 
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
+        return out;
     }
     /**
      * Checks remove command for target, last command check
      * @param commLine Rest of command line (after command)
      * @param target Target of command
      */
-    private void removeCommands(String commandLine, Character target)
+    private boolean removeCommands(String commandLine, Character target)
     {
+    	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
     	String value = scann.next();
@@ -222,34 +228,35 @@ public class CharMan implements CliTool
     		if(prefix.equals("-h"))
     		{
     		    player.takeHealth(Integer.parseInt(value));
-    		    return;
+    		    out = true;
     		}
-        	if(prefix.equals("-m"))
+    		else if(prefix.equals("-m"))
         	{
         	    player.takeMagicka(Integer.parseInt(value));
-        	    return;
+        	    out = true;
         	}
-        	if(prefix.equals("-e"))
+    		else if(prefix.equals("-e"))
         	{
         	    player.takeExperience(Integer.parseInt(value));
-        	    return;
+        	    out = true;
         	}
-        	
-            Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
+    		else
+    			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
     	}
     	catch(NumberFormatException e)
     	{
     		Log.addInformation(TConnector.getText("ui", "logBadVal"));
     	}
-
+    	return out;
     }
     /**
      * Checks show command for target, last command check
      * @param commLine Rest of command line (after command)
      * @param target Target of command
      */
-    private void showCommands(String commandLine, Character target)
+    private boolean showCommands(String commandLine, Character target)
     {
+    	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
     	String value = scann.next();
@@ -258,13 +265,15 @@ public class CharMan implements CliTool
     	if(prefix.equals("-f"))
     	{
     		Log.addSystem(target.getName() + "//flags: " + target.getFlags().list());
-    		return;
+    		out = true;
     	}
-    	if(prefix.equals("-r"))
+    	else if(prefix.equals("-r"))
     	{
     		Log.addSystem(target.getProfession(ProfessionType.fromString(value)).toString());
-    		return;
+    		out = true;
     	}
-        Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
+    	else
+        	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
+        return out;
     }
 }

@@ -199,6 +199,7 @@ public class Scenario implements SaveElement
 	{
 		for(Script script : scripts)
 		{
+			System.out.println("executing: " + script.getName());
 			if(script.isFinished())
 			{
 				finishedScripts.add(script);

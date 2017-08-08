@@ -68,11 +68,11 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String name, String info, String imgName, EffectType type, int damage, int magickaCost,
+	public Attack(Character character, String id, String imgName, EffectType type, int damage, int magickaCost,
 				  int castTime, int cooldown, boolean useWeapon, WeaponType reqWeapon, int range, List<Effect> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
+		super(character, id, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
 		this.damage = damage;
 		this.range = range;
 		this.reqWeapon = reqWeapon;

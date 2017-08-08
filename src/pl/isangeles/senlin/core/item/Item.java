@@ -51,8 +51,8 @@ public abstract class Item implements SlotContent, Usable
     public Item(String id, int value, int maxStack, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         this.id = id;
-        this.name = TConnector.getInfo("items", id)[0];
-        this.info = TConnector.getInfo("items", id)[1];
+        this.name = TConnector.getInfoFromModule("items", id)[0];
+        this.info = TConnector.getInfoFromModule("items", id)[1];
         this.value = value;
         this.maxStack = maxStack;
         this.imgName = imgName;

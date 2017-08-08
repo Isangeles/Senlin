@@ -11,9 +11,9 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 public class Passive extends Skill 
 {
 
-	public Passive(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, boolean useWeapon, List<Effect> effects) 
+	public Passive(Character character, String id, String imgName, EffectType type, int magickaCost, boolean useWeapon, List<Effect> effects) 
 	{
-		super(character, id, name, info, imgName, type, magickaCost, 0, 0, useWeapon, effects);
+		super(character, id, imgName, type, magickaCost, 0, 0, useWeapon, effects);
 	}
 
 	@Override

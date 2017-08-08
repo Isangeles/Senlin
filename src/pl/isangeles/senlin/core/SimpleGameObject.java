@@ -65,7 +65,7 @@ public class SimpleGameObject implements Targetable, SaveElement
         this.portrait = portrait;
         this.id = id;
         this.onClick = onClick;
-        name = TConnector.getText("objects", id);
+        name = TConnector.getTextFromModule("objects", id);
         inventory.addAll(items);
         inventory.addGold(gold);
     }
@@ -76,7 +76,7 @@ public class SimpleGameObject implements Targetable, SaveElement
     	this.portrait = portrait;
     	this.id = id;
         this.onClick = onClick;
-        name = TConnector.getText("objects", id);
+        name = TConnector.getTextFromModule("objects", id);
         inventory.addAll(items);
         inventory.addGold(gold);
     }

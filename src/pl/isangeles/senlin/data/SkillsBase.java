@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,12 +130,12 @@ public class SkillsBase
 	 * @throws ParserConfigurationException 
 	 * @throws SAXException 
 	 */
-	public static void load(GameContainer gc) throws SlickException, IOException, FontFormatException, SAXException, ParserConfigurationException
+	public static void load(String skillsPath, GameContainer gc) throws SlickException, IOException, FontFormatException, SAXException, ParserConfigurationException
 	{
 		if(!loaded)
 		{
 		    SkillsBase.gc = gc;
-	        attacksMap = DConnector.getAttacksMap("attacks");
+	        attacksMap = DConnector.getAttacksMap(skillsPath + File.separator + "attacks");
             loaded = true;
 		}
 	}

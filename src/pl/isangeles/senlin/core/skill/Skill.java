@@ -84,12 +84,12 @@ public abstract class Skill implements SlotContent
 	 * @param useWeapon If weapon is needed to use this skill
 	 * @param effects Skill effect list
 	 */
-	public Skill(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
+	public Skill(Character character, String id, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
 	{
 		this.type = type;
 		this.id = id;
-		this.name = name;
-		this.info = info;
+		this.name = TConnector.getInfoFromModule("skills", id)[0];
+		this.info = TConnector.getInfoFromModule("skills", id)[1];
 		this.imgName = imgName;
 		this.magickaCost = magickaCost;
 		this.castTime = castTime;

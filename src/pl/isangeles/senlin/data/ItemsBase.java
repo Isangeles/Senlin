@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.data;
 
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -158,12 +159,12 @@ public class ItemsBase
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
 	 */
-	public static void load(GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
+	public static void load(String itemsPath, GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
 	{
 		ItemsBase.gc = gc;
-		weaponsMap = DConnector.getWeapons("weaponsBase.sb");
-		armorsMap = DConnector.getArmors("armorBase.sb");
-		trinketsMap = DConnector.getTrinkets("trinketsBase.sb");
-		miscMap = DConnector.getMisc("miscBase.sb");
+		weaponsMap = DConnector.getWeapons(itemsPath + File.separator + "weaponsBase.sb");
+		armorsMap = DConnector.getArmors(itemsPath + File.separator + "armorBase.sb");
+		trinketsMap = DConnector.getTrinkets(itemsPath + File.separator + "trinketsBase.sb");
+		miscMap = DConnector.getMisc(itemsPath + File.separator + "miscBase.sb");
 	}
 }

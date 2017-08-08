@@ -11,9 +11,9 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 public class Buff extends Skill 
 {
 
-	public Buff(Character character, String id, String name, String info, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
+	public Buff(Character character, String id, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
 	{
-		super(character, id, name, info, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
+		super(character, id, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
 	}
 
 	@Override
