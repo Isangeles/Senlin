@@ -55,7 +55,7 @@ import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.Field;
-import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.gui.tools.UserInterface;
 /**
  * Class for game loading state
  * @author Isangeles

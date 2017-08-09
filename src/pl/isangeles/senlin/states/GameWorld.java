@@ -55,7 +55,7 @@ import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.graphic.FogOfWar;
 import pl.isangeles.senlin.gui.GameCursor;
-import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
@@ -132,7 +132,7 @@ public class GameWorld extends BasicGameState
         try 
         {
         	gwMusic = new AudioPlayer();
-        	gwMusic.addAll("exploring");
+        	activeScenario.addMusic(gwMusic);
         	gwMusic.playRandom(1.0f, 1.0f);
         	
         	gwCursor = new GameCursor(container);

@@ -26,5 +26,8 @@
     <scripts>
         <script>prologueStart.gs</script>
     </scripts>
+    <music>
+        <track category="exploring">$all</track>
+    </music>
 </scenario>
 </base>

@@ -24,6 +24,7 @@ package pl.isangeles.senlin.util.parser;
 
 import java.awt.FontFormatException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,6 +95,7 @@ public class ScenarioParser
 					Map<String, Position> objects = new HashMap<>();
 					Map<String, Position> exits = new HashMap<>();
 					List<Script> scripts = new ArrayList<>();
+					Map<String, String> music = new HashMap<>();
 					
 					Node npcsNode = scenarioE.getElementsByTagName("npcs").item(0);
 					NodeList npcNl = npcsNode.getChildNodes();
@@ -168,19 +170,14 @@ public class ScenarioParser
 						}
 					}
 					
-					NodeList sriptsNl = scenarioE.getElementsByTagName("scripts").item(0).getChildNodes();
-					for(int j = 0; j < sriptsNl.getLength(); j ++)
-                    {
-                        Node scriptNode = sriptsNl.item(j);
-                        if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-                        {
-                            Element scriptE = (Element)scriptNode;
-                            String scriptName = scriptE.getTextContent();
-                            scripts.add(DConnector.getScript(scriptName));
-                        }
-                    }
+					Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
+					scripts = getScriptsFromNode(scriptsNode);
 					
-					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits, scripts);	
+					Node musicNode = scenarioE.getElementsByTagName("music").item(0);
+					music = getMusicFromNode(musicNode);
+					
+					
+					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits, scripts, music);	
 			}
 		}
 		
@@ -211,5 +208,45 @@ public class ScenarioParser
 		}
 			
 		return new MobsArea(areaStart, areaEnd, mobCon);
+	}
+	
+	private static List<Script> getScriptsFromNode(Node scriptsNode) throws FileNotFoundException
+	{
+		List<Script> scripts = new ArrayList<>();
+		
+		Element scriptsE = (Element)scriptsNode;
+		NodeList sriptsNl = scriptsE.getElementsByTagName("script");
+		for(int j = 0; j < sriptsNl.getLength(); j ++)
+        {
+            Node scriptNode = sriptsNl.item(j);
+            if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element scriptE = (Element)scriptNode;
+                String scriptName = scriptE.getTextContent();
+                scripts.add(DConnector.getScript(scriptName));
+            }
+        }
+		return scripts;
+	}
+	
+	private static Map<String, String> getMusicFromNode(Node musicNode)
+	{
+		Map<String, String> music = new HashMap<>();
+		
+		Element musicE = (Element)musicNode;
+		NodeList musicsNl = musicE.getElementsByTagName("track");
+		for(int j = 0; j < musicsNl.getLength(); j ++)
+        {
+            Node trackNode = musicsNl.item(j);
+            if(trackNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element trackE = (Element)trackNode;
+                String trackName = trackE.getTextContent();
+                String trackCategory = trackE.getAttribute("category");
+                music.put(trackName, trackCategory);
+            }
+        }
+		
+		return music;
 	}
 }

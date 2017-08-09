@@ -49,7 +49,7 @@ import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
-import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.parser.SSGParser;
 /**

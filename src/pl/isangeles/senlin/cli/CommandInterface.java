@@ -66,8 +66,6 @@ public class CommandInterface
      */
     public boolean executeCommand(String line)
     {
-
-		System.out.println("executing_cli_" + line);
     	//If not a game command
     	if(!line.startsWith("$"))
     	{
@@ -174,7 +172,6 @@ public class CommandInterface
     	if(command.startsWith("use="))
     	{
     		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
-    		System.out.print(value + "?=" + script.getUseCount());
     		if(script.getUseCount() >= value)
     			out = true;
     		else

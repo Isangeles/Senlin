@@ -93,7 +93,7 @@ public final class TConnector
 		return getTextFromFile(fullPath, textID);
 	}
 	/**
-     * 
+     * Returns text with for specified ID from specified file in current module lang directory
      * construction of text file: [text id]:[text];[new line mark]
      * @param fileName Name of the file in current lang directory
      * @param textID Id of text line
@@ -105,7 +105,7 @@ public final class TConnector
 		return getTextFromFile(fullPath, textID);
 	}
 	/**
-	 * Returns table with name[0] and info[1] for specified lang file and ID
+	 * Returns table with name[0] and info[1] for specified ID form specified lang file in data/lang directory
 	 * @param langFile Some file in current lang directory
 	 * @param id ID of line in specified file
 	 * @return Table with name[0] and info[1]
@@ -125,7 +125,7 @@ public final class TConnector
 		return nameAndInfo;
 	}
 	/**
-	 * Returns table with name[0] and info[1] from specified lang file and ID
+	 * Returns table with name[0] and info[1] for specified ID from specified file
 	 * @param filePath Path to lang file
 	 * @param id ID of line in specified file
 	 * @return Table with name[0] and info[1]
@@ -146,7 +146,7 @@ public final class TConnector
 	}
 
 	/**
-	 * 
+	 * Returns table with name[0] and info[1] for specified ID from lang file in current module directory
 	 * @param langFile Some file in current lang directory
 	 * @param id ID of line in specified file
 	 * @return Table with name[0] and info[1]

@@ -11,5 +11,8 @@
     </exits>
     <scripts>
     </scripts>
+    <music>
+        <track category="exploring">$all</track>
+    </music>
 </scenario>
 </base>

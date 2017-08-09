@@ -31,7 +31,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.gui.elements.EffectTile;
+import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 

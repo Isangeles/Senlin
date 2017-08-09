@@ -42,7 +42,7 @@ import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InfoWindow;
-import pl.isangeles.senlin.gui.elements.UserInterface;
+import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical representation of character

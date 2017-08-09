@@ -613,7 +613,6 @@ public final class DConnector
 		return recipes;
 	}
 	/**
-	 * TODO write proper scripts parser
 	 * Parses script with specified name in current module script dir
 	 * @param scriptFileName Name of script in current module script dir
 	 * @return List with commands for game CLI

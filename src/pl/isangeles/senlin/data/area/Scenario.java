@@ -48,6 +48,7 @@ import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
@@ -73,6 +74,7 @@ public class Scenario implements SaveElement
 	private List<Exit> exits = new ArrayList<>();
 	private List<Script> scripts = new ArrayList<>();
 	private List<Script> finishedScripts = new ArrayList<>();
+	private Map<String, String> music = new HashMap<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -86,7 +88,7 @@ public class Scenario implements SaveElement
 	 * @throws FontFormatException
 	 */
 	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> objects,
-			        Map<String, Position> exits, List<Script> scripts) 
+			        Map<String, Position> exits, List<Script> scripts, Map<String, String> music) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -131,6 +133,7 @@ public class Scenario implements SaveElement
 		this.mobsAreas = mobsAreas;
 		
 		this.scripts = scripts;
+		this.music = music;
 	}
 	/**
 	 * Draws all scenario objects
@@ -194,12 +197,14 @@ public class Scenario implements SaveElement
 			player.startQuest(q);
 		}
 	}
-	
+	/**
+	 * Runs all scripts for this scenario
+	 * @param cli Command line interface to execute scripts
+	 */
 	public void runScripts(CommandInterface cli)
 	{
 		for(Script script : scripts)
 		{
-			System.out.println("executing: " + script.getName());
 			if(script.isFinished())
 			{
 				finishedScripts.add(script);
@@ -210,6 +215,26 @@ public class Scenario implements SaveElement
 			}
 		}
 		scripts.removeAll(finishedScripts);
+	}
+	/**
+	 * Adds all music tracks for this scenario to specified audio player
+	 * @param player Audio player
+	 * @throws IOException
+	 * @throws SlickException
+	 */
+	public void addMusic(AudioPlayer player) throws IOException, SlickException
+	{
+		for(String track : music.keySet())
+		{
+			if(track.equals("$all"))
+			{
+				player.addAll(music.get(track));
+			}
+			else
+			{
+				player.add(music.get(track), track);
+			}
+		}
 	}
 	
 	public void setNpcs(List<Character> npcs)
@@ -245,6 +270,25 @@ public class Scenario implements SaveElement
 			charactersE.appendChild(npc.getSave(doc));
 		}
 		scenarioE.appendChild(charactersE);
+		
+		Element scriptsE = doc.createElement("scripts");
+		for(Script script : scripts)
+		{
+			Element scriptE = doc.createElement("script");
+			scriptE.setTextContent(script.getName());
+			scriptsE.appendChild(scriptE);
+		}
+		scenarioE.appendChild(scriptsE);
+		
+		Element musicE = doc.createElement("music");
+		for(String track : music.keySet())
+		{
+			Element trackE = doc.createElement("track");
+			trackE.setTextContent(track);
+			trackE.setAttribute("category", music.get(track));
+			musicE.appendChild(trackE);
+		}
+		scenarioE.appendChild(musicE);
 		
 		return scenarioE;
 	}

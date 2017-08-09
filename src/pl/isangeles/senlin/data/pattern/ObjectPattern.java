@@ -70,7 +70,7 @@ public class ObjectPattern
 	public ObjectPattern(String id, String mainTexture, String portrait, String type, int frames, int fWidth, int fHeight, String action, int gold, Map<String, Boolean> items) 
 	{
 		this.id = id;
-		this.info = TConnector.getText("objects", id);
+		this.info = TConnector.getTextFromModule("objects", id);
 		this.mainTexture = mainTexture;
 		this.portrait = portrait;
 		this.type = type;

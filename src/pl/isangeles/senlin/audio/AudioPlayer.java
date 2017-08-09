@@ -56,7 +56,7 @@ public class AudioPlayer extends HashMap<String, Music>
 	 * @throws SlickException If audio file format is wrong
 	 * @throws IOException If audio archive not found
 	 */
-	public void add(String category, String trackName) throws SlickException, IOException
+	public void add(String category, String trackName)
 	{
 		
 		try
@@ -75,15 +75,26 @@ public class AudioPlayer extends HashMap<String, Music>
 	 * @throws IOException If audio archive or playlist file not found
 	 * @throws SlickException 
 	 */
-	public void addAll(String category) throws IOException, SlickException
+	public void addAll(String category)
 	{
-		Scanner scann = new Scanner(AConnector.getInput("music/" + category + "/playlist"));
-		scann.useDelimiter(";|(;\\r?\\n)");
-		while(scann.hasNext())
+		try
 		{
-		    add(category, scann.next());
+			Scanner scann = new Scanner(AConnector.getInput("music/" + category + "/playlist"));
+			scann.useDelimiter(";|(;\\r?\\n)");
+			while(scann.hasNext())
+			{
+			    add(category, scann.next());
+			}
+			scann.close();
 		}
-		scann.close();
+		catch(IOException e)
+		{
+			Log.addSystem("audioPlayer_fail_msg///playlist not found: " + category);
+		}
+		finally
+		{
+			
+		}
 	}
 	/**
 	 * Starts audio player

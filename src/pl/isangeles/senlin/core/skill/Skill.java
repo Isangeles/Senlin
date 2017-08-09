@@ -41,7 +41,7 @@ import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.gui.SlotContent;
-import pl.isangeles.senlin.gui.elements.SkillTile;
+import pl.isangeles.senlin.gui.tools.SkillTile;
 
 /**
  * Class for character skills like attacks, spells, etc.
