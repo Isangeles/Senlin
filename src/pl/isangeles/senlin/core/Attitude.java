@@ -29,6 +29,23 @@ package pl.isangeles.senlin.core;
 public enum Attitude 
 {
 	FRIENDLY, NEUTRAL, HOSTILE, DEAD;
+    
+    public static Attitude fromString(String id)
+    {
+        switch(id)
+        {
+        case "friendly":
+            return Attitude.FRIENDLY;
+        case "neutral":
+            return Attitude.NEUTRAL;
+        case "hostile":
+            return Attitude.HOSTILE;
+        case "dead":
+            return Attitude.DEAD;
+        default:
+            return Attitude.FRIENDLY;
+        }
+    }
 	
 	@Override
 	public String toString()

@@ -43,6 +43,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.core.Attitude;
 import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
@@ -122,24 +123,38 @@ public final class SSGParser
      */
     public static Character getCharFromSave(Element charE, GameContainer gc) throws IOException, FontFormatException, SlickException
     {
-        Character player = NpcParser.getNpcFromNode(charE).make(gc);
+        Character character = NpcParser.getNpcFromNode(charE).make(gc);
         
         Element questsE = (Element)charE.getElementsByTagName("quests").item(0);
-        player.getQuests().addAll(getSavedQuests(questsE));
+        character.getQuests().addAll(getSavedQuests(questsE));
         
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
-        player.getFlags().addAll(getSavedFlags(flagsE));
+        character.getFlags().addAll(getSavedFlags(flagsE));
         
         Element pointsE = (Element)charE.getElementsByTagName("points").item(0);
-        player.setHealth(Integer.parseInt(pointsE.getElementsByTagName("hp").item(0).getTextContent()));
-        player.setMagicka(Integer.parseInt(pointsE.getElementsByTagName("mana").item(0).getTextContent()));
-        player.setExperience(Integer.parseInt(pointsE.getElementsByTagName("exp").item(0).getTextContent()));
-        player.addLearnPoints(Integer.parseInt(pointsE.getElementsByTagName("lp").item(0).getTextContent()));
+        character.setHealth(Integer.parseInt(pointsE.getElementsByTagName("hp").item(0).getTextContent()));
+        character.setMagicka(Integer.parseInt(pointsE.getElementsByTagName("mana").item(0).getTextContent()));
+        character.setExperience(Integer.parseInt(pointsE.getElementsByTagName("exp").item(0).getTextContent()));
+        character.addLearnPoints(Integer.parseInt(pointsE.getElementsByTagName("lp").item(0).getTextContent()));
         
-        player.setName(charE.getElementsByTagName("name").item(0).getTextContent());
-        player.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));
+        Element attMemoryE = (Element)charE.getElementsByTagName("attMemory").item(0);
+        NodeList attList = attMemoryE.getElementsByTagName("object");
+        for(int i = 0; i < attList.getLength(); i ++)
+        {
+            Node objectNode = attList.item(i);
+            if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element objectE = (Element)objectNode;
+                String id = objectE.getTextContent();
+                Attitude att = Attitude.fromString(objectE.getAttribute("attitude"));
+                character.memCharAs(id, att);
+            }
+        }
         
-        return player;
+        character.setName(charE.getElementsByTagName("name").item(0).getTextContent());
+        character.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));
+        
+        return character;
     }
     /**
      * Parses specified scenario save document element to game area scenario

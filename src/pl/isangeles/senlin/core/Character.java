@@ -80,7 +80,11 @@ import pl.isangeles.senlin.states.Global;
  */
 public class Character implements Targetable, ObjectiveTarget, SaveElement
 {
+    private static int charCounter;
+    private static List<String> reservedIDs = new ArrayList<>();
+    private int charSerial = charCounter++;
 	private String id;
+	private String serialId;
 	private String name;
 	private Attitude attitude;
 	private Guild guild;
@@ -110,7 +114,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Targetable target;
 	private List<Dialogue> dialogues;
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
-	private Map<Targetable, Attitude> attitudeMem = new HashMap<>();
+	private Map<String, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
 	private Journal quests = new Journal();
 	private Flags flags = new Flags();
@@ -140,6 +144,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		abilities.add(SkillsBase.getAutoAttack(this));
 		abilities.add(SkillsBase.getShot(this));
 		qTracker = new QuestTracker(this);
+
+        serialId = id + "_" + charSerial;
+		while(reservedIDs.contains(serialId))
+        {
+		    charSerial ++;
+            charCounter ++;
+            serialId = id + "_" + charSerial;
+        }
+		reservedIDs.add(serialId);
 	}
 	/**
 	 * This constructor provides playable character
@@ -172,7 +185,37 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		//abilities.add(SkillsBase.getShot(this));
 		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
+
+		serialId = id + "_" + charSerial;
+        while(reservedIDs.contains(serialId))
+        {
+            charSerial ++;
+            charCounter ++;
+            serialId = id + "_" + charSerial;
+        }
+        reservedIDs.add(serialId);
 	}
+
+    /**
+     * This constructor provides playable character
+     * @param name Name of character in game
+     * @param level Character experience level
+     * @param atributes Set of character attributes
+     * @param portraitName Name of image file in portrait catalog
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException 
+     */
+    public Character(String id, int serial, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
+            throws SlickException, IOException, FontFormatException
+    {
+        this(id, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
+        
+        reservedIDs.remove(serialId);
+        charSerial = serial;
+        serialId = id + "_" + charSerial;
+        reservedIDs.add(serialId);
+    }
 	/**
 	 * Adds one level to character
 	 */
@@ -618,6 +661,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		return id;
 	}
+    /**
+     * Returns serial ID
+     * @return String with serial ID
+     */
+    public String getSerialId()
+    {
+        return serialId;
+    }
 	/**
 	 * Returns character name
 	 * @return String with name
@@ -641,8 +692,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			return attitude;
 		if(!character.isLive())
 		    return Attitude.DEAD;
-		if(attitudeMem.containsKey(character))
-		    return attitudeMem.get(character);
+		if(attitudeMem.containsKey(character.getSerialId()))
+		    return attitudeMem.get(character.getSerialId());
 		if(!guild.getId().equals("none") && guild == character.getGuild())
 			return Attitude.FRIENDLY;
 		else
@@ -877,7 +928,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> attackEffects)
 	{
-		attitudeMem.put(aggressor, Attitude.HOSTILE);
+		attitudeMem.put(aggressor.getId(), Attitude.HOSTILE);
 		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
 		{
 			Log.addInformation(name + ":" + TConnector.getText("ui", "logDodge"));
@@ -1105,8 +1156,17 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void memCharAs(Character character, Attitude attitude)
 	{
-	    attitudeMem.put(character, attitude);
+	    attitudeMem.put(character.getSerialId(), attitude);
 	}
+    /**
+     * Memorises specified game character as hostile, friendly or neutral
+     * @param characterSerialID Character serial ID
+     * @param attitude Attitude to specified character
+     */
+    public void memCharAs(String characterSerialID, Attitude attitude)
+    {
+        attitudeMem.put(characterSerialID, attitude);
+    }
 	/**
 	 * Makes the character speaks specified text
 	 * @param what String with text to say
@@ -1216,6 +1276,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.appendChild(trainingE);
         
         charE.appendChild(quests.getSave(doc));
+        
+        Element attMem = doc.createElement("attMemory");
+        for(String object : attitudeMem.keySet())
+        {
+            Element objectE = doc.createElement("object");
+            objectE.setTextContent(object);
+            objectE.setAttribute("attitude", attitudeMem.get(object).toString());
+            attMem.appendChild(objectE);
+        }
+        charE.appendChild(attMem);
         
         Element flagsE = doc.createElement("flags");
         for(String flag : flags)

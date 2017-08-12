@@ -235,5 +235,87 @@ public class NpcPattern
 		
 		return npc;
 	}
-	
+
+    /**
+     * Creates new character from all pattern fields (with specified serial number)
+     * @param gc Slick game container
+     * @param serial Serial number
+     * @return New character object based on this pattern
+     * @throws IOException
+     * @throws FontFormatException
+     * @throws SlickException
+     */
+    public Character make(GameContainer gc, int serial) throws IOException, FontFormatException, SlickException
+    {
+        Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
+        portrait.setName(portraitName);
+        Scanner scann = new Scanner(constructorLine);
+        scann.useDelimiter(";");
+        Character npc = new Character(npcId, serial, npcAttitude, guildID, npcName, level,
+                                      new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
+                                      portrait, spritesheet, staticAvatar, gc);
+        scann.close();
+        if(trade)
+            npc.setTrade();
+        if(train)
+            npc.setTrain(trainings);
+        
+        for(RandomItem ip : invItems)
+        {
+            Item it = ip.make();
+            if(it != null)
+                npc.addItem(it);
+        }
+        
+        Item helmet = npc.getItem(headItem);
+        Item chest = npc.getItem(chestItem);
+        Item gloves = npc.getItem(handsItem);
+        Item mainWeap = npc.getItem(mainHandItem);
+        Item offHand = npc.getItem(offHandItem);
+        Item boots = npc.getItem(feetItem);
+        Item amulet = npc.getItem(neckItem);
+        Item ringA = npc.getItem(fingerAItem);
+        Item ringB = npc.getItem(fingerBItem);
+        Item artifact = npc.getItem(this.artifact);
+        /*
+        npc.addItem(helmet);
+        npc.addItem(chest);
+        npc.addItem(gloves);
+        npc.addItem(mainWeap);
+        npc.addItem(offHand);
+        npc.addItem(boots);
+        npc.addItem(amulet);
+        npc.addItem(ringA);
+        npc.addItem(ringB);
+        npc.addItem(artifact);
+        */
+        npc.equipItem(helmet);
+        npc.equipItem(chest);
+        npc.equipItem(gloves);
+        npc.equipItem(mainWeap);
+        npc.equipItem(offHand);
+        npc.equipItem(boots);
+        npc.equipItem(amulet);
+        npc.equipItem(ringA);
+        npc.equipItem(ringB);
+        npc.equipItem(artifact);
+        
+        npc.addGold(gold);
+        for(String skillId : skills)
+        {
+            npc.addSkill(SkillsBase.getSkill(npc, skillId));
+        }
+        for(String effectId : effects.keySet())
+        {
+            Effect effect = EffectsBase.getEffect(effectId);
+            effect.setTime(effects.get(effectId));
+            npc.getEffects().add(effect);
+        }
+        for(Profession profession : professions)
+        {
+            npc.addProfession(profession);
+        }
+        
+        return npc;
+    }
 }

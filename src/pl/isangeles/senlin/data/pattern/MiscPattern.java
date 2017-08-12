@@ -101,7 +101,7 @@ public class MiscPattern
 	}
 
 	/**
-	 * Creates item from this pattern
+	 * Creates item from this pattern (with custom serial number)
 	 * @param gc Slick game container
 	 * @param serial Serial number for item
 	 * @return New armor object
