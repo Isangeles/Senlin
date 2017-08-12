@@ -82,7 +82,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 {
     private static int charCounter;
     private static List<String> reservedIDs = new ArrayList<>();
-    private int charSerial = charCounter++;
+    private int serial = charCounter;
 	private String id;
 	private String serialId;
 	private String name;
@@ -123,6 +123,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
+	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException 
@@ -145,26 +146,33 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		abilities.add(SkillsBase.getShot(this));
 		qTracker = new QuestTracker(this);
 
-        serialId = id + "_" + charSerial;
+        serialId = id + "_" + serial;
 		while(reservedIDs.contains(serialId))
         {
-		    charSerial ++;
+		    serial ++;
             charCounter ++;
-            serialId = id + "_" + charSerial;
+            serialId = id + "_" + serial;
         }
 		reservedIDs.add(serialId);
 	}
 	/**
 	 * This constructor provides playable character
-	 * @param name Name of character in game
-	 * @param level Character experience level
-	 * @param atributes Set of character attributes
-	 * @param portraitName Name of image file in portrait catalog
+	 * @param id Character ID
+	 * @param attitude Character attitude
+	 * @param guildID Character guild ID
+	 * @param name Character name
+	 * @param level Character level
+	 * @param atributes Character attributes
+	 * @param portrait Character portrait
+	 * @param spritesheet Character sprite sheet
+	 * @param staticAvatar If avatar sprite sheet should be static 
+	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
-	 * @throws FontFormatException 
+	 * @throws FontFormatException
 	 */
-	public Character(String id, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
+	public Character(String id, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
+					 String spritesheet, boolean staticAvatar, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
@@ -186,38 +194,45 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
 
-		serialId = id + "_" + charSerial;
+		serialId = id + "_" + serial;
         while(reservedIDs.contains(serialId))
         {
-            charSerial ++;
+            serial ++;
             charCounter ++;
-            serialId = id + "_" + charSerial;
+            serialId = id + "_" + serial;
         }
         reservedIDs.add(serialId);
 	}
-
-    /**
-     * This constructor provides playable character
-     * @param name Name of character in game
-     * @param level Character experience level
-     * @param atributes Set of character attributes
-     * @param portraitName Name of image file in portrait catalog
-     * @throws SlickException
-     * @throws IOException
-     * @throws FontFormatException 
-     */
-    public Character(String id, int serial, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
+	/**
+	 * This constructor provides playable character with specified serial number
+	 * @param id Character ID
+	 * @param serial Character serial number
+	 * @param attitude Character attitude
+	 * @param guildID Character guild ID
+	 * @param name Character name
+	 * @param level Character level
+	 * @param atributes Character attributes
+	 * @param portrait Character portrait
+	 * @param spritesheet Character sprite sheet
+	 * @param staticAvatar True if avatar sprite sheet should be static 
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+    public Character(String id, int serial, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
+    				 String spritesheet, boolean staticAvatar, GameContainer gc) 
             throws SlickException, IOException, FontFormatException
     {
         this(id, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
         
         reservedIDs.remove(serialId);
-        charSerial = serial;
-        serialId = id + "_" + charSerial;
+        this.serial = serial;
+        serialId = id + "_" + serial;
         reservedIDs.add(serialId);
     }
 	/**
-	 * Adds one level to character
+	 * Promotes character to next level
 	 */
 	public void levelUp()
 	{
@@ -1184,7 +1199,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Starts dialogue with specified game character
 	 * @param dialogueTarget
-	 * @return
+	 * @return Started dialogue
 	 */
 	public Dialogue startDialogueWith(Character dialogueTarget)
 	{
@@ -1221,6 +1236,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {   
         Element charE = doc.createElement("character");
         charE.setAttribute("id", this.id);
+        charE.setAttribute("serial", serial+"");
         charE.setAttribute("attitude", this.attitude.toString());
         charE.setAttribute("guild", this.guild.getId());
         charE.setAttribute("level", this.level+"");
@@ -1328,7 +1344,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	private Dialogue getDialogueFor(Character character)
 	{
-		Log.addSystem(id + "-checking_dList");
 		for(Dialogue dialogue : dialogues)
 		{
 			if(character.getFlags().contains(dialogue.getReqFlag()))

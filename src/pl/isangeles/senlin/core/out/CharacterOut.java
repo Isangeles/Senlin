@@ -25,12 +25,13 @@ package pl.isangeles.senlin.core.out;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
+ * Enumeration for character actions results, e.g. attack
  * @author Isangeles
  *
  */
 public enum CharacterOut
 {
-    SUCCESS, NORANGE, NOTARGET, NOREADY, UNABLE, UNKNOWN;
+    SUCCESS, NORANGE, NOTARGET, NOTREADY, UNABLE, UNKNOWN;
     
     @Override
     public String toString()
@@ -43,7 +44,7 @@ public enum CharacterOut
             return TConnector.getText("ui", "logNoRange");
         case NOTARGET:
             return TConnector.getText("ui", "logNoTar");
-        case NOREADY:
+        case NOTREADY:
             return TConnector.getText("ui", "logNotRdy");
         case UNABLE:
             return TConnector.getText("ui", "logUnable");

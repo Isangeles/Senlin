@@ -123,7 +123,8 @@ public final class SSGParser
      */
     public static Character getCharFromSave(Element charE, GameContainer gc) throws IOException, FontFormatException, SlickException
     {
-        Character character = NpcParser.getNpcFromNode(charE).make(gc);
+    	int serial = Integer.parseInt(charE.getAttribute("serial"));
+        Character character = NpcParser.getNpcFromNode(charE).make(gc, serial);
         
         Element questsE = (Element)charE.getElementsByTagName("quests").item(0);
         character.getQuests().addAll(getSavedQuests(questsE));

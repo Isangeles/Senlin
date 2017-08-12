@@ -118,7 +118,7 @@ public class Attack extends Skill
 				return CharacterOut.NOTARGET;
 		}
 		else
-		    return CharacterOut.NOREADY;
+		    return CharacterOut.NOTREADY;
 	}
     /**
      * Activates attack skill
