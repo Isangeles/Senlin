@@ -1,5 +1,5 @@
 /*
- * GameCursor.java
+ * DialoguePart.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -38,7 +38,8 @@ public class DialoguePart
 {
 	private final String id;
 	private final String on;
-	private final Map<Requirement, String> otherTexts;
+	private final Map<List<Requirement>, String> otherTexts;
+	private final List<Requirement> reqs;
 	private final List<Answer> answers;
 	private final List<String> itemsToGive;
 	private final List<String> itemsToTake;
@@ -51,11 +52,12 @@ public class DialoguePart
 	 * @param on Dialogue part trigger(e.g. dialogue answer ID or 'start' to display this part at dialogue start)
 	 * @param answers List of answers on that dialogue part
 	 */
-	public DialoguePart(String id, String on, Map<Requirement, String> otherTexts, List<Answer> answers) 
+	public DialoguePart(String id, String on, Map<List<Requirement>, String> otherTexts, List<Requirement> req, List<Answer> answers) 
 	{
 		this.id = id;
 		this.on = on;
 		this.otherTexts = otherTexts;
+		this.reqs = req;
 		this.answers = answers;
 		itemsToGive = new ArrayList<>();
 		itemsToTake = new ArrayList<>();
@@ -73,11 +75,13 @@ public class DialoguePart
 	 * @param goldToGive Amount of gold to give to player on this dialogue part start
 	 * @param goldToTake Amount of gold to take from player on this dialogue part start
 	 */
-	public DialoguePart(String id, String on, Map<Requirement, String> otherTexts, List<Answer> answers, List<String> itemsToGive, List<String> itemsToTake, int goldToGive, int goldToTake) 
+	public DialoguePart(String id, String on, Map<List<Requirement>, String> otherTexts, List<Requirement> req, List<Answer> answers, 
+	                    List<String> itemsToGive, List<String> itemsToTake, int goldToGive, int goldToTake) 
 	{
 		this.id = id;
 		this.on = on;
 		this.otherTexts = otherTexts;
+		this.reqs = req;
 		this.answers = answers;
 		this.itemsToGive = itemsToGive;
 		this.itemsToTake = itemsToTake;
@@ -95,16 +99,26 @@ public class DialoguePart
 	{
 		return on;
 	}
-	
+	/**
+	 * Returns text for specified character
+	 * @param dialogueTarget Dialogue target (game character)
+	 * @return String with text
+	 */
 	public String getText(Character dialogueTarget)
 	{
 		if(dialogueTarget != null && otherTexts != null)
 		{
-			for(Requirement req : otherTexts.keySet())
+			for(List<Requirement> reqs : otherTexts.keySet())
 			{
-				if(req.isMetBy(dialogueTarget))
+			    boolean ok = true;
+			    for(Requirement req : reqs)
+			    {
+			        if(!req.isMetBy(dialogueTarget))
+			            ok = false;
+			    }
+				if(ok)
 				{
-					return TConnector.getDialogueText(otherTexts.get(req));
+					return TConnector.getDialogueText(otherTexts.get(reqs));
 				}
 			}
 		}
@@ -139,5 +153,34 @@ public class DialoguePart
 			charB.addGold(charA.getInventory().takeGold(goldToGive));
 			charA.addGold(charB.getInventory().takeGold(goldToTake));
 		}
+	}
+	/**
+	 * Checks if this part has requirements
+	 * @return True if this part have requirements, false otherwise
+	 */
+	public boolean hasReq()
+	{
+	    if(reqs != null && reqs.size() > 0)
+	        return true;
+	    else
+	        return false;
+	}
+	/**
+	 * Checks if specified character met dialogue part requirements
+	 * @param dialogueTarget Dialogue target (game character)
+	 * @return True if specified character met requirements, false otheriwise
+	 */
+	public boolean checkReq(Character dialogueTarget)
+	{
+	    boolean ok = true;
+	    if(hasReq())
+	    {
+	        for(Requirement req : reqs)
+	        {
+	            if(!req.isMetBy(dialogueTarget))
+	                ok = false;
+	        }
+	    }
+	    return ok;
 	}
 }

@@ -120,13 +120,16 @@ public class DialogueParser
 				
 			}
 
-			Map<Requirement, String> oTextsMap = null;
+			Map<List<Requirement>, String> oTextsMap = null;
 			
 			Node otherTextsNode = textE.getElementsByTagName("otherTexts").item(0);
 			if(otherTextsNode != null)
 			{
 				oTextsMap = getOtherTexts(otherTextsNode);
 			}
+			
+			Node reqNode = textE.getElementsByTagName("req").item(0);
+			List<Requirement> req = RequirementsParser.getReqFromNode(reqNode);
 			
 			Element transferE = (Element)textE.getElementsByTagName("transfer").item(0);
 			if(transferE != null)
@@ -176,21 +179,25 @@ public class DialogueParser
 					}
 				}
 
-				return new DialoguePart(id, on, oTextsMap, answersList, iToGive, iToTake, gToGive, gToTake);
+				return new DialoguePart(id, on, oTextsMap, req, answersList, iToGive, iToTake, gToGive, gToTake);
 			}
-			return new DialoguePart(id, on, oTextsMap, answersList);
+			return new DialoguePart(id, on, oTextsMap, req, answersList);
 		}
 		else
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
 		answersList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err01", "error01", null, answersList);
+		return new DialoguePart("err01", "error01", null, null, answersList);
 	}
-	
-	public static Map<Requirement, String> getOtherTexts(Node otherTextsNode)
+	/**
+	 * Parses otherTexts node to map list text requirements as keys ands text ID as values
+	 * @param otherTextsNode Node from dialogues base (otherTexts node)
+	 * @return Map list text requirements as keys ands text ID as values
+	 */
+	public static Map<List<Requirement>, String> getOtherTexts(Node otherTextsNode)
 	{
-		Map<Requirement, String> textsMap = new HashMap<>();
+		Map<List<Requirement>, String> textsMap = new HashMap<>();
 		Element otherTextsE = (Element)otherTextsNode;
 		NodeList textsList = otherTextsE.getElementsByTagName("text");
 		for(int i = 0; i < textsList.getLength(); i ++)
@@ -199,15 +206,10 @@ public class DialogueParser
 			if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				Element textE = (Element)textNode;
-				String typeId = textE.getAttribute("if").split(":")[0];
-				String req = textE.getAttribute("if").split(":")[1];
-				ReqType type = ReqType.fromString(typeId);
-				switch(type)
-				{
-				case STATS:
-					textsMap.put(new StatsRequirement(new Attributes(req)), textE.getTextContent());
-					break;
-				}
+				String textId = textE.getAttribute("id");
+				Node reqsNode = textE.getElementsByTagName("req").item(0);
+				List<Requirement> reqs = RequirementsParser.getReqFromNode(reqsNode);
+				textsMap.put(reqs, textId);
 			}
 		}
 		

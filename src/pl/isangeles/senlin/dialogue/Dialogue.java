@@ -52,12 +52,12 @@ public class Dialogue
 		this.npcId = npcId;
 		this.flagReq = flagReq;
 		this.parts = parts;
-		currentStage = getPart("start");
 	}
 	
 	public void startFor(Character target)
 	{
 		dialogueTarget = target;
+        currentStage = getPart("start");
 	}
 	/**
 	 * Returns text of current dialogue part
@@ -173,6 +173,12 @@ public class Dialogue
 	private DialoguePart getPart(String trigger)
 	{
 		Log.addDebug("d_trigger_req//" + trigger);
+		
+		for(DialoguePart dp : parts)
+		{
+		    if(dp.getTrigger().equals(trigger) && dp.hasReq() && dialogueTarget != null && dp.checkReq(dialogueTarget))
+		        return dp;
+		}
 		for(DialoguePart dp : parts)
 		{
 			if(dp.getTrigger().equals(trigger))
@@ -187,7 +193,7 @@ public class Dialogue
 		
 		List<Answer> aList = new ArrayList<>();
 		aList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err02", "error02", null, aList);
+		return new DialoguePart("err02", "error02", null, null, aList);
 	}
 
 }
