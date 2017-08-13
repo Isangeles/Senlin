@@ -28,11 +28,11 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.gui.Bar;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.util.GConnector;
-import pl.isangeles.senlin.core.Character;
 /**
  * Class for cast bar
  * @author Isangeles

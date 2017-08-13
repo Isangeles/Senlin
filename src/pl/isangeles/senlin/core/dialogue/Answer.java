@@ -1,4 +1,4 @@
-package pl.isangeles.senlin.dialogue;
+package pl.isangeles.senlin.core.dialogue;
 
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.quest.Quest;

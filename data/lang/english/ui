@@ -96,6 +96,8 @@ dayAfternoon:Afternoon;
 dayNight:Night;
 dayRain:Rain;
 daySun:Sunny;
+genMale:Male;
+gemFemale:Female;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

@@ -20,14 +20,14 @@
  * 
  * 
  */
-package pl.isangeles.senlin.dialogue;
+package pl.isangeles.senlin.core.dialogue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import pl.isangeles.senlin.util.TConnector;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 /**
  * Class for dialogue parts, contains id corresponding to text in current lang directory and answers 

@@ -55,6 +55,9 @@ import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.dialogue.Answer;
+import pl.isangeles.senlin.core.dialogue.Dialogue;
+import pl.isangeles.senlin.core.dialogue.DialoguePart;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Item;
@@ -73,9 +76,6 @@ import pl.isangeles.senlin.data.pattern.TrinketPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
-import pl.isangeles.senlin.dialogue.Answer;
-import pl.isangeles.senlin.dialogue.Dialogue;
-import pl.isangeles.senlin.dialogue.DialoguePart;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 import pl.isangeles.senlin.util.parser.ItemParser;
 import pl.isangeles.senlin.util.parser.NpcParser;
@@ -108,6 +108,12 @@ public final class DConnector
 	public static Map<String, NpcPattern> getNpcMap(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, NpcPattern> npcMap = new HashMap<>();
+		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		//Parses xml
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -151,6 +157,11 @@ public final class DConnector
 	{
 		Map<String, Guild> guildsMap = new HashMap<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document base = db.parse(basePath);
@@ -178,13 +189,18 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, Dialogue> getDialogueMap(String baseFilePath) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, Dialogue> getDialogueMap(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, Dialogue> dialogsMap = new HashMap<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(baseFilePath);
+		Document base = db.parse(basePath);
 		
 		NodeList nl = base.getDocumentElement().getChildNodes();
 		for(int i = 0; i < nl.getLength(); i ++)
@@ -211,6 +227,11 @@ public final class DConnector
 	public static Map<String, AttackPattern> getAttacksMap(String basePath) throws SAXException, IOException, ParserConfigurationException
 	{
 	    Map<String, AttackPattern> attacksMap = new HashMap<>();
+	    
+	    if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
 	    
 	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -279,6 +300,11 @@ public final class DConnector
 	public static Map<String, EffectPattern> getEffectsMap(String basePath) throws SAXException, IOException, ParserConfigurationException
 	{
 		Map<String, EffectPattern> effectsMap = new HashMap<>();
+		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -377,13 +403,18 @@ public final class DConnector
 	 * @throws SAXException
 	 * @throws IOException
 	 */
-	public static Map<String, Quest> getQuests(String questsBasePath) throws ParserConfigurationException, SAXException, IOException
+	public static Map<String, Quest> getQuests(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 	    Map<String, Quest> questsMap = new HashMap<>();
 	    
+	    if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+	    
 	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder db = dbf.newDocumentBuilder();
-	    Document base = db.parse(questsBasePath);
+	    Document base = db.parse(basePath);
 	        
 	    NodeList questsList = base.getDocumentElement().getChildNodes();
 	    for(int i = 0; i < questsList.getLength(); i ++)
@@ -409,6 +440,11 @@ public final class DConnector
 	public static Map<String, ObjectPattern> getObjects(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, ObjectPattern> objectsMap = new HashMap<>();
+		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -446,6 +482,11 @@ public final class DConnector
 	{
 		Map<String, WeaponPattern> weaponsMap = new HashMap<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document base = db.parse(basePath);
@@ -482,6 +523,11 @@ public final class DConnector
 	{
 		Map<String, ArmorPattern> armorsMap = new HashMap<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document base = db.parse(basePath);
@@ -514,6 +560,11 @@ public final class DConnector
 	public static Map<String, TrinketPattern> getTrinkets(String basePath) throws ParserConfigurationException, SAXException, IOException
 	{
 		Map<String, TrinketPattern> trinketsMap = new HashMap<>();
+		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -551,6 +602,11 @@ public final class DConnector
 	{
 		Map<String, MiscPattern> miscMap = new HashMap<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document base = db.parse(basePath);
@@ -587,6 +643,11 @@ public final class DConnector
 	{
 		List<Recipe> recipes = new ArrayList<>();
 		
+		if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document base = db.parse(basePath);
@@ -620,6 +681,11 @@ public final class DConnector
 	 */
 	public static Script getScript(String scriptFileName) throws FileNotFoundException
 	{
+		if(!scriptFileName.endsWith(".script"))
+	    {
+			scriptFileName += ".script";
+	    }
+		
 	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFileName;
 	    File scriptFile = new File(scriptPath);
 	    Scanner scann = new Scanner(scriptFile, "UTF-8");

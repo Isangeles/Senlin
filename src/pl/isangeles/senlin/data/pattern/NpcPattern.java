@@ -41,13 +41,14 @@ import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.Training;
+import pl.isangeles.senlin.core.character.Attitude;
+import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Attitude;
 /**
  * Class for NPC patterns used to create specific NPC by NpcBase class
  * @author Isangeles
@@ -57,6 +58,7 @@ public class NpcPattern
 {
 	private final String npcId;
 	private final String npcName;
+	private final Gender npcGender;
 	private final Attitude npcAttitude;
 	private final boolean trade;
 	private final boolean train;
@@ -100,27 +102,15 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, String headItem, String chestItem,
+	public NpcPattern(String npcId, String gender, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, String headItem, String chestItem,
 					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
 					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "npc", npcId);
-		switch(attitude)
-		{
-		case "hostile":
-			npcAttitude = Attitude.HOSTILE;
-			break;
-		case "neutral":
-			npcAttitude = Attitude.NEUTRAL;
-			break;
-		case "friendly":
-			npcAttitude = Attitude.FRIENDLY;
-			break;
-		default:
-			npcAttitude = Attitude.NEUTRAL;
-		}
+		npcAttitude = Attitude.fromString(attitude);
+		npcGender = Gender.fromString(gender);
 		this.trade = trade;
 		this.train = train;
 		this.guildID = guildID;
@@ -168,7 +158,7 @@ public class NpcPattern
 		portrait.setName(portraitName);
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
-		Character npc = new Character(npcId, npcAttitude, guildID, npcName, level,
+		Character npc = new Character(npcId, npcGender, npcAttitude, guildID, npcName, level,
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  portrait, spritesheet, staticAvatar, gc);
 		scann.close();
@@ -194,18 +184,7 @@ public class NpcPattern
 		Item ringA = npc.getItem(fingerAItem);
 		Item ringB = npc.getItem(fingerBItem);
 		Item artifact = npc.getItem(this.artifact);
-		/*
-		npc.addItem(helmet);
-		npc.addItem(chest);
-		npc.addItem(gloves);
-		npc.addItem(mainWeap);
-		npc.addItem(offHand);
-		npc.addItem(boots);
-		npc.addItem(amulet);
-		npc.addItem(ringA);
-		npc.addItem(ringB);
-		npc.addItem(artifact);
-		*/
+
 		npc.equipItem(helmet);
 		npc.equipItem(chest);
 		npc.equipItem(gloves);
@@ -251,7 +230,7 @@ public class NpcPattern
         portrait.setName(portraitName);
         Scanner scann = new Scanner(constructorLine);
         scann.useDelimiter(";");
-        Character npc = new Character(npcId, serial, npcAttitude, guildID, npcName, level,
+        Character npc = new Character(npcId, serial, npcGender, npcAttitude, guildID, npcName, level,
                                       new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
                                       portrait, spritesheet, staticAvatar, gc);
         scann.close();
@@ -277,18 +256,7 @@ public class NpcPattern
         Item ringA = npc.getItem(fingerAItem);
         Item ringB = npc.getItem(fingerBItem);
         Item artifact = npc.getItem(this.artifact);
-        /*
-        npc.addItem(helmet);
-        npc.addItem(chest);
-        npc.addItem(gloves);
-        npc.addItem(mainWeap);
-        npc.addItem(offHand);
-        npc.addItem(boots);
-        npc.addItem(amulet);
-        npc.addItem(ringA);
-        npc.addItem(ringB);
-        npc.addItem(artifact);
-        */
+        
         npc.equipItem(helmet);
         npc.equipItem(chest);
         npc.equipItem(gloves);

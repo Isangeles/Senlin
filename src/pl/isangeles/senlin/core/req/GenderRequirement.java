@@ -1,5 +1,5 @@
 /*
- * PointsRequirement.java
+ * GenderRequirement.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -26,52 +26,53 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.character.Gender;
 
 /**
- * Class for learning points requirement
+ * Class for gender requirement
  * @author Isangeles
  *
  */
-public class PointsRequirement extends Requirement 
+public class GenderRequirement extends Requirement 
 {
-	private int reqPoints;
+	private final Gender reqGender;
 	
-	public PointsRequirement(int reqPoints)
+	public GenderRequirement(Gender gender)
 	{
-		this.reqPoints = reqPoints;
-		info = TConnector.getText("ui", "reqPoints") + ": " + reqPoints;
+		reqGender = gender;
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */
 	@Override
 	public Element getSave(Document doc) 
 	{
-		Element pointsReqE = doc.createElement("pointsReq");
-		pointsReqE.setTextContent(""+reqPoints);
-		return pointsReqE;
+		Element statsReqE = doc.createElement("genderReq");
+		statsReqE.setTextContent(reqGender.toString());
+		return statsReqE;
 	}
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.req.Requirement#isMetBy(pl.isangeles.senlin.core.Character)
+	 * @see pl.isangeles.senlin.core.req.Requirement#isMetBy(pl.isangeles.senlin.core.character.Character)
 	 */
 	@Override
 	public boolean isMetBy(Character character) 
 	{
-		if(character.getLearnPoints() >= reqPoints)
+		if(character.getGender() == reqGender)
+		{
 			return true;
+		}
 		else
 			return false;
 	}
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
+	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.character.Character)
 	 */
 	@Override
 	public void charge(Character character) 
 	{
-		character.takeLearnPoints(reqPoints);
+		return;
 	}
 
 }

@@ -36,7 +36,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;

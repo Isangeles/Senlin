@@ -25,7 +25,7 @@ package pl.isangeles.senlin.core.req;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -37,7 +37,6 @@ import pl.isangeles.senlin.util.TConnector;
 public class GoldRequirement extends Requirement 
 {
 	private int reqGold;
-	private boolean meet;
 	/**
 	 * Gold requirement constructor
 	 * @param reqGold Minimal gold value to met that requirement
@@ -55,7 +54,7 @@ public class GoldRequirement extends Requirement
 	{
 		if(character.getInventory().getGold() >= reqGold)
 		{
-			meet = true;
+			met = true;
 			return true;
 		}
 		else
@@ -67,10 +66,10 @@ public class GoldRequirement extends Requirement
 	@Override
 	public void charge(Character character) 
 	{
-		if(meet)
+		if(met)
 		{
 			character.getInventory().takeGold(reqGold);
-			meet = false;
+			met = false;
 		}
 	}
 	/* (non-Javadoc)

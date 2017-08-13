@@ -28,10 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.util.TConnector;

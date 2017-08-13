@@ -30,7 +30,7 @@ import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
@@ -44,7 +44,6 @@ public class ItemsRequirement extends Requirement
 {
 	private Map<String, Integer> reqItems;
 	private List<Item> itemsToRemove = new ArrayList<>();
-	private boolean meet;
 	/**
 	 * Items requirement constructor
 	 * @param reqItems Map with required items IDs as keys and amount of thats items as values
@@ -77,7 +76,7 @@ public class ItemsRequirement extends Requirement
     	
     	if(countMap.equals(reqItems))
     	{
-    		meet = true;
+    		met = true;
     		character.getInventory().removeAll(itemsToRemove);
     		return true;
     	}
@@ -92,11 +91,11 @@ public class ItemsRequirement extends Requirement
 	@Override
 	public void charge(Character character) 
 	{
-		if(meet)
+		if(met)
 		{
 			character.getInventory().removeAll(itemsToRemove);
 			itemsToRemove = null;
-			meet = false;
+			met = false;
 		}
 	}
 	

@@ -22,7 +22,7 @@
  */
 package pl.isangeles.senlin.core.req;
 
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Abstract class for requirements
@@ -32,6 +32,7 @@ import pl.isangeles.senlin.data.save.SaveElement;
 public abstract class Requirement implements SaveElement
 {
 	protected String info;
+	protected boolean met;
 	/**
 	 * Checks if specified character meets this requirement
 	 * @param character Game character

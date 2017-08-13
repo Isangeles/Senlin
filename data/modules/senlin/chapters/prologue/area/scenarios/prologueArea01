@@ -24,7 +24,7 @@
         <exit position="0;0">prologue02</exit>
     </exits>
     <scripts>
-        <script>prologueStart.gs</script>
+        <script>prologueStart</script>
     </scripts>
     <music>
         <track category="exploring">$all</track>

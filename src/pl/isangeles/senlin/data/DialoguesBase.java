@@ -32,7 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.dialogue.Dialogue;
+import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 /**

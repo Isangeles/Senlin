@@ -1,5 +1,5 @@
 /*
- * Attitude.java
+ * Gender.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,48 +20,46 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.character;
+
+import pl.isangeles.senlin.util.TConnector;
+
 /**
- * Enumeration for characters attitudes
+ * Enumeration for game character gender
  * @author Isangeles
  *
  */
-public enum Attitude 
+public enum Gender 
 {
-	FRIENDLY, NEUTRAL, HOSTILE, DEAD;
-    
-    public static Attitude fromString(String id)
-    {
-        switch(id)
-        {
-        case "friendly":
-            return Attitude.FRIENDLY;
-        case "neutral":
-            return Attitude.NEUTRAL;
-        case "hostile":
-            return Attitude.HOSTILE;
-        case "dead":
-            return Attitude.DEAD;
-        default:
-            return Attitude.FRIENDLY;
-        }
-    }
-	
+	MALE, FEMALE;
+	/**
+	 * Converts specified gender ID to gender enum
+	 * @param id String with gender ID
+	 * @return Gender enum
+	 */
+	public static Gender fromString(String id)
+	{
+		switch(id)
+		{
+		case "male":
+			return Gender.MALE;
+		case "female":
+			return Gender.FEMALE;
+		default:
+			return Gender.MALE;
+		}
+	}
 	@Override
 	public String toString()
 	{
 		switch(this)
 		{
-		case FRIENDLY:
-			return "friendly";
-		case NEUTRAL:
-			return "neutral";
-		case HOSTILE:
-			return "hostile";
-		case DEAD:
-			return "dead";
+		case MALE:
+			return TConnector.getText("ui", "genMale");
+		case FEMALE:
+			return TConnector.getText("ui", "genFemale");
 		default:
-			return "friendly";
+			return TConnector.getText("ui", "errorName");
 		}
 	}
 }

@@ -31,6 +31,8 @@ import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.req.GenderRequirement;
 import pl.isangeles.senlin.core.req.GoldRequirement;
 import pl.isangeles.senlin.core.req.PointsRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
@@ -80,6 +82,10 @@ public final class RequirementsParser
 					case "pointsReq":
 						int pAmount = Integer.parseInt(reqE.getTextContent());
 						reqs.add(new PointsRequirement(pAmount));
+						break;
+					case "genderReq":
+						Gender sex = Gender.fromString(reqE.getTextContent());
+						reqs.add(new GenderRequirement(sex));
 						break;
 					}
 				}

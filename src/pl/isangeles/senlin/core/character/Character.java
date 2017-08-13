@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.character;
 
 import java.awt.FontFormatException;
 import java.io.File;
@@ -46,10 +46,18 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Flags;
+import pl.isangeles.senlin.core.Guild;
+import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.RecipeTraining;
+import pl.isangeles.senlin.core.dialogue.Answer;
+import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
@@ -67,8 +75,6 @@ import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
-import pl.isangeles.senlin.dialogue.Answer;
-import pl.isangeles.senlin.dialogue.Dialogue;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.graphic.StaticAvatar;
 import pl.isangeles.senlin.gui.Portrait;
@@ -86,6 +92,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private String id;
 	private String serialId;
 	private String name;
+	private Gender sex;
 	private Attitude attitude;
 	private Guild guild;
 	private int level;
@@ -132,6 +139,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	        throws SlickException, IOException, FontFormatException
 	{
 		id = "player";
+		sex = Gender.MALE;
 		name = "Name";
 		level = 0;
 		attitude = Attitude.FRIENDLY;
@@ -171,11 +179,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Character(String id, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
-					 String spritesheet, boolean staticAvatar, GameContainer gc) 
+	public Character(String id, Gender sex, Attitude attitude, String guildID, String name, int level, Attributes atributes, 
+					 Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
+		this.sex = sex;
 		this.name = name;
 		this.attitude = attitude;
 		this.guild = GuildsBase.getGuild(guildID);
@@ -220,11 +229,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-    public Character(String id, int serial, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
+    public Character(String id, int serial, Gender sex, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
     				 String spritesheet, boolean staticAvatar, GameContainer gc) 
             throws SlickException, IOException, FontFormatException
     {
-        this(id, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
+        this(id, sex, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
         
         reservedIDs.remove(serialId);
         this.serial = serial;
@@ -312,6 +321,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void setGuild(Guild guild)
 	{
 		this.guild = guild;
+	}
+	
+	public void setGender(Gender sex)
+	{
+		this.sex = sex;
 	}
 	/**
 	 * Instantly sets character position
@@ -690,6 +704,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public String getName()
 	{ return name; }
+	/**
+	 * Returns character gender
+	 * @return Gender enum
+	 */
+	public Gender getGender()
+	{ return sex; }
 	/**
 	 * Returns character attitude
 	 * @return Character attitude enumeration

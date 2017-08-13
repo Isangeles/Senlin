@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 import pl.isangeles.senlin.core.Chapter;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.gui.tools.UserInterface;

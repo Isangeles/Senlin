@@ -28,11 +28,11 @@
                 </text>
             </otherTexts>
         </text>
-        <text id="ericWelcome01" on="start">
+        <text id="ericWelcome01f" on="start">
             <answer>ericWelcome01a01</answer>
             <answer>ericWelcome01a02</answer>
             <req>
-                <genReq>female</genReq>
+                <genderReq>female</genderReq>
             </req>
         </text>
         <text id="ericWelcome02" on="ericWelcome01a01">

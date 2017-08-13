@@ -67,6 +67,6 @@ public final class RecipesBase
 	 */
 	public static void load(String itemsPath) throws ParserConfigurationException, SAXException, IOException
 	{
-		recipesList = DConnector.getRecipes(itemsPath + File.separator + "recipes.sb");
+		recipesList = DConnector.getRecipes(itemsPath + File.separator + "recipes");
 	}
 }

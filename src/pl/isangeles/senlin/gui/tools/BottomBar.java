@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.Button;

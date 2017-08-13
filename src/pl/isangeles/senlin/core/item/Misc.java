@@ -28,10 +28,10 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 /**

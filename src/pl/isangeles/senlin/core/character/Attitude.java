@@ -1,5 +1,5 @@
 /*
- * EquipAction.java
+ * Attitude.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,42 +20,48 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.action;
-
-import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.item.Equippable;
-
+package pl.isangeles.senlin.core.character;
 /**
- * Class for equip action, for equippable items
+ * Enumeration for characters attitudes
  * @author Isangeles
  *
  */
-public class EquipAction extends Action 
+public enum Attitude 
 {
-	private Equippable item;
-	/**
-	 * Equip action constructor
-	 * @param item Item to equip on action start
-	 */
-	public EquipAction(Equippable item)
-	{
-		type = ActionType.EQUIP;
-		this.item = item;
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
-	 */
+	FRIENDLY, NEUTRAL, HOSTILE, DEAD;
+    
+    public static Attitude fromString(String id)
+    {
+        switch(id)
+        {
+        case "friendly":
+            return Attitude.FRIENDLY;
+        case "neutral":
+            return Attitude.NEUTRAL;
+        case "hostile":
+            return Attitude.HOSTILE;
+        case "dead":
+            return Attitude.DEAD;
+        default:
+            return Attitude.FRIENDLY;
+        }
+    }
+	
 	@Override
-	public boolean start(Targetable user, Targetable target) 
+	public String toString()
 	{
-		if(Character.class.isInstance(user))
+		switch(this)
 		{
-			Character userChar = (Character)user;
-			return userChar.equipItem(item);
+		case FRIENDLY:
+			return "friendly";
+		case NEUTRAL:
+			return "neutral";
+		case HOSTILE:
+			return "hostile";
+		case DEAD:
+			return "dead";
+		default:
+			return "friendly";
 		}
-		else
-			return false;
 	}
-
 }

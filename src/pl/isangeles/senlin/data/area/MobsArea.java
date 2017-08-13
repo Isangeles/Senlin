@@ -34,7 +34,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for areas with mobs
  * @author Isangelse

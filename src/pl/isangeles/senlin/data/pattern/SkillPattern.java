@@ -25,7 +25,7 @@ package pl.isangeles.senlin.data.pattern;
 import java.util.List;
 
 import pl.isangeles.senlin.core.Attributes;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 /**
  * Interface for skill patterns

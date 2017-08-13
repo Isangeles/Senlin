@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Random;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Attitude;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.character.Attitude;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.TConnector;

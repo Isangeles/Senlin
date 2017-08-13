@@ -28,7 +28,7 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.states.Global;
 

@@ -28,9 +28,9 @@ import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.states.*;
 import pl.isangeles.senlin.util.Settings;
-import pl.isangeles.senlin.core.Character;
 /**
  * Main game class, contains all game states
  * @author Isangeles

@@ -32,8 +32,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Training;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;

@@ -43,10 +43,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.core.Attitude;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.character.Attitude;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.Objective;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.ItemsBase;

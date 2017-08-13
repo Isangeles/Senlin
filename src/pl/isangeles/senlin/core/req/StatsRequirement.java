@@ -26,7 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Attributes;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;

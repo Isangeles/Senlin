@@ -35,7 +35,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.item.Item;

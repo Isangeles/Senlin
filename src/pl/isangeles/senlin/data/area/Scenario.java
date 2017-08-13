@@ -52,9 +52,9 @@ import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.Quest;
 /**
  * Class for game scenarios, defines used map, map exits, NPCs and its positions, etc. 

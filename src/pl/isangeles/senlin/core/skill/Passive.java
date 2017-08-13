@@ -2,8 +2,8 @@ package pl.isangeles.senlin.core.skill;
 
 import java.util.List;
 
-import pl.isangeles.senlin.core.Character;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.out.CharacterOut;

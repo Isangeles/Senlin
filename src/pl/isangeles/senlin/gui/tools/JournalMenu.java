@@ -40,7 +40,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.Button;

@@ -162,9 +162,9 @@ public class ItemsBase
 	public static void load(String itemsPath, GameContainer gc) throws SlickException, IOException, FontFormatException, ParserConfigurationException, SAXException
 	{
 		ItemsBase.gc = gc;
-		weaponsMap = DConnector.getWeapons(itemsPath + File.separator + "weaponsBase.sb");
-		armorsMap = DConnector.getArmors(itemsPath + File.separator + "armorBase.sb");
-		trinketsMap = DConnector.getTrinkets(itemsPath + File.separator + "trinketsBase.sb");
-		miscMap = DConnector.getMisc(itemsPath + File.separator + "miscBase.sb");
+		weaponsMap = DConnector.getWeapons(itemsPath + File.separator + "weapons");
+		armorsMap = DConnector.getArmors(itemsPath + File.separator + "armor");
+		trinketsMap = DConnector.getTrinkets(itemsPath + File.separator + "trinkets");
+		miscMap = DConnector.getMisc(itemsPath + File.separator + "misc");
 	}
 }

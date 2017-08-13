@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Character;
+import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for character quests progress tracking
  * @author Isangeles
