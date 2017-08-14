@@ -27,6 +27,7 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for gender requirement
@@ -40,6 +41,7 @@ public class GenderRequirement extends Requirement
 	public GenderRequirement(Gender gender)
 	{
 		reqGender = gender;
+		info = TConnector.getText("ui", "reqGender") + ":" + reqGender;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

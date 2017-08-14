@@ -38,6 +38,8 @@ import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.out.CharacterOut;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.WeaponRequirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.TConnector;
@@ -50,6 +52,7 @@ public class Attack extends Skill
 {
 	private int damage;
 	private int range;
+    protected boolean useWeapon;
 	private WeaponType reqWeapon;
 	/**
 	 * Attack constructor
@@ -68,14 +71,21 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String imgName, EffectType type, int damage, int magickaCost,
-				  int castTime, int cooldown, boolean useWeapon, WeaponType reqWeapon, int range, List<Effect> effects, GameContainer gc)
+	public Attack(Character character, String id, String imgName, EffectType type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
+	              List<Effect> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(character, id, imgName, type, magickaCost, castTime, cooldown, useWeapon, effects);
+		super(character, id, imgName, type, reqs, castTime, cooldown, effects);
 		this.damage = damage;
 		this.range = range;
-		this.reqWeapon = reqWeapon;
+		for(Requirement req : useReqs)
+		{
+		    if(WeaponRequirement.class.isInstance(req))
+		    {
+		        useWeapon = true;
+		        break;
+		    }
+		}
 		setTile(gc);
 		setSoundEffect();
 	}
@@ -95,9 +105,9 @@ public class Attack extends Skill
 	@Override
 	public CharacterOut prepare(Character user, Targetable target)
 	{
-		if(super.isActive() && weaponOk(user))
+		if(super.isActive())
 		{
-			if(target != null)
+			if(target != null && useReqs.isMetBy(user))
 			{
 				//Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
@@ -128,7 +138,7 @@ public class Attack extends Skill
 	{
 	    if(ready)
 	    {
-	        owner.takeMagicka(magickaCost);
+	        useReqs.chargeAll(owner);
 	        
 	        List<Effect> effectsToPass = new ArrayList<>();
 	        if(effects != null)

@@ -84,6 +84,7 @@ import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.RecipeParser;
 import pl.isangeles.senlin.util.parser.RequirementsParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
+import pl.isangeles.senlin.util.parser.SkillParser;
 
 /**
  * This class provides static methods giving access to external game data like items, NPCs, etc;
@@ -244,46 +245,15 @@ public final class DConnector
             Node skillNode = nl.item(i);
             if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
-                Element skill = (Element)skillNode;
                 try
                 {
-                    String id = skill.getAttribute("id");
-                    String type = skill.getAttribute("type");
-                    boolean useWeapon = Boolean.parseBoolean(skill.getAttribute("useWeapon"));
-                    String reqWeapon = skill.getAttribute("reqWeapon");
-                    
-                    String imgName = skill.getElementsByTagName("icon").item(0).getTextContent();
-                    int range = Integer.parseInt(skill.getElementsByTagName("range").item(0).getTextContent());
-                    int cast = Integer.parseInt(skill.getElementsByTagName("cast").item(0).getTextContent());
-                    int damage = Integer.parseInt(skill.getElementsByTagName("damage").item(0).getTextContent());
-                    int manaCost = Integer.parseInt(skill.getElementsByTagName("manaCost").item(0).getTextContent());
-                    int cooldown = Integer.parseInt(skill.getElementsByTagName("cooldown").item(0).getTextContent());
-                    List<Effect> effects = new ArrayList<>();
-                    Element trainReqE = (Element)skill.getElementsByTagName("trainReq").item(0);
-                    List<Requirement> trainReq = RequirementsParser.getReqFromNode(trainReqE);
-                    
-                    NodeList enl = skill.getElementsByTagName("effects").item(0).getChildNodes();
-                    for(int j = 0; j < enl.getLength(); j ++)
-                    {
-                        Node effectNode = enl.item(j);
-                        //Iterating effects
-                        if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-                        {
-                            Element effect = (Element)effectNode;
-                            String effectId = effect.getTextContent();
-                            effects.add(EffectsBase.getEffect(effectId));
-                        }
-                    }
-                    
-                    AttackPattern pattern = new AttackPattern(id, imgName, type, damage, manaCost, cast, cooldown, useWeapon, reqWeapon, range, effects, trainReq);
-                    attacksMap.put(id, pattern);
+                    AttackPattern pattern = SkillParser.getAttackFromNode(skillNode);
+                    attacksMap.put(pattern.getId(), pattern);
                 }
                 catch(NumberFormatException | NoSuchElementException e)
                 {
                     Log.addSystem("attacks_base_builder-fail msg///base node corrupted!");
-
-            		e.printStackTrace();
-                    break;
+                    e.printStackTrace();
                 }
             }
         }

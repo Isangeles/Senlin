@@ -46,9 +46,7 @@ public class AttackPattern implements SkillPattern
 {
     private final String id;
     private final EffectType type;
-    private final int magickaCost;
-    private final boolean useWeapon;
-    private final WeaponType reqWeapon;
+    private final List<Requirement> useReqs;
     private final int cooldown;
     private final int castTime;
     private final String imgName;
@@ -71,16 +69,14 @@ public class AttackPattern implements SkillPattern
      * @param range Maximal range from target
      * @param effects Skill use effects
      */
-    public AttackPattern(String id, String imgName, String type, int damage, int magickaCost, int castTime, int cooldown, boolean useWeapon, String reqWeapon, int range, List<Effect> effects, List<Requirement> skillReq)
+    public AttackPattern(String id, String imgName, String type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, List<Effect> effects, List<Requirement> skillReq)
     {
         this.type = EffectType.fromString(type);
         this.id = id;
         this.imgName = imgName;
-        this.magickaCost = magickaCost;
+        this.useReqs = reqs;
         this.castTime = castTime*1000;
         this.cooldown = cooldown*1000;
-        this.useWeapon = useWeapon;
-        this.reqWeapon = WeaponType.fromName(reqWeapon);
         this.damage = damage;
         this.range = range;
         this.effects = effects;
@@ -97,7 +93,7 @@ public class AttackPattern implements SkillPattern
      */
     public Attack make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Attack(character, id, imgName, type, damage, magickaCost, castTime, cooldown, useWeapon, reqWeapon, range, effects, gc);
+        return new Attack(character, id, imgName, type, damage, useReqs, castTime, cooldown, range, effects, gc);
     }
 
     /* (non-Javadoc)

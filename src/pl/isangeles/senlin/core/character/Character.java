@@ -645,13 +645,17 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	
 	public int getMaxExperience()
 	{ return maxExperience; }
-	
+	/**
+     * Returns current amount of health points
+     */
 	public int getHealth()
 	{ return health; }
 	
 	public int getMaxHealth()
 	{ return maxHealth; }
-	
+	/**
+	 * Returns current amount of magicka points
+	 */
 	public int getMagicka()
 	{ return magicka; }
 	

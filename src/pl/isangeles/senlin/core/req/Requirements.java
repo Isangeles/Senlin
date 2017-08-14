@@ -22,34 +22,41 @@
  */
 package pl.isangeles.senlin.core.req;
 
+import java.util.ArrayList;
+
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.data.save.SaveElement;
+
 /**
- * Abstract class for requirements
+ * Container class for requirements
  * @author Isangeles
  *
  */
-public abstract class Requirement implements SaveElement
+public class Requirements extends ArrayList<Requirement>
 {
-	protected String info;
-	protected boolean met;
-	/**
-	 * Checks if specified character meets this requirement
-	 * @param character Game character
-	 * @return True if specified  character meet this requirements, false otherwise
-	 */
-	public abstract boolean isMetBy(Character character);
-	/**
-	 * Takes items/gold required by this requirement from specified character
-	 * @param character Game character
-	 */
-	public abstract void charge(Character character);
-	/**
-	 * Returns info about this requirement
-	 * @return String with info
-	 */
-	public String getInfo()
-	{
-		return info;
-	}
+    private static final long serialVersionUID = 1L;
+    /**
+     * Checks if all requirements are met by specified game character
+     * @param character Game character
+     * @return True if all requirement are met, false otherwise
+     */
+    public boolean isMetBy(Character character)
+    {
+        boolean isMet = true;
+        for(Requirement req : this)
+        {
+            if(!req.isMetBy(character))
+            {
+                isMet = false;
+            }
+        }
+        return isMet;
+    }
+    
+    public void chargeAll(Character character)
+    {
+        for(Requirement req : this)
+        {
+            req.charge(character);
+        }
+    }
 }

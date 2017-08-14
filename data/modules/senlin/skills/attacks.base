@@ -1,42 +1,47 @@
 <?xml version="1.0"?>
 <base>
-<skill id="autoA" type="normal" useWeapon="false" reqWepaon="none">
+<skill id="autoA" type="normal">
     <icon>autoAttack.png</icon>
     <range>40</range>
     <cast>0</cast>
     <damage>0</damage>
-    <manaCost>0</manaCost>
     <cooldown>2</cooldown>
     <effects>
     </effects>
+    <useReq>
+    </useReq>
     <trainReq>
     </trainReq>
 </skill>
-<skill id="slash" type="normal" useWeapon="true" reqWeapon="sword">
+<skill id="slash" type="normal">
     <icon>slash.png</icon>
     <range>40</range>
     <cast>0</cast>
     <damage>0</damage>
-    <manaCost>0</manaCost>
     <cooldown>5</cooldown>
     <effects>
         <effect>bleed</effect>
     </effects>
+    <useReq>
+        <weaponReq>sword</weaponReq>
+    </useReq>
     <trainReq>
         <goldReq>100</goldReq>
         <statsReq>3;0;4;0;0;</statsReq>
         <pointsReq>1</pointsReq>
     </trainReq>
 </skill>
-<skill id="shot" type="normal" useWeapon="true" reqWeapon="bow">
+<skill id="shot" type="normal">
     <icon>shot.png</icon>
     <range>150</range>
     <cast>0</cast>
     <damage>0</damage>
-    <manaCost>0</manaCost>
     <cooldown>3</cooldown>
     <effects>
     </effects>
+    <useReq>
+        <weaponReq>bow</weaponReq>
+    </useReq>
     <trainReq>
     </trainReq>
 </skill>

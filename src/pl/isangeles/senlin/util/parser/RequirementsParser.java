@@ -32,11 +32,14 @@ import org.w3c.dom.NodeList;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.req.GenderRequirement;
 import pl.isangeles.senlin.core.req.GoldRequirement;
+import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.PointsRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.StatsRequirement;
+import pl.isangeles.senlin.core.req.WeaponRequirement;
 
 /**
  * Class for parsing requirements nodes
@@ -87,6 +90,18 @@ public final class RequirementsParser
 						Gender sex = Gender.fromString(reqE.getTextContent());
 						reqs.add(new GenderRequirement(sex));
 						break;
+					case "manaReq":
+					    int reqMana = Integer.parseInt(reqE.getTextContent());
+					    reqs.add(new ManaRequirement(reqMana));
+					    break;
+					case "hpReq":
+                        int reqHp = Integer.parseInt(reqE.getTextContent());
+                        reqs.add(new ManaRequirement(reqHp));
+                        break;
+					case "weaponReq":
+					    WeaponType weapon = WeaponType.fromName(reqE.getTextContent());
+					    reqs.add(new WeaponRequirement(weapon));
+					    break;
 					}
 				}
 				catch(NumberFormatException e)

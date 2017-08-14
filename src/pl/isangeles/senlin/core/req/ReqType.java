@@ -29,8 +29,12 @@ package pl.isangeles.senlin.core.req;
  */
 public enum ReqType 
 {
-	NONE, STATS, SEX, GUILD, GOLD, ITEMS;
-	
+	NONE, STATS, GENDER, GUILD, GOLD, ITEMS, POINTS, MANA, HEALTH, WEAPON;
+	/**
+	 * Converts type ID to requirement type enum
+	 * @param typeName Requirement type ID
+	 * @return Requirement type enum
+	 */
 	public static ReqType fromString(String typeName)
 	{
 		switch(typeName)
@@ -38,13 +42,19 @@ public enum ReqType
 		case "statsReq":
 			return ReqType.STATS;
 		case "genderReq":
-			return ReqType.SEX;
+			return ReqType.GENDER;
 		case "guildReq":
 			return ReqType.GUILD;
 		case "goldReq":
 			return ReqType.GOLD;
 		case "itemsReq":
 			return ReqType.ITEMS;
+		case "pointsReq":
+		    return ReqType.POINTS;
+		case "manaReq":
+		    return ReqType.MANA;
+		case "hpReq":
+		    return ReqType.HEALTH;
 		default:
 			return ReqType.NONE;
 		}

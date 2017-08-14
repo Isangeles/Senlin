@@ -40,6 +40,9 @@ import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.out.CharacterOut;
+import pl.isangeles.senlin.core.req.ManaRequirement;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
 
@@ -57,12 +60,11 @@ public abstract class Skill implements SlotContent
 	protected String name;
 	protected String info;
 	protected EffectType type;
-	protected int magickaCost;
+	protected Requirements useReqs = new Requirements();
     protected Character owner;
 	protected Targetable target;
     protected boolean ready;
     protected boolean active;
-    protected boolean useWeapon;
     protected int cooldown;
     protected List<Effect> effects;
     private int castTime;
@@ -84,17 +86,16 @@ public abstract class Skill implements SlotContent
 	 * @param useWeapon If weapon is needed to use this skill
 	 * @param effects Skill effect list
 	 */
-	public Skill(Character character, String id, String imgName, EffectType type, int magickaCost, int castTime, int cooldown, boolean useWeapon, List<Effect> effects) 
+	public Skill(Character character, String id, String imgName, EffectType type, List<Requirement> reqs, int castTime, int cooldown, List<Effect> effects) 
 	{
 		this.type = type;
 		this.id = id;
 		this.name = TConnector.getInfoFromModule("skills", id)[0];
 		this.info = TConnector.getInfoFromModule("skills", id)[1];
 		this.imgName = imgName;
-		this.magickaCost = magickaCost;
+		this.useReqs.addAll(reqs);
 		this.castTime = castTime;
 		this.cooldown = cooldown;
-		this.useWeapon = useWeapon;
 		this.effects = effects;
 		owner = character;
 		active = true;
@@ -186,10 +187,12 @@ public abstract class Skill implements SlotContent
 	 */
 	public boolean isMagic()
 	{
-		if(magickaCost > 0)
-			return true;
-		else
-			return false;
+		for(Requirement req : useReqs)
+		{
+		    if(ManaRequirement.class.isInstance(req))
+		        return true;
+		}
+		return false;
 	}
 	/**
 	 * Checks if skill is active

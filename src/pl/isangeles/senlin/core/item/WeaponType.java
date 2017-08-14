@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.core.item;
 
+import pl.isangeles.senlin.util.TConnector;
+
 /**
  * Enumeration for weapon types
  * @author Isangeles
@@ -109,5 +111,28 @@ public enum WeaponType
 		default:
 			return 6;
 		}
+	}
+	
+	public String getName()
+	{
+	    switch(this)
+        {
+        case DAGGER:
+            return TConnector.getText("ui", "weaDagger");
+        case SWORD:
+            return TConnector.getText("ui", "weaSword");
+        case AXE:
+            return TConnector.getText("ui", "weaAxe");
+        case MACE:
+            return TConnector.getText("ui", "weaMace");
+        case SPEAR:
+            return TConnector.getText("ui", "weaSpear");
+        case BOW:
+            return TConnector.getText("ui", "weaBow");
+        case FIST:
+            return TConnector.getText("ui", "weaFist");
+        default:
+            return TConnector.getText("ui", "errorName");
+        }
 	}
 }
