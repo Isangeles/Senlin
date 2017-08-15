@@ -163,13 +163,25 @@ public class Attributes
 	 * Adds specified attributes to this attributes
 	 * @param attributes Attributes object
 	 */
-	public void addAll(Attributes attributes)
+	public void increaseBy(Attributes attributes)
 	{
 		strength.value += attributes.getStr();
 		constitution.value += attributes.getCon();
 		dexterity.value += attributes.getDex();
 		intelligence.value += attributes.getInt();
 		wisdom.value += attributes.getWis();
+	}
+	/**
+	 * Decreases attributes by value of specified attributes
+	 * @param attributes Attributes to subtract
+	 */
+	public void decreaseBy(Attributes attributes)
+	{
+		strength.value -= attributes.getStr();
+		constitution.value -= attributes.getCon();
+		dexterity.value -= attributes.getDex();
+		intelligence.value -= attributes.getInt();
+		wisdom.value -= attributes.getWis();
 	}
 	/**
 	 * Compares this attributes to other some attributes 

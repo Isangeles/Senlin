@@ -28,8 +28,8 @@ import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.tools.CharMan;
 import pl.isangeles.senlin.cli.tools.WorldMan;
-import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.QuestsBase;

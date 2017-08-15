@@ -26,8 +26,8 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;

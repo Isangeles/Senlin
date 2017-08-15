@@ -1,5 +1,5 @@
 /*
- * Guild.java
+ * BonusType.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,44 +20,32 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
-
-import java.io.File;
-
-import pl.isangeles.senlin.util.TConnector;
+package pl.isangeles.senlin.core.bonus;
 
 /**
- * Class for game guilds
  * @author Isangeles
  *
  */
-public class Guild 
+public enum BonusType 
 {
-    private String id;
-	private String name;
+	NONE, STATS, HEALTH, MANA, HASTE, DODGE;
 	
-	public Guild(String id) 
+	public static BonusType fromString(String id)
 	{
-		this.id = id;
-		this.name = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "guilds", id);
+		switch(id)
+		{
+		case "statsBonus":
+			return BonusType.STATS;
+		case "healthBonus":
+			return BonusType.HEALTH;
+		case "manaBonus":
+			return BonusType.MANA;
+		case "haseBonus":
+			return BonusType.HASTE;
+		case "dodgeBonus":
+			return BonusType.DODGE;
+		default:
+			return BonusType.NONE;
+		}
 	}
-	
-	public String getName()
-	{
-		if(name != "")
-			return "<" + name + ">";
-		else
-			return name;
-	}
-	
-	public String getId()
-	{
-		return id;
-	}
-	
-	public String toString()
-	{
-		return name;
-	}
-
 }

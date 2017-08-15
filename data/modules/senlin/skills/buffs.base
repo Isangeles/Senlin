@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<base>
+    <skill id="rage" effect="normal" type="on user">
+        <icon>rage.png</icon>
+        <range>0</range>
+        <cast>0</cast>
+        <cooldown>20</cooldown>
+        <bonuses>
+            <statsBonus>1;1;0;0;0;</statsBonus>
+            <healthBonus>10</healthBonus>
+        </bonuses>
+        <useReq>
+        </useReq>
+        <trainReq>
+            <goldReq>100</goldReq>
+            <statsReq>4;3;0;0;0;</statsReq>
+        </trainReq>
+    </skill>
+</base>

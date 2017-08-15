@@ -48,10 +48,11 @@ import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Flags;
-import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Training;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
@@ -123,6 +124,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects();
+	private Bonuses bonuses = new Bonuses();
 	private Journal quests = new Journal();
 	private Flags flags = new Flags();
 	private List<Training> trainings = new ArrayList<>();
@@ -775,6 +777,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		return (int)Math.hypot(xyPos[0]-position[0], xyPos[1]-position[1]);
 	}
+
+	/**
+	 * Returns range from specified object
+	 * @param object Some targetable game object
+	 * @return Range from specified object
+	 */
+	public int getRangeFrom(Targetable object)
+	{
+		return getRangeFrom(object.getPosition());
+	}
 	/**
 	 * Checks if character is live
 	 * @return True if character is live, false otherwise
@@ -1069,6 +1081,21 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	        return false;
 	}
 	/**
+	 * Adds(and applies) specified bonus to character bonuses
+	 * @param bonus Bonus to add 
+	 * @return True if bonus was successfully added, false otherwise
+	 */
+	public boolean addBonus(Bonus bonus)
+	{
+		if(bonuses.add(bonus))
+		{
+			bonus.applyOn(this);
+			return true;
+		}
+		else
+			return false;
+	}
+	/**
 	 * Adds profession to character professions set
 	 * @param profession Game profession
 	 * @return True if profession was successfully added
@@ -1106,6 +1133,30 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	inventory.addGold(value);
     	Log.gainInfo(getName(), value, "gold");
     }
+    /**
+     * Removes specified bonus from character
+     * @param bonus Bonus to remove
+     * @return True if bonus was successfully removed, false otherwise
+     */
+    public boolean removeBonus(Bonus bonus)
+    {
+    	if(bonuses.remove(bonus))
+    	{
+    		bonus.removeFrom(this);
+    		return true;
+    	}
+    	else
+    		return false;
+    }
+    /**
+     * Checks if character has specified bonus 
+     * @param bonus Bonus to check
+     * @return True if character bonuses container contains specified bonus object, false otherwise
+     */
+    public boolean hasBonus(Bonus bonus)
+    {
+    	return bonuses.contains(bonus);
+    }
     
     public void modHealth(int value)
     {
@@ -1121,7 +1172,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     
     public void modAttributes(Attributes attributes)
     {
-    	this.attributes.addAll(attributes);
+    	this.attributes.increaseBy(attributes);
     }
     /**
      * Activates specified skill, if character know this skill
@@ -1178,16 +1229,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {
         this.looting = looting;
     }
-	/**
-	 * Draws all character items (called by inventory menu)
-	 * @param x Position in X axis
-	 * @param y Position in Y axis
-	 */
-	@Deprecated
-	public void drawItems(float x, float y)
-	{
-		inventory.drawItems(x, y);
-	}
 	/**
 	 * Memorises specified game character as hostile, friendly or neutral
 	 * @param character Some game character

@@ -6,8 +6,8 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.action.EquipAction;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for equippable items

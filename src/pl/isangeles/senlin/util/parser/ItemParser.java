@@ -22,10 +22,13 @@
  */
 package pl.isangeles.senlin.util.parser;
 
+import java.util.List;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.TrinketPattern;
@@ -57,12 +60,16 @@ public class ItemParser
 		String type = itemE.getAttribute("type");
 		String material = itemE.getAttribute("material"); 
 		int value = Integer.parseInt(itemE.getAttribute("value"));
+		
 		String dmg = itemE.getAttribute("dmg");
 		int minDmg = Integer.parseInt(dmg.split("-")[0]);
 		int maxDmg = Integer.parseInt(dmg.split("-")[1]);
-		Bonuses bonuses = new Bonuses(itemE.getElementsByTagName("bonuses").item(0).getTextContent());
+		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		String spriteSheet = itemE.getElementsByTagName("spriteSheet").item(0).getTextContent();
+		
+		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
+		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
 		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, icon, spriteSheet);
 	}
@@ -82,9 +89,12 @@ public class ItemParser
 		String material = itemE.getAttribute("material"); 
 		int value = Integer.parseInt(itemE.getAttribute("value"));
 		int armRat = Integer.parseInt(itemE.getAttribute("armRat"));
-		Bonuses bonuses = new Bonuses(itemE.getElementsByTagName("bonuses").item(0).getTextContent());
+		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		String sprite = "";
+		
+		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
+		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
 		Element spriteE = (Element)itemE.getElementsByTagName("sprite").item(0);
 		if(spriteE != null)
@@ -107,8 +117,10 @@ public class ItemParser
 		String type = itemE.getAttribute("type");
 		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLevel"));
 		int value = Integer.parseInt(itemE.getAttribute("value"));
-		String bonuses = itemE.getElementsByTagName("bonuses").item(0).getTextContent();
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		
+		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
+		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
 		Element actionE = (Element)itemE.getElementsByTagName("action").item(0);
 		String actionType = actionE.getAttribute("type");

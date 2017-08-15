@@ -24,11 +24,13 @@ package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Bonuses;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.ArmorMaterial;
 import pl.isangeles.senlin.core.item.ArmorType;
@@ -61,7 +63,7 @@ public class ArmorPattern
 	 * @param bonuses Item bonuses
 	 * @param icon Item UI icon
 	 */
-	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, Bonuses bonuses, String icon, String sprite) 
+	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Bonus> bonuses, String icon, String sprite) 
 	{
 		this.id = id;
 		this.reqLvl = reqLvl;
@@ -69,7 +71,8 @@ public class ArmorPattern
 		this.material = material;
 		this.value = value;
 		this.armRat = armRat;
-		this.bonuses = bonuses;
+		this.bonuses = new Bonuses();
+		this.bonuses.addAll(bonuses);
 		this.icon = icon;
 		this.sprite = sprite;
 	}

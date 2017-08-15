@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <base>
     <item id="tSRing" reqLevel="1" type="finger" value="50">
-        <bonuses></bonuses>
         <icon>ring01.png</icon>
+        <bonuses></bonuses>
         <action></action>
     </item>
 </base>

@@ -24,14 +24,16 @@ package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.TrinketType;
 import pl.isangeles.senlin.data.EffectsBase;
@@ -48,18 +50,19 @@ public class TrinketPattern
 	private final int value;
 	private final int level;
 	private final String icon;
-	private final String bonuses;
+	private final Bonuses bonuses;
 	private final String actionType;
 	private final String actionId;
 	
-	public TrinketPattern(String id, String type, int level, int value, String icon, String bonuses, String actionType, String actionId) 
+	public TrinketPattern(String id, String type, int level, int value, String icon, List<Bonus> bonuses, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.type = type;
 		this.value = value;
 		this.level = level;
 		this.icon = icon;
-		this.bonuses = bonuses;
+		this.bonuses = new Bonuses();
+		this.bonuses.addAll(bonuses);
 		this.actionType = actionType;
 		this.actionId = actionId;
 	}
@@ -85,7 +88,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, TrinketType.fromString(type).ordinal(), value, icon, level, new Bonuses(bonuses), action, gc);
+		return new Trinket(id, TrinketType.fromString(type).ordinal(), value, icon, level, bonuses, action, gc);
 	}
 	
 	public Trinket make(GameContainer gc, int serial) throws NumberFormatException, SlickException, IOException, FontFormatException
@@ -104,7 +107,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, serial, TrinketType.fromString(type).ordinal(), value, icon, level, new Bonuses(bonuses), action, gc);
+		return new Trinket(id, serial, TrinketType.fromString(type).ordinal(), value, icon, level, bonuses, action, gc);
 	}
 
 }

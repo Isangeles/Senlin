@@ -28,8 +28,8 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Bonuses;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.graphic.AnimObject;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;

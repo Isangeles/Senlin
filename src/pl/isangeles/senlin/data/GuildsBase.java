@@ -31,8 +31,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.core.Guild;
 import pl.isangeles.senlin.core.Module;
+import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.util.DConnector;
 /**
  * Class for game guilds base
