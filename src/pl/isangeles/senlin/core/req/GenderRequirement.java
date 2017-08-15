@@ -40,8 +40,8 @@ public class GenderRequirement extends Requirement
 	
 	public GenderRequirement(Gender gender)
 	{
+		super(RequirementType.GENDER, TConnector.getText("ui", "reqGender") + ":" + gender);
 		reqGender = gender;
-		info = TConnector.getText("ui", "reqGender") + ":" + reqGender;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

@@ -1,5 +1,5 @@
 /*
- * ReqType.java
+ * RequirementType.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -27,36 +27,38 @@ package pl.isangeles.senlin.core.req;
  * @author Isangeles
  *
  */
-public enum ReqType 
+public enum RequirementType 
 {
-	NONE, STATS, GENDER, GUILD, GOLD, ITEMS, POINTS, MANA, HEALTH, WEAPON;
+	NONE, LEVEL, STATS, GENDER, GUILD, GOLD, ITEMS, POINTS, MANA, HEALTH, WEAPON;
 	/**
 	 * Converts type ID to requirement type enum
 	 * @param typeName Requirement type ID
 	 * @return Requirement type enum
 	 */
-	public static ReqType fromString(String typeName)
+	public static RequirementType fromString(String typeName)
 	{
 		switch(typeName)
 		{
+		case "levelReq":
+			return RequirementType.LEVEL;
 		case "statsReq":
-			return ReqType.STATS;
+			return RequirementType.STATS;
 		case "genderReq":
-			return ReqType.GENDER;
+			return RequirementType.GENDER;
 		case "guildReq":
-			return ReqType.GUILD;
+			return RequirementType.GUILD;
 		case "goldReq":
-			return ReqType.GOLD;
+			return RequirementType.GOLD;
 		case "itemsReq":
-			return ReqType.ITEMS;
+			return RequirementType.ITEMS;
 		case "pointsReq":
-		    return ReqType.POINTS;
+		    return RequirementType.POINTS;
 		case "manaReq":
-		    return ReqType.MANA;
+		    return RequirementType.MANA;
 		case "hpReq":
-		    return ReqType.HEALTH;
+		    return RequirementType.HEALTH;
 		default:
-			return ReqType.NONE;
+			return RequirementType.NONE;
 		}
 	}
 }

@@ -44,8 +44,8 @@ public class StatsRequirement extends Requirement
 	 */
 	public StatsRequirement(Attributes minStats)
 	{
+		super(RequirementType.STATS, TConnector.getText("ui", "reqStats") + ": " + minStats.toString());
 		this.minStats = minStats;
-		info = TConnector.getText("ui", "reqStats") + ": " + minStats.toString();
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirements#isMeet(pl.isangeles.senlin.core.Character)

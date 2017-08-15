@@ -50,6 +50,7 @@ public class ItemsRequirement extends Requirement
 	 */
 	public ItemsRequirement(Map<String, Integer> reqItems)
 	{
+		super(RequirementType.ITEMS, "");
 		this.reqItems = reqItems;
 	}
 	/* (non-Javadoc)
@@ -98,7 +99,7 @@ public class ItemsRequirement extends Requirement
 			met = false;
 		}
 	}
-	
+	@Override
 	public String getInfo()
 	{
 		String reqInfo = "";

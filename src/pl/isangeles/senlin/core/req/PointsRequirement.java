@@ -39,8 +39,8 @@ public class PointsRequirement extends Requirement
 	
 	public PointsRequirement(int reqPoints)
 	{
+		super(RequirementType.POINTS, TConnector.getText("ui", "reqPoints") + ": " + reqPoints);
 		this.reqPoints = reqPoints;
-		info = TConnector.getText("ui", "reqPoints") + ": " + reqPoints;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)

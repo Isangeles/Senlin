@@ -23,13 +23,18 @@
 package pl.isangeles.senlin.core.bonus;
 
 /**
+ * Enumeration for bonus types
  * @author Isangeles
  *
  */
 public enum BonusType 
 {
 	NONE, STATS, HEALTH, MANA, HASTE, DODGE;
-	
+	/**
+	 * Converts specified type ID to bonus type enum
+	 * @param id String with bonus type ID
+	 * @return Bonus type enum
+	 */
 	public static BonusType fromString(String id)
 	{
 		switch(id)

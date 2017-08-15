@@ -26,6 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for health points requirement
@@ -41,6 +42,7 @@ public class HealthRequirement extends Requirement
      */
     public HealthRequirement(int healthPoints)
     {
+    	super(RequirementType.HEALTH, TConnector.getText("ui", "hpName") + ":" + healthPoints);
         reqHp = healthPoints;
     }
     /* (non-Javadoc)

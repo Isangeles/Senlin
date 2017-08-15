@@ -43,8 +43,8 @@ public class GoldRequirement extends Requirement
 	 */
 	public GoldRequirement(int reqGold)
 	{
+		super(RequirementType.GOLD, TConnector.getText("ui", "reqGold") + " " + reqGold);
 		this.reqGold = reqGold;
-		info = TConnector.getText("ui", "reqGold") + " " + reqGold;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#isMeet(pl.isangeles.senlin.core.Character)

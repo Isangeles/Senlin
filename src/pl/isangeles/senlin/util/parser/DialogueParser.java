@@ -36,7 +36,7 @@ import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.dialogue.DialoguePart;
-import pl.isangeles.senlin.core.req.ReqType;
+import pl.isangeles.senlin.core.req.RequirementType;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.StatsRequirement;
 /**

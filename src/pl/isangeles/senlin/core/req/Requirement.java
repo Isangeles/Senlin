@@ -31,8 +31,19 @@ import pl.isangeles.senlin.data.save.SaveElement;
  */
 public abstract class Requirement implements SaveElement
 {
+	protected RequirementType type;
 	protected String info;
 	protected boolean met;
+	/**
+	 * Requirement constructor
+	 * @param type Requirement type
+	 * @param info Requirement info
+	 */
+	protected Requirement(RequirementType type, String info)
+	{
+		this.type = type;
+		this.info = info;
+	}
 	/**
 	 * Checks if specified character meets this requirement
 	 * @param character Game character
@@ -51,5 +62,13 @@ public abstract class Requirement implements SaveElement
 	public String getInfo()
 	{
 		return info;
+	}
+	/**
+	 * Returns requirement type
+	 * @return Requirement type enum
+	 */
+	public RequirementType getType()
+	{
+		return type;
 	}
 }

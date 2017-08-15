@@ -42,8 +42,8 @@ public class ManaRequirement extends Requirement
      */
     public ManaRequirement(int manaPoints)
     {
+    	super(RequirementType.MANA, TConnector.getText("ui", "reqMana") + ":" + manaPoints);
         reqMana = manaPoints;
-        info = TConnector.getText("ui", "reqMana") + ":" + reqMana;
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

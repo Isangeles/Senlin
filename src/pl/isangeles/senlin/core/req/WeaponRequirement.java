@@ -43,8 +43,8 @@ public class WeaponRequirement extends Requirement
      */
     public WeaponRequirement(WeaponType weapon)
     {
+    	super(RequirementType.WEAPON, TConnector.getText("ui", "reqWeapon") + ":" + weapon.getName());
         reqWeapon = weapon;
-        info = TConnector.getText("ui", "reqWeapon") + ":" + reqWeapon.getName();
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
