@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
@@ -54,6 +55,7 @@ public interface Targetable extends ObjectiveTarget
 	public Portrait getPortrait();
 	public Effects getEffects();
 	public Inventory getInventory();
+	public Attributes getAttributes();
 	public int getHealth();
 	public int getMaxHealth();
 	public int getMagicka();
@@ -67,11 +69,14 @@ public interface Targetable extends ObjectiveTarget
 	public void takeMagicka(int value);
 	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> effects);
 	
-	public void modHealth(int value);
-	public void modMagicka(int value);
-	public void modAttributes(Attributes attributes);
+	public void addHealth(int value);
+	public void addMagicka(int value);
 	public void looting(boolean looting);
-	
+
+    public boolean addBonus(Bonus bonus);
+    public boolean removeBonus(Bonus bonus);
+    public boolean hasBonus(Bonus bonus);
+    
 	public boolean isLive();
 	public boolean isMouseOver();
 	public boolean isLooting();

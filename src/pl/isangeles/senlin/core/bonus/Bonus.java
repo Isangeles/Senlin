@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for bonuses
@@ -43,15 +44,15 @@ public abstract class Bonus
 		this.info = info;
 	}
 	/**
-	 * Applies bonus on specified character
-	 * @param character Game character
+	 * Applies bonus on specified object
+	 * @param object Targetable game object
 	 */
-	public abstract void applyOn(Character character);
+	public abstract void applyOn(Targetable object);
 	/**
-	 * Removes bonus from character
-	 * @param character Game character
+	 * Removes bonus from specified object
+	 * @param object Targetable game object
 	 */
-	public abstract void removeFrom(Character character);
+	public abstract void removeFrom(Targetable object);
 	/**
 	 * Returns info about bonus
 	 * @return String with info

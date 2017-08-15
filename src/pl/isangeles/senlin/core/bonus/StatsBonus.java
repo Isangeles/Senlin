@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core.bonus;
 
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
@@ -43,20 +44,20 @@ public class StatsBonus extends Bonus
 		statsBonus = stats;
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.character.Character)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
-	public void applyOn(Character character) 
+	public void applyOn(Targetable object) 
 	{
-		character.getAttributes().increaseBy(statsBonus);
+	    object.getAttributes().increaseBy(statsBonus);
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.character.Character)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
-	public void removeFrom(Character character) 
+	public void removeFrom(Targetable object) 
 	{
-		character.getAttributes().decreaseBy(statsBonus);
+	    object.getAttributes().decreaseBy(statsBonus);
 	}
 
 }

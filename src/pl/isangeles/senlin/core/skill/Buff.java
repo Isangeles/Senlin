@@ -3,25 +3,29 @@ package pl.isangeles.senlin.core.skill;
 import java.util.List;
 
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
+import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 
 public class Buff extends Skill 
 {
 	private BuffType type;
-    private Bonuses statsBuff;
-    private int hpBuff;
+	private Bonuses bonuses;
+	private List<Effect> effects;
     private int range;
     private int time;
     private int duration;
     
-	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, List<Effect> effects) 
+	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, 
+	            Bonuses bonuses, List<Effect> effects) 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
+		this.bonuses = bonuses;
 		this.type = type;
 		this.duration = duration;
 	}
@@ -32,7 +36,7 @@ public class Buff extends Skill
 	    {
 	        time += delta;
 	        if(time >= duration)
-	            active = false;
+	            deactivate();
 	    }
 	}
 
@@ -45,16 +49,20 @@ public class Buff extends Skill
     @Override
     public void activate()
     {
-    	if(ready)
+    	if(active)
     	{
-    		
+    		for(Bonus bonus : bonuses)
+    		{
+    		    if(!target.hasBonus(bonus))
+    		        target.addBonus(bonus);
+    		}
     	}
     }
 
     @Override
     public CharacterOut prepare(Character user, Targetable target)
     {
-        if(isActive() && useReqs.isMetBy(user))
+        if(isReady() && useReqs.isMetBy(user))
         {
         	if(type == BuffType.ONTARGET && target == null)
         		return CharacterOut.NOTARGET;
@@ -64,8 +72,8 @@ public class Buff extends Skill
         		if(user.getRangeFrom(target) <= range)
         		{
         			this.target = target;
-        			ready = true;
-        			active = false;
+        			active = true;
+        			ready = false;
         			playSoundEffect();
         			return CharacterOut.SUCCESS;
         		}
@@ -78,8 +86,8 @@ public class Buff extends Skill
         	else if(type.useUser())
         	{
         		this.target = user;
-    			ready = true;
-    			active = false;
+    			active = true;
+    			ready = false;
     			playSoundEffect();
     			return CharacterOut.SUCCESS;
         	}
@@ -88,6 +96,19 @@ public class Buff extends Skill
         }
         else
         	return CharacterOut.NOTREADY;
+    }
+    
+    private void deactivate()
+    {
+        if(active)
+        {
+            for(Bonus bonus : bonuses)
+            {
+                if(target.hasBonus(bonus))
+                    bonus.removeFrom(target);
+            }
+            active = false;
+        }
     }
 
 }

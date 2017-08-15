@@ -63,8 +63,8 @@ public abstract class Skill implements SlotContent
 	protected Requirements useReqs = new Requirements();
     protected Character owner;
 	protected Targetable target;
-    protected boolean ready;
     protected boolean active;
+    protected boolean ready;
     protected int cooldown;
     protected List<Effect> effects;
     private int castTime;
@@ -98,7 +98,7 @@ public abstract class Skill implements SlotContent
 		this.cooldown = cooldown;
 		this.effects = effects;
 		owner = character;
-		active = true;
+		ready = true;
 		serialId = id + "_" + serial;
 	}
 	/**
@@ -117,12 +117,12 @@ public abstract class Skill implements SlotContent
 	 */
 	public void update(int delta)
 	{
-		tile.setActive(active);
-		if(!active)
+		tile.setActive(ready);
+		if(!ready)
 			timer += delta;
 		if(timer >= cooldown)
 		{
-			active = true;
+			ready = true;
 			timer = 0;
 		}
 	}
@@ -132,7 +132,7 @@ public abstract class Skill implements SlotContent
 	 */
 	public void setActive(boolean active)
 	{
-		this.active = active;
+		this.ready = active;
 		tile.setActive(active);
 	}
 	/**
@@ -198,9 +198,9 @@ public abstract class Skill implements SlotContent
 	 * Checks if skill is active
 	 * @return True if skill is active, false otherwise
 	 */
-	public boolean isActive()
+	public boolean isReady()
 	{
-		return active;
+		return ready;
 	}
 	/**
 	 * Returns skill owner

@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
@@ -42,20 +43,20 @@ public class HealthBonus extends Bonus
 		hpBonus = healthPoints;
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.character.Character)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
-	public void applyOn(Character character) 
+	public void applyOn(Targetable object) 
 	{
-		character.addHealth(hpBonus);
+	    object.addHealth(hpBonus);
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.character.Character)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
-	public void removeFrom(Character character) 
+	public void removeFrom(Targetable object) 
 	{
-		character.takeHealth(hpBonus);
+	    object.takeHealth(hpBonus);
 	}
 
 }

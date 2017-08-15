@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
+import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
@@ -276,33 +277,32 @@ public class SimpleGameObject implements Targetable, SaveElement
     }
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#modHealth(int)
+	 * @see pl.isangeles.senlin.core.Targetable#addHealth(int)
 	 */
 	@Override
-	public void modHealth(int value) 
+	public void addHealth(int value) 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#modMagicka(int)
+	 * @see pl.isangeles.senlin.core.Targetable#addMagicka(int)
 	 */
 	@Override
-	public void modMagicka(int value) 
+	public void addMagicka(int value) 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#modAttributes(pl.isangeles.senlin.core.Attributes)
+	 * @see pl.isangeles.senlin.core.Targetable#getAttributes(pl.isangeles.senlin.core.Tragetable)
 	 */
 	@Override
-	public void modAttributes(Attributes attributes)
+	public Attributes getAttributes()
 	{
-		// TODO Auto-generated method stub
-		
+		return null;
 	}
 	
 	public void setInventory(Inventory inventory)
@@ -360,6 +360,36 @@ public class SimpleGameObject implements Targetable, SaveElement
         objectE.appendChild(inventory.getSaveWithoutEq(doc));
         
         return objectE;
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#addBonus(pl.isangeles.senlin.core.bonus.Bonus)
+     */
+    @Override
+    public boolean addBonus(Bonus bonus)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#removeBonus(pl.isangeles.senlin.core.bonus.Bonus)
+     */
+    @Override
+    public boolean removeBonus(Bonus bonus)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#hasBonus(pl.isangeles.senlin.core.bonus.Bonus)
+     */
+    @Override
+    public boolean hasBonus(Bonus bonus)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     

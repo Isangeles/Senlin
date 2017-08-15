@@ -30,6 +30,8 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -47,12 +49,7 @@ public class Effect
     private String info;
     private String imgName;
 	private EffectType type;
-	private int hpMod;
-	private int manaMod;
-	private Attributes attMod;
-	private float hasteMod;
-	private float dodgeMod;
-	private int dmgMod;
+	private Bonuses bonuses;
 	private int dot;
 	private int duration;
 	private int time;
@@ -78,20 +75,14 @@ public class Effect
 	 * @throws IOException 
 	 * @throws SlickException 
 	 */
-	public Effect(String id, String imgName, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, 
-				  int dmgMod, int dot, int duration, EffectType type, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
 	    this.info = TConnector.getInfoFromModule("effects", id)[1];
 	    this.imgName = imgName;
 		this.type = type;
-		this.hpMod = hpMod;
-		this.manaMod = manaMod;
-		this.attMod = attMod;
-		this.hasteMod = hasteMod;
-		this.dodgeMod = dodgeMod;
-		this.dmgMod = dmgMod;
+		this.bonuses = bonuses;
 		this.dot = dot;
 		this.duration = duration;
 		buildTile(gc);
@@ -114,41 +105,13 @@ public class Effect
 	 */
 	public void removeFrom(Targetable character)
 	{
-		character.modHealth(-hpMod);
-		character.modMagicka(-manaMod);
-		character.modAttributes(attMod.nagative());
+		for(Bonus bonus : bonuses)
+		{
+		    if(character.hasBonus(bonus))
+		        character.removeBonus(bonus);
+		}
 		time = 0;
 		dotTimer = 0;
-	}
-	
-	public int getHpMod()
-	{
-		return hpMod;
-	}
-	
-	public int getManaMod()
-	{
-		return manaMod;
-	}
-	
-	public Attributes getAttributesMod()
-	{
-		return attMod;
-	}
-	
-	public float getHasteMod()
-	{
-		return hasteMod;
-	}
-	
-	public float getDodgeMod()
-	{
-		return dodgeMod;
-	}
-	
-	public int getDmgMod()
-	{
-		return dmgMod;
 	}
 	
 	public int getDuration()
@@ -183,9 +146,11 @@ public class Effect
 	{
 		on = true;
 		character.getEffects().add(this);
-		character.modHealth(hpMod);
-		character.modMagicka(manaMod);
-		character.modAttributes(attMod);
+		for(Bonus bonus : bonuses)
+		{
+		    if(!character.hasBonus(bonus))
+		        character.addBonus(bonus);
+		}
 	}
 	/**
 	 * Sets current effect time 

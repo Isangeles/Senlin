@@ -1,21 +1,13 @@
 <?xml version="1.0"?>
 <base>
     <effect id="bleed" duration="5" type="normal" icon="bleed.png">
-        <hpMod>0</hpMod>
-        <manaMod>0</manaMod>
-        <attributesMod str="0" con="-1" dex="0" int="0" wis="0"></attributesMod>
-        <hasteMod>0</hasteMod>
-        <dodgeMod>0</dodgeMod>
-        <dmgMod>0</dmgMod>
+        <modifers>
+            <statsBonus>0;-1;0;0;0;</statsBonus>
+        </modifers>        
         <dot>-1</dot>
     </effect>
     <effect id="heal01" duration="5" type="normal" icon="lunch.png">
-        <hpMod>0</hpMod>
-        <manaMod>0</manaMod>
-        <attributesMod str="0" con="0" dex="0" int="0" wis="0"></attributesMod>
-        <hasteMod>0</hasteMod>
-        <dodgeMod>0</dodgeMod>
-        <dmgMod>0</dmgMod>
+        <modifers></modifers>
         <dot>+1</dot>
     </effect>
 </base>

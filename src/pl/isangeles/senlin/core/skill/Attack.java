@@ -105,7 +105,7 @@ public class Attack extends Skill
 	@Override
 	public CharacterOut prepare(Character user, Targetable target)
 	{
-		if(super.isActive())
+		if(super.isReady())
 		{
 			if(target != null && useReqs.isMetBy(user))
 			{
@@ -113,8 +113,8 @@ public class Attack extends Skill
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.target = target;
-				    ready = true;
-				    active = false;
+				    active = true;
+				    ready = false;
 		            playSoundEffect();
 				    return CharacterOut.SUCCESS;
 				}
@@ -136,7 +136,7 @@ public class Attack extends Skill
 	@Override
 	public void activate()
 	{
-	    if(ready)
+	    if(active)
 	    {
 	        useReqs.chargeAll(owner);
 	        
@@ -149,7 +149,7 @@ public class Attack extends Skill
 		        }
 	        }
 	        target.takeAttack(owner, owner.getHit()+damage, effectsToPass);
-	        ready = false;
+	        active = false;
 	    }
 	}
 	/**

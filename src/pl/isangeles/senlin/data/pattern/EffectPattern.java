@@ -24,11 +24,14 @@ package pl.isangeles.senlin.data.pattern;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.util.TConnector;
@@ -42,12 +45,7 @@ public class EffectPattern
     private String id;
     private String imgName;
     private EffectType type;
-    private int hpMod;
-    private int manaMod;
-    private Attributes attMod;
-    private float hasteMod;
-    private float dodgeMod;
-    private int dmgMod;
+    private Bonuses bonuses;
     private int dot;
     private int duration;
     /**
@@ -64,19 +62,23 @@ public class EffectPattern
      * @param duration Effect duration
      * @param type Effect type
      */
-    public EffectPattern(String id, String imgName, int hpMod, int manaMod, Attributes attMod, float hasteMod, float dodgeMod, int dmgMod, int dot, int duration, String type)
+    public EffectPattern(String id, String imgName, List<Bonus> bonuses, int dot, int duration, String type)
     {
         this.id = id;
         this.imgName = imgName;
         this.type = EffectType.fromString(type);
-        this.hpMod = hpMod;
-        this.manaMod = manaMod;
-        this.attMod = attMod;
-        this.hasteMod = hasteMod;
-        this.dodgeMod = dodgeMod;
-        this.dmgMod = dmgMod;
+        this.bonuses = new Bonuses();
+        this.bonuses.addAll(bonuses);
         this.dot = dot;
         this.duration = duration*1000;
+    }
+    /**
+     * Returns effect ID
+     * @return String with effect ID
+     */
+    public String getId()
+    {
+        return id;
     }
     /**
      * Builds new effect object from this pattern
@@ -88,6 +90,6 @@ public class EffectPattern
      */
     public Effect make(GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Effect(id, imgName, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, dot, duration, type, gc);
+        return new Effect(id, imgName, bonuses, dot, duration, type, gc);
     }
 }

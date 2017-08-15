@@ -87,7 +87,7 @@ public class SkillSlot extends Slot implements MouseListener
 	public boolean isActive()
 	{
 		if(skillInSlot != null)
-			return skillInSlot.isActive();
+			return skillInSlot.isReady();
 		else
 			return false;
 	}

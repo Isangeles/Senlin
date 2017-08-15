@@ -77,6 +77,7 @@ import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.util.parser.DialogueParser;
+import pl.isangeles.senlin.util.parser.EffectParser;
 import pl.isangeles.senlin.util.parser.ItemParser;
 import pl.isangeles.senlin.util.parser.NpcParser;
 import pl.isangeles.senlin.util.parser.ObjectParser;
@@ -286,42 +287,8 @@ public final class DConnector
 			Node effectNode = nl.item(i);
 			if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
-				Element effect = (Element)effectNode;
-				
-				try
-				{
-					String id = effect.getAttribute("id");
-					int duration = Integer.parseInt(effect.getAttribute("duration"));
-					String type = effect.getAttribute("type");
-					String icon = effect.getAttribute("icon");
-					
-					int hpMod = Integer.parseInt(effect.getElementsByTagName("hpMod").item(0).getTextContent());
-					int manaMod = Integer.parseInt(effect.getElementsByTagName("manaMod").item(0).getTextContent());
-					
-					Element attEle = (Element)effect.getElementsByTagName("attributesMod").item(0);
-					int str = Integer.parseInt(attEle.getAttribute("str"));
-					int con = Integer.parseInt(attEle.getAttribute("con"));
-					int dex = Integer.parseInt(attEle.getAttribute("dex"));
-					int inte = Integer.parseInt(attEle.getAttribute("int"));
-					int wis = Integer.parseInt(attEle.getAttribute("wis"));
-					Attributes attMod = new Attributes(str, con, dex, inte, wis);
-					
-					float hasteMod = Float.parseFloat(effect.getElementsByTagName("hasteMod").item(0).getTextContent());
-					float dodgeMod = Float.parseFloat(effect.getElementsByTagName("dodgeMod").item(0).getTextContent());
-					int dmgMod = Integer.parseInt(effect.getElementsByTagName("dmgMod").item(0).getTextContent());
-					int dot = Integer.parseInt(effect.getElementsByTagName("dot").item(0).getTextContent());
-					
-					EffectPattern effectOb = new EffectPattern(id, icon, hpMod, manaMod, attMod, hasteMod, dodgeMod, dmgMod, dot, duration, type);
-					effectsMap.put(id, effectOb);
-				}
-				catch(NumberFormatException e)
-				{
-					Log.addSystem("effects_base_builder-fail msg///base node corrupted!");
-					e.printStackTrace();
-					break;
-				}
-				
-				
+				EffectPattern pattern = EffectParser.getEffectFromNode(effectNode);
+				effectsMap.put(pattern.getId(), pattern);
 			}
 		}
 		
