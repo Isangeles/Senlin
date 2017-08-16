@@ -69,6 +69,7 @@ import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
+import pl.isangeles.senlin.data.pattern.BuffPattern;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
@@ -259,6 +260,49 @@ public final class DConnector
             }
         }
 	    return attacksMap;
+	}
+
+	/**
+	 * Parses XML base file and builds map with buffs patterns as values and its IDs as keys
+	 * @param baseFile XML base file
+	 * @return Map with buffs patterns as values and its IDs as keys
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public static Map<String, BuffPattern> getBuffsMap(String basePath) throws SAXException, IOException, ParserConfigurationException
+	{
+	    Map<String, BuffPattern> buffsMap = new HashMap<>();
+	    
+	    if(!basePath.endsWith(".base"))
+	    {
+	    	basePath += ".base";
+	    }
+	    
+	    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document base = db.parse(basePath);
+	    
+        NodeList nl = base.getDocumentElement().getChildNodes();
+        //Iterating skills nodes
+        for(int i = 0; i < nl.getLength(); i ++)
+        {
+            Node skillNode = nl.item(i);
+            if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                try
+                {
+                    BuffPattern pattern = SkillParser.getBuffFromNode(skillNode);
+                    buffsMap.put(pattern.getId(), pattern);
+                }
+                catch(NumberFormatException | NoSuchElementException e)
+                {
+                    Log.addSystem("buffs_base_builder-fail msg///base node corrupted!");
+                    e.printStackTrace();
+                }
+            }
+        }
+	    return buffsMap;
 	}
 	/**
 	 * Parses XML base file content to list with Effect objects

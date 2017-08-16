@@ -70,6 +70,7 @@ import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.quest.QuestTracker;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
@@ -123,6 +124,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private List<Dialogue> dialogues;
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
+	private List<Buff> buffs = new ArrayList<>();
 	private Effects effects = new Effects();
 	private Bonuses bonuses = new Bonuses();
 	private Journal quests = new Journal();
@@ -532,6 +534,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
+		for(Buff buff : buffs)
+		{
+			buff.update(delta);
+		}
 		effects.update(delta, this);
 		flags.update(quests);
 		quests.update();
@@ -977,7 +983,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Handles attacks
 	 */
-	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> attackEffects)
+	public void takeAttack(Targetable aggressor, Attack attack)
 	{
 		attitudeMem.put(aggressor.getId(), Attitude.HOSTILE);
 		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
@@ -986,42 +992,20 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		}
 		else
 		{
-			takeHealth(aggressor, attackDamage - inventory.getArmorRating());
-			for(Effect effect : attackEffects)
+			takeHealth(aggressor, attack.getDamge() - inventory.getArmorRating());
+			for(Effect effect : attack.getEffects())
 			{
 				effect.turnOn(this);
 			}
 		}
 	}
-	public void addStr()
-	{ attributes.addStr(); }
 	
-	public void addStr(int value)
-	{ attributes.addStr(value); }
-	
-	public void addCon()
-	{ attributes.addCon(); }
-	
-	public void addCon(int value)
-	{ attributes.addCon(value); }
-	
-	public void addDex()
-	{ attributes.addDex(); }
-	
-	public void addDex(int value) 
-	{ attributes.addDex(value); }
-	
-	public void addInt()
-	{ attributes.addInt(); }
-	
-	public void addInt(int value) 
-	{ attributes.addInt(value); }
-	
-	public void addWis()
-	{ attributes.addWis(); }
-	
-	public void addWis(int value) 
-	{ attributes.addWis(value); }
+	public void takeBuff(Targetable buffer, Buff buff)
+	{
+    	buffs.add(buff);
+    	effects.addAll(buff.getEffects());
+    	bonuses.addAll(buff.getBonuses());
+	}
 	
 	public void addLearnPoints(int value)
 	{  learnPoints += value; }
@@ -1215,6 +1199,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         	        avatar.meleeAttack((Attack)skill);
 
                 return CharacterOut.SUCCESS;
+    	    }
+    	    else if(Buff.class.isInstance(skill))
+    	    {
+    	    	Buff buff = (Buff)skill;
+    	    	buff.activate();
+    	    	return CharacterOut.SUCCESS;
     	    }
     	    else
     	    {

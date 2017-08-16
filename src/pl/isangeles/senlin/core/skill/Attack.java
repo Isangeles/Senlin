@@ -72,7 +72,7 @@ public class Attack extends Skill
 	 * @throws FontFormatException
 	 */
 	public Attack(Character character, String id, String imgName, EffectType type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
-	              List<Effect> effects, GameContainer gc)
+	              List<String> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, type, reqs, castTime, cooldown, effects);
@@ -88,6 +88,24 @@ public class Attack extends Skill
 		}
 		setTile(gc);
 		setSoundEffect();
+	}
+	
+	public int getDamge()
+	{
+		return damage;
+	}
+	
+	public List<Effect> getEffects()
+	{
+		List<Effect> effectsToPass = new ArrayList<>();
+        if(effects != null)
+        {
+	        for(String effectId : effects)
+	        {
+	        	effectsToPass.add(EffectsBase.getEffect(effectId));
+	        }
+        }
+        return effectsToPass;
 	}
 
 	@Override
@@ -139,16 +157,7 @@ public class Attack extends Skill
 	    if(active)
 	    {
 	        useReqs.chargeAll(owner);
-	        
-	        List<Effect> effectsToPass = new ArrayList<>();
-	        if(effects != null)
-	        {
-		        for(Effect effect : effects)
-		        {
-		        	effectsToPass.add(EffectsBase.getEffect(effect.getId()));
-		        }
-	        }
-	        target.takeAttack(owner, owner.getHit()+damage, effectsToPass);
+	        target.takeAttack(owner, this);
 	        active = false;
 	    }
 	}

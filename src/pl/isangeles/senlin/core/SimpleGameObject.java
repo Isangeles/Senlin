@@ -33,6 +33,8 @@ import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
@@ -259,8 +261,7 @@ public class SimpleGameObject implements Targetable, SaveElement
      * @see pl.isangeles.senlin.core.Targetable#takeAttack(pl.isangeles.senlin.core.Targetable, int, java.util.List)
      */
     @Override
-    public void takeAttack(Targetable aggressor, int attackDamage,
-            List<Effect> effects)
+    public void takeAttack(Targetable aggressor, Attack attack)
     {
         // TODO Auto-generated method stub
         
@@ -391,6 +392,16 @@ public class SimpleGameObject implements Targetable, SaveElement
         // TODO Auto-generated method stub
         return false;
     }
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
+	 */
+	@Override
+	public void takeBuff(Targetable buffer, Buff buff) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
     
 }

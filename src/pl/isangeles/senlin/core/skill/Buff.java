@@ -1,5 +1,6 @@
 package pl.isangeles.senlin.core.skill;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -11,18 +12,18 @@ import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.data.EffectsBase;
 
 public class Buff extends Skill 
 {
 	private BuffType type;
-	private Bonuses bonuses;
-	private List<Effect> effects;
+	private List<Bonus> bonuses;
     private int range;
     private int time;
     private int duration;
     
 	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, 
-	            Bonuses bonuses, List<Effect> effects) 
+	            List<Bonus> bonuses, List<String> effects) 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
 		this.bonuses = bonuses;
@@ -39,6 +40,22 @@ public class Buff extends Skill
 	            deactivate();
 	    }
 	}
+	
+	public List<Bonus> getBonuses()
+	{
+		return bonuses;
+	}
+	
+	public List<Effect> getEffects()
+	{
+		List<Effect> effectsToPass = new ArrayList<>();
+		for(String effectId : effects)
+		{
+			Effect effect = EffectsBase.getEffect(effectId);
+			effectsToPass.add(effect);
+		}
+		return effectsToPass;
+	}
 
 	@Override
 	public String getInfo() 
@@ -51,11 +68,7 @@ public class Buff extends Skill
     {
     	if(active)
     	{
-    		for(Bonus bonus : bonuses)
-    		{
-    		    if(!target.hasBonus(bonus))
-    		        target.addBonus(bonus);
-    		}
+    		target.takeBuff(owner, this);
     	}
     }
 
@@ -102,11 +115,9 @@ public class Buff extends Skill
     {
         if(active)
         {
-            for(Bonus bonus : bonuses)
-            {
-                if(target.hasBonus(bonus))
-                    bonus.removeFrom(target);
-            }
+        	for(Bonus bonus : bonuses)
+        		bonus.removeFrom(target);
+        	target = null;
             active = false;
         }
     }

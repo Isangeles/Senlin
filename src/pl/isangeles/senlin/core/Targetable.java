@@ -28,6 +28,8 @@ import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
+import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.gui.Portrait;
 
 /**
@@ -67,7 +69,8 @@ public interface Targetable extends ObjectiveTarget
 	
 	public void takeHealth(int value);
 	public void takeMagicka(int value);
-	public void takeAttack(Targetable aggressor, int attackDamage, List<Effect> effects);
+	public void takeAttack(Targetable aggressor, Attack attack);
+	public void takeBuff(Targetable buffer, Buff buff);
 	
 	public void addHealth(int value);
 	public void addMagicka(int value);

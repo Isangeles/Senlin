@@ -52,7 +52,7 @@ public class AttackPattern implements SkillPattern
     private final String imgName;
     private final int damage;
     private final int range;
-    private final List<Effect> effects;
+    private final List<String> effects;
     private final List<Requirement> skillReq;
     /**
      * 
@@ -69,7 +69,7 @@ public class AttackPattern implements SkillPattern
      * @param range Maximal range from target
      * @param effects Skill use effects
      */
-    public AttackPattern(String id, String imgName, String type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, List<Effect> effects, List<Requirement> skillReq)
+    public AttackPattern(String id, String imgName, String type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, List<String> effects, List<Requirement> skillReq)
     {
         this.type = EffectType.fromString(type);
         this.id = id;

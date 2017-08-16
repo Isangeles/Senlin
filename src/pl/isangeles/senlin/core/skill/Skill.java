@@ -43,6 +43,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
+import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
 
@@ -66,7 +67,7 @@ public abstract class Skill implements SlotContent
     protected boolean active;
     protected boolean ready;
     protected int cooldown;
-    protected List<Effect> effects;
+    protected List<String> effects;
     private int castTime;
     private int timer;
  	private String imgName;
@@ -86,7 +87,7 @@ public abstract class Skill implements SlotContent
 	 * @param useWeapon If weapon is needed to use this skill
 	 * @param effects Skill effect list
 	 */
-	public Skill(Character character, String id, String imgName, EffectType type, List<Requirement> reqs, int castTime, int cooldown, List<Effect> effects) 
+	public Skill(Character character, String id, String imgName, EffectType type, List<Requirement> reqs, int castTime, int cooldown, List<String> effects) 
 	{
 		this.type = type;
 		this.id = id;

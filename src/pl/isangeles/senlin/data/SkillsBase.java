@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
+import pl.isangeles.senlin.data.pattern.BuffPattern;
 import pl.isangeles.senlin.data.pattern.SkillPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.cli.Log;
@@ -53,6 +54,7 @@ public class SkillsBase
 {
 	private static GameContainer gc;
 	private static Map<String, AttackPattern> attacksMap = new HashMap<>();
+	private static Map<String, BuffPattern> buffsMap = new HashMap<>();
 	private static boolean loaded = false;
 	/**
 	 * Private constructor to prevent initialization
@@ -136,6 +138,7 @@ public class SkillsBase
 		{
 		    SkillsBase.gc = gc;
 	        attacksMap = DConnector.getAttacksMap(skillsPath + File.separator + "attacks");
+	        buffsMap = DConnector.getBuffsMap(skillsPath + File.separator + "buffs");
             loaded = true;
 		}
 	}

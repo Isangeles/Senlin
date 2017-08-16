@@ -31,11 +31,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
+import pl.isangeles.senlin.data.pattern.BuffPattern;
 
 /**
  * Class for parsing skills bases
@@ -48,27 +50,33 @@ public final class SkillParser
      * Private constructor to prevent initialization
      */
     private SkillParser() {}
-    
+    /**
+     * Parsing specified document node to attack pattern
+     * @param skillNode Skill node from attacks base
+     * @return Attack pattern from specified node
+     * @throws NumberFormatException
+     * @throws NoSuchElementException
+     */
     public static AttackPattern getAttackFromNode(Node skillNode) throws NumberFormatException, NoSuchElementException 
     {
-        Element skill = (Element)skillNode;
-        String id = skill.getAttribute("id");
-        String type = skill.getAttribute("type");
+        Element skillE = (Element)skillNode;
+        String id = skillE.getAttribute("id");
+        String type = skillE.getAttribute("type");
         
-        String imgName = skill.getElementsByTagName("icon").item(0).getTextContent();
-        int range = Integer.parseInt(skill.getElementsByTagName("range").item(0).getTextContent());
-        int cast = Integer.parseInt(skill.getElementsByTagName("cast").item(0).getTextContent());
-        int damage = Integer.parseInt(skill.getElementsByTagName("damage").item(0).getTextContent());
-        int cooldown = Integer.parseInt(skill.getElementsByTagName("cooldown").item(0).getTextContent());
+        String imgName = skillE.getElementsByTagName("icon").item(0).getTextContent();
+        int range = Integer.parseInt(skillE.getElementsByTagName("range").item(0).getTextContent());
+        int cast = Integer.parseInt(skillE.getElementsByTagName("cast").item(0).getTextContent());
+        int damage = Integer.parseInt(skillE.getElementsByTagName("damage").item(0).getTextContent());
+        int cooldown = Integer.parseInt(skillE.getElementsByTagName("cooldown").item(0).getTextContent());
         
-        Node useReqNode = skill.getElementsByTagName("useReq").item(0);
+        Node useReqNode = skillE.getElementsByTagName("useReq").item(0);
         List<Requirement> useReqs = RequirementsParser.getReqFromNode(useReqNode);
         
-        Node trainReqNode = skill.getElementsByTagName("trainReq").item(0);
+        Node trainReqNode = skillE.getElementsByTagName("trainReq").item(0);
         List<Requirement> trainReq = RequirementsParser.getReqFromNode(trainReqNode);
 
-        List<Effect> effects = new ArrayList<>();
-        NodeList enl = skill.getElementsByTagName("effects").item(0).getChildNodes();
+        List<String> effects = new ArrayList<>();
+        NodeList enl = skillE.getElementsByTagName("effects").item(0).getChildNodes();
         for(int j = 0; j < enl.getLength(); j ++)
         {
             Node effectNode = enl.item(j);
@@ -77,10 +85,55 @@ public final class SkillParser
             {
                 Element effect = (Element)effectNode;
                 String effectId = effect.getTextContent();
-                effects.add(EffectsBase.getEffect(effectId));
+                effects.add(effectId);
             }
         }
         
         return new AttackPattern(id, imgName, type, damage, useReqs, cast, cooldown, range, effects, trainReq);
+    }
+    /**
+     * Parses specified document node to buff pattern
+     * @param skillNode Node from buffs base
+     * @return Buff pattern from specified skill node
+     * @throws NumberFormatException
+     * @throws NoSuchElementException
+     */
+    public static BuffPattern getBuffFromNode(Node skillNode) throws NumberFormatException, NoSuchElementException 
+    {
+    	Element skillE = (Element)skillNode;
+        String id = skillE.getAttribute("id");
+        String type = skillE.getAttribute("type");
+        String effect = skillE.getAttribute("effect");
+        
+        String imgName = skillE.getElementsByTagName("icon").item(0).getTextContent();
+        int range = Integer.parseInt(skillE.getElementsByTagName("range").item(0).getTextContent());
+        int cast = Integer.parseInt(skillE.getElementsByTagName("cast").item(0).getTextContent());
+        int cooldown = Integer.parseInt(skillE.getElementsByTagName("cooldown").item(0).getTextContent());
+        int duration = Integer.parseInt(skillE.getElementsByTagName("duration").item(0).getTextContent());
+        
+        Node bonusesNode = skillE.getElementsByTagName("bonuses").item(0);
+        List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+        
+        Node useReqNode = skillE.getElementsByTagName("useReq").item(0);
+        List<Requirement> useReqs = RequirementsParser.getReqFromNode(useReqNode);
+        
+        Node trainReqNode = skillE.getElementsByTagName("trainReq").item(0);
+        List<Requirement> trainReq = RequirementsParser.getReqFromNode(trainReqNode);
+
+        List<String> effects = new ArrayList<>();
+        NodeList enl = skillE.getElementsByTagName("effects").item(0).getChildNodes();
+        for(int j = 0; j < enl.getLength(); j ++)
+        {
+            Node effectNode = enl.item(j);
+            //Iterating effects
+            if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element effectE = (Element)effectNode;
+                String effectId = effectE.getTextContent();
+                effects.add(effectId);
+            }
+        }
+        
+        return new BuffPattern(id, imgName, effect, type, useReqs, cooldown, cast, range, duration, bonuses, effects, trainReq);
     }
 }
