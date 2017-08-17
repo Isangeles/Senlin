@@ -77,8 +77,8 @@ public class Avatar implements MouseListener
 	protected boolean isSpeaking;
 	protected int speechTime;
 	
-	protected Skill usedSkill;
-	protected boolean useSkill;
+	//protected Skill usedSkill;
+	//protected boolean useSkill;
 	/**
 	 * Character avatar constructor
 	 * @param character Character to represent by avatar
@@ -185,11 +185,6 @@ public class Avatar implements MouseListener
 		if(weapon != null)
 			weapon.update(delta);
 		
-		if(useSkill && torso.isAttackAnimStopped())
-		{
-		    usedSkill.activate();
-		    useSkill = false;
-		}
 		
 		if(isSpeaking)
 		{
@@ -246,23 +241,19 @@ public class Avatar implements MouseListener
 	
 	public void meleeAttack(Attack attackSkill)
 	{
-	    usedSkill = attackSkill;
-	    useSkill = true;
-		torso.meleeAttack(attackSkill.getCastSpeed());
-		head.meleeAttack(attackSkill.getCastSpeed());
+		torso.meleeAttack(attackSkill.getCastTime());
+		head.meleeAttack(attackSkill.getCastTime());
 		if(weapon != null)
-			weapon.meleeAttack(attackSkill.getCastSpeed());
+			weapon.meleeAttack(attackSkill.getCastTime());
 	}
 	
 	public void rangeAttack(Attack attackSkill)
 	{
 		if(weapon != null)
 		{
-			usedSkill = attackSkill;
-			useSkill = true;
-			torso.rangeAttack(attackSkill.getCastSpeed());
-			head.rangeAttack(attackSkill.getCastSpeed());
-			weapon.rangeAttack(attackSkill.getCastSpeed());
+			torso.rangeAttack(attackSkill.getCastTime());
+			head.rangeAttack(attackSkill.getCastTime());
+			weapon.rangeAttack(attackSkill.getCastTime());
 		}
 	}
 	/**
@@ -300,12 +291,7 @@ public class Avatar implements MouseListener
 		return avMOA.isMouseOver();
 	}
 	
-	public boolean isCasting()
-	{
-	    return useSkill;
-	}
-	
-	public float getCastProgress()
+	public float getAnimProgress()
 	{
 	    if(!torso.isAttackAnimStopped())
 	        return torso.getAnimProgress();
@@ -313,7 +299,7 @@ public class Avatar implements MouseListener
 	        return 100f;
 	}
 	
-	public float getCastDuration()
+	public float getAnimDuration()
 	{
 		if(!torso.isAttackAnimStopped())
 			return torso.getAnimDuration();

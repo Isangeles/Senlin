@@ -25,6 +25,7 @@ package pl.isangeles.senlin.core.skill;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
@@ -73,6 +74,7 @@ public abstract class Skill implements SlotContent
  	private String imgName;
 	private SkillTile tile;
 	private Sound soundEffect;
+	protected Random rng = new Random();
 	/**
 	 * Skill constructor
 	 * @param character Skill owner
@@ -118,6 +120,7 @@ public abstract class Skill implements SlotContent
 	 */
 	public void update(int delta)
 	{
+		cooldown = cooldown - owner.getAttributes().getCastBonus();
 		tile.setActive(ready);
 		if(!ready)
 			timer += delta;
@@ -140,7 +143,7 @@ public abstract class Skill implements SlotContent
 	 * Returns skill casting speed
 	 * @return Casting speed
 	 */
-    public float getCastSpeed()
+    public float getCastTime()
     {
         return castTime;//(owner.getHaste()-castTime);
     }
@@ -194,6 +197,14 @@ public abstract class Skill implements SlotContent
 		        return true;
 		}
 		return false;
+	}
+	
+	public boolean isInstant()
+	{
+		if(castTime <= 0)
+			return true;
+		else
+			return false;
 	}
 	/**
 	 * Checks if skill is active

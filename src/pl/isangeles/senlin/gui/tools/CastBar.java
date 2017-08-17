@@ -55,7 +55,7 @@ public class CastBar extends InterfaceObject implements UiElement
     @Override
     public void draw(float x, float y)
     {
-        if(player.getAvatar().isCasting())
+        if(player.isCasting())
         {
             super.draw(x, y, false);
             castBar.draw(x+getDis(10), y+getDis(10));
@@ -67,7 +67,7 @@ public class CastBar extends InterfaceObject implements UiElement
     @Override
     public void update()
     {
-        castBar.update(player.getAvatar().getCastProgress(), player.getAvatar().getCastDuration());
+        castBar.update(player.getSkillCaster().getTime(), player.getSkillCaster().getCastTime());
     }
 
     @Override

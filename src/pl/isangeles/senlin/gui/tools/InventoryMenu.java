@@ -390,11 +390,11 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     	return new String[]{player.getName(), TConnector.getText("ui", "levelName") + ": " + player.getLevel(), 
     			TConnector.getText("ui", "expName") + ": " + player.getExperience() + "/" + player.getMaxExperience(), TConnector.getText("ui", "guildName") + ": " + player.getGuild().toString(), 
     			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(), TConnector.getText("ui", "lpName") + ": " + player.getLearnPoints(),
-    			TConnector.getText("ui", "hastName") + ": " + player.getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
+    			TConnector.getText("ui", "hastName") + ": " + player.getAttributes().getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
     			TConnector.getText("ui", "armRat") + ": " + player.getArmorRating(), TConnector.getText("ui", "dodgeCh") + ": " + player.getDodgeChance() + "%", 
-    			TConnector.getText("ui", "attStrName") + ": " + player.getStr(), TConnector.getText("ui", "attConName") + ": " + player.getCon(), 
-    			TConnector.getText("ui", "attDexName") + ": " + player.getDex(), TConnector.getText("ui", "attIntName") + ": " + player.getInt(), 
-    			TConnector.getText("ui", "attWisName") + ": " + player.getWis()};
+    			TConnector.getText("ui", "attStrName") + ": " + player.getAttributes().getStr(), TConnector.getText("ui", "attConName") + ": " + player.getAttributes().getCon(), 
+    			TConnector.getText("ui", "attDexName") + ": " + player.getAttributes().getDex(), TConnector.getText("ui", "attIntName") + ": " + player.getAttributes().getInt(), 
+    			TConnector.getText("ui", "attWisName") + ": " + player.getAttributes().getWis()};
     }
     
     /**

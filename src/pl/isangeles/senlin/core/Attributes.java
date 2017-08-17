@@ -83,7 +83,7 @@ public class Attributes
 	}
 	public float addHaste()
 	{
-		return 1.0f + ((constitution.value/4) + dexterity.value/2)/2;
+		return 1.0f + (((constitution.value/4) + dexterity.value/2)/2);
 	}
 	/**
 	 * Returns basic hit value
@@ -105,6 +105,21 @@ public class Attributes
 	public float getDodge()
 	{
 		return (dexterity.value+(constitution.value/2f))/100;
+	}
+	
+	public float getHaste()
+	{
+		return 1.0f + (((constitution.value/4) + dexterity.value/2)/2);
+	}
+	
+	public int getCastBonus()
+	{
+		int castBonus = 0;
+		for(float i = getHaste(); i > 0; i --)
+		{
+			castBonus += 2;
+		}
+		return castBonus;
 	}
 	/**
 	 * Returns new attributes object with all attributes negative

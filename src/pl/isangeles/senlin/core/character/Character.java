@@ -107,7 +107,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private int learnPoints;
 	private int[] position = {0, 0};
 	private int[] destPoint = {position[0], position[1]};
-	private float haste;
 	private Attributes attributes;
 	private Portrait portrait;
 	private boolean live;
@@ -131,6 +130,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Flags flags = new Flags();
 	private List<Training> trainings = new ArrayList<>();
 	private QuestTracker qTracker;
+	private SkillCaster sCaster;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -157,6 +157,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		abilities.add(SkillsBase.getAutoAttack(this));
 		abilities.add(SkillsBase.getShot(this));
 		qTracker = new QuestTracker(this);
+		sCaster = new SkillCaster(this);
 
         serialId = id + "_" + serial;
 		while(reservedIDs.contains(serialId))
@@ -206,6 +207,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		//abilities.add(SkillsBase.getShot(this));
 		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
+		sCaster = new SkillCaster(this);
 
 		serialId = id + "_" + serial;
         while(reservedIDs.contains(serialId))
@@ -255,7 +257,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		health = maxHealth;
 		maxMagicka = attributes.addMagicka();
 		magicka = maxMagicka;
-		haste = attributes.addHaste();
 		maxExperience = 1000 * level;
 	}
 	/**
@@ -522,7 +523,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
                 }
             }
         }
-		if(fighting && target != null && !avatar.isCasting())
+		if(fighting && target != null)
 		{
 		    out = useSkillOn(target, abilities.get("autoA"));
 		}
@@ -541,6 +542,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		effects.update(delta, this);
 		flags.update(quests);
 		quests.update();
+		if(isCasting())
+			sCaster.update(delta);
+		
 		return out;
 	}
 	/**
@@ -674,23 +678,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 	    return attributes;
 	}
-	public int getStr()
-	{ return attributes.getStr(); }
-	
-	public int getCon()
-	{ return attributes.getCon(); }
-	
-	public int getDex()
-	{ return attributes.getDex(); }
-	
-	public int getInt()
-	{ return attributes.getInt(); }
-	
-	public int getWis()
-	{ return attributes.getWis(); }
-	
-	public float getHaste()
-	{ return haste; }
 	
 	public int getLearnPoints()
 	{ return learnPoints; }
@@ -843,6 +830,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		return fighting;
 	}
 	
+	public boolean isCasting()
+	{
+		return sCaster.isCasting();
+	}
+	
 	public Portrait getPortrait()
 	{
 		return portrait;
@@ -911,6 +903,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public QuestTracker getQTracker()
 	{
 	    return qTracker;
+	}
+	
+	public SkillCaster getSkillCaster()
+	{
+		return sCaster;
 	}
 	/**
 	 * Returns character dodge chance
@@ -1172,6 +1169,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    		avatar.rangeAttack((Attack)skill);
     	    	else
         	        avatar.meleeAttack((Attack)skill);
+    	    	
+    	    	skill.activate();
     	    	return CharacterOut.SUCCESS;
     	    }
     	    else
@@ -1198,12 +1197,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    	else
         	        avatar.meleeAttack((Attack)skill);
 
+    	    	sCaster.cast(skill);
                 return CharacterOut.SUCCESS;
     	    }
     	    else if(Buff.class.isInstance(skill))
     	    {
     	    	Buff buff = (Buff)skill;
-    	    	buff.activate();
+    	    	sCaster.cast(buff);
     	    	return CharacterOut.SUCCESS;
     	    }
     	    else

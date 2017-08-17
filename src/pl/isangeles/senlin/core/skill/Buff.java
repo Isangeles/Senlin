@@ -87,7 +87,6 @@ public class Buff extends Skill
         			this.target = target;
         			active = true;
         			ready = false;
-        			playSoundEffect();
         			return CharacterOut.SUCCESS;
         		}
             	else
@@ -116,8 +115,9 @@ public class Buff extends Skill
         if(active)
         {
         	for(Bonus bonus : bonuses)
-        		bonus.removeFrom(target);
+        		target.removeBonus(bonus);
         	target = null;
+			playSoundEffect();
             active = false;
         }
     }

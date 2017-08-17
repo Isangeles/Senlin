@@ -94,11 +94,11 @@ public class NewGameMenu extends BasicGameState
 			
 			ptsAtributes = new Attribute(5);
 			
-			strSwitch = new Switch(container, "Strenght", player.getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));
-			conSwitch = new Switch(container, "Constitution", player.getCon(), ptsAtributes, TConnector.getText("ui", "conInfo"));
-			dexSwitch = new Switch(container, "Dexterity", player.getDex(), ptsAtributes, TConnector.getText("ui", "dexInfo"));
-			intSwitch = new Switch(container, "Intelect", player.getInt(), ptsAtributes, TConnector.getText("ui", "intInfo"));
-			wisSwitch = new Switch(container, "Wisdom", player.getWis(), ptsAtributes, TConnector.getText("ui", "wisInfo"));
+			strSwitch = new Switch(container, "Strenght", player.getAttributes().getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));
+			conSwitch = new Switch(container, "Constitution", player.getAttributes().getCon(), ptsAtributes, TConnector.getText("ui", "conInfo"));
+			dexSwitch = new Switch(container, "Dexterity", player.getAttributes().getDex(), ptsAtributes, TConnector.getText("ui", "dexInfo"));
+			intSwitch = new Switch(container, "Intelect", player.getAttributes().getInt(), ptsAtributes, TConnector.getText("ui", "intInfo"));
+			wisSwitch = new Switch(container, "Wisdom", player.getAttributes().getWis(), ptsAtributes, TConnector.getText("ui", "wisInfo"));
 			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container, TConnector.getText("ui", "attPtsInfo"));
 			
 			porList = new ArrayList<>();

@@ -92,7 +92,7 @@ public class Attack extends Skill
 	
 	public int getDamge()
 	{
-		return damage;
+		return damage + owner.getHit();
 	}
 	
 	public List<Effect> getEffects()
@@ -114,7 +114,7 @@ public class Attack extends Skill
 		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
 						  TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
 						  TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
-						  TConnector.getText("ui", "castName") + ":" + getCastSpeed() + System.lineSeparator() + 
+						  TConnector.getText("ui", "castName") + ":" + getCastTime() + System.lineSeparator() + 
 						  TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator() + 
 						  info;
 		
@@ -133,7 +133,6 @@ public class Attack extends Skill
 				    this.target = target;
 				    active = true;
 				    ready = false;
-		            playSoundEffect();
 				    return CharacterOut.SUCCESS;
 				}
 				else
@@ -158,6 +157,7 @@ public class Attack extends Skill
 	    {
 	        useReqs.chargeAll(owner);
 	        target.takeAttack(owner, this);
+            playSoundEffect();
 	        active = false;
 	    }
 	}

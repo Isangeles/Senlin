@@ -84,12 +84,6 @@ public class StaticAvatar extends Avatar
 		
 		torso.update(delta);
 		
-		if(useSkill && torso.isAttackAnimStopped())
-		{
-		    usedSkill.activate();
-		    useSkill = false;
-		}
-		
 		if(isSpeaking)
 		{
 			speechTime += delta;
@@ -131,17 +125,13 @@ public class StaticAvatar extends Avatar
 	@Override
 	public void meleeAttack(Attack attackSkill)
 	{
-	    usedSkill = attackSkill;
-	    useSkill = true;
-		torso.meleeAttack(attackSkill.getCastSpeed());
+		torso.meleeAttack(attackSkill.getCastTime());
 	}
 	
 	@Override
 	public void rangeAttack(Attack attackSkill)
 	{
-		usedSkill = attackSkill;
-		useSkill = true;
-		torso.rangeAttack(attackSkill.getCastSpeed());
+		torso.rangeAttack(attackSkill.getCastTime());
 	}
 	
 	@Override
