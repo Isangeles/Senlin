@@ -982,7 +982,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void takeAttack(Targetable aggressor, Attack attack)
 	{
-		attitudeMem.put(aggressor.getId(), Attitude.HOSTILE);
+		if(Character.class.isInstance(aggressor))
+		{
+			Character aggressorChar = (Character)aggressor;
+			memCharAs(aggressorChar.getSerialId(), Attitude.HOSTILE);
+		}
+		
 		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
 		{
 			Log.addInformation(name + ":" + TConnector.getText("ui", "logDodge"));
