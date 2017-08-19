@@ -89,6 +89,8 @@ public class SkillsBase
 	{
 		if(attacksMap.containsKey(id))
 			return attacksMap.get(id).make(character, gc);
+		if(buffsMap.containsKey(id))
+			return buffsMap.get(id).make(character, gc);
 		
 		return null;
 	}

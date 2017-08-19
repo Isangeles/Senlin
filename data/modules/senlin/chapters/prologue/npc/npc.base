@@ -3,7 +3,7 @@
 <npc id="bandit01" gender="male" attitude="hostile" guild="bandits" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -29,7 +29,7 @@
 <npc id="ericP01" gender="male" attitude="friendly" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait0.jpg</portrait>
-    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -54,7 +54,7 @@
 <npc id="kianP01" gender="male" attitude="friendly" trade="true" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait1.jpg</portrait>
-    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -82,7 +82,7 @@
 <npc id="ewanP01" gender="male" attitude="friendly" train="true" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait2.jpg</portrait>
-    <spritesheet static="false">cloth12221-60x70.png</spritesheet>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
         <chest>acCS00</chest>
@@ -131,7 +131,7 @@
 <npc id="goblin01" gender="male" attitude="hostile" guild="beasts" level="1">
     <stats>2;2;3;1;1;</stats>
     <portrait>goblin01.jpg</portrait>
-    <spritesheet static="true">goblin12221-60x70.png</spritesheet>
+    <spritesheet static="true">goblin-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
         <chest></chest>

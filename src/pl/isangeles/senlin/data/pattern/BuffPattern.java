@@ -22,7 +22,12 @@
  */
 package pl.isangeles.senlin.data.pattern;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.List;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.req.Requirement;
@@ -87,9 +92,9 @@ public class BuffPattern implements SkillPattern
 		return id;
 	}
 	
-	public Buff make(Character character)
+	public Buff make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Buff(character, id, imgName, effect, type, useReqs, castTime, range, cooldown, duration, bonuses, effects);
+		return new Buff(character, id, imgName, effect, type, useReqs, castTime, range, cooldown, duration, bonuses, effects, gc);
 	}
 
 }

@@ -38,13 +38,20 @@ import pl.isangeles.senlin.util.Coords;
 public class AnimObject extends GameObject 
 {
 	private Sprite idle, idleUp, idleRight, idleDown, idleLeft;
+	private Sprite kneel, kneelUp, kneelRight, kneelDown, kneelLeft;
 	private Sprite lie, lieUp, lieRight, lieDown, lieLeft;
 	private Animation move, moveUp, moveRight, moveDown, moveLeft;
 	private Animation melee, meleeUp, meleeRight, meleeDown, meleeLeft; 
 	private Animation range, rangeUp, rangeRight, rangeDown, rangeLeft;
+	private Animation cast, castUp, castRight, castDown, castLeft;
+	
 	private boolean isMove;
+	
 	private boolean meleeReq;
 	private boolean rangeReq;
+	private boolean castReq;
+	
+	private boolean kneelReq;
 	private boolean lieReq;
 	
 	private float animProgress;
@@ -76,6 +83,11 @@ public class AnimObject extends GameObject
 		Sprite[] rangeRightList = {new Sprite(ss.getSprite(5, 1)), new Sprite(ss.getSprite(6, 1))};
 		Sprite[] rangeDownList = {new Sprite(ss.getSprite(5, 2)), new Sprite(ss.getSprite(6, 2))};
 		Sprite[] rangeLeftList = {new Sprite(ss.getSprite(5, 3)), new Sprite(ss.getSprite(6, 3))};
+		
+		Sprite[] castUpList = {new Sprite(ss.getSprite(7, 0)), new Sprite(ss.getSprite(8, 0))};
+		Sprite[] castRightList = {new Sprite(ss.getSprite(7, 1)), new Sprite(ss.getSprite(8, 1))};
+		Sprite[] castDownList = {new Sprite(ss.getSprite(7, 2)), new Sprite(ss.getSprite(8, 2))};
+		Sprite[] castLeftList = {new Sprite(ss.getSprite(7, 3)), new Sprite(ss.getSprite(8, 3))};
  		
 		idleUp = new Sprite(ss.getSprite(0, 0));
 		idleRight = new Sprite(ss.getSprite(0, 1));
@@ -83,10 +95,16 @@ public class AnimObject extends GameObject
 		idleLeft = new Sprite(ss.getSprite(0, 3));
 		idle = idleDown;
 		
-		lieUp = new Sprite(ss.getSprite(7, 0));
-		lieRight = new Sprite(ss.getSprite(7, 0));
-		lieDown = new Sprite(ss.getSprite(7, 0));
-		lieLeft = new Sprite(ss.getSprite(7, 0));
+		kneelUp = new Sprite(ss.getSprite(9, 0));
+		kneelRight = new Sprite(ss.getSprite(9, 1));
+		kneelDown = new Sprite(ss.getSprite(9, 2));
+		kneelLeft = new Sprite(ss.getSprite(9, 3));
+		kneel = kneelDown;
+		
+		lieUp = new Sprite(ss.getSprite(10, 0));
+		lieRight = new Sprite(ss.getSprite(10, 1));
+		lieDown = new Sprite(ss.getSprite(10, 2));
+		lieLeft = new Sprite(ss.getSprite(10, 3));
 		lie = lieDown;
 
 		int[] duration = {300, 300};
@@ -107,6 +125,14 @@ public class AnimObject extends GameObject
 		rangeDown = new Animation(rangeDownList, duration, false);
 		rangeLeft = new Animation(rangeLeftList, duration, false);
 		range = rangeDown;
+		
+		castUp = new Animation(castUpList, duration, false);
+		castRight = new Animation(castRightList, duration, false);
+		castDown = new Animation(castDownList, duration, false);
+		castLeft = new Animation(castLeftList, duration, false);
+		cast = castDown;
+		
+		
 	}
 	/**
 	 * Draws object
@@ -120,11 +146,11 @@ public class AnimObject extends GameObject
 			lie.draw(x, y, scale, false);
 			return;
 		}
-		if(isMove && !meleeReq && !rangeReq) 
+		if(isMove && !meleeReq && !rangeReq && !castReq) 
 		{
 			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*scale, (move.getCurrentFrame().getHeight() * getScale())*scale);
 		} 
-		else if(!meleeReq && !rangeReq)
+		else if(!meleeReq && !rangeReq && !castReq)
 		{
 			idle.draw(x, y, scale, false);
 		}
@@ -132,19 +158,19 @@ public class AnimObject extends GameObject
 		{
 			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*scale, (melee.getCurrentFrame().getHeight() * getScale())*scale);
 			if(melee.isStopped())
-			{
 				meleeReq = false;
-				animTime = 0f;
-			}
 		}
 		if(rangeReq)
 		{
 			range.draw(x, y, (range.getCurrentFrame().getWidth() * getScale())*scale, (range.getCurrentFrame().getHeight() * getScale())*scale);
 			if(range.isStopped())
-			{
 				rangeReq = false;
-				animTime = 0f;
-			}
+		}
+		if(castReq)
+		{
+			cast.draw(x, y, (cast.getCurrentFrame().getWidth() * getScale())*scale, (cast.getCurrentFrame().getHeight() * getScale())*scale);
+			if(cast.isStopped())
+				castReq = false;
 		}
 	}
 	/**
@@ -156,26 +182,36 @@ public class AnimObject extends GameObject
 		isMove = move;
 	}
 	/**
-	 * Starts object's melee attack animation
+	 * Starts melee attack animation
 	 */
-	public void meleeAttack(float animSpeed)
+	public void meleeAnim()
 	{
 		meleeReq = true;
-		melee.setSpeed(animSpeed);
 		melee.setLooping(false);
 		melee.restart();
-		animDuration = melee.getFrameCount() * (0.3f/animSpeed);
-		animProgress = 0f;
 	}
-	
-	public void rangeAttack(float animSpeed)
+	/**
+	 * Starts range attack animation
+	 */
+	public void rangeAinm()
 	{
 		rangeReq = true;
-		range.setSpeed(animSpeed);
 		range.setLooping(false);
 		range.restart();
-		animDuration = range.getFrameCount() * (0.3f/animSpeed);
-		animProgress = 0f;
+	}
+	/**
+	 * Start casting animation
+	 */
+	public void castAnim()
+	{
+		castReq = true;
+		cast.setLooping(false);
+		cast.restart();
+	}
+	
+	public void kneel(boolean kneelReq)
+	{
+		this.kneelReq = kneelReq;
 	}
 	/**
 	 * Sets object lie position on or off
@@ -194,6 +230,7 @@ public class AnimObject extends GameObject
 		move.update(delta);
 		melee.update(delta);
 		range.update(delta);
+		cast.update(delta);
 	    if(meleeReq || rangeReq)
 	    	animTime += delta;
 	    if(animTime > 300)
@@ -254,16 +291,6 @@ public class AnimObject extends GameObject
 		else
 			return idle;
 	}
-	
-	public float getAnimProgress()
-	{
-	    return animProgress;
-	}
-	
-	public float getAnimDuration()
-	{
-		return animDuration;
-	}
 	/**
 	 * Returns object direction
 	 * @return Direction id (0 - up, 1 - right, 2 - down, 3 - left)
@@ -282,17 +309,11 @@ public class AnimObject extends GameObject
 		return 0;
 	}
 	/**
-	 * Checks if attack animation is stopped
+	 * Checks if animation is stopped
 	 * @return True if animation is stopped, false otherwise
 	 */
-	public boolean isAttackAnimStopped()
+	public boolean isAnimStopped()
 	{
-	    return melee.isStopped() || range.isStopped();
+	    return melee.isStopped() || range.isStopped() || cast.isStopped();
 	}
-	
-	public boolean isRangeAttackAnimStopped()
-	{
-		return range.isStopped();
-	}
-	
 }

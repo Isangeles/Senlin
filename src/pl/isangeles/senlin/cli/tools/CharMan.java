@@ -22,8 +22,12 @@
  */
 package pl.isangeles.senlin.cli.tools;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
+import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
@@ -186,7 +190,7 @@ public class CharMan implements CliTool
     		else if(prefix.equals("-e"))
         	    target.addExperience(Integer.parseInt(value));
     		else if(prefix.equals("-s") || prefix.equals("-skills"))
-        		out = target.addSkill(SkillsBase.getAttack(target, value));
+        		out = target.addSkill(SkillsBase.getSkill(target, value));
     		else if(prefix.equals("-p") || prefix.equals("-profession"))
         		out = target.addProfession(new Profession(ProfessionType.fromString(value)));
     		else if(prefix.equals("-r") || prefix.equals("-recipe"))
@@ -206,6 +210,10 @@ public class CharMan implements CliTool
     	catch(NumberFormatException e)
     	{
     		Log.addSystem(TConnector.getText("ui", "logBadVal"));
+    	}
+    	catch(SlickException | IOException | FontFormatException e)
+    	{
+    		Log.addSystem("some fatal error");
     	}
 
         return out;

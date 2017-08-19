@@ -1,7 +1,12 @@
 package pl.isangeles.senlin.core.skill;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
@@ -23,12 +28,14 @@ public class Buff extends Skill
     private int duration;
     
 	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, 
-	            List<Bonus> bonuses, List<String> effects) 
+	            List<Bonus> bonuses, List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
 		this.bonuses = bonuses;
 		this.type = type;
 		this.duration = duration;
+		setTile(gc);
+		setSoundEffect();
 	}
 	
 	public void update(int delta)
@@ -60,7 +67,7 @@ public class Buff extends Skill
 	@Override
 	public String getInfo() 
 	{
-		return null;
+		return info;
 	}
 
     @Override

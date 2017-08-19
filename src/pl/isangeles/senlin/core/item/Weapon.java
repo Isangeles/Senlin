@@ -75,7 +75,7 @@ public class Weapon extends Equippable
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
-        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 60, 70);
+        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 80, 90);
 	}
 	/**
 	 * Weapon constructor (with saved serial number)
@@ -103,7 +103,7 @@ public class Weapon extends Equippable
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
-        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 60, 70);
+        itemSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 80, 90);
 	}
 	/**
 	 * Returns weapon maximal and minimal damage

@@ -2,7 +2,7 @@
 <base>
     <item id="wSOHI" reqLvl="1" type="sword" material="iron" value="10" dmg="1-5">
         <icon>swordIron.png</icon>
-        <spriteSheet>sword12221-60x70.png</spriteSheet>
+        <spriteSheet>longsword-1222211-80x90.png</spriteSheet>
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>
@@ -11,7 +11,7 @@
     </item>
     <item id="wBTHW" reqLvl="1" type="bow" material="wood" value="5" dmg="1-3">
         <icon>bow.png</icon>
-        <spriteSheet>bow12221-60x70.png</spriteSheet>
+        <spriteSheet>bow-1222211-80x90.png</spriteSheet>
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>

@@ -98,14 +98,14 @@ public class Avatar implements MouseListener
 		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
 		if(isStatic())
 		{
-			defTorso = new AnimObject(GConnector.getInput("sprite/mob/"+spritesheet), spritesheet, false, 60, 70);
+			defTorso = new AnimObject(GConnector.getInput("sprite/mob/"+spritesheet), spritesheet, false, 80, 90);
 			defTorso.setName(spritesheet);
 		}
 		else
 		{
-			defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 60, 70);
+			defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 80, 90);
 			defTorso.setName(spritesheet);
-			defHead = new AnimObject(GConnector.getInput("sprite/avatar/headBlack12221-60x70.png"), "headBlackSS", false, 60, 70);
+			defHead = new AnimObject(GConnector.getInput("sprite/avatar/m-headBlack-1222211-80x90.png"), "headBlackSS", false, 80, 90);
 		}
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
@@ -239,22 +239,30 @@ public class Avatar implements MouseListener
 			weapon.move(trueFalse);
 	}
 	
-	public void meleeAttack(Attack attackSkill)
+	public void meleeAnim()
 	{
-		torso.meleeAttack(attackSkill.getCastTime());
-		head.meleeAttack(attackSkill.getCastTime());
+		torso.meleeAnim();
+		head.meleeAnim();
 		if(weapon != null)
-			weapon.meleeAttack(attackSkill.getCastTime());
+			weapon.meleeAnim();
 	}
 	
-	public void rangeAttack(Attack attackSkill)
+	public void rangeAnim()
 	{
 		if(weapon != null)
 		{
-			torso.rangeAttack(attackSkill.getCastTime());
-			head.rangeAttack(attackSkill.getCastTime());
-			weapon.rangeAttack(attackSkill.getCastTime());
+			torso.rangeAinm();
+			head.rangeAinm();
+			weapon.rangeAinm();
 		}
+	}
+	
+	public void castAnim()
+	{
+		torso.castAnim();
+		head.castAnim();
+		if(weapon != null)
+			weapon.castAnim();
 	}
 	/**
 	 * Draws specified string in speech window
@@ -289,22 +297,6 @@ public class Avatar implements MouseListener
 	public boolean isMouseOver()
 	{
 		return avMOA.isMouseOver();
-	}
-	
-	public float getAnimProgress()
-	{
-	    if(!torso.isAttackAnimStopped())
-	        return torso.getAnimProgress();
-	    else
-	        return 100f;
-	}
-	
-	public float getAnimDuration()
-	{
-		if(!torso.isAttackAnimStopped())
-			return torso.getAnimDuration();
-		else
-			return 100f;
 	}
 	/**
 	 * Returns object direction

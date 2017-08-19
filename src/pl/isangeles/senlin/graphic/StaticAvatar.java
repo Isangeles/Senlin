@@ -123,15 +123,15 @@ public class StaticAvatar extends Avatar
 	}
 	
 	@Override
-	public void meleeAttack(Attack attackSkill)
+	public void meleeAnim()
 	{
-		torso.meleeAttack(attackSkill.getCastTime());
+		torso.meleeAnim();
 	}
 	
 	@Override
-	public void rangeAttack(Attack attackSkill)
+	public void rangeAnim()
 	{
-		torso.rangeAttack(attackSkill.getCastTime());
+		torso.rangeAinm();
 	}
 	
 	@Override

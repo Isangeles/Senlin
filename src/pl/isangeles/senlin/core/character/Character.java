@@ -151,7 +151,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		attributes = new Attributes(1, 1, 1, 1, 1);
 		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
 		live = true;
-		avatar = new Avatar(this, gc, "cloth12221-60x70.png");
+		avatar = new Avatar(this, gc, "m-cloth-1222211-80x90.png");
 		inventory = new Inventory();
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));
@@ -1171,11 +1171,18 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    if(Attack.class.isInstance(skill))
     	    {
     	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
-    	    		avatar.rangeAttack((Attack)skill);
+    	    		avatar.rangeAnim();
     	    	else
-        	        avatar.meleeAttack((Attack)skill);
+        	        avatar.meleeAnim();
     	    	
     	    	skill.activate();
+    	    	return CharacterOut.SUCCESS;
+    	    }
+    	    else if(Buff.class.isInstance(skill))
+    	    {
+    	    	Buff buff = (Buff)skill;
+    	    	avatar.castAnim();
+    	    	sCaster.cast(buff);
     	    	return CharacterOut.SUCCESS;
     	    }
     	    else
@@ -1198,9 +1205,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    if(Attack.class.isInstance(skill))
     	    {
     	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
-    	    		avatar.rangeAttack((Attack)skill);
+    	    		avatar.rangeAnim();
     	    	else
-        	        avatar.meleeAttack((Attack)skill);
+        	        avatar.meleeAnim();
 
     	    	sCaster.cast(skill);
                 return CharacterOut.SUCCESS;
@@ -1208,6 +1215,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    else if(Buff.class.isInstance(skill))
     	    {
     	    	Buff buff = (Buff)skill;
+    	    	avatar.castAnim();
     	    	sCaster.cast(buff);
     	    	return CharacterOut.SUCCESS;
     	    }
