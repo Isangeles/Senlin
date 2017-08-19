@@ -972,6 +972,24 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(experience < 0)
 			experience = 0;
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#decMaxHealth(int)
+	 */
+	public void decMaxHealth(int value)
+	{
+		maxHealth -= value;
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#decMaxMagicka(int)
+	 */
+	public void decMaxMagicka(int value)
+	{
+		maxMagicka -= value;
+		if(magicka > maxMagicka)
+			magicka = maxMagicka;
+	}
 	
 	public void takeLearnPoints(int value)
 	{
@@ -994,7 +1012,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		}
 		else
 		{
-			takeHealth(aggressor, attack.getDamge() - inventory.getArmorRating());
+			takeHealth(aggressor, attack.getDamage() - inventory.getArmorRating());
 			for(Effect effect : attack.getEffects())
 			{
 				effect.turnOn(this);
@@ -1007,6 +1025,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	buffs.add(buff);
     	effects.addAll(buff.getEffects());
     	bonuses.addAll(buff.getBonuses());
+    	bonuses.applyAllOn(this);
 	}
 	
 	public void addLearnPoints(int value)
@@ -1022,6 +1041,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(health > maxHealth)
 			health = maxHealth;
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
+	 */
+	public void incMaxHealth(int value)
+	{
+		maxHealth += value;
+	}
 	/**
 	 * Adds specified value to character magicka points
 	 * @param value Value to add
@@ -1032,6 +1058,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		Log.gainInfo(name, value, TConnector.getText("ui", "manaName"));
 		if(magicka > maxMagicka)
 			magicka = maxMagicka;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)
+	 */
+	public void incMaxMagicka(int value)
+	{
+		maxMagicka += value;
 	}
 	/**
 	 * Adds specified value to character experience points

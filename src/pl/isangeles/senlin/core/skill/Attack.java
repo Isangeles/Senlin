@@ -53,7 +53,6 @@ public class Attack extends Skill
 	private int damage;
 	private int range;
     protected boolean useWeapon;
-	private WeaponType reqWeapon;
 	/**
 	 * Attack constructor
 	 * @param character Skill owner
@@ -90,7 +89,7 @@ public class Attack extends Skill
 		setSoundEffect();
 	}
 	
-	public int getDamge()
+	public int getDamage()
 	{
 		return damage + owner.getHit();
 	}
@@ -160,22 +159,5 @@ public class Attack extends Skill
             playSoundEffect();
 	        active = false;
 	    }
-	}
-	/**
-	 * Checks if user has proper weapon equipped
-	 * @param user Skill user
-	 * @return True if equipped weapon is ok, false otherwise
-	 */
-	private boolean weaponOk(Character user)
-	{
-		if(useWeapon)
-		{
-			if(user.getInventory().getMainWeapon() != null && user.getInventory().getMainWeapon().getType() == reqWeapon.getId())
-				return true;
-			else
-				return false;
-		}
-		else
-			return true;
 	}
 }

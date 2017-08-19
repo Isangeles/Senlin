@@ -403,5 +403,41 @@ public class SimpleGameObject implements Targetable, SaveElement
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#decMaxHealth(int)
+	 */
+	@Override
+	public void decMaxHealth(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#decMaxMagicka(int)
+	 */
+	@Override
+	public void decMaxMagicka(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
+	 */
+	@Override
+	public void incMaxHealth(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)
+	 */
+	@Override
+	public void incMaxMagicka(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
     
 }

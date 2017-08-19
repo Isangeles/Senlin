@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
+ * Class for buff patterns
  * @author Isangeles
  *
  */
@@ -55,7 +56,21 @@ public class BuffPattern implements SkillPattern
     private final List<Bonus> bonuses;
     private final List<String> effects;
     private final Requirements trainReq;
-    
+    /**
+     * Buff pattern constructor
+     * @param id Buff ID
+     * @param imgName Buff icon image name
+     * @param effect Buff effects type
+     * @param type Buff type
+     * @param useReqs Requirements to use
+     * @param cooldown Cooldown time in seconds
+     * @param castTime Casting time in seconds
+     * @param range Maximal range form buff target
+     * @param duration Buff duration time in seconds
+     * @param bonuses Buff bonuses
+     * @param effects Buff effects
+     * @param trainReq Buff training requirements
+     */
 	public BuffPattern(String id, String imgName, String effect, String type, List<Requirement> useReqs, int cooldown, int castTime, int range, int duration, 
 					   List<Bonus>bonuses, List<String> effects, List<Requirement> trainReq)
 	{
@@ -65,10 +80,10 @@ public class BuffPattern implements SkillPattern
 		this.type = BuffType.fromString(type);
 		this.useReqs = new Requirements();
 		this.useReqs.addAll(useReqs);
-		this.cooldown = cooldown;
-		this.castTime = castTime;
+		this.cooldown = cooldown*1000;
+		this.castTime = castTime*1000;
 		this.range = range;
-		this.duration = duration;
+		this.duration = duration*1000;
 		this.bonuses = bonuses;
 		this.effects = effects;
 		this.trainReq = new Requirements();

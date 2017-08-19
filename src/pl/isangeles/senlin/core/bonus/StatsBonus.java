@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
@@ -50,6 +51,7 @@ public class StatsBonus extends Bonus
 	public void applyOn(Targetable object) 
 	{
 	    object.getAttributes().increaseBy(statsBonus);
+	    Log.addSystem("adding stat bon" );
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
@@ -58,6 +60,7 @@ public class StatsBonus extends Bonus
 	public void removeFrom(Targetable object) 
 	{
 	    object.getAttributes().decreaseBy(statsBonus);
+	    Log.addSystem("removing stat bon" );
 	}
 
 }

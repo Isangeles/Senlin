@@ -48,7 +48,7 @@ public class HealthBonus extends Bonus
 	@Override
 	public void applyOn(Targetable object) 
 	{
-	    object.addHealth(hpBonus);
+	    object.incMaxHealth(hpBonus);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
@@ -56,7 +56,7 @@ public class HealthBonus extends Bonus
 	@Override
 	public void removeFrom(Targetable object) 
 	{
-	    object.takeHealth(hpBonus);
+	    object.decMaxHealth(hpBonus);
 	}
 
 }

@@ -18,7 +18,11 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
-
+/**
+ * Class for buffs
+ * @author Isangeles
+ *
+ */
 public class Buff extends Skill 
 {
 	private BuffType type;
@@ -26,7 +30,25 @@ public class Buff extends Skill
     private int range;
     private int time;
     private int duration;
-    
+    /**
+     * Buff constructor
+     * @param character Game character (skill owner)
+     * @param id Skill ID
+     * @param imgName Skill icon image
+     * @param effectType Effect type
+     * @param type Buff type
+     * @param reqs Requirements to use
+     * @param castTime Casting time
+     * @param range Maximal range form target
+     * @param cooldown Skill cooldown time in milliseconds
+     * @param duration Buff duration time in milliseconds
+     * @param bonuses Buff bonuses
+     * @param effects Skill effects
+     * @param gc Slick game container
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
 	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, 
 	            List<Bonus> bonuses, List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
@@ -38,8 +60,10 @@ public class Buff extends Skill
 		setSoundEffect();
 	}
 	
+	@Override
 	public void update(int delta)
 	{
+		super.update(delta);
 	    if(active)
 	    {
 	        time += delta;
@@ -47,12 +71,18 @@ public class Buff extends Skill
 	            deactivate();
 	    }
 	}
-	
+	/**
+	 * Returns list with buff bonuses
+	 * @return List with bonus objects
+	 */
 	public List<Bonus> getBonuses()
 	{
 		return bonuses;
 	}
-	
+	/**
+	 * Returns list with buff effects
+	 * @return List with effect objects
+	 */
 	public List<Effect> getEffects()
 	{
 		List<Effect> effectsToPass = new ArrayList<>();
@@ -116,7 +146,9 @@ public class Buff extends Skill
         else
         	return CharacterOut.NOTREADY;
     }
-    
+    /**
+     * Deactivates buff
+     */
     private void deactivate()
     {
         if(active)
@@ -126,6 +158,7 @@ public class Buff extends Skill
         	target = null;
 			playSoundEffect();
             active = false;
+            time = 0;
         }
     }
 

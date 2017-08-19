@@ -248,6 +248,8 @@ public class AnimObject extends GameObject
 		idle = idleUp;
 		melee = meleeUp;
 		range = rangeUp;
+		cast = castUp;
+		kneel = kneelUp;
 		lie = lieUp;
 	}
 	/**
@@ -259,6 +261,8 @@ public class AnimObject extends GameObject
 		idle = idleRight;
 		melee = meleeRight;
 		range = rangeRight;
+		cast = castRight;
+		kneel = kneelRight;
 		lie = lieRight;
 	}
 	/**
@@ -270,6 +274,8 @@ public class AnimObject extends GameObject
 		idle = idleDown;
 		melee = meleeDown;
 		range = rangeDown;
+		cast = castDown;
+		kneel = kneelDown;
 		lie = lieDown;
 	}
 	/**
@@ -281,6 +287,8 @@ public class AnimObject extends GameObject
 		idle = idleLeft;
 		melee = meleeLeft;
 		range = rangeLeft;
+		cast = castLeft;
+		kneel = kneelLeft;
 		lie = lieLeft;
 	}
 	

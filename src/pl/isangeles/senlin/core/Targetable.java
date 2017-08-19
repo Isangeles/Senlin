@@ -69,11 +69,31 @@ public interface Targetable extends ObjectiveTarget
 	
 	public void takeHealth(int value);
 	public void takeMagicka(int value);
+	/**
+	 * Decreases maximal amount of health points by specified value
+	 * @param value Value to remove
+	 */
+	public void decMaxHealth(int value);
+	/**
+	 * Decreases maximal amount of magicka points by specified value
+	 * @param value Value to remove
+	 */
+	public void decMaxMagicka(int value);
 	public void takeAttack(Targetable aggressor, Attack attack);
 	public void takeBuff(Targetable buffer, Buff buff);
 	
 	public void addHealth(int value);
 	public void addMagicka(int value);
+	/**
+	 * Increases maximal amount of health points by specified value
+	 * @param value Value to add
+	 */
+	public void incMaxHealth(int value);
+	/**
+	 * Increases maximal amount of magicka points by specified value
+	 * @param value Value to add
+	 */
+	public void incMaxMagicka(int value);
 	public void looting(boolean looting);
 
     public boolean addBonus(Bonus bonus);
