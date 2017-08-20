@@ -18,6 +18,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for buffs
  * @author Isangeles
@@ -97,7 +98,20 @@ public class Buff extends Skill
 	@Override
 	public String getInfo() 
 	{
-		return info;
+	    String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
+                TConnector.getText("ui", "durName") + ":" + duration + System.lineSeparator() + 
+                TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
+                TConnector.getText("ui", "castName") + ":" + getCastTime() + System.lineSeparator() + 
+                TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator();
+	    
+	    for(Bonus bon : bonuses)
+	    {
+	        fullInfo += System.lineSeparator() + bon.getInfo();
+	    }
+	    
+	    fullInfo += System.lineSeparator() + info;
+
+	    return fullInfo;
 	}
 
     @Override

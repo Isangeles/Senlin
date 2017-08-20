@@ -72,7 +72,7 @@ public class ConditionsInfo extends InterfaceObject implements UiElement
 	@Override
 	public void update() 
 	{
-		conInfo = world.getDay().getPhase() + ", " + world.getDay().getWeather();
+		conInfo = world.getDay().getTime() + ", " + world.getDay().getPhase() + ", " + world.getDay().getWeather();
 	}
 
 	/* (non-Javadoc)

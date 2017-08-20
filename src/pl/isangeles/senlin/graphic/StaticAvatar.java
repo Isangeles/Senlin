@@ -22,24 +22,52 @@
  */
 package pl.isangeles.senlin.graphic;
 
+import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.gui.InfoWindow;
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.GConnector;
 
 /**
  * Class for 'static' avatar (equipment changes do not affect avatar)
  * @author Isangeles
  *
  */
-public class StaticAvatar extends Avatar 
+public class StaticAvatar implements MouseListener, CharacterAvatar
 {
-
+    protected AnimObject torso;
+    private AnimObject defTorso;
+    
+    protected MouseOverArea avMOA;
+    protected InfoWindow avName;
+    protected InfoWindow speakWindow;
+    
+    protected Character character;
+    
+    protected Sprite hostileT;
+    protected Sprite neutralT;
+    protected Sprite friendlyT;
+    protected Sprite deadT;
+    protected Sprite target;
+    
+    protected TrueTypeFont ttf;
+    
+    protected boolean isMove;
+    protected boolean isTargeted;
+    protected boolean isSpeaking;
+    protected int speechTime;
 	/**
 	 * @param character
 	 * @param gc
@@ -50,7 +78,26 @@ public class StaticAvatar extends Avatar
 	 */
 	public StaticAvatar(Character character, GameContainer gc, String spritesheet) throws SlickException, IOException, FontFormatException 
 	{
-		super(character, gc, spritesheet);
+	    gc.getInput().addMouseListener(this);
+        this.character = character;
+        
+        hostileT = new Sprite(GConnector.getInput("sprite/hTarget.png"), "hTarget", false);
+        neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
+        friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
+        deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
+        
+        defTorso = new AnimObject(GConnector.getInput("sprite/mob/"+spritesheet), spritesheet, false, 80, 90);
+        defTorso.setName(spritesheet);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+        Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        ttf = new TrueTypeFont(font.deriveFont(11f), true);
+        
+        torso = defTorso;
+        
+        avMOA = new MouseOverArea(gc, torso.getCurrentSprite(), 0, 0);
+        avName = new InfoWindow(gc, character.getName());
+        speakWindow = new InfoWindow(gc, "");
 	}
 	
 	@Override
@@ -91,7 +138,7 @@ public class StaticAvatar extends Avatar
 	}
 
 	@Override
-	public void kill()
+	public void lie()
 	{
 		torso.lie(true);
 	}
@@ -139,4 +186,128 @@ public class StaticAvatar extends Avatar
 	{
 		return true;
 	}
+
+    @Override
+    public void inputEnded() 
+    {
+    }
+    @Override
+    public void inputStarted() 
+    {
+    }
+    @Override
+    public boolean isAcceptingInput() 
+    {
+        return true;
+    }
+    @Override
+    public void setInput(Input arg0) 
+    {
+    }
+    @Override
+    public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 
+    {
+    }
+    @Override
+    public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
+    {
+    }
+    @Override
+    public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
+    {
+    }
+    @Override
+    public void mousePressed(int button, int x, int y) 
+    {
+    }
+    @Override
+    public void mouseReleased(int arg0, int arg1, int arg2) 
+    {
+    }
+    @Override
+    public void mouseWheelMoved(int arg0) 
+    {
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#kneel()
+     */
+    @Override
+    public void kneel()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#castAnim()
+     */
+    @Override
+    public void castAnim()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#speak(java.lang.String)
+     */
+    @Override
+    public void speak(String text)
+    {
+        speakWindow.setText(text);
+        isSpeaking = true;
+    }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#targeted(boolean)
+     */
+    @Override
+    public void targeted(boolean targeted)
+    {
+        this.isTargeted = targeted;
+    }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDirection()
+     */
+    @Override
+    public int getDirection()
+    {
+        return torso.getDirection();
+    }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#isMouseOver()
+     */
+    @Override
+    public boolean isMouseOver()
+    {
+        return avMOA.isMouseOver();
+    }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDefTorso()
+     */
+    @Override
+    public AnimObject getDefTorso()
+    {
+        return defTorso;
+    }
+    /**
+     * Sets color of target circle based on character attitude
+     */
+    protected void setTargetSprite()
+    {
+        switch(character.getAttitudeTo(Global.getPlayer()))
+        {
+        case HOSTILE:
+            target = hostileT;
+            break;
+        case NEUTRAL:
+            target = neutralT;
+            break;
+        case FRIENDLY:
+            target = friendlyT;
+            break;
+        case DEAD:
+            target = deadT;
+            break;
+        }
+    }
 }

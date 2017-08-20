@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core.bonus;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for health bonus
@@ -39,7 +40,7 @@ public class HealthBonus extends Bonus
 	 */
 	public HealthBonus(int healthPoints)
 	{
-		super(BonusType.HEALTH, healthPoints+"");
+		super(BonusType.HEALTH, TConnector.getText("ui", "bonHp") + ":" + healthPoints);
 		hpBonus = healthPoints;
 	}
 	/* (non-Javadoc)

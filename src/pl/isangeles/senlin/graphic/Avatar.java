@@ -35,21 +35,15 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
-import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.skill.Attack;
-import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InfoWindow;
-import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical representation of character
  * @author Isangeles
  *
  */
-public class Avatar implements MouseListener
+public class Avatar implements MouseListener, CharacterAvatar
 {
 	protected AnimObject torso;
 	private AnimObject head;
@@ -130,11 +124,11 @@ public class Avatar implements MouseListener
 	 */
 	public void draw(float x, float y)
 	{
-		x -= Coords.getDis(15);
-		y -= Coords.getDis(70);
+		x -= Coords.getDis(35);
+		y -= Coords.getDis(90);
 		
 		if(isTargeted)
-			target.draw(x+target.getDis(15), y+target.getDis(50), false);
+			target.draw(x+target.getDis(35), y+target.getDis(100), false);
 		
 		torso.draw(x, y, 1.5f);
 		head.draw(x, y, 1.5f);
@@ -192,8 +186,20 @@ public class Avatar implements MouseListener
 		}
 		
 	}
-	
-	public void kill()
+	/**
+	 * Toggles kneel animation
+	 */
+	public void kneel()
+	{
+	    torso.kneel(true);
+	    head.kneel(true);
+	    if(weapon != null)
+	        weapon.kneel(true);
+	}
+	/**
+	 * Toggles lie animation
+	 */
+	public void lie()
 	{
 		torso.lie(true);
 		head.lie(true);

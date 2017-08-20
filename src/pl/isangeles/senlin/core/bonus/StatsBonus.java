@@ -25,7 +25,7 @@ package pl.isangeles.senlin.core.bonus;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for attributes bonus
@@ -41,7 +41,7 @@ public class StatsBonus extends Bonus
 	 */
 	public StatsBonus(Attributes stats)
 	{
-		super(BonusType.STATS, stats.toString());
+		super(BonusType.STATS, TConnector.getText("ui", "nonStats") + ":" + stats.toString());
 		statsBonus = stats;
 	}
 	/* (non-Javadoc)

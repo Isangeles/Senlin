@@ -78,6 +78,7 @@ import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.graphic.CharacterAvatar;
 import pl.isangeles.senlin.graphic.StaticAvatar;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.states.Global;
@@ -116,7 +117,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean talking;
 	private boolean fighting;
 	private boolean following;
-	private Avatar avatar;
+	private CharacterAvatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
 	private Targetable target;
@@ -475,7 +476,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    CharacterOut out = CharacterOut.SUCCESS;
 		if(!live)
 		{
-			avatar.kill();
+			avatar.lie();
 			attitude = Attitude.DEAD;
 			return CharacterOut.SUCCESS;
 		}
@@ -609,7 +610,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean isMove()
 	{
-		return avatar.isMove();
+		return following;
 	}
 	/**
 	 * Get character hit
@@ -863,7 +864,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * Returns characters avatar
 	 * @return Avatar of this character
 	 */
-	public Avatar getAvatar()
+	public CharacterAvatar getAvatar()
 	{ return avatar; }
 	/**
 	 * Returns character abilities list  
