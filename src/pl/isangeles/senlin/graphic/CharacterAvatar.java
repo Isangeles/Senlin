@@ -52,15 +52,27 @@ public interface CharacterAvatar
     public void kneel();
     
     public void lie();
-    
+    /**
+     * Turns move animation on or off
+     * @param move True to turn animation on, false to turn off
+     */
     public void move(boolean move);
-    
+    /**
+     * Starts melee attack animation 
+     */
     public void meleeAnim();
-    
+    /**
+     * Starts range attack animation
+     */
     public void rangeAnim();
-    
+    /**
+     * Starts casting animation
+     */
     public void castAnim();
-    
+    /**
+     * Displays specified text above avatar head
+     * @param text Text to display
+     */
     public void speak(String text);
     /**
      * Informs avatar that his character is targeted or not
@@ -72,10 +84,19 @@ public interface CharacterAvatar
      * @return Direction id (0 - up, 1 - right, 2 - down, 3 - left)
      */
     public int getDirection();
-    
+    /**
+     * Checks if avatar is static
+     * @return True if avatar is static, false otherwise
+     */
     public boolean isStatic();
-    
+    /**
+     * Checks if mouse is over avatar
+     * @return True if mouse is over avatar, false otherwise
+     */
     public boolean isMouseOver();
-    
+    /**
+     * Returns avatar default torso
+     * @return Animated object
+     */
     public AnimObject getDefTorso();
 }
