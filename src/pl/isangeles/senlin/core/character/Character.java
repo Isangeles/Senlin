@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -68,6 +69,7 @@ import pl.isangeles.senlin.core.quest.Journal;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.quest.QuestTracker;
+import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
@@ -113,10 +115,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean live;
 	private boolean trade;
 	private boolean train;
-	private boolean looting;
-	private boolean talking;
-	private boolean fighting;
-	private boolean following;
+	private EnumMap<CharacterSignal, Object>signals = new EnumMap<>(CharacterSignal.class);
 	private CharacterAvatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -402,14 +401,54 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * 
      * @param talking
      */
-    public void talking(boolean talking)
+    public void startTalking(Targetable target)
     {
-    	this.talking = talking;
+    	signals.put(CharacterSignal.TALKING, target);
+    }    
+    
+    public void stopTalking()
+    {
+    	signals.remove(CharacterSignal.TALKING);
     }
     
-    public void combat(boolean fighting)
+    public void startLooting(Targetable target)
     {
-    	this.fighting = fighting;
+        signals.put(CharacterSignal.LOOTING, target);
+    }	
+    
+    public void stopLooting()
+    {
+    	signals.remove(CharacterSignal.LOOTING);
+    }
+    
+	public void startFollowing(Targetable target)
+	{
+		signals.put(CharacterSignal.FOLLOWING, target);
+	}
+	
+	public void stopFollowing()
+	{
+		signals.remove(CharacterSignal.FOLLOWING);
+	}
+    
+    public void enterCombat(Targetable target)
+    {
+    	signals.put(CharacterSignal.FIGHTING, target);
+    }
+    
+    public void stopCombat()
+    {
+    	signals.remove(CharacterSignal.FIGHTING);
+    }
+    
+    public void startReading(String textId)
+    {
+    	signals.put(CharacterSignal.READING, textId);
+    }
+    
+    public void stopReading()
+    {
+    	signals.remove(CharacterSignal.READING);
     }
     /**
      * Marks this character as trainer
@@ -486,8 +525,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
         else
         {
-        	if(following && target != null)
+        	if(signals.containsKey(CharacterSignal.FOLLOWING))
         	{
+        		Targetable target = (Targetable)signals.get(CharacterSignal.FOLLOWING);
         		moveTo(target, 10);
         	}
             avatar.move(true);
@@ -524,15 +564,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
                 }
             }
         }
-		if(fighting && target != null)
+		if(signals.containsKey(CharacterSignal.FIGHTING))
 		{
+			Targetable target = (Targetable)signals.get(CharacterSignal.FIGHTING);
 		    out = useSkillOn(target, abilities.get("autoA"));
 		}
-		else
-			fighting = false;
 		
-	    if(target == null && looting)
-	        looting = false;
+	    //if(target == null && looting)
+	    //    looting = false;
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
@@ -555,7 +594,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(int x, int y)
 	{
-		following = false;
+		signals.remove(CharacterSignal.FOLLOWING);
+		//signals.remove(CharacterSignal.FIGHTING);
 		destPoint[0] = x;
 		destPoint[1] = y;
 	}
@@ -565,7 +605,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(Targetable target)
 	{
-		following = true;
+		signals.put(CharacterSignal.FOLLOWING, target);
 		destPoint[0] = target.getPosition()[0];
 		destPoint[1] = target.getPosition()[1];
 	}
@@ -576,7 +616,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveTo(Targetable target, int maxRange)
 	{
-		following = true;
+		signals.put(CharacterSignal.FOLLOWING, target);
 		Position pos = new Position(position);
 		Position hitBoxStart = new Position(target.getPosition()[0] - maxRange, target.getPosition()[1] - maxRange);
 		Position hitBoxEnd = new Position(target.getPosition()[0] + maxRange, target.getPosition()[1] + maxRange);
@@ -610,7 +650,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean isMove()
 	{
-		return following;
+		if(position[0] != destPoint[0] || position[1] != destPoint[1])
+			return true;
+		else
+			return false;
 	}
 	/**
 	 * Get character hit
@@ -815,7 +858,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean isLooting()
 	{
-	    return looting;
+	    if(signals.get(CharacterSignal.LOOTING) != null)
+	    	return true;
+	    else
+	    	return false;
 	}
 	/**
 	 * Checks if character talking with someone
@@ -823,12 +869,26 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean isTalking()
 	{
-		return talking;
+		if(signals.get(CharacterSignal.TALKING) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean isFighting()
 	{
-		return fighting;
+		if(signals.get(CharacterSignal.FIGHTING) != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isReading()
+	{
+		if(signals.get(CharacterSignal.READING) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean isCasting()
@@ -1261,11 +1321,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	else
             return CharacterOut.UNABLE;
     }
-    
-    public void looting(boolean looting)
-    {
-        this.looting = looting;
-    }
 	/**
 	 * Memorises specified game character as hostile, friendly or neutral
 	 * @param character Some game character
@@ -1293,11 +1348,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    avatar.speak(what);
         Log.addSpeech(name, what);
 	}
-	
-	public void followTarget(boolean following)
-	{
-		this.following = following;
-	}
 	/**
 	 * Starts dialogue with specified game character
 	 * @param dialogueTarget
@@ -1305,8 +1355,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Dialogue startDialogueWith(Character dialogueTarget)
 	{
-		talking = true;
-		dialogueTarget.talking(true);
+		startTalking(dialogueTarget);
+		dialogueTarget.startTalking(this);
 		Dialogue dialogue = getDialogueFor(dialogueTarget);
 		dialogue.startFor(dialogueTarget);
 		return dialogue;

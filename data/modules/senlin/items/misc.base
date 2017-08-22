@@ -12,4 +12,8 @@
         <icon>potGreen.png</icon>
         <action type="effectUser">heal01</action>
     </item>
+    <item>
+        <icon>list.png</icon>
+        <action type="read">MTSIO</action>
+    </item>
 </base>

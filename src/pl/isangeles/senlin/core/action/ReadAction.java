@@ -1,5 +1,5 @@
 /*
- * LootAction.java
+ * ReadAction.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -25,24 +25,26 @@ package pl.isangeles.senlin.core.action;
 import pl.isangeles.senlin.core.Targetable;
 
 /**
+ * Class for read action
  * @author Isangeles
  *
  */
-public class LootAction extends Action
+public class ReadAction extends Action 
 {
-    public LootAction()
-    {
-        type = ActionType.LOOT;
-    }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
-     */
-    @Override
-    public boolean start(Targetable user, Targetable target)
-    {
-        user.setTarget(target);
-        user.startLooting(target);
-        return false;
-    }
+	private String textId;
+	
+	public ReadAction(String textId)
+	{
+		type = ActionType.READ;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
+	 */
+	@Override
+	public boolean start(Targetable user, Targetable target) 
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

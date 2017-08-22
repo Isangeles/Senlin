@@ -1,5 +1,5 @@
 /*
- * LootAction.java
+ * CharacterSignal.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,29 +20,16 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.action;
+package pl.isangeles.senlin.core.signal;
 
 import pl.isangeles.senlin.core.Targetable;
 
 /**
+ * Enumeration for character signals
  * @author Isangeles
  *
  */
-public class LootAction extends Action
+public enum CharacterSignal 
 {
-    public LootAction()
-    {
-        type = ActionType.LOOT;
-    }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
-     */
-    @Override
-    public boolean start(Targetable user, Targetable target)
-    {
-        user.setTarget(target);
-        user.startLooting(target);
-        return false;
-    }
-
+	LOOTING, TALKING, FIGHTING, FOLLOWING, READING
 }

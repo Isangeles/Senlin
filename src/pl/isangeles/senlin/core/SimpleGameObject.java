@@ -102,11 +102,7 @@ public class SimpleGameObject implements Targetable, SaveElement
     
     public void startAction(Targetable user)
     {
-        if(onClick.getType() == ActionType.LOOT)
-        {
-            user.setTarget(this);
-            user.looting(true);
-        }
+        onClick.start(user, this);
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#setTarget(pl.isangeles.senlin.core.Targetable)
@@ -333,11 +329,21 @@ public class SimpleGameObject implements Targetable, SaveElement
      * @see pl.isangeles.senlin.core.Targetable#looting(boolean)
      */
     @Override
-    public void looting(boolean looting)
+    public void startLooting(Targetable target)
     {
         // TODO Auto-generated method stub
         
     }
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#stopLooting()
+	 */
+	@Override
+	public void stopLooting() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#isLooting()
@@ -438,6 +444,5 @@ public class SimpleGameObject implements Targetable, SaveElement
 		// TODO Auto-generated method stub
 		
 	}
-
     
 }

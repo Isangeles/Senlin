@@ -94,7 +94,8 @@ public interface Targetable extends ObjectiveTarget
 	 * @param value Value to add
 	 */
 	public void incMaxMagicka(int value);
-	public void looting(boolean looting);
+	public void startLooting(Targetable target);
+	public void stopLooting();
 
     public boolean addBonus(Bonus bonus);
     public boolean removeBonus(Bonus bonus);

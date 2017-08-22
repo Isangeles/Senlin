@@ -344,12 +344,10 @@ public class UserInterface implements MouseListener, SaveElement
 								dialogue.open(player, targetedChar);
 								break;
 							case HOSTILE:
-								//player.useSkill(player.getSkills().get("autoA"));
-								player.combat(true);
+								player.enterCombat(target);
 								break;
 							case NEUTRAL:
-								//player.useSkill(player.getSkills().get("autoA"));
-								player.combat(true);
+								player.enterCombat(target);
 								break;
 							case DEAD:
 								break;
@@ -357,12 +355,12 @@ public class UserInterface implements MouseListener, SaveElement
 						}
 						else
 						{
-							player.looting(true);
+							player.startLooting(target);
 						}
 					}
 					else
 					{
-						player.combat(false);
+						player.stopCombat();
 					}
 				}
 				catch(ClassCastException | NullPointerException e)
