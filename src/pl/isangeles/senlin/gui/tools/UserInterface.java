@@ -70,6 +70,7 @@ public class UserInterface implements MouseListener, SaveElement
     private TradeWindow trade;
     private TrainingWindow train;
     private DialogBox dialogue;
+    private ReadWindow reading;
     private CastBar cast;
     private SaveGameWindow save;
     private LoadGameWindow load;
@@ -105,6 +106,7 @@ public class UserInterface implements MouseListener, SaveElement
         trade = new TradeWindow(gc, player);
         train = new TrainingWindow(gc, player);
         dialogue = new DialogBox(gc);
+        reading = new ReadWindow(gc, player);
         cast = new CastBar(gc, player);
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
@@ -152,6 +154,9 @@ public class UserInterface implements MouseListener, SaveElement
         if(dialogue.isOpenReq())
         	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
+        if(reading.isOpenReq())
+        	reading.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
         if(igMenu.isOpenReq())
         	igMenu.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
@@ -178,10 +183,14 @@ public class UserInterface implements MouseListener, SaveElement
     	if(player.getTarget() != null)
     	{
     		targetFrame.setCharacter(player.getTarget());
-    		if(player.isLooting())
-    		{
-    			loot.open(player.getTarget());
-    		}
+    	}
+    	if(player.looting() != null && !loot.isOpenReq())
+    	{
+    		loot.open(player.looting());
+    	}
+    	if(player.reading() != null && !reading.isOpenReq())
+    	{
+    		reading.open(player.reading());
     	}
     	if(dialogue.isTradeReq())
     	{
@@ -222,6 +231,7 @@ public class UserInterface implements MouseListener, SaveElement
         trade.update();
         train.update();
         dialogue.update();
+        reading.update();
         save.update();
         load.update();
         settings.update();

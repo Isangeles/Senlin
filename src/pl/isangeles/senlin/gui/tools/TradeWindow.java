@@ -46,6 +46,7 @@ import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for UI trade window 
  * @author Isangeles
@@ -68,8 +69,8 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	private List<Item> buyerAssortment = new ArrayList<>();
 	private List<Item> itemsToSell = new ArrayList<>();
 	private List<Item> itemsToBuy = new ArrayList<>();
-	int buyValue;
-	int sellValue;
+	private int buyValue;
+	private int sellValue;
 	private boolean openReq;
 	/**
 	 * Trade window constructor
@@ -89,7 +90,7 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 		ttf = new TrueTypeFont(font.deriveFont(12f * getScale()), true);
 		
 		trade = new Button(GConnector.getInput("button/buttonS.png"), "uiTradeBTrade", false, "", gc);
-		exit = new Button(GConnector.getInput("button/buttonS.png"), "uiTradeBExit", false, "close", gc);
+		exit = new Button(GConnector.getInput("button/buttonS.png"), "uiTradeBExit", false, TConnector.getText("ui", "uiClose"), gc);
 		nextBuy = new Button(GConnector.getInput("button/buttonNext.png"), "uiTradeBNext", false, "", gc);
 		prevBuy = new Button(GConnector.getInput("button/buttonBack.png"), "uiTradeBPrev", false, "", gc);
 		nextSell = new Button(GConnector.getInput("button/buttonNext.png"), "uiTradeBNext", false, "", gc);

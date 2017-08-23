@@ -64,6 +64,7 @@ public final class GBase
 		texturesMap.put("infoWinBg", new Image(GConnector.getInput("field/infoWindowBG.png"), "infoWinBg", false));
 		texturesMap.put("textButtonBg", new Image(GConnector.getInput("field/textBg.png"), "textButtonBg", false));
 		texturesMap.put("uiCurvedBg", new Image(GConnector.getInput("field/cBgS.png"), "uiCurvedBg", false));
+		texturesMap.put("buttonS", new Image(GConnector.getInput("button/buttonS.png"), "buttonS", false));
 		
 		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));
 		fontsMap.put("mainUiFont", simsun);

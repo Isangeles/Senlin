@@ -255,7 +255,6 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 							moveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
 						}
 					}
-					
 				}
 			}
 		}

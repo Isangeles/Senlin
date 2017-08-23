@@ -96,13 +96,13 @@ public class Misc extends Item
     @Override
     public boolean use(Targetable user, Targetable target)
     {
-    	boolean success = onUse.start(user, target);
-    	if(disposable)
+    	boolean out = onUse.start(user, target);
+    	if(out && disposable)
     	{
     		Character owner = (Character)user;
     		owner.getInventory().remove(this);
     	}
-    	return success;
+    	return out;
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)

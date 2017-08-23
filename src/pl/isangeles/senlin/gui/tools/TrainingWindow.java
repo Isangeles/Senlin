@@ -84,7 +84,7 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
 		
 		trainList  = new ScrollableList(10, gc);
 		train = new Button(GConnector.getInput("button/buttonS.png"), "uiTrainButton", false, TConnector.getText("ui", "trainWinTrain"), gc);
-		exit = new Button(GConnector.getInput("button/buttonS.png"), "uiTrainExit", false, TConnector.getText("ui", "trainWinExit"), gc);
+		exit = new Button(GConnector.getInput("button/buttonS.png"), "uiTrainExit", false, TConnector.getText("ui", "uiClose"), gc);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);

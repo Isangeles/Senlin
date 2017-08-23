@@ -344,17 +344,43 @@ public class SimpleGameObject implements Targetable, SaveElement
 		// TODO Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#startReading(java.lang.String)
+	 */
+	@Override
+	public void startReading(String textId) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#stopReading()
+	 */
+	@Override
+	public void stopReading() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
     /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#isLooting()
+     * @see pl.isangeles.senlin.core.Targetable#looting()
      */
     @Override
-    public boolean isLooting()
+    public Targetable looting()
     {
         // TODO Auto-generated method stub
-        return false;
+        return null;
     }
-
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#reading()
+	 */
+	@Override
+	public String reading() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
      */
@@ -413,7 +439,8 @@ public class SimpleGameObject implements Targetable, SaveElement
 	 * @see pl.isangeles.senlin.core.Targetable#decMaxHealth(int)
 	 */
 	@Override
-	public void decMaxHealth(int value) {
+	public void decMaxHealth(int value) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -422,7 +449,8 @@ public class SimpleGameObject implements Targetable, SaveElement
 	 * @see pl.isangeles.senlin.core.Targetable#decMaxMagicka(int)
 	 */
 	@Override
-	public void decMaxMagicka(int value) {
+	public void decMaxMagicka(int value) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -431,7 +459,8 @@ public class SimpleGameObject implements Targetable, SaveElement
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
 	 */
 	@Override
-	public void incMaxHealth(int value) {
+	public void incMaxHealth(int value) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -440,7 +469,8 @@ public class SimpleGameObject implements Targetable, SaveElement
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)
 	 */
 	@Override
-	public void incMaxMagicka(int value) {
+	public void incMaxMagicka(int value) 
+	{
 		// TODO Auto-generated method stub
 		
 	}

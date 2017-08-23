@@ -852,16 +852,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    else
 	        return false;
 	}
-	/**
-	 * Checks if character looting his target
-	 * @return True if looting is on, false otherwise
-	 */
-	public boolean isLooting()
+	/* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#looting()
+     */
+    @Override
+	public Targetable looting()
 	{
 	    if(signals.get(CharacterSignal.LOOTING) != null)
-	    	return true;
+	    	return (Targetable)signals.get(CharacterSignal.LOOTING);
 	    else
-	    	return false;
+	    	return null;
 	}
 	/**
 	 * Checks if character talking with someone
@@ -882,13 +882,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		else
 			return false;
 	}
-	
-	public boolean isReading()
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#reading()
+	 */
+	@Override
+	public String reading()
 	{
 		if(signals.get(CharacterSignal.READING) != null)
-			return true;
+			return (String)signals.get(CharacterSignal.READING);
 		else
-			return false;
+			return null;
 	}
 	
 	public boolean isCasting()

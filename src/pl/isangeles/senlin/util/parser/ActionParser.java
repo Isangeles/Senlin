@@ -1,5 +1,5 @@
 /*
- * ReadAction.java
+ * ActionParser.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,36 +20,36 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.action;
+package pl.isangeles.senlin.util.parser;
 
-import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Targetable;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import pl.isangeles.senlin.data.pattern.ActionPattern;
 
 /**
- * Class for read action
+ * Class for parsing action nodes
  * @author Isangeles
  *
  */
-public class ReadAction extends Action 
+public final class ActionParser 
 {
-	private String textId;
 	/**
-	 * Read action constructor
-	 * @param textId ID of text to read
+	 * Private constructor to prevent initialization
 	 */
-	public ReadAction(String textId)
-	{
-		this.textId = textId;
-		type = ActionType.READ;
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
+	private ActionParser() {}
+	/**
+	 * Parses specified action node to action pattern
+	 * @param actionNode Node from XML document, action node
+	 * @return Action pattern from specified node
 	 */
-	@Override
-	public boolean start(Targetable user, Targetable target) 
+	public static ActionPattern getActionFromNode(Node actionNode)
 	{
-		user.startReading(textId);
-		return user.reading() != null;
+		Element actionE = (Element)actionNode;
+		
+		String typeId = actionE.getAttribute("type");
+		String actionId = actionE.getTextContent();
+		
+		return new ActionPattern(typeId, actionId);
 	}
-
 }

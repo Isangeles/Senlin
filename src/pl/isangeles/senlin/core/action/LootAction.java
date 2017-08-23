@@ -25,11 +25,15 @@ package pl.isangeles.senlin.core.action;
 import pl.isangeles.senlin.core.Targetable;
 
 /**
+ * Class for looting action
  * @author Isangeles
  *
  */
 public class LootAction extends Action
 {
+	/**
+	 * Looting action constructor
+	 */
     public LootAction()
     {
         type = ActionType.LOOT;
@@ -40,9 +44,9 @@ public class LootAction extends Action
     @Override
     public boolean start(Targetable user, Targetable target)
     {
-        user.setTarget(target);
+        //user.setTarget(target);
         user.startLooting(target);
-        return false;
+        return user.looting() != null;
     }
 
 }

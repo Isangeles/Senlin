@@ -93,7 +93,7 @@ public final class TConnector
 		return getTextFromFile(fullPath, textID);
 	}
 	/**
-     * Returns text with for specified ID from specified file in current module lang directory
+     * Returns text with for specified ID from specified file in current module lang directory (data/modules/[currentModuleName]/lang/[currentLangName]/[fileName])
      * construction of text file: [text id]:[text];[new line mark]
      * @param fileName Name of the file in current lang directory
      * @param textID Id of text line

@@ -31,7 +31,7 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 /**
- * Class for slick text with multiple lines
+ * Class for text with multiple lines
  * @author Isangeles
  *
  */

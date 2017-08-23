@@ -29,6 +29,7 @@ import org.w3c.dom.Node;
 
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.data.pattern.ActionPattern;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
 import pl.isangeles.senlin.data.pattern.TrinketPattern;
@@ -144,10 +145,9 @@ public class ItemParser
 		boolean disposable = Boolean.parseBoolean(itemE.getAttribute("disposable"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
-		Element action = (Element)itemE.getElementsByTagName("action").item(0);
-		String actionType = action.getAttribute("type");
-		String actionId = action.getTextContent();
+		Node actionNode = itemE.getElementsByTagName("action").item(0);
+		ActionPattern onClick = ActionParser.getActionFromNode(actionNode);
 		
-		return new MiscPattern(id, value, stack, disposable, icon, actionType, actionId);
+		return new MiscPattern(id, value, stack, disposable, icon, onClick);
 	}
 }

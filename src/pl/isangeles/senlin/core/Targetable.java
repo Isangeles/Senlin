@@ -94,8 +94,24 @@ public interface Targetable extends ObjectiveTarget
 	 * @param value Value to add
 	 */
 	public void incMaxMagicka(int value);
+	/**
+	 * Starts looting action on specified target
+	 * @param target Targetable object to loot
+	 */
 	public void startLooting(Targetable target);
+	/**
+	 * Stops looting action
+	 */
 	public void stopLooting();
+	/**
+	 * Starts reading action
+	 * @param textId ID of text to read
+	 */
+	public void startReading(String textId);
+	/**
+	 * Stops reading action
+	 */
+	public void stopReading();
 
     public boolean addBonus(Bonus bonus);
     public boolean removeBonus(Bonus bonus);
@@ -103,5 +119,14 @@ public interface Targetable extends ObjectiveTarget
     
 	public boolean isLive();
 	public boolean isMouseOver();
-	public boolean isLooting();
+	/**
+	 * Checks if looting action is in progress
+	 * @return Looted object or null if nothing is looted now
+	 */
+	public Targetable looting();
+	/**
+	 * Checks if reading action is in progress
+	 * @return String with ID of text to read or null if nothing is read now
+	 */
+	public String reading();
 }

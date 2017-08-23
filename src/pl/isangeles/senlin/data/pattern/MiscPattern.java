@@ -46,8 +46,7 @@ public class MiscPattern
 	private final int maxStack;
 	private final boolean disposable;
 	private final String icon;
-	private final String actionType;
-	private final String actionId;
+	private final ActionPattern onClick;
 	/**
 	 * Misc item pattern constructor
 	 * @param id Item ID
@@ -56,15 +55,14 @@ public class MiscPattern
 	 * @param imgName Item image name, for icon
 	 * @param onUse Action on use(ppm click in inventory)
 	 */
-	public MiscPattern(String id, int value, int maxStack, boolean disposable, String icon, String actionType, String actionId) 
+	public MiscPattern(String id, int value, int maxStack, boolean disposable, String icon, ActionPattern onClick) 
 	{
 		this.id = id;
 		this.value = value;
 		this.maxStack = maxStack;
 		this.disposable = disposable;
 		this.icon = icon;
-		this.actionType = actionType;
-		this.actionId = actionId;
+		this.onClick = onClick;
 	}
 	/**
 	 * Returns pattern item ID
@@ -84,20 +82,8 @@ public class MiscPattern
 	 */
 	public Misc make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		ActionType at = ActionType.fromString(actionType);
-		Action action;
-		switch(at)
-		{
-		case EFFECTUSER:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
-			break;
-		case EFFECTTARGET:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
-			break;
-		default:
-			action = new EffectAction();
-		}
-		return new Misc(id, value, maxStack, disposable, icon, action, gc);
+		Action onClick = this.onClick.make();
+		return new Misc(id, value, maxStack, disposable, icon, onClick, gc);
 	}
 
 	/**
@@ -111,19 +97,7 @@ public class MiscPattern
 	 */
 	public Misc make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		ActionType at = ActionType.fromString(actionType);
-		Action action;
-		switch(at)
-		{
-		case EFFECTUSER:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
-			break;
-		case EFFECTTARGET:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
-			break;
-		default:
-			action = new EffectAction();
-		}
-		return new Misc(id, serial, value, maxStack, disposable, icon, action, gc);
+		Action onClick = this.onClick.make();
+		return new Misc(id, serial, value, maxStack, disposable, icon, onClick, gc);
 	}
 }
