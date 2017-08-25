@@ -72,7 +72,7 @@ public class SlotsBlock
 		{
 			for(int j = 0; j < slots[i].length; j ++)
 			{
-				slots[i][j].draw(x + (j*Coords.getDis(45)) + Coords.getDis(3), y + (i*Coords.getDis(35)) + Coords.getDis(3), false);
+				slots[i][j].draw(x + (j*(slots[i][j].getScaledWidth() + Coords.getDis(5))), y + (i*(slots[i][j].getScaledWidth() + Coords.getDis(8))), false);
 			}
 		}
 	}

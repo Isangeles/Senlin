@@ -139,7 +139,7 @@ public class UserInterface implements MouseListener, SaveElement
         	charWin.draw(Coords.getX("CE", -250), Coords.getY("CE", -350));
         
         if(inventory.isOpenReq())
-            inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+            inventory.draw(Coords.getX("CE", -250), Coords.getY("CE", -300));
         
         if(skills.isOpenReq())
         	skills.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));

@@ -54,7 +54,6 @@ import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
 /**
  * Graphical representation of character inventory
- * TODO this UI element is terrible slow 
  * @author Isangeles
  *
  */
@@ -77,7 +76,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 	 */
     public InventoryMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
-        super(GConnector.getInput("ui/background/inventoryBG.png"), "uiInventoryBg", false, gc);
+        super(GConnector.getInput("ui/background/inventoryBGv2.png"), "uiInventoryBg", false, gc);
         this.player = player;
         gc.getInput().addMouseListener(this);
         
@@ -85,10 +84,10 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(font.deriveFont(12f), true);
         
-        Slot[][] slotsT = new ItemSlot[5][20];
-        for(int i = 0; i < 5; i ++)
+        Slot[][] slotsT = new ItemSlot[8][11];
+        for(int i = 0; i < 8; i ++)
         {
-        	for(int j = 0; j < 20; j ++)
+        	for(int j = 0; j < 11; j ++)
         	{
         		slotsT[i][j] = new ItemSlot(gc);
         	}
@@ -105,29 +104,14 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
         super.draw(x, y, false);
         //Slots drawing
-        float firstSlotX = x+getDis(48);
-    	float firstSlotY = y+getDis(323);
+        float firstSlotX = x+getDis(25);
+    	float firstSlotY = y+getDis(245);
     	slots.draw(firstSlotX, firstSlotY);
         //Eq slots drawing
         eqSlots.draw(x, y);
-        
-        textTtf.drawString(x+(getScaledWidth()/2), y, TConnector.getText("ui", "iMenuTitle"));
-        textTtf.drawString(x+(getScaledWidth()/2), y+(getScaledHeight()-getDis(20)), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
-        //Stats drawing
-        /*
-        float firstStatX = x+getDis(300);
-        float firstStatY = y+getDis(50);
-        
-        for(int i = 0, j = 0; i < getCharStats().length; i ++, j ++)
-        {
-        	if(i != 0 && i % 6 == 0)
-        	{
-        		firstStatX += textTtf.getWidth(getCharStats()[2] + getDis(5));
-        		j = 0;
-        	}
-        	textTtf.drawString(firstStatX, firstStatY + (j*textTtf.getHeight()), getCharStats()[i]);
-        }
-        */
+        //Title and gold info
+        textTtf.drawString(x+getDis(20), y+getDis(5), TConnector.getText("ui", "iMenuTitle"));
+        textTtf.drawString(x+getDis(390), y+getDis(215), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
     }
     /**
      * Checks if mouse is over inventory menu
@@ -176,7 +160,10 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         else
             addItems();
     }
-    
+    /**
+     * Checks if inventory menu is open
+     * @return True if menu is open, false otherwise
+     */
     public boolean isOpenReq()
     {
     	return openReq;
@@ -402,7 +389,13 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     	private ItemSlot artifact;
 
 		private ItemSlot[] slotsTable;
-		
+		/**
+		 * Equipment slots constructor
+		 * @param gc Slick game container
+		 * @throws SlickException
+		 * @throws IOException
+		 * @throws FontFormatException
+		 */
     	public EquipmentSlots(GameContainer gc) throws SlickException, IOException, FontFormatException 
     	{
     		feet = new ItemSlot(gc);
@@ -420,15 +413,19 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     		
     		slotsTable = new ItemSlot[]{feet, hands, offhand, chest, head, weapon, finger, secFinger, neck, artifact};
     	}
-    	
+    	/**
+    	 * Draws equipment slots
+    	 * @param x Inventory menu x position
+    	 * @param y Inventory menu y position
+    	 */
     	public void draw(float x, float y)
     	{
-    		feet.draw(x+getDis(196), y+getDis(242), false);
-            weapon.draw(x+getDis(99), y+getDis(140), false);
-            offhand.draw(x+getDis(201), y+getDis(137), false);
-            hands.draw(x+getDis(85), y+getDis(91), false);
-            chest.draw(x+getDis(150), y+getDis(67), false);
-            head.draw(x+getDis(147), y+getDis(9), false);
+    		feet.draw(x+getDis(230), y+getDis(200), false);
+            weapon.draw(x+getDis(234), y+getDis(128), false);
+            offhand.draw(x+getDis(290), y+getDis(120), false);
+            hands.draw(x+getDis(195), y+getDis(110), false);
+            chest.draw(x+getDis(260), y+getDis(65), false);
+            head.draw(x+getDis(260), y+getDis(15), false);
             
             finger.draw(x+getDis(20), y+getDis(175), false);
             secFinger.draw(x+getDis(20), y+getDis(131), false);
