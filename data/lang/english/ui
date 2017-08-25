@@ -1,4 +1,5 @@
 questsBInfo:Journal[L];
+characterBInfo:Character[C];
 inventoryBInfo:Inventory[I];
 craftingBInfo:Crafting[P];
 skillsBInfo:Skills[K];

@@ -166,16 +166,58 @@ public class CommandInterface
     	Scanner scann = new Scanner(ifCode);
     	scann.useDelimiter("\r?\n");
     	
-    	String command = scann.next().replaceFirst("^\\s*", "");
-    	if(command.equals("true;"))
-    		out = true;
-    	if(command.startsWith("use="))
+    	while(scann.hasNext())
     	{
-    		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
-    		if(script.getUseCount() >= value)
-    			out = true;
-    		else
-    			out = false;
+    		String command = scann.next().replaceFirst("^\\s*", "");
+        	if(command.equals("true;"))
+        		out = true;
+        	if(command.startsWith("use="))
+        	{
+        		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
+        		if(script.getUseCount() >= value)
+        			out = true;
+        		else
+        		{
+        			out = false;
+        			break;
+        		}
+        	}
+        	if(command.startsWith("has"))
+        	{
+        		String[] hasCommand = command.split(" ");
+        		if(hasCommand[1].equals("flag"))
+        		{
+        			String flag = hasCommand[2];
+        			if(hasCommand.length < 4 || hasCommand[3].equals("player"))
+        			{
+        				if(player.getFlags().contains(flag))
+        					out = true;
+        				else
+        				{
+        					out = false;
+        					break;
+        				}
+        			}
+        		}
+        	}
+        	if(command.startsWith("!has"))
+        	{
+        		String[] hasCommand = command.split(" ");
+        		if(hasCommand[1].equals("flag"))
+        		{
+        			String flag = hasCommand[2];
+        			if(hasCommand.length < 4 || hasCommand[3].equals("player;"))
+        			{
+        				if(!player.getFlags().contains(flag))
+        					out = true;
+        				else
+        				{
+        					out = false;
+        					break;
+        				}
+        			}
+        		}
+        	}
     	}
     	
     	scann.close();

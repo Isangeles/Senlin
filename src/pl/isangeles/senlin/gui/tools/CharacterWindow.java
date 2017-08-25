@@ -80,9 +80,13 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	{
 		super.draw(x, y, false);
 		
-		player.getPortrait().draw(x+getDis(0), y+getDis(40), getSize(125), getSize(185));
+		player.getPortrait().draw(x+getDis(12), y+getDis(40), getSize(125), getSize(185));
 		
-		upInfoA.draw(x+getDis(170), y+getDis(45));
+		upInfoA.draw(x+getDis(160), y+getDis(45));
+		upInfoB.draw(x+getDis(340), y+getDis(45));
+		
+		downInfoA.draw(x+getDis(10), y+getDis(255));
+		downInfoB.draw(x+getDis(260), y+getDis(255));
 	}
 	
 	public void open()
@@ -93,7 +97,7 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 		String[] info = getCharStats();
 		for(int i = 0; i < info.length && i < 9; i ++)
 		{
-			if(i < 4)
+			if(i < 5)
 				upInfoA.addText(info[i]);
 			else
 				upInfoB.addText(info[i]);

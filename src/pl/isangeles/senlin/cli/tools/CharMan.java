@@ -199,6 +199,8 @@ public class CharMan implements CliTool
         		if(recipe != null && target.getProfession(recipe.getType()) != null)
         			out = target.getProfession(recipe.getType()).add(recipe);
         	}
+    		else if(prefix.equals("-f") || prefix.equals("-flag"))
+    			target.getFlags().add(value);
     		else if(prefix.equals("-q") || prefix.equals("-quest"))
         		target.startQuest(QuestsBase.get(value));
     		else

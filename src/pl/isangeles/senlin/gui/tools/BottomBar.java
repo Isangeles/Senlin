@@ -34,6 +34,7 @@ import pl.isangeles.senlin.gui.Slot;
 class BottomBar extends InterfaceObject implements UiElement, SaveElement, MouseListener, KeyListener
 {
     private Button questsB;
+    private Button characterB;
     private Button inventoryB;
     private Button craftingB;
     private Button skillsB;
@@ -77,6 +78,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         this.journal = journal;
         this.crafting = crafting;
         questsB = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQue", false, "", gc, TConnector.getText("ui", "questsBInfo"));
+        characterB = new Button(GConnector.getInput("ui/button/buttonChar.png"), "uiButonChar", false, "", gc, TConnector.getText("ui", "characterBInfo"));
         inventoryB = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonInv", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
         craftingB = new Button(GConnector.getInput("ui/button/buttonCrafting.png"), "uiButtonCraft", false, "", gc, TConnector.getText("ui", "craftingBInfo"));
         skillsB = new Button(GConnector.getInput("ui/button/buttonSkills.png"), "uiButtonSkill", false, "", gc, TConnector.getText("ui", "skillsBInfo"));
@@ -107,6 +109,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         inventoryB.draw(x+super.getScaledWidth()-getDis(180), y+getDis(10), false);
         craftingB.draw(x+super.getScaledWidth()-getDis(230), y+getDis(10), false);
         questsB.draw(x+super.getScaledWidth()-getDis(280), y+getDis(10), false);
+        characterB.draw(x+super.getScaledWidth()-getDis(330), y+getDis(10), false);
         
         sSlots.draw(x+getDis(20), y+getDis(10));
         
@@ -198,6 +201,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         	else if(menuB.isMouseOver() && menu.isOpenReq())
         		menu.close();
         	
+    		if(characterB.isMouseOver() && !charWin.isOpenReq())
+    			charWin.open();
+    		else if(characterB.isMouseOver() && charWin.isOpenReq())
+    			charWin.close();
+    		
         	if(inventoryB.isMouseOver() && !inventory.isOpenReq())
                 inventory.open();
             else if(inventoryB.isMouseOver() && inventory.isOpenReq())
