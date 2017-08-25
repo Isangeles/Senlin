@@ -48,10 +48,13 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     private MouseOverArea bBarMOA;
     
     private InGameMenu menu;
+    private CharacterWindow charWin;
     private InventoryMenu inventory;
     private SkillsMenu skills;
     private JournalMenu journal;
     private CraftingMenu crafting;
+    
+    private boolean focus;
     /**
      * Bottom bar constructor
      * @param gc Game container for superclass and bar buttons
@@ -59,13 +62,16 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
      * @throws IOException
      * @throws FontFormatException
      */
-    public BottomBar(GameContainer gc, InGameMenu menu, InventoryMenu inventory, SkillsMenu skills, JournalMenu journal, CraftingMenu crafting, Character player) throws SlickException, IOException, FontFormatException
+    public BottomBar(GameContainer gc, InGameMenu menu, CharacterWindow charWin, InventoryMenu inventory, SkillsMenu skills,
+    				 JournalMenu journal, CraftingMenu crafting, Character player) 
+    				 throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/bottomBar_DG.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
         gc.getInput().addKeyListener(this);
         
         this.menu = menu;
+        this.charWin = charWin;
         this.inventory = inventory;
         this.skills = skills;
         this.journal = journal;
@@ -86,6 +92,8 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         
         sSlots.slots[0].insertContent(player.getSkills().get("autoA"));
         sSlots.slots[1].insertContent(player.getSkills().get("shot"));
+        
+        focus = true;
     }
     /**
      * Draws bar
@@ -152,7 +160,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     @Override
     public boolean isAcceptingInput()
     {
-        return true;
+        return focus;
     }
 
     @Override
@@ -247,6 +255,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     		menu.open();
     	else if(key == Input.KEY_ESCAPE && menu.isOpenReq())
     		menu.close();
+		
+		if(key == Input.KEY_C && !charWin.isOpenReq())
+			charWin.open();
+		else if(key == Input.KEY_C && charWin.isOpenReq())
+			charWin.close();
 		
 		if(key == Input.KEY_I && !inventory.isOpenReq())
 		    inventory.open();

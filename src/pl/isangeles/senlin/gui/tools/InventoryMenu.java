@@ -114,6 +114,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         textTtf.drawString(x+(getScaledWidth()/2), y, TConnector.getText("ui", "iMenuTitle"));
         textTtf.drawString(x+(getScaledWidth()/2), y+(getScaledHeight()-getDis(20)), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
         //Stats drawing
+        /*
         float firstStatX = x+getDis(300);
         float firstStatY = y+getDis(50);
         
@@ -126,7 +127,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         	}
         	textTtf.drawString(firstStatX, firstStatY + (j*textTtf.getHeight()), getCharStats()[i]);
         }
-        super.moveMOA(super.x, super.y);
+        */
     }
     /**
      * Checks if mouse is over inventory menu
@@ -380,22 +381,6 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     		return;
     	}
     }
-    /**
-     * Builds and returns string with various player statistics
-     * @return String with player statistics
-     */
-    private String[] getCharStats()
-    {
-    	return new String[]{player.getName(), TConnector.getText("ui", "levelName") + ": " + player.getLevel(), 
-    			TConnector.getText("ui", "expName") + ": " + player.getExperience() + "/" + player.getMaxExperience(), TConnector.getText("ui", "guildName") + ": " + player.getGuild().toString(), 
-    			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(), TConnector.getText("ui", "lpName") + ": " + player.getLearnPoints(),
-    			TConnector.getText("ui", "hastName") + ": " + player.getAttributes().getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
-    			TConnector.getText("ui", "armRat") + ": " + player.getArmorRating(), TConnector.getText("ui", "dodgeCh") + ": " + player.getDodgeChance() + "%", 
-    			TConnector.getText("ui", "attStrName") + ": " + player.getAttributes().getStr(), TConnector.getText("ui", "attConName") + ": " + player.getAttributes().getCon(), 
-    			TConnector.getText("ui", "attDexName") + ": " + player.getAttributes().getDex(), TConnector.getText("ui", "attIntName") + ": " + player.getAttributes().getInt(), 
-    			TConnector.getText("ui", "attWisName") + ": " + player.getAttributes().getWis()};
-    }
-    
     /**
      * Private inner class for equipment slots
      * @author Isangeles

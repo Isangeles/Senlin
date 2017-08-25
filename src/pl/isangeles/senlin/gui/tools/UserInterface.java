@@ -62,6 +62,7 @@ public class UserInterface implements MouseListener, SaveElement
     private CharacterFrame charFrame;
     private CharacterFrame targetFrame;
     private InGameMenu igMenu;
+    private CharacterWindow charWin;
     private InventoryMenu inventory;
     private SkillsMenu skills;
     private CraftingMenu crafting;
@@ -98,6 +99,7 @@ public class UserInterface implements MouseListener, SaveElement
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new CharacterFrame(gc, player);
         igMenu = new InGameMenu(gc);
+        charWin = new CharacterWindow(gc, player);
         inventory = new InventoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         crafting = new CraftingMenu(gc, player);
@@ -111,7 +113,7 @@ public class UserInterface implements MouseListener, SaveElement
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
         settings = new SettingsMenu(gc);
-        bBar = new BottomBar(gc, igMenu, inventory, skills, journal, crafting, player);
+        bBar = new BottomBar(gc, igMenu, charWin, inventory, skills, journal, crafting, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
         camera = new Camera();
@@ -132,6 +134,9 @@ public class UserInterface implements MouseListener, SaveElement
         
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
+        
+        if(charWin.isOpenReq())
+        	charWin.draw(Coords.getX("CE", -80), Coords.getY("CE", -80));
         
         if(inventory.isOpenReq())
             inventory.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
@@ -224,6 +229,7 @@ public class UserInterface implements MouseListener, SaveElement
         cast.update();
         targetFrame.update();
         inventory.update();
+        charWin.update();
         skills.update();
         crafting.update();
         journal.update();
