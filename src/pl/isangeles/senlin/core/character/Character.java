@@ -149,7 +149,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		attitude = Attitude.FRIENDLY;
 		guild = GuildsBase.getGuild("none");
 		attributes = new Attributes(1, 1, 1, 1, 1);
-		portrait = new Portrait("data" + File.separator + "portrait" + File.separator + "default.jpg", gc);
+		portrait = new Portrait(GConnector.getPortrait("default.jpg"), gc);
 		live = true;
 		avatar = new Avatar(this, gc, "m-cloth-1222211-80x90.png");
 		inventory = new Inventory();

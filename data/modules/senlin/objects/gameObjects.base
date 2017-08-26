@@ -6,6 +6,8 @@
         <portrait>default.png</portrait>
         <in gold="0">
             <item random="false">aloeL</item>
+            <item random="false">aloeL</item>
+            <item random="true">aloeL</item>
         </in>
     </object>
 </base>

@@ -34,6 +34,8 @@ import java.util.zip.ZipFile;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+import pl.isangeles.senlin.core.Module;
 /**
  * This class provides static methods giving access to graphic archive and other external graphics files
  * @author Isangeles
@@ -68,7 +70,7 @@ public final class GConnector
      */
     public static Image getPortrait(String fileName) throws SlickException
     {
-    	Image portrait = new Image("data" + File.separator + "portrait" + File.separator + fileName);
+    	Image portrait = new Image("data" + File.separator + "modules" + File.separator + Module.getName() + File.separator + "portraits" + File.separator + fileName);
     	portrait.setName(fileName);
     	return portrait;
     }
@@ -95,14 +97,14 @@ public final class GConnector
     {
     	List<Image> imgList = new ArrayList<>();
     	
-    	File portraitsBase = new File("data" + File.separator + "portrait" + File.separator + "portraits.txt");
+    	File portraitsBase = new File("data" + File.separator + "modules" + File.separator + Module.getName() + File.separator + "portraits" + File.separator + "portraits.txt");
     	Scanner nameScann = new Scanner(portraitsBase);
     	nameScann.useDelimiter(";\r?\n");
     	String imgName;
     	while(nameScann.hasNext())
     	{
     		imgName = nameScann.next();
-    		imgList.add(new Image("data" + File.separator + "portrait" + File.separator + imgName));
+    		imgList.add(new Image("data" + File.separator + "modules" + File.separator + Module.getName() + File.separator + "portraits" + File.separator + imgName));
     	}
     	nameScann.close();
     	return imgList;
