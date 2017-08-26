@@ -244,7 +244,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     	{
     	    if(sSlots.getOverrided() != null)
     	    {
-    	        sSlots.insertSkill(sMenuDSlot.getContent(), sSlots.getOverrided());
+    	        sSlots.insertSkill((Skill)sMenuDSlot.getContent().get(0), sSlots.getOverrided());
     	        sMenuDSlot.dragged(false);
     	        sMenuDSlot = null;
     	    }
@@ -441,7 +441,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     		{
     			Element slotE = doc.createElement("slot");
     			slotE.setAttribute("id", i+"");
-    			slotE.setTextContent(sSlots.slots[i].getContent().getId());
+    			slotE.setTextContent(sSlots.slots[i].getContent().get(0).getId());
     			slotsE.appendChild(slotE);
     		}
     	}

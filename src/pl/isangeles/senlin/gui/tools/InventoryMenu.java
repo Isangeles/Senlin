@@ -221,7 +221,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 				
 				if(eqSlots.getMouseOverSlot() != null)
 				{
-					if(eqSlots.setEqItem(draggedSlot.getContent(), eqSlots.getMouseOverSlot()))
+					if(eqSlots.setEqItem(draggedSlot.getContent().get(0), eqSlots.getMouseOverSlot()))
 						moveItem(draggedSlot, eqSlots.getMouseOverSlot());
 					return;
 				}
@@ -233,7 +233,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 		{
 			if(slots.getMouseOver() != null)
 			{
-				Item item = (Item)slots.getMouseOver().getContent();
+				Item item = (Item)slots.getMouseOver().getContent().get(0);
 				if(item != null)
 				{
 					if(item.use(player, player.getTarget()))
@@ -270,7 +270,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 					Element slotE = doc.createElement("slot");
 					int[] slotPos = slots.getSlotPos(slot);
 					slotE.setAttribute("id", slotPos[0] + "," + slotPos[1]);
-					slotE.setTextContent(slot.getContent().getSerialId());
+					slotE.setTextContent(slot.getContent().get(0).getSerialId());
 					slotsE.appendChild(slotE);
 				}
 			}
@@ -347,19 +347,32 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
     	try
     	{
+    		if(draggedSlot == slotForItem)
+    		{
+    			draggedSlot.dragged(false);
+    			return;
+    		}
     		if(!slotForItem.isEmpty())
         	{
-        		Item tmpItem;
-        		tmpItem = slotForItem.getContent();
-        		slotForItem.insertContent(draggedSlot.getContent());
-        		draggedSlot.insertContent(tmpItem);
+        		if(slotForItem.insertContent(draggedSlot.getContent()))
+        		{
+        			draggedSlot.removeContent();
+        		}
+        		else
+        		{
+            		List<Item> contentMem = slotForItem.getContent();
+        			slotForItem.removeContent();
+        			slotForItem.insertContent(draggedSlot.getContent());
+        			draggedSlot.removeContent();
+        			draggedSlot.insertContent(contentMem);
+        		}
         		draggedSlot.dragged(false);
         		slotForItem.dragged(false);
         	}
         	else
         	{
-            	slotForItem.insertContent(draggedSlot.getContent());
             	draggedSlot.dragged(false);
+            	slotForItem.insertContent(draggedSlot.getContent());
             	draggedSlot.removeContent();
         	}
     	}
@@ -509,7 +522,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     		{
     			if(slot == is)
     			{
-    				player.unequipp(slot.getContent());
+    				player.unequipp(slot.getContent().get(0));
     			}
     		}
     	}

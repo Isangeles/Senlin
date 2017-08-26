@@ -4,6 +4,8 @@ import java.awt.FontFormatException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -58,6 +60,15 @@ public class SkillSlot extends Slot implements MouseListener
 			return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.Slot#insertContent(java.util.Collection)
+	 */
+	@Override
+	public boolean insertContent(Collection<? extends SlotContent> content) 
+	{
+		return false; //Can't insert more then one skill to skill slot
+	}
+	
 	public void click(boolean clicked)
 	{
 		if(!isEmpty())
@@ -110,9 +121,12 @@ public class SkillSlot extends Slot implements MouseListener
 		skillInSlot = null;
 	}
 	
-	public Skill getContent()
+	public List<? extends SlotContent> getContent()
 	{
-		return skillInSlot;
+		if(!isEmpty())
+			return content;
+		else
+			return null;
 	}
 
 	@Override

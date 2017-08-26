@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -72,6 +73,12 @@ public abstract class Slot extends InterfaceObject
 	 */
 	public abstract boolean insertContent(SlotContent content);
 	/**
+	 * Inserts all content from specified collection to slot
+	 * @param content Collection with content
+	 * @return True if insertion was successfully, false otherwise
+	 */
+	public abstract boolean insertContent(Collection<? extends SlotContent> content);
+	/**
 	 * Removes content from slot
 	 */
 	public void removeContent()
@@ -82,12 +89,12 @@ public abstract class Slot extends InterfaceObject
 	 * Returns slot content
 	 * @return Slot content or null
 	 */
-	public SlotContent getContent()
+	public List<? extends SlotContent> getContent()
 	{
 		if(isEmpty())
 			return null;
 		else
-			return content.get(0);
+			return content;
 	}
 	
 	@Override

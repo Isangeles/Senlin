@@ -3,6 +3,9 @@ package pl.isangeles.senlin.gui.tools;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -36,11 +39,56 @@ class ItemSlot extends Slot
 		{
 			try
 			{
-				return super.content.add(item);
+				return super.content.add((Item)item);
 			}
 			catch(ClassCastException e)
 			{
 				return false;
+			}
+		}
+		else
+			return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.Slot#insertContent(java.util.Collection)
+	 */
+	@Override
+	public boolean insertContent(Collection<? extends SlotContent> content) 
+	{
+		if(!isFull())
+		{
+			if(isEmpty())
+			{
+				List<Item> items = new ArrayList<>();
+				for(SlotContent item : content)
+				{
+					try
+					{
+						items.add((Item)item);
+					}
+					catch(ClassCastException e)
+					{
+						return false;
+					}
+				}
+				Item item = items.get(0);
+				if(items.size() > item.getMaxStack())
+					return false;
+				else
+					return this.content.addAll(items);
+			}
+			else
+			{
+				SlotContent itemIn = this.content.get(0);
+				for(SlotContent item : content)
+				{
+					if(!item.getId().equals(itemIn.getId()))
+						return false;	
+				}
+				if(content.size() > itemIn.getMaxStack()-this.content.size())
+					return false;
+				else
+					return this.content.addAll(content);
 			}
 		}
 		else
@@ -64,11 +112,18 @@ class ItemSlot extends Slot
 			return false;
 	}
 	
-	public Item getContent()
+	public List<Item> getContent()
 	{
 		if(isEmpty())
 			return null;
 		else
-			return (Item)content.get(0);
+		{
+			List<Item> content = new ArrayList<>();
+			for(SlotContent item : this.content)
+			{
+				content.add((Item)item);
+			}
+			return content;
+		}
 	}
 }
