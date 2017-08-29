@@ -26,6 +26,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -38,8 +40,10 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.gui.Bar;
 import pl.isangeles.senlin.gui.InterfaceObject;
+import pl.isangeles.senlin.gui.InterfaceTile;
 /**
  * Class for player character frame
  * TODO fix experience bar on resolutions different then default
@@ -52,6 +56,7 @@ class CharacterFrame extends InterfaceObject
     private Bar health;
     private Bar magicka;
     private Bar experience;
+    private List<InterfaceTile> effectsIcons = new ArrayList<>();
     private MouseOverArea frameMOA;
     private TrueTypeFont textTtf;
     /**
@@ -86,6 +91,17 @@ class CharacterFrame extends InterfaceObject
         health.update(character.getHealth(), character.getMaxHealth());
         magicka.update(character.getMagicka(), character.getMaxMagicka());
         experience.update(character.getExperience(), character.getMaxExperience());
+        effectsIcons.clear();
+        for(Buff buff : character.getBuffs())
+        {
+        	if(!effectsIcons.contains(buff.getTile()))
+        		effectsIcons.add(buff.getTile());
+        }
+        for(Effect effect : character.getEffects())
+        {
+        	if(!effectsIcons.contains(effect.getTile()))
+        		effectsIcons.add(effect.getTile());
+        }
     }
     /**
      * Draws frame
@@ -106,9 +122,8 @@ class CharacterFrame extends InterfaceObject
         //Draws effects
     	int row = 0;
     	int column = 0;
-        for(Effect effect : character.getEffects())
+        for(InterfaceTile icon : effectsIcons)
         {
-        	EffectTile icon = effect.getTile();
         	icon.draw(x+getDis(34) + (icon.getWidth()*column), y+getDis(142) + (icon.getHeight()*row), false);
         	column ++;
         	if(column == 6)

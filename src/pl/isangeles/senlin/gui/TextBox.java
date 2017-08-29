@@ -47,6 +47,7 @@ public class TextBox extends InterfaceObject implements MouseListener
     private Button up;
     private Button down;
     private int firstIndex;
+    private boolean focus;
     /**
      * Text box constructor
      * @param gc Slick game container
@@ -114,10 +115,21 @@ public class TextBox extends InterfaceObject implements MouseListener
     {
         texts.clear();
     }
-    
+    /**
+     * Sets specified list with texts as box content
+     * @param container List with text blocks
+     */
     public void useContainer(List<TextBlock> container)
     {
     	texts = container;
+    }
+    /**
+     * Sets or removes focus on this box
+     * @param focus True to set focus on box, false to remove focus 
+     */
+    public void setFocus(boolean focus)
+    {
+    	this.focus = focus;
     }
 
     @Override
@@ -133,7 +145,7 @@ public class TextBox extends InterfaceObject implements MouseListener
     @Override
     public boolean isAcceptingInput()
     {
-        return true;
+        return focus;
     }
 
     @Override

@@ -80,6 +80,7 @@ final class Console extends TextInput implements UiElement
         this.cli = cli;
         logBox = new TextBox(gc);
         hide = true;
+        logBox.setFocus(true);
     }
     /**
      * Draws console on unscaled position

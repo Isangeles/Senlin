@@ -117,7 +117,11 @@ public class CommandInterface
         return out;
        
     }
-    
+    /**
+     * Executes specified script
+     * @param script Script object
+     * @return True if script was successfully executed, false otherwise
+     */
     public boolean executeScript(Script script)
     {
     	boolean out = true;
@@ -159,7 +163,13 @@ public class CommandInterface
     	
     	return out;
     }
-    
+    /**
+     * Executes 'if code' of the script
+     * @param script Script object
+     * @param ifCode Code after if
+     * @return True if conditions from if code are met, false otherwise 
+     * @throws IndexOutOfBoundsException
+     */
     private boolean checkCondition(Script script, String ifCode) throws IndexOutOfBoundsException
     {
     	boolean out = false;
@@ -224,7 +234,12 @@ public class CommandInterface
     	
     	return out;
     }
-    
+    /**
+     * Executes code after end statement
+     * @param script Script object
+     * @return True if conditions of end code are met, false otherwise
+     * @throws IndexOutOfBoundsException
+     */
     private boolean checkEndCondition(Script script) throws IndexOutOfBoundsException
     {
     	boolean out = false;

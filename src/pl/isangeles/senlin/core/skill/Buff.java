@@ -18,6 +18,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for buffs

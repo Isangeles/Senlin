@@ -106,7 +106,9 @@ public class TextBlock
                 ttf.drawString(x+Coords.getDis(10), y, textLines.get(0));
         }
     }
-    
+    /**
+     * Draws block on last specified position
+     */
     public void draw()
     {
         this.draw(pos.x, pos.y);
@@ -117,13 +119,18 @@ public class TextBlock
         pos.x = x;
         pos.y = y;
     }
-    
+    /**
+     * Adds texts to box
+     * @param text String with text
+     */
     public void addText(String text)
     {
     	textLines.add("");
     	add(text);
     }
-    
+    /**
+     * Clears text block
+     */
     public void clear()
     {
     	textLines.clear();
@@ -159,7 +166,10 @@ public class TextBlock
     	}
     	return maxWidth;
     }
-    
+    /**
+     * Returns box position
+     * @return X,Y position
+     */
     public Position getPosition()
     {
         return pos;

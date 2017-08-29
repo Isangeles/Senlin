@@ -88,7 +88,9 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 		downInfoA.draw(x+getDis(10), y+getDis(255));
 		downInfoB.draw(x+getDis(260), y+getDis(255));
 	}
-	
+	/**
+	 * Opens window
+	 */
 	public void open()
 	{
 		openReq = true;

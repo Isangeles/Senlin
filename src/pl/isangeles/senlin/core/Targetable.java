@@ -56,6 +56,7 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
+	public List<Buff> getBuffs();
 	public Inventory getInventory();
 	public Attributes getAttributes();
 	public int getHealth();

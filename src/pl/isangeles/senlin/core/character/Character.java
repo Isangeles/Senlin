@@ -958,6 +958,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public Effects getEffects()
 	{ return effects; }
 	/**
+	 * Returns all active buffs
+	 * @return List with buffs
+	 */
+	public List<Buff> getBuffs()
+	{
+		return buffs;
+	}
+	/**
 	 * Returns all character quests
 	 * @return List with quests
 	 */

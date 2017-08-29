@@ -127,7 +127,9 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
     }
-    
+    /**
+     * Opens menu
+     */
     public void open()
     {
     	openReq = true;

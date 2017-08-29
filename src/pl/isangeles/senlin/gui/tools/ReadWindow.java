@@ -100,6 +100,7 @@ class ReadWindow extends InterfaceObject implements UiElement, MouseListener
 		focus = true;
 		String[] text = TConnector.getInfoFromModule("books", textId);
 		title.addText(text[0]);
+		this.text.setFocus(true);
 		this.text.add(new TextBlock(text[1], 50, ttf));
 	}
 	/* (non-Javadoc)
@@ -110,6 +111,7 @@ class ReadWindow extends InterfaceObject implements UiElement, MouseListener
 	{
 		openReq = false;
 		focus = false;
+		this.text.setFocus(false);
 		player.stopReading();
 		reset();
 	}

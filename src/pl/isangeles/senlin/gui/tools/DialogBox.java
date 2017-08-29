@@ -153,7 +153,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 			this.interlocutorB = interlocutorB;
 			
 			currentDialogue = interlocutorB.startDialogueWith(interlocutorA);
-
+			
+			textBox.setFocus(true);
 			textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
 			dialogueAnswers = currentDialogue.getAnswers();
 			addOptions(dialogueAnswers);
@@ -168,6 +169,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		openReq = false;
 		interlocutorA.stopTalking();
 		interlocutorB.stopTalking();
+		textBox.setFocus(false);
 		reset();
 	}
 	

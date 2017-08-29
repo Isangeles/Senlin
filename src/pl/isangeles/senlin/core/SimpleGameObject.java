@@ -474,5 +474,15 @@ public class SimpleGameObject implements Targetable, SaveElement
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getBuffs()
+	 */
+	@Override
+	public List<Buff> getBuffs() 
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }
