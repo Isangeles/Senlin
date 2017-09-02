@@ -29,5 +29,12 @@
     <music>
         <track category="exploring">$all</track>
     </music>
+    <subareas>
+        <area map="">
+            <npcs></npcs>
+            <objects></objects>
+            <exits></exits>
+        </area>
+    </subareas>
 </scenario>
 </base>

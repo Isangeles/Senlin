@@ -51,7 +51,10 @@ public class Requirements extends ArrayList<Requirement>
         }
         return isMet;
     }
-    
+    /**
+     * Takes all 'chargeable' requirements from specified character
+     * @param character Game character
+     */
     public void chargeAll(Character character)
     {
         for(Requirement req : this)

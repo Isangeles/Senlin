@@ -39,7 +39,11 @@ import pl.isangeles.senlin.data.pattern.EffectPattern;
 public final class EffectParser
 {
     private EffectParser() {}
-    
+    /**
+     * Parses specified effect node to effect pattern
+     * @param effectNode Document effect node
+     * @return Effect pattern from specified node
+     */
     public static EffectPattern getEffectFromNode(Node effectNode)
     {
         Element effectE = (Element)effectNode;
