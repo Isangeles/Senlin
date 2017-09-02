@@ -51,6 +51,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.graphic.FogOfWar;
@@ -71,11 +72,10 @@ public class GameWorld extends BasicGameState
     private Scenario activeScenario;
 	private Day dayManager;
 	private FogOfWar fow;
-	private TiledMap areaMap;
 	private Character player;
-	private List<Character> areaNpcs = new ArrayList<>();
-	private List<SimpleGameObject> areaObjects = new ArrayList<>();
-	private List<Exit> areaExits = new ArrayList<>();
+	private Area area;
+	private Area mainArea;
+	private List<Area> subAreas = new ArrayList<>();
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private CommandInterface cui;
@@ -139,15 +139,18 @@ public class GameWorld extends BasicGameState
         	dayManager = new Day();
         	fow = new FogOfWar();
       
-        	System.out.println(activeScenario.getId());
-            areaMap = activeScenario.getMap();
-            
-            areaNpcs = activeScenario.getNpcs(); //test line
-            areaObjects = activeScenario.getObjects();
-            areaExits = activeScenario.getExits();
+        	//System.out.println(activeScenario.getId());
+        	mainArea = activeScenario.getMainArea();
+            area = mainArea;
+        	
+            subAreas = activeScenario.getSubAreas();
             
         	npcsAi = new CharacterAi(this);
-            npcsAi.addNpcs(areaNpcs); 
+            npcsAi.addNpcs(area.getNpcs()); 
+            for(Area subArea : subAreas)
+            {
+            	npcsAi.addNpcs(subArea.getNpcs());
+            }
         } 
         catch (SlickException | IOException e) 
         {
@@ -166,18 +169,18 @@ public class GameWorld extends BasicGameState
     	{
     		//game world
             g.translate(-ui.getCamera().getPos()[0], -ui.getCamera().getPos()[1]);
-            areaMap.render(0, 0);
-            for(SimpleGameObject object : areaObjects)
+            area.getMap().render(0, 0);
+            for(SimpleGameObject object : area.getObjects())
             {
                 if(player.isNearby(object))
                     object.draw(Coords.getSize(1f));
             }
-            for(Exit exit : areaExits)
+            for(Exit exit : area.getExits())
             {
             	if(player.isNearby(exit.getPos().asTable()))
             		exit.draw();
             }
-            for(Character npc : areaNpcs)
+            for(Character npc : area.getNpcs())
             {
                 if(player.isNearby(npc))
                     npc.draw();
@@ -205,7 +208,7 @@ public class GameWorld extends BasicGameState
             keyDown(container.getInput());
     	
         CharacterOut out;
-        out = player.update(delta, areaMap);
+        out = player.update(delta, area.getMap());
         if(out != CharacterOut.SUCCESS)
             Log.addWarning(out.toString());
     	
@@ -253,7 +256,7 @@ public class GameWorld extends BasicGameState
     	if(character.getRangeFrom(player.getPosition()) < 200)
     		nearbyCharacters.add(player);
     	
-    	for(Character npc : areaNpcs)
+    	for(Character npc : area.getNpcs())
     	{
     		if(npc != character && character.getRangeFrom(npc.getPosition()) < 200)
         		nearbyCharacters.add(npc);
@@ -264,7 +267,7 @@ public class GameWorld extends BasicGameState
     
     public TiledMap getAreaMap()
     {
-        return areaMap;
+        return area.getMap();
     }
     
     public Day getDay()
@@ -281,31 +284,47 @@ public class GameWorld extends BasicGameState
             int worldY = (int)Global.worldY(y);
     		if(button == Input.MOUSE_LEFT_BUTTON && isMovable(worldX, worldY))
     		{
-    			for(Character npc : areaNpcs)
+    			for(Character npc : area.getNpcs())
     			{
     				if(npc.isMouseOver())
     					return;
     			}
     			player.moveTo(worldX, worldY);
-    			Log.addInformation("Move: " + worldX + "/" + worldY + " " + areaMap.getTileId(worldX/areaMap.getTileWidth(), worldY/areaMap.getTileHeight(), 1)); //TEST LINE
+    			Log.addInformation("Move: " + worldX + "/" + worldY + " " + area.getMap().getTileId(worldX/area.getMap().getTileWidth(), worldY/area.getMap().getTileHeight(), 1)); //TEST LINE
     		}
     		if(button == Input.MOUSE_RIGHT_BUTTON)
     		{
-    			for(Exit exit : areaExits)
+    			for(Exit exit : area.getExits())
     			{
     				if(exit.isMouseOver())
     				{
     					Scenario scenario = chapter.getScenario(exit.getScenarioId());
-
+    					
 						if(scenario != null)
 						{
-							changeAreaReq = true;
-							nextArea = scenario;
+							if(!scenario.getId().equals(activeScenario.getId()))
+							{
+								changeAreaReq = true;
+								nextArea = scenario;
+							}
+							else
+							{
+								if(exit.isToSub())
+								{
+									for(Area subArea : subAreas)
+									{
+										if(subArea.getId().equals(exit.getSubAreaId()))
+										{
+											area = subArea;
+										}
+									}
+								}
+							}
 						}
     				}
     			}
     			
-    			for(SimpleGameObject object : areaObjects)
+    			for(SimpleGameObject object : area.getObjects())
     			{
     			    if(object.isMouseOver())
     			    {
@@ -315,7 +334,7 @@ public class GameWorld extends BasicGameState
     			    	
     			}
     			
-    			for(Character npc : areaNpcs)
+    			for(Character npc : area.getNpcs())
     			{
     			    if(npc.isMouseOver())
     			    {
@@ -380,7 +399,7 @@ public class GameWorld extends BasicGameState
     {
         try
         {
-        	if(areaMap.getTileId(x/areaMap.getTileWidth(), y/areaMap.getTileHeight(), 1) != 0)
+        	if(area.getMap().getTileId(x/area.getMap().getTileWidth(), y/area.getMap().getTileHeight(), 1) != 0)
                 return false;
         }
         catch(ArrayIndexOutOfBoundsException e)
@@ -397,9 +416,9 @@ public class GameWorld extends BasicGameState
     {
         int x = 0;
         int y = 0;
-        for(int i = 0; i < areaMap.getHeight(); i ++)
+        for(int i = 0; i < area.getMap().getHeight(); i ++)
         {
-            for(int j = 0; j < areaMap.getWidth(); j ++)
+            for(int j = 0; j < area.getMap().getWidth(); j ++)
             {
             	Position tilePos = new Position(x, y);
                 if(!player.isNearby(new int[]{x, y}) && (Settings.getFowType().equals("full FOW") || tilePos.isIn(Global.getCameraStartPos(), Global.getCameraEndPos())))

@@ -203,8 +203,8 @@ public final class SSGParser
             }
         }
         
-        scenario.setNpcs(npcs);
-        scenario.setObjects(objects);
+        scenario.getMainArea().setNpcs(npcs);
+        scenario.getMainArea().setObjects(objects);
         
         return scenario;
     }

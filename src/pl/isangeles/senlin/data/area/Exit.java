@@ -40,8 +40,10 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Exit 
 {
-	private final String exitToId;
-	private final Position pos;
+	private String scenarioId;
+	private String subAreaId;
+	private Position pos;
+	private boolean toSub;
 	private Sprite exitArea;
 	/**
 	 * Area exit constructor 
@@ -52,7 +54,19 @@ public class Exit
 	 */
 	public Exit(Position pos, String exitToId) throws SlickException, IOException
 	{
-		this.exitToId = exitToId;
+		String[] exitId = exitToId.split(":");
+		if(exitId.length > 1)
+		{
+			toSub = true;
+			exitToId = exitId[0];
+			subAreaId = exitId[1];
+		}
+		else
+		{
+			toSub = false;
+			scenarioId = exitToId;
+			subAreaId = "";
+		}
 		this.pos = pos;
 		this.exitArea = ObjectsBase.getExitTex();
 	}
@@ -69,7 +83,15 @@ public class Exit
 	 */
 	public String getScenarioId()
 	{
-		return exitToId;
+		return scenarioId;
+	}
+	/**
+	 * Returns ID of sub area
+	 * @return String with sub area ID
+	 */
+	public String getSubAreaId()
+	{
+		return subAreaId;
 	}
 	/**
 	 * Checks if mouse is over exit area texture
@@ -78,6 +100,14 @@ public class Exit
 	public boolean isMouseOver()
 	{
 		return exitArea.isMouseOver();
+	}
+	/**
+	 * Checks if this exit leads to sub area
+	 * @return True if this exits leads to sub area, false otherwise
+	 */
+	public boolean isToSub()
+	{
+		return toSub;
 	}
 	/**
 	 * Returns exit position on area map

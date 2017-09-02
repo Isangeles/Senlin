@@ -64,17 +64,14 @@ import pl.isangeles.senlin.core.quest.Quest;
 public class Scenario implements SaveElement
 {
 	private final String id;
-	private String mapFileName;
-	private TiledMap map;
-	private List<Character> npcs = new ArrayList<>();
 	private List<MobsArea> mobsAreas;
 	private List<Quest> quests = new ArrayList<>();
 	private List<Quest> questsToStart = new ArrayList<>();
-	private List<SimpleGameObject> objects = new ArrayList<>();
-	private List<Exit> exits = new ArrayList<>();
 	private List<Script> scripts = new ArrayList<>();
 	private List<Script> finishedScripts = new ArrayList<>();
 	private Map<String, String> music = new HashMap<>();
+	private Area mainArea;
+	private List<Area> subAreas = new ArrayList<>();
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
@@ -92,15 +89,19 @@ public class Scenario implements SaveElement
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
-		mapFileName = mapFile;
-		map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
+		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
+		
+
+		List<Character> npcsForArea = new ArrayList<>();
+		List<SimpleGameObject> objectsForArea = new ArrayList<>();
+		List<Exit> exitsForArea = new ArrayList<>();
 		
 		for(String key : npcs.keySet())
 		{
 			Character npc = NpcBase.spawnAt(key, npcs.get(key));
 			if(npc != null)
 			{
-				this.npcs.add(npc);
+				npcsForArea.add(npc);
 				Log.addSystem(key + " spawned");
 			}
 		}
@@ -109,7 +110,7 @@ public class Scenario implements SaveElement
 		
 		for(MobsArea mobsArea : mobsAreas)
 		{
-			this.npcs.addAll(mobsArea.spawnMobs());
+			npcsForArea.addAll(mobsArea.spawnMobs());
 		}
 		
 		for(String qId : quests.keySet())
@@ -123,14 +124,16 @@ public class Scenario implements SaveElement
 		{
 			SimpleGameObject go = ObjectsBase.get(oId);
 			go.setPosition(objects.get(oId));
-			this.objects.add(go);
+			objectsForArea.add(go);
 		}
 
 		for(String eId : exits.keySet())
 		{
-			this.exits.add(new Exit(exits.get(eId), eId));
+			exitsForArea.add(new Exit(exits.get(eId), eId));
 		}
 		this.mobsAreas = mobsAreas;
+		
+		mainArea = new Area(id, map, mapFile, npcsForArea, objectsForArea, exitsForArea);
 		
 		this.scripts = scripts;
 		this.music = music;
@@ -140,11 +143,11 @@ public class Scenario implements SaveElement
 	 */
 	public void drawObjects()
 	{
-		for(SimpleGameObject object : objects)
+		for(SimpleGameObject object : mainArea.getObjects())
 		{
 			object.draw(1f);
 		}
-		for(Exit exit : exits)
+		for(Exit exit : mainArea.getExits())
 		{
 			exit.draw();
 		}
@@ -158,33 +161,20 @@ public class Scenario implements SaveElement
 		return id;
 	}
 	/**
-	 * Return scenario map
-	 * @return TMX map
+	 * Returns main area of this scenario
+	 * @return Area object
 	 */
-	public TiledMap getMap()
+	public Area getMainArea()
 	{
-		return map;
+		return mainArea;
 	}
 	/**
-	 * Returns list with all NPCs in scenario
-	 * @return ArrayList with game characters
+	 * Returns list with sub areas
+	 * @return List with sub areas
 	 */
-	public List<Character> getNpcs()
+	public List<Area> getSubAreas()
 	{
-		return npcs;
-	}
-	/**
-	 * Returns all scenario objects
-	 * @return List with scenario SimpleGameObjects
-	 */
-	public List<SimpleGameObject> getObjects()
-	{
-		return objects;
-	}
-	
-	public List<Exit> getExits()
-	{
-		return exits;
+		return subAreas;
 	}
 	/**
 	 * Starts all scenario quests with "start" trigger for specified character
@@ -236,16 +226,6 @@ public class Scenario implements SaveElement
 			}
 		}
 	}
-	
-	public void setNpcs(List<Character> npcs)
-	{
-	    this.npcs = npcs;
-	}
-	
-	public void setObjects(List<SimpleGameObject> objects)
-	{
-	    this.objects = objects;
-	}
 	/**
 	 * Parses all scenario objects to XML document element
 	 * @param doc Document for game save
@@ -255,17 +235,17 @@ public class Scenario implements SaveElement
 	{
 		Element scenarioE = doc.createElement("scenario");
 		scenarioE.setAttribute("id", id);
-		scenarioE.setAttribute("map", mapFileName);
+		scenarioE.setAttribute("map", mainArea.getMapName());
 		
 		Element objectsE = doc.createElement("objects");
-		for(SimpleGameObject object : objects)
+		for(SimpleGameObject object : mainArea.getObjects())
 		{
 			objectsE.appendChild(object.getSave(doc));
 		}
 		scenarioE.appendChild(objectsE);
 		
 		Element charactersE = doc.createElement("characters");
-		for(Character npc : npcs)
+		for(Character npc : mainArea.getNpcs())
 		{
 			charactersE.appendChild(npc.getSave(doc));
 		}

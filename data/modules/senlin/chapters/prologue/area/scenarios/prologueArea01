@@ -22,6 +22,7 @@
     </objects>
     <exits>
         <exit position="0;0">prologue02</exit>
+        <exit position="1800;250">prologue01:tent01</exit>
     </exits>
     <scripts>
         <script>prologueStart</script>
@@ -30,7 +31,7 @@
         <track category="exploring">$all</track>
     </music>
     <subareas>
-        <area map="">
+        <area id="tent01" map="tent01.tmx">
             <npcs></npcs>
             <objects></objects>
             <exits></exits>
