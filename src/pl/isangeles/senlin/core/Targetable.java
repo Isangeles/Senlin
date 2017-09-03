@@ -30,6 +30,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.gui.Portrait;
 
 /**
@@ -56,7 +57,7 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
-	public List<Buff> getBuffs();
+	public Buffs getBuffs();
 	public Inventory getInventory();
 	public Attributes getAttributes();
 	public int getHealth();

@@ -25,14 +25,18 @@ package pl.isangeles.senlin.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.quest.Quest;
+import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Container for character flags 
  * @author Isangeles
  *
  */
-public class Flags extends ArrayList<String>
+public class Flags extends ArrayList<String> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 
@@ -97,5 +101,20 @@ public class Flags extends ArrayList<String>
 				return true;
 		}
 		return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element flagsE = doc.createElement("flags");
+        for(String flag : this)
+        {
+            Element flagE = doc.createElement("flag");
+            flagE.setTextContent(flag);
+            flagsE.appendChild(flagE);
+        }
+        return flagsE;
 	}
 }

@@ -43,16 +43,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.quest.Objective;
 import pl.isangeles.senlin.core.quest.Quest;
+import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.UiLayout;
@@ -131,6 +136,12 @@ public final class SSGParser
         
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
         character.getFlags().addAll(getSavedFlags(flagsE));
+        
+        Element effectsE = (Element)charE.getElementsByTagName("effects").item(0);
+        character.getEffects().addAll(getSavedEffects(effectsE));
+        
+        Element buffsE = (Element)charE.getElementsByTagName("buffs").item(0);
+        character.getBuffs().addAll(getSavedBuffs(character, buffsE));
         
         Element pointsE = (Element)charE.getElementsByTagName("points").item(0);
         character.setHealth(Integer.parseInt(pointsE.getElementsByTagName("hp").item(0).getTextContent()));
@@ -261,6 +272,71 @@ public final class SSGParser
             }
         }
         return flags;
+    }
+    /**
+     * Parses specified SSG element to list with effects
+     * @param effectsE SSG element, effects element
+     * @return List with saved effects
+     */
+    private static List<Effect> getSavedEffects(Element effectsE)
+    {
+    	List<Effect> effects = new ArrayList<>();
+    	NodeList effectsNl = effectsE.getElementsByTagName("effect");
+    	for(int i = 0; i < effectsNl.getLength(); i ++)
+    	{
+    		Node effectNode = effectsNl.item(i);
+    		if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element effectE = (Element)effectNode;
+    			try
+    			{
+        			String effectId = effectE.getTextContent();
+        			int effectTime = Integer.parseInt(effectE.getAttribute("time"));
+        			Effect effect = EffectsBase.getEffect(effectId);
+        			effect.setTime(effectTime);
+        			effects.add(effect);
+    			}
+    			catch(NumberFormatException e)
+    			{
+    				Log.addSystem("ssg_parser_fail-msg///saved effect corrupted!");
+    				break;
+    			}
+    		}
+    	}
+    	return effects;
+    }
+    /**
+     * Parses specified SSG element to list with buffs
+     * @param character Game character, buffs owner
+     * @param buffsE SSG element, buffs element
+     * @return List with saved buffs
+     */
+    private static List<Buff> getSavedBuffs(Character character, Element buffsE)
+    {
+    	List<Buff> buffs = new ArrayList<>();
+    	NodeList buffsNl = buffsE.getElementsByTagName("buff");
+    	for(int i = 0; i < buffsNl.getLength(); i ++)
+    	{
+    		Node buffNode = buffsNl.item(i);
+    		if(buffNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element buffE = (Element)buffNode;
+    			try
+    			{
+    				String buffId = buffE.getTextContent();
+    				int buffTime = Integer.parseInt(buffE.getAttribute("time"));
+    				Buff buff = (Buff)SkillsBase.getSkill(character, buffId);
+    				buff.setTime(buffTime);
+    				buffs.add(buff);
+    			}
+    			catch(NumberFormatException | SlickException | IOException | FontFormatException | ClassCastException  e)
+    			{
+    				Log.addSystem("ssg_parser_fail-msg///saved buff corrupted!");
+    				break;
+    			}
+    		}
+    	}
+    	return buffs;
     }
     /**
      * Parses specified save eq element to inventory(ignores equipment)

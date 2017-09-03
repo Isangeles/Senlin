@@ -82,7 +82,8 @@ public class GameWorld extends BasicGameState
 	private AudioPlayer gwMusic;
 	private GameCursor gwCursor; //UNUSED
 	private Scenario nextArea;
-	private boolean changeAreaReq;
+	//private Exit activeExit;
+	private boolean changeScenarioReq;
 	/**
 	 * Creates game world for new game
 	 * @param player Player character
@@ -213,8 +214,8 @@ public class GameWorld extends BasicGameState
             Log.addWarning(out.toString());
     	
     	npcsAi.update(delta);
-    	if(changeAreaReq)
-    		changeArea(container, game);
+    	if(changeScenarioReq)
+    		changeScenario(container, game);
     	
     	if(cui != null)
     		activeScenario.runScripts(cui);
@@ -304,7 +305,7 @@ public class GameWorld extends BasicGameState
 						{
 							if(!scenario.getId().equals(activeScenario.getId()))
 							{
-								changeAreaReq = true;
+								changeScenarioReq = true;
 								nextArea = scenario;
 							}
 							else
@@ -315,7 +316,7 @@ public class GameWorld extends BasicGameState
 									{
 										if(subArea.getId().equals(exit.getSubAreaId()))
 										{
-											area = subArea;
+											changeArea(exit, subArea);
 										}
 									}
 								}
@@ -431,13 +432,19 @@ public class GameWorld extends BasicGameState
         }
     }
     
-    private void changeArea(GameContainer gc, StateBasedGame game) throws SlickException
+    private void changeScenario(GameContainer gc, StateBasedGame game) throws SlickException
     {
     	this.activeScenario = nextArea;
     	game.addState(new ReloadScreen());
-    	changeAreaReq = false;
+    	changeScenarioReq = false;
     	nextArea = null;
     	game.getState(5).init(gc, game);
     	game.enterState(5);
+    }
+    
+    private void changeArea(Exit exit, Area area)
+    {
+    	player.setPosition(exit.getToPos());
+    	this.area = area;
     }
 }

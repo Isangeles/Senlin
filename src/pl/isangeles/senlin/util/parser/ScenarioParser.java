@@ -36,19 +36,28 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.core.Module;
+import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
+import pl.isangeles.senlin.data.NpcBase;
+import pl.isangeles.senlin.data.ObjectsBase;
+import pl.isangeles.senlin.data.area.Area;
+import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.MobsArea;
 import pl.isangeles.senlin.data.area.Scenario;
-import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Size;
 /**
  * Static class for scenario XMLs parsing methods
  * @author Isangeles
@@ -89,34 +98,14 @@ public class ScenarioParser
 					
 					String id = scenarioE.getAttribute("id");
 					String mapFile = scenarioE.getAttribute("map");
-					Map<String, Position> npcs = new HashMap<>();
+					
+					Area mainArea = getAreaFromNode(scenarioNode);
+					
 					List<MobsArea> mobs = new ArrayList<>();
 					Map<String, String[]> quests = new HashMap<>();
-					Map<String, Position> objects = new HashMap<>();
-					Map<String, Position> exits = new HashMap<>();
+				
 					List<Script> scripts = new ArrayList<>();
 					Map<String, String> music = new HashMap<>();
-					
-					Node npcsNode = scenarioE.getElementsByTagName("npcs").item(0);
-					NodeList npcNl = npcsNode.getChildNodes();
-					for(int j = 0; j < npcNl.getLength(); j ++)
-					{
-						Node npcNode = npcNl.item(j);
-						if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							try
-							{
-								Element npc = (Element)npcNode;
-								Position npcPos = new Position(npc.getAttribute("position"));
-								npcs.put(npc.getTextContent(), npcPos);
-							}
-							catch(NumberFormatException e)
-							{
-								Log.addSystem("scenario_builder_fail msg///npc positions corrupted");
-								break;
-							}
-						}
-					}
 					
 					NodeList mobsNl = scenarioE.getElementsByTagName("mobs");
 					for(int j = 0; j < mobsNl.getLength(); j ++)
@@ -148,40 +137,173 @@ public class ScenarioParser
 						}
 					}
 					
-					NodeList objectsNl = scenarioE.getElementsByTagName("objects").item(0).getChildNodes();
-					for(int j = 0; j < objectsNl.getLength(); j ++)
-					{
-						Node objectNode = objectsNl.item(j);
-						if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							Element objectE = (Element)objectNode;
-							objects.put(objectE.getTextContent(), new Position(objectE.getAttribute("position")));
-						}
-					}
-					
-					NodeList exitNl = scenarioE.getElementsByTagName("exits").item(0).getChildNodes();
-					for(int j = 0; j < exitNl.getLength(); j ++)
-					{
-						Node exitNode = exitNl.item(j);
-						if(exitNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							Element exitE = (Element)exitNode;
-							exits.put(exitE.getTextContent(), new Position(exitE.getAttribute("position")));
-						}
-					}
-					
 					Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
 					scripts = getScriptsFromNode(scriptsNode);
 					
 					Node musicNode = scenarioE.getElementsByTagName("music").item(0);
 					music = getMusicFromNode(musicNode);
 					
+					Node subareasNode = scenarioE.getElementsByTagName("subareas").item(0);
+					List<Area> subAreas = getSubAreasFromNode(subareasNode);
 					
-					return new Scenario(id, mapFile, npcs, mobs, quests, objects, exits, scripts, music);	
+					return new Scenario(id, mapFile, mainArea, subAreas, mobs, quests, scripts, music);	
 			}
 		}
 		
 		return null;
+	}
+	/**
+	 * Parses specified area node to area object
+	 * @param areaNode XML document node, area node
+	 * @return Area object from specified node
+	 * @throws SlickException
+	 */
+	private static Area getAreaFromNode(Node areaNode) throws SlickException
+	{
+		Element areaE = (Element)areaNode;
+		String id = areaE.getAttribute("id");
+		String mapFile = areaE.getAttribute("map");
+
+		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
+
+		Node npcsNode = areaE.getElementsByTagName("npcs").item(0);
+		List<Character> npcs = getNpcsFromNode(npcsNode);
+		
+		Node objectsNode = areaE.getElementsByTagName("objects").item(0);
+		List<SimpleGameObject> objects = getObjectsFromNode(objectsNode);
+		
+		Node exitsNode = areaE.getElementsByTagName("exits").item(0);
+		List<Exit> exits = getExitsFromNode(exitsNode);
+		
+		return new Area(id, map, mapFile, npcs, objects, exits);
+	}
+	/**
+	 * Parses specified npcs node to list with game characters
+	 * @param npcsNode XML document node, npcs node 
+	 * @return List with game characters from specified node
+	 */
+	private static List<Character> getNpcsFromNode(Node npcsNode)
+	{
+		List<Character> npcs = new ArrayList<>();
+		NodeList npcNl = npcsNode.getChildNodes();
+		for(int j = 0; j < npcNl.getLength(); j ++)
+		{
+			Node npcNode = npcNl.item(j);
+			if(npcNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					Element npcE = (Element)npcNode;
+					String npcId = npcE.getTextContent();
+					Position npcPos = new Position(npcE.getAttribute("position"));
+					Character npc = NpcBase.spawnAt(npcE.getTextContent(), npcPos);
+					npcs.add(npc);
+				}
+				catch(NumberFormatException | DOMException | IOException | FontFormatException | SlickException e)
+				{
+					Log.addSystem("scenario_builder_fail msg///npc node corrupted:" + npcNode.getTextContent());
+					break;
+				}
+			}
+		}
+		return npcs;
+	}
+	/**
+	 * Parses specified objects node to list with simple game objects
+	 * @param objectsNode XML document node, objects node
+	 * @return List with simple game objects from specified node
+	 */
+	private static List<SimpleGameObject> getObjectsFromNode(Node objectsNode)
+	{
+		List<SimpleGameObject> objects = new ArrayList<>();
+		NodeList objectsNl = objectsNode.getChildNodes();
+		for(int j = 0; j < objectsNl.getLength(); j ++)
+		{
+			Node objectNode = objectsNl.item(j);
+			if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+
+					Element objectE = (Element)objectNode;
+					String objectId = objectE.getTextContent();
+					Position objectPos = new Position(objectE.getAttribute("position"));
+					SimpleGameObject object = ObjectsBase.get(objectId);
+					object.setPosition(objectPos);
+					objects.add(object);
+				}
+				catch(NumberFormatException | SlickException | IOException | FontFormatException e)
+				{
+					Log.addSystem("scenario_builder_fail msg///object node corrupted:" + objectNode.getTextContent());
+					break;
+				}
+			}
+		}
+		return objects;
+	}
+	/**
+	 * Parses specified exits node to list with game area exits
+	 * @param exitsNode XML document node, exits node
+	 * @return List with game area exits from specified node
+	 */
+	private static List<Exit> getExitsFromNode(Node exitsNode)
+	{
+		List<Exit> exits = new ArrayList<>();
+		NodeList exitNl = exitsNode.getChildNodes();
+		for(int j = 0; j < exitNl.getLength(); j ++)
+		{
+			Node exitNode = exitNl.item(j);
+			if(exitNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					Element exitE = (Element)exitNode;
+					String exitToId = exitE.getTextContent();
+					Position exitToPos = new Position(exitE.getAttribute("to"));
+					Position pos = new Position(exitE.getAttribute("position"));
+					Size size = new Size(exitE.getAttribute("size"));
+					exits.add(new Exit(pos, size, exitToId, exitToPos));
+				}
+				catch(SlickException | IOException e)
+				{
+					Log.addSystem("scenario_builder_fail msg///exit node corrupted:" + exitNode.getTextContent());
+					break;
+				}
+			}
+		}
+		return exits;
+	}
+	/**
+	 * Parses specified subareas node to list with game world areas
+	 * @param subareasNode XML document node, subareas node
+	 * @return List with game world areas from specified node
+	 */
+	private static List<Area> getSubAreasFromNode(Node subareasNode)
+	{
+		List<Area> subAreas = new ArrayList<>();
+		if(subareasNode == null)
+			return subAreas;
+		
+		Element subareasE = (Element)subareasNode;
+		NodeList subareasNl = subareasE.getElementsByTagName("area");
+		for(int i = 0; i < subareasNl.getLength(); i ++)
+		{
+			Node areaNode = subareasNl.item(i);
+			if(areaNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{	
+				try 
+				{
+					Area area = getAreaFromNode(areaNode);
+					subAreas.add(area);
+				} 
+				catch (SlickException e) 
+				{
+					Log.addSystem("scenario_buildr_fail-msg///area node corrupted");
+					break;
+				}
+			}
+		}
+		return subAreas;
 	}
 	/**
 	 * Parses node to MobsArea object
@@ -209,8 +331,13 @@ public class ScenarioParser
 			
 		return new MobsArea(areaStart, areaEnd, mobCon);
 	}
-	
-	private static List<Script> getScriptsFromNode(Node scriptsNode) throws FileNotFoundException
+	/**
+	 * Parses specified scripts node to list with scenario scripts
+	 * @param scriptsNode XML document node, scripts node
+	 * @return List with scenario scripts
+	 * @throws FileNotFoundException
+	 */
+	private static List<Script> getScriptsFromNode(Node scriptsNode)
 	{
 		List<Script> scripts = new ArrayList<>();
 		
@@ -221,14 +348,26 @@ public class ScenarioParser
             Node scriptNode = sriptsNl.item(j);
             if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
-                Element scriptE = (Element)scriptNode;
-                String scriptName = scriptE.getTextContent();
-                scripts.add(DConnector.getScript(scriptName));
+            	Element scriptE = (Element)scriptNode;
+                try 
+                {
+                    String scriptName = scriptE.getTextContent();
+					scripts.add(DConnector.getScript(scriptName));
+				} 
+                catch (FileNotFoundException e) 
+                {
+                	Log.addSystem("scenario_builder_fail-msg///script node corrupted:" + scriptE.getTextContent());
+					break;
+				}
             }
         }
 		return scripts;
 	}
-	
+	/**
+	 * Parses specified music node to map with tracks names as keys and tracks categories as values
+	 * @param musicNode XML document node, music node
+	 * @return Map with tracks names as keys and tracks categories as values from specified node
+	 */
 	private static Map<String, String> getMusicFromNode(Node musicNode)
 	{
 		Map<String, String> music = new HashMap<>();

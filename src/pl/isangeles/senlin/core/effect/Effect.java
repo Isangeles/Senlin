@@ -27,12 +27,15 @@ import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -42,7 +45,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Effect 
+public class Effect implements SaveElement
 {
     private String id;
     private String name;
@@ -142,15 +145,16 @@ public class Effect
 	/**
 	 * Starts effect timer
 	 */
-	public void turnOn(Targetable character)
+	public boolean turnOn(Targetable character)
 	{
 		on = true;
-		character.getEffects().add(this);
+		//character.getEffects().add(this);
 		for(Bonus bonus : bonuses)
 		{
 		    if(!character.hasBonus(bonus))
 		        character.addBonus(bonus);
 		}
+		return on;
 	}
 	/**
 	 * Sets current effect time 
@@ -194,6 +198,17 @@ public class Effect
 	private void buildTile(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		tile = new EffectTile(GConnector.getInput("icon/effect/"+imgName), "uiEff"+id, false, gc, info);
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element effectE = doc.createElement("effect");
+        effectE.setAttribute("duration", time+"");
+        effectE.setTextContent(id);
+        return effectE;
 	}
 
 }

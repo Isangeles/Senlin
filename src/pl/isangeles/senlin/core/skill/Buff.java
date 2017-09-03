@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
@@ -18,6 +20,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.TConnector;
 /**
@@ -25,7 +28,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Buff extends Skill 
+public class Buff extends Skill implements SaveElement
 {
 	private BuffType type;
 	private List<Bonus> bonuses;
@@ -74,6 +77,30 @@ public class Buff extends Skill
 	    }
 	}
 	/**
+	 * Activates or deactivates this buff
+	 * @param active True to activate, false to deactivate
+	 */
+	public void setActive(boolean active)
+	{
+		this.active = active;
+	}
+	/**
+	 * Sets specified time in milliseconds as current duration time
+	 * @param time Time in milliseconds
+	 */
+	public void setTime(int time)
+	{
+		this.time = time;
+	}
+	/**
+	 * Returns current duration time
+	 * @return Time in milliseconds
+	 */
+	public int getTime()
+	{
+		return time;
+	}
+	/**
 	 * Returns list with buff bonuses
 	 * @return List with bonus objects
 	 */
@@ -114,7 +141,14 @@ public class Buff extends Skill
 
 	    return fullInfo;
 	}
-
+	/**
+	 * Check if buff is active
+	 * @return
+	 */
+	public boolean isActive()
+	{
+		return active;
+	}
     @Override
     public void activate()
     {
@@ -176,5 +210,17 @@ public class Buff extends Skill
             time = 0;
         }
     }
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element buffE = doc.createElement("buff");
+		buffE.setAttribute("duration", time+"");
+		buffE.setTextContent(id);
+		return buffE;
+	}
 
 }

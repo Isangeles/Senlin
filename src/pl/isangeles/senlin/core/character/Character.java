@@ -73,6 +73,7 @@ import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
@@ -123,8 +124,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private List<Dialogue> dialogues;
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
-	private List<Buff> buffs = new ArrayList<>();
-	private Effects effects = new Effects();
+	private Buffs buffs = new Buffs(this);
+	private Effects effects = new Effects(this);
 	private Bonuses bonuses = new Bonuses();
 	private Journal quests = new Journal();
 	private Flags flags = new Flags();
@@ -575,10 +576,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
-		for(Buff buff : buffs)
-		{
-			buff.update(delta);
-		}
+		buffs.update(delta);
 		effects.update(delta, this);
 		flags.update(quests);
 		quests.update();
@@ -961,7 +959,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * Returns all active buffs
 	 * @return List with buffs
 	 */
-	public List<Buff> getBuffs()
+	public Buffs getBuffs()
 	{
 		return buffs;
 	}
@@ -1085,10 +1083,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		else
 		{
 			takeHealth(aggressor, attack.getDamage() - inventory.getArmorRating());
-			for(Effect effect : attack.getEffects())
-			{
-				effect.turnOn(this);
-			}
+			effects.addAll(attack.getEffects());
 		}
 	}
 	
@@ -1421,7 +1416,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         
         charE.appendChild(inventory.getSave(doc));
         charE.appendChild(abilities.getSave(doc));
-        charE.appendChild(effects.getSave(doc));
         
         Element craftingE = doc.createElement("crafting");
         for(Profession profession : crafting.values())
@@ -1466,14 +1460,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
         charE.appendChild(attMem);
         
-        Element flagsE = doc.createElement("flags");
-        for(String flag : flags)
-        {
-            Element flagE = doc.createElement("flag");
-            flagE.setTextContent(flag);
-            flagsE.appendChild(flagE);
-        }
-        charE.appendChild(flagsE);
+        charE.appendChild(flags.getSave(doc));
+        charE.appendChild(effects.getSave(doc));
+        charE.appendChild(buffs.getSave(doc));
         
         Element pointsE = doc.createElement("points");
         Element hpE = doc.createElement("hp");

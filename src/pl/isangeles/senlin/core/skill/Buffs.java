@@ -1,5 +1,5 @@
 /*
- * Effects.java
+ * Buffs.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.effect;
+package pl.isangeles.senlin.core.skill;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,78 +30,77 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
+
 /**
- * Container for character effects
+ * Container for characters buffs
  * @author Isangeles
  *
  */
-public class Effects extends ArrayList<Effect> implements SaveElement
+public class Buffs extends ArrayList<Buff> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	private Targetable owner;
+	private List<Buff> buffsToRemove = new ArrayList<>();
 	/**
-	 * Effects container constructor
-	 * @param owner owner of this container
+	 * Buffs container constructor 
+	 * @param owner Owner of this container
 	 */
-	public Effects(Targetable owner)
+	public Buffs(Targetable owner)
 	{
 		this.owner = owner;
 	}
-	
-	@Override
-	public boolean add(Effect effect)
+	/**
+	 * Updates all buffs in container
+	 * @param delta Time between updates
+	 */
+	public void update(int delta)
 	{
-		effect.turnOn(owner);
-		return super.add(effect);
+		for(Buff buff : this)
+		{
+			buff.update(delta);
+			if(buff.isActive() == false)
+				buffsToRemove.add(buff);
+		}
+		removeAll(buffsToRemove);
 	}
 	
 	@Override
-	public boolean addAll(Collection<? extends Effect> effects)
+	public boolean add(Buff buff)
+	{
+		if(super.add(buff))
+		{
+			buff.setActive(true);
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	@Override
+	public boolean addAll(Collection<? extends Buff> buffs)
 	{
 		boolean ok = true;
-		for(Effect effect : effects)
+		for(Buff buff : buffs)
 		{
-			if(!add(effect))
+			if(!add(buff))
 				ok = false;
 		}
 		return ok;
 	}
-	/**
-	 * Updates all effects in container
-	 * @param delta Time (in milliseconds) from last update
-	 * @param character Container owner
-	 */
-	public void update(int delta, Character character)
-	{
-		List<Effect> effectsToRemove = new ArrayList<>();
-		for(Effect effect : this)
-		{
-			if(effect.isOn())
-			{
-				effect.updateTime(delta);
-				effect.affect(character);
-			}
-			else
-			{
-				effect.removeFrom(character);
-				effectsToRemove.add(effect);
-			}
-		}
-		this.removeAll(effectsToRemove);
-	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */
-	public Element getSave(Document doc)
+	@Override
+	public Element getSave(Document doc) 
 	{
-	    Element effectsE = doc.createElement("effects");
-	    for(Effect effect : this)
-	    {
-	        effectsE.appendChild(effect.getSave(doc));
-	    }
-	    return effectsE;
+		Element buffsE = doc.createElement("buffs");
+		for(Buff buff : this)
+		{
+			buffsE.appendChild(buff.getSave(doc));
+		}
+		return buffsE;
 	}
+	
 }

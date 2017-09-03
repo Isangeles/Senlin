@@ -126,6 +126,33 @@ public abstract class GameObject extends Image
         		objectInfo.draw(x, y);
         }
     }
+    /**
+     * Draws object on specified position on screen
+     * @param x Position on x-axis
+     * @param y Position on y-axis
+     * @param width
+     * @param height
+     * @param scaledPos True if position should be scale to current resolution, false otherwise(Irrespective to this, object size is still scaled)
+     */
+    public void draw(float x, float y, float width, float height, boolean scaledPos)
+    {
+    	this.x = x;
+    	this.y = y;
+        if(scaledPos)
+        {
+        	this.x *= scale;
+            this.y *= scale;
+        }
+        super.draw(this.x, this.y, width*scale, height*scale);
+        
+        if(gObjectMOA != null)
+        {
+        	gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+        	
+        	if(gObjectMOA.isMouseOver())
+        		objectInfo.draw(x, y);
+        }
+    }
     
     public void draw(float reqSize)
     {
@@ -157,6 +184,16 @@ public abstract class GameObject extends Image
     public float getDis(float dis)
     {
     	return dis * scale;
+    }
+    
+    public float getScaledHeight()
+    {
+    	return this.height*scale;
+    }
+    
+    public float getScaledWidth()
+    {
+    	return this.width*scale;
     }
     
     public boolean isMouseOver()

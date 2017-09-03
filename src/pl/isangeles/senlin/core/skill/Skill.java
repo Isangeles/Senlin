@@ -131,13 +131,13 @@ public abstract class Skill implements SlotContent
 		}
 	}
 	/**
-	 * Sets skill active or inactive
-	 * @param active True if skill should be active, false otherwise
+	 * Sets skill ready or unready
+	 * @param ready True if skill should be ready, false otherwise
 	 */
-	public void setActive(boolean active)
+	public void setReady(boolean ready)
 	{
-		this.ready = active;
-		tile.setActive(active);
+		this.ready = ready;
+		tile.setActive(ready);
 	}
 	/**
 	 * Returns skill casting speed

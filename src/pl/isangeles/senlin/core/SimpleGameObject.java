@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
@@ -56,7 +57,7 @@ public class SimpleGameObject implements Targetable, SaveElement
     private Portrait portrait;
     private Position pos;
     private Inventory inventory = new Inventory();
-    private Effects effects = new Effects();
+    private Effects effects = new Effects(this);
     private Action onClick;
     /**
      * Simple game object constructor 
@@ -479,7 +480,7 @@ public class SimpleGameObject implements Targetable, SaveElement
 	 * @see pl.isangeles.senlin.core.Targetable#getBuffs()
 	 */
 	@Override
-	public List<Buff> getBuffs() 
+	public Buffs getBuffs() 
 	{
 		// TODO Auto-generated method stub
 		return null;

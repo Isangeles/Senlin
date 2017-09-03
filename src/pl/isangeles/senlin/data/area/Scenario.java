@@ -84,18 +84,20 @@ public class Scenario implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, String mapFile, Map<String, Position>npcs, List<MobsArea> mobsAreas, Map<String, String[]> quests, Map<String, Position> objects,
-			        Map<String, Position> exits, List<Script> scripts, Map<String, String> music) 
+	public Scenario(String id, String mapFile, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts, 
+			Map<String, String> music) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
-		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
 		
-
+		this.mainArea = mainArea;
+		this.subAreas = subAreas;
+		/*
+		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
 		List<Character> npcsForArea = new ArrayList<>();
 		List<SimpleGameObject> objectsForArea = new ArrayList<>();
 		List<Exit> exitsForArea = new ArrayList<>();
-		
+
 		for(String key : npcs.keySet())
 		{
 			Character npc = NpcBase.spawnAt(key, npcs.get(key));
@@ -105,12 +107,26 @@ public class Scenario implements SaveElement
 				Log.addSystem(key + " spawned");
 			}
 		}
+		for(String oId : objects.keySet())
+		{
+			SimpleGameObject go = ObjectsBase.get(oId);
+			go.setPosition(objects.get(oId));
+			objectsForArea.add(go);
+		}
+
+		for(Exit exit : exits)
+		{
+			exitsForArea.add(exit);
+		}
+		
+		mainArea = new Area(id, map, mapFile, npcsForArea, objectsForArea, exitsForArea);
+		*/
 		
 		this.mobsAreas = mobsAreas;
 		
 		for(MobsArea mobsArea : mobsAreas)
 		{
-			npcsForArea.addAll(mobsArea.spawnMobs());
+			this.mainArea.getNpcs().addAll(mobsArea.spawnMobs());
 		}
 		
 		for(String qId : quests.keySet())
@@ -119,21 +135,7 @@ public class Scenario implements SaveElement
 			setQTrigger(quest, quests.get(qId));
 			this.quests.add(quest);
 		}
-		
-		for(String oId : objects.keySet())
-		{
-			SimpleGameObject go = ObjectsBase.get(oId);
-			go.setPosition(objects.get(oId));
-			objectsForArea.add(go);
-		}
-
-		for(String eId : exits.keySet())
-		{
-			exitsForArea.add(new Exit(exits.get(eId), eId));
-		}
 		this.mobsAreas = mobsAreas;
-		
-		mainArea = new Area(id, map, mapFile, npcsForArea, objectsForArea, exitsForArea);
 		
 		this.scripts = scripts;
 		this.music = music;

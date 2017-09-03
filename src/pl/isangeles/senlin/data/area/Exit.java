@@ -31,6 +31,7 @@ import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -43,6 +44,8 @@ public class Exit
 	private String scenarioId;
 	private String subAreaId;
 	private Position pos;
+	private Size size;
+	private Position toPos;
 	private boolean toSub;
 	private Sprite exitArea;
 	/**
@@ -52,7 +55,7 @@ public class Exit
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public Exit(Position pos, String exitToId) throws SlickException, IOException
+	public Exit(Position pos, String exitToId, Position toPos) throws SlickException, IOException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
@@ -69,13 +72,41 @@ public class Exit
 		}
 		this.pos = pos;
 		this.exitArea = ObjectsBase.getExitTex();
+		size = new Size(exitArea.getScaledWidth(), exitArea.getScaledHeight());
+	}
+	/**
+	 * Area exit constructor 
+	 * @param pos Position on area map
+	 * @param exitToId ID of scenario to enter after using this exit
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	public Exit(Position pos, Size size, String exitToId, Position toPos) throws SlickException, IOException
+	{
+		String[] exitId = exitToId.split(":");
+		if(exitId.length > 1)
+		{
+			toSub = true;
+			exitToId = exitId[0];
+			subAreaId = exitId[1];
+		}
+		else
+		{
+			toSub = false;
+			scenarioId = exitToId;
+			subAreaId = "";
+		}
+		this.pos = pos;
+		this.size = size;
+		
+		this.exitArea = ObjectsBase.getExitTex();
 	}
 	/**
 	 * Draws exit area texture
 	 */
 	public void draw()
 	{
-		exitArea.draw(pos.x, pos.y, true);
+		exitArea.draw(pos.x, pos.y, size.width, size.height, true);
 	}
 	/**
 	 * Returns ID of scenario to enter after using this exit
@@ -92,6 +123,14 @@ public class Exit
 	public String getSubAreaId()
 	{
 		return subAreaId;
+	}
+	/**
+	 * Return exit position on destination area
+	 * @return xy position
+	 */
+	public Position getToPos()
+	{
+		return toPos;
 	}
 	/**
 	 * Checks if mouse is over exit area texture
