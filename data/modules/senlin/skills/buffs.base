@@ -5,12 +5,8 @@
         <range>0</range>
         <cast>0</cast>
         <cooldown>20</cooldown>
-        <duration>15</duration>
-        <bonuses>
-            <statsBonus>1;1;0;0;0;</statsBonus>
-            <healthBonus>10</healthBonus>
-        </bonuses>
         <effects>
+            <effect>rage01</effect>
         </effects>
         <useReq>
         </useReq>

@@ -48,22 +48,22 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	{
 	    if(clicked)
 	    {
-	        draw(x, y, 45f, 40f, clickColor, scaledPos);
+	        draw(x, y, getSize(45f), getSize(40f), clickColor, scaledPos);
 	        return;
 	    }
 		if(!dragged)
-			super.draw(x, y, 45f, 40f, scaledPos);
+			super.draw(x, y, getSize(45f), getSize(40f), scaledPos);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, scaledPos);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), getSize(45f), getSize(40f), scaledPos);
 		
 	}
 	@Override
 	public void draw(float x, float y, Color filter, boolean scaledPos)
 	{
 		if(!dragged)
-			super.draw(x, y, 45f, 40f, filter, scaledPos);
+			super.draw(x, y, getSize(45f), getSize(40f), filter, scaledPos);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, filter, scaledPos);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), getSize(45f), getSize(40f), filter, scaledPos);
 	}
 	
 	public void dragged(boolean dragged)
@@ -76,6 +76,21 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 		clicked = click;
 	}
 	
+	@Override
+	public float getScaledWidth()
+	{
+		return getSize(45f);
+	}
+	
+	@Override
+	public float getScaledHeight()
+	{
+		return getSize(40f);
+	}
+	/**
+	 * Checks if icon is dragged 
+	 * @return True if icon is dragged, false otherwise
+	 */
 	public boolean isDragged()
 	{
 		return dragged;

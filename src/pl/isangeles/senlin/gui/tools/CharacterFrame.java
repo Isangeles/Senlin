@@ -92,11 +92,6 @@ class CharacterFrame extends InterfaceObject
         magicka.update(character.getMagicka(), character.getMaxMagicka());
         experience.update(character.getExperience(), character.getMaxExperience());
         effectsIcons.clear();
-        for(Buff buff : character.getBuffs())
-        {
-        	if(!effectsIcons.contains(buff.getTile()))
-        		effectsIcons.add(buff.getTile());
-        }
         for(Effect effect : character.getEffects())
         {
         	if(!effectsIcons.contains(effect.getTile()))
@@ -114,9 +109,9 @@ class CharacterFrame extends InterfaceObject
         if(Character.class.isInstance(character))
         {
             textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + character.getLevel());
-            health.draw(x+139, y+36);
-            magicka.draw(x+139, y+62);
-            experience.draw(x+139, y+88);
+            health.draw(x+getDis(139), y+getDis(36));
+            magicka.draw(x+getDis(139), y+getDis(62));
+            experience.draw(x+getDis(139), y+getDis(88));
         }
         
         //Draws effects
@@ -124,7 +119,7 @@ class CharacterFrame extends InterfaceObject
     	int column = 0;
         for(InterfaceTile icon : effectsIcons)
         {
-        	icon.draw(x+getDis(34) + (icon.getWidth()*column), y+getDis(142) + (icon.getHeight()*row), false);
+        	icon.draw(x+getDis(34) + (icon.getScaledWidth()*column), y+getDis(142) + (icon.getScaledHeight()*row), false);
         	column ++;
         	if(column == 6)
         	{

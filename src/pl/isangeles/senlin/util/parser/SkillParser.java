@@ -109,7 +109,6 @@ public final class SkillParser
         int range = Integer.parseInt(skillE.getElementsByTagName("range").item(0).getTextContent());
         int cast = Integer.parseInt(skillE.getElementsByTagName("cast").item(0).getTextContent());
         int cooldown = Integer.parseInt(skillE.getElementsByTagName("cooldown").item(0).getTextContent());
-        int duration = Integer.parseInt(skillE.getElementsByTagName("duration").item(0).getTextContent());
         
         Node bonusesNode = skillE.getElementsByTagName("bonuses").item(0);
         List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
@@ -134,6 +133,6 @@ public final class SkillParser
             }
         }
         
-        return new BuffPattern(id, imgName, effect, type, useReqs, cooldown, cast, range, duration, bonuses, effects, trainReq);
+        return new BuffPattern(id, imgName, effect, type, useReqs, cooldown, cast, range, bonuses, effects, trainReq);
     }
 }

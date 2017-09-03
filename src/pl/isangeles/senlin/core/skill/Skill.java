@@ -31,6 +31,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
@@ -45,6 +47,7 @@ import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
 
@@ -53,7 +56,7 @@ import pl.isangeles.senlin.gui.tools.SkillTile;
  * @author Isangeles
  *
  */
-public abstract class Skill implements SlotContent
+public abstract class Skill implements SlotContent, SaveElement
 {
 	private static int skillCounter = 0;
 	private int serial = skillCounter ++;
@@ -138,6 +141,22 @@ public abstract class Skill implements SlotContent
 	{
 		this.ready = ready;
 		tile.setActive(ready);
+	}
+	/**
+	 * Sets specified time as current cooldown time
+	 * @param time Time in milliseconds
+	 */
+	public void setCooldownTime(int time)
+	{
+		timer = time;
+	}
+	/**
+	 * Activates or deactivates this skill
+	 * @param active True to activate, false to deactivate
+	 */
+	public void setActive(boolean active)
+	{
+		this.active = active;
 	}
 	/**
 	 * Returns skill casting speed
@@ -226,6 +245,15 @@ public abstract class Skill implements SlotContent
      * Activates skill prepared skill
      */
 	public abstract void activate();
+	
+	@Override
+	public Element getSave(Document doc)
+	{
+		Element skillE = doc.createElement("skill");
+		skillE.setAttribute("cooldownTime", timer+"");
+		skillE.setTextContent(id);
+		return skillE;
+	}
 	/**
 	 * Prepares skill
      * @param user Character thats use skill

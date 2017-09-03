@@ -44,7 +44,7 @@ public final class EffectParser
      * @param effectNode Document effect node
      * @return Effect pattern from specified node
      */
-    public static EffectPattern getEffectFromNode(Node effectNode)
+    public static EffectPattern getEffectFromNode(Node effectNode) throws NumberFormatException
     {
         Element effectE = (Element)effectNode;
         
@@ -53,10 +53,13 @@ public final class EffectParser
         String type = effectE.getAttribute("type");
         String icon = effectE.getAttribute("icon");
         
-        Node modifersNode = effectE.getElementsByTagName("modifers").item(0);
+        Node modifersNode = effectE.getElementsByTagName("modifiers").item(0);
         List<Bonus> bonuses = BonusesParser.getBonusesFromNode(modifersNode);
         
-        int dot = Integer.parseInt(effectE.getElementsByTagName("dot").item(0).getTextContent());
+        Node dotNode = effectE.getElementsByTagName("dot").item(0);
+        int dot = 0;
+        if(dotNode != null)
+        	dot = Integer.parseInt(dotNode.getTextContent());
         
         return new EffectPattern(id, icon, bonuses, dot, duration, type);
     }

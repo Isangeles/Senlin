@@ -55,6 +55,8 @@ public final class BonusesParser
 	public static List<Bonus> getBonusesFromNode(Node bonusesNode)
 	{
 		List<Bonus> bonuses = new ArrayList<>();
+		if(bonusesNode == null)
+			return bonuses;
 		
 		NodeList bonusNodes = bonusesNode.getChildNodes();
 		for(int i = 0; i < bonusNodes.getLength(); i ++)

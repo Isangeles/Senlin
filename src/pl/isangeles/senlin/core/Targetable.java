@@ -22,15 +22,11 @@
  */
 package pl.isangeles.senlin.core;
 
-import java.util.List;
-
 import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
-import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.gui.Portrait;
 
 /**
@@ -57,7 +53,6 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
-	public Buffs getBuffs();
 	public Inventory getInventory();
 	public Attributes getAttributes();
 	public int getHealth();
@@ -81,7 +76,17 @@ public interface Targetable extends ObjectiveTarget
 	 * @param value Value to remove
 	 */
 	public void decMaxMagicka(int value);
+	/**
+	 * Handles attacks
+	 * @param aggressor Aggressor
+	 * @param attack Attack skill
+	 */
 	public void takeAttack(Targetable aggressor, Attack attack);
+	/**
+	 * Handles buffs
+	 * @param buffer Buff provider
+	 * @param buff Buff skill
+	 */
 	public void takeBuff(Targetable buffer, Buff buff);
 	
 	public void addHealth(int value);

@@ -73,7 +73,6 @@ import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
-import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
@@ -124,7 +123,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private List<Dialogue> dialogues;
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
-	private Buffs buffs = new Buffs(this);
 	private Effects effects = new Effects(this);
 	private Bonuses bonuses = new Bonuses();
 	private Journal quests = new Journal();
@@ -576,7 +574,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
-		buffs.update(delta);
 		effects.update(delta, this);
 		flags.update(quests);
 		quests.update();
@@ -956,14 +953,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public Effects getEffects()
 	{ return effects; }
 	/**
-	 * Returns all active buffs
-	 * @return List with buffs
-	 */
-	public Buffs getBuffs()
-	{
-		return buffs;
-	}
-	/**
 	 * Returns all character quests
 	 * @return List with quests
 	 */
@@ -1089,7 +1078,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	
 	public void takeBuff(Targetable buffer, Buff buff)
 	{
-    	buffs.add(buff);
     	effects.addAll(buff.getEffects());
     	bonuses.addAll(buff.getBonuses());
     	bonuses.applyAllOn(this);
@@ -1462,7 +1450,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         
         charE.appendChild(flags.getSave(doc));
         charE.appendChild(effects.getSave(doc));
-        charE.appendChild(buffs.getSave(doc));
         
         Element pointsE = doc.createElement("points");
         Element hpE = doc.createElement("hp");

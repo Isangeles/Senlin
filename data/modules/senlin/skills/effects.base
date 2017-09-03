@@ -1,13 +1,19 @@
 <?xml version="1.0"?>
 <base>
     <effect id="bleed" duration="5" type="normal" icon="bleed.png">
-        <modifers>
+        <modifiers>
             <statsBonus>0;-1;0;0;0;</statsBonus>
-        </modifers>        
+        </modifiers>        
         <dot>-1</dot>
     </effect>
     <effect id="heal01" duration="5" type="normal" icon="lunch.png">
-        <modifers></modifers>
+        <modifiers></modifiers>
         <dot>+1</dot>
+    </effect>
+    <effect id="rage01" duration="15" type="normal" icon="rage.png">
+        <modifiers>
+            <statsBonus>1;1;0;0;0;</statsBonus>
+            <healthBonus>10</healthBonus>
+        </modifiers>
     </effect>
 </base>

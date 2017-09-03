@@ -28,13 +28,11 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Buff extends Skill implements SaveElement
+public class Buff extends Skill
 {
 	private BuffType type;
 	private List<Bonus> bonuses;
     private int range;
-    private int time;
-    private int duration;
     /**
      * Buff constructor
      * @param character Game character (skill owner)
@@ -54,13 +52,12 @@ public class Buff extends Skill implements SaveElement
      * @throws IOException
      * @throws FontFormatException
      */
-	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, int duration, 
+	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, 
 	            List<Bonus> bonuses, List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
 		this.bonuses = bonuses;
 		this.type = type;
-		this.duration = duration;
 		setTile(gc);
 		setSoundEffect();
 	}
@@ -69,36 +66,6 @@ public class Buff extends Skill implements SaveElement
 	public void update(int delta)
 	{
 		super.update(delta);
-	    if(active)
-	    {
-	        time += delta;
-	        if(time >= duration)
-	            deactivate();
-	    }
-	}
-	/**
-	 * Activates or deactivates this buff
-	 * @param active True to activate, false to deactivate
-	 */
-	public void setActive(boolean active)
-	{
-		this.active = active;
-	}
-	/**
-	 * Sets specified time in milliseconds as current duration time
-	 * @param time Time in milliseconds
-	 */
-	public void setTime(int time)
-	{
-		this.time = time;
-	}
-	/**
-	 * Returns current duration time
-	 * @return Time in milliseconds
-	 */
-	public int getTime()
-	{
-		return time;
 	}
 	/**
 	 * Returns list with buff bonuses
@@ -126,8 +93,7 @@ public class Buff extends Skill implements SaveElement
 	@Override
 	public String getInfo() 
 	{
-	    String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
-                TConnector.getText("ui", "durName") + ":" + duration + System.lineSeparator() + 
+	    String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() + 
                 TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
                 TConnector.getText("ui", "castName") + ":" + getCastTime() + System.lineSeparator() + 
                 TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator();
@@ -155,6 +121,7 @@ public class Buff extends Skill implements SaveElement
     	if(active)
     	{
     		target.takeBuff(owner, this);
+    		deactivate();
     	}
     }
 
@@ -200,27 +167,7 @@ public class Buff extends Skill implements SaveElement
      */
     private void deactivate()
     {
-        if(active)
-        {
-        	for(Bonus bonus : bonuses)
-        		target.removeBonus(bonus);
-        	target = null;
-			playSoundEffect();
-            active = false;
-            time = 0;
-        }
+    	target = null;
+        active = false;
     }
-
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
-	 */
-	@Override
-	public Element getSave(Document doc) 
-	{
-		Element buffE = doc.createElement("buff");
-		buffE.setAttribute("duration", time+"");
-		buffE.setTextContent(id);
-		return buffE;
-	}
-
 }

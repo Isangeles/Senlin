@@ -140,9 +140,6 @@ public final class SSGParser
         Element effectsE = (Element)charE.getElementsByTagName("effects").item(0);
         character.getEffects().addAll(getSavedEffects(effectsE));
         
-        Element buffsE = (Element)charE.getElementsByTagName("buffs").item(0);
-        character.getBuffs().addAll(getSavedBuffs(character, buffsE));
-        
         Element pointsE = (Element)charE.getElementsByTagName("points").item(0);
         character.setHealth(Integer.parseInt(pointsE.getElementsByTagName("hp").item(0).getTextContent()));
         character.setMagicka(Integer.parseInt(pointsE.getElementsByTagName("mana").item(0).getTextContent()));
@@ -311,6 +308,7 @@ public final class SSGParser
      * @param buffsE SSG element, buffs element
      * @return List with saved buffs
      */
+    /*
     private static List<Buff> getSavedBuffs(Character character, Element buffsE)
     {
     	List<Buff> buffs = new ArrayList<>();
@@ -338,6 +336,7 @@ public final class SSGParser
     	}
     	return buffs;
     }
+    */
     /**
      * Parses specified save eq element to inventory(ignores equipment)
      * @param eqE SSG eq doc element

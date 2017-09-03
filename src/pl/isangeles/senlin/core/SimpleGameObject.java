@@ -35,7 +35,6 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
-import pl.isangeles.senlin.core.skill.Buffs;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
@@ -474,16 +473,6 @@ public class SimpleGameObject implements Targetable, SaveElement
 	{
 		// TODO Auto-generated method stub
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#getBuffs()
-	 */
-	@Override
-	public Buffs getBuffs() 
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
     
 }

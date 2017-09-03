@@ -52,7 +52,6 @@ public class BuffPattern implements SkillPattern
     private final int cooldown;
     private final int castTime;
     private final int range;
-    private final int duration;
     private final List<Bonus> bonuses;
     private final List<String> effects;
     private final Requirements trainReq;
@@ -71,7 +70,7 @@ public class BuffPattern implements SkillPattern
      * @param effects Buff effects
      * @param trainReq Buff training requirements
      */
-	public BuffPattern(String id, String imgName, String effect, String type, List<Requirement> useReqs, int cooldown, int castTime, int range, int duration, 
+	public BuffPattern(String id, String imgName, String effect, String type, List<Requirement> useReqs, int cooldown, int castTime, int range, 
 					   List<Bonus>bonuses, List<String> effects, List<Requirement> trainReq)
 	{
 		this.id = id;
@@ -83,7 +82,6 @@ public class BuffPattern implements SkillPattern
 		this.cooldown = cooldown*1000;
 		this.castTime = castTime*1000;
 		this.range = range;
-		this.duration = duration*1000;
 		this.bonuses = bonuses;
 		this.effects = effects;
 		this.trainReq = new Requirements();
@@ -106,10 +104,18 @@ public class BuffPattern implements SkillPattern
 	{
 		return id;
 	}
-	
+	/**
+	 * Builds buff from this pattern
+	 * @param character Game character for skill
+	 * @param gc Slick game container
+	 * @return New instance of buff from this pattern
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Buff make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Buff(character, id, imgName, effect, type, useReqs, castTime, range, cooldown, duration, bonuses, effects, gc);
+		return new Buff(character, id, imgName, effect, type, useReqs, castTime, range, cooldown, bonuses, effects, gc);
 	}
 
 }
