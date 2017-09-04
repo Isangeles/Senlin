@@ -178,7 +178,7 @@ public class LoadingScreen extends BasicGameState
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load(Module.getObjectsPath(), container);
-            ScenariosBase.load(Module.getAreaPath());
+            ScenariosBase.load(Module.getAreaPath(), container);
 		    break;
 		case 2:
 			loadingInfo.setText("loading game world...");
@@ -235,7 +235,7 @@ public class LoadingScreen extends BasicGameState
             DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load(Module.getObjectsPath(), container);
-            ScenariosBase.load(Module.getAreaPath());
+            ScenariosBase.load(Module.getAreaPath(), container);
 			SaveEngine.loadModuleFrom(saveName);
 		    break;
 		case 2:

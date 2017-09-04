@@ -78,7 +78,7 @@ public class CharacterAi
 				}
 			}
 
-			npc.update(delta, gw.getAreaMap());
+			npc.update(delta);
 			
 			//Removing NPCs dynamically causes ConcurrentModificationException   
 			if(!npc.isLive())

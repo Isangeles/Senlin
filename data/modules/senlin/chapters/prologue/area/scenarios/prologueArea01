@@ -34,7 +34,9 @@
         <area id="tent01" map="tent01.tmx">
             <npcs></npcs>
             <objects></objects>
-            <exits></exits>
+            <exits>
+                <exit position="0;0" size="10;10" to="1800;250">prologue01</exit>
+            </exits>
         </area>
     </subareas>
 </scenario>

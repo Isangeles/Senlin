@@ -344,7 +344,7 @@ public final class DConnector
 	 * @return Map with scenarios as values and its IDs as keys
 	 * @throws FileNotFoundException
 	 */
-	public static Map<String, Scenario> getScenarios(String scenariosDir) throws FileNotFoundException
+	public static Map<String, Scenario> getScenarios(String scenariosDir, GameContainer gc) throws FileNotFoundException
 	{
 		Map<String, Scenario> scenariosMap = new HashMap<>();
 		
@@ -364,7 +364,7 @@ public final class DConnector
 		{
 			try 
 			{
-				Scenario sc = ScenarioParser.getScenarioFromFile(scenarioFile);
+				Scenario sc = ScenarioParser.getScenarioFromFile(scenarioFile, gc);
 				scenariosMap.put(sc.getId(), sc);
 			} 
 			catch (ParserConfigurationException | SAXException | IOException | SlickException| FontFormatException e) 

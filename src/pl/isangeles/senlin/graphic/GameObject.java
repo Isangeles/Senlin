@@ -47,6 +47,8 @@ public abstract class GameObject extends Image
     private InfoWindow objectInfo;
     protected float x;
     protected float y;
+    protected float width;
+    protected float height;
     protected MouseOverArea gObjectMOA;
     
     public GameObject(InputStream is, String ref, boolean flipped) throws SlickException

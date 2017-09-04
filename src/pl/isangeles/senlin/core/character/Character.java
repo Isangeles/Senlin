@@ -130,6 +130,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private List<Training> trainings = new ArrayList<>();
 	private QuestTracker qTracker;
 	private SkillCaster sCaster;
+	private TiledMap currentMap;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -354,6 +355,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         destPoint[0] = pos.x;
         destPoint[1] = pos.y;
     }
+    
+    public void setMap(TiledMap map)
+    {
+        currentMap = map;
+    }
     /**
      * Equips specified item, if item is in character inventory and its equippable
      * @param item Equippable item in chracter inventory
@@ -509,7 +515,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @param delta
 	 * @throws GameLogErr 
 	 */
-	public CharacterOut update(int delta, TiledMap map)
+	public CharacterOut update(int delta)
 	{
 	    CharacterOut out = CharacterOut.SUCCESS;
 		if(!live)
@@ -532,7 +538,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             avatar.move(true);
             if(position[0] > destPoint[0])
             {
-                if(isMovable(position[0]-1, position[1], map))
+                if(isMovable(position[0]-1, position[1], currentMap))
                 {
                     position[0] -= 1;
                     avatar.goLeft();
@@ -540,7 +546,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[0] < destPoint[0])
             {
-                if(isMovable(position[0]+1, position[1], map))
+                if(isMovable(position[0]+1, position[1], currentMap))
                 {
                     position[0] += 1;
                     avatar.goRight();
@@ -548,7 +554,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[1] > destPoint[1])
             {
-                if(isMovable(position[0], position[1]-1, map))
+                if(isMovable(position[0], position[1]-1, currentMap))
                 {
                     position[1] -= 1;
                     avatar.goUp();
@@ -556,7 +562,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[1] < destPoint[1])
             {
-                if(isMovable(position[0], position[1]+1, map))
+                if(isMovable(position[0], position[1]+1, currentMap))
                 {
                     position[1] += 1;
                     avatar.goDown();
@@ -1506,10 +1512,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	private boolean isMovable(int x, int y, TiledMap map)
 	{
-	    if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || 
-	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0)
-            return false;
-        
-        return true;
+	    if(map != null)
+	    {
+	        if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || 
+	                map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0)
+	                 return false;
+	        else
+	            return true;
+	    }
+	    else
+	        return true;
 	}
 }

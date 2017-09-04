@@ -81,8 +81,7 @@ public class GameWorld extends BasicGameState
 	private CommandInterface cui;
 	private AudioPlayer gwMusic;
 	private GameCursor gwCursor; //UNUSED
-	private Scenario nextArea;
-	//private Exit activeExit;
+	private Scenario nextScenario;
 	private boolean changeScenarioReq;
 	/**
 	 * Creates game world for new game
@@ -143,6 +142,7 @@ public class GameWorld extends BasicGameState
         	//System.out.println(activeScenario.getId());
         	mainArea = activeScenario.getMainArea();
             area = mainArea;
+            player.setMap(area.getMap());
         	
             subAreas = activeScenario.getSubAreas();
             
@@ -209,7 +209,7 @@ public class GameWorld extends BasicGameState
             keyDown(container.getInput());
     	
         CharacterOut out;
-        out = player.update(delta, area.getMap());
+        out = player.update(delta);
         if(out != CharacterOut.SUCCESS)
             Log.addWarning(out.toString());
     	
@@ -299,6 +299,7 @@ public class GameWorld extends BasicGameState
     			{
     				if(exit.isMouseOver())
     				{
+    				    Log.addSystem(exit.getScenarioId() + " exit clicked!");
     					Scenario scenario = chapter.getScenario(exit.getScenarioId());
     					
 						if(scenario != null)
@@ -306,7 +307,8 @@ public class GameWorld extends BasicGameState
 							if(!scenario.getId().equals(activeScenario.getId()))
 							{
 								changeScenarioReq = true;
-								nextArea = scenario;
+								nextScenario = scenario;
+								//Log.addSystem("change to: " + scenario.getId());
 							}
 							else
 							{
@@ -320,6 +322,8 @@ public class GameWorld extends BasicGameState
 										}
 									}
 								}
+								else
+								    changeArea(exit, mainArea);
 							}
 						}
     				}
@@ -434,10 +438,10 @@ public class GameWorld extends BasicGameState
     
     private void changeScenario(GameContainer gc, StateBasedGame game) throws SlickException
     {
-    	this.activeScenario = nextArea;
+    	this.activeScenario = nextScenario;
     	game.addState(new ReloadScreen());
     	changeScenarioReq = false;
-    	nextArea = null;
+    	nextScenario = null;
     	game.getState(5).init(gc, game);
     	game.enterState(5);
     }
@@ -445,6 +449,7 @@ public class GameWorld extends BasicGameState
     private void changeArea(Exit exit, Area area)
     {
     	player.setPosition(exit.getToPos());
+    	player.setMap(area.getMap());
     	this.area = area;
     }
 }

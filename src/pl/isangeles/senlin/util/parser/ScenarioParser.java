@@ -35,6 +35,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 import org.w3c.dom.DOMException;
@@ -79,7 +80,7 @@ public class ScenarioParser
 	 * @throws SlickException
 	 * @throws FontFormatException
 	 */
-	public static Scenario getScenarioFromFile(File xmlScenario) 
+	public static Scenario getScenarioFromFile(File xmlScenario, GameContainer gc) 
 			throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -99,7 +100,7 @@ public class ScenarioParser
 					String id = scenarioE.getAttribute("id");
 					String mapFile = scenarioE.getAttribute("map");
 					
-					Area mainArea = getAreaFromNode(scenarioNode);
+					Area mainArea = getAreaFromNode(scenarioNode, gc);
 					
 					List<MobsArea> mobs = new ArrayList<>();
 					Map<String, String[]> quests = new HashMap<>();
@@ -144,7 +145,7 @@ public class ScenarioParser
 					music = getMusicFromNode(musicNode);
 					
 					Node subareasNode = scenarioE.getElementsByTagName("subareas").item(0);
-					List<Area> subAreas = getSubAreasFromNode(subareasNode);
+					List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
 					
 					return new Scenario(id, mapFile, mainArea, subAreas, mobs, quests, scripts, music);	
 			}
@@ -158,7 +159,7 @@ public class ScenarioParser
 	 * @return Area object from specified node
 	 * @throws SlickException
 	 */
-	private static Area getAreaFromNode(Node areaNode) throws SlickException
+	private static Area getAreaFromNode(Node areaNode, GameContainer gc) throws SlickException
 	{
 		Element areaE = (Element)areaNode;
 		String id = areaE.getAttribute("id");
@@ -173,7 +174,7 @@ public class ScenarioParser
 		List<SimpleGameObject> objects = getObjectsFromNode(objectsNode);
 		
 		Node exitsNode = areaE.getElementsByTagName("exits").item(0);
-		List<Exit> exits = getExitsFromNode(exitsNode);
+		List<Exit> exits = getExitsFromNode(exitsNode, gc);
 		
 		return new Area(id, map, mapFile, npcs, objects, exits);
 	}
@@ -246,7 +247,7 @@ public class ScenarioParser
 	 * @param exitsNode XML document node, exits node
 	 * @return List with game area exits from specified node
 	 */
-	private static List<Exit> getExitsFromNode(Node exitsNode)
+	private static List<Exit> getExitsFromNode(Node exitsNode, GameContainer gc)
 	{
 		List<Exit> exits = new ArrayList<>();
 		NodeList exitNl = exitsNode.getChildNodes();
@@ -262,9 +263,9 @@ public class ScenarioParser
 					Position exitToPos = new Position(exitE.getAttribute("to"));
 					Position pos = new Position(exitE.getAttribute("position"));
 					Size size = new Size(exitE.getAttribute("size"));
-					exits.add(new Exit(pos, size, exitToId, exitToPos));
+					exits.add(new Exit(pos, size, exitToId, exitToPos, gc));
 				}
-				catch(SlickException | IOException e)
+				catch(SlickException | IOException | FontFormatException e)
 				{
 					Log.addSystem("scenario_builder_fail msg///exit node corrupted:" + exitNode.getTextContent());
 					break;
@@ -278,7 +279,7 @@ public class ScenarioParser
 	 * @param subareasNode XML document node, subareas node
 	 * @return List with game world areas from specified node
 	 */
-	private static List<Area> getSubAreasFromNode(Node subareasNode)
+	private static List<Area> getSubAreasFromNode(Node subareasNode, GameContainer gc)
 	{
 		List<Area> subAreas = new ArrayList<>();
 		if(subareasNode == null)
@@ -293,7 +294,7 @@ public class ScenarioParser
 			{	
 				try 
 				{
-					Area area = getAreaFromNode(areaNode);
+					Area area = getAreaFromNode(areaNode, gc);
 					subAreas.add(area);
 				} 
 				catch (SlickException e) 

@@ -22,11 +22,13 @@
  */
 package pl.isangeles.senlin.data.area;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
@@ -54,14 +56,15 @@ public class Exit
 	 * @param exitToId ID of scenario to enter after using this exit
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public Exit(Position pos, String exitToId, Position toPos) throws SlickException, IOException
+	public Exit(Position pos, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
 		{
 			toSub = true;
-			exitToId = exitId[0];
+			scenarioId = exitId[0];
 			subAreaId = exitId[1];
 		}
 		else
@@ -71,8 +74,9 @@ public class Exit
 			subAreaId = "";
 		}
 		this.pos = pos;
-		this.exitArea = ObjectsBase.getExitTex();
+		this.exitArea = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
 		size = new Size(exitArea.getScaledWidth(), exitArea.getScaledHeight());
+		this.toPos = toPos;
 	}
 	/**
 	 * Area exit constructor 
@@ -80,14 +84,15 @@ public class Exit
 	 * @param exitToId ID of scenario to enter after using this exit
 	 * @throws SlickException
 	 * @throws IOException
+	 * @throws FontFormatException 
 	 */
-	public Exit(Position pos, Size size, String exitToId, Position toPos) throws SlickException, IOException
+	public Exit(Position pos, Size size, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
 		{
 			toSub = true;
-			exitToId = exitId[0];
+			scenarioId = exitId[0];
 			subAreaId = exitId[1];
 		}
 		else
@@ -98,8 +103,9 @@ public class Exit
 		}
 		this.pos = pos;
 		this.size = size;
-		
-		this.exitArea = ObjectsBase.getExitTex();
+        this.toPos = toPos;
+        
+		this.exitArea = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 	/**
 	 * Draws exit area texture

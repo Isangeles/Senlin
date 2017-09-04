@@ -32,7 +32,9 @@ import java.util.Map;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Base for graphical textures of UI elements
@@ -65,6 +67,7 @@ public final class GBase
 		texturesMap.put("textButtonBg", new Image(GConnector.getInput("field/textBg.png"), "textButtonBg", false));
 		texturesMap.put("uiCurvedBg", new Image(GConnector.getInput("field/cBgS.png"), "uiCurvedBg", false));
 		texturesMap.put("buttonS", new Image(GConnector.getInput("button/buttonS.png"), "buttonS", false));
+        texturesMap.put("areaExit", new Sprite(GConnector.getInput("object/exit.png"), "areaExit", false));
 		
 		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));
 		fontsMap.put("mainUiFont", simsun);

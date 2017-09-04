@@ -55,6 +55,11 @@ public class Area
         this.npcs = npcs;
         this.objects = objects;
         this.exits = exits;
+        
+        for(Character npc : npcs)
+        {
+            npc.setMap(map);
+        }
     }
     /**
      * Returns area ID

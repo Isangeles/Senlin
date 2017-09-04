@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+import org.newdawn.slick.GameContainer;
+
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.util.DConnector;
@@ -37,6 +39,7 @@ import pl.isangeles.senlin.util.DConnector;
 public class ScenariosBase 
 {
 	private static Map<String, Scenario> scenarios;
+	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
 	 */ 
@@ -54,8 +57,8 @@ public class ScenariosBase
 	 * Loads base with scenarios for active module
 	 * @throws FileNotFoundException
 	 */
-	public static void load(String areaPath) throws FileNotFoundException
+	public static void load(String areaPath, GameContainer gc) throws FileNotFoundException
 	{
-		scenarios = DConnector.getScenarios(areaPath + File.separator + "scenarios");
+		scenarios = DConnector.getScenarios(areaPath + File.separator + "scenarios", gc);
 	}
 }

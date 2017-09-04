@@ -49,7 +49,6 @@ import pl.isangeles.senlin.util.TConnector;
 public class ObjectsBase 
 {
 	private static Map<String, ObjectPattern> objectsMap = new HashMap<>();
-	private static Sprite exitAreaTex;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
@@ -68,14 +67,6 @@ public class ObjectsBase
 		return objectsMap.get(objectId).make(gc);
 	}
 	/**
-	 * Returns texture for areas exits
-	 * @return Sprite for areas exits
-	 */
-	public static Sprite getExitTex()
-	{
-		return exitAreaTex;
-	}
-	/**
 	 * Loads specified objects base
 	 * @param baseName Name of XML base in data/objects
 	 * @throws ParserConfigurationException
@@ -88,6 +79,5 @@ public class ObjectsBase
 	{
 		ObjectsBase.gc = gc;
 		objectsMap = DConnector.getObjects(objectsPath + File.separator + "gameObjects");
-		exitAreaTex =  new Sprite(GConnector.getInput("object/exit.png"), "areaExit", true, TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 }
