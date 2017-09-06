@@ -40,9 +40,6 @@ public class Flags extends ArrayList<String> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 
-	public Flags()
-	{
-	}
 	/**
 	 * Updates flags container by adding and removing requested flags
 	 * @param quests List of all character quests

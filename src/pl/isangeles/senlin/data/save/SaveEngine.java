@@ -50,6 +50,7 @@ import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.tools.UserInterface;
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.parser.SSGParser;
 /**
@@ -72,7 +73,7 @@ public class SaveEngine
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	public static void save(Character player, Chapter chapter, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
+	public static void save(Character player, GameWorld world, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -84,7 +85,7 @@ public class SaveEngine
 		Element gameE = doc.createElement("game");
 		Element moduleE = doc.createElement("module");
 		moduleE.setTextContent(Module.getName());
-		moduleE.setAttribute("chapter", chapter.getId());
+		moduleE.setAttribute("chapter", world.getCurrentChapter().getId());
 		gameE.appendChild(moduleE);
 		saveE.appendChild(gameE);
 		
@@ -92,11 +93,11 @@ public class SaveEngine
 		playerE.appendChild(player.getSave(doc));
 		Element scenarioE = doc.createElement("scenario");
 		scenarioE.setAttribute("area", player.getCurrentArea().getId());
-		scenarioE.setTextContent(chapter.getActiveScenario().getId());
+		scenarioE.setTextContent(world.getCurrentChapter().getActiveScenario().getId());
 		playerE.appendChild(scenarioE);
 		saveE.appendChild(playerE);
 		
-		saveE.appendChild(chapter.getSave(doc));
+		saveE.appendChild(world.getSave(doc));
 		
 		saveE.appendChild(ui.getSave(doc));
 		

@@ -59,8 +59,13 @@ public class SimpleGameObject implements Targetable, SaveElement
     private Effects effects = new Effects(this);
     private Action onClick;
     /**
-     * Simple game object constructor 
-     * @param texture Graphical representation of object
+     * Simple game object constructor(with animated texture)
+     * @param id Object ID
+     * @param texture Simple animated texture
+     * @param portrait Object portrait
+     * @param onClick Action on click
+     * @param gold Amount of gold in object
+     * @param items List of items in object
      */
     public SimpleGameObject(String id, SimpleAnimObject texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
@@ -72,7 +77,15 @@ public class SimpleGameObject implements Targetable, SaveElement
         inventory.addAll(items);
         inventory.addGold(gold);
     }
-    
+    /**
+     * Simple game object constructor(with static texture)
+     * @param id Object ID
+     * @param texture Static texture
+     * @param portrait Object portrait
+     * @param onClick Action on click
+     * @param gold Amount of gold in object
+     * @param items List of items in object
+     */
     public SimpleGameObject(String id, Sprite texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
     	this.texture = texture;

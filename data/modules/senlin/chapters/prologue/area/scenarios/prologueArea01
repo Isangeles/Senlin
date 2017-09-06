@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <base>
 <scenario id="prologue01">
-    <mainarea id="prologue01" map="area01.tmx">
+    <mainarea id="prologue01main" map="area01.tmx">
         <npcs>
             <npc position="1703;430">ericP01</npc>
             <npc position="1800;300">kianP01</npc>

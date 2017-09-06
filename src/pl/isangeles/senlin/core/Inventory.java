@@ -79,7 +79,8 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	 * @param items Collection with items
 	 * @return True if all items was added successfully, false if at least one wasn't added
 	 */
-	public boolean addAllItems(Collection<Item> items)
+	@Override
+	public boolean addAll(Collection<? extends Item> items)
 	{
     	boolean isOk = true;
 		for(Item item : items)

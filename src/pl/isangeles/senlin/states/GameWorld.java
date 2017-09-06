@@ -38,6 +38,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
@@ -52,6 +54,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.area.Area;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.graphic.FogOfWar;
@@ -66,7 +69,7 @@ import pl.isangeles.senlin.util.Settings;
  * @author Isangeles
  *
  */
-public class GameWorld extends BasicGameState
+public class GameWorld extends BasicGameState implements SaveElement
 {
     private Chapter chapter;
     private Scenario activeScenario;
@@ -140,7 +143,8 @@ public class GameWorld extends BasicGameState
         	fow = new FogOfWar();
       
         	mainArea = activeScenario.getMainArea();
-        	//System.out.println(activeScenario.getId());
+            subAreas = activeScenario.getSubAreas();
+            
         	if(player.getCurrentArea() == null)
         	{
                 area = mainArea;
@@ -152,11 +156,9 @@ public class GameWorld extends BasicGameState
         		area = player.getCurrentArea();
         		area.addCharacter(player);
         	}
-        	
-            subAreas = activeScenario.getSubAreas();
             
         	npcsAi = new CharacterAi(this);
-            npcsAi.addNpcs(mainArea.getNpcs()); 
+            npcsAi.addNpcs(mainArea.getNpcs());
             for(Area subArea : subAreas)
             {
             	npcsAi.addNpcs(subArea.getCharactersExcept(player));
@@ -236,7 +238,7 @@ public class GameWorld extends BasicGameState
         	{
     			try 
     			{
-    				SaveEngine.save(player, chapter, ui, ui.getSaveName());
+    				SaveEngine.save(player, this, ui, ui.getSaveName());
     			} 
     			catch (ParserConfigurationException | TransformerException e) 
     			{
@@ -253,6 +255,11 @@ public class GameWorld extends BasicGameState
         	if(ui.isExitReq())
         		container.exit();
     	}
+    }
+    
+    public Chapter getCurrentChapter()
+    {
+    	return chapter;
     }
     
     public TiledMap getAreaMap()
@@ -356,6 +363,17 @@ public class GameWorld extends BasicGameState
     {
         return 2;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element worldE = doc.createElement("world");
+		worldE.appendChild(chapter.getSave(doc));
+		worldE.appendChild(dayManager.getSave(doc));
+		return worldE;
+	}
     /**
      * KeyDown method called in update, because engine does not provide keyDown method for override  
      * @param input Input from game container

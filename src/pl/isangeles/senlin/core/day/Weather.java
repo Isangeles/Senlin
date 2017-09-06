@@ -1,3 +1,25 @@
+/*
+ * Weather.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.day;
 
 import java.io.IOException;
@@ -6,7 +28,10 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -15,13 +40,13 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-class Weather 
+class Weather implements SaveElement
 {
 	private Animation rainAnim;
 	private Sound rainSound;
-	private boolean rain;
+	private WeatherType type;
 	private int timer;
-	private int rainTime;
+	private int effectTime;
 	/**
 	 * Weather constructor
 	 * @throws SlickException
@@ -38,6 +63,7 @@ class Weather
 		
 		rainAnim = new Animation(rainFrames, duration);
 		rainSound = new Sound(AConnector.getInput("effects/rain01.ogg"), "rain01.ogg");
+		type = WeatherType.SUN;
 	}
 	/**
 	 * Draws current weather
@@ -46,43 +72,77 @@ class Weather
 	 */
 	public void draw(float x, float y)
 	{
-		if(rain)
+		if(type == WeatherType.RAIN)
 			rainAnim.draw(x, y);
 	}
-	
+	/**
+	 * Updates weather 
+	 * @param delta Time between updates
+	 */
 	public void update(int delta)
 	{
-		if(rain)
+		if(type == WeatherType.RAIN)
 		{
 			rainAnim.update(delta);
 			timer += delta;
 		}
-		if(timer >= rainTime)
+		if(timer >= effectTime)
 		{
 		    rainSound.stop();
-		    rain = false;
+		    type = WeatherType.SUN;
 		}
 	}
 	
-	public void startRaining(boolean rain, int howLong)
+	public void startRaining(int howLong)
 	{
-		this.rain = rain;
-		rainTime = howLong;
+		type = WeatherType.RAIN;
+		effectTime = howLong;
 		timer = 0;
         rainSound.loop();
 	}
-	
+	/**
+	 * Sets specified weather effect
+	 * @param type Weather effect type
+	 * @param timerState State of weather effect timer
+	 * @param howLong Duration of weather effect
+	 */
+	public void setWeatherEffect(WeatherType type, int timerState, int howLong)
+	{
+		switch(type)
+		{
+		case RAIN:
+			startRaining(howLong);
+			timer = timerState;
+			return;
+		default:
+			return;
+		}
+	}
+	/**
+	 * Checks if rain effect is active
+	 * @return True if rain effect is active, false otherwise
+	 */
 	public boolean isRaining()
 	{
-		return rain;
+		return type == WeatherType.RAIN;
 	}
 	
+	@Override
 	public String toString()
 	{
-		if(isRaining())
-			return TConnector.getText("ui", "dayRain");
-		else
-			return TConnector.getText("ui", "daySun");
+		return type.getName();
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element weatherE = doc.createElement("weather");
+		weatherE.setAttribute("timer", timer+"");
+		weatherE.setAttribute("to", effectTime+"");
+		weatherE.setTextContent(type.getId());
+		return weatherE;
 	}
 
 }

@@ -1,9 +1,34 @@
+/*
+ * DayPhase.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.day;
 
 import java.io.IOException;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -12,17 +37,13 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-class DayPhase 
+class DayPhase implements SaveElement
 {
-	public static final int MORNING = 0,
-							MIDDAY = 1,
-							AFTERNOON = 2,
-							NIGHT = 3;
 	private Sprite morningFilter,
 				   middayFilter,
 				   afternoonFilter,
 				   nightFilter;
-	private int phaseId;
+	private PhaseType type;
 	/**
 	 * Day phase constructor
 	 * @throws SlickException
@@ -41,7 +62,7 @@ class DayPhase
 	 */
 	public void draw(float x, float y)
 	{
-		switch(phaseId)
+		switch(type)
 		{
 		case MORNING:
 			break;
@@ -58,37 +79,32 @@ class DayPhase
 	}
 	/**
 	 * Changes current day phase 
-	 * @param phaseId Day phase ID (0-morning, 1-midday, 2-afternoon, 3-night)
+	 * @param type Day phase type
 	 */
-	public void changePhase(int phaseId)
+	public void changePhase(PhaseType type)
 	{
-		this.phaseId = phaseId;
+		this.type = type;
 	}
 	/**
 	 * Switches to next day phase
 	 */
 	public void nextPhase()
 	{
-		if(phaseId < 3)
-			phaseId ++;
-		if(phaseId >= 3)
-			phaseId = 0;
+		type = type.getNext();
 	}
 	@Override
 	public String toString()
 	{
-		switch(phaseId)
-		{
-		case MORNING:
-			return TConnector.getText("ui", "dayMorning");
-		case MIDDAY:
-			return TConnector.getText("ui", "dayMidday");
-		case AFTERNOON:
-			return TConnector.getText("ui", "dayAfternoon");
-		case NIGHT:
-			return TConnector.getText("ui", "dayNight");
-		default:
-			return "error";
-		}
+		return type.getName();
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element phaseE = doc.createElement("phase");
+		phaseE.setTextContent(this.toString());
+		return phaseE;
 	}
 }

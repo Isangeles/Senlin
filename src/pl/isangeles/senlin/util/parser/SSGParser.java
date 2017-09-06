@@ -97,8 +97,10 @@ public final class SSGParser
         Element playerCharE = (Element)playerE.getElementsByTagName("character").item(0);
         Character player = getCharFromSave(playerCharE, gc);
         
+        Element worldE = (Element)saveE.getElementsByTagName("world").item(0);
+        
         List<Scenario> scenarios = new ArrayList<>();
-        Element chapterE = (Element)saveE.getElementsByTagName("chapter").item(0);
+        Element chapterE = (Element)worldE.getElementsByTagName("chapter").item(0);
         String chapterId = chapterE.getAttribute("id");
         Element scenariosE = (Element)chapterE.getElementsByTagName("scenarios").item(0);
         NodeList scenariosList = scenariosE.getElementsByTagName("scenario");

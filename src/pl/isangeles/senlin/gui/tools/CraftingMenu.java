@@ -243,7 +243,7 @@ class CraftingMenu extends InterfaceObject implements UiElement, MouseListener
 					if(createdItems != null)
 					{
 						Log.addInformation(TConnector.getText("ui", "cMenuCreateInfo"));
-						player.getInventory().addAllItems(createdItems);
+						player.getInventory().addAll(createdItems);
 					}
 					else
 						Log.addInformation(TConnector.getText("ui", "cMenuCreateFail"));

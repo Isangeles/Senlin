@@ -92,35 +92,6 @@ public class Scenario implements SaveElement
 		
 		this.mainArea = mainArea;
 		this.subAreas = subAreas;
-		/*
-		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
-		List<Character> npcsForArea = new ArrayList<>();
-		List<SimpleGameObject> objectsForArea = new ArrayList<>();
-		List<Exit> exitsForArea = new ArrayList<>();
-
-		for(String key : npcs.keySet())
-		{
-			Character npc = NpcBase.spawnAt(key, npcs.get(key));
-			if(npc != null)
-			{
-				npcsForArea.add(npc);
-				Log.addSystem(key + " spawned");
-			}
-		}
-		for(String oId : objects.keySet())
-		{
-			SimpleGameObject go = ObjectsBase.get(oId);
-			go.setPosition(objects.get(oId));
-			objectsForArea.add(go);
-		}
-
-		for(Exit exit : exits)
-		{
-			exitsForArea.add(exit);
-		}
-		
-		mainArea = new Area(id, map, mapFile, npcsForArea, objectsForArea, exitsForArea);
-		*/
 		
 		this.mobsAreas = mobsAreas;
 		
@@ -241,7 +212,6 @@ public class Scenario implements SaveElement
 		Element mainareaE = doc.createElement("mainarea");
 		mainareaE.setAttribute("id", mainArea.getId());
 		mainareaE.setAttribute("map", mainArea.getMapName());
-		//scenarioE.setAttribute("map", mainArea.getMapName());
 		
 		Element objectsE = doc.createElement("objects");
 		for(SimpleGameObject object : mainArea.getObjects())
