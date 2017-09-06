@@ -98,9 +98,10 @@ public class ScenarioParser
 					Element scenarioE = (Element)scenarioNode;
 					
 					String id = scenarioE.getAttribute("id");
-					String mapFile = scenarioE.getAttribute("map");
 					
-					Area mainArea = getAreaFromNode(scenarioNode, gc);
+					Element mainareaE = (Element)scenarioE.getElementsByTagName("mainarea").item(0);
+					
+					Area mainArea = getAreaFromNode(mainareaE, gc);
 					
 					List<MobsArea> mobs = new ArrayList<>();
 					Map<String, String[]> quests = new HashMap<>();
@@ -108,7 +109,7 @@ public class ScenarioParser
 					List<Script> scripts = new ArrayList<>();
 					Map<String, String> music = new HashMap<>();
 					
-					NodeList mobsNl = scenarioE.getElementsByTagName("mobs");
+					NodeList mobsNl = mainareaE.getElementsByTagName("mobs");
 					for(int j = 0; j < mobsNl.getLength(); j ++)
 					{
 						Node mobsNode = mobsNl.item(j);
@@ -126,7 +127,7 @@ public class ScenarioParser
 						}
 					}
 					
-					NodeList questsNl = scenarioE.getElementsByTagName("quests").item(0).getChildNodes();
+					NodeList questsNl = mainareaE.getElementsByTagName("quests").item(0).getChildNodes();
 					for(int j = 0; j < questsNl.getLength(); j ++)
 					{
 						Node questNode = questsNl.item(j);
@@ -141,13 +142,13 @@ public class ScenarioParser
 					Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
 					scripts = getScriptsFromNode(scriptsNode);
 					
-					Node musicNode = scenarioE.getElementsByTagName("music").item(0);
+					Node musicNode = mainareaE.getElementsByTagName("music").item(0);
 					music = getMusicFromNode(musicNode);
 					
-					Node subareasNode = scenarioE.getElementsByTagName("subareas").item(0);
+					Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
 					List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
 					
-					return new Scenario(id, mapFile, mainArea, subAreas, mobs, quests, scripts, music);	
+					return new Scenario(id, mainArea, subAreas, mobs, quests, scripts, music);	
 			}
 		}
 		

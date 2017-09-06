@@ -58,6 +58,7 @@ import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.UiLayout;
@@ -93,7 +94,8 @@ public final class SSGParser
         
         Element saveE = doc.getDocumentElement();
         Element playerE = (Element)saveE.getElementsByTagName("player").item(0); 
-        Character player = getCharFromSave((Element)playerE.getElementsByTagName("character").item(0), gc);
+        Element playerCharE = (Element)playerE.getElementsByTagName("character").item(0);
+        Character player = getCharFromSave(playerCharE, gc);
         
         List<Scenario> scenarios = new ArrayList<>();
         Element chapterE = (Element)saveE.getElementsByTagName("chapter").item(0);
@@ -110,8 +112,25 @@ public final class SSGParser
             }
         }
         
-        String activeScenario = playerE.getElementsByTagName("scenario").item(0).getTextContent();
-        
+        Element scenarioE = (Element)playerE.getElementsByTagName("scenario").item(0);
+        String activeScenario = scenarioE.getTextContent();
+        String currentArea = scenarioE.getAttribute("area");
+        for(Scenario scenario : scenarios)
+        {
+        	if(scenario.getId().equals(activeScenario))
+        	{
+        		if(scenario.getMainArea().getId().equals(currentArea))
+        			player.setArea(scenario.getMainArea());
+        		else
+        		{
+        			for(Area subArea : scenario.getSubAreas())
+        			{
+        				if(subArea.getId().equals(currentArea))
+        					player.setArea(subArea);
+        			}
+        		}
+        	}
+        }
         Node uiNode = saveE.getElementsByTagName("ui").item(0);
         UiLayout uiLayout = getUiLayout(uiNode);
         
@@ -211,7 +230,7 @@ public final class SSGParser
             }
         }
         
-        scenario.getMainArea().setNpcs(npcs);
+        scenario.getMainArea().setCharacters(npcs);
         scenario.getMainArea().setObjects(objects);
         
         return scenario;

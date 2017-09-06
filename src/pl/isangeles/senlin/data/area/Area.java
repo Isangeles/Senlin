@@ -22,43 +22,67 @@
  */
 package pl.isangeles.senlin.data.area;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.states.Global;
 /**
  * Class for game world areas
  * @author Isangeles
  *
  */
-public class Area
+public class Area implements SaveElement
 {
 	private String id;
     private TiledMap map;
     private String mapFileName;
-    private List<Character> npcs;
+    private Set<Character> characters = new HashSet<>();
     private List<SimpleGameObject> objects;
     private List<Exit> exits;
     /**
-     * Sub area constructor
+     * Empty area constructor
+     * @param id Area ID
+     * @param map Area map
+     * @param mapFileName Name of area map file 
+     */
+    public Area(String id, TiledMap map, String mapFileName)
+    {
+    	this.id = id;
+    	this.map = map;
+    	this.mapFileName = mapFileName;
+    	
+    	objects = new ArrayList<>();
+    	exits = new ArrayList<>();
+    }
+    /**
+     * Area constructor
      * @param npcs List with NPCs
      * @param objects List with objects
      * @param exits List exits
      */
-    public Area(String id, TiledMap map, String mapFileName, List<Character> npcs, List<SimpleGameObject> objects, List<Exit> exits)
+    public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<SimpleGameObject> objects, List<Exit> exits)
     {
     	this.id = id;
         this.map = map;
         this.mapFileName = mapFileName;
-        this.npcs = npcs;
+        this.characters.addAll(npcs);
         this.objects = objects;
         this.exits = exits;
         
-        for(Character npc : npcs)
+        for(Character npc : characters)
         {
-            npc.setMap(map);
+            npc.setArea(this);
         }
     }
     /**
@@ -86,12 +110,58 @@ public class Area
     	return mapFileName;
     }
     /**
-     * Returns area NPCs
-     * @return List with game characters
+     * Returns all NPCs in area
+     * @return Collection with game characters
      */
-    public List<Character> getNpcs()
+    public Collection<Character> getNpcs()
     {
-    	return npcs;
+    	Collection<Character> charactersToReturn = new ArrayList<>();
+    	for(Character character : characters)
+    	{
+    		if(!character.equals(Global.getPlayer()))
+    			charactersToReturn.add(character);
+    	}
+    	return charactersToReturn;
+    }
+
+    /**
+     * Returns all characters in area
+     * @return Collection with game characters
+     */
+    public Collection<Character> getCharacters()
+    {
+    	return characters;
+    }
+    /**
+     * Returns all characters except specified character
+     * @param exceptChar Character to retain from area characters
+     * @return Collection with all area characters except specified character
+     */
+    public Collection<Character> getCharactersExcept(Character exceptChar)
+    {
+    	Collection<Character> charactersToReturn = new ArrayList<>();
+    	for(Character character : characters)
+    	{
+    		if(!character.equals(exceptChar))
+    			charactersToReturn.add(character);
+    	}
+    	return charactersToReturn;
+    }
+
+    /**
+     * Returns all characters except specified character
+     * @param exceptChar Character to retain from area characters
+     * @return Collection with all area characters except specified character
+     */
+    public Collection<Character> getCharactersExcept(String exceptCharSerialId)
+    {
+    	Collection<Character> charactersToReturn = new ArrayList<>();
+    	for(Character character : characters)
+    	{
+    		if(!character.getSerialId().equals(exceptCharSerialId))
+    			charactersToReturn.add(character);
+    	}
+    	return charactersToReturn;
     }
     /**
      * Returns area objects
@@ -110,12 +180,55 @@ public class Area
     	return exits;
     }
     /**
+     * Adds specified NPC to areas NPCs list
+     * @param npc Game character
+     * @return True if specified character was added successfully, false otherwise
+     */
+    public boolean addCharacter(Character npc)
+    {
+    	return characters.add(npc);
+    }
+    /**
+     * Removes specified character from areas characters list
+     * @param character Game character
+     * @return True if character was successfully removed, false otherwise
+     */
+    public boolean removeCharacter(Character character)
+    {
+    	return characters.remove(character);
+    }
+    /**
+     * Returns all nearby characters in area 
+     * @param character A character around which to look for other nearby characters
+     * @return List with all nearby characters
+     */
+    public List<Character> getNearbyCharacters(Character character)
+    {
+    	List<Character> nearbyCharacters = new ArrayList<>();
+    	/*
+    	if(character.getRangeFrom(player.getPosition()) < 200)
+    		nearbyCharacters.add(player);
+    	*/
+    	for(Character npc : characters)
+    	{
+    		if(npc != character && character.getRangeFrom(npc.getPosition()) < 200)
+        		nearbyCharacters.add(npc);
+    	}
+    	
+    	return nearbyCharacters;
+    }
+    /**
      * Sets specified list as this area NPCs list
      * @param charcters List with game characters for this area
      */
-    public void setNpcs(List<Character> charcters)
+    public void setCharacters(Collection<Character> characters)
     {
-    	npcs = charcters;
+    	this.characters.clear();
+    	this.characters.addAll(characters);
+    	for(Character character : this.characters)
+    	{
+    		character.setArea(this);
+    	}
     }
     /**
      * Sets specified list as this area objects list
@@ -125,4 +238,31 @@ public class Area
     {
     	this.objects = objects;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element areaE = doc.createElement("area");
+		
+		areaE.setAttribute("id", id);
+		areaE.setAttribute("map", mapFileName);
+		
+		Element npcsE = doc.createElement("npcs");
+		for(Character npc : getCharactersExcept("player_0"))
+		{
+			npcsE.appendChild(npc.getSave(doc));
+		}
+		areaE.appendChild(npcsE);
+		
+		Element objectsE = doc.createElement("object");
+		for(SimpleGameObject object : objects)
+		{
+			objectsE.appendChild(object.getSave(doc));
+		}
+		areaE.appendChild(objectsE);
+		
+		return areaE;
+	}
 }

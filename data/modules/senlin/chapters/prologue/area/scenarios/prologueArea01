@@ -1,43 +1,45 @@
 <?xml version="1.0"?>
 <base>
-<scenario id="prologue01" map="area01.tmx">
-    <npcs>
-        <npc position="1703;430">ericP01</npc>
-        <npc position="1800;300">kianP01</npc>
-        <npc position="1950;250">ewanP01</npc>
-    </npcs>
-    <mobs start="0;0" end="1000;400">
-        <mob max="3">bandit01</mob>
-    </mobs>
-    <mobs start="0;600" end="600;1000">
-        <mob max="4">goblin01</mob>
-    </mobs>
-    <quests>
-	    <quest qOn="start">pLumberTalk</quest>
-        <quest qOn="talk" trigger="ewanTalk201a01">pBanditsKilling</quest>
-    </quests>
-    <objects>
-        <object position="1900;200">cFire01</object>
-        <object position="1800;500">hAloe</object>
-    </objects>
-    <exits>
-        <exit position="0;0" size="40;10" to="0;0">prologue02</exit>
-        <exit position="1800;250" size="10;10" to="0;0">prologue01:tent01</exit>
-    </exits>
+<scenario id="prologue01">
+    <mainarea id="prologue01" map="area01.tmx">
+        <npcs>
+            <npc position="1703;430">ericP01</npc>
+            <npc position="1800;300">kianP01</npc>
+            <npc position="1950;250">ewanP01</npc>
+        </npcs>
+        <mobs start="0;0" end="1000;400">
+            <mob max="3">bandit01</mob>
+        </mobs>
+        <mobs start="0;600" end="600;1000">
+            <mob max="4">goblin01</mob>
+        </mobs>
+        <quests>
+	        <quest qOn="start">pLumberTalk</quest>
+            <quest qOn="talk" trigger="ewanTalk201a01">pBanditsKilling</quest>
+        </quests>
+        <objects>
+            <object position="1900;200">cFire01</object>
+            <object position="1800;500">hAloe</object>
+        </objects>
+        <exits>
+            <exit position="0;0" size="40;10" to="0;0">prologue02</exit>
+            <exit position="1800;250" size="10;10" to="0;0">prologue01:tent01</exit>
+        </exits>
+        <music>
+            <track category="exploring">$all</track>
+        </music>
+        <subareas>
+            <area id="tent01" map="tent01.tmx">
+                <npcs></npcs>
+                <objects></objects>
+                <exits>
+                    <exit position="0;0" size="10;10" to="1800;250">prologue01</exit>
+                </exits>
+            </area>
+        </subareas>
+    </mainarea>
     <scripts>
         <script>prologueStart</script>
     </scripts>
-    <music>
-        <track category="exploring">$all</track>
-    </music>
-    <subareas>
-        <area id="tent01" map="tent01.tmx">
-            <npcs></npcs>
-            <objects></objects>
-            <exits>
-                <exit position="0;0" size="10;10" to="1800;250">prologue01</exit>
-            </exits>
-        </area>
-    </subareas>
 </scenario>
 </base>

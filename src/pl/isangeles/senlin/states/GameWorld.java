@@ -139,18 +139,27 @@ public class GameWorld extends BasicGameState
         	dayManager = new Day();
         	fow = new FogOfWar();
       
-        	//System.out.println(activeScenario.getId());
         	mainArea = activeScenario.getMainArea();
-            area = mainArea;
-            player.setMap(area.getMap());
+        	//System.out.println(activeScenario.getId());
+        	if(player.getCurrentArea() == null)
+        	{
+                area = mainArea;
+                area.addCharacter(player);
+                player.setArea(area);
+        	}
+        	else
+        	{
+        		area = player.getCurrentArea();
+        		area.addCharacter(player);
+        	}
         	
             subAreas = activeScenario.getSubAreas();
             
         	npcsAi = new CharacterAi(this);
-            npcsAi.addNpcs(area.getNpcs()); 
+            npcsAi.addNpcs(mainArea.getNpcs()); 
             for(Area subArea : subAreas)
             {
-            	npcsAi.addNpcs(subArea.getNpcs());
+            	npcsAi.addNpcs(subArea.getCharactersExcept(player));
             }
         } 
         catch (SlickException | IOException e) 
@@ -244,26 +253,6 @@ public class GameWorld extends BasicGameState
         	if(ui.isExitReq())
         		container.exit();
     	}
-    }
-    /**
-     * Returns all nearby characters in area 
-     * @param character A character around which to look for other nearby characters
-     * @return List with all nearby characters
-     */
-    public List<Character> getNearbyCharacters(Character character)
-    {
-    	List<Character> nearbyCharacters = new ArrayList<>();
-    	
-    	if(character.getRangeFrom(player.getPosition()) < 200)
-    		nearbyCharacters.add(player);
-    	
-    	for(Character npc : area.getNpcs())
-    	{
-    		if(npc != character && character.getRangeFrom(npc.getPosition()) < 200)
-        		nearbyCharacters.add(npc);
-    	}
-    	
-    	return nearbyCharacters;
     }
     
     public TiledMap getAreaMap()
@@ -449,7 +438,10 @@ public class GameWorld extends BasicGameState
     private void changeArea(Exit exit, Area area)
     {
     	player.setPosition(exit.getToPos());
-    	player.setMap(area.getMap());
+    	if(player.getCurrentArea() != null)
+        	player.getCurrentArea().removeCharacter(player);
+    	player.setArea(area);
+    	area.addCharacter(player);
     	this.area = area;
     }
 }

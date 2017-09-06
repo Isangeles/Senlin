@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core.ai;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -31,11 +32,12 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.TConnector;
 /**
- * Class for artificial intelligence controlling game characters
+ * Class for artificial intelligence controlling game NPCs
  * @author Isangeles
  *
  */
@@ -56,7 +58,7 @@ public class CharacterAi
 	}
 	/**
 	 * Updates all NPCs controlled by AI
-	 * @param delta
+	 * @param delta Time between updates
 	 */
 	public void update(int delta)
 	{
@@ -64,24 +66,29 @@ public class CharacterAi
 		
 		for(Character npc : aiNpcs)
 		{
-			if(rng.nextInt(100) == 1)
+			Area area = npc.getCurrentArea();
+			if(area != null)
 			{
-				moveAround(npc);
-                saySomething(npc, "idle", true);
-			}
-			
-			for(Character nearbyChar : gw.getNearbyCharacters(npc))
-			{
-				if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
-				{
-					attack(npc, nearbyChar);
-				}
-			}
 
-			npc.update(delta);
+				if(rng.nextInt(100) == 1)
+				{
+					moveAround(npc);
+	                saySomething(npc, "idle", true);
+				}
+				
+				for(Character nearbyChar : area.getNearbyCharacters(npc))
+				{
+					if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
+					{
+						attack(npc, nearbyChar);
+					}
+				}
+
+				npc.update(delta);
+			}
 			
 			//Removing NPCs dynamically causes ConcurrentModificationException   
-			if(!npc.isLive())
+			if(!npc.isLive() || area == null)
 				deadNpcs.add(npc);
 		}
 		
@@ -91,7 +98,7 @@ public class CharacterAi
 	 * Puts specified NPCs under AI control
 	 * @param npcs List with game characters
 	 */
-	public void addNpcs(List<Character> npcs)
+	public void addNpcs(Collection<Character> npcs)
 	{
 		aiNpcs.addAll(npcs);
 	}
@@ -145,7 +152,7 @@ public class CharacterAi
 	}
 	/**
 	 * Urges NPC to say something
-	 * @param who Character controled by AI
+	 * @param who Character controlled by AI
 	 * @param what String with one of these categories: aggressive, friendly, idle
 	 * @param random Determines whether speech should be random or not 
 	 */

@@ -78,6 +78,7 @@ import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.graphic.CharacterAvatar;
@@ -130,7 +131,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private List<Training> trainings = new ArrayList<>();
 	private QuestTracker qTracker;
 	private SkillCaster sCaster;
-	private TiledMap currentMap;
+	private Area currentArea;
 	private Random numberGenerator = new Random();
 	/**
 	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
@@ -355,10 +356,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         destPoint[0] = pos.x;
         destPoint[1] = pos.y;
     }
-    
-    public void setMap(TiledMap map)
+    /**
+     * Sets specified area as current area of this character
+     * @param area Game world area
+     */
+    public void setArea(Area area)
     {
-        currentMap = map;
+    	//area.addNpc(this);
+        currentArea = area;
     }
     /**
      * Equips specified item, if item is in character inventory and its equippable
@@ -538,7 +543,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             avatar.move(true);
             if(position[0] > destPoint[0])
             {
-                if(isMovable(position[0]-1, position[1], currentMap))
+                if(isMovable(position[0]-1, position[1], currentArea.getMap()))
                 {
                     position[0] -= 1;
                     avatar.goLeft();
@@ -546,7 +551,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[0] < destPoint[0])
             {
-                if(isMovable(position[0]+1, position[1], currentMap))
+                if(isMovable(position[0]+1, position[1], currentArea.getMap()))
                 {
                     position[0] += 1;
                     avatar.goRight();
@@ -554,7 +559,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[1] > destPoint[1])
             {
-                if(isMovable(position[0], position[1]-1, currentMap))
+                if(isMovable(position[0], position[1]-1, currentArea.getMap()))
                 {
                     position[1] -= 1;
                     avatar.goUp();
@@ -562,7 +567,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             }
             if(position[1] < destPoint[1])
             {
-                if(isMovable(position[0], position[1]+1, currentMap))
+                if(isMovable(position[0], position[1]+1, currentArea.getMap()))
                 {
                     position[1] += 1;
                     avatar.goDown();
@@ -824,6 +829,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public int getRangeFrom(Targetable object)
 	{
 		return getRangeFrom(object.getPosition());
+	}
+	/**
+	 * Returns current area of this character
+	 * @return Game world area
+	 */
+	public Area getCurrentArea()
+	{
+		return currentArea;
 	}
 	/**
 	 * Checks if character is live
@@ -1477,10 +1490,23 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.appendChild(nameE);
         
         Element positionE = doc.createElement("position");
+        if(currentArea != null)
+        	positionE.setAttribute("area", currentArea.getId());
+        else
+        	positionE.setAttribute("area", "none");
         positionE.setTextContent(new Position(position).toString());
         charE.appendChild(positionE);
         
         return charE;
+    }
+    /**
+     * Compares this character to another game character
+     * @param character Game character to compare
+     * @return True if specified character have same serial ID as this character, false otherwise
+     */
+    public boolean equals(Character character)
+    {
+    	return serialId.equals(character.getSerialId());
     }
 	/**
 	 * Returns dialogue for specified character

@@ -333,7 +333,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	for(Item item : this)
     	{
     		Element itemE = doc.createElement("item");
-			itemE.setAttribute("serial", ""+item.getNumber());
+			itemE.setAttribute("serial", item.getNumber()+"");
     		itemE.setTextContent(item.getId());
     		in.appendChild(itemE);
     	}
@@ -353,8 +353,8 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	in.setAttribute("gold", gold+"");
     	for(Item item : this)
     	{
-    		Element itemE = doc.createElement("item");
-    		itemE.setAttribute("serial", ""+item.getNumber());
+			Element itemE = doc.createElement("item");
+    		itemE.setAttribute("serial", item.getNumber()+"");
     		itemE.setTextContent(item.getId());
     		in.appendChild(itemE);
     	}

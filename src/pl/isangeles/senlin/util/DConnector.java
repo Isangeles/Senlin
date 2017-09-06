@@ -444,6 +444,7 @@ public final class DConnector
 				}
 				catch(NumberFormatException e)
 				{
+					//System.out.println("object_parser_fail_msg///base node corrupted");
 					Log.addSystem("object_parser_fail_msg///base node corrupted");
 				}
 			}

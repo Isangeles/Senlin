@@ -84,7 +84,7 @@ public class Scenario implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, String mapFile, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts, 
+	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts, 
 			Map<String, String> music) 
 			throws SlickException, IOException, FontFormatException 
 	{
@@ -126,7 +126,7 @@ public class Scenario implements SaveElement
 		
 		for(MobsArea mobsArea : mobsAreas)
 		{
-			this.mainArea.getNpcs().addAll(mobsArea.spawnMobs());
+			this.mainArea.getNpcs().addAll(mobsArea.spawnMobs(mainArea));
 		}
 		
 		for(String qId : quests.keySet())
@@ -237,22 +237,28 @@ public class Scenario implements SaveElement
 	{
 		Element scenarioE = doc.createElement("scenario");
 		scenarioE.setAttribute("id", id);
-		scenarioE.setAttribute("map", mainArea.getMapName());
+		
+		Element mainareaE = doc.createElement("mainarea");
+		mainareaE.setAttribute("id", mainArea.getId());
+		mainareaE.setAttribute("map", mainArea.getMapName());
+		//scenarioE.setAttribute("map", mainArea.getMapName());
 		
 		Element objectsE = doc.createElement("objects");
 		for(SimpleGameObject object : mainArea.getObjects())
 		{
 			objectsE.appendChild(object.getSave(doc));
 		}
-		scenarioE.appendChild(objectsE);
+		mainareaE.appendChild(objectsE);
 		
 		Element charactersE = doc.createElement("characters");
 		for(Character npc : mainArea.getNpcs())
 		{
 			charactersE.appendChild(npc.getSave(doc));
 		}
-		scenarioE.appendChild(charactersE);
+		mainareaE.appendChild(charactersE);
 		
+		scenarioE.appendChild(mainareaE);
+		/*
 		Element scriptsE = doc.createElement("scripts");
 		for(Script script : scripts)
 		{
@@ -261,7 +267,8 @@ public class Scenario implements SaveElement
 			scriptsE.appendChild(scriptE);
 		}
 		scenarioE.appendChild(scriptsE);
-		
+		*/
+		/*
 		Element musicE = doc.createElement("music");
 		for(String track : music.keySet())
 		{
@@ -271,6 +278,13 @@ public class Scenario implements SaveElement
 			musicE.appendChild(trackE);
 		}
 		scenarioE.appendChild(musicE);
+		*/
+		Element subareasE = doc.createElement("subareas");
+		for(Area subArea : subAreas)
+		{
+			subareasE.appendChild(subArea.getSave(doc));
+		}
+		scenarioE.appendChild(subareasE);
 		
 		return scenarioE;
 	}

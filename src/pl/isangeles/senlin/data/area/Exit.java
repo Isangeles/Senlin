@@ -27,9 +27,12 @@ import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.data.ObjectsBase;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
@@ -41,7 +44,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Exit 
+public class Exit implements SaveElement
 {
 	private String scenarioId;
 	private String subAreaId;
@@ -161,5 +164,21 @@ public class Exit
 	public Position getPos()
 	{
 		return pos;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element exitE = doc.createElement("exit");
+		
+		exitE.setAttribute("position", pos.toString());
+		exitE.setAttribute("size", size.toString());
+		if(toSub)
+			exitE.setAttribute("to", subAreaId);
+		exitE.setTextContent(scenarioId);
+		
+		return exitE;
 	}
 }

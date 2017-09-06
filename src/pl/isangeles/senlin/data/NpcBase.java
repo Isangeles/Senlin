@@ -15,6 +15,7 @@ import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 /**
  * Static class for NPC base, contains all game NPCs 
@@ -45,7 +46,29 @@ public class NpcBase
 			return null;
 	}
 	/**
-	 * Spawns character with specified id at specified position
+	 * Spawns new instance of game character with specified id in specified area and at specified position
+	 * @param npcId NPC ID in base
+	 * @param area Area for NPC
+	 * @param pos Table with position on x-axis[0] and y-axis[1]
+	 * @return New character object
+	 * @throws IOException
+	 * @throws FontFormatException
+	 * @throws SlickException
+	 */
+	public static Character spawnIn(String npcId, Area area, Position pos) throws IOException, FontFormatException, SlickException
+	{
+		if(npcs.get(npcId) != null)
+		{
+			Character newChar = npcs.get(npcId).make(gc);
+			newChar.setArea(area);
+			newChar.setPosition(pos.x, pos.y);
+			return newChar;
+		}
+		else
+			return null;
+	}
+	/**
+	 * Spawns new instance of game character with specified id at specified position
 	 * @param npcId NPC ID in base
 	 * @param pos Table with position on x-axis[0] and y-axis[1]
 	 * @return New character object

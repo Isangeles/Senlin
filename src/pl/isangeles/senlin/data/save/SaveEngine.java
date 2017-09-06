@@ -91,6 +91,7 @@ public class SaveEngine
 		Element playerE = doc.createElement("player");
 		playerE.appendChild(player.getSave(doc));
 		Element scenarioE = doc.createElement("scenario");
+		scenarioE.setAttribute("area", player.getCurrentArea().getId());
 		scenarioE.setTextContent(chapter.getActiveScenario().getId());
 		playerE.appendChild(scenarioE);
 		saveE.appendChild(playerE);

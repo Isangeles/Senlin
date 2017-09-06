@@ -64,7 +64,7 @@ public class MobsArea
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public List<Character> spawnMobs() throws IOException, FontFormatException, SlickException
+	public List<Character> spawnMobs(Area area) throws IOException, FontFormatException, SlickException
 	{
 		List<Character> mobsList = new ArrayList<>();
 		Random rng = new Random();
@@ -74,7 +74,7 @@ public class MobsArea
 			for(int i = 0; i <  1 + rng.nextInt(mobs.get(mobId)); i ++)
 			{
 				Position mobPos = new Position(startPoint.x + rng.nextInt(endPoint.x), startPoint.y + rng.nextInt(endPoint.y));
-				Character mob = NpcBase.spawnAt(mobId, mobPos);
+				Character mob = NpcBase.spawnIn(mobId, area, mobPos);
 				if(mob != null)
 				{
 					mobsList.add(mob);
