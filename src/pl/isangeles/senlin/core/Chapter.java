@@ -42,13 +42,22 @@ public class Chapter implements SaveElement
 	private String id;
 	private List<Scenario> loadedScenarios = new ArrayList<>();
 	private Scenario activeScenario;
-	
+	/**
+	 * Chapter constructor
+	 * @param id Chapter ID
+	 * @param startScenario Start scenario
+	 */
 	public Chapter(String id, String startScenario)
 	{
 		this.id = id;
 		setScenario(startScenario);
 	}
-	
+	/**
+	 * Chapter constructor
+	 * @param id Chapter ID
+	 * @param scenarios List of scenarios
+	 * @param startScenario Start scenario
+	 */
 	public Chapter(String id, List<Scenario> scenarios, String startScenario)
 	{
 		this.id = id;
@@ -69,17 +78,18 @@ public class Chapter implements SaveElement
 	{
 		return id;
 	}
-	
+	/**
+	 * Returns scenario with specified ID from scenarios list
+	 * @param scenarioId String with desired scenario ID
+	 * @return Scenario with specified ID or null if not such scenario was found
+	 */
 	public Scenario getScenario(String scenarioId)
 	{
 		final String scenarioID = scenarioId;
 		for(Scenario scenario : loadedScenarios)
 		{
 			if(scenario.getId().equals(scenarioID))
-			{
-				loadedScenarios.add(scenario);
 				return scenario;
-			}
 		}
 		
 		Scenario scenario = ScenariosBase.getScenario(scenarioID);
@@ -87,17 +97,27 @@ public class Chapter implements SaveElement
 			loadedScenarios.add(scenario);
 		return scenario;
 	}
-	
+	/**
+	 * Returns active scenario
+	 * @return Active chapter scenario
+	 */
 	public Scenario getActiveScenario()
 	{
 		return activeScenario;
 	}
-	
+	/**
+	 * Returns all loaded(visited) scenarios of this chapter
+	 * @return List with scenarios
+	 */
 	public List<Scenario> getScenarios()
 	{
 		return loadedScenarios;
 	}
-	
+	/**
+	 * Sets scenario with specified ID as active scenario
+	 * @param scenarioId Scenario ID
+	 * @return True if scenario with specified ID was successfully set as active scenario, false otherwise
+	 */
 	public boolean setScenario(String scenarioId)
 	{
 		Scenario scenario = getScenario(scenarioId);

@@ -29,7 +29,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-enum WeatherType 
+public enum WeatherType 
 {
 	SUN, RAIN;
 	/**

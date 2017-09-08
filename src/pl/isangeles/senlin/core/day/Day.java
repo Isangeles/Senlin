@@ -84,6 +84,19 @@ public class Day implements SaveElement
 		conditions.update(delta);
 	}
 	/**
+	 * Sets specified time as current time
+	 * @param time Time in milliseconds
+	 */
+	public void setTime(int time)
+	{
+		this.time = time;
+	}
+	
+	public void setWeather(WeatherType type, int timerState, int duration)
+	{
+		conditions.setWeatherEffect(type, timerState, duration);
+	}
+	/**
 	 * Returns current game time
 	 * @return String with game time
 	 */
@@ -116,7 +129,7 @@ public class Day implements SaveElement
 	{
 		Element dayE = doc.createElement("day");
 		dayE.setAttribute("time", time+"");
-		dayE.appendChild(phase.getSave(doc));
+		//dayE.appendChild(phase.getSave(doc));
 		dayE.appendChild(conditions.getSave(doc));
 		return dayE;
 	}

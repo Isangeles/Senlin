@@ -107,9 +107,10 @@ public class GameWorld extends BasicGameState implements SaveElement
 	 */
 	public GameWorld(SavedGame savedGame)
 	{
-	    this.player = savedGame.getPlayer();
-	    this.chapter = savedGame.getChapter();
-	    this.activeScenario = chapter.getActiveScenario();
+	    player = savedGame.getPlayer();
+	    dayManager = savedGame.getDay();
+	    chapter = savedGame.getChapter();
+	    activeScenario = chapter.getActiveScenario();
 	}
 	/**
 	 * Sets specified GUI as game GUI
@@ -119,7 +120,10 @@ public class GameWorld extends BasicGameState implements SaveElement
 	{
 		ui = gui;
 	}
-	
+	/**
+	 * Sets specified CLI as game CLI
+	 * @param cli Game command line interface
+	 */
 	public void setCli(CommandInterface cli)
 	{
 		cui = cli;
@@ -139,7 +143,8 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic.playRandom(1.0f, 1.0f);
         	
         	gwCursor = new GameCursor(container);
-        	dayManager = new Day();
+        	if(dayManager == null)
+                dayManager = new Day();
         	fow = new FogOfWar();
       
         	mainArea = activeScenario.getMainArea();

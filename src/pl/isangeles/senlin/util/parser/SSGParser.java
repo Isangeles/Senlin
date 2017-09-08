@@ -48,6 +48,8 @@ import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.day.Day;
+import pl.isangeles.senlin.core.day.WeatherType;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.quest.Objective;
 import pl.isangeles.senlin.core.quest.Quest;
@@ -133,10 +135,14 @@ public final class SSGParser
         		}
         	}
         }
+        
+        Node dayNode = worldE.getElementsByTagName("day").item(0);
+        Day day = getDayFromNode(dayNode);
+        
         Node uiNode = saveE.getElementsByTagName("ui").item(0);
         UiLayout uiLayout = getUiLayout(uiNode);
         
-        return new SavedGame(player, chapterId, scenarios, activeScenario, uiLayout);
+        return new SavedGame(player, chapterId, scenarios, activeScenario, day, uiLayout);
     }
     /**
      * Parses specified save document element to game character 
@@ -383,6 +389,30 @@ public final class SSGParser
     	}
     	
     	return objectInventory;
+    }
+    /**
+     * Parses specified day node to game day
+     * @param dayNode Node from SSG file (day node)
+     * @return New game day instance
+     * @throws IOException 
+     * @throws SlickException 
+     */
+    private static Day getDayFromNode(Node dayNode) throws SlickException, IOException, NumberFormatException
+    {
+    	//Day day = new Day();
+    	Element dayE = (Element)dayNode;
+    	int dayTime = Integer.parseInt(dayE.getAttribute("time"));
+    	
+    	Element weatherE = (Element)dayE.getElementsByTagName("weather").item(0);
+    	String weatherId = weatherE.getTextContent();
+    	int weatherTime = Integer.parseInt(weatherE.getAttribute("timer"));
+    	int weatherDuration = Integer.parseInt(weatherE.getAttribute("to"));
+    	
+    	Day day = new Day();
+    	day.setTime(dayTime);
+    	day.setWeather(WeatherType.fromId(weatherId), weatherTime, weatherDuration);
+    	
+    	return day;
     }
     /**
      * Parses ui node to UI layout 

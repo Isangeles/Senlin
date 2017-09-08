@@ -54,6 +54,7 @@ class DayPhase implements SaveElement
 		middayFilter = new Sprite(GConnector.getInput("day/midday.png"), "dayFilterMidday", false);
 		afternoonFilter = new Sprite(GConnector.getInput("day/afternoon.png"), "dayFilterAfternoon", false);
 		nightFilter = new Sprite(GConnector.getInput("day/night.png"), "dayFilterNight", false);
+		type = PhaseType.MORNING;
 	}
 	/**
 	 * Draws day phase filter
