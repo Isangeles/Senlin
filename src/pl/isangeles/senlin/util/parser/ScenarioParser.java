@@ -263,8 +263,14 @@ public class ScenarioParser
 					String exitToId = exitE.getTextContent();
 					Position exitToPos = new Position(exitE.getAttribute("to"));
 					Position pos = new Position(exitE.getAttribute("position"));
-					Size size = new Size(exitE.getAttribute("size"));
-					exits.add(new Exit(pos, size, exitToId, exitToPos, gc));
+					String texture = exitE.getAttribute("texture");
+					Exit exit;
+					if(texture == "")
+						exit = new Exit(pos, exitToId, exitToPos, gc);
+					else
+						exit = new Exit(pos, texture, exitToId, exitToPos, gc);
+					
+					exits.add(exit);
 				}
 				catch(SlickException | IOException | FontFormatException e)
 				{

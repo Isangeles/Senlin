@@ -30,7 +30,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 /**
- * Class for simple graphical game objects
+ * Class for graphical representations of simple game objects
  * @author Isangeles
  *
  */

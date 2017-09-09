@@ -22,8 +22,8 @@
             <object position="1800;500">hAloe</object>
         </objects>
         <exits>
-            <exit position="0;0" size="40;10" to="0;0">prologue02</exit>
-            <exit position="1800;250" size="10;10" to="0;0">prologue01:tent01</exit>
+            <exit position="0;0" texture="signPost.png" to="0;0">prologue02</exit>
+            <exit position="1800;250" texture="" to="0;0">prologue01:tent01</exit>
         </exits>
         <music>
             <track category="exploring">$all</track>
@@ -33,7 +33,7 @@
                 <npcs></npcs>
                 <objects></objects>
                 <exits>
-                    <exit position="0;0" size="10;10" to="1800;250">prologue01</exit>
+                    <exit position="0;0" texture="" to="1800;250">prologue01</exit>
                 </exits>
             </area>
         </subareas>

@@ -26,6 +26,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,7 +45,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Exit implements SaveElement
+public class Exit
 {
 	private String scenarioId;
 	private String subAreaId;
@@ -52,7 +53,7 @@ public class Exit implements SaveElement
 	private Size size;
 	private Position toPos;
 	private boolean toSub;
-	private Sprite exitArea;
+	private Sprite texture;
 	/**
 	 * Area exit constructor 
 	 * @param pos Position on area map
@@ -77,8 +78,8 @@ public class Exit implements SaveElement
 			subAreaId = "";
 		}
 		this.pos = pos;
-		this.exitArea = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
-		size = new Size(exitArea.getScaledWidth(), exitArea.getScaledHeight());
+		this.texture = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
+		size = new Size(texture.getScaledWidth(), texture.getScaledHeight());
 		this.toPos = toPos;
 	}
 	/**
@@ -89,7 +90,7 @@ public class Exit implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Exit(Position pos, Size size, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Exit(Position pos, String texName, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
@@ -105,17 +106,15 @@ public class Exit implements SaveElement
 			subAreaId = "";
 		}
 		this.pos = pos;
-		this.size = size;
         this.toPos = toPos;
-        
-		this.exitArea = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
+		this.texture = new Sprite(new Image(GConnector.getInput("object/static/" + texName), texName, false), TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 	/**
 	 * Draws exit area texture
 	 */
 	public void draw()
 	{
-		exitArea.draw(pos.x, pos.y, size.width, size.height, true);
+		texture.draw(pos.x, pos.y, true);
 	}
 	/**
 	 * Returns ID of scenario to enter after using this exit
@@ -147,7 +146,7 @@ public class Exit implements SaveElement
 	 */
 	public boolean isMouseOver()
 	{
-		return exitArea.isMouseOver();
+		return texture.isMouseOver();
 	}
 	/**
 	 * Checks if this exit leads to sub area
@@ -164,21 +163,5 @@ public class Exit implements SaveElement
 	public Position getPos()
 	{
 		return pos;
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
-	 */
-	@Override
-	public Element getSave(Document doc) 
-	{
-		Element exitE = doc.createElement("exit");
-		
-		exitE.setAttribute("position", pos.toString());
-		exitE.setAttribute("size", size.toString());
-		if(toSub)
-			exitE.setAttribute("to", subAreaId);
-		exitE.setTextContent(scenarioId);
-		
-		return exitE;
 	}
 }
