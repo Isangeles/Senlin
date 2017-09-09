@@ -1,6 +1,8 @@
 #Script for prologue start
 script:
     $charman player add -item acCS00;
+    $charman player add -item wSOHI;
+    $charman player set -position 1700 500;
     $charman player add -flag prologueStarted;
 if:
     !has flag prologueStarted player;

@@ -41,14 +41,77 @@ import pl.isangeles.senlin.util.AConnector;
  * @author Isangeles
  *
  */
-public class AudioPlayer extends HashMap<String, Music>
+public class AudioPlayer
 {
 	private static final long serialVersionUID = 1L;
 	
+	private Playlist mainList;
+	private Playlist activePlaylist;
+	private List<Playlist> playlists = new ArrayList<>();
 	private Random rng = new Random();
-
+	/**
+	 * Audio player constructor
+	 */
 	public AudioPlayer() 
 	{
+		mainList = new Playlist("main");
+		playlists.add(mainList);
+		activePlaylist = mainList;
+	}
+	/**
+	 * Adds track with specified name from specified category to playlist with specified name
+	 * @param playlistName Playlist name
+	 * @param category Category name
+	 * @param trackName Audio file name
+	 * @return True if track with specified name was successfully added to playlist, false otherwise
+	 */
+	public boolean addTo(String playlistName, String category, String trackName)
+	{
+		try
+		{
+			for(Playlist playlist : playlists)
+			{
+				if(playlist.getName().equals(playlistName))
+				{
+					playlist.add(category, trackName);
+					mainList.add(category, trackName);
+					return true;
+				}
+			}
+			return false;
+		}
+		catch(IOException | SlickException e)
+		{
+			Log.addSystem("audioPlayer_fail_msg///adding error: " + trackName);
+			return false;
+		}
+	}
+	/**
+	 * Adds all tracks from specified category to playlist with specified name
+	 * @param playlistName Playlist name
+	 * @param category Category name
+	 * @return True if tracks from specified category was successfully added to playlist, false otherwise
+	 */
+	public boolean addAllTo(String playlistName, String category)
+	{
+		try
+		{
+			for(Playlist playlist : playlists)
+			{
+				if(playlist.getName().equals(playlistName))
+				{
+					playlist.addAll(category);
+					mainList.addAll(category);
+					return true;
+				}
+			}
+			return false;
+		}
+		catch(IOException | SlickException e)
+		{
+			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
+			return false;
+		}
 	}
 	/**
 	 * Adds one specified music track to player
@@ -58,11 +121,9 @@ public class AudioPlayer extends HashMap<String, Music>
 	 */
 	public void add(String category, String trackName)
 	{
-		
 		try
 		{
-			Music track = new Music(AConnector.getInput("music/" + category + "/" +  trackName), trackName);
-			this.put(trackName, track);
+			mainList.add(category, trackName);
 		}
 		catch(IOException | SlickException e)
 		{
@@ -79,22 +140,20 @@ public class AudioPlayer extends HashMap<String, Music>
 	{
 		try
 		{
-			Scanner scann = new Scanner(AConnector.getInput("music/" + category + "/playlist"));
-			scann.useDelimiter(";|(;\\r?\\n)");
-			while(scann.hasNext())
-			{
-			    add(category, scann.next());
-			}
-			scann.close();
+			mainList.addAll(category);
 		}
-		catch(IOException e)
+		catch(IOException | SlickException e)
 		{
-			Log.addSystem("audioPlayer_fail_msg///playlist not found: " + category);
+			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
 		}
-		finally
-		{
-			
-		}
+	}
+	/**
+	 * Creates new playlist
+	 * @param name Name for new playlist
+	 */
+	public void createPlaylist(String name)
+	{
+		playlists.add(new Playlist(name));
 	}
 	/**
 	 * Starts audio player
@@ -103,9 +162,12 @@ public class AudioPlayer extends HashMap<String, Music>
 	 */
 	public void play(float pitch, float volume, String trackName)
 	{
-	    Music track = this.get(trackName);
+	    Music track = mainList.get(trackName);
 		if(track != null)
+		{
 			track.play(pitch, volume);
+			activePlaylist = mainList;
+		}
 		else
 		    Log.addSystem("audioPlayer_fail_msg///no such track: " + trackName);
 	}
@@ -116,13 +178,14 @@ public class AudioPlayer extends HashMap<String, Music>
 	 */
 	public void playRandom(float pitch, float volume)
 	{	
-		Music[] tracks = new Music[this.values().size()];
-		this.values().toArray(tracks);
+		Music[] tracks = new Music[mainList.values().size()];
+		mainList.values().toArray(tracks);
 		
         if(tracks.length > 0)
         {
             int trackId = rng.nextInt(tracks.length);
             tracks[trackId].play(pitch, volume);
+			activePlaylist = mainList;
         }
         else
         {
@@ -130,14 +193,59 @@ public class AudioPlayer extends HashMap<String, Music>
         }
 	}
 	/**
+	 * Starts random track from playlist with specified name
+	 * @param playlistName Playlist name
+	 * @param pitch Pitch
+	 * @param volume Volume
+	 * @return True if random track was successfully started, false otherwise
+	 */
+	public boolean playRandomFrom(String playlistName, float pitch, float volume)
+	{	
+		Playlist playlist = null;
+		for(Playlist pl : playlists)
+		{
+			if(pl.getName().equals(playlistName))
+				playlist = pl;
+				
+		}
+		if(playlist != null)
+		{	
+			Music[] tracks = new Music[playlist.values().size()];
+			playlist.values().toArray(tracks);
+			
+	        if(tracks.length > 0)
+	        {
+	            int trackId = rng.nextInt(tracks.length);
+	            tracks[trackId].play(pitch, volume);
+				activePlaylist = playlist;
+	            return true;
+	        }
+	        else
+	        {
+	            Log.addSystem("audioPlayer_fail_msg///no tracks inside");
+	            return false;
+	        }
+		}
+		else
+			return false;
+	}
+	/**
 	 * Stops audio player
 	 */
 	public void stop()
 	{
-		for(Music track : this.values())
+		for(Music track : playlists.get(0).values())
 		{
 			if(track.playing())
 				track.stop();
 		}
+	}
+	/**
+	 * Returns active playlist name
+	 * @return String with playlist name
+	 */
+	public String getActivePlaylist()
+	{
+		return activePlaylist.getName();
 	}
 }

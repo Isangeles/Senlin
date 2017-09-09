@@ -330,41 +330,6 @@ public final class SSGParser
     	return effects;
     }
     /**
-     * Parses specified SSG element to list with buffs
-     * @param character Game character, buffs owner
-     * @param buffsE SSG element, buffs element
-     * @return List with saved buffs
-     */
-    /*
-    private static List<Buff> getSavedBuffs(Character character, Element buffsE)
-    {
-    	List<Buff> buffs = new ArrayList<>();
-    	NodeList buffsNl = buffsE.getElementsByTagName("buff");
-    	for(int i = 0; i < buffsNl.getLength(); i ++)
-    	{
-    		Node buffNode = buffsNl.item(i);
-    		if(buffNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-    		{
-    			Element buffE = (Element)buffNode;
-    			try
-    			{
-    				String buffId = buffE.getTextContent();
-    				int buffTime = Integer.parseInt(buffE.getAttribute("time"));
-    				Buff buff = (Buff)SkillsBase.getSkill(character, buffId);
-    				buff.setTime(buffTime);
-    				buffs.add(buff);
-    			}
-    			catch(NumberFormatException | SlickException | IOException | FontFormatException | ClassCastException  e)
-    			{
-    				Log.addSystem("ssg_parser_fail-msg///saved buff corrupted!");
-    				break;
-    			}
-    		}
-    	}
-    	return buffs;
-    }
-    */
-    /**
      * Parses specified save eq element to inventory(ignores equipment)
      * @param eqE SSG eq doc element
      * @return New inventory object

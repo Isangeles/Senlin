@@ -349,12 +349,18 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * Instantly sets character position
      * @param pos XY position
      */
-    public void setPosition(Position pos)
+    public boolean setPosition(Position pos)
     {
-        position[0] = pos.x;
-        position[1] = pos.y;
-        destPoint[0] = pos.x;
-        destPoint[1] = pos.y;
+        if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
+        {
+        	position[0] = pos.x;
+    		position[1] = pos.y;
+    		destPoint[0] = pos.x;
+    		destPoint[1] = pos.y;
+    		return true;
+        }
+        else
+        	return false;
     }
     /**
      * Sets specified area as current area of this character

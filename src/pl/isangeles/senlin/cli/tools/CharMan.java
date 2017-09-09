@@ -40,6 +40,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -148,10 +149,17 @@ public class CharMan implements CliTool
         	{
         		out = true;
         	}
+        	else if(prefix.equals("-position"))
+        	{
+        		String[] pos = value.split(" ");
+        		int x = Integer.parseInt(pos[0]);
+        		int y = Integer.parseInt(pos[1]);
+        		out = target.setPosition(new Position(x, y));
+        	}
         	else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
     	}
-    	catch(NumberFormatException | NoSuchElementException e)
+    	catch(NumberFormatException | NoSuchElementException | IndexOutOfBoundsException e)
 		{
 			Log.addSystem("bad value: " + value);
 		}

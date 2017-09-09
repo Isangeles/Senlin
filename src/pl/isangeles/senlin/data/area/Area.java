@@ -37,6 +37,7 @@ import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Size;
 /**
  * Class for game world areas
  * @author Isangeles
@@ -47,6 +48,7 @@ public class Area implements SaveElement
 	private String id;
     private TiledMap map;
     private String mapFileName;
+    private Size size;
     private Set<Character> characters = new HashSet<>();
     private List<SimpleGameObject> objects;
     private List<Exit> exits;
@@ -61,6 +63,7 @@ public class Area implements SaveElement
     	this.id = id;
     	this.map = map;
     	this.mapFileName = mapFileName;
+    	size = new Size(map.getWidth(), map.getHeight());
     	
     	objects = new ArrayList<>();
     	exits = new ArrayList<>();
@@ -76,6 +79,7 @@ public class Area implements SaveElement
     	this.id = id;
         this.map = map;
         this.mapFileName = mapFileName;
+    	size = new Size(map.getWidth(), map.getHeight());
         this.characters.addAll(npcs);
         this.objects = objects;
         this.exits = exits;
@@ -108,6 +112,14 @@ public class Area implements SaveElement
     public String getMapName()
     {
     	return mapFileName;
+    }
+    /**
+     * Returns area map size
+     * @return Tuple with width and height of this area map
+     */
+    public Size getMapSize()
+    {
+    	return new Size(size.width, size.height);
     }
     /**
      * Returns all NPCs in area

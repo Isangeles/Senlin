@@ -95,8 +95,6 @@ public class GameWorld extends BasicGameState implements SaveElement
 	{
         this.player = player;
         player.setPosition(1700, 500);
-        player.addItem(ItemsBase.getItem("wSOHI")); //test line
-        player.addItem(ItemsBase.getItem("wSOHI")); //test line
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
@@ -139,8 +137,9 @@ public class GameWorld extends BasicGameState implements SaveElement
         try 
         {
         	gwMusic = new AudioPlayer();
+        	gwMusic.createPlaylist("idle");
+        	gwMusic.createPlaylist("combat");
         	activeScenario.addMusic(gwMusic);
-        	gwMusic.playRandom(1.0f, 1.0f);
         	
         	gwCursor = new GameCursor(container);
         	if(dayManager == null)
@@ -220,6 +219,14 @@ public class GameWorld extends BasicGameState implements SaveElement
             throws SlickException
     {
     	dayManager.update(delta);
+    	if(player.isFighting() && !gwMusic.getActivePlaylist().equals("combat"))
+    	{
+        	gwMusic.playRandomFrom("combat", 1.0f, 1.0f);
+    	}
+    	else if(!player.isFighting() && !gwMusic.getActivePlaylist().equals("idle"))
+    	{
+    		gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
+    	}
     	
         if(!isPause())
             keyDown(container.getInput());

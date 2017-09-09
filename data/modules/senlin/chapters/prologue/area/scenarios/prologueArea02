@@ -11,7 +11,12 @@
         <exits>
         </exits>
         <music>
-	        <track category="exploring">$all</track>
+	        <idle>
+                <track category="exploring">$all</track>
+            </idle>
+            <combat>
+            
+            </combat>
         </music>
     </mainarea>
         <scripts>

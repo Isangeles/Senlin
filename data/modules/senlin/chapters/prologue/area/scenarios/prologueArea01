@@ -26,7 +26,12 @@
             <exit position="1800;250" texture="" to="0;0">prologue01:tent01</exit>
         </exits>
         <music>
-            <track category="exploring">$all</track>
+            <idle>
+                <track category="exploring">$all</track>
+            </idle>
+            <combat>
+                
+            </combat>
         </music>
         <subareas>
             <area id="tent01" map="tent01.tmx">
@@ -35,6 +40,8 @@
                 <exits>
                     <exit position="0;0" texture="" to="1800;250">prologue01</exit>
                 </exits>
+                <music>
+                </music>
             </area>
         </subareas>
     </mainarea>
