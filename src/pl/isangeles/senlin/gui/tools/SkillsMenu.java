@@ -27,10 +27,14 @@ import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -43,21 +47,27 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
+import pl.isangeles.senlin.gui.Slot;
 /**
  * Class for in-game skills menu
  * @author Isangeles
  *
  */
-class SkillsMenu extends InterfaceObject implements UiElement
+class SkillsMenu extends InterfaceObject implements UiElement, MouseListener
 {
 	private Character player;
 	private TrueTypeFont ttf;
-	private SkillSlots normals;
-	private SkillSlots magic;
-	private SkillSlots passives;
-	private List<Skill> skillsIn = new ArrayList<>();
+	private Button pageSkills;
+	private Button pageMagic;
+	private Button pageAbilities;
+	private SlotsPages slots;
+	private Set<Skill> skills = new HashSet<>();
+	private Set<Skill> magic = new HashSet<>();
+	private Set<Skill> passives = new HashSet<>();
 	private boolean openReq;
+	private boolean focus;
 	/**
 	 * Skills menu constructor
 	 * @param gc Slick game container
@@ -69,16 +79,30 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	public SkillsMenu(GameContainer gc, Character player)
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(GConnector.getInput("ui/background/skillsMenuBG.png"), "uiSMenu", false, gc);
+		super(GConnector.getInput("ui/background/skillsMenuBGv2.png"), "uiSMenu", false, gc);
+		gc.getInput().addMouseListener(this);
 		this.player = player;
 		
-		normals = new SkillSlots(gc);
-		magic = new SkillSlots(gc);
-		passives = new SkillSlots(gc);
+		pageSkills = new Button(GConnector.getInput("button/bookmark.png"), "uiBookmark", false, TConnector.getText("ui", "sMenuSkills"), gc);
+		pageMagic = new Button(GConnector.getInput("button/bookmark.png"), "uiBookmark", false, TConnector.getText("ui", "sMenuMagic"), gc);
+		pageAbilities = new Button(GConnector.getInput("button/bookmark.png"), "uiBookmark", false, TConnector.getText("ui", "sMenuAbi"), gc);
+		
+		Slot[][] slots = new Slot[11][11];
+        for(int i = 0; i < slots.length; i ++)
+        {
+            for(int j = 0; j < slots[i].length; j ++)
+            {
+                slots[i][j] = new SkillSlot(gc);
+            }
+        }
+		this.slots = new SlotsPages(slots, gc);
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
+		
+		addSkills();
+        this.slots.insertContent(skills);
 	}
 	
 	@Override
@@ -87,12 +111,10 @@ class SkillsMenu extends InterfaceObject implements UiElement
 		this.draw(x, y, false);
 		ttf.drawString(x+(getHeight()/2), y+getDis(10), TConnector.getText("ui", "sMenuTitle"));
 		
-		ttf.drawString(x+getDis(13), y+getDis(65), TConnector.getText("ui", "sMenuSkills"));
-		ttf.drawString(x+getDis(13), y+getDis(245), TConnector.getText("ui", "sMenuMagic"));
-		ttf.drawString(x+getDis(13), y+getDis(415), TConnector.getText("ui", "sMenuAbi"));
-		normals.draw(x+getDis(13), y+getDis(84));
-		magic.draw(x+getDis(13), y+getDis(259));
-		passives.draw(x+getDis(13), y+getDis(434));
+		pageSkills.draw(x+getDis(70), y+getDis(590), false);
+		pageMagic.draw(x+getDis(215), y+getDis(590), false);
+		pageAbilities.draw(x+getDis(365), y+getDis(590), false);
+		slots.draw(x+getDis(25), y+getDis(50), false);
 	}
 	/**
 	 * Updates menu
@@ -100,11 +122,13 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	public void update()
 	{
 		addSkills();
+		slots.update();
 	}
 	
 	public void open()
 	{
 		openReq = true;
+		focus = true;
 	}
 	/**
 	 * Resets skills menu to default state
@@ -113,6 +137,8 @@ class SkillsMenu extends InterfaceObject implements UiElement
     public void reset()
     {
         super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+        focus = false;
+        slots.setFocus(false);
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
@@ -134,10 +160,8 @@ class SkillsMenu extends InterfaceObject implements UiElement
      */
 	public SkillSlot getDragged()
 	{
-	    if(normals.getDragged() != null)
-	        return normals.getDragged();
-	    if(magic.getDragged() != null)
-	        return magic.getDragged();
+	    if(slots.getDragged() != null)
+	        return (SkillSlot)slots.getDragged();
 	    
 	    return null;
 	}
@@ -148,111 +172,109 @@ class SkillsMenu extends InterfaceObject implements UiElement
 	{
 		for(Skill skill : player.getSkills())
 		{
-			if(!skillsIn.contains(skill))
+			if(Attack.class.isInstance(skill) || Buff.class.isInstance(skill))
 			{
-				if(Attack.class.isInstance(skill) || Buff.class.isInstance(skill))
+				if(skill.isMagic())
 				{
-					if(skill.isMagic())
-					{
-						if(magic.insertSkill(skill))
-							skillsIn.add(skill);
-					}
-					else
-					{
-						if(normals.insertSkill(skill))
-							skillsIn.add(skill);
-					}
+					magic.add(skill);
 				}
-				if(Passive.class.isInstance(skill))
+				else
 				{
-					if(passives.insertSkill(skill))
-						skillsIn.add(skill);
+					skills.add(skill);
 				}
-				Log.gainInfo(player.getName(), skill.getName(), "ability");
+			}
+			if(Passive.class.isInstance(skill))
+			{
+				passives.add(skill);
 			}
 		}
 	}
-	/**
-	 * Inner class for skill slots
-	 * @author Isangeles
-	 *
-	 */
-	private class SkillSlots
-	{
-		private SkillSlot[][] slots;
-		
-		public SkillSlots(GameContainer gc) throws SlickException, IOException, FontFormatException
-		{
-			slots = new SkillSlot[3][17];
-			
-	        for(int i = 0; i < 3; i ++)
-			{
-				for(int j = 0; j < 17; j ++)
-				{
-					slots[i][j] = new SkillSlot(gc);
-				}
-			}
-		}
-		/**
-		 * Draws all skill slots
-		 * @param x Position on x-axis
-		 * @param y	Position on y-axis
-		 */
-		public void draw(float x, float y)
-		{
-			for(int i = 0; i < 3; i ++)
-			{
-				for(int j = 0; j < 17; j ++)
-				{
-					slots[i][j].draw(x + (j*getDis(45)) + getDis(3), y + (i*getDis(35)) + getDis(3), false);
-				}
-			}
-		}
-		/**
-		 * Moves skill from slotA to slotB
-		 * @param slotA Current skill slot
-		 * @param slotB New slot for skill
-		 */
-		public void moveSkill(SkillSlot slotA, SkillSlot slotB)
-		{
-			slotA.dragged(false);
-			slotB.insertContent(slotA.getContent());
-			slotA.removeContent();
-		}
-		/**
-		 * Inserts skill to first empty slot
-		 * @param skill Some skill
-		 */
-		public boolean insertSkill(Skill skill)
-		{
-			for(int i = 0; i < slots.length; i ++)
-			{
-				for(int j = 0; j < slots[i].length; j ++)
-				{
-					if(slots[i][j].isEmpty())
-					{
-						slots[i][j].insertContent(skill);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		/**
-		 * Returns dragged skill slot
-		 * @return Current dragged slot, if no slot from table dragged returns null
-		 */
-		public SkillSlot getDragged()
-		{
-			for(SkillSlot slotsLine[] : slots)
-			{
-				for(SkillSlot ss : slotsLine)
-				{
-					if(ss.isSkillDragged())
-						return ss;
-				}
-			}
-			return null;
-		}
-	}
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
+     */
+    @Override
+    public void inputEnded()
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
+     */
+    @Override
+    public void inputStarted()
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
+     */
+    @Override
+    public boolean isAcceptingInput()
+    {
+        return focus;
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
+     */
+    @Override
+    public void setInput(Input input)
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
+     */
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount)
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
+     */
+    @Override
+    public void mouseDragged(int oldx, int oldy, int newx, int newy)
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
+     */
+    @Override
+    public void mouseMoved(int oldx, int oldy, int newx, int newy)
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
+     */
+    @Override
+    public void mousePressed(int button, int x, int y)
+    {
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
+     */
+    @Override
+    public void mouseReleased(int button, int x, int y)
+    {
+        if(pageSkills.isMouseOver())
+        {
+            slots.clear();
+            slots.insertContent(skills);
+        }
+        
+        if(pageMagic.isMouseOver())
+        {
+            slots.clear();
+            slots.insertContent(magic);
+        }
+        
+        if(pageAbilities.isMouseOver())
+        {
+            slots.clear();
+            slots.insertContent(passives);
+        }
+    }
+    /* (non-Javadoc)
+     * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
+     */
+    @Override
+    public void mouseWheelMoved(int change)
+    {
+    }
 }

@@ -25,6 +25,7 @@ package pl.isangeles.senlin.gui.tools;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -48,7 +49,15 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	private int startIndex;
 	private Button next;
 	private Button prev;
-	
+	private boolean focus;
+	/**
+	 * Slots pages constructor
+	 * @param pageSlots Multidimensional(2d) table with slot
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws FontFormatException
+	 * @throws IOException
+	 */
 	public SlotsPages(Slot[][] pageSlots, GameContainer gc) throws SlickException, FontFormatException, IOException
 	{
 		super(pageSlots);
@@ -56,30 +65,50 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 		
 		next = new Button(GConnector.getInput("button/buttonNext.png"), "buttonNext", false, "", gc);
 		prev = new Button(GConnector.getInput("button/buttonBack.png"), "buttonBack", false, "", gc);
+		
+		focus = true;
 	}
-	
+	/**
+	 * Draws slots page
+	 * @param x Position on x axis
+	 * @param y Position on y axis
+	 * @param scaledPos True if position should be scaled to current resolution, false otherwise
+	 */
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y);
 		next.draw(x + super.getWidth(), y, scaledPos);
 		prev.draw(x - prev.getScaledWidth(), y, scaledPos);
 	}
-	
+	/**
+	 * Updates slots pages
+	 */
 	public void update()
 	{
 		super.clear();
 		List<SlotContent> contentToDisplay = content.subList(startIndex, content.size());
 		super.insertContent(contentToDisplay);
 	}
-	
-	public void insertContent(List<SlotContent> content)
+	/**
+	 * Focuses or unfocuses this element
+	 * @param focus True to focus, false to unfocus
+	 */
+	public void setFocus(boolean focus)
 	{
-		this.content = content;
+	    this.focus = focus;
 	}
 	
+	@Override
+	public boolean insertContent(Collection<? extends SlotContent> content)
+	{
+		return this.content.addAll(content);
+	}
+	
+	@Override
 	public void clear()
 	{
 		super.clear();
+		content.clear();
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
@@ -87,8 +116,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void inputEnded() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -97,8 +124,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void inputStarted() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +132,7 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public boolean isAcceptingInput() 
 	{
-		return true;
+		return focus;
 	}
 
 	/* (non-Javadoc)
@@ -116,8 +141,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void setInput(Input input) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -126,8 +149,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -136,8 +157,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -146,8 +165,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -156,8 +173,6 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -191,7 +206,5 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 }
