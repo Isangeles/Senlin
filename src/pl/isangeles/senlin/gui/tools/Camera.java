@@ -26,6 +26,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Size;
 
 /**
  * Class for UI camera
@@ -34,44 +36,73 @@ import pl.isangeles.senlin.data.save.SaveElement;
  */
 public class Camera implements SaveElement
 {
-	private float[] pos = {0, 0};
-	
-	public Camera()
+	private Position pos = new Position();
+	private Size size = new Size();
+	/**
+	 * Camera constructor
+	 * @param size Camera size
+	 */
+	public Camera(Size size)
 	{
-		
+	    this.size = size;
 	}
-	
+	/**
+	 * Moves camera up by specified value
+	 * @param value Value
+	 */
 	public void up(int value)
 	{
-		pos[1] -= value;
+		pos.y -= value;
 	}
-	
+	/**
+	 * Moves camera down by specified value
+	 * @param value Value
+	 */
 	public void down(int value)
 	{
-		pos[1] += value;
+		pos.y += value;
 	}
-	
+	/**
+	 * Moves camera to the right by specified value
+	 * @param value Value
+	 */
 	public void right(int value)
 	{
-		pos[0] += value;
+		pos.x += value;
 	}
-	
+	/**
+	 * Moves camera to the left by specified value
+	 * @param value Value
+	 */
 	public void left(int value)
 	{
-		pos[0] -= value;
+		pos.x -= value;
 	}
-	
-	public void setPos(float[] pos)
+	/**
+	 * Centers camera at specified position
+	 * @param pos XY position
+	 */
+	public void centerAt(Position pos)
 	{
-		this.pos[0] = pos[0];
-		this.pos[1] = pos[1];
+	    this.pos.x = pos.x - ((int)size.width/2);
+	    this.pos.y = pos.y - ((int)size.height/2);
 	}
-	
-	public float[] getPos()
+	/**
+	 * Sets specified position as camera position
+	 * @param pos XY position
+	 */
+	public void setPos(Position pos)
+	{
+		this.pos = pos;
+	}
+	/**
+	 * Returns current camera position
+	 * @return XY position
+	 */
+	public Position getPos()
 	{
 		return pos;
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */
@@ -81,7 +112,7 @@ public class Camera implements SaveElement
 		Element cameraE = doc.createElement("camera");
 		
 		Element posE = doc.createElement("pos");
-		posE.setTextContent(pos[0] + ";" + pos[1]);
+		posE.setTextContent(pos.toString());
 		cameraE.appendChild(posE);
 		
 		return cameraE;

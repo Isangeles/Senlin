@@ -185,7 +185,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	if(ui != null)
     	{
     		//game world
-            g.translate(-ui.getCamera().getPos()[0], -ui.getCamera().getPos()[1]);
+            g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
             area.getMap().render(0, 0);
             for(SimpleGameObject object : area.getObjects())
             {
@@ -206,7 +206,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             if(!Settings.getFowType().equals("FOW OFF"))
                 drawFOW(g);
             //interface
-            g.translate(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
+            g.translate(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
             dayManager.draw();
             ui.draw(g);
             //gwCursor.draw();
@@ -395,7 +395,7 @@ public class GameWorld extends BasicGameState implements SaveElement
                 ui.getCamera().left(10);
             if(input.isKeyDown(Input.KEY_D))
                 ui.getCamera().right(10);
-            Global.setCamerPos(ui.getCamera().getPos()[0], ui.getCamera().getPos()[1]);
+            Global.setCamerPos(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
         }
     }
     
@@ -466,5 +466,6 @@ public class GameWorld extends BasicGameState implements SaveElement
     	player.setArea(area);
     	area.addCharacter(player);
     	this.area = area;
+    	ui.getCamera().centerAt(new Position(player.getPosition()));
     }
 }

@@ -24,6 +24,8 @@ package pl.isangeles.senlin.gui;
 
 import java.util.Map;
 
+import pl.isangeles.senlin.util.Position;
+
 /**
  * Class for saved UI layout (for save game)
  * @author Isangeles
@@ -33,7 +35,7 @@ public class UiLayout
 {
 	private final Map<String, Integer> bBarLayout;
 	private final Map<String, Integer[]> invLayout;
-	private final float[] cameraPos;
+	private final Position cameraPos;
 	/**
 	 * UiLayout constructor
 	 * @param bBarLayout Layout of bottom bar slots, skills IDs as keys and slots IDs as values
@@ -44,7 +46,9 @@ public class UiLayout
 	{
 		this.bBarLayout = bBarLayout;
 		this.invLayout = invLayout;
-		this.cameraPos = cameraPos;
+		this.cameraPos = new Position();
+		this.cameraPos.x = (int)cameraPos[0];
+		this.cameraPos.y = (int)cameraPos[1];
 	}
 	/**
 	 * Returns bottom bar layout
@@ -66,7 +70,7 @@ public class UiLayout
 	 * Returns camera position
 	 * @return Table with osition on X axis[0] and position on Y axis[1]
 	 */
-	public float[] getCameraPos()
+	public Position getCameraPos()
 	{
 		return cameraPos;
 	}

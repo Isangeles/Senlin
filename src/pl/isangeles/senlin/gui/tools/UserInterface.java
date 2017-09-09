@@ -37,6 +37,9 @@ import org.w3c.dom.Document;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
@@ -116,7 +119,7 @@ public class UserInterface implements MouseListener, SaveElement
         bBar = new BottomBar(gc, igMenu, charWin, inventory, skills, journal, crafting, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
-        camera = new Camera();
+        camera = new Camera(new Size(Settings.getResolution()[0], Settings.getResolution()[1]));
         
         uiWarning = new Warning(gc);
     }
