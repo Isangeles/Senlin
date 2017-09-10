@@ -450,6 +450,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public void enterCombat(Targetable target)
     {
     	signals.put(CharacterSignal.FIGHTING, target);
+    	startFollowing(target);
     }
     
     public void stopCombat()
@@ -585,9 +586,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			Targetable target = (Targetable)signals.get(CharacterSignal.FIGHTING);
 		    out = useSkillOn(target, abilities.get("autoA"));
 		}
-		
-	    //if(target == null && looting)
-	    //    looting = false;
 	    
 	    abilities.update(delta);
 		avatar.update(delta);

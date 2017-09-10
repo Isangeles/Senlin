@@ -42,7 +42,10 @@ class Playlist extends HashMap<String, Music>
 	private static final long serialVersionUID = 1L;
 	
 	private final String name;
-	
+	/**
+	 * Playlist constructor
+	 * @param name Name for playlist
+	 */
 	public Playlist(String name)
 	{
 		this.name = name;
@@ -81,5 +84,18 @@ class Playlist extends HashMap<String, Music>
 	public String getName()
 	{
 		return name;
+	}
+	/**
+	 * Returns currently played track from this playlist
+	 * @return Currently played track from this playlist or null if all track in this playlist are stopped
+	 */
+	public Music getCurrentTrack()
+	{
+		for(Music track : this.values())
+		{
+			if(track.playing())
+				return track;
+		}
+		return null;
 	}
 }

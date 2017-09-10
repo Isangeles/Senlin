@@ -44,6 +44,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Attitude;
@@ -64,6 +65,7 @@ import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.UiLayout;
+import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 
 /**
@@ -238,8 +240,25 @@ public final class SSGParser
             }
         }
         
+        List<Script> scripts = new ArrayList<>();
+        Element scriptsE = (Element)scenarioE.getElementsByTagName("scripts").item(0);
+        NodeList scriptsNl = scriptsE.getElementsByTagName("script");
+        for(int i = 0; i < scriptsNl.getLength(); i ++)
+        {
+        	Node scriptNode = scriptsNl.item(i);
+        	if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+        	{
+        		Element scriptE = (Element)scriptNode;
+        		String scriptId = scriptE.getTextContent();
+        		Script script = DConnector.getScript(scriptId);
+        		if(script != null)
+        			scripts.add(script);
+        	}
+        }
+        
         scenario.getMainArea().setCharacters(npcs);
         scenario.getMainArea().setObjects(objects);
+        scenario.setScripts(scripts);
         
         return scenario;
     }

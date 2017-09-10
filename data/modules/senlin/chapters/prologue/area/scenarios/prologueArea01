@@ -30,7 +30,7 @@
                 <track category="exploring">$all</track>
             </idle>
             <combat>
-                
+                <track category="combat">$all</track>
             </combat>
         </music>
         <subareas>

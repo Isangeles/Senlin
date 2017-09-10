@@ -219,7 +219,6 @@ public class Equipment implements SaveElement
      */
 	public boolean equip(Equippable item)
 	{
-		Log.addSystem("equipping: " + item.getId());
 		if(Armor.class.isInstance(item))
 			return setArmor((Armor)item);
 		

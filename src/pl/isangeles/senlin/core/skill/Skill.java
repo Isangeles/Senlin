@@ -37,6 +37,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
@@ -123,11 +124,13 @@ public abstract class Skill implements SlotContent, SaveElement
 	 */
 	public void update(int delta)
 	{
-		cooldown = cooldown - owner.getAttributes().getCastBonus();
+		int fullCooldown = cooldown - owner.getAttributes().getCastBonus();
 		tile.setActive(ready);
 		if(!ready)
+		{
 			timer += delta;
-		if(timer >= cooldown)
+		}
+		if(timer >= fullCooldown)
 		{
 			ready = true;
 			timer = 0;

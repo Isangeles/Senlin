@@ -83,9 +83,9 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private UserInterface ui;
 	private CommandInterface cui;
 	private AudioPlayer gwMusic;
-	private GameCursor gwCursor; //UNUSED
 	private Scenario nextScenario;
 	private boolean changeScenarioReq;
+	private boolean combat;
 	/**
 	 * Creates game world for new game
 	 * @param player Player character
@@ -140,8 +140,8 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic.createPlaylist("idle");
         	gwMusic.createPlaylist("combat");
         	activeScenario.addMusic(gwMusic);
+        	gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
         	
-        	gwCursor = new GameCursor(container);
         	if(dayManager == null)
                 dayManager = new Day();
         	fow = new FogOfWar();
@@ -152,16 +152,16 @@ public class GameWorld extends BasicGameState implements SaveElement
         	if(player.getCurrentArea() == null)
         	{
                 area = mainArea;
-                area.addCharacter(player);
+                area.getCharacters().add(player);
                 player.setArea(area);
         	}
         	else
         	{
         		area = player.getCurrentArea();
-        		area.addCharacter(player);
+        		area.getCharacters().add(player);
         	}
             
-        	npcsAi = new CharacterAi(this);
+        	npcsAi = new CharacterAi();
             npcsAi.addNpcs(mainArea.getNpcs());
             for(Area subArea : subAreas)
             {
@@ -208,7 +208,6 @@ public class GameWorld extends BasicGameState implements SaveElement
             g.translate(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
             dayManager.draw();
             ui.draw(g);
-            //gwCursor.draw();
     	}
     }
     /* (non-Javadoc)
@@ -219,12 +218,14 @@ public class GameWorld extends BasicGameState implements SaveElement
             throws SlickException
     {
     	dayManager.update(delta);
-    	if(player.isFighting() && !gwMusic.getActivePlaylist().equals("combat"))
+    	if(combat && !gwMusic.getActivePlaylist().equals("combat"))
     	{
+    		gwMusic.stop();
         	gwMusic.playRandomFrom("combat", 1.0f, 1.0f);
     	}
-    	else if(!player.isFighting() && !gwMusic.getActivePlaylist().equals("idle"))
+    	else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
     	{
+    		gwMusic.stop();
     		gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
     	}
     	
@@ -237,6 +238,8 @@ public class GameWorld extends BasicGameState implements SaveElement
             Log.addWarning(out.toString());
     	
     	npcsAi.update(delta);
+    	combat = npcsAi.isAttacked(player);
+    	
     	if(changeScenarioReq)
     		changeScenario(container, game);
     	
@@ -469,9 +472,9 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
     	player.setPosition(exit.getToPos());
     	if(player.getCurrentArea() != null)
-        	player.getCurrentArea().removeCharacter(player);
+        	player.getCurrentArea().getCharacters().remove(player);
     	player.setArea(area);
-    	area.addCharacter(player);
+    	area.getCharacters().add(player);
     	this.area = area;
     	ui.getCamera().centerAt(new Position(player.getPosition()));
     }

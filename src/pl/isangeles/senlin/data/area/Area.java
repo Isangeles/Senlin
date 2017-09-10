@@ -122,7 +122,7 @@ public class Area implements SaveElement
     	return new Size(size.width, size.height);
     }
     /**
-     * Returns all NPCs in area
+     * Returns all characters without players in NEW collection
      * @return Collection with game characters
      */
     public Collection<Character> getNpcs()
@@ -135,7 +135,6 @@ public class Area implements SaveElement
     	}
     	return charactersToReturn;
     }
-
     /**
      * Returns all characters in area
      * @return Collection with game characters
@@ -190,24 +189,6 @@ public class Area implements SaveElement
     public List<Exit> getExits()
     {
     	return exits;
-    }
-    /**
-     * Adds specified NPC to areas NPCs list
-     * @param npc Game character
-     * @return True if specified character was added successfully, false otherwise
-     */
-    public boolean addCharacter(Character npc)
-    {
-    	return characters.add(npc);
-    }
-    /**
-     * Removes specified character from areas characters list
-     * @param character Game character
-     * @return True if character was successfully removed, false otherwise
-     */
-    public boolean removeCharacter(Character character)
-    {
-    	return characters.remove(character);
     }
     /**
      * Returns all nearby characters in area 

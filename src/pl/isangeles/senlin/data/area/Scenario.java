@@ -86,7 +86,7 @@ public class Scenario implements SaveElement
 	 * @throws FontFormatException
 	 */
 	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts, 
-			Map<String, String> combatMusic, Map<String, String> idleMusic) 
+			Map<String, String> idleMusic, Map<String, String> combatMusic) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -98,7 +98,7 @@ public class Scenario implements SaveElement
 		
 		for(MobsArea mobsArea : mobsAreas)
 		{
-			this.mainArea.getNpcs().addAll(mobsArea.spawnMobs(mainArea));
+			this.mainArea.getCharacters().addAll(mobsArea.spawnMobs(mainArea));
 		}
 		
 		for(String qId : quests.keySet())
@@ -150,6 +150,14 @@ public class Scenario implements SaveElement
 	public List<Area> getSubAreas()
 	{
 		return subAreas;
+	}
+	/**
+	 * Sets specified list with scripts as scenario scripts
+	 * @param scripts List with game scripts
+	 */
+	public void setScripts(List<Script> scripts)
+	{
+		this.scripts = scripts;
 	}
 	/**
 	 * Starts all scenario quests with "start" trigger for specified character
@@ -204,11 +212,11 @@ public class Scenario implements SaveElement
 		{
 			if(track.equals("$all"))
 			{
-				player.addAllTo("idle", combatMusic.get(track));
+				player.addAllTo("combat", combatMusic.get(track));
 			}
 			else
 			{
-				player.addTo("idle", combatMusic.get(track), track);
+				player.addTo("combat", combatMusic.get(track), track);
 			}
 		}
 	}
@@ -241,7 +249,7 @@ public class Scenario implements SaveElement
 		mainareaE.appendChild(charactersE);
 		
 		scenarioE.appendChild(mainareaE);
-		/*
+		
 		Element scriptsE = doc.createElement("scripts");
 		for(Script script : scripts)
 		{
@@ -250,7 +258,7 @@ public class Scenario implements SaveElement
 			scriptsE.appendChild(scriptE);
 		}
 		scenarioE.appendChild(scriptsE);
-		*/
+		
 		Element subareasE = doc.createElement("subareas");
 		for(Area subArea : subAreas)
 		{

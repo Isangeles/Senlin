@@ -45,16 +45,12 @@ public class CharacterAi
 {
 	private List<Character> aiNpcs = new ArrayList<>();
 	private Random rng = new Random();
-	private int moveTimer;
 	
-	private GameWorld gw;
 	/**
 	 * Characters AI constructor
-	 * @param gw Slick game container
 	 */
-	public CharacterAi(GameWorld gw) 
+	public CharacterAi() 
 	{	
-		this.gw = gw;
 	}
 	/**
 	 * Updates all NPCs controlled by AI
@@ -87,7 +83,6 @@ public class CharacterAi
 				npc.update(delta);
 			}
 			
-			//Removing NPCs dynamically causes ConcurrentModificationException   
 			if(!npc.isLive() || area == null)
 				deadNpcs.add(npc);
 		}
@@ -101,6 +96,22 @@ public class CharacterAi
 	public void addNpcs(Collection<Character> npcs)
 	{
 		aiNpcs.addAll(npcs);
+	}
+	/**
+	 * Checks if any NPC attacks specified character
+	 * @param character Game character
+	 * @return True if any of AI NPCs attacks specified character, false otherwise
+	 */
+	public boolean isAttacked(Character character)
+	{
+		for(Character npc : aiNpcs)
+		{
+			if(npc.isFighting() && npc.getTarget() == character)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	/**
 	 * Moves NPC around 
@@ -142,13 +153,15 @@ public class CharacterAi
 	{
 		if(aggressor.getTarget() == null && target.isLive())
 		{
-            aggressor.setTarget(target);
+			aggressor.setTarget(target);
+            aggressor.enterCombat(target);
             saySomething(aggressor, "aggressive", false);
 		}
 		else if(aggressor.getTarget() != null && !target.isLive())
+		{
             aggressor.setTarget(null);
-
-		aggressor.useSkill(aggressor.getSkills().get("autoA"));
+            aggressor.stopCombat();
+		}
 	}
 	/**
 	 * Urges NPC to say something

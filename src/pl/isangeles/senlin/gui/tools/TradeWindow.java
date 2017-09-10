@@ -44,6 +44,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
+import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -287,18 +288,21 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 				Slot slotSell = slotsSell.getMouseOver();
 				if(slotSell != null && !slotSell.isEmpty())
 				{
-				    Item itemSell = (Item)slotSell.getContent();
-				    if(itemsToSell.contains(itemSell))
+				    for(SlotContent content : slotSell.getContent())
 				    {
-				        itemsToSell.remove(itemSell);
-				        sellValue -= itemSell.getValue();
-		                slotSell.click(false);
-				    }
-				    else
-				    {
-				        itemsToSell.add(itemSell);
-				        sellValue += itemSell.getValue();
-		                slotSell.click(true);
+				    	Item itemSell = (Item)content;
+					    if(itemsToSell.contains(itemSell))
+					    {
+					        itemsToSell.remove(itemSell);
+					        sellValue -= itemSell.getValue();
+			                slotSell.click(false);
+					    }
+					    else
+					    {
+					        itemsToSell.add(itemSell);
+					        sellValue += itemSell.getValue();
+			                slotSell.click(true);
+					    }
 				    }
 				}
 			}

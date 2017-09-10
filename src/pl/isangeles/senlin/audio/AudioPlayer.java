@@ -22,20 +22,15 @@
  */
 package pl.isangeles.senlin.audio;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.util.AConnector;
 /**
  * Class for playing game music and sound effects
  * @author Isangeles
@@ -69,16 +64,15 @@ public class AudioPlayer
 	{
 		try
 		{
-			for(Playlist playlist : playlists)
+			Playlist playlist = getPlaylist(playlistName);
+			if(playlist != null)
 			{
-				if(playlist.getName().equals(playlistName))
-				{
-					playlist.add(category, trackName);
-					mainList.add(category, trackName);
-					return true;
-				}
+				playlist.add(category, trackName);
+				mainList.add(category, trackName);
+				return true;
 			}
-			return false;
+			else
+				return false;
 		}
 		catch(IOException | SlickException e)
 		{
@@ -96,16 +90,15 @@ public class AudioPlayer
 	{
 		try
 		{
-			for(Playlist playlist : playlists)
+			Playlist playlist = getPlaylist(playlistName);
+			if(playlist != null)
 			{
-				if(playlist.getName().equals(playlistName))
-				{
-					playlist.addAll(category);
-					mainList.addAll(category);
-					return true;
-				}
+				playlist.addAll(category);
+				mainList.addAll(category);
+				return true;
 			}
-			return false;
+			else
+				return false;
 		}
 		catch(IOException | SlickException e)
 		{
@@ -201,13 +194,7 @@ public class AudioPlayer
 	 */
 	public boolean playRandomFrom(String playlistName, float pitch, float volume)
 	{	
-		Playlist playlist = null;
-		for(Playlist pl : playlists)
-		{
-			if(pl.getName().equals(playlistName))
-				playlist = pl;
-				
-		}
+		Playlist playlist = getPlaylist(playlistName);
 		if(playlist != null)
 		{	
 			Music[] tracks = new Music[playlist.values().size()];
@@ -234,9 +221,10 @@ public class AudioPlayer
 	 */
 	public void stop()
 	{
-		for(Music track : playlists.get(0).values())
+		for(Playlist playlist : playlists)
 		{
-			if(track.playing())
+			Music track = playlist.getCurrentTrack();
+			if(track != null)
 				track.stop();
 		}
 	}
@@ -247,5 +235,28 @@ public class AudioPlayer
 	public String getActivePlaylist()
 	{
 		return activePlaylist.getName();
+	}
+	/**
+	 * Returns currently played track
+	 * @return Active track
+	 */
+	public Music getActiveTrack()
+	{
+		return activePlaylist.getCurrentTrack();
+	}
+	/**
+	 * Returns playlist with specified name
+	 * @param playlist Name of desired playlist
+	 * @return Playlist with specified name or null if no such playlist found
+	 */
+	private Playlist getPlaylist(String playlistName)
+	{
+		for(Playlist playlist : playlists)
+		{
+			if(playlist.getName().equals(playlistName))
+				return playlist;
+				
+		}
+		return null;
 	}
 }

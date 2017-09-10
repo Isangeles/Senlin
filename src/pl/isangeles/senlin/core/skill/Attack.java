@@ -122,7 +122,7 @@ public class Attack extends Skill
 	@Override
 	public CharacterOut prepare(Character user, Targetable target)
 	{
-		if(super.isReady())
+		if(ready)
 		{
 			if(target != null && useReqs.isMetBy(user))
 			{
