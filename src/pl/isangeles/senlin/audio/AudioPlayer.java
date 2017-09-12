@@ -74,7 +74,7 @@ public class AudioPlayer
 			else
 				return false;
 		}
-		catch(IOException | SlickException e)
+		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///adding error: " + trackName);
 			return false;
@@ -100,7 +100,7 @@ public class AudioPlayer
 			else
 				return false;
 		}
-		catch(IOException | SlickException e)
+		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
 			return false;
@@ -118,7 +118,7 @@ public class AudioPlayer
 		{
 			mainList.add(category, trackName);
 		}
-		catch(IOException | SlickException e)
+		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///adding error: " + trackName);
 		}
@@ -135,7 +135,7 @@ public class AudioPlayer
 		{
 			mainList.addAll(category);
 		}
-		catch(IOException | SlickException e)
+		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
 		}

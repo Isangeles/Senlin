@@ -24,9 +24,11 @@ package pl.isangeles.senlin.core;
 
 import java.util.List;
 
+import org.newdawn.slick.Sound;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.audio.Voicing;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Bonus;
@@ -48,11 +50,12 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class SimpleGameObject implements Targetable, SaveElement
+public class SimpleGameObject implements Targetable, SaveElement, Voicing
 {
 	private String id;
 	private String name;
     private GameObject texture;
+    private Sound voice;
     private Portrait portrait;
     private Position pos;
     private Inventory inventory = new Inventory();
@@ -96,6 +99,36 @@ public class SimpleGameObject implements Targetable, SaveElement
         inventory.addAll(items);
         inventory.addGold(gold);
     }
+    /**
+     * Simple game object constructor with sound(with animated texture)
+     * @param id Object ID
+     * @param texture Simple animated texture
+     * @param portrait Object portrait
+     * @param sound Object Sound
+     * @param onClick Action on click
+     * @param gold Amount of gold in object
+     * @param items List of items in object
+     */
+    public SimpleGameObject(String id, SimpleAnimObject texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    {
+    	this(id, texture, portrait, onClick, gold, items);
+    	voice = sound;
+    }
+    /**
+     * Simple game object constructor with sound(with static texture)
+     * @param id Object ID
+     * @param texture Static texture
+     * @param portrait Object portrait
+     * @param sound Object sound
+     * @param onClick Action on click
+     * @param gold Amount of gold in object
+     * @param items List of items in object
+     */
+    public SimpleGameObject(String id, Sprite texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    {
+    	this(id, texture, portrait, onClick, gold, items);
+    	voice = sound;
+    }
     
     public void draw(float x, float y, boolean scaledPos)
     {
@@ -106,6 +139,20 @@ public class SimpleGameObject implements Targetable, SaveElement
     {
         texture.draw(size);
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.audio.Voicing#playSound()
+	 */
+	@Override
+	public void playSound() 
+	{
+		if(voice != null)
+		{
+			if(!voice.playing())
+			{
+				voice.play();
+			}
+		}
+	}
     
     public void setPosition(Position pos)
     {
@@ -487,5 +534,4 @@ public class SimpleGameObject implements Targetable, SaveElement
 		// TODO Auto-generated method stub
 		
 	}
-    
 }

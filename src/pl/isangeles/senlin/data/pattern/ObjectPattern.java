@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.action.Action;
@@ -42,6 +43,7 @@ import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Portrait;
+import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -56,6 +58,7 @@ public class ObjectPattern
 	private final String info;
 	private final String mainTexture;
 	private final String portrait;
+	private final String sound;
 	private final String type;
 	private final int frames;
 	private final int fWidth;
@@ -67,12 +70,14 @@ public class ObjectPattern
 	/**
 	 * ObjectPattern constructor
 	 */
-	public ObjectPattern(String id, String mainTexture, String portrait, String type, int frames, int fWidth, int fHeight, String action, int gold, Map<String, Boolean> items) 
+	public ObjectPattern(String id, String mainTexture, String portrait, String sound, String type, int frames, int fWidth, int fHeight, String action,
+						 int gold, Map<String, Boolean> items) 
 	{
 		this.id = id;
 		this.info = TConnector.getTextFromModule("objects", id);
 		this.mainTexture = mainTexture;
 		this.portrait = portrait;
+		this.sound = sound;
 		this.type = type;
 		this.frames = frames;
 		this.fWidth = fWidth;
@@ -103,6 +108,9 @@ public class ObjectPattern
 	public SimpleGameObject make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 	    Portrait uiPortrait = new Portrait(GConnector.getObjectPortrait(portrait), gc);
+	    Sound objectSound = null;
+	    if(sound != "")
+		    objectSound = new Sound(AConnector.getInput("effects/" + sound), sound);
 	    Action objectAction;
 	    switch(action)
 	    {
@@ -119,15 +127,22 @@ public class ObjectPattern
 	        itemsIn.add(rItem.make());
 	    }
 	    
-		switch(type)
-		{
-		case "anim":
-		    SimpleAnimObject animTexture = new SimpleAnimObject(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
-			return new SimpleGameObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn);
-		case "static":
-			Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
-			return new SimpleGameObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
-		}
+	    if(type.equals("anim"))
+	    {
+	    	SimpleAnimObject animTexture = new SimpleAnimObject(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
+		    if(objectSound != null)
+				return new SimpleGameObject(id, animTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+		    else
+		    	return new SimpleGameObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn); 	
+	    }
+	    if(type.equals("static"))
+	    {
+	    	Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
+			if(objectSound != null)
+				return new SimpleGameObject(id, staticTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+			else
+				return new SimpleGameObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
+	    }
 		return null;
 	}
 }

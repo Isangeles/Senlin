@@ -23,19 +23,12 @@ public class AConnector
 	 * @return Input stream to specified audio file
 	 * @throws IOException If aData was not found
 	 */
-	public static InputStream getInput(String pathInArch) throws IOException
+	public static InputStream getInput(String pathInArch) throws IOException, NullPointerException
 	{
-		try
-		{
-		    String fullPath = "audio/" + pathInArch;
-	        ZipFile aData = new ZipFile("data" + File.separator + "aData");
-	        ZipEntry aFile = aData.getEntry(fullPath);
-	        InputStream is = aData.getInputStream(aFile);
-	        return is;
-		}
-		catch(NullPointerException e)
-		{
-		    throw new IOException();
-		}
+		String fullPath = "audio/" + pathInArch;
+        ZipFile aData = new ZipFile("data" + File.separator + "aData");
+        ZipEntry aFile = aData.getEntry(fullPath);
+        InputStream is = aData.getInputStream(aFile);
+        return is;
 	}
 }

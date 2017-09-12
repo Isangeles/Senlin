@@ -67,12 +67,15 @@ public class ObjectParser
 			fHeight = Integer.parseInt(objectE.getAttribute("fHeight"));
 		}
 		
-		String portrait;
+		String portrait = "default.png";
 		Element portraitE = (Element)objectE.getElementsByTagName("portrait").item(0);
 		if(portraitE != null)
 		    portrait = portraitE.getTextContent();
-		else
-		    portrait = "default.png";
+		
+		String sound = "";
+		Element soundE = (Element)objectE.getElementsByTagName("sound").item(0);
+		if(soundE != null)
+			sound = soundE.getTextContent();
 		
 		Map<String, Boolean> items = new HashMap<>(); 
 		Element inE = (Element)objectE.getElementsByTagName("in").item(0);
@@ -93,6 +96,6 @@ public class ObjectParser
 	        }
 		}
 		
-		return new ObjectPattern(id, mainTex, portrait, type, frames, fWidth, fHeight, action, gold, items);
+		return new ObjectPattern(id, mainTex, portrait, sound, type, frames, fWidth, fHeight, action, gold, items);
 	}
 }

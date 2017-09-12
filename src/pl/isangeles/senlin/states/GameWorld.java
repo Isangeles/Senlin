@@ -189,7 +189,10 @@ public class GameWorld extends BasicGameState implements SaveElement
             for(SimpleGameObject object : area.getObjects())
             {
                 if(player.isNearby(object))
+                {
                     object.draw(Coords.getSize(1f));
+                    object.playSound();
+                }
             }
             for(Exit exit : area.getExits())
             {
