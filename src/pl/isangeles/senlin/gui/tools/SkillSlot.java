@@ -168,6 +168,7 @@ public class SkillSlot extends Slot implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
+		super.mousePressed(button, x, y);
 		if(!isEmpty() && isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
 			skillInSlot.getTile().click(true);
 	}

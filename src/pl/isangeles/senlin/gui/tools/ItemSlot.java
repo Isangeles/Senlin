@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -23,11 +25,12 @@ import pl.isangeles.senlin.util.GConnector;
  * @author Isangeles
  *
  */
-class ItemSlot extends Slot 
+class ItemSlot extends Slot implements MouseListener
 {	
 	public ItemSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GBase.getImage("uiSlotA"), gc);
+		gc.getInput().addMouseListener(this);
 	}
 	/**
 	 * Inserts item in slot
@@ -71,11 +74,16 @@ class ItemSlot extends Slot
 						return false;
 					}
 				}
-				Item item = items.get(0);
-				if(items.size() > item.getMaxStack())
-					return false;
+				if(items.size() > 0)
+				{
+					Item item = items.get(0);
+					if(items.size() > item.getMaxStack())
+						return false;
+					else
+						return this.content.addAll(items);
+				}
 				else
-					return this.content.addAll(items);
+					return false;
 			}
 			else
 			{

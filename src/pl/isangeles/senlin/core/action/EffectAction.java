@@ -68,10 +68,10 @@ public class EffectAction extends Action
         switch(type)
         {
         case EFFECTUSER:
-            effect.turnOn(user);
+        	user.getEffects().add(effect);
             return true;
         case EFFECTTARGET:
-            effect.turnOn(target);
+        	target.getEffects().add(effect);
             return true;
         default:
             return true;

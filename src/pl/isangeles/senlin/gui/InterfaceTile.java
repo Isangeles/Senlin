@@ -99,8 +99,8 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_LEFT_BUTTON && super.isMouseOver() && !dragged)
-			dragged = true;
+		//if(button == Input.MOUSE_LEFT_BUTTON && super.isMouseOver() && !dragged)
+			//dragged = true;
 	}
 	
 }

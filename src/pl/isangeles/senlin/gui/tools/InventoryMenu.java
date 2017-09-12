@@ -242,7 +242,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 					{
 						if(item.getActionType() == ActionType.EQUIP)
 						{
-							moveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
+							autoMoveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
 						}
 					}
 				}
@@ -341,46 +341,79 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     	return null;
     }
     /**
-     * Moves item from one slot to another given slot
-     * @param draggedSlot Slot with item, after move operation internal item field becomes null
-     * @param slotForItem New slot for item
+     * Moves all dragged items from one slot to another specified slot
+     * @param draggedSlot Slot with dragged items
+     * @param slotForItem New slot for dragged items
      */
     private void moveItem(ItemSlot draggedSlot, ItemSlot slotForItem)
     {
-    	try
+    	if(draggedSlot == slotForItem)
+		{
+			draggedSlot.dragged(false);
+			return;
+		}
+		if(!slotForItem.isEmpty())
     	{
-    		if(draggedSlot == slotForItem)
+    		if(slotForItem.insertContent(draggedSlot.getDraggedContent()))
     		{
-    			draggedSlot.dragged(false);
-    			return;
+    			draggedSlot.removeContent(draggedSlot.getDraggedContent());
     		}
-    		if(!slotForItem.isEmpty())
-        	{
-        		if(slotForItem.insertContent(draggedSlot.getContent()))
-        		{
-        			draggedSlot.removeContent();
-        		}
-        		else
-        		{
-            		List<Item> contentMem = slotForItem.getContent();
-        			slotForItem.removeContent();
-        			slotForItem.insertContent(draggedSlot.getContent());
-        			draggedSlot.removeContent();
-        			draggedSlot.insertContent(contentMem);
-        		}
-        		draggedSlot.dragged(false);
-        		slotForItem.dragged(false);
-        	}
-        	else
-        	{
-            	draggedSlot.dragged(false);
-            	slotForItem.insertContent(draggedSlot.getContent());
-            	draggedSlot.removeContent();
-        	}
+    		else
+    		{
+    			/*
+        		List<Item> contentMem = slotForItem.getContent();
+    			slotForItem.removeContent();
+    			slotForItem.insertContent(draggedSlot.getDraggedContent());
+    			draggedSlot.removeContent(draggedSlot.getDraggedContent());
+    			draggedSlot.insertContent(contentMem);
+    			*/
+    		}
+    		draggedSlot.dragged(false);
+    		slotForItem.dragged(false);
     	}
-    	catch(NullPointerException e)
+    	else
     	{
-    		return;
+        	slotForItem.insertContent(draggedSlot.getDraggedContent());
+        	draggedSlot.removeContent(draggedSlot.getDraggedContent());
+        	draggedSlot.dragged(false);
+    		slotForItem.dragged(false);
+    	}
+    }
+    /**
+     * Moves item from one slot to another given slot
+     * @param slotA Slot with item, after move operation internal item field becomes null
+     * @param slotB New slot for item
+     */
+    private void autoMoveItem(ItemSlot slotA, ItemSlot slotB)
+    {
+    	if(slotA == slotB)
+		{
+			slotA.dragged(false);
+			return;
+		}
+		if(!slotB.isEmpty())
+    	{
+    		if(slotB.insertContent(slotA.getContent()))
+    		{
+    			slotA.removeContent();
+    		}
+    		else
+    		{
+        		List<Item> contentMem = slotB.getContent();
+    			slotB.removeContent();
+    			slotB.insertContent(slotA.getContent());
+    			slotA.removeContent();
+    			slotA.insertContent(contentMem);
+    		}
+    		slotA.dragged(false);
+    		slotB.dragged(false);
+    	}
+    	else
+    	{
+        	slotB.insertContent(slotA.getContent());
+        	slotA.removeContent();
+        	slotA.dragged(false);
+    		slotB.dragged(false);
     	}
     }
     /**
