@@ -152,6 +152,21 @@ public class Scenario implements SaveElement
 		return subAreas;
 	}
 	/**
+	 * Returns sub area with specified ID from scenario sub areas list
+	 * @param id ID of desired sub area
+	 * @return Area with specified ID or null if no such area was found
+	 */
+	public Area getSubArea(String id)
+	{
+	    for(Area subArea : subAreas)
+	    {
+	        if(subArea.getId().equals(id))
+	            return subArea;
+	    }
+	    
+	    return null;
+	}
+	/**
 	 * Sets specified list with scripts as scenario scripts
 	 * @param scripts List with game scripts
 	 */

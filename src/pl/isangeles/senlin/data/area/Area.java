@@ -249,7 +249,7 @@ public class Area implements SaveElement
 		}
 		areaE.appendChild(npcsE);
 		
-		Element objectsE = doc.createElement("object");
+		Element objectsE = doc.createElement("objects");
 		for(SimpleGameObject object : objects)
 		{
 			objectsE.appendChild(object.getSave(doc));

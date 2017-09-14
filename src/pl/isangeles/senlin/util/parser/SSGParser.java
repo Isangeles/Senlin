@@ -208,37 +208,11 @@ public final class SSGParser
     {
         Scenario scenario = ScenariosBase.getScenario(scenarioE.getAttribute("id"));
         
-        List<SimpleGameObject> objects = new ArrayList<>();
-        Element objectsE = (Element)scenarioE.getElementsByTagName("objects").item(0);
-        NodeList objectsList = objectsE.getElementsByTagName("object");
-        for(int i = 0; i < objectsList.getLength(); i ++)
-        {
-            Node objectNode = objectsList.item(i);
-            if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-            {
-                Element objectE = (Element)objectNode;
-                SimpleGameObject object = ObjectsBase.get(objectE.getAttribute("id"));
-                object.setPosition(new Position(objectE.getAttribute("position")));
-                Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
-                if(eqE != null)
-                	object.setInventory(getObjectInventory(eqE));
-                objects.add(object);
-            }
-        }
+        Node objectsNode = scenarioE.getElementsByTagName("objects").item(0);
+        List<SimpleGameObject> objects = getSavedObjects(objectsNode);
         
-        List<Character> npcs = new ArrayList<>();
-        Element charactersE = (Element)scenarioE.getElementsByTagName("characters").item(0);
-        NodeList charactersList = charactersE.getElementsByTagName("character");
-        for(int i = 0; i < charactersList.getLength(); i ++)
-        {
-            Node characterNode = charactersList.item(i);
-            if(characterNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-            {
-                Element characterE = (Element)characterNode;
-                Character npc = getCharFromSave(characterE, gc);
-                npcs.add(npc);
-            }
-        }
+        Node charactersNode = scenarioE.getElementsByTagName("characters").item(0);
+        List<Character> npcs = getSavedNpcs(charactersNode, gc);
         
         List<Script> scripts = new ArrayList<>();
         Element scriptsE = (Element)scenarioE.getElementsByTagName("scripts").item(0);
@@ -260,7 +234,86 @@ public final class SSGParser
         scenario.getMainArea().setObjects(objects);
         scenario.setScripts(scripts);
         
+        Element subareasE = (Element)scenarioE.getElementsByTagName("subareas").item(0);
+        NodeList subareasNl = subareasE.getElementsByTagName("area");
+        for(int i = 0; i < subareasNl.getLength(); i ++)
+        {
+            Node areaNode = subareasNl.item(i);
+            if(areaNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element areaE = (Element)areaNode;
+                String areaId = areaE.getAttribute("id");
+                Area targetArea = scenario.getSubArea(areaId);
+                if(targetArea != null)
+                {
+                    Node subCharactersNode = areaE.getElementsByTagName("npcs").item(0);
+                    List<Character> characters = getSavedNpcs(subCharactersNode, gc);
+                    
+                    Node subObjectsNode = areaE.getElementsByTagName("objects").item(0);
+                    List<SimpleGameObject> subObjects = getSavedObjects(subObjectsNode);
+                    
+                    targetArea.setCharacters(characters);
+                    targetArea.setObjects(subObjects);
+                }
+            }
+        }
+        
         return scenario;
+    }
+    /**
+     * Parses specified SSG node to list with game characters
+     * @param npcsNode SSG document node 
+     * @param gc Slick game container
+     * @return List with game character from node
+     * @throws IOException
+     * @throws FontFormatException
+     * @throws SlickException
+     */
+    private static List<Character> getSavedNpcs(Node npcsNode, GameContainer gc) throws IOException, FontFormatException, SlickException
+    {
+        List<Character> npcs = new ArrayList<>();
+        Element charactersE = (Element)npcsNode;
+        NodeList charactersList = charactersE.getElementsByTagName("character");
+        for(int i = 0; i < charactersList.getLength(); i ++)
+        {
+            Node characterNode = charactersList.item(i);
+            if(characterNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element characterE = (Element)characterNode;
+                Character npc = getCharFromSave(characterE, gc);
+                npcs.add(npc);
+            }
+        }
+        return npcs;
+    }
+    /**
+     * Parses specified SSG node to list with simple game objects
+     * @param objectsNode SSG document node
+     * @return List with simple game objects
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    private static List<SimpleGameObject> getSavedObjects(Node objectsNode) throws SlickException, IOException, FontFormatException
+    {
+        List<SimpleGameObject> objects = new ArrayList<>();
+        Element objectsE = (Element)objectsNode;
+        NodeList objectsList = objectsE.getElementsByTagName("object");
+        for(int i = 0; i < objectsList.getLength(); i ++)
+        {
+            Node objectNode = objectsList.item(i);
+            if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element objectE = (Element)objectNode;
+                SimpleGameObject object = ObjectsBase.get(objectE.getAttribute("id"));
+                object.setPosition(new Position(objectE.getAttribute("position")));
+                Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
+                if(eqE != null)
+                    object.setInventory(getObjectInventory(eqE));
+                objects.add(object);
+            }
+        }
+        return objects;
     }
     /**
      * Parses specified save document element to list with quests
