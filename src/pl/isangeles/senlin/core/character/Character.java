@@ -373,7 +373,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     }
     /**
      * Equips specified item, if item is in character inventory and its equippable
-     * @param item Equippable item in chracter inventory
+     * @param item Equippable item in character inventory
      * @return True if item was successfully equipped, false otherwise
      */
     public boolean equipItem(Item item)

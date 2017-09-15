@@ -217,6 +217,22 @@ public class AudioPlayer
 			return false;
 	}
 	/**
+	 * Checks if any track in playlists is active
+	 * @return True if player plays any track, false otherwise
+	 */
+	public boolean isPlayling()
+	{
+		for(Playlist playlist : playlists)
+		{
+			for(Music track : playlist.values())
+			{
+				if(track.playing())
+					return true;
+			}
+		}
+		return false;
+	}
+	/**
 	 * Stops audio player
 	 */
 	public void stop()
@@ -226,6 +242,28 @@ public class AudioPlayer
 			Music track = playlist.getCurrentTrack();
 			if(track != null)
 				track.stop();
+		}
+		
+	}
+	/**
+	 * Resets audio player
+	 */
+	public void reset()
+	{
+		stop();
+		playlists.clear();
+		mainList.clear();
+		playlists.add(mainList);
+	}
+	/**
+	 * Clears all playlists
+	 */
+	public void clearPlaylists()
+	{
+		stop();
+		for(Playlist playlist : playlists)
+		{
+			playlist.clear();
 		}
 	}
 	/**

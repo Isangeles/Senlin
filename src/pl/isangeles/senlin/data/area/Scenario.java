@@ -69,8 +69,6 @@ public class Scenario implements SaveElement
 	private List<Quest> questsToStart = new ArrayList<>();
 	private List<Script> scripts = new ArrayList<>();
 	private List<Script> finishedScripts = new ArrayList<>();
-	private Map<String, String> idleMusic = new HashMap<>();
-	private Map<String, String> combatMusic = new HashMap<>();
 	private Area mainArea;
 	private List<Area> subAreas = new ArrayList<>();
 	/**
@@ -85,8 +83,7 @@ public class Scenario implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts, 
-			Map<String, String> idleMusic, Map<String, String> combatMusic) 
+	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -110,8 +107,6 @@ public class Scenario implements SaveElement
 		this.mobsAreas = mobsAreas;
 		
 		this.scripts = scripts;
-		this.combatMusic = combatMusic;
-		this.idleMusic = idleMusic;
 	}
 	/**
 	 * Draws all scenario objects
@@ -203,37 +198,6 @@ public class Scenario implements SaveElement
 			}
 		}
 		scripts.removeAll(finishedScripts);
-	}
-	/**
-	 * Adds all music tracks for this scenario to specified audio player
-	 * @param player Audio player
-	 * @throws IOException
-	 * @throws SlickException
-	 */
-	public void addMusic(AudioPlayer player) throws IOException, SlickException
-	{
-		for(String track : idleMusic.keySet())
-		{
-			if(track.equals("$all"))
-			{
-				player.addAllTo("idle", idleMusic.get(track));
-			}
-			else
-			{
-				player.addTo("idle", idleMusic.get(track), track);
-			}
-		}
-		for(String track : combatMusic.keySet())
-		{
-			if(track.equals("$all"))
-			{
-				player.addAllTo("combat", combatMusic.get(track));
-			}
-			else
-			{
-				player.addTo("combat", combatMusic.get(track), track);
-			}
-		}
 	}
 	/**
 	 * Parses all scenario objects to XML document element

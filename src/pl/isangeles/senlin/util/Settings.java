@@ -36,6 +36,8 @@ public class Settings
     private static float resWidth;
     private static float resHeight;
     private static float scale;
+    private static float effectsVol;
+    private static float musicVol;
     private static String fowType;
     private static String module;
     /**
@@ -63,6 +65,8 @@ public class Settings
         
         langId = scann.next();
         setRes(scann.next());
+        effectsVol = 1.0f;
+        musicVol = 1.0f;
         fowType = scann.next();
         module = scann.next();
         scann.close();

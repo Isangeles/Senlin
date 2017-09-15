@@ -41,6 +41,10 @@
                     <exit position="0;0" texture="" to="1800;250">prologue01</exit>
                 </exits>
                 <music>
+                    <idle>
+                    </idle>
+                    <combat>
+                    </combat>
                 </music>
             </area>
         </subareas>

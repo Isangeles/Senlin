@@ -107,8 +107,6 @@ public class ScenarioParser
 					Map<String, String[]> quests = new HashMap<>();
 				
 					List<Script> scripts = new ArrayList<>();
-					Map<String, String> idleMusic = new HashMap<>();
-					Map<String, String> combatMusic = new HashMap<>();
 					
 					NodeList mobsNl = mainareaE.getElementsByTagName("mobs");
 					for(int j = 0; j < mobsNl.getLength(); j ++)
@@ -143,18 +141,11 @@ public class ScenarioParser
 					Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
 					scripts = getScriptsFromNode(scriptsNode);
 					
-					Element musicE = (Element)mainareaE.getElementsByTagName("music").item(0);
-					
-					Node idleNode = musicE.getElementsByTagName("idle").item(0);
-					idleMusic = getMusicFromNode(idleNode);
-					
-					Node combatNode = musicE.getElementsByTagName("combat").item(0);
-					combatMusic = getMusicFromNode(combatNode);
 					
 					Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
 					List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
 					
-					return new Scenario(id, mainArea, subAreas, mobs, quests, scripts, idleMusic, combatMusic);	
+					return new Scenario(id, mainArea, subAreas, mobs, quests, scripts);	
 			}
 		}
 		
@@ -183,7 +174,15 @@ public class ScenarioParser
 		Node exitsNode = areaE.getElementsByTagName("exits").item(0);
 		List<Exit> exits = getExitsFromNode(exitsNode, gc);
 		
-		return new Area(id, map, mapFile, npcs, objects, exits);
+		Element musicE = (Element)areaE.getElementsByTagName("music").item(0);
+		
+		Node idleNode = musicE.getElementsByTagName("idle").item(0);
+		Map<String, String> idleMusic = getMusicFromNode(idleNode);
+		
+		Node combatNode = musicE.getElementsByTagName("combat").item(0);
+		Map<String, String> combatMusic = getMusicFromNode(combatNode);
+		
+		return new Area(id, map, mapFile, npcs, objects, exits, idleMusic, combatMusic);
 	}
 	/**
 	 * Parses specified npcs node to list with game characters

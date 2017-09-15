@@ -22,16 +22,21 @@
  */
 package pl.isangeles.senlin.data.area;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.SimpleGameObject;
 import pl.isangeles.senlin.core.character.Character;
@@ -52,6 +57,8 @@ public class Area implements SaveElement
     private Set<Character> characters = new HashSet<>();
     private List<SimpleGameObject> objects;
     private List<Exit> exits;
+	private Map<String, String> idleMusic = new HashMap<>();
+	private Map<String, String> combatMusic = new HashMap<>();
     /**
      * Empty area constructor
      * @param id Area ID
@@ -74,16 +81,20 @@ public class Area implements SaveElement
      * @param objects List with objects
      * @param exits List exits
      */
-    public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<SimpleGameObject> objects, List<Exit> exits)
+    public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<SimpleGameObject> objects, List<Exit> exits,
+			Map<String, String> idleMusic, Map<String, String> combatMusic)
     {
     	this.id = id;
         this.map = map;
         this.mapFileName = mapFileName;
-    	size = new Size(map.getWidth(), map.getHeight());
+    	size = new Size(map.getTileWidth()*map.getWidth(), map.getTileHeight()*map.getHeight());
         this.characters.addAll(npcs);
         this.objects = objects;
         this.exits = exits;
-        
+
+		this.combatMusic = combatMusic;
+		this.idleMusic = idleMusic;
+		
         for(Character npc : characters)
         {
             npc.setArea(this);
@@ -211,6 +222,17 @@ public class Area implements SaveElement
     	return nearbyCharacters;
     }
     /**
+     * Checks if this area has any music tracks
+     * @return True if this area has its own music, false otherwise
+     */
+    public boolean hasMusic()
+    {
+    	if(idleMusic.size() > 0 || combatMusic.size() > 0)
+    		return true;
+    	else
+    		return false;
+    }
+    /**
      * Sets specified list as this area NPCs list
      * @param charcters List with game characters for this area
      */
@@ -231,6 +253,37 @@ public class Area implements SaveElement
     {
     	this.objects = objects;
     }
+	/**
+	 * Adds all music tracks for this scenario to specified audio player
+	 * @param player Audio player
+	 * @throws IOException
+	 * @throws SlickException
+	 */
+	public void addMusic(AudioPlayer player)
+	{
+		for(String track : idleMusic.keySet())
+		{
+			if(track.equals("$all"))
+			{
+				player.addAllTo("idle", idleMusic.get(track));
+			}
+			else
+			{
+				player.addTo("idle", idleMusic.get(track), track);
+			}
+		}
+		for(String track : combatMusic.keySet())
+		{
+			if(track.equals("$all"))
+			{
+				player.addAllTo("combat", combatMusic.get(track));
+			}
+			else
+			{
+				player.addTo("combat", combatMusic.get(track), track);
+			}
+		}
+	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */

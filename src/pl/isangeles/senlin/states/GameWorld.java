@@ -139,7 +139,6 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic = new AudioPlayer();
         	gwMusic.createPlaylist("idle");
         	gwMusic.createPlaylist("combat");
-        	activeScenario.addMusic(gwMusic);
         	gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
         	
         	if(dayManager == null)
@@ -160,6 +159,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         		area = player.getCurrentArea();
         		area.getCharacters().add(player);
         	}
+        	area.addMusic(gwMusic);
             
         	npcsAi = new CharacterAi();
             npcsAi.addNpcs(mainArea.getNpcs());
@@ -221,6 +221,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             throws SlickException
     {
     	dayManager.update(delta);
+    	
     	if(combat && !gwMusic.getActivePlaylist().equals("combat"))
     	{
     		gwMusic.stop();
@@ -470,14 +471,24 @@ public class GameWorld extends BasicGameState implements SaveElement
     	game.getState(5).init(gc, game);
     	game.enterState(5);
     }
-    
+    /**
+     * Changes current area to specified area
+     * @param exit Exit from current area to specified area
+     * @param area Area to enter	
+     */
     private void changeArea(Exit exit, Area area)
     {
-    	player.setPosition(exit.getToPos());
     	if(player.getCurrentArea() != null)
         	player.getCurrentArea().getCharacters().remove(player);
     	player.setArea(area);
+    	player.setPosition(exit.getToPos());
     	area.getCharacters().add(player);
+    	if(area.hasMusic())
+    	{
+        	gwMusic.clearPlaylists();
+        	area.addMusic(gwMusic);
+        	gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
+        }
     	this.area = area;
     	ui.getCamera().centerAt(new Position(player.getPosition()));
     }

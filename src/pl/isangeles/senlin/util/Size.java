@@ -68,4 +68,10 @@ public class Size
 		this.width = Integer.parseInt(wSemicolonH.split(";")[0]);
 		this.height = Integer.parseInt(wSemicolonH.split(";")[1]);
 	}
+	
+	@Override
+	public String toString()
+	{
+		return width + ";" + height;
+	}
 }
