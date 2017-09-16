@@ -36,6 +36,7 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
@@ -302,7 +303,7 @@ public abstract class Skill implements SlotContent, SaveElement
 	 */
 	protected void playSoundEffect()
 	{
-	    this.soundEffect.play();
+	    this.soundEffect.play(1.0f, Settings.getEffectsVol());
 	}
 	
 	protected String getTypeString()

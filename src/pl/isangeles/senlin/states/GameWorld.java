@@ -139,7 +139,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic = new AudioPlayer();
         	gwMusic.createPlaylist("idle");
         	gwMusic.createPlaylist("combat");
-        	gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
+        	gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
         	
         	if(dayManager == null)
                 dayManager = new Day();
@@ -225,12 +225,12 @@ public class GameWorld extends BasicGameState implements SaveElement
     	if(combat && !gwMusic.getActivePlaylist().equals("combat"))
     	{
     		gwMusic.stop();
-        	gwMusic.playRandomFrom("combat", 1.0f, 1.0f);
+        	gwMusic.playRandomFrom("combat", 1.0f, Settings.getMusicVol());
     	}
     	else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
     	{
     		gwMusic.stop();
-    		gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
+    		gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
     	}
     	
         if(!isPause())
@@ -487,7 +487,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	{
         	gwMusic.clearPlaylists();
         	area.addMusic(gwMusic);
-        	gwMusic.playRandomFrom("idle", 1.0f, 1.0f);
+        	gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
         }
     	this.area = area;
     	ui.getCamera().centerAt(new Position(player.getPosition()));

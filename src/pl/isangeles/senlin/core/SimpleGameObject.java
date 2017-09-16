@@ -43,6 +43,7 @@ import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -149,7 +150,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 		{
 			if(!voice.playing())
 			{
-				voice.play();
+				voice.play(1.0f, Settings.getEffectsVol());
 			}
 		}
 	}

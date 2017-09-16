@@ -80,7 +80,7 @@ public class MainMenu extends BasicGameState
             buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "exitName"), container);
             menuMusic.add("special", "mainTheme.ogg");
             menuMusic.addAll("special");
-            menuMusic.play(1.0f, 1.0f, "mainTheme.ogg");
+            menuMusic.play(1.0f, Settings.getMusicVol(), "mainTheme.ogg");
         }
         catch(IOException | FontFormatException e)
         {

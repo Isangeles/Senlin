@@ -1,4 +1,6 @@
-english;
-1920x1080;
-FOW OFF;
-senlin;
+language:english;
+resolution:1920x1080;
+fogOfWar:FOW OFF;
+module:senlin;
+musicVol:1.0f;
+effectsVol:1.0f;

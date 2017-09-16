@@ -208,4 +208,32 @@ public final class TConnector
 	{
 		return getTextFromFile(Module.getLangPath() + File.separator + "dialogues", id);
 	}
+	/**
+	 * Returns setting with specified ID from settings file
+	 * @param settingId Setting ID
+	 * @return String with setting
+	 * @throws FileNotFoundException
+	 * @throws NoSuchElementException
+	 */
+	public static String getSetting(String settingId) throws FileNotFoundException, NoSuchElementException
+	{
+	    File textFile = new File("settings.txt");
+	    
+	    Scanner scann;
+        scann = new Scanner(textFile);
+        scann.useDelimiter(";\r?\n");
+        String text;
+        while((text = scann.findInLine(settingId+".*[^;]")) == null)
+        {
+            scann.nextLine();
+        }
+        scann.close();
+        
+        scann = new Scanner(text);
+        scann.useDelimiter(":");
+        String textId = scann.next();
+        String textForGame = scann.next();
+        scann.close();
+        return textForGame;
+	}
 }

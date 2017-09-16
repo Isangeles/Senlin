@@ -24,6 +24,7 @@ package pl.isangeles.senlin.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
  * Static class giving access to external settings file
@@ -50,26 +51,54 @@ public class Settings
      */
     static
     {
-        File settingsFile = new File("settings.txt");
-        Scanner scann;
-		try 
-		{
-			scann = new Scanner(settingsFile);
-		} 
-		catch (FileNotFoundException e) 
-		{
-			String defSettings = "english;" + System.lineSeparator() + "1920x1080;" + System.lineSeparator() + "lightFOW";
-			scann = new Scanner(defSettings);
-		}
-        scann.useDelimiter(";\r?\n");
-        
-        langId = scann.next();
-        setRes(scann.next());
-        effectsVol = 1.0f;
-        musicVol = 1.0f;
-        fowType = scann.next();
-        module = scann.next();
-        scann.close();
+        try
+        {
+            langId = TConnector.getSetting("language");
+        } 
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            langId = "english";
+        }
+        try
+        {
+            setRes(TConnector.getSetting("resolution"));
+        }
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            setRes("1980x1080");
+        }
+        try
+        {
+            effectsVol = Float.parseFloat(TConnector.getSetting("effectsVol"));
+        } 
+        catch (NumberFormatException | FileNotFoundException | NoSuchElementException e)
+        {
+            effectsVol = 1.0f;
+        }
+        try
+        {
+            musicVol = Float.parseFloat(TConnector.getSetting("musicVol"));
+        } 
+        catch (NumberFormatException | FileNotFoundException | NoSuchElementException e)
+        {
+            musicVol = 1.0f;
+        }
+        try
+        {
+            fowType = TConnector.getSetting("fogOfWar");
+        } 
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            fowType = "FOW OFF";
+        }
+        try
+        {
+            module = TConnector.getSetting("module");
+        }
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            module = "senlin";
+        }
         setScale();
     }
     /**
@@ -119,6 +148,22 @@ public class Settings
     public static float getScale()
     {
     	return scale;
+    }
+    /**
+     * Returns audio effects volume level
+     * @return Volume level
+     */
+    public static float getEffectsVol()
+    {
+        return effectsVol;
+    }
+    /**
+     * Returns music volume level
+     * @return Volume level
+     */
+    public static float getMusicVol()
+    {
+        return musicVol;
     }
     /**
      * Returns current fog of war type
