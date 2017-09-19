@@ -115,7 +115,7 @@ public class UserInterface implements MouseListener, SaveElement
         cast = new CastBar(gc, player);
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
-        settings = new SettingsMenu(gc);
+        settings = new SettingsMenu(gc, gw);
         bBar = new BottomBar(gc, igMenu, charWin, inventory, skills, journal, crafting, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);

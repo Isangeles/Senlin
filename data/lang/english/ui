@@ -74,6 +74,8 @@ trainWinReqAtt:Required attributes values;
 trainWinTrain:You learned;
 trainWinFail:You failed to learn; 
 settWinInfo:Some changes needs game restart;
+settEVol:Effects volume level;
+settMVol:Music volume levle;
 proArm:Armor crafting;
 proWea:Weapon crafting;
 proAlch:Alchemy;

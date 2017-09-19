@@ -182,6 +182,22 @@ public class Settings
     	return module;
     }
     /**
+     * Sets effects volume level
+     * @param volLevel Desired volume level
+     */
+    public static void setEffectsVol(float volLevel)
+    {
+        effectsVol = volLevel;
+    }
+    /**
+     * Sets music volume level
+     * @param volLevel Desired volume level
+     */
+    public static void setMusicVol(float volLevel)
+    {
+        musicVol = volLevel;
+    }
+    /**
      * Sets resolution from provided string
      * @param resString String with resolution ([width]x[height];)
      */

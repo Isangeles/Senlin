@@ -1,6 +1,5 @@
 language:english;
 resolution:1920x1080;
-fogOfWar:FOW OFF;
-module:senlin;
-musicVol:1.0f;
-effectsVol:1.0f;
+fogOfWar:light FOW;
+effectsVol:1.0;
+musicVol:1.0;

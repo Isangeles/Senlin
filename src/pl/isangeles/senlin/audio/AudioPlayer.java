@@ -165,20 +165,19 @@ public class AudioPlayer
 		    Log.addSystem("audioPlayer_fail_msg///no such track: " + trackName);
 	}
 	/**
-	 * Starts audio player
+	 * Plays random track from active playlist
 	 * @param pitch
 	 * @param volume
 	 */
 	public void playRandom(float pitch, float volume)
 	{	
-		Music[] tracks = new Music[mainList.values().size()];
-		mainList.values().toArray(tracks);
+		Music[] tracks = new Music[activePlaylist.values().size()];
+		activePlaylist.values().toArray(tracks);
 		
         if(tracks.length > 0)
         {
             int trackId = rng.nextInt(tracks.length);
             tracks[trackId].play(pitch, volume);
-			activePlaylist = mainList;
         }
         else
         {

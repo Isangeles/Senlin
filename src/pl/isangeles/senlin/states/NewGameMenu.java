@@ -37,6 +37,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
@@ -129,21 +130,21 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
 	{
-		strSwitch.draw(200, 200);
-		conSwitch.draw(500, 200);
-		dexSwitch.draw(800, 200);
-		intSwitch.draw(1100, 200);
-		wisSwitch.draw(1400, 200);
-		fieldAtributesPts.draw(1400, 300);
+		strSwitch.draw(Coords.getDis(200), Coords.getDis(200), true);
+		conSwitch.draw(Coords.getDis(500), Coords.getDis(200), true);
+		dexSwitch.draw(Coords.getDis(800), Coords.getDis(200), true);
+		intSwitch.draw(Coords.getDis(1100), Coords.getDis(200), true);
+		wisSwitch.draw(Coords.getDis(1400), Coords.getDis(200), true);
+		fieldAtributesPts.draw(Coords.getDis(1400), Coords.getDis(300));
 		
-		fieldName.draw(800, 100);
+		fieldName.draw(Coords.getDis(800), Coords.getDis(100));
 		fieldName.render(g);
-		porList.get(imgId).draw(200, 400, 100f, 120f);
-		buttNextPor.draw(300, 480);
-		buttPrevPor.draw(160, 480);
+		porList.get(imgId).draw(Coords.getDis(200), Coords.getDis(400), Coords.getSize(100f), Coords.getSize(120f));
+		buttNextPor.draw(Coords.getDis(300), Coords.getDis(480), true);
+		buttPrevPor.draw(Coords.getDis(160), Coords.getDis(480), true);
 		
-		buttNext.draw(1800, 1000);
-		buttBack.draw(10, 1000);
+		buttNext.draw(Coords.getDis(1800), Coords.getDis(1000), true);
+		buttBack.draw(Coords.getDis(10), Coords.getDis(1000), true);
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)

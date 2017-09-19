@@ -50,6 +50,7 @@ import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
+import pl.isangeles.senlin.states.GameWorld;
 /**
  * Class for in-game skills menu
  * @author Isangeles

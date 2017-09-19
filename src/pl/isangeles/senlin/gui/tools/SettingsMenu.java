@@ -34,10 +34,13 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Message;
+import pl.isangeles.senlin.gui.Switch;
 import pl.isangeles.senlin.gui.TextSwitch;
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
@@ -50,9 +53,12 @@ import pl.isangeles.senlin.util.TConnector;
  */
 class SettingsMenu extends InterfaceObject implements UiElement, MouseListener 
 {
+    private GameWorld gw;
 	private TextSwitch resolutionS;
 	private TextSwitch langS;
 	private TextSwitch fowS;
+	private Switch effectsVolS;
+	private Switch musicVolS;
 	private Button backB;
 	private Message restartInfo;
 	
@@ -65,16 +71,20 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public SettingsMenu(GameContainer gc) throws SlickException, IOException, FontFormatException
+	public SettingsMenu(GameContainer gc, GameWorld gw) throws SlickException, IOException, FontFormatException
 	{
 		super(GConnector.getInput("ui/background/saveBG.png"), "uiSettingsBg", false, gc);
 		
 		gc.getInput().addMouseListener(this);
 		
+		this.gw = gw;
+		
 		resolutionS = new TextSwitch(gc, Settings.getResList(), ";");
 		langS = new TextSwitch(gc, Settings.getLangList(), ";");
 		fowS = new TextSwitch(gc, Settings.getFowTypes(), ";");
 		backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSettingsClose", false, TConnector.getText("ui", "winClose"), gc);
+		effectsVolS = new Switch(gc, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
+		musicVolS = new Switch(gc, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
 		restartInfo = new Message(gc);
 	}
 	/* (non-Javadoc)
@@ -88,6 +98,8 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		resolutionS.draw(x+getDis(40), y+getDis(20), false);
 		langS.draw(x+getDis(40), y+getDis(100), false);
 		fowS.draw(x+getDis(40), y+getDis(180), false);
+		effectsVolS.draw(x+getDis(40), y+getDis(260), false);
+		musicVolS.draw(x+getDis(40), y+getDis(340), false);
 		backB.draw(x+getDis(20), (y+super.getScaledHeight())-backB.getScaledHeight(), false);
 		if(restartInfo.isOpen())
 			restartInfo.draw();
@@ -214,6 +226,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 				if(change)
 				{
 					restartInfo.show(TConnector.getText("ui", "settWinInfo"));
+					applySettings();
 					saveSettings();
 					close();
 				}
@@ -231,6 +244,15 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 	{
 	}
     /**
+     * Applies settings
+     */
+    private void applySettings()
+    {
+        Settings.setEffectsVol(effectsVolS.getValue());
+        Settings.setMusicVol(musicVolS.getValue());
+        gw.replayMusic();
+    }
+    /**
      * Saves current settings to settings file
      */
     private void saveSettings()
@@ -238,14 +260,18 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		File settingsFile = new File("settings.txt");
 		try 
 		{
-			PrintWriter pw = new PrintWriter(settingsFile);
-			pw.write(langS.getString());
-			pw.write(";" + System.lineSeparator());
-			pw.write(resolutionS.getString());
+		    PrintWriter pw = new PrintWriter(settingsFile);
+            pw.write("language:" + langS.getString());
             pw.write(";" + System.lineSeparator());
-            pw.write(fowS.getString());
+            pw.write("resolution:" + resolutionS.getString());
             pw.write(";" + System.lineSeparator());
-			pw.close();
+            pw.write("fogOfWar:" + fowS.getString());
+            pw.write(";" + System.lineSeparator());
+            pw.write("effectsVol:" + (float)(effectsVolS.getValue())/100);
+            pw.write(";" + System.lineSeparator());
+            pw.write("musicVol:" + (float)(musicVolS.getValue())/100);
+            pw.write(";" + System.lineSeparator());
+            pw.close();
 		} 
 		catch (FileNotFoundException e) 
 		{

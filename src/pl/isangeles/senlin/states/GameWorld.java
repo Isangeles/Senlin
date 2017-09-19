@@ -290,6 +290,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
     	return dayManager;
     }
+    /**
+     * Restarts game world music
+     */
+    public void replayMusic()
+    {
+        gwMusic.stop();
+        gwMusic.playRandom(1.0f, Settings.getMusicVol());
+    }
     
     @Override
     public void mouseReleased(int button, int x, int y)

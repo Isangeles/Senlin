@@ -150,14 +150,15 @@ public class MainMenu extends BasicGameState
     	}
     }
     
+    public void replayMusic()
+    {
+        menuMusic.stop();
+        menuMusic.playRandom(1.0f, Settings.getMusicVol());
+    }
+    
     public static AudioPlayer getMusicPlayer()
     {
     	return menuMusic;
-    }
-    
-    public static GameCursor getCursor()
-    {
-    	return cursor;
     }
 
 }
