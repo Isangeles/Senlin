@@ -57,6 +57,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 	private TextSwitch resolutionS;
 	private TextSwitch langS;
 	private TextSwitch fowS;
+	private TextSwitch mRenderS;
 	private Switch effectsVolS;
 	private Switch musicVolS;
 	private Button backB;
@@ -82,6 +83,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		resolutionS = new TextSwitch(gc, Settings.getResList(), ";");
 		langS = new TextSwitch(gc, Settings.getLangList(), ";");
 		fowS = new TextSwitch(gc, Settings.getFowTypes(), ";");
+		mRenderS = new TextSwitch(gc, Settings.getMapRenderTypes(), ";");
 		backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSettingsClose", false, TConnector.getText("ui", "winClose"), gc);
 		effectsVolS = new Switch(gc, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
 		musicVolS = new Switch(gc, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
@@ -98,8 +100,9 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		resolutionS.draw(x+getDis(40), y+getDis(20), false);
 		langS.draw(x+getDis(40), y+getDis(100), false);
 		fowS.draw(x+getDis(40), y+getDis(180), false);
-		effectsVolS.draw(x+getDis(40), y+getDis(260), false);
-		musicVolS.draw(x+getDis(40), y+getDis(340), false);
+		mRenderS.draw(x+getDis(40), y+getDis(260), false);
+		effectsVolS.draw(x+getDis(40), y+getDis(340), false);
+		musicVolS.draw(x+getDis(40), y+getDis(420), false);
 		backB.draw(x+getDis(20), (y+super.getScaledHeight())-backB.getScaledHeight(), false);
 		if(restartInfo.isOpen())
 			restartInfo.draw();
@@ -266,6 +269,8 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
             pw.write("resolution:" + resolutionS.getString());
             pw.write(";" + System.lineSeparator());
             pw.write("fogOfWar:" + fowS.getString());
+            pw.write(";" + System.lineSeparator());
+            pw.write("mapRenderType:" + mRenderS.getString());
             pw.write(";" + System.lineSeparator());
             pw.write("effectsVol:" + (float)(effectsVolS.getValue())/100);
             pw.write(";" + System.lineSeparator());

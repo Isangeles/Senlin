@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="tilesetformattedupdate1" tilewidth="32" tileheight="32" tilecount="18" columns="3">
+ <tileset firstgid="1" name="tilesetformattedupdate1" tilewidth="32" tileheight="32" tilecount="18">
   <image source="tile/tilesetformattedupdate1.png" width="112" height="192"/>
  </tileset>
  <layer name="ground" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NmYGBgHsWDBgMAyAqMIJABAAA=
+   H4sIAAAAAAAAA2NmYGBgHsWDBgMAyAqMIJABAAA=
   </data>
  </layer>
- <layer name="Warstwa Kafelków 2" width="10" height="10">
+ <layer name="onground" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWDCQAADA0iRpABAAA=
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
- <layer name="Warstwa Kafelków 3" width="10" height="10">
+ <layer name="blockground" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWDCQAADA0iRpABAAA=
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
- <layer name="Warstwa Kafelków 4" width="10" height="10">
+ <layer name="water" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWDCQAADA0iRpABAAA=
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
 </map>

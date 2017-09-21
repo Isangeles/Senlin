@@ -40,6 +40,7 @@ public class Settings
     private static float effectsVol;
     private static float musicVol;
     private static String fowType;
+    private static String mRenderType;
     private static String module;
     /**
      * Private constructor to prevent initialization
@@ -93,6 +94,14 @@ public class Settings
         }
         try
         {
+        	mRenderType = TConnector.getSetting("mapRenderType");
+        }
+        catch(FileNotFoundException | NoSuchElementException e)
+        {
+        	mRenderType = "full";
+        }
+        try
+        {
             module = TConnector.getSetting("module");
         }
         catch (FileNotFoundException | NoSuchElementException e)
@@ -142,6 +151,14 @@ public class Settings
     	return "light FOW;full FOW;FOW OFF";
     }
     /**
+     * Returns string with map rendering types
+     * @return String with map rendering options delimited by semicolons(;)
+     */
+    public static String getMapRenderTypes()
+    {
+    	return "full;light";
+    }
+    /**
      * Returns scale for current resolution
      * @return Float scale value
      */
@@ -172,6 +189,14 @@ public class Settings
     public static String getFowType()
     {
     	return fowType;
+    }
+    /**
+     * Returns current map rendering type
+     * @return String with map rendering type name
+     */
+    public static String getMapRenderType()
+    {
+    	return mRenderType;
     }
     /**
      * Returns game module name

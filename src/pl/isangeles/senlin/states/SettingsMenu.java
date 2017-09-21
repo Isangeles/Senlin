@@ -54,6 +54,7 @@ public class SettingsMenu extends BasicGameState
 	private TextSwitch resolution;
 	private TextSwitch language;
 	private TextSwitch fow;
+	private TextSwitch mapRender;
 	private Switch effectsVol;
 	private Switch musicVol;
 	private Button buttBack;
@@ -73,6 +74,7 @@ public class SettingsMenu extends BasicGameState
     		resolution = new TextSwitch(container, Settings.getResList(), ";");
 			language = new TextSwitch(container, Settings.getLangList(), ";");
 			fow = new TextSwitch(container, Settings.getFowTypes(), ";");
+			mapRender = new TextSwitch(container, Settings.getMapRenderTypes(), ";");
 			effectsVol = new Switch(container, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
             musicVol = new Switch(container, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
 			
@@ -91,11 +93,12 @@ public class SettingsMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
-    	resolution.draw(Coords.getDis(700), Coords.getDis(400));
-    	language.draw(Coords.getDis(700), Coords.getDis(550));
-    	fow.draw(Coords.getDis(700), Coords.getDis(700));
-    	effectsVol.draw(Coords.getDis(700), Coords.getDis(850), true);
-        musicVol.draw(Coords.getDis(700), Coords.getDis(1000), true);
+    	resolution.draw(Coords.getDis(700), Coords.getDis(400), true);
+    	language.draw(Coords.getDis(700), Coords.getDis(550), true);
+    	fow.draw(Coords.getDis(700), Coords.getDis(700), true);
+    	mapRender.draw(Coords.getDis(700), Coords.getDis(850), true);
+    	effectsVol.draw(Coords.getDis(700), Coords.getDis(1000), true);
+        musicVol.draw(Coords.getDis(700), Coords.getDis(1150), true);
     	buttBack.draw(Coords.getDis(10), Coords.getDis(900));
     	if(message.isOpen())
     		message.draw();
@@ -161,6 +164,8 @@ public class SettingsMenu extends BasicGameState
 			pw.write("resolution:" + resolution.getString());
             pw.write(";" + System.lineSeparator());
             pw.write("fogOfWar:" + fow.getString());
+            pw.write(";" + System.lineSeparator());
+            pw.write("mapRenderType:" + mapRender.getString());
             pw.write(";" + System.lineSeparator());
             pw.write("effectsVol:" + (float)(effectsVol.getValue())/100);
             pw.write(";" + System.lineSeparator());

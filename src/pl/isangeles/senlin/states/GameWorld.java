@@ -185,7 +185,12 @@ public class GameWorld extends BasicGameState implements SaveElement
     	{
     		//game world
             g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
-            area.getMap().render(0, 0);
+            
+            if(Settings.getMapRenderType().equals("full"))
+            	area.getMap().render(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
+            else
+            	renderLightMap(area.getMap());
+            
             for(SimpleGameObject object : area.getObjects())
             {
                 if(player.isNearby(object))
@@ -331,7 +336,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 							{
 								changeScenarioReq = true;
 								nextScenario = scenario;
-								//Log.addSystem("change to: " + scenario.getId());
+								Log.addSystem("change to: " + scenario.getId());
 							}
 							else
 							{
@@ -429,16 +434,21 @@ public class GameWorld extends BasicGameState implements SaveElement
         	return false;
     }
     /**
-     * Checks if specified xy positions are moveable on game world map
+     * Checks if specified xy positions are 'moveable' on game world map
      * @param x Position on x axis
      * @param y Position on y axis
      * @return True if position are moveable, false otherwise
      */
     private boolean isMovable(int x, int y)
     {
+    	TiledMap map = area.getMap();
         try
         {
-        	if(area.getMap().getTileId(x/area.getMap().getTileWidth(), y/area.getMap().getTileHeight(), 1) != 0)
+        	if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
+     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
+     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
+     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
+     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //buildingsB layer
                 return false;
         }
         catch(ArrayIndexOutOfBoundsException e)
@@ -469,13 +479,20 @@ public class GameWorld extends BasicGameState implements SaveElement
             y += 32;
         }
     }
-    
+    /**
+     * Changes active scenario to next scenario
+     * @param gc Slick game container
+     * @param game Slick game
+     * @throws SlickException
+     */
     private void changeScenario(GameContainer gc, StateBasedGame game) throws SlickException
     {
     	this.activeScenario = nextScenario;
     	game.addState(new ReloadScreen());
     	changeScenarioReq = false;
     	nextScenario = null;
+    	player.setArea(activeScenario.getMainArea());
+    	//entering to reload screen
     	game.getState(5).init(gc, game);
     	game.enterState(5);
     }
@@ -499,5 +516,20 @@ public class GameWorld extends BasicGameState implements SaveElement
         }
     	this.area = area;
     	ui.getCamera().centerAt(new Position(player.getPosition()));
+    }
+    /**
+     * Renders only visible(thats in UI camera lens) part of specified map 
+     * @param map Map to render
+     */
+    private void renderLightMap(TiledMap map)
+    {
+    	int renderStartX = ui.getCamera().getPos().x;
+    	int renderStartY = ui.getCamera().getPos().y;
+    	int renderEndX = ((int)ui.getCamera().getSize().width)/32;
+    	int renderEndY = ((int)ui.getCamera().getSize().height)/32;
+    	int fTileX = renderStartX/32;
+    	int fTileY = renderStartY/32;
+    	
+    	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX, renderEndY);
     }
 }

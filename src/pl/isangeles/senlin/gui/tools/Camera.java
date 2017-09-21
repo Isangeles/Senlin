@@ -97,11 +97,19 @@ public class Camera implements SaveElement
 	}
 	/**
 	 * Returns current camera position
-	 * @return XY position
+	 * @return NEW XY position
 	 */
 	public Position getPos()
 	{
-		return pos;
+		return new Position(pos.x, pos.y);
+	}
+	/**
+	 * Returns camera size
+	 * @return NEW size tuple
+	 */
+	public Size getSize()
+	{
+		return new Size(size.width, size.height);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

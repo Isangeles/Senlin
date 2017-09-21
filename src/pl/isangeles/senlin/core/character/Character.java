@@ -1544,8 +1544,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 	    if(map != null)
 	    {
-	        if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || 
-	                map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0)
+	        if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
+	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
+	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
+	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
+	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //buildingsB layer
 	                 return false;
 	        else
 	            return true;

@@ -1,5 +1,6 @@
 language:english;
 resolution:1920x1080;
-fogOfWar:light FOW;
+fogOfWar:FOW OFF;
+mapRenderType:light;
 effectsVol:1.0;
 musicVol:1.0;

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <base>
 <scenario id="prologue02">
-    <mainarea id="prologue02" map="area01.tmx">
+    <mainarea id="prologue02" map="area02.tmx">
         <npcs>
         </npcs>
         <quests>
