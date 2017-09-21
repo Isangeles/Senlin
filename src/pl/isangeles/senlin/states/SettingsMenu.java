@@ -43,6 +43,7 @@ import pl.isangeles.senlin.gui.TextSwitch;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Game settings state class
@@ -114,7 +115,7 @@ public class SettingsMenu extends BasicGameState
     	{
     		backReq = false;
     		applySettings();
-    		saveSettings();
+    		Settings.saveSettings();
     		MainMenu mm = (MainMenu)game.getState(0);
     		mm.replayMusic();
     		game.enterState(0);
@@ -147,36 +148,10 @@ public class SettingsMenu extends BasicGameState
      */
     private void applySettings()
     {
+        Settings.setLang(language.getString());
+        Settings.setResolution(new Size(resolution.getString().replace('x', ';')));
         Settings.setEffectsVol(effectsVol.getValue());
         Settings.setMusicVol(musicVol.getValue());
-    }
-    /**
-     * Saves current settings to settings file
-     */
-    private void saveSettings()
-    {
-		File settingsFile = new File("settings.txt");
-		try 
-		{
-			PrintWriter pw = new PrintWriter(settingsFile);
-			pw.write("language:" + language.getString());
-			pw.write(";" + System.lineSeparator());
-			pw.write("resolution:" + resolution.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("fogOfWar:" + fow.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("mapRenderType:" + mapRender.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("effectsVol:" + (float)(effectsVol.getValue())/100);
-            pw.write(";" + System.lineSeparator());
-            pw.write("musicVol:" + (float)(musicVol.getValue())/100);
-            pw.write(";" + System.lineSeparator());
-			pw.close();
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		}
     }
 
 }

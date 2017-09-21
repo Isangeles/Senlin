@@ -24,6 +24,7 @@ package pl.isangeles.senlin.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
@@ -34,8 +35,9 @@ import java.util.Scanner;
 public class Settings
 {
     private static String langId;
-    private static float resWidth;
-    private static float resHeight;
+    private static String newLangId;
+    private static Size resolution;
+    private static Size newResolution;
     private static float scale;
     private static float effectsVol;
     private static float musicVol;
@@ -124,7 +126,7 @@ public class Settings
      */
     public static float[] getResolution()
     {
-        return new float[]{resWidth, resHeight};
+        return resolution.toTable();
     }
     /**
      * Returns string with all available resolutions    
@@ -207,6 +209,22 @@ public class Settings
     	return module;
     }
     /**
+     * Sets specified size as game resolution(needs game restart)
+     * @param resolution Size with width and height
+     */
+    public static void setResolution(Size resolution)
+    {
+       newResolution = resolution; 
+    }
+    /**
+     * Sets specified language with specified ID as game language
+     * @param langId String with lang ID
+     */
+    public static void setLang(String langId)
+    {
+        newLangId = langId;
+    }
+    /**
      * Sets effects volume level
      * @param volLevel Desired volume level
      */
@@ -223,6 +241,50 @@ public class Settings
         musicVol = volLevel;
     }
     /**
+     * Saves current settings to settings file
+     * @return True if settings was successfully saved, false otherwise
+     */
+    public static boolean saveSettings()
+    {
+        File settingsFile = new File("settings.txt");
+        try 
+        {
+            PrintWriter pw = new PrintWriter(settingsFile);
+            
+            if(newLangId != null || newLangId != "")
+                pw.write("language:" + newLangId);
+            else
+                pw.write("language:" + langId);
+            pw.write(";" + System.lineSeparator());
+            
+            if(newResolution != null)
+                pw.write("resolution:" + newResolution);
+            else
+                pw.write("resolution:" + resolution);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("fogOfWar:" + fowType);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("mapRenderType:" + mRenderType);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("effectsVol:" + effectsVol);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("musicVol:" + musicVol);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.close();
+            return true;
+        } 
+        catch (FileNotFoundException e) 
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    /**
      * Sets resolution from provided string
      * @param resString String with resolution ([width]x[height];)
      */
@@ -232,13 +294,11 @@ public class Settings
         scann.useDelimiter("x|;");
         try
         {
-            resWidth = Float.parseFloat(scann.next());
-            resHeight = Float.parseFloat(scann.next());
+            resolution = new Size(Float.parseFloat(scann.next()), Float.parseFloat(scann.next()));
         }
         catch(NumberFormatException e)
         {
-        	resWidth = 1920;
-        	resHeight = 1080;
+        	resolution = new Size(1920, 1080);
         }
         finally
         {
@@ -252,8 +312,8 @@ public class Settings
     {
     	float defResWidth = 1920;
         float defResHeight = 1080;
-        float proportionX = resWidth / defResWidth;
-        float proportionY = resHeight / defResHeight;
+        float proportionX = resolution.width / defResWidth;
+        float proportionY = resolution.height / defResHeight;
         scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
     }
 }

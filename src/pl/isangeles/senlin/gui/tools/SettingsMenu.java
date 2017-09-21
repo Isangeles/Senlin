@@ -44,6 +44,7 @@ import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -230,7 +231,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 				{
 					restartInfo.show(TConnector.getText("ui", "settWinInfo"));
 					applySettings();
-					saveSettings();
+					Settings.saveSettings();
 					close();
 				}
 				else
@@ -251,37 +252,11 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
      */
     private void applySettings()
     {
+        Settings.setLang(langS.getString());
+        Settings.setResolution(new Size(resolutionS.getString().replace('x', ';')));
         Settings.setEffectsVol(effectsVolS.getValue());
         Settings.setMusicVol(musicVolS.getValue());
         gw.replayMusic();
-    }
-    /**
-     * Saves current settings to settings file
-     */
-    private void saveSettings()
-    {
-		File settingsFile = new File("settings.txt");
-		try 
-		{
-		    PrintWriter pw = new PrintWriter(settingsFile);
-            pw.write("language:" + langS.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("resolution:" + resolutionS.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("fogOfWar:" + fowS.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("mapRenderType:" + mRenderS.getString());
-            pw.write(";" + System.lineSeparator());
-            pw.write("effectsVol:" + (float)(effectsVolS.getValue())/100);
-            pw.write(";" + System.lineSeparator());
-            pw.write("musicVol:" + (float)(musicVolS.getValue())/100);
-            pw.write(";" + System.lineSeparator());
-            pw.close();
-		} 
-		catch (FileNotFoundException e) 
-		{
-			Log.addSystem("settings_menu_file_save_fail_msg///" + e.getMessage());;
-		}
     }
 
 }

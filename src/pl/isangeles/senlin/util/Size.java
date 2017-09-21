@@ -68,6 +68,14 @@ public class Size
 		this.width = Integer.parseInt(wSemicolonH.split(";")[0]);
 		this.height = Integer.parseInt(wSemicolonH.split(";")[1]);
 	}
+	/**
+	 * Converts size to table with width[0] and height[1]
+	 * @return Table with width[0] and height[1]
+	 */
+	public float[] toTable()
+	{
+	    return new float[] {width, height};
+	}
 	
 	@Override
 	public String toString()
