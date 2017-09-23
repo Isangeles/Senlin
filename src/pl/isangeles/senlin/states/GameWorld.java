@@ -187,9 +187,9 @@ public class GameWorld extends BasicGameState implements SaveElement
             g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
             
             if(Settings.getMapRenderType().equals("full"))
-            	area.getMap().render(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
+            	area.getMap().render(0, 0); 
             else
-            	renderLightMap(area.getMap());
+                renderLightMap(area.getMap());
             
             for(SimpleGameObject object : area.getObjects())
             {
@@ -225,35 +225,37 @@ public class GameWorld extends BasicGameState implements SaveElement
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-    	dayManager.update(delta);
-    	
-    	if(combat && !gwMusic.getActivePlaylist().equals("combat"))
+    	if(!isPause())
     	{
-    		gwMusic.stop();
-        	gwMusic.playRandomFrom("combat", 1.0f, Settings.getMusicVol());
+    	    dayManager.update(delta);
+            
+            if(combat && !gwMusic.getActivePlaylist().equals("combat"))
+            {
+                gwMusic.stop();
+                gwMusic.playRandomFrom("combat", 1.0f, Settings.getMusicVol());
+            }
+            else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
+            {
+                gwMusic.stop();
+                gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+            }
+            
+            if(!isPause())
+                keyDown(container.getInput());
+            
+            CharacterOut out;
+            out = player.update(delta);
+            if(out != CharacterOut.SUCCESS)
+                Log.addWarning(out.toString());
+            
+            npcsAi.update(delta);
+            combat = npcsAi.isAttacked(player);
+            
+            if(changeScenarioReq)
+                changeScenario(container, game);
+            if(cui != null)
+                activeScenario.runScripts(cui);
     	}
-    	else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
-    	{
-    		gwMusic.stop();
-    		gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
-    	}
-    	
-        if(!isPause())
-            keyDown(container.getInput());
-    	
-        CharacterOut out;
-        out = player.update(delta);
-        if(out != CharacterOut.SUCCESS)
-            Log.addWarning(out.toString());
-    	
-    	npcsAi.update(delta);
-    	combat = npcsAi.isAttacked(player);
-    	
-    	if(changeScenarioReq)
-    		changeScenario(container, game);
-    	
-    	if(cui != null)
-    		activeScenario.runScripts(cui);
     	
     	if(ui != null)
     	{
@@ -325,7 +327,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     		{
     			for(Exit exit : area.getExits())
     			{
-    				if(exit.isMouseOver())
+    				if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 40)
     				{
     				    Log.addSystem(exit.getScenarioId() + " exit clicked!");
     					Scenario scenario = chapter.getScenario(exit.getScenarioId());
@@ -425,7 +427,10 @@ public class GameWorld extends BasicGameState implements SaveElement
             Global.setCamerPos(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
         }
     }
-    
+    /**
+     * Checks if game should be paused
+     * @return True if game should be paused, false otherwise
+     */
     private boolean isPause()
     {
         if(ui != null)
@@ -527,8 +532,8 @@ public class GameWorld extends BasicGameState implements SaveElement
     	int renderStartY = ui.getCamera().getPos().y;
     	int renderEndX = ((int)ui.getCamera().getSize().width)/32;
     	int renderEndY = ((int)ui.getCamera().getSize().height)/32;
-    	int fTileX = renderStartX/32;
-    	int fTileY = renderStartY/32;
+    	int fTileX = Math.floorDiv(renderStartX, 32);
+    	int fTileY = Math.floorDiv(renderStartY, 32);
     	
     	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX, renderEndY);
     }

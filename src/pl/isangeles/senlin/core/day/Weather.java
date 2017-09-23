@@ -34,6 +34,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.AConnector;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for game world weather(graphical and sound effects)
@@ -92,13 +93,16 @@ class Weather implements SaveElement
 		    type = WeatherType.SUN;
 		}
 	}
-	
+	/**
+	 * Starts raining animation and raining sound effect
+	 * @param howLong Rain duration
+	 */
 	public void startRaining(int howLong)
 	{
 		type = WeatherType.RAIN;
 		effectTime = howLong;
 		timer = 0;
-        rainSound.loop();
+        rainSound.loop(1.0f, Settings.getEffectsVol());
 	}
 	/**
 	 * Sets specified weather effect

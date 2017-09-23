@@ -81,10 +81,10 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		
 		this.gw = gw;
 		
-		resolutionS = new TextSwitch(gc, Settings.getResList(), ";");
-		langS = new TextSwitch(gc, Settings.getLangList(), ";");
-		fowS = new TextSwitch(gc, Settings.getFowTypes(), ";");
-		mRenderS = new TextSwitch(gc, Settings.getMapRenderTypes(), ";");
+		resolutionS = new TextSwitch(gc, TConnector.getText("ui", "settRes"), Settings.getResList(), ";");
+		langS = new TextSwitch(gc, TConnector.getText("ui", "settLang"), Settings.getLangList(), ";");
+		fowS = new TextSwitch(gc, TConnector.getText("ui", "settFow"), Settings.getFowTypes(), ";");
+		mRenderS = new TextSwitch(gc, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes(), ";");
 		backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSettingsClose", false, TConnector.getText("ui", "winClose"), gc);
 		effectsVolS = new Switch(gc, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
 		musicVolS = new Switch(gc, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
@@ -254,8 +254,8 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
     {
         Settings.setLang(langS.getString());
         Settings.setResolution(new Size(resolutionS.getString().replace('x', ';')));
-        Settings.setEffectsVol(effectsVolS.getValue());
-        Settings.setMusicVol(musicVolS.getValue());
+        Settings.setEffectsVol((float)effectsVolS.getValue()/100);
+        Settings.setMusicVol((float)musicVolS.getValue()/100);
         gw.replayMusic();
     }
 

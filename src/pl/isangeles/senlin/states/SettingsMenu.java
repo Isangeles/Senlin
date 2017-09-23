@@ -72,10 +72,10 @@ public class SettingsMenu extends BasicGameState
     {
     	try 
     	{
-    		resolution = new TextSwitch(container, Settings.getResList(), ";");
-			language = new TextSwitch(container, Settings.getLangList(), ";");
-			fow = new TextSwitch(container, Settings.getFowTypes(), ";");
-			mapRender = new TextSwitch(container, Settings.getMapRenderTypes(), ";");
+    		resolution = new TextSwitch(container, TConnector.getText("ui", "settRes"), Settings.getResList(), ";");
+			language = new TextSwitch(container, TConnector.getText("ui", "settLang"), Settings.getLangList(), ";");
+			fow = new TextSwitch(container, TConnector.getText("ui", "settFow"), Settings.getFowTypes(), ";");
+			mapRender = new TextSwitch(container, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes(), ";");
 			effectsVol = new Switch(container, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
             musicVol = new Switch(container, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
 			
@@ -99,7 +99,7 @@ public class SettingsMenu extends BasicGameState
     	fow.draw(Coords.getDis(700), Coords.getDis(700), true);
     	mapRender.draw(Coords.getDis(700), Coords.getDis(850), true);
     	effectsVol.draw(Coords.getDis(700), Coords.getDis(1000), true);
-        musicVol.draw(Coords.getDis(700), Coords.getDis(1150), true);
+        musicVol.draw(Coords.getDis(1000), Coords.getDis(400), true);
     	buttBack.draw(Coords.getDis(10), Coords.getDis(900));
     	if(message.isOpen())
     		message.draw();
@@ -150,8 +150,8 @@ public class SettingsMenu extends BasicGameState
     {
         Settings.setLang(language.getString());
         Settings.setResolution(new Size(resolution.getString().replace('x', ';')));
-        Settings.setEffectsVol(effectsVol.getValue());
-        Settings.setMusicVol(musicVol.getValue());
+        Settings.setEffectsVol((float)effectsVol.getValue()/100);
+        Settings.setMusicVol((float)musicVol.getValue()/100);
     }
 
 }

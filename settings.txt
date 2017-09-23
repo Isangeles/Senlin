@@ -1,6 +1,6 @@
 language:english;
 resolution:1920.0;1080.0;
-fogOfWar:FOW OFF;
+fogOfWar:light FOW;
 mapRenderType:light;
-effectsVol:100.0;
-musicVol:100.0;
+effectsVol:0.0;
+musicVol:0.0;

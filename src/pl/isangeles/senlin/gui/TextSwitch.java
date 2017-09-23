@@ -1,3 +1,25 @@
+/*
+ * TextSwitch.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.gui;
 
 import java.awt.Font;
@@ -24,6 +46,7 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public final class TextSwitch extends InterfaceObject implements MouseListener
 {
+    private String label;
     private List<String> textToDraw = new ArrayList<>();
     private int lineId;
     private Font textFont;
@@ -40,10 +63,10 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
+    public TextSwitch(GameContainer gc, String label, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
-        build(gc, textToSwitch, delimiter);
+        build(gc, label, textToSwitch, delimiter);
     }
     /**
      * Text switch with info window constructor 
@@ -55,10 +78,10 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String textToSwitch, String delimiter, String info) throws SlickException, FontFormatException, IOException
+    public TextSwitch(GameContainer gc, String label, String textToSwitch, String delimiter, String info) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc, info);
-        build(gc, textToSwitch, delimiter);
+        build(gc, label, textToSwitch, delimiter);
     }
     /**
      * Draws switch
@@ -68,9 +91,10 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     {
         super.draw(x, y);
         
-        plus.draw(x+super.getWidth()-35, y+2);
-		minus.draw(x, y+2);
+        plus.draw(x+super.getWidth()-getDis(35), y+getDis(2));
+		minus.draw(x, y+getDis(2));
 		
+		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
         super.drawString(textToDraw.get(lineId), textTtf);
     }
     @Override
@@ -78,9 +102,10 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     {
     	super.draw(x, y, scaledPos);
         
-        plus.draw(x+super.getWidth()-35, y+2);
-		minus.draw(x, y+2);
+        plus.draw(x+super.getWidth()-getDis(35), y+getDis(2));
+		minus.draw(x, y+getDis(2));
 		
+		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
         super.drawString(textToDraw.get(lineId), textTtf);
     }
     /**
@@ -169,7 +194,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    private void build(GameContainer gc, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
+    private void build(GameContainer gc, String label, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
     {
         plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
         minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
@@ -179,6 +204,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
+        this.label = label;
         Scanner scann = new Scanner(textToSwitch);
         scann.useDelimiter(delimiter);
         while(scann.hasNext())
