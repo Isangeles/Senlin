@@ -52,6 +52,7 @@ import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
+import pl.isangeles.senlin.gui.SlotContent;
 /**
  * Graphical representation of character inventory
  * @author Isangeles
@@ -148,12 +149,14 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
      */
     public void update()
     {
+    	/*
         if(player.getInventory().isMod())
         {
         	itemsIn.clear();
         	slots.clear();
         	player.getInventory().updated();
         }
+        */
         if(layoutToLoad != null)
         {
         	setLayout(layoutToLoad);
@@ -291,6 +294,18 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
      */
     private void addItems()
     {
+    	itemsIn.retainAll(player.getInventory());
+    	for(Slot slot : slots.getAllSlots())
+    	{
+    		if(!slot.isEmpty())
+    		{
+    			for(SlotContent content : slot.getContent())
+        		{
+        			if(!itemsIn.contains(content))
+        				slot.removeContent(content);
+        		}
+    		}
+    	}
     	for(Item item : player.getInventory())
     	{
     		if(!itemsIn.contains(item))

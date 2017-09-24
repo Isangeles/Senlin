@@ -48,7 +48,7 @@
    H4sIAAAAAAAAA+3WS07CUBjF8Ws7l8QViMoGTHSuAQYO1QC+FTAB328X4MQNMmEBOiE61Ynxj/1IGgKEdFJze37JSSncQe8JX1vnJOtmQ+dyYdpX8f/M00meLKgb9xY49x5En5etjxLn5SC9a0rTnHXwxf6/yYb1UOFYJTWyY9+tsXbd8/9Qx/a6xD4LZJfzPbJPDkiLtMkZObe1W6zb9riXD5uZ+JxccLwkV+R6aHYOOT8ix+TEw7nq9/HZ31cYzczwnIxzw++35I7c29quT/3Qx4zNwag5meTF1mzasedTLy75u0mdHhqkSU7Jj2e9JH03eaCHR/JEnj3rJInBc3xwb3rNaCdFeiiRMlkMo+f4n9i9KYsq7L1KamSFrGa4i7gWPbTVhYiIiIiIiIiIiIiIiIiIiIiIiEzpF9BqRy+wNgAA
   </data>
  </layer>
- <layer name="buildingsB" width="70" height="50">
+ <layer name="objects" width="70" height="50">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3BMQEAAADCoPVPbQhfoAAAAAAAAAAAAAAAAADgN2YIZcmwNgAA
   </data>

@@ -1548,7 +1548,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
 	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
 	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
-	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //buildingsB layer
+	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
 	                 return false;
 	        else
 	            return true;

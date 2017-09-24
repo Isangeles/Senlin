@@ -112,6 +112,15 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 		content.clear();
 	}
 	/**
+	 * Removes specified content from slot
+	 * @param contentToRemove Slot content to remove
+	 * @return True if specified content was successfully removed, false otherwise
+	 */
+	public boolean removeContent(SlotContent contentToRemove)
+	{
+		return content.remove(contentToRemove);
+	}
+	/**
 	 * Removes all specified content
 	 * @param contentToRemove Collection with slot content to remove
 	 */

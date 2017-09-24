@@ -254,6 +254,8 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
     {
         Settings.setLang(langS.getString());
         Settings.setResolution(new Size(resolutionS.getString().replace('x', ';')));
+        Settings.setFowType(fowS.getString());
+        Settings.setMapRenderType(mRenderS.getString());
         Settings.setEffectsVol((float)effectsVolS.getValue()/100);
         Settings.setMusicVol((float)musicVolS.getValue()/100);
         gw.replayMusic();

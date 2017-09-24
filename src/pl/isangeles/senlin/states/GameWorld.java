@@ -185,10 +185,11 @@ public class GameWorld extends BasicGameState implements SaveElement
     	{
     		//game world
             g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
+            g.scale(ui.getCamera().getZoom(), ui.getCamera().getZoom());
             
             if(Settings.getMapRenderType().equals("full"))
             	area.getMap().render(0, 0); 
-            else
+            else if(Settings.getMapRenderType().equals("light"))
                 renderLightMap(area.getMap());
             
             for(SimpleGameObject object : area.getObjects())
@@ -210,7 +211,7 @@ public class GameWorld extends BasicGameState implements SaveElement
                     npc.draw();
             }
             player.draw();
-            if(!Settings.getFowType().equals("FOW OFF"))
+            if(!Settings.getFowType().equals("off"))
                 drawFOW(g);
             //interface
             g.translate(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
@@ -329,7 +330,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     			{
     				if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 40)
     				{
-    				    Log.addSystem(exit.getScenarioId() + " exit clicked!");
+    				    //Log.addSystem(exit.getScenarioId() + " exit clicked!");// TEST LINE
     					Scenario scenario = chapter.getScenario(exit.getScenarioId());
     					
 						if(scenario != null)
@@ -338,7 +339,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 							{
 								changeScenarioReq = true;
 								nextScenario = scenario;
-								Log.addSystem("change to: " + scenario.getId());
+								//Log.addSystem("change to: " + scenario.getId());// TEST LINE
 							}
 							else
 							{
@@ -386,6 +387,22 @@ public class GameWorld extends BasicGameState implements SaveElement
     }
     
     @Override
+    public void mouseWheelMoved(int value)
+    {
+    	if(ui != null)
+    	{
+    		if(value > 0)
+        	{
+        		//ui.getCamera().zoom(0.1f);
+        	}
+        	if(value < 0)
+        	{
+        		//ui.getCamera().unzoom(0.1f);
+        	}
+    	}
+    }
+    
+    @Override
     public void keyPressed(int key, char c)
     {
     }
@@ -416,14 +433,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
         if(ui != null)
         {
-        	if(input.isKeyDown(Input.KEY_W))
-                ui.getCamera().up(10);
-            if(input.isKeyDown(Input.KEY_S))
-                ui.getCamera().down(10);
-            if(input.isKeyDown(Input.KEY_A))
-                ui.getCamera().left(10);
-            if(input.isKeyDown(Input.KEY_D))
-                ui.getCamera().right(10);
+        	if(input.isKeyDown(Input.KEY_W) && ui.getCamera().getPos().y > 0)
+                ui.getCamera().up(32);
+            if(input.isKeyDown(Input.KEY_S) && ui.getCamera().getBRPos().y < area.getMapSize().height)
+                ui.getCamera().down(32);
+            if(input.isKeyDown(Input.KEY_A) && ui.getCamera().getPos().x > 0)
+                ui.getCamera().left(32);
+            if(input.isKeyDown(Input.KEY_D) && ui.getCamera().getBRPos().x < area.getMapSize().width)
+                ui.getCamera().right(32);
             Global.setCamerPos(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
         }
     }
@@ -453,7 +470,7 @@ public class GameWorld extends BasicGameState implements SaveElement
      	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
      	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
      	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
-     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //buildingsB layer
+     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
                 return false;
         }
         catch(ArrayIndexOutOfBoundsException e)
@@ -475,7 +492,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             for(int j = 0; j < area.getMap().getWidth(); j ++)
             {
             	Position tilePos = new Position(x, y);
-                if(!player.isNearby(new int[]{x, y}) && (Settings.getFowType().equals("full FOW") || tilePos.isIn(Global.getCameraStartPos(), Global.getCameraEndPos())))
+                if(!player.isNearby(new int[]{x, y}) && (Settings.getFowType().equals("full") || tilePos.isIn(Global.getCameraStartPos(), Global.getCameraEndPos())))
                     fow.drawTile(x, y, Coords.getScale());
 
                 x += 32;

@@ -38,6 +38,7 @@ public class Camera implements SaveElement
 {
 	private Position pos = new Position();
 	private Size size = new Size();
+	private float zoom = 1.0f;
 	/**
 	 * Camera constructor
 	 * @param size Camera size
@@ -79,6 +80,22 @@ public class Camera implements SaveElement
 		pos.x -= value;
 	}
 	/**
+	 * Zooms camera by specified value
+	 * @param value Zoom value
+	 */
+	public void zoom(float value)
+	{
+		zoom += value;
+	}
+	/**
+	 * Unzooms camera by specified value
+	 * @param value Unzoom value
+	 */
+	public void unzoom(float value)
+	{
+		zoom -= value;
+	}
+	/**
 	 * Centers camera at specified position
 	 * @param pos XY position
 	 */
@@ -104,12 +121,28 @@ public class Camera implements SaveElement
 		return new Position(pos.x, pos.y);
 	}
 	/**
+	 * Returns position of bottom right angle
+	 * @return XY position
+	 */
+	public Position getBRPos()
+	{
+		return new Position(pos.x + size.width, pos.y + size.height);
+	}
+	/**
 	 * Returns camera size
 	 * @return NEW size tuple
 	 */
 	public Size getSize()
 	{
 		return new Size(size.width, size.height);
+	}
+	/**
+	 * Returns camera zoom
+	 * @return Camera zoom value
+	 */
+	public float getZoom()
+	{
+		return zoom;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

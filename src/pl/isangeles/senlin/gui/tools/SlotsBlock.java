@@ -136,6 +136,20 @@ public class SlotsBlock
 			return false;
 	}
 	/**
+	 * Removes specified content from block
+	 * @param content Slot content
+	 * @return True if specified content was successfully removed, false otherwise
+	 */
+	public boolean removeContent(SlotContent content)
+	{
+		for(Slot slot : allSlots)
+		{
+			if(slot.getContent().contains(content))
+				return slot.removeContent(content);
+		}
+		return false;
+	}
+	/**
 	 * Removes content from all slots
 	 */
 	public void clear()

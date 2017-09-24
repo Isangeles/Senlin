@@ -150,7 +150,7 @@ public class Settings
      */
     public static String getFowTypes()
     {
-    	return "light FOW;full FOW;FOW OFF";
+    	return "light;full;off";
     }
     /**
      * Returns string with map rendering types
@@ -223,6 +223,24 @@ public class Settings
     public static void setLang(String langId)
     {
         newLangId = langId;
+    }
+    /**
+     * Sets type of fog of war
+     * @param fowTypeId String with FOW type ID ('full', 'light' or 'off')
+     */
+    public static void setFowType(String fowTypeId)
+    {
+    	if(fowTypeId.equals("full") || fowTypeId.equals("light") || fowTypeId.equals("off"))
+    		fowType = fowTypeId;
+    }
+    /**
+     * Sets map rendering type
+     * @param mRenderType String with desired map rendering type ID ('full' or 'light')
+     */
+    public static void setMapRenderType(String mRenderType)
+    {
+    	if(mRenderType.equals("full") || mRenderType.equals("light"))
+    		Settings.mRenderType = mRenderType;
     }
     /**
      * Sets effects volume level

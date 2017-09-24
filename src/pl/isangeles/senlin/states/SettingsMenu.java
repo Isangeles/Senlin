@@ -150,8 +150,9 @@ public class SettingsMenu extends BasicGameState
     {
         Settings.setLang(language.getString());
         Settings.setResolution(new Size(resolution.getString().replace('x', ';')));
+        Settings.setFowType(fow.getString());
+        Settings.setMapRenderType(mapRender.getString());
         Settings.setEffectsVol((float)effectsVol.getValue()/100);
         Settings.setMusicVol((float)musicVol.getValue()/100);
     }
-
 }

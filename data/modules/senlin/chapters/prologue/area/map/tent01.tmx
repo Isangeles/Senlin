@@ -23,4 +23,24 @@
    H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
+ <layer name="trees" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="buildings" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="objects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="effects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
 </map>

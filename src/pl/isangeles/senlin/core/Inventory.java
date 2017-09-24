@@ -52,8 +52,9 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	private static final long serialVersionUID = 1L;
 	private Equipment equipment;
 	private int gold;
-	private boolean mod;
-	
+	/**
+	 * Inventory constructor
+	 */
 	public Inventory()
 	{
 		equipment = new Equipment();
@@ -68,7 +69,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         if(item != null)
         {
             super.add(item);
-            mod = true;
             return true;
         }
         else 
@@ -100,7 +100,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
     	if(super.remove(item))
     	{
-    		mod = true;
     		return true;
     	}
     	else
@@ -113,13 +112,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     public void addGold(int value)
     {
     	gold += value;
-    }
-    /**
-     * Marks inventory as updated, used by GUI
-     */
-    public void updated()
-    {
-    	mod = false;
     }
     /**
      * Returns all gold in inventory
@@ -292,11 +284,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	invWithoutEq.addAll(this);
     	invWithoutEq.removeAll(equipment.getAll());
     	return invWithoutEq;
-    }
-    
-    public boolean isMod()
-    {
-    	return mod;
     }
     /**
      * Returns all inventory as list with slot content
