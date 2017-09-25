@@ -25,20 +25,16 @@ package pl.isangeles.senlin.gui.tools;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.gui.Button;
@@ -60,12 +56,8 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	private TrueTypeFont ttf;
 	private Button trade;
 	private Button exit;
-	private Button nextBuy;
-	private Button prevBuy;
-	private Button nextSell;
-	private Button prevSell;
-	private SlotsBlock slotsBuy;
-	private SlotsBlock slotsSell;
+	private SlotsPages slotsBuy;
+	private SlotsPages slotsSell;
 	private List<Item> traderAssortment = new ArrayList<>();
 	private List<Item> buyerAssortment = new ArrayList<>();
 	private List<Item> itemsToSell = new ArrayList<>();
@@ -92,12 +84,8 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 		
 		trade = new Button(GConnector.getInput("button/buttonS.png"), "uiTradeBTrade", false, "", gc);
 		exit = new Button(GConnector.getInput("button/buttonS.png"), "uiTradeBExit", false, TConnector.getText("ui", "uiClose"), gc);
-		nextBuy = new Button(GConnector.getInput("button/buttonNext.png"), "uiTradeBNext", false, "", gc);
-		prevBuy = new Button(GConnector.getInput("button/buttonBack.png"), "uiTradeBPrev", false, "", gc);
-		nextSell = new Button(GConnector.getInput("button/buttonNext.png"), "uiTradeBNext", false, "", gc);
-		prevSell = new Button(GConnector.getInput("button/buttonBack.png"), "uiTradeBPrev", false, "", gc);
 		
-		ItemSlot[][] itemsToBuy = new ItemSlot[8][6];
+		ItemSlot[][] itemsToBuy = new ItemSlot[6][6];
 		for(int i = 0; i < itemsToBuy.length; i ++)
 		{
 			for(int j = 0; j < itemsToBuy[i].length; j ++)
@@ -105,9 +93,9 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 				itemsToBuy[i][j] = new ItemSlot(gc);
 			}
 		}
-		slotsBuy = new SlotsBlock(itemsToBuy);
+		slotsBuy = new SlotsPages(itemsToBuy, gc);
 		
-		ItemSlot[][] itemsToSell = new ItemSlot[8][6];
+		ItemSlot[][] itemsToSell = new ItemSlot[6][6];
 		for(int i = 0; i < itemsToSell.length; i ++)
 		{
 			for(int j = 0; j < itemsToSell[i].length; j ++)
@@ -115,7 +103,7 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 				itemsToSell[i][j] = new ItemSlot(gc);
 			}
 		}
-		slotsSell = new SlotsBlock(itemsToSell);
+		slotsSell = new SlotsPages(itemsToSell, gc);
 		
 		buyer = player;
 	}
@@ -132,13 +120,9 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(windowTitle)), y, windowTitle);
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
 		//Slots
-		slotsBuy.draw(x+getDis(8), y+getDis(72));
-		slotsSell.draw(x + getDis(322), y + getDis(72));
+		slotsBuy.draw(x+getDis(8), y+getDis(72), false);
+		slotsSell.draw(x+getDis(322), y+getDis(72), false);
 		//Buttons
-		nextBuy.draw(x+getDis(0), y+getDis(350), false);
-		prevBuy.draw(x+getDis(243), y+getDis(350), false);
-		nextSell.draw(x+getDis(322), y+getDis(350), false);
-		prevSell.draw(x+getDis(565), y+getDis(350), false);
 		trade.draw(x+getDis(107), y+getDis(350), false);
 		exit.draw(x+getDis(422), y+getDis(350), false);
 	}
@@ -270,18 +254,21 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 				Slot slotBuy = slotsBuy.getMouseOver();
 				if(slotBuy != null && !slotBuy.isEmpty())
 				{
-				    Item itemBuy = (Item)slotBuy.getContent();
-				    if(itemsToBuy.contains(itemBuy))
+				    for(SlotContent content : slotBuy.getContent())
 				    {
-				        itemsToBuy.remove(itemBuy);
-				        buyValue -= itemBuy.getValue();
-				        slotBuy.click(false);
-				    }
-				    else
-				    {
-				        itemsToBuy.add(itemBuy);
-				        buyValue += itemBuy.getValue();
-		                slotBuy.click(true);
+				    	Item itemBuy = (Item)content;
+					    if(itemsToBuy.contains(itemBuy))
+					    {
+					        itemsToBuy.remove(itemBuy);
+					        buyValue -= itemBuy.getValue();
+					        slotBuy.click(false);
+					    }
+					    else
+					    {
+					        itemsToBuy.add(itemBuy);
+					        buyValue += itemBuy.getValue();
+			                slotBuy.click(true);
+					    }
 				    }
 				}
 				

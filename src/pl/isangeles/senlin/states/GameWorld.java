@@ -186,11 +186,10 @@ public class GameWorld extends BasicGameState implements SaveElement
     		//game world
             g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
             g.scale(ui.getCamera().getZoom(), ui.getCamera().getZoom());
-            
             if(Settings.getMapRenderType().equals("full"))
             	area.getMap().render(0, 0); 
             else if(Settings.getMapRenderType().equals("light"))
-                renderLightMap(area.getMap());
+                renderLightMap(area.getMap(), g);
             
             for(SimpleGameObject object : area.getObjects())
             {
@@ -214,7 +213,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             if(!Settings.getFowType().equals("off"))
                 drawFOW(g);
             //interface
-            g.translate(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
+            g.resetTransform();
             dayManager.draw();
             ui.draw(g);
     	}
@@ -387,22 +386,6 @@ public class GameWorld extends BasicGameState implements SaveElement
     }
     
     @Override
-    public void mouseWheelMoved(int value)
-    {
-    	if(ui != null)
-    	{
-    		if(value > 0)
-        	{
-        		//ui.getCamera().zoom(0.1f);
-        	}
-        	if(value < 0)
-        	{
-        		//ui.getCamera().unzoom(0.1f);
-        	}
-    	}
-    }
-    
-    @Override
     public void keyPressed(int key, char c)
     {
     }
@@ -543,7 +526,7 @@ public class GameWorld extends BasicGameState implements SaveElement
      * Renders only visible(thats in UI camera lens) part of specified map 
      * @param map Map to render
      */
-    private void renderLightMap(TiledMap map)
+    private void renderLightMap(TiledMap map, Graphics g)
     {
     	int renderStartX = ui.getCamera().getPos().x;
     	int renderStartY = ui.getCamera().getPos().y;
@@ -551,7 +534,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	int renderEndY = ((int)ui.getCamera().getSize().height)/32;
     	int fTileX = Math.floorDiv(renderStartX, 32);
     	int fTileY = Math.floorDiv(renderStartY, 32);
-    	
+    	g.scale(Coords.getScale(), Coords.getScale());
     	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX, renderEndY);
     }
 }

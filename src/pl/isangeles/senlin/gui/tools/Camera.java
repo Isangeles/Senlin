@@ -25,6 +25,7 @@ package pl.isangeles.senlin.gui.tools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Size;
@@ -86,6 +87,13 @@ public class Camera implements SaveElement
 	public void zoom(float value)
 	{
 		zoom += value;
+		Log.addSystem("zooming");
+		/*
+		pos.x *= value;
+		pos.y *= value;
+		size.width *= value;
+		size.height *= value;
+		*/
 	}
 	/**
 	 * Unzooms camera by specified value
@@ -94,6 +102,13 @@ public class Camera implements SaveElement
 	public void unzoom(float value)
 	{
 		zoom -= value;
+		Log.addSystem("unzooming");
+		/*
+		pos.x /= value;
+		pos.y /= value;
+		size.width /= value;
+		size.height /= value;
+		*/
 	}
 	/**
 	 * Centers camera at specified position

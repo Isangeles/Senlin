@@ -80,7 +80,6 @@ public final class Coords
      */
     public static float getScale()
     {
-
         float defResX = 1920;
         float defResY = 1080;
         float resX = Settings.getResolution()[0];

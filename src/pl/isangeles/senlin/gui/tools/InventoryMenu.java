@@ -236,7 +236,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 		}
 		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
-			if(slots.getMouseOver() != null)
+			if(slots.getMouseOver() != null && !slots.getMouseOver().isEmpty())
 			{
 				Item item = (Item)slots.getMouseOver().getContent().get(0);
 				if(item != null)

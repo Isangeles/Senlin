@@ -36,7 +36,6 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Targetable;
@@ -47,7 +46,7 @@ import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
 /**
  * Class for loot window
- * TODO disable items dragging, fix for multiple pages
+ * TODO disable items dragging
  * @author Isangeles
  *
  */
@@ -59,7 +58,6 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	private Button takeAll;
 	private Button takeGold;
 	private SlotsPages slotsP;
-	private int pageIndex;
 	private boolean openReq;
 	/**
 	 * Loot window constructor
@@ -83,7 +81,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		takeAll = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB1S", false, "Take all",  gc);
 		takeGold = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB2S", false, "Take gold",  gc);
 		
-		ItemSlot[][] isTab = new ItemSlot[8][6]; 
+		ItemSlot[][] isTab = new ItemSlot[6][6]; 
 		for(int i = 0; i < isTab.length; i ++)
 		{
 			for(int j = 0; j < isTab[i].length; j ++)
@@ -123,8 +121,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	{
 		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 		lootedChar = null;
-		pageIndex = 0;
-		clearSlots();
+		slotsP.clear();
 	}
 	/**
 	 * Opens loot window
@@ -139,7 +136,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	        lootedChar = characterToLoot;
 		    if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
 	        {
-		        clearSlots();
+		        slotsP.clear();
 	            loadLoot();
 	            openReq = true;
 	        }
@@ -156,7 +153,10 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		lootingChar.stopLooting();
 		reset();
 	}
-	
+	/**
+	 * Checks if window should be drawn
+	 * @return True if window should be drawn, false otherwise
+	 */
 	public boolean isOpenReq()
 	{
 		return openReq;
@@ -257,10 +257,5 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	private void loadLoot()
 	{
 		slotsP.insertContent(lootedChar.getInventory().asSlotsContent());
-	}
-	
-	private void clearSlots()
-	{
-        slotsP.clear();
 	}
 }

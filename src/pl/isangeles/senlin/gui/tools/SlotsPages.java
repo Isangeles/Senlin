@@ -63,8 +63,8 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 		super(pageSlots);
 		gc.getInput().addMouseListener(this);
 		
-		next = new Button(GConnector.getInput("button/buttonNext.png"), "buttonNext", false, "", gc);
-		prev = new Button(GConnector.getInput("button/buttonBack.png"), "buttonBack", false, "", gc);
+		next = new Button(GConnector.getInput("button/buttonDown.png"), "buttonNext", false, "", gc);
+		prev = new Button(GConnector.getInput("button/buttonDown.png"), "buttonBack", false, "", gc);
 		
 		focus = true;
 	}
@@ -77,8 +77,8 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y);
-		next.draw(x + super.getWidth(), y, scaledPos);
-		prev.draw(x - prev.getScaledWidth(), y, scaledPos);
+		next.draw(x + super.getWidth(), y + (super.getHeight() + prev.getScaledHeight()*2), scaledPos);
+		prev.draw(x, y + (super.getHeight() + prev.getScaledHeight()*2), scaledPos);
 	}
 	/**
 	 * Updates slots pages

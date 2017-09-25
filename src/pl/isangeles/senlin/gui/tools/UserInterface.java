@@ -394,6 +394,17 @@ public class UserInterface implements MouseListener, SaveElement
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+		if(!isMouseOver())
+		{
+			if(change > 0 && camera.getZoom() < 1.5f)
+        	{
+        		camera.zoom(0.1f);
+        	}
+        	if(change < 0 && camera.getZoom() > 0.5f)
+        	{
+        		camera.unzoom(0.1f);
+        	}
+		}
 	}
 	
 	public static GameCursor getUiCursor()
