@@ -46,4 +46,9 @@ interface UiElement
      * Resets UI element
      */
     public void reset();
+    /**
+     * Checks if element should be drawn
+     * @return True if element should be drawn, false otherwise
+     */
+    public boolean isOpenReq();
 }

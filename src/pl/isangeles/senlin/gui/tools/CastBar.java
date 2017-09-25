@@ -55,11 +55,8 @@ public class CastBar extends InterfaceObject implements UiElement
     @Override
     public void draw(float x, float y)
     {
-        if(player.isCasting())
-        {
-            super.draw(x, y, false);
-            castBar.draw(x+getDis(10), y+getDis(10));
-        }
+    	super.draw(x, y, false);
+        castBar.draw(x+getDis(10), y+getDis(10));
     }
     /**
      * Updates cast bar
@@ -83,6 +80,15 @@ public class CastBar extends InterfaceObject implements UiElement
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq() 
+	{
+		return player.isCasting();
 	}
     
     

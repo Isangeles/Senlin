@@ -171,5 +171,13 @@ final class Console extends TextInput implements UiElement
 		// TODO Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq() 
+	{
+		return true;
+	}
     
 }

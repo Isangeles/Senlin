@@ -85,4 +85,13 @@ class DestinationPoint extends InterfaceObject implements UiElement
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq() 
+	{
+		return true;
+	}
+
 }

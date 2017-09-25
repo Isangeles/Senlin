@@ -1,5 +1,5 @@
 /*
- * JournalMenu.java
+ * MapWindow.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -22,137 +22,106 @@
  */
 package pl.isangeles.senlin.gui.tools;
 
-import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.tiled.TiledMap;
 
-import pl.isangeles.senlin.states.GameWorld;
-import pl.isangeles.senlin.util.Coords;
-import pl.isangeles.senlin.util.GConnector;
-import pl.isangeles.senlin.util.TConnector;
-import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
-import pl.isangeles.senlin.gui.ScrollableList;
-import pl.isangeles.senlin.gui.TextBlock;
+import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.character.Character;
+
 /**
- * Class for UI journal menu
+ * Class for UI map window
  * @author Isangeles
- * 
+ *
  */
-class JournalMenu extends InterfaceObject implements UiElement, MouseListener
+class MapWindow extends InterfaceObject implements UiElement, MouseListener 
 {
 	private Character player;
-	private GameWorld gw;
-	private ScrollableList questsList;
-	private Quest selectedQuest;
-	private TrueTypeFont ttf;
-	private TextBlock questDesc;
+	private TiledMap map;
+	
 	private Button closeB;
 	private boolean openReq;
+	private boolean focus;
 	/**
-	 * Journal menu constructor
-	 * @param gc Slick game container
+	 * Map window constructor
 	 * @param player Player character
+	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public JournalMenu(GameContainer gc, GameWorld gw, Character player) throws SlickException, IOException, FontFormatException 
+	public MapWindow(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
 	{
-		super(GConnector.getInput("ui/background/journalBG.png"), "uiJournalMenuBg", false, gc);
+		super(GConnector.getInput("ui/background/mapBG.png"), "uiMapWindowBg", false, gc);
 		gc.getInput().addMouseListener(this);
+		
 		this.player = player;
-		this.gw = gw;
 		
-		Font font = GBase.getFont("mainUiFont");
-		ttf = new TrueTypeFont(font.deriveFont(12f), true);
-		
-		questsList = new ScrollableList(10, gc);
-		questDesc = new TextBlock(50, ttf);
-		closeB = new Button(GConnector.getInput("button/buttonS.png"), "uiButtonClose", false, TConnector.getText("ui", "winClose"), gc);
+		closeB = new Button(GBase.getImage("buttonS"), TConnector.getText("ui", "uiClose"), gc);
 	}
-	
-	@Override
-	public void draw(float x, float y)
+	/**
+	 * Draws map window at specified position
+	 * @param x Position on X-axis
+	 * @param y Position on Y-axis
+	 * @param g Game graphics for map rendering
+	 */
+	public void draw(float x, float y, Graphics g)
 	{
 		super.draw(x, y, false);
-		
-		ttf.drawString(x + getDis(90), y + getDis(5), TConnector.getText("ui", "jMenuQuests"));
-		
-		int qfFirstX = (int)(x + getDis(30));
-		int qfFirstY = (int)(y + getDis(20));
-		
-		questsList.draw(qfFirstX, qfFirstY, false);
-
-		questDesc.draw(x + getDis(285), y + getDis(20));
-		closeB.draw(x + getDis(580), y + getDis(440), false);
-		
-		moveMOA(super.x, super.y);
+		closeB.draw(x+getDis(425), y+getDis(520), false);
+		renderMap(g);
 	}
-
-	@Override
-	public void update()
+	/**
+	 * Opens window
+	 * @param map Map to show in window
+	 */
+	public void open(TiledMap map)
 	{
-		questsList.update();
-		
-		Quest quest = (Quest)questsList.getSelected();
-		if(quest != null && selectedQuest != quest)
-		{
-			selectedQuest = quest;
-			questDesc.clear();
-			for(String infoLine : quest.getInfo())
-			{
-				questDesc.addText(infoLine);
-			}
-		}
-	}
-
-	@Override
-	public void reset() 
-	{
-		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
-		selectedQuest = null;
-		questsList.clear();
-		questDesc.clear();
-		questsList.setFocus(false);
-	}
-	
-	public void open()
-	{
+		this.map = map;
 		openReq = true;
-		questsList.addAll(player.getQuests());
-		questsList.setFocus(true);
+		focus = true;
 	}
-	
-	public void close()
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#close()
+	 */
+	@Override
+	public void close() 
 	{
 		openReq = false;
 		reset();
 	}
-	
-	public boolean isOpenReq()
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#update()
+	 */
+	@Override
+	public void update() 
 	{
-		return openReq;
 	}
-
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#reset()
+	 */
+	@Override
+	public void reset() 
+	{
+		hideMOA();
+		focus = false;
+	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
 	 */
 	@Override
-	public void inputEnded()
+	public void inputEnded() 
 	{
 	}
 
@@ -162,8 +131,6 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void inputStarted() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -172,7 +139,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public boolean isAcceptingInput() 
 	{
-		return openReq;
+		return focus;
 	}
 
 	/* (non-Javadoc)
@@ -195,7 +162,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
 	 */
 	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
+	public void mouseDragged(int oldx, int oldy, int newx, int newy)
 	{
 	}
 
@@ -219,7 +186,7 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
 	 */
 	@Override
-	public void mouseReleased(int button, int x, int y) 
+	public void mouseReleased(int button, int x, int y)
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
@@ -227,12 +194,35 @@ class JournalMenu extends InterfaceObject implements UiElement, MouseListener
 				close();
 		}
 	}
-
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
 	 */
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq()
+	{
+		return openReq;
+	}
+	/**
+	 * Renders area map
+	 * @param g Game graphics for map render
+	 */
+	private void renderMap(Graphics g)
+	{
+		int renderStartX = getDis(25);
+    	int renderStartY = getDis(25);
+    	int renderEndX = ((int)getSize(812))/32;
+    	int renderEndY = ((int)getSize(480))/32;
+    	int fTileX = Math.floorDiv(renderStartX, 32);
+    	int fTileY = Math.floorDiv(renderStartY, 32);
+		g.scale(getSize(0.2f), getSize(0.2f));
+		map.render((int)((x+getDis(25))/0.2f), (int)((y+getDis(25))/0.2f), fTileX, fTileY, renderEndX, renderEndY);
+		g.resetTransform();
 	}
 }

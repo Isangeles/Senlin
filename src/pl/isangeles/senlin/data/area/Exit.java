@@ -28,12 +28,8 @@ import java.io.IOException;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.GBase;
-import pl.isangeles.senlin.data.ObjectsBase;
-import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;

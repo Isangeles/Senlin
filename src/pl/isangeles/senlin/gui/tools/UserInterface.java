@@ -70,6 +70,7 @@ public class UserInterface implements MouseListener, SaveElement
     private SkillsMenu skills;
     private CraftingMenu crafting;
     private JournalMenu journal;
+    private MapWindow map;
     private LootWindow loot;
     private TradeWindow trade;
     private TrainingWindow train;
@@ -106,7 +107,8 @@ public class UserInterface implements MouseListener, SaveElement
         inventory = new InventoryMenu(gc, player);
         skills = new SkillsMenu(gc, player);
         crafting = new CraftingMenu(gc, player);
-        journal = new JournalMenu(gc, player, gw);
+        journal = new JournalMenu(gc, gw, player);
+        map = new MapWindow(gc, player);
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
         train = new TrainingWindow(gc, player);
@@ -116,7 +118,7 @@ public class UserInterface implements MouseListener, SaveElement
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
         settings = new SettingsMenu(gc, gw);
-        bBar = new BottomBar(gc, igMenu, charWin, inventory, skills, journal, crafting, player);
+        bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
         camera = new Camera(new Size(Settings.getResolution()[0], Settings.getResolution()[1]));
@@ -133,7 +135,9 @@ public class UserInterface implements MouseListener, SaveElement
         conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
-        cast.draw(Coords.getX("CE", -200), Coords.getY("CE", 200));
+        
+        if(cast.isMouseOver())
+        	cast.draw();
         
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
@@ -149,6 +153,9 @@ public class UserInterface implements MouseListener, SaveElement
         
         if(journal.isOpenReq())
         	journal.draw(Coords.getX("CE", -500), Coords.getY("CE", -200));
+        
+        if(map.isOpenReq())
+        	map.draw(Coords.getX("CE", -250), Coords.getY("CE", -350), g);
         
         if(loot.isOpenReq())
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
@@ -236,6 +243,7 @@ public class UserInterface implements MouseListener, SaveElement
         skills.update();
         crafting.update();
         journal.update();
+        map.update();
         loot.update();
         trade.update();
         train.update();
@@ -255,7 +263,8 @@ public class UserInterface implements MouseListener, SaveElement
     {
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
     		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
-    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver();
+    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver() || charWin.isMouseOver() || 
+    		   map.isMouseOver();
     }
     /**
      * Checks if exit game is requested

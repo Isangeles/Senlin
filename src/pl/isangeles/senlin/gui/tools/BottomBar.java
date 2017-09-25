@@ -16,6 +16,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -45,6 +46,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     private SkillSlot sMenuDSlot;
     
     private Character player;
+    private GameWorld gw;
     
     private MouseOverArea bBarMOA;
     
@@ -54,6 +56,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     private SkillsMenu skills;
     private JournalMenu journal;
     private CraftingMenu crafting;
+    private MapWindow map;
     
     private boolean focus;
     /**
@@ -63,13 +66,16 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
      * @throws IOException
      * @throws FontFormatException
      */
-    public BottomBar(GameContainer gc, InGameMenu menu, CharacterWindow charWin, InventoryMenu inventory, SkillsMenu skills,
-    				 JournalMenu journal, CraftingMenu crafting, Character player) 
+    public BottomBar(GameContainer gc, GameWorld gw, InGameMenu menu, CharacterWindow charWin, InventoryMenu inventory, SkillsMenu skills,
+    				 JournalMenu journal, CraftingMenu crafting, MapWindow map, Character player) 
     				 throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/bottomBar_DG.png"), "uiBottomBar", false, gc);
         gc.getInput().addMouseListener(this);
         gc.getInput().addKeyListener(this);
+        
+        this.player = player;
+        this.gw = gw;
         
         this.menu = menu;
         this.charWin = charWin;
@@ -77,6 +83,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         this.skills = skills;
         this.journal = journal;
         this.crafting = crafting;
+        this.map = map;
         questsB = new Button(GConnector.getInput("ui/button/buttonQuests.png"), "uiButtonQue", false, "", gc, TConnector.getText("ui", "questsBInfo"));
         characterB = new Button(GConnector.getInput("ui/button/buttonChar.png"), "uiButonChar", false, "", gc, TConnector.getText("ui", "characterBInfo"));
         inventoryB = new Button(GConnector.getInput("ui/button/buttonInventory.png"), "uiButtonInv", false, "", gc, TConnector.getText("ui", "inventoryBInfo"));
@@ -87,8 +94,6 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         
         
         sSlots = new SkillSlots(gc);
-        
-        this.player = player;
         
         bBarMOA = new MouseOverArea(gc, this, 0, 0);
         
@@ -225,6 +230,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         		journal.open();
         	else if(questsB.isMouseOver() && journal.isOpenReq())
         		journal.close();
+        	
+        	if(mapB.isMouseOver() && !map.isOpenReq())
+        		map.open(gw.getAreaMap());
+        	else if(mapB.isMouseOver() && map.isOpenReq())
+        		map.close();
     	}
     		
     	//Slots dragging system
@@ -288,6 +298,11 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 			journal.open();
 		else if(key == Input.KEY_L && journal.isOpenReq())
 			journal.close();
+		
+		if(key == Input.KEY_M && !map.isOpenReq())
+			map.open(gw.getAreaMap());
+		else if(key == Input.KEY_M && map.isOpenReq())
+			map.close();
 		
 		if(key == Input.KEY_1)
 		{
@@ -458,5 +473,13 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
     		sSlots.slots[layout.get(id)].insertContent(player.getSkills().get(id));
     	}
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq() 
+	{
+		return true;
+	}
 
 }

@@ -1,3 +1,25 @@
+/*
+ * InterfaceObject.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.gui;
 
 import java.awt.FontFormatException;
@@ -421,6 +443,13 @@ public abstract class InterfaceObject extends Image
     {
     	iObjectMOA.setLocation(x, y);
     }
+    /**
+     * Hides MouseOverArea(moves it outside the screen)
+     */
+    protected void hideMOA()
+    {
+    	moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+    }
     
     protected float getCenteredCoord(float bgCoord, float bgSize, float obSize)
     {
@@ -447,7 +476,6 @@ public abstract class InterfaceObject extends Image
             return new Position((int)(x + width), (int)(y + height));
         else
             return new Position((int)(x + getScaledHeight()), (int)(y + getScaledWidth()));
-            
     }
     /**
      * Returns bottom left corner of basic interface object texture
@@ -458,8 +486,7 @@ public abstract class InterfaceObject extends Image
         if(isCustomSize())
             return new Position((int)x, (int)(y + height));
         else
-            return new Position((int)x, (int)(y + getScaledHeight()));
-            
+            return new Position((int)x, (int)(y + getScaledHeight()));       
     }
     /**
      * Sets proportion for object based on current resolution, called by constructor

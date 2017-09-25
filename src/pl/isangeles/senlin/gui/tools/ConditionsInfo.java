@@ -82,5 +82,13 @@ public class ConditionsInfo extends InterfaceObject implements UiElement
 	public void reset() 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
+	 */
+	@Override
+	public boolean isOpenReq() 
+	{
+		return true;
+	}
 
 }
