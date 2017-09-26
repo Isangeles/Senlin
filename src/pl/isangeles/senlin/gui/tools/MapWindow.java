@@ -114,7 +114,7 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 		this.map = map;
 		openReq = true;
 		focus = true;
-		pmPos = new Position(((x+mRenderStart.x)/mapScale)+(player.getPosition()[0]), ((y+mRenderStart.y)/mapScale)+(player.getPosition()[1]));
+		pmPos = new Position(((mRenderStart.x)/mapScale)+(player.getPosition()[0]), ((mRenderStart.y)/mapScale)+(player.getPosition()[1]));
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#close()
@@ -140,6 +140,7 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 	{
 		hideMOA();
 		focus = false;
+		pmPos = new Position(0, 0);
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
@@ -267,7 +268,8 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
     	int fTileY = Math.floorDiv(mRenderStart.y, 32);
 		g.scale(mapScale, mapScale);
 		map.render((int)(renderStartX/mapScale), (int)(renderStartY/mapScale), fTileX, fTileY, (int)(mRenderWidth/mapScale), (int)(mRenderHeight/mapScale));
-		playerMark.draw(pmPos.x, pmPos.y, false);
+		if(pmPos.isIn(new Position(renderStartX, renderStartY), new Position((x/mapScale)+mRenderWidth, (y/mapScale)+mRenderHeight)))
+			playerMark.draw((x/mapScale)+pmPos.x, (y/mapScale)+pmPos.y, false);
 		g.resetTransform();
 	}
 }
