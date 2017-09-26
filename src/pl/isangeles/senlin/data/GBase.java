@@ -67,6 +67,10 @@ public final class GBase
 		texturesMap.put("textButtonBg", new Image(GConnector.getInput("field/textBg.png"), "textButtonBg", false));
 		texturesMap.put("uiCurvedBg", new Image(GConnector.getInput("field/cBgS.png"), "uiCurvedBg", false));
 		texturesMap.put("buttonS", new Image(GConnector.getInput("button/buttonS.png"), "buttonS", false));
+		texturesMap.put("buttonUp", new Image(GConnector.getInput("button/buttonUp.png"), "buttonUp", false));
+		texturesMap.put("buttonNext", new Image(GConnector.getInput("button/buttonNext.png"), "buttonNext", false));
+		texturesMap.put("buttonDown", new Image(GConnector.getInput("button/buttonDown.png"), "buttonDown", false));
+		texturesMap.put("buttonBack", new Image(GConnector.getInput("button/buttonBack.png"), "buttonBack", false));
         texturesMap.put("areaExit", new Sprite(GConnector.getInput("object/exit.png"), "areaExit", false));
 		
 		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));

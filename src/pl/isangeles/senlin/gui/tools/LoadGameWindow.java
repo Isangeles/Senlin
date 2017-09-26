@@ -247,7 +247,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
             if(loadB.isMouseOver())
             {
                 loadReq = true;
-                close();
+                //close();
             }
             if(exitB.isMouseOver())
                 close();

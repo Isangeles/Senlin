@@ -130,7 +130,6 @@ public class UserInterface implements MouseListener, SaveElement
      */
     public void draw(Graphics g)
     {
-    	point.draw();
         gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
         conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
@@ -138,6 +137,9 @@ public class UserInterface implements MouseListener, SaveElement
         
         if(cast.isMouseOver())
         	cast.draw();
+        
+        if(point.isOpenReq())
+        	point.draw();
         
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));
@@ -186,7 +188,6 @@ public class UserInterface implements MouseListener, SaveElement
         
         if(settings.isOpenReq())
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
-        
         
         //cursor.draw();   	
     }

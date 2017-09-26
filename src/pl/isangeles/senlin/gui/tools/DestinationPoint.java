@@ -34,12 +34,20 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
 
 /**
+ * Class for player destination point GUI mark
  * @author Isangeles
  *
  */
 class DestinationPoint extends InterfaceObject implements UiElement 
 {
 	private Character player;
+	/**
+	 * Destination point constructor
+	 * @param gc Slick game container
+	 * @param player Player character
+	 * @throws SlickException 
+	 * @throws IOException
+	 */
 	public DestinationPoint(GameContainer gc, Character player) throws SlickException, IOException
 	{
 		super(GConnector.getInput("sprite/nTarget.png"), "uiDestPoint", false, gc);
@@ -49,11 +57,7 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public void draw()
 	{
-		Position pointPos = player.getDestPoint();
-		if(!new Position(player.getPosition()).equals(pointPos))
-		{
-			this.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
-		}
+		this.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
@@ -61,8 +65,6 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public void update() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -71,8 +73,6 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public void reset() 
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -81,8 +81,6 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public void close() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -91,7 +89,8 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public boolean isOpenReq() 
 	{
-		return true;
+		Position pointPos = player.getDestPoint();
+		return !(new Position(player.getPosition()).equals(pointPos));
 	}
 
 }

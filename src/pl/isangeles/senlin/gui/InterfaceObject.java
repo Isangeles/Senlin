@@ -384,6 +384,14 @@ public abstract class InterfaceObject extends Image
     	return size * scale;
     }
     /**
+     * Returns object position
+     * @return XY position
+     */
+    public Position getPos()
+    {
+    	return new Position(x, y);
+    }
+    /**
      * Returns width of object corrected by scale
      * @return Width of object multiplied by scale
      */

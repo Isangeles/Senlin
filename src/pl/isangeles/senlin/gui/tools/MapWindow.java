@@ -33,10 +33,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 import pl.isangeles.senlin.data.GBase;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.character.Character;
 
@@ -50,6 +52,15 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 	private Character player;
 	private TiledMap map;
 	
+	private float mapScale;
+	private Position mRenderStart = new Position(25, 25);
+	
+	private Sprite playerMark;
+	private Position pmPos;
+	private Button upB;
+	private Button rightB;
+	private Button downB;
+	private Button leftB;
 	private Button closeB;
 	private boolean openReq;
 	private boolean focus;
@@ -68,6 +79,12 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 		
 		this.player = player;
 		
+		mapScale = getSize(0.2f);
+		playerMark = new Sprite(GConnector.getInput("sprite/hTarget.png"), "uiMapWindowPlayerMark", false);
+		upB = new Button(GBase.getImage("buttonUp"), "", gc);
+		rightB = new Button(GBase.getImage("buttonNext"), "", gc);
+		downB = new Button(GBase.getImage("buttonDown"), "", gc);
+		leftB = new Button(GBase.getImage("buttonBack"), "", gc);
 		closeB = new Button(GBase.getImage("buttonS"), TConnector.getText("ui", "uiClose"), gc);
 	}
 	/**
@@ -79,7 +96,13 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 	public void draw(float x, float y, Graphics g)
 	{
 		super.draw(x, y, false);
+		
+		upB.draw(x+getDis(815), y+getDis(520), false);
+		downB.draw(upB.getPos().x-(downB.getScaledWidth()+getDis(5)), y+getDis(520), false);
+		rightB.draw(downB.getPos().x-(rightB.getScaledWidth()+getDis(5)), y+getDis(520), false);
+		leftB.draw(rightB.getPos().x-(leftB.getScaledWidth()+getDis(5)), y+getDis(520), false);
 		closeB.draw(x+getDis(425), y+getDis(520), false);
+		
 		renderMap(g);
 	}
 	/**
@@ -91,6 +114,7 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 		this.map = map;
 		openReq = true;
 		focus = true;
+		pmPos = new Position(((x+mRenderStart.x)/mapScale)+(player.getPosition()[0]), ((y+mRenderStart.y)/mapScale)+(player.getPosition()[1]));
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#close()
@@ -190,6 +214,26 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
+			if(upB.isMouseOver())
+			{
+				mRenderStart.y += 32;
+				pmPos.y -= 32;
+			}
+			if(rightB.isMouseOver())
+			{
+				mRenderStart.x -= 32;
+				pmPos.x += 32;
+			}
+			if(downB.isMouseOver())
+			{
+				mRenderStart.y -= 32;
+				pmPos.y += 32;
+			}
+			if(leftB.isMouseOver())
+			{
+				mRenderStart.x += 32;
+				pmPos.x -= 32;
+			}
 			if(closeB.isMouseOver())
 				close();
 		}
@@ -215,14 +259,15 @@ class MapWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private void renderMap(Graphics g)
 	{
-		int renderStartX = getDis(25);
-    	int renderStartY = getDis(25);
-    	int renderEndX = ((int)getSize(812))/32;
-    	int renderEndY = ((int)getSize(480))/32;
-    	int fTileX = Math.floorDiv(renderStartX, 32);
-    	int fTileY = Math.floorDiv(renderStartY, 32);
-		g.scale(getSize(0.2f), getSize(0.2f));
-		map.render((int)((x+getDis(25))/0.2f), (int)((y+getDis(25))/0.2f), fTileX, fTileY, renderEndX, renderEndY);
+		int renderStartX = (int)x + getDis(25);
+		int renderStartY = (int)y + getDis(25);
+    	int mRenderWidth = ((int)getDis(812))/32;
+    	int mRenderHeight = ((int)getDis(480))/32;
+    	int fTileX = Math.floorDiv(mRenderStart.x, 32);
+    	int fTileY = Math.floorDiv(mRenderStart.y, 32);
+		g.scale(mapScale, mapScale);
+		map.render((int)(renderStartX/mapScale), (int)(renderStartY/mapScale), fTileX, fTileY, (int)(mRenderWidth/mapScale), (int)(mRenderHeight/mapScale));
+		playerMark.draw(pmPos.x, pmPos.y, false);
 		g.resetTransform();
 	}
 }

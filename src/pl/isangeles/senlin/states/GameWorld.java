@@ -416,13 +416,13 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
         if(ui != null)
         {
-        	if(input.isKeyDown(Input.KEY_W) && ui.getCamera().getPos().y > 0)
+        	if(input.isKeyDown(Input.KEY_W) && ui.getCamera().getPos().y > -200)
                 ui.getCamera().up(32);
-            if(input.isKeyDown(Input.KEY_S) && ui.getCamera().getBRPos().y < area.getMapSize().height)
+            if(input.isKeyDown(Input.KEY_S) && ui.getCamera().getBRPos().y < (area.getMapSize().height+Coords.getSize(200)))
                 ui.getCamera().down(32);
-            if(input.isKeyDown(Input.KEY_A) && ui.getCamera().getPos().x > 0)
+            if(input.isKeyDown(Input.KEY_A) && ui.getCamera().getPos().x > -200)
                 ui.getCamera().left(32);
-            if(input.isKeyDown(Input.KEY_D) && ui.getCamera().getBRPos().x < area.getMapSize().width)
+            if(input.isKeyDown(Input.KEY_D) && ui.getCamera().getBRPos().x < (area.getMapSize().width+Coords.getSize(200)))
                 ui.getCamera().right(32);
             Global.setCamerPos(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
         }

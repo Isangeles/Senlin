@@ -171,11 +171,40 @@ public abstract class GameObject extends Image
         		objectInfo.draw(x, y);
         }
     }
+    /**
+     * Draws object on current object position
+     * @param scaledPos True if position should be scaled to current resolution, false otherwise
+     */
+    public void draw(boolean scaledPos)
+    {
+    	if(scaledPos)
+    	{
+    		x *= scale;
+    		y *= scale;
+    	}
+    	super.draw(x, y);
+    	
+    	if(gObjectMOA != null)
+    	{
+    		gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+    		
+    		if(gObjectMOA.isMouseOver())
+    			objectInfo.draw(x, y);
+    	}
+    }
     
     public void setPosition(Position pos)
     {
     	this.x = pos.x;
     	this.y = pos.y;
+    }
+    /**
+     * Returns current object position
+     * @return XY position
+     */
+    public Position getPosition()
+    {
+    	return new Position(x, y);
     }
     
     public float getScale()
