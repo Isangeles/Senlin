@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -65,8 +66,7 @@ public class Scenario implements SaveElement
 {
 	private final String id;
 	private List<MobsArea> mobsAreas;
-	private List<Quest> quests = new ArrayList<>();
-	private List<Quest> questsToStart = new ArrayList<>();
+	private Map<Quest, String> questsToStart = new HashMap<>();
 	private List<Script> scripts = new ArrayList<>();
 	private List<Script> finishedScripts = new ArrayList<>();
 	private Area mainArea;
@@ -83,7 +83,7 @@ public class Scenario implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String[]> quests, List<Script> scripts) 
+	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String> quests, List<Script> scripts) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -101,8 +101,7 @@ public class Scenario implements SaveElement
 		for(String qId : quests.keySet())
 		{
 			Quest quest = QuestsBase.get(qId);
-			setQTrigger(quest, quests.get(qId));
-			this.quests.add(quest);
+			questsToStart.put(quest, quests.get(qId));
 		}
 		this.mobsAreas = mobsAreas;
 		
@@ -170,14 +169,14 @@ public class Scenario implements SaveElement
 		this.scripts = scripts;
 	}
 	/**
-	 * Starts all scenario quests with "start" trigger for specified character
+	 * Starts all scenario quests for specified character
 	 * @param player Player character
 	 */
 	public void startQuests(Character player)
 	{
-		for(Quest q : questsToStart)
+		for(Entry<Quest, String> q : questsToStart.entrySet())
 		{
-			player.startQuest(q);
+			player.getQTracker().addQuestToStart(q.getKey(), q.getValue());
 		}
 	}
 	/**
@@ -247,14 +246,17 @@ public class Scenario implements SaveElement
 		
 		return scenarioE;
 	}
+	
 	/**
 	 * Sets triggers for all scenario quests 
 	 * @param quest Scenario quests
 	 * @param trigger Table with trigger type[0] and trigger ID[1]
 	 */
+	/*
 	private void setQTrigger(Quest quest, String[] trigger)
 	{
 		Log.addSystem(trigger[0]);
+		
 		switch(trigger[0])	
 		{
 		case "start":
@@ -263,6 +265,9 @@ public class Scenario implements SaveElement
 		case "talk":
 			DialoguesBase.setTrigger(trigger[1], quest.getId());
 			return;
+		default:
+			
 		}
 	}
+	*/
 }

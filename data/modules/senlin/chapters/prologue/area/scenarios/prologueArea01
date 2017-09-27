@@ -14,8 +14,8 @@
             <mob max="4">goblin01</mob>
         </mobs>
         <quests>
-	        <quest qOn="start">pLumberTalk</quest>
-            <quest qOn="talk" trigger="ewanTalk201a01">pBanditsKilling</quest>
+	        <quest trigger="now">pLumberTalk</quest>
+            <quest trigger="ewanTalk201a01">pBanditsKilling</quest>
         </quests>
         <objects>
             <object position="1900;200">cFire01</object>

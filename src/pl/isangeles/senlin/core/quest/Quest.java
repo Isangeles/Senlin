@@ -26,8 +26,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Module;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
 import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.util.TConnector;
@@ -36,7 +40,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class Quest implements ScrollableContent
+public class Quest implements ScrollableContent, SaveElement
 {
     private String id;
     private String name;
@@ -257,10 +261,25 @@ public class Quest implements ScrollableContent
     /**
      * Marks quest as completed
      */
-    private void completed()
+    public void completed()
     {
     	name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
     	complete = true;
     	active = false;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element questE = doc.createElement("quest");
+		questE.setAttribute("id", id);
+		questE.setAttribute("stage", currentStage.getId());
+		for(Objective ob : currentStage.getObjectives())
+		{
+			questE.appendChild(ob.getSave(doc));
+		}
+		return questE;
+	}
 }

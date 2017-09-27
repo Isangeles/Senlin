@@ -27,6 +27,8 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.data.save.SaveElement;
+
 import java.util.ArrayList;
 
 /**
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  * @author Isangeles
  *
  */
-public class Journal extends ArrayList<Quest>
+public class Journal extends ArrayList<Quest> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 	private List<Quest> qCompleted = new ArrayList<>();
@@ -43,12 +45,18 @@ public class Journal extends ArrayList<Quest>
 	 */
 	public void update()
 	{
+		for(Quest quest : this)
+		{
+			if(quest.isComplete())
+				qCompleted.add(quest);
+		}
 		this.removeAll(qCompleted);
 	}
 	/**
 	 * Marks specified quest as completed by adding it on list with completed quests (only if quest is in container, course)
 	 * @param quests List with game quests in character journal
 	 */
+	/*
 	public void markAsCompleted(List<Quest> quests)
 	{
 		for(Quest quest : quests)
@@ -59,6 +67,7 @@ public class Journal extends ArrayList<Quest>
 			}
 		}
 	}
+	*/
 	/**
 	 * Returns XML document element with parsed quests
 	 * TODO save completed quests
@@ -67,22 +76,24 @@ public class Journal extends ArrayList<Quest>
 	 */
 	public Element getSave(Document doc)
 	{
-		Element questsE = doc.createElement("quests");
+		Element journalE = doc.createElement("journal");
+		
+		Element aQuestsE = doc.createElement("activeQuests");
 		for(Quest q : this)
 		{
-			Element questE = doc.createElement("quest");
-			questE.setAttribute("id", q.getId());
-			questE.setAttribute("stage", q.getCurrentStageId());
-			for(Objective ob : q.getCurrentObjectives())
-			{
-				Element objectiveE = doc.createElement("objective");
-				objectiveE.setAttribute("complete", ob.isComplete()+"");
-				objectiveE.setTextContent(ob.getCurrentAmount()+"/"+ob.getReqAmount());
-				questE.appendChild(objectiveE);
-			}
-			questsE.appendChild(questE);
+			aQuestsE.appendChild(q.getSave(doc));
 		}
+		journalE.appendChild(aQuestsE);
 		
-		return questsE;
+		Element cQuestsE = doc.createElement("completedQuests");
+		for(Quest q : qCompleted)
+		{
+			Element questE = doc.createElement("quest");
+			questE.setTextContent(q.getId());
+			cQuestsE.appendChild(questE);
+		}
+		journalE.appendChild(cQuestsE);
+		
+		return journalE;
 	}
 }

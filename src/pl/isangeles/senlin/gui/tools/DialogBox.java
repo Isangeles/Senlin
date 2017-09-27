@@ -375,10 +375,6 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 			{
 				if(option != null)
 				{
-					Quest answerQ = option.getQuest();
-					if(answerQ != null)
-						interlocutorA.startQuest(answerQ);
-					
 					interlocutorA.getQTracker().check(option);
 					
 					if(option.getId().equals("tradeReq"))

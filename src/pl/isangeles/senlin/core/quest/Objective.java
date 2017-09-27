@@ -1,12 +1,16 @@
 package pl.isangeles.senlin.core.quest;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Class for quest stage objectives, smallest quest part
  * @author Isangeles
  *
  */
-public class Objective
+public class Objective implements SaveElement
 {
     private ObjectiveType type;
     private String target;
@@ -87,4 +91,15 @@ public class Objective
     {
         this.amount = amount;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element objectiveE = doc.createElement("objective");
+		objectiveE.setAttribute("complete", complete+"");
+		objectiveE.setTextContent(amount+"/"+reqAmount);
+		return objectiveE;
+	}
 }

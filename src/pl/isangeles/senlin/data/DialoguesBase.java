@@ -72,19 +72,6 @@ public class DialoguesBase
 		return DialogueParser.getDialogueFromNode(DialogueParser.getDefDialogueNode());
 	}
 	/**
-	 * Sets quest trigger for specific dialogue answer 
-	 * @param answerId Dialogue answer ID
-	 * @param questId Quest ID
-	 */
-	public static void setTrigger(String answerId, String questId)
-	{
-		System.out.println("dBase_req_for//" + answerId);
-		for(Dialogue dialogue : dialogsMap.values())
-		{
-			dialogue.setQTrigger(answerId, questId);
-		}
-	}
-	/**
 	 * Loads base
 	 * @throws ParserConfigurationException
 	 * @throws SAXException

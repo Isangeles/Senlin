@@ -13,7 +13,6 @@ public class Answer implements ObjectiveTarget
 {
 	private final String id;
 	private final boolean end;
-	private String qOn;
 	/**
 	 * Answer constructor
 	 * @param text Answer text content ID
@@ -23,13 +22,7 @@ public class Answer implements ObjectiveTarget
 	public Answer(String text, String qOn, boolean end) 
 	{
 		this.id = text;
-		this.qOn = qOn;
 		this.end = end;
-	}
-	
-	public void setQTrigger(String questId)
-	{
-		qOn = questId;
 	}
 	/**
 	 * Returns answer ID
@@ -54,10 +47,5 @@ public class Answer implements ObjectiveTarget
 	public boolean isEnd()
 	{
 		return end;
-	}
-
-	public Quest getQuest()
-	{
-		return QuestsBase.get(qOn);
 	}
 }

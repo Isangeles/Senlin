@@ -160,8 +160,8 @@ public final class SSGParser
     	int serial = Integer.parseInt(charE.getAttribute("serial"));
         Character character = NpcParser.getNpcFromNode(charE).make(gc, serial);
         
-        Element questsE = (Element)charE.getElementsByTagName("quests").item(0);
-        character.getQuests().addAll(getSavedQuests(questsE));
+        Element journalE = (Element)charE.getElementsByTagName("journal").item(0);
+        character.getQuests().addAll(getSavedQuests(journalE));
         
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
         character.getFlags().addAll(getSavedFlags(flagsE));
@@ -320,18 +320,22 @@ public final class SSGParser
      * @param questsE Quests element form .ssg document
      * @return List with saved quests
      */
-    private static List<Quest> getSavedQuests(Element questsE)
+    private static List<Quest> getSavedQuests(Element journalE)
     {
         List<Quest> savedQuests = new ArrayList<>();
-        NodeList questsList = questsE.getElementsByTagName("quest");
-        for(int i = 0; i < questsList.getLength(); i ++)
+        
+        Element aQuestsE = (Element)journalE.getElementsByTagName("activeQuests").item(0);
+        
+        NodeList aQuestsList = aQuestsE.getElementsByTagName("quest");
+        for(int i = 0; i < aQuestsList.getLength(); i ++)
         {
-            Node questNode = questsList.item(i);
+            Node questNode = aQuestsList.item(i);
             if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
                 Element questE = (Element)questNode;
-                Quest q = QuestsBase.get(questE.getAttribute("id"));
-                q.setStage(questE.getAttribute("stage"));
+                String questId = questE.getAttribute("id");
+                Quest quest = QuestsBase.get(questId);
+                quest.setStage(questE.getAttribute("stage"));
                 NodeList objectivesList = questNode.getChildNodes();
                 for(int j = 0; j < objectivesList.getLength(); j++)
                 {
@@ -339,14 +343,31 @@ public final class SSGParser
                     if(objectiveNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
                     {
                         Element objectiveE = (Element)objectiveNode;
-                        Objective objective = q.getCurrentObjectives().get(j);
+                        Objective objective = quest.getCurrentObjectives().get(j);
                         objective.setComplete(Boolean.parseBoolean(objectiveE.getAttribute("complete")));
                         objective.setAmount(Integer.parseInt(objectiveE.getTextContent().split("/")[0]));
                     }
                 }
-                savedQuests.add(q);
+                savedQuests.add(quest);
             }
         }
+        
+        Element cQuestsE = (Element)journalE.getElementsByTagName("completedQuests").item(0);
+        
+        NodeList cQuestsList = cQuestsE.getElementsByTagName("quest");
+        for(int i = 0; i < cQuestsList.getLength(); i ++)
+        {
+        	Node questNode = cQuestsList.item(i);
+        	if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+        	{
+        		Element questE = (Element)questNode;
+        		String questId = questE.getTextContent();
+        		Quest quest = QuestsBase.get(questId);
+        		quest.completed();
+        		savedQuests.add(quest);
+        	}
+        }
+        
         return savedQuests;
     }
     /**

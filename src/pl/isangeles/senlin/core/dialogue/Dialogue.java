@@ -100,25 +100,6 @@ public class Dialogue
 		dialogueTarget = null;
 	}
 	/**
-	 * Sets quest trigger for specified answer 
-	 * @param answerId Answer ID
-	 * @param questId Quest ID
-	 */
-	public void setQTrigger(String answerId, String questId)
-	{
-		for(DialoguePart dp : parts)
-		{
-			for(Answer answer : dp.getAnswers())
-			{
-				if(answer.getId().equals(answerId))
-				{
-					answer.setQTrigger(questId);
-					Log.addSystem("trigger_seted_for//" + answer.getId());
-				}
-			}
-		}
-	}
-	/**
 	 * Adds new option to first dialogue part
 	 * @param option Answer on first dialogue part
 	 */

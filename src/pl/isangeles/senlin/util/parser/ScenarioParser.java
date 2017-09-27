@@ -104,7 +104,7 @@ public class ScenarioParser
 					Area mainArea = getAreaFromNode(mainareaE, gc);
 					
 					List<MobsArea> mobs = new ArrayList<>();
-					Map<String, String[]> quests = new HashMap<>();
+					Map<String, String> quests = new HashMap<>();
 				
 					List<Script> scripts = new ArrayList<>();
 					
@@ -133,7 +133,7 @@ public class ScenarioParser
 						if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 						{
 							Element questE = (Element)questNode;
-							String[] trigger = new String[]{questE.getAttribute("qOn"), questE.getAttribute("trigger")};
+							String trigger = questE.getAttribute("trigger");
 							quests.put(questE.getTextContent(), trigger);
 						}
 					}
