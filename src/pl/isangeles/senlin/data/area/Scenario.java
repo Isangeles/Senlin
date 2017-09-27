@@ -246,28 +246,4 @@ public class Scenario implements SaveElement
 		
 		return scenarioE;
 	}
-	
-	/**
-	 * Sets triggers for all scenario quests 
-	 * @param quest Scenario quests
-	 * @param trigger Table with trigger type[0] and trigger ID[1]
-	 */
-	/*
-	private void setQTrigger(Quest quest, String[] trigger)
-	{
-		Log.addSystem(trigger[0]);
-		
-		switch(trigger[0])	
-		{
-		case "start":
-			questsToStart.add(quest);
-			return;
-		case "talk":
-			DialoguesBase.setTrigger(trigger[1], quest.getId());
-			return;
-		default:
-			
-		}
-	}
-	*/
 }

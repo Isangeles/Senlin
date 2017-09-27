@@ -153,7 +153,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		portrait = new Portrait(GConnector.getPortrait("default.jpg"), gc);
 		live = true;
 		avatar = new Avatar(this, gc, "m-cloth-1222211-80x90.png");
-		inventory = new Inventory();
+		inventory = new Inventory(this);
 		abilities = new Abilities();
 		abilities.add(SkillsBase.getAutoAttack(this));
 		abilities.add(SkillsBase.getShot(this));
@@ -201,7 +201,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			avatar = new StaticAvatar(this, gc, spritesheet);
 		else
 			avatar = new Avatar(this, gc, spritesheet);
-		inventory = new Inventory();
+		inventory = new Inventory(this);
 		abilities = new Abilities();
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
@@ -530,6 +530,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public CharacterOut update(int delta)
 	{
 	    CharacterOut out = CharacterOut.SUCCESS;
+	    if(health < 0)
+	    	live = false;
 		if(!live)
 		{
 			avatar.lie();
@@ -1005,11 +1007,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		health -= value;
 		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
+		/* NOW THIS IS CHECKED IN UPDATE
 		if(health <= 0)
 		{
 			live = false;
 			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
 		}
+		*/
 	}
 	/**
 	 * Subtract specified value from character health value 
@@ -1156,12 +1160,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			levelUp();
 	}
 	/**
-	 * Adds item to character inventory
-	 * @param itemId Item ID in base
-	 * @param gc Game container for item tile
-	 * @throws FontFormatException 
-	 * @throws IOException 
-	 * @throws SlickException 
+	 * Adds specified item to character inventory
+	 * @param item Game item
 	 */
 	public boolean addItem(Item item)
 	{ return inventory.add(item); }
@@ -1172,10 +1172,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean addSkill(Skill skill)
 	{
-	    if(abilities.add(skill))
-	        return true;
-	    else
-	        return false;
+		if(skill != null)
+		    return abilities.add(skill);
+		else
+			return false;
 	}
 	/**
 	 * Adds(and applies) specified bonus to character bonuses

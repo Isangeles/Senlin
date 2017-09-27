@@ -68,10 +68,10 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, int type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, picName, gc, reqLevel, bonuses, type, material);
+		super(id, value, picName, gc, reqLevel, bonuses, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);
@@ -96,10 +96,10 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, int serial, int type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, picName, gc, reqLevel, bonuses, type, material);
+		super(id, serial, value, picName, gc, reqLevel, bonuses, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
         this.itemTile = this.setTile(gc);

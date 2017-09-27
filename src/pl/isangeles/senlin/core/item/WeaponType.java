@@ -33,33 +33,6 @@ public enum WeaponType
 {
 	DAGGER, SWORD, AXE, MACE, SPEAR, BOW, FIST;
 	/**
-	 * Converts type name to type ID
-	 * @param type Type name 
-	 * @return Type ID for item class
-	 */
-	public static int fromNameToId(String type)
-	{
-		switch(type.toLowerCase())
-		{
-		case "dagger":
-			return 0;
-		case "sword":
-			return 1;
-		case "axe":
-			return 2;
-		case "mace":
-			return 3;
-		case "spear":
-			return 4;
-		case "bow":
-			return 5;
-		case "fist":
-			return 6;
-		default:
-			return 6;
-		}
-	}
-	/**
 	 * Converts type name to type object
 	 * @param type String with type name
 	 * @return Weapon type corresponding to specified name

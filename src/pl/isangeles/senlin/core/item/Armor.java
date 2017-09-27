@@ -65,13 +65,13 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
+	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, type, material);
+		super(id, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == CHEST && spriteName != "")
+		if(type == ArmorType.CHEST && spriteName != "")
 			setSprite(spriteName);
 	}
 
@@ -93,13 +93,13 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, int type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
+	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, material);
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == CHEST && spriteName != "")
+		if(type == ArmorType.CHEST && spriteName != "")
 			setSprite(spriteName);
 	}
 	/**

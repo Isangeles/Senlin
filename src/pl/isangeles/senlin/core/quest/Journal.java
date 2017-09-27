@@ -53,24 +53,7 @@ public class Journal extends ArrayList<Quest> implements SaveElement
 		this.removeAll(qCompleted);
 	}
 	/**
-	 * Marks specified quest as completed by adding it on list with completed quests (only if quest is in container, course)
-	 * @param quests List with game quests in character journal
-	 */
-	/*
-	public void markAsCompleted(List<Quest> quests)
-	{
-		for(Quest quest : quests)
-		{
-			if(this.contains(quest))
-			{
-				qCompleted.add(quest);
-			}
-		}
-	}
-	*/
-	/**
 	 * Returns XML document element with parsed quests
-	 * TODO save completed quests
 	 * @param doc Game save XML document
 	 * @return XML element with quests data
 	 */

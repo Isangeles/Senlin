@@ -74,11 +74,11 @@ public abstract class Skill implements SlotContent, SaveElement
     protected boolean ready;
     protected int cooldown;
     protected List<String> effects;
+	protected Sound soundEffect;
     private int castTime;
     private int timer;
  	private String imgName;
 	private SkillTile tile;
-	private Sound soundEffect;
 	protected Random rng = new Random();
 	/**
 	 * Skill constructor
@@ -285,7 +285,7 @@ public abstract class Skill implements SlotContent, SaveElement
 	    	this.soundEffect = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
 	    	return;
 	    case FIRE:
-	    	
+	    	this.soundEffect = new Sound(AConnector.getInput("effects/firebCast.aif"), "firebCast.aif");
 	    	return;
 	    case ICE:
 	    	
@@ -297,13 +297,6 @@ public abstract class Skill implements SlotContent, SaveElement
 	    	
 	    	return;
 	    }
-	}
-	/**
-	 * Plays skill on-use sound effect 
-	 */
-	protected void playSoundEffect()
-	{
-	    this.soundEffect.play(1.0f, Settings.getEffectsVol());
 	}
 	
 	protected String getTypeString()

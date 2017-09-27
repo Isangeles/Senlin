@@ -22,6 +22,7 @@ import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.tools.EffectTile;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for buffs
@@ -121,6 +122,7 @@ public class Buff extends Skill
     	if(active)
     	{
     		target.takeBuff(owner, this);
+    		soundEffect.stop();
     		deactivate();
     	}
     }
@@ -140,6 +142,7 @@ public class Buff extends Skill
         			this.target = target;
         			active = true;
         			ready = false;
+        			soundEffect.loop(1.0f, Settings.getEffectsVol());
         			return CharacterOut.SUCCESS;
         		}
             	else
@@ -153,7 +156,7 @@ public class Buff extends Skill
         		this.target = user;
     			active = true;
     			ready = false;
-    			playSoundEffect();
+    			soundEffect.loop(1.0f, Settings.getEffectsVol());
     			return CharacterOut.SUCCESS;
         	}
         	else

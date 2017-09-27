@@ -27,19 +27,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.SlotContent;
 /**
@@ -50,6 +45,7 @@ import pl.isangeles.senlin.gui.SlotContent;
 public final class Inventory extends LinkedList<Item> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
+	private Character owner;
 	private Equipment equipment;
 	private int gold;
 	/**
@@ -58,6 +54,15 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	public Inventory()
 	{
 		equipment = new Equipment();
+	}
+	/**
+	 * Inventory constructor for game character(with quest tracking)
+	 * @param character Inventory owner
+	 */
+	public Inventory(Character character)
+	{
+		equipment = new Equipment();
+		owner = character;
 	}
     /**
      * Adds item to inventory
@@ -69,6 +74,8 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         if(item != null)
         {
             super.add(item);
+            if(owner != null)
+            	owner.getQTracker().check(item);
             return true;
         }
         else 
@@ -131,7 +138,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     }
     /**
      * Equips specified item, if item is in character inventory and its equippable
-     * @param item Equippable item in chracter inventory
+     * @param item Equippable item in character inventory
      * @return True if item was successfully equipped, false otherwise
      */
     public boolean equip(Item item)
@@ -215,7 +222,11 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
     	return super.get(index);
     }
-    
+    /**
+     * Returns item with specified serial ID
+     * @param serialId String with serial ID
+     * @return Item with specified serial ID or null if item was not found
+     */
     public Item getItemBySerial(String serialId)
     {
     	for(int i = 0; i < super.size(); i ++)

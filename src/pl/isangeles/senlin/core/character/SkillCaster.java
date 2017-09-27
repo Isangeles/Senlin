@@ -85,7 +85,7 @@ public class SkillCaster
 	}
 	/**
 	 * Checks if skill is casted by caster
-	 * @return True if skill is casted, false othwerwise
+	 * @return True if skill is casted, false otherwise
 	 */
 	public boolean isCasting()
 	{

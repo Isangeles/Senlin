@@ -59,10 +59,10 @@ public class Trinket extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, int type, int value, String imgName, int reqLevel,
+	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel,
 			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
+		super(id, value, imgName, gc, reqLevel, bonuses, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
@@ -82,10 +82,10 @@ public class Trinket extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, int serial, int type, int value, String imgName, int reqLevel,
+	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel,
 			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, type, ItemMaterial.IRON);
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;

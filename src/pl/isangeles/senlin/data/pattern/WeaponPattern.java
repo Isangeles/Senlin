@@ -97,7 +97,7 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, WeaponType.fromNameToId(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
+		return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
 	}
 
 	/**
@@ -111,6 +111,6 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, serial, WeaponType.fromNameToId(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
+		return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
 	}
 }

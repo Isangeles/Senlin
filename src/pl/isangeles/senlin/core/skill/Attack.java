@@ -42,6 +42,7 @@ import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.WeaponRequirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for offensive skills
@@ -122,9 +123,9 @@ public class Attack extends Skill
 	@Override
 	public CharacterOut prepare(Character user, Targetable target)
 	{
-		if(ready)
+		if(ready && useReqs.isMetBy(user))
 		{
-			if(target != null && useReqs.isMetBy(user))
+			if(target != null)
 			{
 				//Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
@@ -132,6 +133,7 @@ public class Attack extends Skill
 				    this.target = target;
 				    active = true;
 				    ready = false;
+		            soundEffect.loop(1.0f, Settings.getEffectsVol());
 				    return CharacterOut.SUCCESS;
 				}
 				else
@@ -156,7 +158,7 @@ public class Attack extends Skill
 	    {
 	        useReqs.chargeAll(owner);
 	        target.takeAttack(owner, this);
-            playSoundEffect();
+	        soundEffect.stop();
 	        active = false;
 	    }
 	}

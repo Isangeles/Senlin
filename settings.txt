@@ -2,5 +2,5 @@ language:english;
 resolution:1920.0;1080.0;
 fogOfWar:off;
 mapRenderType:light;
-effectsVol:0.0;
+effectsVol:1.0;
 musicVol:0.0;

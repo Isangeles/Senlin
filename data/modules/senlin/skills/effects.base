@@ -16,4 +16,10 @@
             <healthBonus>10</healthBonus>
         </modifiers>
     </effect>
+    <effect id="burn01" duration="5" type="fire" icon="burn.png">
+        <modifiers>
+            <statsBonus>0;-1;-1;0;0;</statsBonus>
+        </modifiers>
+        <dot>-5</dot>
+    </effect>    
 </base>

@@ -54,14 +54,10 @@ public class QuestTracker
      */
     public void check(ObjectiveTarget ot)
     {
-    	//List<Quest> qCompleted = new ArrayList<>();
         for(Quest quest : character.getQuests())
         {
             quest.check(ot);
-            //if(quest.isComplete())
-                //qCompleted.add(quest);
         }
-        //character.getQuests().markAsCompleted(qCompleted);
         for(String questId : questsToStart.keySet())
         {
         	if(questsToStart.get(questId).equals(ot.getId()))

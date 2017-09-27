@@ -94,7 +94,7 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
+		return new Armor(id, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
 	}
 
 	/**
@@ -108,6 +108,6 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, serial, ArmorType.fromNameToId(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
+		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, sprite, gc);
 	}
 }

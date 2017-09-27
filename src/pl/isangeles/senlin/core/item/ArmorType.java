@@ -32,26 +32,26 @@ public enum ArmorType
 	FEET, HANDS, OFFHAND, CHEST, HEAD;
 	
 	/**
-	 * Converts type name to type ID
+	 * Converts type name to armor type enumeration
 	 * @param type String with type name
-	 * @return Type ID for item class
+	 * @return Armor type enum
 	 */
-	public static int fromNameToId(String type)
+	public static ArmorType fromName(String type)
 	{
 		switch(type.toLowerCase())
 		{
 		case "feet":
-			return 0;
+			return ArmorType.FEET;
 		case "hands":
-			return 1;
+			return ArmorType.HANDS;
 		case "offhand":
-			return 2;
+			return ArmorType.OFFHAND;
 		case "chest":
-			return 3;
+			return ArmorType.CHEST;
 		case "head":
-			return 4;
+			return ArmorType.HEAD;
 		default:
-			return 0;
+			return ArmorType.CHEST;
 		}
 	}
 }

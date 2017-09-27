@@ -45,4 +45,22 @@
     <trainReq>
     </trainReq>
 </skill>
+<skill id="fireball01" type="fire">
+    <icon>fireball.png</icon>
+    <range>300</range>
+    <cast>5</cast>
+    <damage>10</damage>
+    <cooldown>300</cooldown>
+    <effects>
+        <effect>burn01</effect>
+    </effects>
+    <useReq>
+        <manaReq>20</manaReq>
+    </useReq>
+    <trainReq>
+        <goldReq>500</goldReq>
+        <statsReq>0;0;0;5;4;</statsReq>
+        <pointsReq>1</pointsReq>
+    </trainReq>
+</skill>
 </base>

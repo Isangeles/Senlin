@@ -1,3 +1,25 @@
+/*
+ * Item.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
@@ -12,6 +34,7 @@ import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
+import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -22,7 +45,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public abstract class Item implements SlotContent, Usable
+public abstract class Item implements SlotContent, Usable, ObjectiveTarget
 {
 	private static int itemCounter;
 	private static List<Integer> reservedIDs = new ArrayList<>();
@@ -188,7 +211,7 @@ public abstract class Item implements SlotContent, Usable
      */
     protected abstract ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException;
     /**
-     * Sets specific item tile as this item tile
+     * Sets item icon
      * UNUSED
      * @param tile Item tile
      */

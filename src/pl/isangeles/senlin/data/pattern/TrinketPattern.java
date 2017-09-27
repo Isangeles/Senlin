@@ -53,7 +53,17 @@ public class TrinketPattern
 	private final Bonuses bonuses;
 	private final String actionType;
 	private final String actionId;
-	
+	/**
+	 * Trinket pattern constructor
+	 * @param id Trinket ID
+	 * @param type String with trinket type name
+	 * @param level Level required to use this item
+	 * @param value Item value
+	 * @param icon Item icon for GUI
+	 * @param bonuses Item bonuses 
+	 * @param actionType Type of on-click action
+	 * @param actionId ID for on-click action
+	 */
 	public TrinketPattern(String id, String type, int level, int value, String icon, List<Bonus> bonuses, String actionType, String actionId) 
 	{
 		this.id = id;
@@ -66,12 +76,23 @@ public class TrinketPattern
 		this.actionType = actionType;
 		this.actionId = actionId;
 	}
-	
+	/**
+	 * Returns ID of item from this pattern
+	 * @return String with item ID
+	 */
 	public String getId()
 	{
 		return id;
 	}
-	
+	/**
+	 * Return new instance of item from this pattern
+	 * @param gc Slick game container
+	 * @return New instance of specific trinket from this pattern
+	 * @throws NumberFormatException
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Trinket make(GameContainer gc) throws NumberFormatException, SlickException, IOException, FontFormatException
 	{
 		Action action;
@@ -88,9 +109,18 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, TrinketType.fromString(type).ordinal(), value, icon, level, bonuses, action, gc);
+		return new Trinket(id, TrinketType.fromString(type), value, icon, level, bonuses, action, gc);
 	}
-	
+	/**
+	 * Return new instance of item(with specified serial number) from this pattern
+	 * @param gc Slick game container
+	 * @param serial Serial number from this specific instance of trinket from this pattern
+	 * @return New instance of specific trinket from this pattern
+	 * @throws NumberFormatException
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Trinket make(GameContainer gc, int serial) throws NumberFormatException, SlickException, IOException, FontFormatException
 	{
 		Action action;
@@ -107,7 +137,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, serial, TrinketType.fromString(type).ordinal(), value, icon, level, bonuses, action, gc);
+		return new Trinket(id, serial, TrinketType.fromString(type), value, icon, level, bonuses, action, gc);
 	}
 
 }
