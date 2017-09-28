@@ -209,6 +209,14 @@ public abstract class Skill implements SlotContent, SaveElement
 		return tile;
 	}
 	/**
+	 * Return type of skill effect
+	 * @return Effect type enumeration
+	 */
+	public EffectType getEffectType()
+	{
+		return type;
+	}
+	/**
 	 * Checks if skill is magical
 	 * @return True if skill is magical, false otherwise
 	 */

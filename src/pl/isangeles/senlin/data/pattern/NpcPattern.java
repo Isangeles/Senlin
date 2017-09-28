@@ -46,6 +46,7 @@ import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.character.Race;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.cli.Log;
@@ -59,6 +60,7 @@ public class NpcPattern
 	private final String npcId;
 	private final String npcName;
 	private final Gender npcGender;
+	private final Race npcRace;
 	private final Attitude npcAttitude;
 	private final boolean trade;
 	private final boolean train;
@@ -102,15 +104,16 @@ public class NpcPattern
 	 * @param gold Character amount of gold
 	 * @param invItems List of all items in character inventory
 	 */
-	public NpcPattern(String npcId, String gender, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, String headItem, String chestItem,
-					  String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, String fingerBItem, 
-					  String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
+	public NpcPattern(String npcId, String gender, String race, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, 
+					  String headItem, String chestItem,String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, 
+					  String fingerBItem, String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "npc", npcId);
 		npcAttitude = Attitude.fromString(attitude);
 		npcGender = Gender.fromString(gender);
+		npcRace = Race.fromName(race);
 		this.trade = trade;
 		this.train = train;
 		this.guildID = guildID;
@@ -158,7 +161,7 @@ public class NpcPattern
 		portrait.setName(portraitName);
 		Scanner scann = new Scanner(constructorLine);
 		scann.useDelimiter(";");
-		Character npc = new Character(npcId, npcGender, npcAttitude, guildID, npcName, level,
+		Character npc = new Character(npcId, npcGender, npcRace, npcAttitude, guildID, npcName, level,
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
 									  portrait, spritesheet, staticAvatar, gc);
 		scann.close();
@@ -230,7 +233,7 @@ public class NpcPattern
         portrait.setName(portraitName);
         Scanner scann = new Scanner(constructorLine);
         scann.useDelimiter(";");
-        Character npc = new Character(npcId, serial, npcGender, npcAttitude, guildID, npcName, level,
+        Character npc = new Character(npcId, serial, npcGender, npcRace, npcAttitude, guildID, npcName, level,
                                       new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
                                       portrait, spritesheet, staticAvatar, gc);
         scann.close();

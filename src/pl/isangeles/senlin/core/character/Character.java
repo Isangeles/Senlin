@@ -61,6 +61,7 @@ import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
@@ -75,6 +76,7 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
+import pl.isangeles.senlin.data.ABase;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -99,6 +101,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private String serialId;
 	private String name;
 	private Gender sex;
+	private Race race;
 	private Attitude attitude;
 	private Guild guild;
 	private int level;
@@ -145,6 +148,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		id = "player";
 		sex = Gender.MALE;
+		race = Race.HUMAN;
 		name = "Name";
 		level = 0;
 		attitude = Attitude.FRIENDLY;
@@ -185,12 +189,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Character(String id, Gender sex, Attitude attitude, String guildID, String name, int level, Attributes atributes, 
+	public Character(String id, Gender sex, Race race, Attitude attitude, String guildID, String name, int level, Attributes atributes, 
 					 Portrait portrait, String spritesheet, boolean staticAvatar, GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
 		this.id = id;
 		this.sex = sex;
+		this.race = race;
 		this.name = name;
 		this.attitude = attitude;
 		this.guild = GuildsBase.getGuild(guildID);
@@ -236,11 +241,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-    public Character(String id, int serial, Gender sex, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
+    public Character(String id, int serial, Gender sex, Race race, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
     				 String spritesheet, boolean staticAvatar, GameContainer gc) 
             throws SlickException, IOException, FontFormatException
     {
-        this(id, sex, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
+        this(id, sex, race, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
         
         reservedIDs.remove(serialId);
         this.serial = serial;
@@ -1100,6 +1105,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		{
 			takeHealth(aggressor, attack.getDamage() - inventory.getArmorRating());
 			effects.addAll(attack.getEffects());
+			if(attack.getEffectType() == EffectType.NORMAL)
+			{
+				
+			}
+			else
+			{
+				ABase.get("spellHit").play(1.0f, Settings.getEffectsVol());
+			}
 		}
 	}
 	
@@ -1286,7 +1299,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	    	else
         	        avatar.meleeAnim();
     	    	
-    	    	skill.activate();
+    	    	sCaster.cast(skill);
     	    	return CharacterOut.SUCCESS;
     	    }
     	    else if(Buff.class.isInstance(skill))

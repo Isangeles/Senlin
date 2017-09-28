@@ -240,9 +240,6 @@ public class GameWorld extends BasicGameState implements SaveElement
                 gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
             }
             
-            if(!isPause())
-                keyDown(container.getInput());
-            
             CharacterOut out;
             out = player.update(delta);
             if(out != CharacterOut.SUCCESS)
@@ -259,7 +256,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	
     	if(ui != null)
     	{
-    		ui.update();
+    		ui.update(container);
         	if(ui.takeSaveReq() == true)
         	{
     			try 
@@ -291,6 +288,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     public TiledMap getAreaMap()
     {
         return area.getMap();
+    }
+    /**
+     * Returns current area
+     * @return Game world area
+     */
+    public Area getArea()
+    {
+    	return area;
     }
     
     public Day getDay()
@@ -414,18 +419,6 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     private void keyDown(Input input)
     {
-        if(ui != null)
-        {
-        	if(input.isKeyDown(Input.KEY_W) && ui.getCamera().getPos().y > -200)
-                ui.getCamera().up(32);
-            if(input.isKeyDown(Input.KEY_S) && ui.getCamera().getBRPos().y < (area.getMapSize().height+Coords.getSize(200)))
-                ui.getCamera().down(32);
-            if(input.isKeyDown(Input.KEY_A) && ui.getCamera().getPos().x > -200)
-                ui.getCamera().left(32);
-            if(input.isKeyDown(Input.KEY_D) && ui.getCamera().getBRPos().x < (area.getMapSize().width+Coords.getSize(200)))
-                ui.getCamera().right(32);
-            Global.setCamerPos(ui.getCamera().getPos().x, ui.getCamera().getPos().y);
-        }
     }
     /**
      * Checks if game should be paused

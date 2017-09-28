@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.character;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.skill.Skill;
 
 /**

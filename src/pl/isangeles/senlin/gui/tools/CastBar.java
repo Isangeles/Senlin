@@ -43,7 +43,14 @@ public class CastBar extends InterfaceObject implements UiElement
     private Character player;
     private Bar castBar;
     private Skill castedSkill;
-    
+    /**
+     * Cast bar constructor
+     * @param gc Slick game constructor
+     * @param player Player character
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
     public CastBar(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException
     {
         super(GConnector.getInput("ui/background/castBG.png"), "uiCastBg", false, gc);
@@ -58,30 +65,28 @@ public class CastBar extends InterfaceObject implements UiElement
     	super.draw(x, y, false);
         castBar.draw(x+getDis(10), y+getDis(10));
     }
-    /**
-     * Updates cast bar
-     */
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
+	 */
     @Override
     public void update()
     {
         castBar.update(player.getSkillCaster().getTime(), player.getSkillCaster().getCastTime());
     }
-
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.elements.UiElement#reset()
+	 */
     @Override
     public void reset()
     {
     }
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
 	 */
 	@Override
 	public void close() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
 	 */

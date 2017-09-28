@@ -39,6 +39,7 @@ import pl.isangeles.senlin.util.TConnector;
 /**
  * Base for graphical textures of UI elements
  * Contains frequently used textures, used by some GUI elements to reduce number of accesses to gData archive
+ * loaded in main menu
  * @author Isangeles
  *
  */
@@ -46,7 +47,9 @@ public final class GBase
 {
 	private static Map<String, Image> texturesMap = new HashMap<>();
 	private static Map<String, Font> fontsMap = new HashMap<>();
-	
+	/**
+	 * Private constructor to prevent initialization
+	 */
 	private GBase() {}
 	
 	public static Image getImage(String name)
@@ -58,7 +61,12 @@ public final class GBase
 	{
 		return fontsMap.get(name);
 	}
-	
+	/**
+	 * Loads base
+	 * @throws IOException
+	 * @throws SlickException
+	 * @throws FontFormatException
+	 */
 	public static void load() throws IOException, SlickException, FontFormatException
 	{
 		texturesMap.put("uiSlotA", new Image(GConnector.getInput("ui/slot.png"), "uiSlotA", false));

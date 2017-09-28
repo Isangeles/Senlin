@@ -69,6 +69,7 @@ public final class NpcParser
         String id = npc.getAttribute("id");
         String attitude = npc.getAttribute("attitude");
         String gender = npc.getAttribute("gender");
+        String race = npc.getAttribute("race");
         boolean trade = Boolean.parseBoolean(npc.getAttribute("trade"));
         boolean train = Boolean.parseBoolean(npc.getAttribute("train"));
         String guildID = npc.getAttribute("guild");
@@ -131,7 +132,7 @@ public final class NpcParser
         Node trainingNode = npc.getElementsByTagName("training").item(0);
         List<Training> trainings = getTrainings(trainingNode);
         
-        npcP = new NpcPattern(id, gender, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
+        npcP = new NpcPattern(id, gender, race, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
                               neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, gold, itemsIn, skills, effects,
                               professions, trainings);
         return npcP;

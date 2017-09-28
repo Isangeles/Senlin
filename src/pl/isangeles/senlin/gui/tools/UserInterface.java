@@ -29,6 +29,7 @@ import java.util.Map;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Element;
@@ -55,7 +56,7 @@ import pl.isangeles.senlin.gui.tools.*;
  * @author Isangeles
  *
  */
-public class UserInterface implements MouseListener, SaveElement
+public class UserInterface implements MouseListener, KeyListener, SaveElement
 {
     private Character player;
     private GameWorld gw;
@@ -135,8 +136,8 @@ public class UserInterface implements MouseListener, SaveElement
         bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
         charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
         
-        if(cast.isMouseOver())
-        	cast.draw();
+        if(cast.isOpenReq())
+        	cast.draw(Coords.getX("CE", 0), Coords.getY("CE", 100));
         
         if(point.isOpenReq())
         	point.draw();
@@ -194,8 +195,10 @@ public class UserInterface implements MouseListener, SaveElement
     /**
      * Updates ui elements
      */
-    public void update()
+    public void update(GameContainer gc)
     {
+    	keyDown(gc.getInput());
+    	
     	if(player.getTarget() != null)
     	{
     		targetFrame.setCharacter(player.getTarget());
@@ -416,6 +419,37 @@ public class UserInterface implements MouseListener, SaveElement
         	}
 		}
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.KeyListener#keyPressed(int, char)
+	 */
+	@Override
+	public void keyPressed(int key, char c) 
+	{
+		
+	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.KeyListener#keyReleased(int, char)
+	 */
+	@Override
+	public void keyReleased(int key, char c) 
+	{
+	}
+    /**
+     * KeyDown method called in update, because engine does not provide keyDown method for override  
+     * @param input Input from game container
+     */
+    private void keyDown(Input input)
+    {
+    	if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
+    		camera.up(32);
+        if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
+            camera.down(32);
+        if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
+            camera.left(32);
+        if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
+            camera.right(32);
+        Global.setCamerPos(camera.getPos().x, camera.getPos().y);
+    }
 	
 	public static GameCursor getUiCursor()
 	{
@@ -439,5 +473,4 @@ public class UserInterface implements MouseListener, SaveElement
 	{
 		igMenu.close();
 	}
-    
 }
