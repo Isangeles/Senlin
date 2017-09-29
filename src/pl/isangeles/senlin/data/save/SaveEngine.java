@@ -124,7 +124,6 @@ public class SaveEngine
 	public static SavedGame load(String saveName, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, FontFormatException, SlickException
 	{
 	    saveName += ".ssg";
-	    System.out.println("attempt to load:" + saveName);
 	    File saveGames = new File(SAVES_PATH);
 	    File saveGame = null;
 	    for(File save : saveGames.listFiles())

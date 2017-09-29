@@ -60,6 +60,7 @@ public class Buff extends Skill
 		this.bonuses = bonuses;
 		this.type = type;
 		setTile(gc);
+		setGraphicEffects(gc);
 		setSoundEffect();
 	}
 	
@@ -122,7 +123,7 @@ public class Buff extends Skill
     	if(active)
     	{
     		target.takeBuff(owner, this);
-    		soundEffect.stop();
+    		castSound.stop();
     		deactivate();
     	}
     }
@@ -142,7 +143,7 @@ public class Buff extends Skill
         			this.target = target;
         			active = true;
         			ready = false;
-        			soundEffect.loop(1.0f, Settings.getEffectsVol());
+        			castSound.loop(1.0f, Settings.getEffectsVol());
         			return CharacterOut.SUCCESS;
         		}
             	else
@@ -156,7 +157,7 @@ public class Buff extends Skill
         		this.target = user;
     			active = true;
     			ready = false;
-    			soundEffect.loop(1.0f, Settings.getEffectsVol());
+    			castSound.loop(1.0f, Settings.getEffectsVol());
     			return CharacterOut.SUCCESS;
         	}
         	else

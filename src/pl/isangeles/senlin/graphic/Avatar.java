@@ -26,6 +26,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -36,6 +38,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.gui.InfoWindow;
 import pl.isangeles.senlin.util.*;
 /**
@@ -71,8 +74,9 @@ public class Avatar implements MouseListener, CharacterAvatar
 	protected boolean isSpeaking;
 	protected int speechTime;
 	
-	//protected Skill usedSkill;
-	//protected boolean useSkill;
+	private List<SimpleAnimObject> effects = new ArrayList<>();
+	private List<SimpleAnimObject> loopEffects = new ArrayList<>();
+	private List<SimpleAnimObject> effectsToRemove = new ArrayList<>();
 	/**
 	 * Character avatar constructor
 	 * @param character Character to represent by avatar
@@ -127,6 +131,16 @@ public class Avatar implements MouseListener, CharacterAvatar
 		x -= Coords.getDis(35);
 		y -= Coords.getDis(90);
 		
+		for(SimpleAnimObject effect : loopEffects)
+		{
+			effect.draw(x+target.getDis(35), y+target.getDis(100), Coords.getScale(), false);
+		}
+		
+		for(SimpleAnimObject effect : effects)
+		{
+			effect.draw(x+target.getDis(35), y+target.getDis(100), Coords.getScale(), false);
+		}
+		
 		if(isTargeted)
 			target.draw(x+target.getDis(35), y+target.getDis(100), false);
 		
@@ -177,14 +191,20 @@ public class Avatar implements MouseListener, CharacterAvatar
 		torso.update(delta);
 		head.update(delta);
 		if(weapon != null)
-			weapon.update(delta);
-		
+			weapon.update(delta);	
 		
 		if(isSpeaking)
 		{
 			speechTime += delta;
 		}
 		
+		for(SimpleAnimObject effect : effects)
+		{
+			if(effect.isLastFrame())
+				effectsToRemove.add(effect);
+		}
+		effects.removeAll(effectsToRemove);
+		effectsToRemove.clear();
 	}
 	/**
 	 * Toggles kneel animation
@@ -327,45 +347,75 @@ public class Avatar implements MouseListener, CharacterAvatar
 	{
 		return torso.getHeight();
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
+	 */
 	@Override
 	public void inputEnded() 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
+	 */
 	@Override
 	public void inputStarted() 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
+	 */
 	@Override
 	public boolean isAcceptingInput() 
 	{
 		return true;
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
+	 */
 	@Override
-	public void setInput(Input arg0) 
+	public void setInput(Input input) 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
+	 */
 	@Override
-	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 
+	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
+	 */
 	@Override
-	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
+	 */
 	@Override
-	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
+	public void mouseMoved(int oldx, int oldy, int newx, int newy)
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
+	 */
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
+	 */
 	@Override
-	public void mouseReleased(int arg0, int arg1, int arg2) 
+	public void mouseReleased(int button, int x, int y) 
 	{
 	}
+	/* (non-Javadoc)
+	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
+	 */
 	@Override
-	public void mouseWheelMoved(int arg0) 
+	public void mouseWheelMoved(int change) 
 	{
 	}
 	/**
@@ -375,6 +425,30 @@ public class Avatar implements MouseListener, CharacterAvatar
 	public boolean isStatic()
 	{
 		return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#addEffect(pl.isangeles.senlin.graphic.SimpleAnimObject, boolean)
+	 */
+	@Override
+	public boolean addEffect(SimpleAnimObject effect, boolean loop)
+	{
+		if(effect != null)
+		{
+			if(loop)
+				return loopEffects.add(effect);
+			else
+				return effects.add(effect);
+		}
+		else
+			return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#removeEffect(pl.isangeles.senlin.graphic.SimpleAnimObject)
+	 */
+	@Override
+	public boolean removeEffect(SimpleAnimObject effect) 
+	{
+		return loopEffects.remove(effect);
 	}
 	/**
 	 * Sets color of target circle based on character attitude

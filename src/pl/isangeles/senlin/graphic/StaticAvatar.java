@@ -26,6 +26,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -68,6 +70,10 @@ public class StaticAvatar implements MouseListener, CharacterAvatar
     protected boolean isTargeted;
     protected boolean isSpeaking;
     protected int speechTime;
+    
+    private List<SimpleAnimObject> effects = new ArrayList<>();
+    private List<SimpleAnimObject> loopEffects = new ArrayList<>();
+    private List<SimpleAnimObject> effectsToRemove = new ArrayList<>();
 	/**
 	 * @param character
 	 * @param gc
@@ -103,6 +109,15 @@ public class StaticAvatar implements MouseListener, CharacterAvatar
 	@Override
 	public void draw(float x, float y)
 	{
+		for(SimpleAnimObject effect : loopEffects)
+		{
+			effect.draw(x+target.getDis(15), y+target.getDis(50), false);
+		}
+		for(SimpleAnimObject effect : effects)
+		{
+			effect.draw(x+target.getDis(15), y+target.getDis(50), false);
+		}
+		
 		if(isTargeted)
 			target.draw(x+target.getDis(15), y+target.getDis(50), false);
 		
@@ -135,6 +150,14 @@ public class StaticAvatar implements MouseListener, CharacterAvatar
 		{
 			speechTime += delta;
 		}
+		
+		for(SimpleAnimObject effect : effects)
+		{
+			if(effect.isLastFrame())
+				effectsToRemove.add(effect);
+		}
+		effects.removeAll(effectsToRemove);
+		effectsToRemove.clear();
 	}
 
 	@Override
@@ -281,6 +304,30 @@ public class StaticAvatar implements MouseListener, CharacterAvatar
     {
         return avMOA.isMouseOver();
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#addEffect(pl.isangeles.senlin.graphic.SimpleAnimObject, boolean)
+	 */
+	@Override
+	public boolean addEffect(SimpleAnimObject effect, boolean loop) 
+	{
+		if(effect != null)
+		{
+			if(loop)
+				return loopEffects.add(effect);
+			else
+				return effects.add(effect);
+		}
+		else
+			return false;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#removeEffect(pl.isangeles.senlin.graphic.SimpleAnimObject)
+	 */
+	@Override
+	public boolean removeEffect(SimpleAnimObject effect) 
+	{
+		return loopEffects.remove(effect);
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDefTorso()
      */

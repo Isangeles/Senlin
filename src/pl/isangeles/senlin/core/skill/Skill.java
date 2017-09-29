@@ -50,6 +50,7 @@ import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.graphic.SimpleAnimObject;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
 
@@ -74,7 +75,10 @@ public abstract class Skill implements SlotContent, SaveElement
     protected boolean ready;
     protected int cooldown;
     protected List<String> effects;
-	protected Sound soundEffect;
+	protected Sound castSound;
+	protected Sound activateSound;
+	protected SimpleAnimObject castAnim;
+	protected SimpleAnimObject activeAnim;
     private int castTime;
     private int timer;
  	private String imgName;
@@ -209,6 +213,46 @@ public abstract class Skill implements SlotContent, SaveElement
 		return tile;
 	}
 	/**
+	 * Returns casting audio effect
+	 * @return Sound to play
+	 */
+	public Sound getCastSound()
+	{
+		return castSound;
+	}
+	/**
+	 * Returns skill activation audio effect
+	 * @return Sound to play
+	 */
+	public Sound getActivateSound()
+	{
+		return activateSound;
+	}
+	/**
+	 * Returns casting animation
+	 * @return Simple animated object
+	 */
+	public SimpleAnimObject getCastAnim()
+	{
+		return castAnim;
+	}
+	/**
+	 * Returns activation animation
+	 * @return Simple animated object
+	 */
+	public SimpleAnimObject getActiveAnim()
+	{
+		return activeAnim;
+	}
+	/**
+	 * Returns current skill target (may return NULL!)
+	 * @return Targetable object or null if this skill has no target
+	 */
+	public Targetable getTarget()
+	{
+		return target;
+	}
+	/**
 	 * Return type of skill effect
 	 * @return Effect type enumeration
 	 */
@@ -290,10 +334,12 @@ public abstract class Skill implements SlotContent, SaveElement
 	    switch(type)
 	    {
 	    case NORMAL:
-	    	this.soundEffect = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	this.castSound = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	this.activateSound = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
 	    	return;
 	    case FIRE:
-	    	this.soundEffect = new Sound(AConnector.getInput("effects/firebCast.aif"), "firebCast.aif");
+	    	this.castSound = new Sound(AConnector.getInput("effects/firebCast.aif"), "firebCast.aif");
+	    	this.activateSound = new Sound(AConnector.getInput("effects/spellHit.aif"), "spellHit.aif");
 	    	return;
 	    case ICE:
 	    	
@@ -305,6 +351,25 @@ public abstract class Skill implements SlotContent, SaveElement
 	    	
 	    	return;
 	    }
+	}
+	/**
+	 * Sets graphic effects for this skill
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	protected void setGraphicEffects(GameContainer gc) throws SlickException, IOException
+	{
+		switch(type)
+		{
+		case FIRE:
+			castAnim = new SimpleAnimObject(GConnector.getInput("effect/fireSpellCast.png"), "fireSpellC.png", false, 70, 70, 3, gc);
+			activeAnim = new SimpleAnimObject(GConnector.getInput("effect/fireSpellActive.png"), "fireSpellA.png", false, 70, 70, 3, gc);
+			break;
+		default:
+			castAnim = null;
+			activeAnim = null;
+		}
 	}
 	
 	protected String getTypeString()

@@ -87,6 +87,7 @@ public class Attack extends Skill
 		    }
 		}
 		setTile(gc);
+		setGraphicEffects(gc);
 		setSoundEffect();
 	}
 	
@@ -133,7 +134,6 @@ public class Attack extends Skill
 				    this.target = target;
 				    active = true;
 				    ready = false;
-		            soundEffect.loop(1.0f, Settings.getEffectsVol());
 				    return CharacterOut.SUCCESS;
 				}
 				else
@@ -158,7 +158,6 @@ public class Attack extends Skill
 	    {
 	        useReqs.chargeAll(owner);
 	        target.takeAttack(owner, this);
-	        soundEffect.stop();
 	        active = false;
 	    }
 	}

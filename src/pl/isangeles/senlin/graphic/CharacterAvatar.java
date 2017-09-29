@@ -95,6 +95,19 @@ public interface CharacterAvatar
      */
     public boolean isMouseOver();
     /**
+     * Sends effect for avatar to draw
+     * @param effect Simple animated object
+     * @param loop True if effect should be looped, false to remove effect when animation finished
+     * @return True if effect was successfully taken, false otherwise
+     */
+    public boolean addEffect(SimpleAnimObject effect, boolean loop);
+    /**
+     * Removes graphic effect from avatar
+     * @param effect Graphics effect to remove
+     * @return True if specified effect was successfully removed, false otherwise
+     */
+    public boolean removeEffect(SimpleAnimObject effect);
+    /**
      * Returns avatar default torso
      * @return Animated object
      */

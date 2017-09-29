@@ -23,7 +23,9 @@
 package pl.isangeles.senlin.core.character;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.util.Settings;
 
 /**
  * Class for skill casting
@@ -53,7 +55,7 @@ public class SkillCaster
 		time += delta;
 		if(skillToCast != null && time >= skillToCast.getCastTime())
 		{
-			skillToCast.activate();
+			activateSkill(skillToCast);
 			reset();
 		}
 	}
@@ -66,13 +68,11 @@ public class SkillCaster
 		reset();
 		if(skill.isInstant())
 		{
-			skill.activate();
-			return;
+			activateSkill(skill);
 		}
 		else
 		{
-			skillToCast = skill;
-			casting = true;
+			startCast(skill);
 		}
 	}
 	/**
@@ -112,5 +112,35 @@ public class SkillCaster
 		}
 		else
 			return 0;
+	}
+	/**
+	 * Starts casting specified skill
+	 * @param skill Game skill
+	 */
+	private void startCast(Skill skill)
+	{
+		skillToCast = skill;
+		casting = true;
+		caster.getAvatar().addEffect(skillToCast.getCastAnim(), true);
+		skillToCast.getCastSound().loop(1.0f, Settings.getEffectsVol());
+	}
+	/**
+	 * Activates specified skill
+	 * @param skill Game skill
+	 */
+	private void activateSkill(Skill skill)
+	{
+		caster.getAvatar().removeEffect(skill.getCastAnim());
+		skill.getCastSound().stop();
+		skill.getActivateSound().play(1.0f, Settings.getEffectsVol());
+		if(skill.getTarget() != null)
+		{
+			Targetable skillTarget = skill.getTarget();
+			if(Character.class.isInstance(skillTarget))
+			{
+				((Character)skillTarget).getAvatar().addEffect(skill.getActiveAnim(), false);
+			}
+		}
+		skill.activate();
 	}
 }
