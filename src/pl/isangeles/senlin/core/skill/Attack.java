@@ -95,19 +95,6 @@ public class Attack extends Skill
 	{
 		return damage + owner.getHit();
 	}
-	
-	public List<Effect> getEffects()
-	{
-		List<Effect> effectsToPass = new ArrayList<>();
-        if(effects != null)
-        {
-	        for(String effectId : effects)
-	        {
-	        	effectsToPass.add(EffectsBase.getEffect(effectId));
-	        }
-        }
-        return effectsToPass;
-	}
 
 	@Override
 	public String getInfo() 

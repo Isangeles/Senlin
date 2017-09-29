@@ -59,6 +59,7 @@ public class Effect implements SaveElement
 	private int dotTimer;
 	private boolean dotActive;
 	private boolean on;
+	private boolean alwaysOn;
 	private EffectTile tile;
 	/**
 	 * Effect constructor
@@ -88,6 +89,8 @@ public class Effect implements SaveElement
 		this.bonuses = bonuses;
 		this.dot = dot;
 		this.duration = duration;
+		if(duration == -1)
+			alwaysOn = true;
 		buildTile(gc);
 	}
 	/**
@@ -132,10 +135,14 @@ public class Effect implements SaveElement
 	 */
 	public void updateTime(int delta)
 	{
-		time += delta;
+		if(!alwaysOn)
+		{
+			time += delta;
+			if(time >= duration)
+				on = false;
+		}
+		
 		dotTimer += delta;
-		if(time >= duration)
-			on = false;
 		if(dotTimer > 1000 && !dotActive)
 		{
 			dotActive = true;

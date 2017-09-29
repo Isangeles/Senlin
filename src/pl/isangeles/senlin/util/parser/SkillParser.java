@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.BuffPattern;
+import pl.isangeles.senlin.data.pattern.PassivePattern;
 
 /**
  * Class for parsing skills bases
@@ -110,8 +111,41 @@ public final class SkillParser
         int cast = Integer.parseInt(skillE.getElementsByTagName("cast").item(0).getTextContent());
         int cooldown = Integer.parseInt(skillE.getElementsByTagName("cooldown").item(0).getTextContent());
         
-        Node bonusesNode = skillE.getElementsByTagName("bonuses").item(0);
-        List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+        Node useReqNode = skillE.getElementsByTagName("useReq").item(0);
+        List<Requirement> useReqs = RequirementsParser.getReqFromNode(useReqNode);
+        
+        Node trainReqNode = skillE.getElementsByTagName("trainReq").item(0);
+        List<Requirement> trainReq = RequirementsParser.getReqFromNode(trainReqNode);
+
+        List<String> effects = new ArrayList<>();
+        NodeList enl = skillE.getElementsByTagName("effects").item(0).getChildNodes();
+        for(int j = 0; j < enl.getLength(); j ++)
+        {
+            Node effectNode = enl.item(j);
+            //Iterating effects
+            if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                Element effectE = (Element)effectNode;
+                String effectId = effectE.getTextContent();
+                effects.add(effectId);
+            }
+        }
+        
+        return new BuffPattern(id, imgName, effect, type, useReqs, cooldown, cast, range, effects, trainReq);
+    }
+    /**
+     * Parses specified skill node to passive skill pattern
+     * @param skillNode Skill node from XML skills base 
+     * @return Passive skill pattern from specified node
+     */
+    public static PassivePattern getPassiveFromNode(Node skillNode)
+    {
+    	Element skillE = (Element)skillNode;
+        String id = skillE.getAttribute("id");
+        String type = skillE.getAttribute("type");
+        String effect = skillE.getAttribute("effect");
+        
+        String imgName = skillE.getElementsByTagName("icon").item(0).getTextContent();
         
         Node useReqNode = skillE.getElementsByTagName("useReq").item(0);
         List<Requirement> useReqs = RequirementsParser.getReqFromNode(useReqNode);
@@ -133,6 +167,6 @@ public final class SkillParser
             }
         }
         
-        return new BuffPattern(id, imgName, effect, type, useReqs, cooldown, cast, range, bonuses, effects, trainReq);
+        return new PassivePattern(id, imgName, effect, type, useReqs, effects, trainReq);
     }
 }

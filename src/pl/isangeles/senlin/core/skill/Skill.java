@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core.skill;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -48,6 +49,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
@@ -261,6 +263,22 @@ public abstract class Skill implements SlotContent, SaveElement
 		return type;
 	}
 	/**
+	 * Returns all skill activation effects
+	 * @return List with effects
+	 */
+	public List<Effect> getEffects()
+	{
+		List<Effect> effectsToPass = new ArrayList<>();
+        if(effects != null)
+        {
+	        for(String effectId : effects)
+	        {
+	        	effectsToPass.add(EffectsBase.getEffect(effectId));
+	        }
+        }
+        return effectsToPass;
+	}
+	/**
 	 * Checks if skill is magical
 	 * @return True if skill is magical, false otherwise
 	 */
@@ -282,12 +300,20 @@ public abstract class Skill implements SlotContent, SaveElement
 			return false;
 	}
 	/**
-	 * Checks if skill is active
-	 * @return True if skill is active, false otherwise
+	 * Checks if skill is ready
+	 * @return True if skill is ready, false otherwise
 	 */
 	public boolean isReady()
 	{
 		return ready;
+	}
+	/**
+	 * Checks if skill is active
+	 * @return True if skill is active, false otherwise
+	 */
+	public boolean isActive()
+	{
+		return active;
 	}
 	/**
 	 * Returns skill owner

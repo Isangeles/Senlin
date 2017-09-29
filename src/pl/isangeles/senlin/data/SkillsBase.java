@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.BuffPattern;
+import pl.isangeles.senlin.data.pattern.PassivePattern;
 import pl.isangeles.senlin.data.pattern.SkillPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.cli.Log;
@@ -55,6 +56,7 @@ public class SkillsBase
 	private static GameContainer gc;
 	private static Map<String, AttackPattern> attacksMap = new HashMap<>();
 	private static Map<String, BuffPattern> buffsMap = new HashMap<>();
+	private static Map<String, PassivePattern>passivesMap = new HashMap<>();
 	private static boolean loaded = false;
 	/**
 	 * Private constructor to prevent initialization
@@ -89,8 +91,10 @@ public class SkillsBase
 	{
 		if(attacksMap.containsKey(id))
 			return attacksMap.get(id).make(character, gc);
-		if(buffsMap.containsKey(id))
+		else if(buffsMap.containsKey(id))
 			return buffsMap.get(id).make(character, gc);
+		else if(passivesMap.containsKey(id))
+			return passivesMap.get(id).make(character, gc);
 		
 		return null;
 	}
@@ -126,7 +130,6 @@ public class SkillsBase
 	}
 	/**
 	 * Loads skills base
-	 * TODO implement skills base
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
@@ -141,6 +144,7 @@ public class SkillsBase
 		    SkillsBase.gc = gc;
 	        attacksMap = DConnector.getAttacksMap(skillsPath + File.separator + "attacks");
 	        buffsMap = DConnector.getBuffsMap(skillsPath + File.separator + "buffs");
+	        passivesMap = DConnector.getPassivesMap(skillsPath + File.separator + "passives");
             loaded = true;
 		}
 	}

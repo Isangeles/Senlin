@@ -70,7 +70,10 @@ public class EffectPattern
         this.bonuses = new Bonuses();
         this.bonuses.addAll(bonuses);
         this.dot = dot;
-        this.duration = duration*1000;
+        if(duration != -1)
+            this.duration = duration*1000;
+        else
+        	this.duration = -1;
     }
     /**
      * Returns effect ID

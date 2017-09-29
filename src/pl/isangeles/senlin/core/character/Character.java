@@ -74,6 +74,7 @@ import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.skill.SkillTraining;
 import pl.isangeles.senlin.data.ABase;
@@ -158,7 +159,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		live = true;
 		avatar = new Avatar(this, gc, "m-cloth-1222211-80x90.png");
 		inventory = new Inventory(this);
-		abilities = new Abilities();
+		abilities = new Abilities(this);
 		abilities.add(SkillsBase.getAutoAttack(this));
 		abilities.add(SkillsBase.getShot(this));
 		qTracker = new QuestTracker(this);
@@ -207,7 +208,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		else
 			avatar = new Avatar(this, gc, spritesheet);
 		inventory = new Inventory(this);
-		abilities = new Abilities();
+		abilities = new Abilities(this);
 		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
 		//abilities.add(SkillsBase.getShot(this));
@@ -1115,12 +1116,21 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			}
 		}
 	}
-	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
+	 */
 	public void takeBuff(Targetable buffer, Buff buff)
 	{
     	effects.addAll(buff.getEffects());
-    	bonuses.addAll(buff.getBonuses());
-    	bonuses.applyAllOn(this);
+    	//bonuses.applyAllOn(this);
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#takePassvie(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Passive)
+	 */
+	@Override
+	public void takePassvie(Targetable passSource, Passive passive) 
+	{
+		effects.addAll(passive.getEffects());
 	}
 	
 	public void addLearnPoints(int value)

@@ -1,5 +1,5 @@
 /*
- * SkillPattern.java
+ * PassiveType.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -20,26 +20,31 @@
  * 
  * 
  */
-package pl.isangeles.senlin.data.pattern;
+package pl.isangeles.senlin.core.skill;
 
-import java.util.List;
-
-import pl.isangeles.senlin.core.req.Requirement;
 /**
- * Interface for skill patterns
+ * Enumeration for passives types
  * @author Isangeles
  *
  */
-public interface SkillPattern
-{   
+public enum PassiveType 
+{
+	ALWEYSON, SWITCH;
 	/**
-	 * Returns training requirements
-	 * @return List with requirements needed to train this skill
+	 * Converts type name to passive type enumeration
+	 * @param typeName String with desired type name('alwaysOn' or 'switch')
+	 * @return Passive type enum
 	 */
-    public List<Requirement> getRequirements();
-    /**
-     * Returns ID of skill from this pattern
-     * @return String with skill ID
-     */
-    public String getId();
+	public static PassiveType fromName(String typeName)
+	{
+		switch(typeName)
+		{
+		case "alweysOn":
+			return PassiveType.ALWEYSON;
+		case "switch":
+			return PassiveType.SWITCH;
+		default:
+			return PassiveType.ALWEYSON;
+		}
+	}
 }

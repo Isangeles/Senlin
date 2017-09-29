@@ -29,6 +29,7 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
@@ -70,6 +71,36 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 		return ok;
 	}
 	/**
+	 * Removes and disables specified effect
+	 * @param effect Effect to remove
+	 * @return True if specified effect was successfully removed
+	 */
+	public boolean remove(Effect effect)
+	{
+		if(super.remove(effect))
+		{
+			effect.removeFrom(owner);
+			return true;
+		}
+		else
+			return false;
+	}
+	/**
+	 * Removes and disables all effects from specified list
+	 * @param effects List with effects
+	 * @return True if all effects was successfully removed, false otherwise
+	 */
+	public boolean removeAll(List<? extends Effect>effects)
+	{
+		boolean ok = true;
+		for(Effect effect : effects)
+		{
+			if(!remove(effect))
+				ok = false;
+		}
+		return ok;
+	}
+	/**
 	 * Updates all effects in container
 	 * @param delta Time (in milliseconds) from last update
 	 * @param character Container owner
@@ -86,11 +117,24 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 			}
 			else
 			{
-				effect.removeFrom(character);
 				effectsToRemove.add(effect);
 			}
 		}
 		this.removeAll(effectsToRemove);
+	}
+	/**
+	 * Checks if similar effect is already active
+	 * @param effect Effect to check
+	 * @return True if such effect is already active, false otherwise
+	 */
+	public boolean hasEffect(Effect effect)
+	{
+		for(Effect e : this)
+		{
+			if(e.getId().equals(effect.getId()))
+				return true;
+		}
+		return false;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

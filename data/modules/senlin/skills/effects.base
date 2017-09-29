@@ -21,5 +21,9 @@
             <statsBonus>0;-1;-1;0;0;</statsBonus>
         </modifiers>
         <dot>-5</dot>
-    </effect>    
+    </effect>
+    <effect id="swordBon01" duration="always" type="normal" icon="meleeBon.png">
+        <modifiers>
+        </modifiers>
+    </effect>     
 </base>

@@ -32,7 +32,6 @@ import pl.isangeles.senlin.util.TConnector;
 public class Buff extends Skill
 {
 	private BuffType type;
-	private List<Bonus> bonuses;
     private int range;
     /**
      * Buff constructor
@@ -54,10 +53,9 @@ public class Buff extends Skill
      * @throws FontFormatException
      */
 	public Buff(Character character, String id, String imgName, EffectType effectType, BuffType type, List<Requirement> reqs, int castTime, int range, int cooldown, 
-	            List<Bonus> bonuses, List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	            List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
-		this.bonuses = bonuses;
 		this.type = type;
 		setTile(gc);
 		setGraphicEffects(gc);
@@ -69,29 +67,6 @@ public class Buff extends Skill
 	{
 		super.update(delta);
 	}
-	/**
-	 * Returns list with buff bonuses
-	 * @return List with bonus objects
-	 */
-	public List<Bonus> getBonuses()
-	{
-		return bonuses;
-	}
-	/**
-	 * Returns list with buff effects
-	 * @return List with effect objects
-	 */
-	public List<Effect> getEffects()
-	{
-		List<Effect> effectsToPass = new ArrayList<>();
-		for(String effectId : effects)
-		{
-			Effect effect = EffectsBase.getEffect(effectId);
-			effectsToPass.add(effect);
-		}
-		return effectsToPass;
-	}
-
 	@Override
 	public String getInfo() 
 	{
@@ -99,12 +74,12 @@ public class Buff extends Skill
                 TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
                 TConnector.getText("ui", "castName") + ":" + getCastTime() + System.lineSeparator() + 
                 TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator();
-	    
+	    /*
 	    for(Bonus bon : bonuses)
 	    {
 	        fullInfo += System.lineSeparator() + bon.getInfo();
 	    }
-	    
+	    */
 	    fullInfo += System.lineSeparator() + info;
 
 	    return fullInfo;

@@ -265,10 +265,10 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public boolean isMouseOver()
     {
-    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || inventory.isMouseOver() || skills.isMouseOver() ||
-    		   journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || train.isMouseOver() || 
-    		   save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver() || charWin.isMouseOver() || 
-    		   map.isMouseOver();
+    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || gameConsole.isMouseOver() || inventory.isMouseOver() || 
+    		   skills.isMouseOver() || journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || 
+    		   train.isMouseOver() || save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver() ||
+    		   charWin.isMouseOver() || map.isMouseOver();
     }
     /**
      * Checks if exit game is requested

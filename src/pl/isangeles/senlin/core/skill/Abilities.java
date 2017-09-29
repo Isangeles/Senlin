@@ -26,13 +26,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.effect.Effect;
 /**
  * Class for all skills acquired by character
  * @author Isangeles
@@ -42,15 +40,41 @@ public class Abilities extends LinkedList<Skill>
 {
 	private static final long serialVersionUID = 1L;
 
+	private Character owner;
+	/**
+	 * Abilities constructor
+	 * @param owner Abilities owner
+	 */
+	public Abilities(Character owner)
+	{
+		this.owner = owner;
+	}
 	/**
 	 * Updates all skills
-	 * @param delta
+	 * @param delta Time from last update
 	 */
 	public void update(int delta)
 	{
 		for(Skill skill : this)
 		{
 			skill.update(delta);
+			/* TODO VERY SLOWS DOWN GAME
+			if(Passive.class.isInstance(skill))
+			{
+				if(skill.isActive())
+				{
+					for(Effect effect : skill.getEffects())
+					{
+						if(!owner.getEffects().hasEffect(effect))
+							owner.getEffects().add(effect);
+					}
+				}
+				else
+				{
+					owner.getEffects().removeAll(skill.getEffects());
+				}
+			}
+			*/
 		}
 	}
 	@Override

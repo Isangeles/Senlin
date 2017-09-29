@@ -27,6 +27,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.gui.Portrait;
 
 /**
@@ -88,6 +89,12 @@ public interface Targetable extends ObjectiveTarget
 	 * @param buff Buff skill
 	 */
 	public void takeBuff(Targetable buffer, Buff buff);
+	/**
+	 * Handles passives
+	 * @param passSource Targetable object
+	 * @param passive Passive skill to handle
+	 */
+	public void takePassvie(Targetable passSource, Passive passive);
 	
 	public void addHealth(int value);
 	public void addMagicka(int value);

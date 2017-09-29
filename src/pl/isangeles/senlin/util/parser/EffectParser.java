@@ -49,7 +49,11 @@ public final class EffectParser
         Element effectE = (Element)effectNode;
         
         String id = effectE.getAttribute("id");
-        int duration = Integer.parseInt(effectE.getAttribute("duration"));
+        int duration = 0;
+        if(effectE.getAttribute("duration").equals("always"))
+        	duration = -1; 
+        else
+            duration = Integer.parseInt(effectE.getAttribute("duration"));
         String type = effectE.getAttribute("type");
         String icon = effectE.getAttribute("icon");
         

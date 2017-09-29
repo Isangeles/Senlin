@@ -77,6 +77,7 @@ import pl.isangeles.senlin.data.pattern.TrinketPattern;
 import pl.isangeles.senlin.data.pattern.WeaponPattern;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
+import pl.isangeles.senlin.data.pattern.PassivePattern;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 import pl.isangeles.senlin.util.parser.EffectParser;
 import pl.isangeles.senlin.util.parser.ItemParser;
@@ -303,6 +304,47 @@ public final class DConnector
             }
         }
 	    return buffsMap;
+	}
+	/**
+	 * Parses XML base file content and builds map with passive skills patterns as values and its IDs as keys
+	 * @param basePath Path to XML base
+	 * @return Map with skills patterns as values and its IDs as keys
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 */
+	public static Map<String, PassivePattern> getPassivesMap(String basePath) throws ParserConfigurationException, SAXException, IOException
+	{
+		Map<String, PassivePattern> passivesMap = new HashMap<>();
+		
+		if(!basePath.endsWith(".base"))
+			basePath += ".base";
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document base = db.parse(basePath);
+	    
+        NodeList nl = base.getDocumentElement().getChildNodes();
+        //Iterating skills nodes
+        for(int i = 0; i < nl.getLength(); i ++)
+        {
+            Node skillNode = nl.item(i);
+            if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+                try
+                {
+                    PassivePattern pattern = SkillParser.getPassiveFromNode(skillNode);
+                    passivesMap.put(pattern.getId(), pattern);
+                }
+                catch(NumberFormatException | NoSuchElementException e)
+                {
+                    Log.addSystem("passives_base_builder-fail msg///base node corrupted!");
+                    e.printStackTrace();
+                }
+            }
+        }
+		
+		return passivesMap;
 	}
 	/**
 	 * Parses XML base file content to list with Effect objects

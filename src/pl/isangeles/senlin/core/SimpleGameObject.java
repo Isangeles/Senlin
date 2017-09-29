@@ -37,6 +37,7 @@ import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
+import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.SimpleAnimObject;
@@ -491,6 +492,15 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 	 */
 	@Override
 	public void takeBuff(Targetable buffer, Buff buff) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#takePassvie(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Passive)
+	 */
+	@Override
+	public void takePassvie(Targetable passSource, Passive passive) 
 	{
 		// TODO Auto-generated method stub
 		

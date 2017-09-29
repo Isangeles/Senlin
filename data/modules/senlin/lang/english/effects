@@ -1,3 +1,4 @@
-bleed:Bleeding;You are bleeding!;
-heal01:Heal;You feel better and better;
-burn01:Burning;You are on burning!;
+bleed:Bleeding;Causes damage;
+heal01:Heal;Restors health;
+burn01:Burning;Causes fire damage;
+swordBon01:Sword bonus;Swords causes more damage;
