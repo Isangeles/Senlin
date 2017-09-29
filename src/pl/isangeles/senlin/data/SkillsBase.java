@@ -111,24 +111,6 @@ public class SkillsBase
         return null;
     }
 	/**
-	 * Returns attack skill with specific ID from base
-	 * @param character Game character
-	 * @param id ID of desired skill
-	 * @return Attack skill from base
-	 */
-	public static Attack getAttack(Character character, String id)
-	{
-	    try
-        {
-            return attacksMap.get(id).make(character, gc);
-        } 
-	    catch (SlickException | IOException | FontFormatException e)
-        {
-           Log.addSystem("skill_builder-fail msg///" + e.getMessage());
-           return null;
-        }
-	}
-	/**
 	 * Loads skills base
 	 * @param gc Slick game container
 	 * @throws SlickException

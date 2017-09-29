@@ -54,6 +54,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
@@ -65,6 +66,7 @@ import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.quest.Journal;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
@@ -681,6 +683,21 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public int getHit()
 	{
 		int hit = numberGenerator.nextInt(10) + attributes.getBasicHit();
+		for(DamageBonus dmgBonus : bonuses.getDmgBonuses())
+		{
+			if(dmgBonus.getWeaponType() == null)
+				hit += dmgBonus.getDmg();
+			else
+			{
+				if(inventory.getMainWeapon() == null)
+				{
+					if(dmgBonus.getWeaponType() == WeaponType.FIST)
+						hit += dmgBonus.getDmg();
+				}
+				else if(inventory.getMainWeapon().getType() == dmgBonus.getWeaponType().ordinal())
+					hit += dmgBonus.getDmg();
+			}
+		}
 		if(inventory.getMainWeapon() != null)
 		{
 			hit += (numberGenerator.nextInt(inventory.getWeaponDamage()[0])+inventory.getWeaponDamage()[1]);

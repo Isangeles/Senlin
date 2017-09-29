@@ -60,8 +60,8 @@ public enum WeaponType
 		}
 	}
 	/**
-	 * Returns material ID
-	 * @return Material ID
+	 * Returns weapon type ID
+	 * @return Weapon type ID
 	 */
 	public int getId()
 	{
@@ -85,7 +85,10 @@ public enum WeaponType
 			return 6;
 		}
 	}
-	
+	/**
+	 * Returns string with name of this weapon type
+	 * @return String with weapon type name
+	 */
 	public String getName()
 	{
 	    switch(this)

@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core.bonus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pl.isangeles.senlin.core.character.Character;
 /**
@@ -80,5 +81,21 @@ public class Bonuses extends ArrayList<Bonus>
 		}
 		
 		return bonusInfo;
+	}
+	/**
+	 * Returns all damage bonuses
+	 * @return List with damage bonuses
+	 */
+	public List<DamageBonus> getDmgBonuses()
+	{
+		List<DamageBonus> bonuses = new ArrayList<>();
+		for(Bonus bonus : this)
+		{
+			if(bonus.getType() == BonusType.DAMAGE)
+			{
+				bonuses.add((DamageBonus)bonus);
+			}
+		}
+		return bonuses;
 	}
 }

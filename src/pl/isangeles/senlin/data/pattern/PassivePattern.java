@@ -89,7 +89,15 @@ public class PassivePattern implements SkillPattern
 	{
 		return id;
 	}
-
+	/**
+	 * Returns new instance of passive skill from this pattern
+	 * @param owner Skill owner
+	 * @param gc Slick game container
+	 * @return New instance of passive skill from this pattern
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Passive make(Character owner, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		return new Passive(owner, id, imgName, type, effect, useReqs, effects, gc);

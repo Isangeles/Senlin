@@ -24,6 +24,7 @@
     </effect>
     <effect id="swordBon01" duration="always" type="normal" icon="meleeBon.png">
         <modifiers>
+            <damageBonus type="sword">10</damageBonus>
         </modifiers>
     </effect>     
 </base>

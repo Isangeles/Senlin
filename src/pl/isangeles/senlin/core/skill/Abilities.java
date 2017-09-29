@@ -58,23 +58,25 @@ public class Abilities extends LinkedList<Skill>
 		for(Skill skill : this)
 		{
 			skill.update(delta);
-			/* TODO VERY SLOWS DOWN GAME
+			
 			if(Passive.class.isInstance(skill))
 			{
 				if(skill.isActive())
 				{
+					/*
 					for(Effect effect : skill.getEffects())
 					{
 						if(!owner.getEffects().hasEffect(effect))
 							owner.getEffects().add(effect);
 					}
+					*/
 				}
 				else
 				{
 					owner.getEffects().removeAll(skill.getEffects());
 				}
 			}
-			*/
+			
 		}
 	}
 	@Override

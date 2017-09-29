@@ -33,8 +33,10 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.BonusType;
+import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.HealthBonus;
 import pl.isangeles.senlin.core.bonus.StatsBonus;
+import pl.isangeles.senlin.core.item.WeaponType;
 
 /**
  * Class for bonuses nodes parsing
@@ -78,6 +80,14 @@ public final class BonusesParser
 					case HEALTH:
 						int hp = Integer.parseInt(bonusE.getTextContent());
 						bonuses.add(new HealthBonus(hp));
+						break;
+					case DAMAGE:
+						int dmg = Integer.parseInt(bonusE.getTextContent());
+						String wTypeName = bonusE.getAttribute("type");
+						if(wTypeName != "")
+							bonuses.add(new DamageBonus(dmg, WeaponType.fromName(wTypeName)));
+						else
+							bonuses.add(new DamageBonus(dmg));
 						break;
 					default:
 						break;

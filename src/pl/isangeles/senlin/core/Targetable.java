@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core;
 
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.effect.Effects;
+import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;

@@ -111,6 +111,7 @@ genFemale:Female;
 bonHp:Health bonus;
 bonMana:Magicka bonus;
 bonStats:Attributes bonus;
+bonDmg:Damage bonus;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;
