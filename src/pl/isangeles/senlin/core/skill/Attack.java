@@ -41,6 +41,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.WeaponRequirement;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.graphic.AvatarAnimType;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
@@ -78,14 +79,23 @@ public class Attack extends Skill
 		super(character, id, imgName, type, reqs, castTime, cooldown, effects);
 		this.damage = damage;
 		this.range = range;
+		WeaponRequirement wReq = null;
 		for(Requirement req : useReqs)
 		{
 		    if(WeaponRequirement.class.isInstance(req))
 		    {
 		        useWeapon = true;
+		        wReq = (WeaponRequirement)req;
 		        break;
 		    }
 		}
+		if(isMagic())
+			avatarAnim = AvatarAnimType.CAST;
+		else if(wReq != null && wReq.getReqWeaponType() == WeaponType.BOW)
+			avatarAnim = AvatarAnimType.RANGE;
+		else
+			avatarAnim = AvatarAnimType.MELEE;
+		
 		setTile(gc);
 		setGraphicEffects(gc);
 		setSoundEffect();

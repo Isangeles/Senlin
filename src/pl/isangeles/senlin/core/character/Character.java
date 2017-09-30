@@ -1271,27 +1271,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {
 		if(live && abilities.contains(skill) && skill.prepare(this, target).isSuccess())
     	{
-    	    if(Attack.class.isInstance(skill))
-    	    {
-    	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
-    	    		avatar.rangeAnim();
-    	    	else
-        	        avatar.meleeAnim();
-    	    	
-    	    	sCaster.cast(skill);
-    	    	return CharacterOut.SUCCESS;
-    	    }
-    	    else if(Buff.class.isInstance(skill))
-    	    {
-    	    	Buff buff = (Buff)skill;
-    	    	avatar.castAnim();
-    	    	sCaster.cast(buff);
-    	    	return CharacterOut.SUCCESS;
-    	    }
-    	    else
-    	    {
-                return CharacterOut.UNKNOWN;
-    	    }
+    	    sCaster.cast(skill);
+    	    return CharacterOut.SUCCESS;
     	}
     	else
     		return CharacterOut.UNABLE;
@@ -1307,18 +1288,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	{
     	    if(Attack.class.isInstance(skill))
     	    {
-    	    	if(inventory.getMainWeapon() != null && inventory.getMainWeapon().getType() == Weapon.BOW)
-    	    		avatar.rangeAnim();
-    	    	else
-        	        avatar.meleeAnim();
-
     	    	sCaster.cast(skill);
                 return CharacterOut.SUCCESS;
     	    }
     	    else if(Buff.class.isInstance(skill))
     	    {
     	    	Buff buff = (Buff)skill;
-    	    	avatar.castAnim();
     	    	sCaster.cast(buff);
     	    	return CharacterOut.SUCCESS;
     	    }

@@ -122,6 +122,20 @@ public class SkillCaster
 	{
 		skillToCast = skill;
 		casting = true;
+		switch(skill.getAvatarAnimType())
+		{
+		case MELEE:
+			caster.getAvatar().meleeAnim(true);
+			break;
+		case RANGE:
+			caster.getAvatar().rangeAnim(true);
+			break;
+		case CAST:
+			caster.getAvatar().castAnim(true);
+			break;
+		default:
+			caster.getAvatar().meleeAnim(true);
+		}
 		caster.getAvatar().addEffect(skillToCast.getCastAnim(), true);
 		skillToCast.getCastSound().loop(1.0f, Settings.getEffectsVol());
 	}
@@ -131,6 +145,21 @@ public class SkillCaster
 	 */
 	private void activateSkill(Skill skill)
 	{
+		caster.getAvatar().stopAnim();
+		switch(skill.getAvatarAnimType())
+		{
+		case MELEE:
+			caster.getAvatar().meleeAnim(false);
+			break;
+		case RANGE:
+			caster.getAvatar().rangeAnim(false);
+			break;
+		case CAST:
+			caster.getAvatar().castAnim(false);
+			break;
+		default:
+			caster.getAvatar().meleeAnim(false);
+		}
 		caster.getAvatar().removeEffect(skill.getCastAnim());
 		skill.getCastSound().stop();
 		skill.getActivateSound().play(1.0f, Settings.getEffectsVol());

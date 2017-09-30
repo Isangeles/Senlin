@@ -1,5 +1,5 @@
 /*
- * SimpleGameObject.java
+ * TargetableObject.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -134,12 +134,20 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     	this(id, texture, portrait, onClick, gold, items);
     	voice = sound;
     }
-    
+    /**
+     * Draws object avatar
+     * @param x Position on x-axis
+     * @param y Position on y-axis
+     * @param scaledPos True if position should be scaled to current resolution, false otherwise
+     */
     public void draw(float x, float y, boolean scaledPos)
     {
         avatar.draw(x, y, scaledPos);
     }
-    
+    /**
+     * Draws object avatar in current avatar position
+     * @param size Desired size for object to draw
+     */
     public void draw(float size)
     {
         avatar.draw(size);
@@ -166,13 +174,19 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 			}
 		}
 	}
-    
+    /**
+     * Sets specified position as object position
+     * @param pos Position to set
+     */
     public void setPosition(Position pos)
     {
         this.pos = pos;
         avatar.setPosition(pos);
     }
-    
+    /**
+     * Starts object on-click action
+     * @param user Request source
+     */
     public void startAction(Targetable user)
     {
         onClick.start(user, this);
@@ -183,10 +197,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public void setTarget(Targetable target)
     {
-        // TODO Auto-generated method stub
-        
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getTarget()
      */
@@ -195,6 +206,10 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return null;
     }
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#getId()
+     */
+    @Override
     public String getId()
 	{
 		return id;
@@ -207,7 +222,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return name;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getPortrait()
      */
@@ -216,7 +230,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return portrait;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getEffects()
      */
@@ -225,7 +238,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return effects;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getHealth()
      */
@@ -234,7 +246,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return hp.getValue();
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getMaxHealth()
      */
@@ -243,7 +254,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return hp.getMax();
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getMagicka()
      */
@@ -252,7 +262,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return 0;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getMaxMagicka()
      */
@@ -261,7 +270,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return 0;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getExperience()
      */
@@ -270,7 +278,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return 0;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getMaxExperience()
      */
@@ -279,7 +286,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return 0;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getLevel()
      */
@@ -288,7 +294,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return 0;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getPosition()
      */
@@ -321,7 +326,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return false;
     }
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#addHealth(int)
 	 */
@@ -330,7 +334,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	{
 		hp.modValue(value);
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#addMagicka(int)
 	 */
@@ -338,7 +341,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	public void modMagicka(int value) 
 	{
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#getAttributes(pl.isangeles.senlin.core.Tragetable)
 	 */
@@ -347,12 +349,14 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	{
 		return null;
 	}
-	
+	/**
+	 * Sets specified inventory as this object inventory 
+	 * @param inventory Inventory to set
+	 */
 	public void setInventory(Inventory inventory)
 	{
 		this.inventory = inventory;
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#isMouseOver()
 	 */
@@ -361,7 +365,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	{
 		return avatar.isMouseOver();
 	}
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getInventory()
      */
@@ -370,25 +373,19 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return inventory;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#looting(boolean)
      */
     @Override
     public void startLooting(Targetable target)
     {
-        // TODO Auto-generated method stub
-        
     }
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#stopLooting()
 	 */
 	@Override
 	public void stopLooting() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#startReading(java.lang.String)
@@ -396,18 +393,13 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public void startReading(String textId) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#stopReading()
 	 */
 	@Override
 	public void stopReading() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#looting()
@@ -415,7 +407,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public Targetable looting()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 	/* (non-Javadoc)
@@ -424,7 +415,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public String reading() 
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
     /* (non-Javadoc)
@@ -436,7 +426,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         // TODO Auto-generated method stub
         return false;
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#removeBonus(pl.isangeles.senlin.core.bonus.Bonus)
      */
@@ -471,8 +460,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public void takeBuff(Targetable buffer, Buff buff) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takeHealth(pl.isangeles.senlin.core.Targetable, int)
@@ -488,10 +475,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public void takePassvie(Targetable passSource, Passive passive) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#modMaxHealth(int)
 	 */

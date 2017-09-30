@@ -21,6 +21,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.graphic.AvatarAnimType;
 import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
@@ -57,6 +58,8 @@ public class Buff extends Skill
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
 		this.type = type;
+		
+		avatarAnim = AvatarAnimType.CAST;
 		setTile(gc);
 		setGraphicEffects(gc);
 		setSoundEffect();

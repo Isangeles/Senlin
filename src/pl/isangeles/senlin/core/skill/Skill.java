@@ -52,6 +52,7 @@ import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.graphic.AvatarAnimType;
 import pl.isangeles.senlin.graphic.SimpleAnim;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
@@ -77,6 +78,7 @@ public abstract class Skill implements SlotContent, SaveElement
     protected boolean ready;
     protected int cooldown;
     protected List<String> effects;
+    protected AvatarAnimType avatarAnim = AvatarAnimType.MELEE;
 	protected Sound castSound;
 	protected Sound activateSound;
 	protected SimpleAnim castAnim;
@@ -245,6 +247,14 @@ public abstract class Skill implements SlotContent, SaveElement
 	public SimpleAnim getActiveAnim()
 	{
 		return activeAnim;
+	}
+	/**
+	 * Returns required type of avatar animation
+	 * @return Avatar anim type enum
+	 */
+	public AvatarAnimType getAvatarAnimType()
+	{
+		return avatarAnim;
 	}
 	/**
 	 * Returns current skill target (may return NULL!)

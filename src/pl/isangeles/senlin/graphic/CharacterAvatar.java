@@ -156,16 +156,23 @@ public abstract class CharacterAvatar implements MouseListener, Effective
     public abstract void move(boolean move);
     /**
      * Starts melee attack animation 
+     * @param True if animation should be looped, false otherwise
      */
-    public abstract void meleeAnim();
+    public abstract void meleeAnim(boolean loop);
     /**
      * Starts range attack animation
+     * @param True if animation should be looped, false otherwise
      */
-    public abstract void rangeAnim();
+    public abstract void rangeAnim(boolean loop);
     /**
      * Starts casting animation
+     * @param True if animation should be looped, false otherwise
      */
-    public abstract void castAnim();
+    public abstract void castAnim(boolean loop);
+    /**
+     * Stops all avatar animations
+     */
+    public abstract void stopAnim();
     /**
      * Displays specified text above avatar head
      * @param text Text to display

@@ -195,30 +195,44 @@ public class Avatar extends CharacterAvatar
 			weapon.move(trueFalse);
 	}
 	
-	public void meleeAnim()
+	public void meleeAnim(boolean loop)
 	{
-		torso.meleeAnim();
-		head.meleeAnim();
+		torso.meleeAnim(loop);
+		head.meleeAnim(loop);
 		if(weapon != null)
-			weapon.meleeAnim();
+			weapon.meleeAnim(loop);
 	}
 	
-	public void rangeAnim()
+	public void rangeAnim(boolean loop)
 	{
+		torso.rangeAinm(loop);
+		head.rangeAinm(loop);
 		if(weapon != null)
 		{
-			torso.rangeAinm();
-			head.rangeAinm();
-			weapon.rangeAinm();
+			weapon.rangeAinm(loop);
 		}
 	}
-	
-	public void castAnim()
+	/**
+	 * Toggles spell casting animation
+	 * @param loop True if animation should be looped, false otherwise 
+	 */
+	public void castAnim(boolean loop)
 	{
-		torso.castAnim();
-		head.castAnim();
+		torso.castAnim(loop);
+		head.castAnim(loop);
 		if(weapon != null)
-			weapon.castAnim();
+			weapon.castAnim(loop);
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#stopAnim()
+	 */
+	@Override
+	public void stopAnim() 
+	{
+		torso.stopAnim();
+		head.stopAnim();
+		if(weapon != null)
+			weapon.stopAnim();
 	}
 	/**
 	 * Returns object direction

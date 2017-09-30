@@ -40,17 +40,28 @@ public class ObjectAvatar implements Effective
 	private List<SimpleAnim> effects = new ArrayList<>();
 	private List<SimpleAnim> loopEffects = new ArrayList<>();
 	private List<SimpleAnim> effectsToRemove = new ArrayList<>();
-	
+	/**
+	 * Object avatar constructor(with simple sprite as texture)
+	 * @param texture Sprite
+	 */
 	public ObjectAvatar(Sprite texture)
 	{
 		this.texture = texture;
 	}
-	
+	/**
+	 * Object avatar constructor(with simple animation as texture)
+	 * @param anim Simple animation
+	 */
 	public ObjectAvatar(SimpleAnim anim)
 	{
 		this.texture = anim;
 	}
-	
+	/**
+	 * Draws avatar 
+	 * @param x Position on x-axis
+	 * @param y Position on y-axis
+	 * @param scaledPos True if position should be scaled to current resolution, false otherwise
+	 */
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		texture.draw(x, y, scaledPos);
@@ -78,26 +89,35 @@ public class ObjectAvatar implements Effective
 		effects.removeAll(effectsToRemove);
 		effectsToRemove.clear();
 	}
-	
+	/**
+	 * Draws avatar on current avatar texture position
+	 * @param size Desired size of avatar texture
+	 */
 	public void draw(float size)
 	{
 		texture.draw(size);
 		
 		for(SimpleAnim effect : effects)
 		{
-			effect.draw(texture.x - texture.getScaledWidth()/2, texture.y - texture.getScaledHeight(), Coords.getScale(), true);
+			effect.draw(texture.x - texture.getScaledWidth()/2, texture.y - texture.getScaledHeight(), size, true);
 		}
 		for(SimpleAnim effect : loopEffects)
 		{
-			effect.draw(texture.x - texture.getScaledWidth()/2, texture.y - texture.getScaledHeight(), Coords.getScale(), true);
+			effect.draw(texture.x - texture.getScaledWidth()/2, texture.y - texture.getScaledHeight(), size, true);
 		}
 	}
-	
+	/**
+	 * Sets specified position as avatar texture position
+	 * @param pos Position to set
+	 */
 	public void setPosition(Position pos)
 	{
 		texture.setPosition(pos);
 	}
-	
+	/**
+	 * Checks if mouse is over avatar texture
+	 * @return True if mouse if over avatar texture, false otherwise
+	 */
 	public boolean isMouseOver()
 	{
 		return texture.isMouseOver();

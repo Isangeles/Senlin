@@ -122,18 +122,30 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 		isMove = trueFalse;
 		torso.move(trueFalse);
 	}
-	
+	/* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#meleeAnim(boolean)
+     */
 	@Override
-	public void meleeAnim()
+	public void meleeAnim(boolean loop)
 	{
-		torso.meleeAnim();
+		torso.meleeAnim(loop);
 	}
-	
+	/* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#rangeAnim(boolean)
+     */
 	@Override
-	public void rangeAnim()
+	public void rangeAnim(boolean loop)
 	{
-		torso.rangeAinm();
+		torso.rangeAinm(loop);
 	}
+	/* (non-Javadoc)
+     * @see pl.isangeles.senlin.graphic.CharacterAvatar#castAnim(boolean)
+     */
+    @Override
+    public void castAnim(boolean loop)
+    {
+    	torso.castAnim(loop);
+    }
 	
 	@Override
 	public boolean isStatic()
@@ -150,16 +162,15 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
         // TODO Auto-generated method stub
         
     }
-
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.graphic.CharacterAvatar#castAnim()
-     */
-    @Override
-    public void castAnim()
-    {
-        // TODO Auto-generated method stub
-        
-    }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#stopAnim()
+	 */
+	@Override
+	public void stopAnim() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDirection()
      */

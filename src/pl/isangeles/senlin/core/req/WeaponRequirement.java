@@ -76,5 +76,13 @@ public class WeaponRequirement extends Requirement
     public void charge(Character character)
     {
     }
+    /**
+     * Returns type of weapon required by this requirement
+     * @return WeaponType enum
+     */
+    public WeaponType getReqWeaponType()
+    {
+    	return reqWeapon;
+    }
 
 }

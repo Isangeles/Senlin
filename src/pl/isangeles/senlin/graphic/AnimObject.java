@@ -31,7 +31,6 @@ import org.newdawn.slick.SpriteSheet;
 import pl.isangeles.senlin.util.Coords;
 /**
  * Class for animated objects like avatar parts(torso, head, weapon), etc.
- * TODO make animProgress work
  * @author Isangeles
  *
  */
@@ -184,29 +183,41 @@ public class AnimObject extends GameObject
 	/**
 	 * Starts melee attack animation
 	 */
-	public void meleeAnim()
+	public void meleeAnim(boolean loop)
 	{
 		meleeReq = true;
-		melee.setLooping(false);
+		melee.setLooping(loop);
 		melee.restart();
 	}
 	/**
 	 * Starts range attack animation
 	 */
-	public void rangeAinm()
+	public void rangeAinm(boolean loop)
 	{
 		rangeReq = true;
-		range.setLooping(false);
+		range.setLooping(loop);
 		range.restart();
 	}
 	/**
 	 * Start casting animation
 	 */
-	public void castAnim()
+	public void castAnim(boolean loop)
 	{
 		castReq = true;
-		cast.setLooping(false);
+		cast.setLooping(loop);
 		cast.restart();
+	}
+	/**
+	 * Stops all animations
+	 */
+	public void stopAnim()
+	{
+		melee.stop();
+		range.stop();
+		cast.stop();
+		meleeReq = false;
+		rangeReq = false;
+		castReq = false;
 	}
 	
 	public void kneel(boolean kneelReq)
@@ -291,7 +302,10 @@ public class AnimObject extends GameObject
 		kneel = kneelLeft;
 		lie = lieLeft;
 	}
-	
+	/**
+	 * Return texture of current sprite
+	 * @return Current frame texture
+	 */
 	public Sprite getCurrentSprite()
 	{
 		if(isMove)
