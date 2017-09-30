@@ -61,6 +61,7 @@ public class Effect implements SaveElement
 	private boolean on;
 	private boolean alwaysOn;
 	private EffectTile tile;
+	private Targetable source;
 	/**
 	 * Effect constructor
 	 * @param id Effect ID
@@ -79,7 +80,7 @@ public class Effect implements SaveElement
 	 * @throws IOException 
 	 * @throws SlickException 
 	 */
-	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, Targetable source, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
@@ -91,6 +92,7 @@ public class Effect implements SaveElement
 		this.duration = duration;
 		if(duration == -1)
 			alwaysOn = true;
+		this.source = source;
 		buildTile(gc);
 	}
 	/**
@@ -101,7 +103,10 @@ public class Effect implements SaveElement
 	{
 		if(dotActive)
 		{
-			target.modHealth(dot);
+			if(source != null)
+				target.takeHealth(source, -dot);
+			else
+				target.modHealth(dot);
 			dotActive = false;
 		}
 	}
@@ -230,6 +235,8 @@ public class Effect implements SaveElement
 	{
 		Element effectE = doc.createElement("effect");
         effectE.setAttribute("duration", time+"");
+        if(source != null)
+            effectE.setAttribute("source", source.getSerialId());
         effectE.setTextContent(id);
         return effectE;
 	}

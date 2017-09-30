@@ -50,6 +50,11 @@ public interface Targetable extends ObjectiveTarget
 	 */
 	public Targetable getTarget();
 	/**
+	 * Returns serial ID of target
+	 * @return String with serial ID
+	 */
+	public String getSerialId();
+	/**
 	 * Returns object name
 	 * @return String with object name
 	 */

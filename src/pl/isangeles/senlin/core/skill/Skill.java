@@ -283,7 +283,7 @@ public abstract class Skill implements SlotContent, SaveElement
         {
 	        for(String effectId : effects)
 	        {
-	        	effectsToPass.add(EffectsBase.getEffect(effectId));
+	        	effectsToPass.add(EffectsBase.getEffect(owner, effectId));
 	        }
         }
         return effectsToPass;

@@ -123,7 +123,7 @@ public class LoadingScreen extends BasicGameState
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-		try 
+    	try 
 		{
 			if(loadType.equals("newGame"))
 			{
@@ -242,9 +242,9 @@ public class LoadingScreen extends BasicGameState
 	        loadingInfo.setText("loading saved game...");
 		    break;
 		case 3:
-		     gameToLoad = SaveEngine.load(saveName, container);
-		     player = gameToLoad.getPlayer();
-		     Global.setPlayer(gameToLoad.getPlayer());
+		    gameToLoad = SaveEngine.load(saveName, container);
+		    player = gameToLoad.getPlayer();
+		    Global.setPlayer(gameToLoad.getPlayer());
 		    break;
 		case 4:
 			loadingInfo.setText("loading game world...");

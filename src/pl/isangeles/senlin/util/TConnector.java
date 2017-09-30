@@ -121,6 +121,7 @@ public final class TConnector
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			Log.addSystem("tc_get_info_fail_msg///No name or info in " + langFile + " for: " + id);
+			e.printStackTrace();
 		}
 		return nameAndInfo;
 	}
@@ -141,6 +142,7 @@ public final class TConnector
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			Log.addSystem("tc_get_info_fail_msg///No name or info in " + filePath + " for: " + id);
+			e.printStackTrace();
 		}
 		return nameAndInfo;
 	}

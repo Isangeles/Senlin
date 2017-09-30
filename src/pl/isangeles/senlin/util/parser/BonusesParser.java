@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.bonus.BonusType;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.HealthBonus;
 import pl.isangeles.senlin.core.bonus.StatsBonus;
+import pl.isangeles.senlin.core.bonus.UndetectBonus;
 import pl.isangeles.senlin.core.item.WeaponType;
 
 /**
@@ -88,6 +89,10 @@ public final class BonusesParser
 							bonuses.add(new DamageBonus(dmg, WeaponType.fromName(wTypeName)));
 						else
 							bonuses.add(new DamageBonus(dmg));
+						break;
+					case UNDETECT:
+						int stealthLevel = Integer.parseInt(bonusE.getTextContent());
+						bonuses.add(new UndetectBonus(stealthLevel));
 						break;
 					default:
 						break;

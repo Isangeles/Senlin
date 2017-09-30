@@ -56,9 +56,9 @@ public class ActionPattern
 		switch(type)
 		{
 		case EFFECTUSER:
-			return new EffectAction(EffectsBase.getEffect(actionId), "user");
+			return new EffectAction(actionId, "user");
 		case EFFECTTARGET:
-			return new EffectAction(EffectsBase.getEffect(actionId), "target");
+			return new EffectAction(actionId, "target");
 		case READ:
 			return new ReadAction(actionId);
 		default:

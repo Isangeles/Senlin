@@ -206,7 +206,7 @@ public class NpcPattern
 		}
 		for(String effectId : effects.keySet())
 		{
-		    Effect effect = EffectsBase.getEffect(effectId);
+		    Effect effect = EffectsBase.getEffect(null, effectId);
 		    effect.setTime(effects.get(effectId));
 		    npc.getEffects().add(effect);
 		}
@@ -278,7 +278,7 @@ public class NpcPattern
         }
         for(String effectId : effects.keySet())
         {
-            Effect effect = EffectsBase.getEffect(effectId);
+            Effect effect = EffectsBase.getEffect(null, effectId);
             effect.setTime(effects.get(effectId));
             npc.getEffects().add(effect);
         }

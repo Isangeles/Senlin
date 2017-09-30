@@ -112,6 +112,7 @@ bonHp:Health bonus;
 bonMana:Magicka bonus;
 bonStats:Attributes bonus;
 bonDmg:Damage bonus;
+bonUndetect:Undetectable;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

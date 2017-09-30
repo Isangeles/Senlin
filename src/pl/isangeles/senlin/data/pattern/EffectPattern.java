@@ -29,12 +29,11 @@ import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.util.TConnector;
 /**
  * Pattern for creating effects
  * @author Isangeles
@@ -86,13 +85,14 @@ public class EffectPattern
     /**
      * Builds new effect object from this pattern
      * @param gc Slick game container
+     * @param source Effect source, e.g. skill owner 
      * @return New effect object
      * @throws SlickException
      * @throws IOException
      * @throws FontFormatException
      */
-    public Effect make(GameContainer gc) throws SlickException, IOException, FontFormatException
+    public Effect make(Targetable source, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Effect(id, imgName, bonuses, dot, duration, type, gc);
+        return new Effect(id, imgName, bonuses, dot, duration, type, source, gc);
     }
 }

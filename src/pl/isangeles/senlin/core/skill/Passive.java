@@ -88,8 +88,15 @@ public class Passive extends Skill
 	@Override
 	public void activate() 
 	{
-		active = true;
-		target.takePassvie(owner, this);
+		if(active)
+		{
+			deactivate();
+		}
+		else
+		{
+			active = true;
+			target.takePassvie(owner, this);
+		}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.skill.Skill#prepare(pl.isangeles.senlin.core.character.Character, pl.isangeles.senlin.core.Targetable)
@@ -103,11 +110,11 @@ public class Passive extends Skill
 			{
 				if(active)
 				{
-					deactivate();
+					active = false;
 				}
 				else
 				{
-					activate();
+					active = true;
 				}
 			}
 			return CharacterOut.SUCCESS;

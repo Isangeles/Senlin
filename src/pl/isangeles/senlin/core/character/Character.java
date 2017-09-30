@@ -1018,6 +1018,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Effects getEffects()
 	{ return effects; }
+	
+	public Bonuses getBonuses()
+	{ return bonuses; }
 	/**
 	 * Returns all character quests
 	 * @return List with quests
@@ -1049,9 +1052,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		hp.modValue(-value);
 		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
-		if(hp.getValue() <= 0)
+		if(live && hp.getValue() <= 0)
 		{
-			live = false;
 			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
 			if(Character.class.isInstance(who))
 			{

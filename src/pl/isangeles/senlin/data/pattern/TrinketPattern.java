@@ -100,10 +100,10 @@ public class TrinketPattern
 		switch(aType)
 		{
 		case EFFECTUSER:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
+			action = new EffectAction(actionId, "user");
 			break;
 		case EFFECTTARGET:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
+			action = new EffectAction(actionId, "target");
 			break;
 		default:
 			action = new EffectAction();
@@ -128,10 +128,10 @@ public class TrinketPattern
 		switch(aType)
 		{
 		case EFFECTUSER:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "user");
+			action = new EffectAction(actionId, "user");
 			break;
 		case EFFECTTARGET:
-			action = new EffectAction(EffectsBase.getEffect(actionId), "target");
+			action = new EffectAction(actionId, "target");
 			break;
 		default:
 			action = new EffectAction();

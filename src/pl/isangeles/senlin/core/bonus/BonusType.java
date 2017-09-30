@@ -29,7 +29,7 @@ package pl.isangeles.senlin.core.bonus;
  */
 public enum BonusType 
 {
-	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE;
+	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT;
 	/**
 	 * Converts specified type ID to bonus type enum
 	 * @param id String with bonus type ID
@@ -51,6 +51,8 @@ public enum BonusType
 			return BonusType.DODGE;
 		case "damageBonus":
 			return BonusType.DAMAGE; 
+		case "undetectBonus":
+			return BonusType.UNDETECT;
 		default:
 			return BonusType.NONE;
 		}

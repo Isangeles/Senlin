@@ -98,4 +98,18 @@ public class Bonuses extends ArrayList<Bonus>
 		}
 		return bonuses;
 	}
+	/**
+	 * Returns stealth level from all bonuses
+	 * @return Stealth level
+	 */
+	public int getStealthLevel()
+	{
+		int level = 0;
+		for(Bonus bonus : this)
+		{
+			if(bonus.getType() == BonusType.UNDETECT)
+				level += ((UndetectBonus)bonus).getLevel();
+		}
+		return level;
+	}
 }

@@ -2,3 +2,4 @@ bleed:Bleeding;Causes damage;
 heal01:Heal;Restors health;
 burn01:Burning;Causes fire damage;
 swordBon01:Sword bonus;Swords causes more damage;
+undetect01:Stealth;Undetectable;

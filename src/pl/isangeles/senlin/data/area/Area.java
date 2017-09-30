@@ -215,7 +215,7 @@ public class Area implements SaveElement
     	*/
     	for(Character npc : characters)
     	{
-    		if(npc != character && character.getRangeFrom(npc.getPosition()) < 200)
+    		if(npc != character && npc.getBonuses().getStealthLevel() < 1 && character.getRangeFrom(npc.getPosition()) < 200)
         		nearbyCharacters.add(npc);
     	}
     	

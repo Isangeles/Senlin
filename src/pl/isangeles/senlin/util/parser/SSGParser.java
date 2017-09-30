@@ -409,7 +409,7 @@ public final class SSGParser
     			{
         			String effectId = effectE.getTextContent();
         			int effectTime = Integer.parseInt(effectE.getAttribute("time"));
-        			Effect effect = EffectsBase.getEffect(effectId);
+        			Effect effect = EffectsBase.getEffect(null, effectId); //TODO find way to restore proper effects sources 
         			effect.setTime(effectTime);
         			effects.add(effect);
     			}

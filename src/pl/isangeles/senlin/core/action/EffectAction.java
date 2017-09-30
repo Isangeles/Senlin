@@ -25,6 +25,7 @@ package pl.isangeles.senlin.core.action;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.EffectsBase;
 
 /**
  * Class for action causing specified effect on user/target
@@ -33,7 +34,7 @@ import pl.isangeles.senlin.core.skill.Skill;
  */
 public class EffectAction extends Action
 {
-    private Effect effect;
+    private String effectId;
 
     public EffectAction()
     {
@@ -44,16 +45,14 @@ public class EffectAction extends Action
      * @param effectOnAction Effect of action
      * @param target String with 'user' for effect on user, 'target' for effect on target
      */
-    public EffectAction(Effect effectOnAction, String target)
+    public EffectAction(String effectOnActionId, String target)
     {
         if(target.equals("user"))
             type = ActionType.EFFECTUSER;
         if(target.equals("target"))
             type = ActionType.EFFECTTARGET;
         
-        effect = effectOnAction;
-        if(effect == null)
-            type = ActionType.NONE;
+        effectId = effectOnActionId;
     }
     
     /**
@@ -68,10 +67,10 @@ public class EffectAction extends Action
         switch(type)
         {
         case EFFECTUSER:
-        	user.getEffects().add(effect);
+        	user.getEffects().add(EffectsBase.getEffect(user, effectId));
             return true;
         case EFFECTTARGET:
-        	target.getEffects().add(effect);
+        	target.getEffects().add(EffectsBase.getEffect(user, effectId));
             return true;
         default:
             return true;
