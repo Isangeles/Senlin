@@ -79,7 +79,7 @@ public class HealthRequirement extends Requirement
     {
         if(met)
         {
-            character.takeHealth(reqHp);
+            character.modHealth(-reqHp);
             met = false;
         }
     }

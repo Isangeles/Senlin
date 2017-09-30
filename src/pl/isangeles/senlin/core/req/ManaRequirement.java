@@ -79,7 +79,7 @@ public class ManaRequirement extends Requirement
     {
         if(met)
         {
-            character.takeMagicka(reqMana);
+            character.modMagicka(-reqMana);
             met = false;
         }
     }

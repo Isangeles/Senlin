@@ -97,24 +97,24 @@ public class Effect implements SaveElement
 	 * Starts affect on specified character
 	 * @param character Some game character
 	 */
-	public void affect(Character character)
+	public void affect(Targetable target)
 	{
 		if(dotActive)
 		{
-			character.addHealth(dot);
+			target.modHealth(dot);
 			dotActive = false;
 		}
 	}
 	/**
 	 * Removes affect from specified character
-	 * @param character Some game character
+	 * @param target Some game character
 	 */
-	public void removeFrom(Targetable character)
+	public void removeFrom(Targetable target)
 	{
 		for(Bonus bonus : bonuses)
 		{
-		    if(character.hasBonus(bonus))
-		        character.removeBonus(bonus);
+		    if(target.hasBonus(bonus))
+		        target.removeBonus(bonus);
 		}
 		time = 0;
 		dotTimer = 0;
@@ -142,11 +142,14 @@ public class Effect implements SaveElement
 				on = false;
 		}
 		
-		dotTimer += delta;
-		if(dotTimer > 1000 && !dotActive)
+		if(dot != 0)
 		{
-			dotActive = true;
-			dotTimer = 0;
+			dotTimer += delta;
+			if(dotTimer > 1000 && !dotActive)
+			{
+				dotActive = true;
+				dotTimer = 0;
+			}
 		}
 	}
 	/**
@@ -196,6 +199,19 @@ public class Effect implements SaveElement
 		return id;
 	}
 	/**
+	 * Returns effect info
+	 * @return String with effect info
+	 */
+	public String getInfo()
+	{
+		String fullInfo = info;
+		for(Bonus bonus : bonuses)
+		{
+			fullInfo += System.lineSeparator() + bonus.getInfo();
+		}
+		return fullInfo;
+	}
+	/**
 	 * Builds effect UI icon
 	 * @param gc Slick game container
 	 * @throws SlickException
@@ -204,7 +220,7 @@ public class Effect implements SaveElement
 	 */
 	private void buildTile(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		tile = new EffectTile(GConnector.getInput("icon/effect/"+imgName), "uiEff"+id, false, gc, info);
+		tile = new EffectTile(GConnector.getInput("icon/effect/"+imgName), "uiEff"+id, false, gc, getInfo());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

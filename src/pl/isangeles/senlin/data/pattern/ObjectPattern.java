@@ -32,7 +32,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
@@ -40,7 +40,7 @@ import pl.isangeles.senlin.core.action.LootAction;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.graphic.GameObject;
-import pl.isangeles.senlin.graphic.SimpleAnimObject;
+import pl.isangeles.senlin.graphic.SimpleAnim;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.AConnector;
@@ -105,7 +105,7 @@ public class ObjectPattern
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public SimpleGameObject make(GameContainer gc) throws SlickException, IOException, FontFormatException
+	public TargetableObject make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 	    Portrait uiPortrait = new Portrait(GConnector.getObjectPortrait(portrait), gc);
 	    Sound objectSound = null;
@@ -129,19 +129,19 @@ public class ObjectPattern
 	    
 	    if(type.equals("anim"))
 	    {
-	    	SimpleAnimObject animTexture = new SimpleAnimObject(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
+	    	SimpleAnim animTexture = new SimpleAnim(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
 		    if(objectSound != null)
-				return new SimpleGameObject(id, animTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+				return new TargetableObject(id, animTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
 		    else
-		    	return new SimpleGameObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn); 	
+		    	return new TargetableObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn); 	
 	    }
 	    if(type.equals("static"))
 	    {
 	    	Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
 			if(objectSound != null)
-				return new SimpleGameObject(id, staticTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+				return new TargetableObject(id, staticTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
 			else
-				return new SimpleGameObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
+				return new TargetableObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
 	    }
 		return null;
 	}

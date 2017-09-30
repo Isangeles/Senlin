@@ -54,7 +54,7 @@ import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Module;
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.Quest;
 /**
@@ -112,7 +112,7 @@ public class Scenario implements SaveElement
 	 */
 	public void drawObjects()
 	{
-		for(SimpleGameObject object : mainArea.getObjects())
+		for(TargetableObject object : mainArea.getObjects())
 		{
 			object.draw(1f);
 		}
@@ -213,7 +213,7 @@ public class Scenario implements SaveElement
 		mainareaE.setAttribute("map", mainArea.getMapName());
 		
 		Element objectsE = doc.createElement("objects");
-		for(SimpleGameObject object : mainArea.getObjects())
+		for(TargetableObject object : mainArea.getObjects())
 		{
 			objectsE.appendChild(object.getSave(doc));
 		}

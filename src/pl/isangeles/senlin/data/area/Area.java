@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.states.Global;
@@ -55,7 +55,7 @@ public class Area implements SaveElement
     private String mapFileName;
     private Size size;
     private Set<Character> characters = new HashSet<>();
-    private List<SimpleGameObject> objects;
+    private List<TargetableObject> objects;
     private List<Exit> exits;
 	private Map<String, String> idleMusic = new HashMap<>();
 	private Map<String, String> combatMusic = new HashMap<>();
@@ -81,7 +81,7 @@ public class Area implements SaveElement
      * @param objects List with objects
      * @param exits List exits
      */
-    public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<SimpleGameObject> objects, List<Exit> exits,
+    public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<TargetableObject> objects, List<Exit> exits,
 			Map<String, String> idleMusic, Map<String, String> combatMusic)
     {
     	this.id = id;
@@ -189,7 +189,7 @@ public class Area implements SaveElement
      * Returns area objects
      * @return List with simple game objects
      */
-    public List<SimpleGameObject> getObjects()
+    public List<TargetableObject> getObjects()
     {
     	return objects;
     }
@@ -249,7 +249,7 @@ public class Area implements SaveElement
      * Sets specified list as this area objects list
      * @param objects List with simple game objects for this area
      */
-    public void setObjects(List<SimpleGameObject> objects)
+    public void setObjects(List<TargetableObject> objects)
     {
     	this.objects = objects;
     }
@@ -303,7 +303,7 @@ public class Area implements SaveElement
 		areaE.appendChild(npcsE);
 		
 		Element objectsE = doc.createElement("objects");
-		for(SimpleGameObject object : objects)
+		for(TargetableObject object : objects)
 		{
 			objectsE.appendChild(object.getSave(doc));
 		}

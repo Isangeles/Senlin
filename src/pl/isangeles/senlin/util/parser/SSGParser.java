@@ -46,7 +46,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Inventory;
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.day.Day;
@@ -209,7 +209,7 @@ public final class SSGParser
         Scenario scenario = ScenariosBase.getScenario(scenarioE.getAttribute("id"));
         
         Node objectsNode = scenarioE.getElementsByTagName("objects").item(0);
-        List<SimpleGameObject> objects = getSavedObjects(objectsNode);
+        List<TargetableObject> objects = getSavedObjects(objectsNode);
         
         Node charactersNode = scenarioE.getElementsByTagName("characters").item(0);
         List<Character> npcs = getSavedNpcs(charactersNode, gc);
@@ -250,7 +250,7 @@ public final class SSGParser
                     List<Character> characters = getSavedNpcs(subCharactersNode, gc);
                     
                     Node subObjectsNode = areaE.getElementsByTagName("objects").item(0);
-                    List<SimpleGameObject> subObjects = getSavedObjects(subObjectsNode);
+                    List<TargetableObject> subObjects = getSavedObjects(subObjectsNode);
                     
                     targetArea.setCharacters(characters);
                     targetArea.setObjects(subObjects);
@@ -294,9 +294,9 @@ public final class SSGParser
      * @throws IOException
      * @throws FontFormatException
      */
-    private static List<SimpleGameObject> getSavedObjects(Node objectsNode) throws SlickException, IOException, FontFormatException
+    private static List<TargetableObject> getSavedObjects(Node objectsNode) throws SlickException, IOException, FontFormatException
     {
-        List<SimpleGameObject> objects = new ArrayList<>();
+        List<TargetableObject> objects = new ArrayList<>();
         Element objectsE = (Element)objectsNode;
         NodeList objectsList = objectsE.getElementsByTagName("object");
         for(int i = 0; i < objectsList.getLength(); i ++)
@@ -305,7 +305,7 @@ public final class SSGParser
             if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
                 Element objectE = (Element)objectNode;
-                SimpleGameObject object = ObjectsBase.get(objectE.getAttribute("id"));
+                TargetableObject object = ObjectsBase.get(objectE.getAttribute("id"));
                 object.setPosition(new Position(objectE.getAttribute("position")));
                 Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
                 if(eqE != null)

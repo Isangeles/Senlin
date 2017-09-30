@@ -1,5 +1,5 @@
 /*
- * Sprite.java
+ * Effective.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -22,39 +22,24 @@
  */
 package pl.isangeles.senlin.graphic;
 
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 /**
- * Class for simple textures
+ * Interface for graphical objects capable to handle animated effects
  * @author Isangeles
  *
  */
-public class Sprite extends GameObject 
+public interface Effective 
 {
-	public Sprite(InputStream is, String ref, boolean flipped) throws SlickException
-	{
-		super(is, ref, flipped);
-	}
-	
-	public Sprite(InputStream is, String ref, boolean flipped, String infoText, GameContainer gc) throws SlickException, IOException, FontFormatException
-	{
-		super(is, ref, flipped, infoText, gc);
-	}
-	
-	public Sprite(Image img) throws SlickException 
-	{
-		super(img);
-	}
-	
-	public Sprite(Image img, String infoText, GameContainer gc) throws SlickException, IOException, FontFormatException 
-	{
-		super(img, infoText, gc);
-	}
+	/**
+	 * Adds animated effect to object effects
+	 * @param effect Simple animation
+	 * @param loop True if animation should be looped, false if animation should be auto-removed after last animation frame
+	 * @return True if effect was successfully added, false otherwise
+	 */
+	public boolean addEffect(SimpleAnim effect, boolean loop);
+	/**
+	 * Removes specified animated effect from object effects list
+	 * @param effect Simple animation to remove
+	 * @return True if effect was successfully removed, false otherwise
+	 */
+	public boolean removeEffect(SimpleAnim effect);
 }

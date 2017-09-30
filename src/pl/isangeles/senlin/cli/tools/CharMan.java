@@ -192,11 +192,11 @@ public class CharMan implements CliTool
     		else if(prefix.equals("-g") || prefix.equals("-gold"))
     	        target.addGold(Integer.parseInt(value));
     		else if(prefix.equals("-h"))
-    		    target.addHealth(Integer.parseInt(value));
+    		    target.modHealth(Integer.parseInt(value));
     		else if(prefix.equals("-m"))
-        	    target.addMagicka(Integer.parseInt(value));
+        	    target.modMagicka(Integer.parseInt(value));
     		else if(prefix.equals("-e"))
-        	    target.addExperience(Integer.parseInt(value));
+        	    target.modExperience(Integer.parseInt(value));
     		else if(prefix.equals("-s") || prefix.equals("-skills"))
         		out = target.addSkill(SkillsBase.getSkill(target, value));
     		else if(prefix.equals("-p") || prefix.equals("-profession"))
@@ -245,17 +245,17 @@ public class CharMan implements CliTool
     	{
     		if(prefix.equals("-h"))
     		{
-    		    player.takeHealth(Integer.parseInt(value));
+    		    player.modHealth(-Integer.parseInt(value));
     		    out = true;
     		}
     		else if(prefix.equals("-m"))
         	{
-        	    player.takeMagicka(Integer.parseInt(value));
+        	    player.modMagicka(-Integer.parseInt(value));
         	    out = true;
         	}
     		else if(prefix.equals("-e"))
         	{
-        	    player.takeExperience(Integer.parseInt(value));
+        	    player.modExperience(-Integer.parseInt(value));
         	    out = true;
         	}
     		else

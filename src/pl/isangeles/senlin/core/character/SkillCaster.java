@@ -25,6 +25,7 @@ package pl.isangeles.senlin.core.character;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.util.Settings;
 
 /**
@@ -134,13 +135,8 @@ public class SkillCaster
 		skill.getCastSound().stop();
 		skill.getActivateSound().play(1.0f, Settings.getEffectsVol());
 		if(skill.getTarget() != null)
-		{
-			Targetable skillTarget = skill.getTarget();
-			if(Character.class.isInstance(skillTarget))
-			{
-				((Character)skillTarget).getAvatar().addEffect(skill.getActiveAnim(), false);
-			}
-		}
+			skill.getTarget().getGEffectsTarget().addEffect(skill.getActiveAnim(), false);
+		
 		skill.activate();
 	}
 }

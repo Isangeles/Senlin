@@ -197,7 +197,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public void update(GameContainer gc)
     {
-    	keyDown(gc.getInput());
+    	if(!gameConsole.isFocused())
+        	keyDown(gc.getInput());
     	
     	if(player.getTarget() != null)
     	{

@@ -39,8 +39,10 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.graphic.GameObject;
-import pl.isangeles.senlin.graphic.SimpleAnimObject;
+import pl.isangeles.senlin.graphic.ObjectAvatar;
+import pl.isangeles.senlin.graphic.SimpleAnim;
 import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.Position;
@@ -52,11 +54,12 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class SimpleGameObject implements Targetable, SaveElement, Voicing
+public class TargetableObject implements Targetable, SaveElement, Voicing
 {
 	private String id;
 	private String name;
-    private GameObject texture;
+	private Health hp = new Health(1, 1);
+    private ObjectAvatar avatar;
     private Sound voice;
     private Portrait portrait;
     private Position pos;
@@ -72,9 +75,9 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public SimpleGameObject(String id, SimpleAnimObject texture, Portrait portrait, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
-        this.texture = texture;
+        this.avatar = new ObjectAvatar(texture);
         this.portrait = portrait;
         this.id = id;
         this.onClick = onClick;
@@ -91,9 +94,9 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public SimpleGameObject(String id, Sprite texture, Portrait portrait, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, Sprite texture, Portrait portrait, Action onClick, int gold, List<Item> items)
     {
-    	this.texture = texture;
+    	this.avatar = new ObjectAvatar(texture);
     	this.portrait = portrait;
     	this.id = id;
         this.onClick = onClick;
@@ -102,7 +105,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
         inventory.addGold(gold);
     }
     /**
-     * Simple game object constructor with sound(with animated texture)
+     * Simple game object constructor (with sound and animated texture)
      * @param id Object ID
      * @param texture Simple animated texture
      * @param portrait Object portrait
@@ -111,7 +114,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public SimpleGameObject(String id, SimpleAnimObject texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
     {
     	this(id, texture, portrait, onClick, gold, items);
     	voice = sound;
@@ -126,7 +129,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public SimpleGameObject(String id, Sprite texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, Sprite texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
     {
     	this(id, texture, portrait, onClick, gold, items);
     	voice = sound;
@@ -134,13 +137,21 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     
     public void draw(float x, float y, boolean scaledPos)
     {
-        texture.draw(x, y, scaledPos);
+        avatar.draw(x, y, scaledPos);
     }
     
     public void draw(float size)
     {
-        texture.draw(size);
+        avatar.draw(size);
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#update(int)
+	 */
+	public void update(int delta) 
+	{
+		avatar.update(delta);
+		effects.update(delta);
+	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.audio.Voicing#playSound()
 	 */
@@ -159,7 +170,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     public void setPosition(Position pos)
     {
         this.pos = pos;
-        texture.setPosition(pos);
+        avatar.setPosition(pos);
     }
     
     public void startAction(Targetable user)
@@ -182,7 +193,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public Targetable getTarget()
     {
-        // TODO Auto-generated method stub
         return null;
     }
     public String getId()
@@ -222,8 +232,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getHealth()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return hp.getValue();
     }
 
     /* (non-Javadoc)
@@ -232,8 +241,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getMaxHealth()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return hp.getMax();
     }
 
     /* (non-Javadoc)
@@ -242,7 +250,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getMagicka()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -252,7 +259,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getMaxMagicka()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -262,7 +268,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getExperience()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -272,7 +277,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getMaxExperience()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -282,7 +286,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     @Override
     public int getLevel()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -294,44 +297,28 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
     {
         return pos.asTable();
     }
-
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#takeHealth(int)
+    /**
+     * Returns object avatar
+     * @return Object avatar
      */
-    @Override
-    public void takeHealth(int value)
+    public ObjectAvatar getAvatar()
     {
-        // TODO Auto-generated method stub
-        
+    	return avatar;
     }
-
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#takeMagicka(int)
-     */
-    @Override
-    public void takeMagicka(int value)
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#takeAttack(pl.isangeles.senlin.core.Targetable, int, java.util.List)
-     */
-    @Override
-    public void takeAttack(Targetable aggressor, Attack attack)
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getGEffectsTarget()
+	 */
+	@Override
+	public Effective getGEffectsTarget() 
+	{
+		return avatar;
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#isLive()
      */
     @Override
     public boolean isLive()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -339,20 +326,17 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 	 * @see pl.isangeles.senlin.core.Targetable#addHealth(int)
 	 */
 	@Override
-	public void addHealth(int value) 
+	public void modHealth(int value) 
 	{
-		// TODO Auto-generated method stub
-		
+		hp.modValue(value);
 	}
 
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#addMagicka(int)
 	 */
 	@Override
-	public void addMagicka(int value) 
+	public void modMagicka(int value) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -375,7 +359,7 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 	@Override
 	public boolean isMouseOver() 
 	{
-		return texture.isMouseOver();
+		return avatar.isMouseOver();
 	}
 
     /* (non-Javadoc)
@@ -444,20 +428,6 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 		return null;
 	}
     /* (non-Javadoc)
-     * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
-     */
-    @Override
-    public Element getSave(Document doc)
-    {
-        Element objectE = doc.createElement("object");
-        objectE.setAttribute("id", id);
-        objectE.setAttribute("position", pos.toString());
-        objectE.appendChild(inventory.getSaveWithoutEq(doc));
-        
-        return objectE;
-    }
-
-    /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#addBonus(pl.isangeles.senlin.core.bonus.Bonus)
      */
     @Override
@@ -486,7 +456,15 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
         // TODO Auto-generated method stub
         return false;
     }
-
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#takeAttack(pl.isangeles.senlin.core.Targetable, int, java.util.List)
+     */
+    @Override
+    public void takeAttack(Targetable aggressor, Attack attack)
+    {
+    	takeHealth(aggressor, attack.getDamage());
+    	effects.addAll(attack.getEffects());
+    }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
 	 */
@@ -495,6 +473,14 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#takeHealth(pl.isangeles.senlin.core.Targetable, int)
+	 */
+	@Override
+	public void takeHealth(Targetable source, int value) 
+	{
+		hp.modValue(-value);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takePassvie(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Passive)
@@ -507,42 +493,38 @@ public class SimpleGameObject implements Targetable, SaveElement, Voicing
 	}
 
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#decMaxHealth(int)
+	 * @see pl.isangeles.senlin.core.Targetable#modMaxHealth(int)
 	 */
 	@Override
-	public void decMaxHealth(int value) 
+	public void modMaxHealth(int value) 
 	{
-		// TODO Auto-generated method stub
-		
+		hp.modMax(value);
 	}
-
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#decMaxMagicka(int)
-	 */
-	@Override
-	public void decMaxMagicka(int value) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
-	 */
-	@Override
-	public void incMaxHealth(int value) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)
 	 */
 	@Override
-	public void incMaxMagicka(int value) 
-	{
-		// TODO Auto-generated method stub
-		
+	public void modMaxMagicka(int value) 
+	{	
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#modExperience(int)
+	 */
+	@Override
+	public void modExperience(int value) 
+	{
+	}
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
+     */
+    @Override
+    public Element getSave(Document doc)
+    {
+        Element objectE = doc.createElement("object");
+        objectE.setAttribute("id", id);
+        objectE.setAttribute("position", pos.toString());
+        objectE.appendChild(inventory.getSaveWithoutEq(doc));
+        
+        return objectE;
+    }
 }

@@ -48,8 +48,11 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Experience;
 import pl.isangeles.senlin.core.Flags;
+import pl.isangeles.senlin.core.Health;
 import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.Magicka;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.bonus.Bonus;
@@ -87,6 +90,7 @@ import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Avatar;
 import pl.isangeles.senlin.graphic.CharacterAvatar;
+import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.graphic.StaticAvatar;
 import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.states.Global;
@@ -108,12 +112,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Attitude attitude;
 	private Guild guild;
 	private int level;
-	private int experience;
-	private int maxExperience;
-	private int health;
-	private int maxHealth;
-	private int magicka;
-	private int maxMagicka;
+	private Experience exp = new Experience();
+	private Health hp = new Health();
+	private Magicka mana = new Magicka(); 
 	private int learnPoints;
 	private int[] position = {0, 0};
 	private int[] destPoint = {position[0], position[1]};
@@ -262,11 +263,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		level ++;
 		learnPoints ++;
-		maxHealth = attributes.addHealth();
-		health = maxHealth;
-		maxMagicka = attributes.addMagicka();
-		magicka = maxMagicka;
-		maxExperience = 1000 * level;
+		int maxHealth = attributes.addHealth();
+		hp = new Health(maxHealth, maxHealth);
+		int maxMagicka = attributes.addMagicka();
+		mana = new Magicka(maxMagicka, maxMagicka);
+		exp.setMax(1000 * level);
 	}
 	/**
 	 * Adds levels to character
@@ -279,20 +280,29 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			levelUp();
 		}
 	}
-	
+	/**
+	 * Sets specified value as current health value
+	 * @param value Value to set
+	 */
 	public void setHealth(int value)
 	{
-	    health = value;
+	    hp.setValue(value);
 	}
-	
+	/**
+	 * Sets specified value as current magicka value
+	 * @param value Value to set
+	 */
 	public void setMagicka(int value)
 	{
-	    magicka = value;
+	    mana.setValue(value);
 	}
-	
+	/**
+	 * Sets specified value as current experience value
+	 * @param value Value to set
+	 */
 	public void setExperience(int value)
 	{
-	    experience = value;
+	    exp.setValue(value);
 	}
 	/**
 	 * Sets specific portrait from portrait catalog to character 
@@ -538,7 +548,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public CharacterOut update(int delta)
 	{
 	    CharacterOut out = CharacterOut.SUCCESS;
-	    if(health < 0)
+	    if(hp.getValue() < 0)
 	    	live = false;
 		if(!live)
 		{
@@ -599,7 +609,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    
 	    abilities.update(delta);
 		avatar.update(delta);
-		effects.update(delta, this);
+		effects.update(delta);
 		flags.update(quests);
 		quests.update();
 		if(isCasting())
@@ -732,26 +742,26 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{ return level; }
 	
 	public int getExperience()
-	{ return experience; }
+	{ return exp.getValue(); }
 	
 	public int getMaxExperience()
-	{ return maxExperience; }
+	{ return exp.getMax(); }
 	/**
      * Returns current amount of health points
      */
 	public int getHealth()
-	{ return health; }
+	{ return hp.getValue(); }
 	
 	public int getMaxHealth()
-	{ return maxHealth; }
+	{ return hp.getMax(); }
 	/**
 	 * Returns current amount of magicka points
 	 */
 	public int getMagicka()
-	{ return magicka; }
+	{ return mana.getValue(); }
 	
 	public int getMaxMagicka()
-	{ return maxMagicka; }
+	{ return mana.getMax(); }
 	
 	public Attributes getAttributes()
 	{
@@ -972,6 +982,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public CharacterAvatar getAvatar()
 	{ return avatar; }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getGEffectsTarget()
+	 */
+	@Override
+	public Effective getGEffectsTarget() 
+	{
+		return avatar;
+	}
 	/**
 	 * Returns character abilities list  
 	 * @return Abilities list
@@ -1024,82 +1042,25 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{ return attributes.getDodge() * 100f; }
 	/**
 	 * Subtract specified value from character health value 
-	 * @param value Value to subtract
-	 */
-	public void takeHealth(int value)
-	{
-		health -= value;
-		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
-		/* NOW THIS IS CHECKED IN UPDATE
-		if(health <= 0)
-		{
-			live = false;
-			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
-		}
-		*/
-	}
-	/**
-	 * Subtract specified value from character health value 
 	 * @param who Aggressor
 	 * @param value Value to subtract
 	 */
 	public void takeHealth(Targetable who, int value)
 	{
-		health -= value;
+		hp.modValue(-value);
 		Log.loseInfo(name, value, TConnector.getText("ui", "hpName"));
-		if(health <= 0)
+		if(hp.getValue() <= 0)
 		{
 			live = false;
 			Log.addInformation(name + " " + TConnector.getText("ui", "logKilled"));
 			if(Character.class.isInstance(who))
 			{
 				Character ch = (Character)who;
-				ch.addExperience(level * 100);
+				ch.modExperience(level * 100);
 				ch.getQTracker().check(this);
 			}
 		}
 	}
-	/**
-	 * Subtract specified value from character magicka value 
-	 * @param value Value to subtract
-	 */
-	public void takeMagicka(int value)
-	{
-		magicka -= value;
-		Log.loseInfo(name, value, TConnector.getText("ui", "manaName"));
-		if(magicka < 0)
-			magicka = 0;
-	}
-	/**
-	 * Subtract specified value from character experience value
-	 * @param value Value to subtract
-	 */
-	public void takeExperience(int value)
-	{
-		experience -= value;
-		Log.loseInfo(name, value, TConnector.getText("ui", "expName"));
-		if(experience < 0)
-			experience = 0;
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#decMaxHealth(int)
-	 */
-	public void decMaxHealth(int value)
-	{
-		maxHealth -= value;
-		if(health > maxHealth)
-			health = maxHealth;
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#decMaxMagicka(int)
-	 */
-	public void decMaxMagicka(int value)
-	{
-		maxMagicka -= value;
-		if(magicka > maxMagicka)
-			magicka = maxMagicka;
-	}
-	
 	public void takeLearnPoints(int value)
 	{
 		learnPoints -= value;
@@ -1156,47 +1117,50 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * Adds specified value to character health points
 	 * @param value Value to add
 	 */
-	public void addHealth(int value)
+	public void modHealth(int value)
 	{
-		health += value;
+		hp.modValue(value);
 		Log.gainInfo(name, value, TConnector.getText("ui", "hpName"));
-		if(health > maxHealth)
-			health = maxHealth;
+		if(hp.getValue() > hp.getMax())
+			hp.setValue(hp.getMax());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
 	 */
-	public void incMaxHealth(int value)
+	public void modMaxHealth(int value)
 	{
-		maxHealth += value;
+		hp.modValue(value);
 	}
 	/**
 	 * Adds specified value to character magicka points
 	 * @param value Value to add
 	 */
-	public void addMagicka(int value)
+	@Override
+	public void modMagicka(int value)
 	{
-		magicka += value;
+		mana.modValue(value);
 		Log.gainInfo(name, value, TConnector.getText("ui", "manaName"));
-		if(magicka > maxMagicka)
-			magicka = maxMagicka;
+		if(mana.getValue() > mana.getMax())
+			mana.setValue(mana.getMax());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)
 	 */
-	public void incMaxMagicka(int value)
+	@Override
+	public void modMaxMagicka(int value)
 	{
-		maxMagicka += value;
+		mana.modValue(value);
 	}
 	/**
 	 * Adds specified value to character experience points
 	 * @param value Value to add
 	 */
-	public void addExperience(int value)
+	@Override
+	public void modExperience(int value)
 	{
-		experience += value;
+		exp.modValue(value);
 		Log.gainInfo(name, value, TConnector.getText("ui", "expName"));
-		if(experience >= maxExperience)
+		if(exp.isMax())
 			levelUp();
 	}
 	/**
@@ -1293,18 +1257,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public boolean hasBonus(Bonus bonus)
     {
     	return bonuses.contains(bonus);
-    }
-    
-    public void modHealth(int value)
-    {
-    	maxHealth += value;
-    	
-    	Log.addInformation(name + ": " + value + " " + TConnector.getText("ui", "hpName"));
-    }
-    
-    public void modMagicka(int value)
-    {
-    	maxMagicka += value;
     }
     
     public void modAttributes(Attributes attributes)
@@ -1519,9 +1471,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         Element manaE = doc.createElement("mana");
         Element expE = doc.createElement("exp");
         Element lpE = doc.createElement("lp");
-        hpE.setTextContent(health+"");
-        manaE.setTextContent(magicka+"");
-        expE.setTextContent(experience+"");
+        hpE.setTextContent(hp.getValue()+"");
+        manaE.setTextContent(mana.getValue()+"");
+        expE.setTextContent(exp.getValue()+"");
         lpE.setTextContent(learnPoints+"");
         pointsE.appendChild(hpE);
         pointsE.appendChild(manaE);

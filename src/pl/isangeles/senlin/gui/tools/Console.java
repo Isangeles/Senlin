@@ -152,6 +152,14 @@ final class Console extends TextInput implements UiElement
     {
         return hide;
     }
+    /**
+     * Checks if console is focused
+     * @return True if console is focused, false otherwise
+     */
+    public boolean isFocused()
+    {
+    	return textField.hasFocus();
+    }
 	@Override
 	public void draw(float x, float y)
 	{

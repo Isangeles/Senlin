@@ -45,7 +45,7 @@ import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Chapter;
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.day.Day;
@@ -191,7 +191,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             else if(Settings.getMapRenderType().equals("light"))
                 renderLightMap(area.getMap(), g);
             
-            for(SimpleGameObject object : area.getObjects())
+            for(TargetableObject object : area.getObjects())
             {
                 if(player.isNearby(object))
                 {
@@ -247,6 +247,11 @@ public class GameWorld extends BasicGameState implements SaveElement
             
             npcsAi.update(delta);
             combat = npcsAi.isAttacked(player);
+            
+            for(TargetableObject object : area.getObjects())
+            {
+            	object.update(delta);
+            }
             
             if(changeScenarioReq)
                 changeScenario(container, game);
@@ -364,7 +369,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     				}
     			}
     			
-    			for(SimpleGameObject object : area.getObjects())
+    			for(TargetableObject object : area.getObjects())
     			{
     			    if(object.isMouseOver())
     			    {

@@ -34,7 +34,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.graphic.GameObject;
 import pl.isangeles.senlin.graphic.Sprite;
@@ -62,7 +62,7 @@ public class ObjectsBase
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public static SimpleGameObject get(String objectId) throws SlickException, IOException, FontFormatException
+	public static TargetableObject get(String objectId) throws SlickException, IOException, FontFormatException
 	{
 		return objectsMap.get(objectId).make(gc);
 	}

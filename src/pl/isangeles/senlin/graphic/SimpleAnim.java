@@ -1,5 +1,5 @@
 /*
- * SimpleAnimObject.java
+ * SimpleAnim.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -40,7 +40,7 @@ import pl.isangeles.senlin.util.Coords;
  * @author Isangeles
  *
  */
-public class SimpleAnimObject extends GameObject 
+public class SimpleAnim extends GameObject 
 {
 	private Animation anim;
 	private MouseOverArea objectMOA;
@@ -58,7 +58,7 @@ public class SimpleAnimObject extends GameObject
 	 * @throws FontFormatException 
 	 * @throws IOException 
 	 */
-	public SimpleAnimObject(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames, String info, GameContainer gc) 
+	public SimpleAnim(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames, String info, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(is, ref, flipped);
@@ -100,7 +100,7 @@ public class SimpleAnimObject extends GameObject
 	 * @throws FontFormatException 
 	 * @throws IOException 
 	 */
-	public SimpleAnimObject(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames, GameContainer gc)
+	public SimpleAnim(InputStream is, String ref, boolean flipped, int frameWidth, int frameHeight, int nOfFrames, GameContainer gc)
 			throws SlickException 
 	{
 		super(is, ref, flipped);

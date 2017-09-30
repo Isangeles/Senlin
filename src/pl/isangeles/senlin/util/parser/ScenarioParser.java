@@ -46,7 +46,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.Module;
-import pl.isangeles.senlin.core.SimpleGameObject;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
@@ -169,7 +169,7 @@ public class ScenarioParser
 		List<Character> npcs = getNpcsFromNode(npcsNode);
 		
 		Node objectsNode = areaE.getElementsByTagName("objects").item(0);
-		List<SimpleGameObject> objects = getObjectsFromNode(objectsNode);
+		List<TargetableObject> objects = getObjectsFromNode(objectsNode);
 		
 		Node exitsNode = areaE.getElementsByTagName("exits").item(0);
 		List<Exit> exits = getExitsFromNode(exitsNode, gc);
@@ -220,9 +220,9 @@ public class ScenarioParser
 	 * @param objectsNode XML document node, objects node
 	 * @return List with simple game objects from specified node
 	 */
-	private static List<SimpleGameObject> getObjectsFromNode(Node objectsNode)
+	private static List<TargetableObject> getObjectsFromNode(Node objectsNode)
 	{
-		List<SimpleGameObject> objects = new ArrayList<>();
+		List<TargetableObject> objects = new ArrayList<>();
 		NodeList objectsNl = objectsNode.getChildNodes();
 		for(int j = 0; j < objectsNl.getLength(); j ++)
 		{
@@ -235,7 +235,7 @@ public class ScenarioParser
 					Element objectE = (Element)objectNode;
 					String objectId = objectE.getTextContent();
 					Position objectPos = new Position(objectE.getAttribute("position"));
-					SimpleGameObject object = ObjectsBase.get(objectId);
+					TargetableObject object = ObjectsBase.get(objectId);
 					object.setPosition(objectPos);
 					objects.add(object);
 				}

@@ -52,7 +52,7 @@ import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
-import pl.isangeles.senlin.graphic.SimpleAnimObject;
+import pl.isangeles.senlin.graphic.SimpleAnim;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.SkillTile;
 
@@ -79,8 +79,8 @@ public abstract class Skill implements SlotContent, SaveElement
     protected List<String> effects;
 	protected Sound castSound;
 	protected Sound activateSound;
-	protected SimpleAnimObject castAnim;
-	protected SimpleAnimObject activeAnim;
+	protected SimpleAnim castAnim;
+	protected SimpleAnim activeAnim;
     private int castTime;
     private int timer;
  	private String imgName;
@@ -234,7 +234,7 @@ public abstract class Skill implements SlotContent, SaveElement
 	 * Returns casting animation
 	 * @return Simple animated object
 	 */
-	public SimpleAnimObject getCastAnim()
+	public SimpleAnim getCastAnim()
 	{
 		return castAnim;
 	}
@@ -242,7 +242,7 @@ public abstract class Skill implements SlotContent, SaveElement
 	 * Returns activation animation
 	 * @return Simple animated object
 	 */
-	public SimpleAnimObject getActiveAnim()
+	public SimpleAnim getActiveAnim()
 	{
 		return activeAnim;
 	}
@@ -389,8 +389,8 @@ public abstract class Skill implements SlotContent, SaveElement
 		switch(type)
 		{
 		case FIRE:
-			castAnim = new SimpleAnimObject(GConnector.getInput("effect/fireSpellCast.png"), "fireSpellC.png", false, 70, 70, 3, gc);
-			activeAnim = new SimpleAnimObject(GConnector.getInput("effect/fireSpellActive.png"), "fireSpellA.png", false, 70, 70, 3, gc);
+			castAnim = new SimpleAnim(GConnector.getInput("effect/fireSpellCast.png"), "fireSpellC.png", false, 70, 70, 3, gc);
+			activeAnim = new SimpleAnim(GConnector.getInput("effect/fireSpellActive.png"), "fireSpellA.png", false, 70, 70, 3, gc);
 			break;
 		default:
 			castAnim = null;

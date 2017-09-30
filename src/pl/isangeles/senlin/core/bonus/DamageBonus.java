@@ -43,7 +43,7 @@ public class DamageBonus extends Bonus
 	 */
 	public DamageBonus(int dmgValue, WeaponType weaponType)
 	{
-		super(BonusType.DAMAGE, TConnector.getText("ui", "bonDamage") + ":" + dmgValue + "(" + weaponType.getName() + ")");
+		super(BonusType.DAMAGE, TConnector.getText("ui", "bonDmg") + ":" + dmgValue + "(" + weaponType.getName() + ")");
 		
 		dmgBonus = dmgValue;
 		this.weaponType = weaponType;

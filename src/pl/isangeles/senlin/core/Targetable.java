@@ -29,6 +29,7 @@ import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
+import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.gui.Portrait;
 
 /**
@@ -57,6 +58,11 @@ public interface Targetable extends ObjectiveTarget
 	public Effects getEffects();
 	public Inventory getInventory();
 	public Attributes getAttributes();
+	/**
+	 * Returns target for graphical effects
+	 * @return Graphical object able to handle graphical effects
+	 */
+	public Effective getGEffectsTarget();
 	public int getHealth();
 	public int getMaxHealth();
 	public int getMagicka();
@@ -66,18 +72,7 @@ public interface Targetable extends ObjectiveTarget
 	public int getLevel();
 	public int[] getPosition();
 	
-	public void takeHealth(int value);
-	public void takeMagicka(int value);
-	/**
-	 * Decreases maximal amount of health points by specified value
-	 * @param value Value to remove
-	 */
-	public void decMaxHealth(int value);
-	/**
-	 * Decreases maximal amount of magicka points by specified value
-	 * @param value Value to remove
-	 */
-	public void decMaxMagicka(int value);
+	public void takeHealth(Targetable source, int value);
 	/**
 	 * Handles attacks
 	 * @param aggressor Aggressor
@@ -97,18 +92,19 @@ public interface Targetable extends ObjectiveTarget
 	 */
 	public void takePassvie(Targetable passSource, Passive passive);
 	
-	public void addHealth(int value);
-	public void addMagicka(int value);
+	public void modHealth(int value);
+	public void modMagicka(int value);
+	public void modExperience(int value);
 	/**
-	 * Increases maximal amount of health points by specified value
-	 * @param value Value to add
+	 * Mods maximal amount of health points by specified value
+	 * @param value Value to add(negative value to subtract)
 	 */
-	public void incMaxHealth(int value);
+	public void modMaxHealth(int value);
 	/**
-	 * Increases maximal amount of magicka points by specified value
-	 * @param value Value to add
+	 * Modifies maximal amount of magicka points by specified value
+	 * @param value Value to add(negative value to subtract)
 	 */
-	public void incMaxMagicka(int value);
+	public void modMaxMagicka(int value);
 	/**
 	 * Starts looting action on specified target
 	 * @param target Targetable object to loot

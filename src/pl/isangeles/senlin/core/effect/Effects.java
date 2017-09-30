@@ -105,7 +105,7 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	 * @param delta Time (in milliseconds) from last update
 	 * @param character Container owner
 	 */
-	public void update(int delta, Character character)
+	public void update(int delta)
 	{
 		List<Effect> effectsToRemove = new ArrayList<>();
 		for(Effect effect : this)
@@ -113,7 +113,7 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 			if(effect.isOn())
 			{
 				effect.updateTime(delta);
-				effect.affect(character);
+				effect.affect(owner);
 			}
 			else
 			{
