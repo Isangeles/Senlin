@@ -73,7 +73,7 @@ public class Abilities extends LinkedList<Skill>
 				}
 				else
 				{
-					owner.getEffects().removeAll(skill.getEffects());
+					owner.getEffects().removeAllFrom(skill);
 				}
 			}
 			

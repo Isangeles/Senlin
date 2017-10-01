@@ -61,8 +61,8 @@ public class SkillTraining extends Training
     {
         this.skillId = skillId;
         trainReq = SkillsBase.getPattern(skillId).getRequirements();
-        name = TConnector.getInfo("skills", skillId)[0];
-        info = name + " " + TConnector.getInfo("skills", skillId)[1];
+        name = TConnector.getInfoFromModule("skills", skillId)[0];
+        info = name + " " + TConnector.getInfoFromModule("skills", skillId)[1];
         for(Requirement req : trainReq)
         {
         	info += System.lineSeparator() + req.getInfo();

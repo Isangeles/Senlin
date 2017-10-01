@@ -24,20 +24,24 @@ package pl.isangeles.senlin.core.skill;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for passive skills
+ * TODO switch passives do not work(Its some f* nightmare!)
  * @author Isangeles
  *
  */
@@ -63,9 +67,10 @@ public class Passive extends Skill
 	{
 		super(character, id, imgName, type, reqs, 0, 0, effects);
 		passType = skillType;
+		target = owner;
 		if(passType == PassiveType.ALWEYSON) 
 		{
-			target = owner;
+			active = true;
 			activate();
 		}
 		setTile(gc);
@@ -73,6 +78,12 @@ public class Passive extends Skill
 		setSoundEffect();
 	}
 
+	@Override
+	public void update(int delta)
+	{
+		tile.setActive(ready);
+	}
+	
 	@Override
 	protected String getInfo() 
 	{
@@ -90,11 +101,6 @@ public class Passive extends Skill
 	{
 		if(active)
 		{
-			deactivate();
-		}
-		else
-		{
-			active = true;
 			target.takePassvie(owner, this);
 		}
 	}
@@ -104,23 +110,7 @@ public class Passive extends Skill
 	@Override
 	public CharacterOut prepare(Character user, Targetable target) 
 	{
-		if(user == target)
-		{
-			if(passType == PassiveType.SWITCH)
-			{
-				if(active)
-				{
-					active = false;
-				}
-				else
-				{
-					active = true;
-				}
-			}
-			return CharacterOut.SUCCESS;
-		}
-		else
-			return CharacterOut.UNABLE;
+		return CharacterOut.SUCCESS;
 	}
 	
 	public void deactivate()

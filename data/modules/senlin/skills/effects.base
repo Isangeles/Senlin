@@ -27,7 +27,7 @@
             <damageBonus type="sword">10</damageBonus>
         </modifiers>
     </effect>     
-    <effect id="undetect01" duration="always" type="normal" icon="undetect.png">
+    <effect id="undetect01" duration="10" type="normal" icon="undetect.png">
         <modifiers>
             <undetectBonus>1</undetectBonus>
         </modifiers>

@@ -12,18 +12,5 @@
             <pointsReq>1</pointsReq>
         </trainReq>
     </skill>
-    <skill id="stealth01" type="switch">
-        <icon>stealth.png</icon>
-        <effects>
-            <effect>undetect01</effect>
-        </effects>
-        <useReq>
-        </useReq>
-        <trainReq>
-            <goldReq>500</goldReq>
-            <statsReq>0;0;4;0;2;</statsReq>
-            <pointsReq>1</pointsReq>
-        </trainReq>
-    </skill>
 </base>
 

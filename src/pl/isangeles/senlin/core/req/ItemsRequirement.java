@@ -106,7 +106,7 @@ public class ItemsRequirement extends Requirement
 		
 		for(String itemId : reqItems.keySet())
 		{
-			String itemName = TConnector.getInfo("items", itemId)[0];
+			String itemName = TConnector.getInfoFromModule("items", itemId)[0];
 			String amount = "" + reqItems.get(itemId);
 			reqInfo = TConnector.getText("ui", "reqName") + ": " + itemName + " " + amount;
 		}

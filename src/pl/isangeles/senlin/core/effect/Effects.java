@@ -43,6 +43,7 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	private static final long serialVersionUID = 1L;
 
 	private Targetable owner;
+	List<Effect> effectsToRemove = new ArrayList<>();
 	/**
 	 * Effects container constructor
 	 * @param owner owner of this container
@@ -101,13 +102,28 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 		return ok;
 	}
 	/**
+	 * Removes all active effects from specified source
+	 * @param effectsIds 
+	 * @param source
+	 */
+	public void removeAllFrom(EffectSource source)
+	{
+		if(source != null)
+		{
+			for(Effect effect : this)
+			{
+				if(effect.getSource() == source)
+					effectsToRemove.add(effect);
+			}
+		}
+	}
+	/**
 	 * Updates all effects in container
 	 * @param delta Time (in milliseconds) from last update
 	 * @param character Container owner
 	 */
 	public void update(int delta)
 	{
-		List<Effect> effectsToRemove = new ArrayList<>();
 		for(Effect effect : this)
 		{
 			if(effect.isOn())

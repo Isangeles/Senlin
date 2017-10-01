@@ -44,6 +44,7 @@ import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.ManaRequirement;
@@ -62,7 +63,7 @@ import pl.isangeles.senlin.gui.tools.SkillTile;
  * @author Isangeles
  *
  */
-public abstract class Skill implements SlotContent, SaveElement
+public abstract class Skill implements SlotContent, SaveElement, EffectSource
 {
 	private static int skillCounter = 0;
 	private int serial = skillCounter ++;
@@ -86,7 +87,7 @@ public abstract class Skill implements SlotContent, SaveElement
     private int castTime;
     private int timer;
  	private String imgName;
-	private SkillTile tile;
+	protected SkillTile tile;
 	protected Random rng = new Random();
 	/**
 	 * Skill constructor
@@ -166,7 +167,7 @@ public abstract class Skill implements SlotContent, SaveElement
 	 * Activates or deactivates this skill
 	 * @param active True to activate, false to deactivate
 	 */
-	public void setActive(boolean active)
+	private void setActive(boolean active)
 	{
 		this.active = active;
 	}
@@ -283,7 +284,7 @@ public abstract class Skill implements SlotContent, SaveElement
         {
 	        for(String effectId : effects)
 	        {
-	        	effectsToPass.add(EffectsBase.getEffect(owner, effectId));
+	        	effectsToPass.add(EffectsBase.getEffect(this, effectId));
 	        }
         }
         return effectsToPass;

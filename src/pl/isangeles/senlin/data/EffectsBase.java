@@ -37,6 +37,8 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 import pl.isangeles.senlin.util.DConnector;
 /**
@@ -62,7 +64,7 @@ public class EffectsBase
 	 * @param id Effect ID
 	 * @return New instance of effect with specified ID
 	 */
-	public static Effect getEffect(Targetable source, String id)
+	public static Effect getEffect(EffectSource source, String id)
 	{
 	    if(effectsMap.get(id) != null)
 	    {

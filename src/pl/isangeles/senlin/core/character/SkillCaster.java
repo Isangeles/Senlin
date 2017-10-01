@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core.character;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.util.Settings;
@@ -53,11 +54,13 @@ public class SkillCaster
 	 */
 	public void update(int delta)
 	{
-		time += delta;
-		if(skillToCast != null && time >= skillToCast.getCastTime())
+		if(casting)
 		{
-			activateSkill(skillToCast);
-			reset();
+			time += delta;
+			if(skillToCast != null && time >= skillToCast.getCastTime())
+			{
+				activateSkill(skillToCast);
+			}
 		}
 	}
 	/**
@@ -67,14 +70,17 @@ public class SkillCaster
 	public void cast(Skill skill)
 	{
 		reset();
-		if(skill.isInstant())
-		{
-			activateSkill(skill);
-		}
-		else
-		{
-			startCast(skill);
-		}
+		//if(!skill.isActive())
+		//{
+			if(skill.isInstant())
+			{
+				activateSkill(skill);
+			}
+			else
+			{
+				startCast(skill);
+			}
+		//}
 	}
 	/**
 	 * Resets caster
@@ -165,7 +171,8 @@ public class SkillCaster
 		skill.getActivateSound().play(1.0f, Settings.getEffectsVol());
 		if(skill.getTarget() != null)
 			skill.getTarget().getGEffectsTarget().addEffect(skill.getActiveAnim(), false);
-		
+
 		skill.activate();
+		reset();
 	}
 }

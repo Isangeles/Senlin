@@ -33,7 +33,9 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
+import pl.isangeles.senlin.core.skill.Skill;
 /**
  * Pattern for creating effects
  * @author Isangeles
@@ -91,7 +93,7 @@ public class EffectPattern
      * @throws IOException
      * @throws FontFormatException
      */
-    public Effect make(Targetable source, GameContainer gc) throws SlickException, IOException, FontFormatException
+    public Effect make(EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         return new Effect(id, imgName, bonuses, dot, duration, type, source, gc);
     }

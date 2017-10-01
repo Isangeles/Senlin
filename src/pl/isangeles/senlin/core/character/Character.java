@@ -612,8 +612,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		effects.update(delta);
 		flags.update(quests);
 		quests.update();
-		if(isCasting())
-			sCaster.update(delta);
+		sCaster.update(delta);
 		
 		return out;
 	}
@@ -1271,7 +1270,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public CharacterOut useSkill(Skill skill)
     {
-		if(live && abilities.contains(skill) && skill.prepare(this, target).isSuccess())
+    	CharacterOut out = skill.prepare(this, target);
+		if(live && abilities.contains(skill) && out.isSuccess())
     	{
     	    sCaster.cast(skill);
     	    return CharacterOut.SUCCESS;
@@ -1284,25 +1284,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * @param skill Some skill known by this character
      * @param target Skill target
      */
-    public CharacterOut useSkillOn(Targetable target, Skill skill)
+    private CharacterOut useSkillOn(Targetable target, Skill skill)
     {
-    	if(live && abilities.contains(skill) && skill.prepare(this, target).isSuccess())
+    	CharacterOut out = skill.prepare(this, target);
+    	if(live && abilities.contains(skill) && out.isSuccess())
     	{
-    	    if(Attack.class.isInstance(skill))
-    	    {
-    	    	sCaster.cast(skill);
-                return CharacterOut.SUCCESS;
-    	    }
-    	    else if(Buff.class.isInstance(skill))
-    	    {
-    	    	Buff buff = (Buff)skill;
-    	    	sCaster.cast(buff);
-    	    	return CharacterOut.SUCCESS;
-    	    }
-    	    else
-    	    {
-                return CharacterOut.UNKNOWN;
-    	    }
+    		sCaster.cast(skill);
+    	    return CharacterOut.SUCCESS;
     	}
     	else
             return CharacterOut.UNABLE;

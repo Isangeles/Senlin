@@ -22,8 +22,13 @@
  */
 package pl.isangeles.senlin.core.action;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.EffectsBase;
 
@@ -32,10 +37,12 @@ import pl.isangeles.senlin.data.EffectsBase;
  * @author Isangeles
  *
  */
-public class EffectAction extends Action
+public class EffectAction extends Action implements EffectSource
 {
     private String effectId;
-
+    /**
+     * Default effect action constructor(action from this constructor do nothing)
+     */
     public EffectAction()
     {
         super();
@@ -54,7 +61,6 @@ public class EffectAction extends Action
         
         effectId = effectOnActionId;
     }
-    
     /**
      * Starts action
      * @param user Action user
@@ -67,13 +73,47 @@ public class EffectAction extends Action
         switch(type)
         {
         case EFFECTUSER:
-        	user.getEffects().add(EffectsBase.getEffect(user, effectId));
+        	user.getEffects().addAll(getEffects());
             return true;
         case EFFECTTARGET:
-        	target.getEffects().add(EffectsBase.getEffect(user, effectId));
+        	target.getEffects().addAll(getEffects());
             return true;
         default:
             return true;
         }
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getId()
+	 */
+	@Override
+	public String getId() 
+	{
+		return "effectAction";
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getSerialId()
+	 */
+	@Override
+	public String getSerialId() 
+	{
+		return "effectAction";
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getOwner()
+	 */
+	@Override
+	public Targetable getOwner() 
+	{
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffects()
+	 */
+	@Override
+	public Collection<Effect> getEffects()
+	{
+		List<Effect> effects = new ArrayList<>();
+		effects.add(EffectsBase.getEffect(this, effectId));
+		return effects;
+	}
 }

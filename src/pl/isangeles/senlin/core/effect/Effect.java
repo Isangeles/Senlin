@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.tools.EffectTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -61,7 +62,7 @@ public class Effect implements SaveElement
 	private boolean on;
 	private boolean alwaysOn;
 	private EffectTile tile;
-	private Targetable source;
+	private EffectSource source;
 	/**
 	 * Effect constructor
 	 * @param id Effect ID
@@ -80,7 +81,7 @@ public class Effect implements SaveElement
 	 * @throws IOException 
 	 * @throws SlickException 
 	 */
-	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, Targetable source, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
@@ -104,7 +105,7 @@ public class Effect implements SaveElement
 		if(dotActive)
 		{
 			if(source != null)
-				target.takeHealth(source, -dot);
+				target.takeHealth(source.getOwner(), -dot);
 			else
 				target.modHealth(dot);
 			dotActive = false;
@@ -202,6 +203,25 @@ public class Effect implements SaveElement
 	public String getId()
 	{
 		return id;
+	}
+	/**
+	 * Returns string with effect ID and source ID
+	 * @return String with effect and source IDs
+	 */
+	public String getSourceId()
+	{
+		if(source != null)
+			return id + "_" + source.getSerialId();
+		else
+			return id + "_null"; 
+	}
+	/**
+	 * Returns source of this effect(may return NULl)
+	 * @return Effect source
+	 */
+	public EffectSource getSource()
+	{
+		return source;
 	}
 	/**
 	 * Returns effect info

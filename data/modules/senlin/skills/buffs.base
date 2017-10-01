@@ -13,6 +13,23 @@
         <trainReq>
             <goldReq>100</goldReq>
             <statsReq>4;3;0;0;0;</statsReq>
+            <pointsReq>1</pointsReq>
+        </trainReq>
+    </skill>
+    <skill id="stealth01" type="on user">
+        <icon>stealth.png</icon>
+        <range>0</range>
+        <cast>0</cast>
+        <cooldown>20</cooldown>
+        <effects>
+            <effect>undetect01</effect>
+        </effects>
+        <useReq>
+        </useReq>
+        <trainReq>
+            <goldReq>500</goldReq>
+            <statsReq>0;0;4;0;2;</statsReq>
+            <pointsReq>1</pointsReq>
         </trainReq>
     </skill>
 </base>
