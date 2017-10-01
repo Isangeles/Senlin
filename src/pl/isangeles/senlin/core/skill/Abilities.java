@@ -136,6 +136,27 @@ public class Abilities extends LinkedList<Skill>
 		return false;
 	}
 	/**
+	 * Checks if skill with specified ID is known
+	 * @param skillId Skill ID
+	 * @return True if skill with such ID is known, false otherwise
+	 */
+	public boolean isKnown(String skillId)
+	{
+		for(Skill skill : this)
+		{
+			if(skill.getId().equals(skillId))
+				return true;
+		}
+		return false;
+	}
+	/**
+	 * Resets abilities
+	 */
+	public void reset()
+	{
+		owner.getEffects().removeAllFrom(null);
+	}
+	/**
 	 * Parses all skills to XML document element
 	 * @param doc Document for game save file
 	 * @return XML document element

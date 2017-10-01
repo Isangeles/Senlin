@@ -65,6 +65,7 @@ import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
@@ -1258,6 +1259,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public boolean hasBonus(Bonus bonus)
     {
     	return bonuses.contains(bonus);
+    }
+    
+    public EffectSource getEffectSource(String sourceId)
+    {
+    	return abilities.get(sourceId);
     }
     
     public void modAttributes(Attributes attributes)

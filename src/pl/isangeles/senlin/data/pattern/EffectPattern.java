@@ -97,4 +97,19 @@ public class EffectPattern
     {
         return new Effect(id, imgName, bonuses, dot, duration, type, source, gc);
     }
+
+    /**
+     * Builds new effect object from this pattern(with saved source)
+     * @param gc Slick game container
+     * @param savedSourceOwner Saved source owner serial ID
+     * @param savedSource Saved source ID
+     * @return New effect object
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    public Effect make(String savedSourceOwner, String savedSource, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+        return new Effect(id, imgName, bonuses, dot, duration, type, savedSourceOwner, savedSource, gc);
+    }
 }

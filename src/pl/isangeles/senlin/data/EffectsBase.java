@@ -85,6 +85,33 @@ public class EffectsBase
 	    }
 	}
 	/**
+	 * Returns new instance of effect with specified ID and source to restore
+	 * @param sourceOwnerId Saved source owner serial ID
+	 * @param sourceId Saved source ID
+	 * @param id Effect ID
+	 * @return New instance of effect with specified ID
+	 */
+	public static Effect getEffect(String sourceOwnerId, String sourceId, String id)
+	{
+	    if(effectsMap.get(id) != null)
+	    {
+	        try 
+	        {
+				return effectsMap.get(id).make(sourceOwnerId, sourceId, gc);
+			} 
+	        catch (SlickException | IOException | FontFormatException e) 
+	        {
+	        	Log.addSystem("effects_base_get-fail msg///effect building from pattern fail: " + id);
+	            return null;
+			}
+	    }
+	    else
+	    {
+	        Log.addSystem("effects_base_get-fail msg///no such effect: " + id);
+            return null;
+	    }
+	}
+	/**
 	 * Returns pattern for effect with specified ID
 	 * @param id Effect ID
 	 * @return Effect pattern

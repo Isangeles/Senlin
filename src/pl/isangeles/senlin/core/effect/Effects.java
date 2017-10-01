@@ -57,6 +57,13 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	public boolean add(Effect effect)
 	{
 		effect.turnOn(owner);
+		Log.addSystem("adding effect:" + effect.getId());
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return super.add(effect);
 	}
 	
@@ -108,13 +115,10 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	 */
 	public void removeAllFrom(EffectSource source)
 	{
-		if(source != null)
+		for(Effect effect : this)
 		{
-			for(Effect effect : this)
-			{
-				if(effect.getSource() == source)
-					effectsToRemove.add(effect);
-			}
+			if(effect.getSource() == source)
+				effectsToRemove.add(effect);
 		}
 	}
 	/**
@@ -136,7 +140,21 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 				effectsToRemove.add(effect);
 			}
 		}
+		for(Effect effect : effectsToRemove)
+		{
+			effect.removeFrom(owner);
+		}
 		this.removeAll(effectsToRemove);
+	}
+	
+	@Override
+	public void clear()
+	{
+		for(Effect effect : this)
+		{
+			effect.removeFrom(owner);
+		}
+		super.clear();
 	}
 	/**
 	 * Checks if similar effect is already active

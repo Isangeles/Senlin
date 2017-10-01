@@ -191,7 +191,8 @@ public final class SSGParser
         
         character.setName(charE.getElementsByTagName("name").item(0).getTextContent());
         character.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));
-        
+
+        //character.getSkills().reset(); //To clear passives effects
         return character;
     }
     /**
@@ -408,14 +409,16 @@ public final class SSGParser
     			try
     			{
         			String effectId = effectE.getTextContent();
-        			int effectTime = Integer.parseInt(effectE.getAttribute("time"));
-        			Effect effect = EffectsBase.getEffect(null, effectId); //TODO find way to restore proper effects sources 
+        			int effectTime = Integer.parseInt(effectE.getAttribute("duration"));
+        			String source = effectE.getAttribute("source");
+        			String owner = effectE.getAttribute("owner");
+        			Effect effect = EffectsBase.getEffect(owner, source, effectId); //TODO find way to restore proper effects sources 
         			effect.setTime(effectTime);
         			effects.add(effect);
     			}
     			catch(NumberFormatException e)
     			{
-    				Log.addSystem("ssg_parser_fail-msg///saved effect corrupted!");
+    				Log.addSystem("ssg_parser_fail-msg///saved effect corrupted! node:" + effectE.getTextContent());
     				break;
     			}
     		}

@@ -124,7 +124,7 @@ public final class NpcParser
         List<String> skills = getSkills(skillsNode);
         
         Node effectsNode = npc.getElementsByTagName("effects").item(0);
-        Map<String, Integer> effects = getEffects(effectsNode);
+        Map<String, Integer> effects = new HashMap<>();//getEffects(effectsNode);
         
         Node craftingNode = npc.getElementsByTagName("crafting").item(0);
         List<Profession> professions = getProfessions(craftingNode);

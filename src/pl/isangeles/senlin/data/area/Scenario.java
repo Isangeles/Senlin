@@ -146,6 +146,17 @@ public class Scenario implements SaveElement
 		return subAreas;
 	}
 	/**
+	 * Returns list with all areas in this scenario
+	 * @return List with areas
+	 */
+	public List<Area> getAreas()
+	{
+		List<Area> areas = new ArrayList<>();
+		areas.add(mainArea);
+		areas.addAll(subAreas);
+		return areas;
+	}
+	/**
 	 * Returns sub area with specified ID from scenario sub areas list
 	 * @param id ID of desired sub area
 	 * @return Area with specified ID or null if no such area was found

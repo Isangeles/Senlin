@@ -98,6 +98,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
+        Global.setChapter(chapter);
 	}
 	/**
 	 * Creates game world for saved game
@@ -109,6 +110,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	    dayManager = savedGame.getDay();
 	    chapter = savedGame.getChapter();
 	    activeScenario = chapter.getActiveScenario();
+        Global.setChapter(chapter);
 	}
 	/**
 	 * Sets specified GUI as game GUI

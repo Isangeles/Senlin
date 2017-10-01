@@ -29,8 +29,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.core.character.Character;
 
 /**
  * Class for game chapters
@@ -112,6 +114,22 @@ public class Chapter implements SaveElement
 	public List<Scenario> getScenarios()
 	{
 		return loadedScenarios;
+	}
+	
+	public Character getCharacter(String serial)
+	{
+		for(Scenario scenario : loadedScenarios)
+		{
+			for(Area area : scenario.getAreas())
+			{
+				for(Character character : area.getCharacters())
+				{
+					if(character.getSerialId().equals(serial))
+						return character;
+				}
+			}
+		}
+		return null;
 	}
 	/**
 	 * Sets scenario with specified ID as active scenario

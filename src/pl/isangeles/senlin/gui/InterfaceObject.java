@@ -443,6 +443,21 @@ public abstract class InterfaceObject extends Image
         ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text);
     }
     /**
+     * Draws string in specified color in middle of object
+     * @param text String to draw
+     * @param ttf TTF font for text
+     * @param color Text color
+     */
+    protected void drawString(String text, TrueTypeFont ttf, Color color)
+    {
+        float thisEndX = getScaledWidth();
+        float thisEndY = getScaledHeight();
+        float textX = ttf.getWidth(text);
+        float textY = ttf.getHeight(text);
+        
+        ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text, color);
+    }
+    /**
      * Moves object MouseOverArea
      * @param x position on x-axis
      * @param y position on y-axis

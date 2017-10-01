@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.states;
 
+import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.util.Position;
@@ -34,8 +35,8 @@ import pl.isangeles.senlin.util.Settings;
 public class Global 
 {
 	private static Character player;
-	private static Character tarChar;
 	private static float[] cameraPos = {0, 0};
+	private static Chapter activeChapter;
 	
 	private Global() 
 	{}
@@ -47,6 +48,11 @@ public class Global
 	{
 		player = character;
 	}
+	
+	public static void setChapter(Chapter chapter)
+	{
+		activeChapter = chapter;
+	}
 	/**
 	 * Returns current player's character
 	 * @return Player's character
@@ -55,52 +61,16 @@ public class Global
 	{
 		return player;
 	}
-	/**
-	 * Sets object as target
-	 * @param target 
-	 */
-	public static void setTarget(Object target)
+	
+	public static Chapter getChapter()
 	{
-		if(Character.class.isInstance(target))
-			Global.tarChar = (Character)target;
-		else
-			Global.tarChar = null;
+		return activeChapter;
 	}
+	
 	public static void setCamerPos(float x, float y)
 	{
 		Global.cameraPos[0] = x;
 		Global.cameraPos[1] = y;
-	}
-	/**
-	 * Returns currently targeted character
-	 * @return Targeted character
-	 */
-	public static Character getTarChar()
-	{
-		return Global.tarChar;
-	}
-	/**
-	 * Checks if character other then player character is targeted
-	 * @return True if other character then player is targeted, false otherwise
-	 */
-	public static boolean isOtherCharTar()
-	{
-		if(tarChar != null)
-			return tarChar != player;
-		else 
-			return false;
-	}
-	/**
-	 * Returns range between player and his target
-	 * @return Range between player character and targeted character as integer
-	 */
-	public static int getRangeFromTar()
-	{
-		if(tarChar != null)
-			return (int)Math.sqrt((player.getPosition()[0]-tarChar.getPosition()[0]) * (player.getPosition()[0]-tarChar.getPosition()[0]) +
-					 (player.getPosition()[1]-tarChar.getPosition()[1]) * (player.getPosition()[1]-tarChar.getPosition()[1]));
-		else
-			return 0;
 	}
 	
 	public static float[] getCameraPos()

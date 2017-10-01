@@ -30,6 +30,7 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonus;
@@ -38,7 +39,9 @@ import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.tools.EffectTile;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -63,23 +66,21 @@ public class Effect implements SaveElement
 	private boolean alwaysOn;
 	private EffectTile tile;
 	private EffectSource source;
+	private String ownerToRestore;
+	private String sourceToRestore;
 	/**
 	 * Effect constructor
 	 * @param id Effect ID
-	 * @param name Effect name
-	 * @param info Basic informations about effect
-	 * @param hpMod Affect on health points
-	 * @param manaMod Affect on magicka points
-	 * @param attMod Affect on attributions 
-	 * @param hasteMod Affect on haste
-	 * @param dodgeMod Affect on dodge rating
-	 * @param dmgMod Affect on damage
-     * @param dot Damage over time effect value (positive value heals target) 
+	 * @param imgName Effect icon image name
+	 * @param bonuses Effect bonuses
+	 * @param dot Damage over time
 	 * @param duration Effect duration
-	 * @param type Effect type
-	 * @throws FontFormatException 
-	 * @throws IOException 
-	 * @throws SlickException 
+	 * @param type Effect Type
+	 * @param source Effect source, e.g. skill or item
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
 	 */
 	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
@@ -94,6 +95,37 @@ public class Effect implements SaveElement
 		if(duration == -1)
 			alwaysOn = true;
 		this.source = source;
+		buildTile(gc);
+	}
+	/**
+	 * Effect constructor(with saved source ID)
+	 * @param id Effect ID
+	 * @param imgName Effect icon image name
+	 * @param bonuses Effect bonuses
+	 * @param dot Damage over time
+	 * @param duration Effect duration
+	 * @param type Effect Type
+	 * @param savedSourceId Saved serial ID of effect source(source restored later in update)
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, String savedOwnerId, String savedSourceId, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
+	{
+	    this.id = id;
+	    this.name = TConnector.getInfoFromModule("effects", id)[0];
+	    this.info = TConnector.getInfoFromModule("effects", id)[1];
+	    this.imgName = imgName;
+		this.type = type;
+		this.bonuses = bonuses;
+		this.dot = dot;
+		this.duration = duration;
+		if(duration == -1)
+			alwaysOn = true;
+		ownerToRestore = savedOwnerId;
+		sourceToRestore = savedSourceId;
 		buildTile(gc);
 	}
 	/**
@@ -141,11 +173,25 @@ public class Effect implements SaveElement
 	 */
 	public void updateTime(int delta)
 	{
+		if(ownerToRestore != null)
+		{
+			Character owner = Global.getChapter().getCharacter(ownerToRestore);
+			if(owner != null)
+				source = owner.getEffectSource(sourceToRestore);
+			
+			ownerToRestore = null;
+			sourceToRestore = null;
+			if(source != null)
+				Log.addSystem("source properly restored: " + source.getSerialId());
+		}
 		if(!alwaysOn)
 		{
 			time += delta;
-			if(time >= duration)
+			if(time >= duration) 
+			{
 				on = false;
+				Log.addSystem("effect ended:" + id);
+			}
 		}
 		
 		if(dot != 0)
@@ -234,6 +280,14 @@ public class Effect implements SaveElement
 		{
 			fullInfo += System.lineSeparator() + bonus.getInfo();
 		}
+		if(!alwaysOn)
+		{
+			fullInfo += System.lineSeparator() + TConnector.getText("ui", "effDuration") + ":" + Stopwatch.timeFromMillis(duration);
+		}
+		if(source != null)
+			fullInfo += System.lineSeparator() + "source:" + source.getSerialId();
+		else
+			fullInfo += System.lineSeparator() + "source:null";
 		return fullInfo;
 	}
 	/**
@@ -256,7 +310,10 @@ public class Effect implements SaveElement
 		Element effectE = doc.createElement("effect");
         effectE.setAttribute("duration", time+"");
         if(source != null)
-            effectE.setAttribute("source", source.getSerialId());
+        {
+            effectE.setAttribute("owner", source.getOwner().getSerialId());
+            effectE.setAttribute("source", source.getId());
+        }
         effectE.setTextContent(id);
         return effectE;
 	}

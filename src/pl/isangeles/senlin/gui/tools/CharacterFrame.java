@@ -35,6 +35,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
@@ -56,7 +57,7 @@ class CharacterFrame extends InterfaceObject
     private Bar health;
     private Bar magicka;
     private Bar experience;
-    private List<InterfaceTile> effectsIcons = new ArrayList<>();
+    private List<Effect> effects = new ArrayList<>();
     private MouseOverArea frameMOA;
     private TrueTypeFont textTtf;
     /**
@@ -91,12 +92,7 @@ class CharacterFrame extends InterfaceObject
         health.update(character.getHealth(), character.getMaxHealth());
         magicka.update(character.getMagicka(), character.getMaxMagicka());
         experience.update(character.getExperience(), character.getMaxExperience());
-        effectsIcons.clear();
-        for(Effect effect : character.getEffects())
-        {
-        	if(!effectsIcons.contains(effect.getTile()))
-        		effectsIcons.add(effect.getTile());
-        }
+        effects = character.getEffects();
     }
     /**
      * Draws frame
@@ -117,9 +113,10 @@ class CharacterFrame extends InterfaceObject
         //Draws effects
     	int row = 0;
     	int column = 0;
-        for(InterfaceTile icon : effectsIcons)
+        for(Effect effect : effects)
         {
-        	icon.draw(x+getDis(34) + (icon.getScaledWidth()*column), y+getDis(142) + (icon.getScaledHeight()*row), false);
+        	EffectTile icon = effect.getTile();
+        	icon.draw(x+getDis(34) + (icon.getScaledWidth()*column), y+getDis(142) + ((icon.getScaledHeight()+getDis(15))*row), Stopwatch.timeFromMillis(effect.getTime()), false);
         	column ++;
         	if(column == 6)
         	{
