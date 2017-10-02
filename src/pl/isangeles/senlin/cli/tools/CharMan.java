@@ -277,7 +277,15 @@ public class CharMan implements CliTool
     	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
-    	String value = scann.next();
+    	String value = "";
+    	try
+    	{
+        	value = scann.next();
+    	}
+    	catch(NoSuchElementException e)
+    	{
+    		Log.addSystem("empty value:" + prefix);
+    	}
     	scann.close();
     	
     	if(prefix.equals("-f"))
@@ -288,6 +296,11 @@ public class CharMan implements CliTool
     	else if(prefix.equals("-r"))
     	{
     		Log.addSystem(target.getProfession(ProfessionType.fromString(value)).toString());
+    		out = true;
+    	}
+    	else if(prefix.equals("-e"))
+    	{
+    		Log.addSystem(target.getEffects().list());
     		out = true;
     	}
     	else

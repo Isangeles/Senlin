@@ -416,6 +416,15 @@ public abstract class InterfaceObject extends Image
     	return new Position(Coords.getX("CE", 0) - (getScaledWidth()/2), Coords.getY("CE", 0) - (getScaledHeight()/2));
     }
     /**
+     * Sets specified text as object info
+     * @param info String with text for info
+     */
+    public void setInfo(String info)
+    {
+    	if(isInfo)
+        	this.info.setText(info);
+    }
+    /**
      * Draws object in default scale on unscaled position
      * @param x
      * @param y

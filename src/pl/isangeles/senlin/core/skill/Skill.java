@@ -78,7 +78,7 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
     protected boolean active;
     protected boolean ready;
     protected int cooldown;
-    protected List<String> effects;
+    protected final List<String> effects;
     protected AvatarAnimType avatarAnim = AvatarAnimType.MELEE;
 	protected Sound castSound;
 	protected Sound activateSound;
@@ -288,6 +288,28 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
 	        }
         }
         return effectsToPass;
+	}
+	/**
+	 * Returns list with all IDs of effects from this skill
+	 * @return List with effects IDs
+	 */
+	public List<String> getEffectsIds()
+	{
+		return effects;
+	}
+	/**
+	 * Return new instance of effect with specified ID from skill effects list
+	 * @param effectId ID of desired effect 
+	 * @return New instance of effect with specified ID or null if there is no such effect in skill effects list
+	 */
+	public Effect getEffect(String effectId)
+	{
+		for(String id : effects)
+		{
+			if(id.equals(effectId))
+				return EffectsBase.getEffect(this, id);
+		}
+		return null;
 	}
 	/**
 	 * Checks if skill is magical

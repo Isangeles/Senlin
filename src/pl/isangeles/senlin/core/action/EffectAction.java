@@ -39,13 +39,14 @@ import pl.isangeles.senlin.data.EffectsBase;
  */
 public class EffectAction extends Action implements EffectSource
 {
-    private String effectId;
+    private final List<String> effectsIds;
     /**
      * Default effect action constructor(action from this constructor do nothing)
      */
     public EffectAction()
     {
         super();
+        effectsIds = new ArrayList<>();
     }
     /**
      * Constructor for action causing specified effect on user/target
@@ -59,7 +60,8 @@ public class EffectAction extends Action implements EffectSource
         if(target.equals("target"))
             type = ActionType.EFFECTTARGET;
         
-        effectId = effectOnActionId;
+        effectsIds = new ArrayList<>();
+        effectsIds.add(effectOnActionId);
     }
     /**
      * Starts action
@@ -113,7 +115,31 @@ public class EffectAction extends Action implements EffectSource
 	public Collection<Effect> getEffects()
 	{
 		List<Effect> effects = new ArrayList<>();
-		effects.add(EffectsBase.getEffect(this, effectId));
+		for(String id : effectsIds)
+		{
+			effects.add(EffectsBase.getEffect(this, id));
+		}
 		return effects;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffect(java.lang.String)
+	 */
+	@Override
+	public Effect getEffect(String effectId) 
+	{
+		for(String id : this.effectsIds)
+		{
+			if(id.equals(effectId))
+				return EffectsBase.getEffect(this, id);
+		}
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffectsIds()
+	 */
+	@Override
+	public List<String> getEffectsIds() 
+	{
+		return effectsIds;
 	}
 }

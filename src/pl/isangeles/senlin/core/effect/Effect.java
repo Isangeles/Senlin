@@ -182,7 +182,10 @@ public class Effect implements SaveElement
 			ownerToRestore = null;
 			sourceToRestore = null;
 			if(source != null)
-				Log.addSystem("source properly restored: " + source.getSerialId());
+			{
+				tile.setInfo(getInfo());
+				//Log.addSystem("source properly restored: " + source.getSerialId()); DEBUG
+			}
 		}
 		if(!alwaysOn)
 		{
@@ -190,7 +193,6 @@ public class Effect implements SaveElement
 			if(time >= duration) 
 			{
 				on = false;
-				Log.addSystem("effect ended:" + id);
 			}
 		}
 		
@@ -284,6 +286,7 @@ public class Effect implements SaveElement
 		{
 			fullInfo += System.lineSeparator() + TConnector.getText("ui", "effDuration") + ":" + Stopwatch.timeFromMillis(duration);
 		}
+		//DEBUG
 		if(source != null)
 			fullInfo += System.lineSeparator() + "source:" + source.getSerialId();
 		else

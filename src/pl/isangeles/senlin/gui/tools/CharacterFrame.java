@@ -22,126 +22,63 @@
  */
 package pl.isangeles.senlin.gui.tools;
 
-import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.gui.MouseOverArea;
 
-import pl.isangeles.senlin.util.GConnector;
-import pl.isangeles.senlin.util.Stopwatch;
-import pl.isangeles.senlin.util.TConnector;
-import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.effect.Effect;
-import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.gui.Bar;
-import pl.isangeles.senlin.gui.InterfaceObject;
-import pl.isangeles.senlin.gui.InterfaceTile;
+import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.TConnector;
+
 /**
- * Class for player character frame
- * TODO fix experience bar on resolutions different then default
+ * Class for characters frames
  * @author Isangeles
  *
  */
-class CharacterFrame extends InterfaceObject
+class CharacterFrame extends TargetFrame 
 {
-	private Targetable character;
-    private Bar health;
+	private Character character;
+	
     private Bar magicka;
     private Bar experience;
-    private List<Effect> effects = new ArrayList<>();
-    private MouseOverArea frameMOA;
-    private TrueTypeFont textTtf;
-    /**
-     * Character frame constructor
-     * @param gc Game container for superclass and frame elements
-     * @param player Player character to display in frame
-     * @throws SlickException
-     * @throws IOException
-     * @throws FontFormatException
-     */
-    public CharacterFrame(GameContainer gc, Targetable character) throws SlickException, IOException, FontFormatException
-    {
-        super(GConnector.getInput("ui/background/charFrameBG_DG.png"), "uiCharFrame", false, gc);
-        this.character = character;
-        
-        health = new Bar(GConnector.getInput("ui/bar/hpBar.png"), "uiHpBar", false, gc, "Health:");
+	/**
+	 * Character frame constructor
+	 * @param gc Slick game container
+	 * @param character Game character
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public CharacterFrame(GameContainer gc, Character character) throws SlickException, IOException, FontFormatException 
+	{
+		super(gc, character);
+		this.character = (Character)super.target;
         magicka = new Bar(GConnector.getInput("ui/bar/manaBar.png"), "uiManaBar", false, gc, "Magicka:");
         experience = new Bar(GConnector.getInput("ui/bar/expBar.png"), "uiExpBar", false, gc, "Experience:");
-        
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(getSize(11f)), true);
-        
-        frameMOA = new MouseOverArea(gc, this, 0, 0);
-    }
-    /**
-     * Updates frame
-     * @param player Player character to update frame 
-     */
-    public void update()
-    {
-        health.update(character.getHealth(), character.getMaxHealth());
+	}
+	
+	@Override
+	public void update()
+	{
+		super.update();
         magicka.update(character.getMagicka(), character.getMaxMagicka());
         experience.update(character.getExperience(), character.getMaxExperience());
-        effects = character.getEffects();
-    }
-    /**
-     * Draws frame
-     */
-    public void draw(float x, float y)
-    {
-        super.draw(x, y);
-        character.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f));
-        textTtf.drawString(super.x+getDis(150), super.y+getDis(15), character.getName());
-        if(Character.class.isInstance(character))
-        {
-            textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + character.getLevel());
-            health.draw(x+getDis(139), y+getDis(36));
-            magicka.draw(x+getDis(139), y+getDis(62));
-            experience.draw(x+getDis(139), y+getDis(88));
-        }
-        
-        //Draws effects
-    	int row = 0;
-    	int column = 0;
-        for(Effect effect : effects)
-        {
-        	EffectTile icon = effect.getTile();
-        	icon.draw(x+getDis(34) + (icon.getScaledWidth()*column), y+getDis(142) + ((icon.getScaledHeight()+getDis(15))*row), Stopwatch.timeFromMillis(effect.getTime()), false);
-        	column ++;
-        	if(column == 6)
-        	{
-        		row ++;
-        		column = 0;
-        	}
-        }
-
-        frameMOA.setLocation(super.x, super.y);
-    }
-    /**
-     * Checks if mouse is over frame
-     * @return True if mouse is over false otherwise
-     */
-    public boolean isMouseOver()
-    {
-    	return frameMOA.isMouseOver();
-    }
-    /**
-     * Sets game object for that frame 
-     * @param character Targetable game object
-     */
-    public void setCharacter(Targetable character)
-    {
-    	this.character = character;
-    }
-
+	}
+	
+	@Override
+	public void draw(float x, float y)
+	{
+		super.draw(x, y);
+        textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + target.getLevel());
+        magicka.draw(x+getDis(139), y+getDis(62));
+        experience.draw(x+getDis(139), y+getDis(88));
+	}
+	
+	public void setCharacter(Character character)
+	{
+		super.setCharacter(character);
+	}
 }

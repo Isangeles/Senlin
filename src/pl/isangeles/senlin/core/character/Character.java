@@ -607,10 +607,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			Targetable target = (Targetable)signals.get(CharacterSignal.FIGHTING);
 		    out = useSkillOn(target, abilities.get("autoA"));
 		}
-	    
+
+		effects.update(delta);
 	    abilities.update(delta);
 		avatar.update(delta);
-		effects.update(delta);
 		flags.update(quests);
 		quests.update();
 		sCaster.update(delta);

@@ -64,7 +64,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private Console gameConsole;
     private BottomBar bBar;
     private CharacterFrame charFrame;
-    private CharacterFrame targetFrame;
+    private TargetFrame targetFrame;
     private InGameMenu igMenu;
     private CharacterWindow charWin;
     private InventoryMenu inventory;
@@ -102,7 +102,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         //cursor = new GameCursor(gc);
         gameConsole = new Console(gc, cli, player);
         charFrame = new CharacterFrame(gc, player);
-        targetFrame = new CharacterFrame(gc, player);
+        targetFrame = new TargetFrame(gc, player);
         igMenu = new InGameMenu(gc);
         charWin = new CharacterWindow(gc, player);
         inventory = new InventoryMenu(gc, player);

@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Container for character effects
@@ -57,13 +58,6 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	public boolean add(Effect effect)
 	{
 		effect.turnOn(owner);
-		Log.addSystem("adding effect:" + effect.getId());
-		try {
-			throw new Exception();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return super.add(effect);
 	}
 	
@@ -77,6 +71,31 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 				ok = false;
 		}
 		return ok;
+	}
+	/**
+	 * Adds all effects from specified source(only this effects that are NOT already active)  
+	 * @param source Effect source
+	 */
+	public void addAllFrom(EffectSource source)
+	{
+		for(String id : source.getEffectsIds())
+		{
+			if(!hasEffect(id))
+			{
+				add(source.getEffect(id));
+			}
+			else
+			{
+				for(Effect effect : get(id))
+				{
+					if(effect.getSource() != source) 
+					{
+						add(source.getEffect(id));
+						break;
+					}
+				}
+			}
+		}
 	}
 	/**
 	 * Removes and disables specified effect
@@ -170,6 +189,56 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 		}
 		return false;
 	}
+	/**
+	 * Checks if effect with specified ID is active
+	 * @param effectId Effect ID
+	 * @return True if effect with specified ID is active, false otherwise
+	 */
+	public boolean hasEffect(String effectId)
+	{
+		for(Effect effect : this)
+		{
+			if(effect.getId().equals(effectId))
+				return true;
+		}
+		return false;
+	}
+	/**
+	 * Checks if effect with specified ID and from source with specified ID is active
+	 * @param effectId Effect ID 
+	 * @param sourceEffectId Source ID
+	 * @return True if effect is active, false otherwise
+	 */
+	public boolean hasEffectFrom(String effectId, String sourceEffectId)
+	{
+		for(Effect effect : this)
+		{
+			if(effect.getId().equals(effectId))
+			{
+				if(effect.getSource() != null)
+				{
+					if(effect.getSource().getSerialId().equals(sourceEffectId))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	 * Returns all effects with specified ID 
+	 * @param effectId Effect ID
+	 * @return List with all active effects with specified ID
+	 */
+	public List<Effect> get(String effectId)
+	{
+		List<Effect> effects = new ArrayList<>();
+		for(Effect effect : this)
+		{
+			if(effect.getId().equals(effectId))
+				effects.add(effect);
+		}
+		return effects;
+	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */
@@ -181,5 +250,18 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	        effectsE.appendChild(effect.getSave(doc));
 	    }
 	    return effectsE;
+	}
+	/**
+	 * Lists all active effects
+	 * @return String with all effects listed
+	 */
+	public String list()
+	{
+		String list = "effects on-" + owner.getSerialId() + ":";
+		for(Effect effect : this)
+		{
+			list += System.lineSeparator() + effect.getId() + "//source-" + effect.getSourceId();
+		}
+		return list;
 	}
 }

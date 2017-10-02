@@ -3,3 +3,4 @@ heal01:Heal;Restors health;
 burn01:Burning;Causes fire damage;
 swordBon01:Sword bonus;Swords causes more damage;
 undetect01:Stealth;Undetectable;
+rage01:Battle rage;

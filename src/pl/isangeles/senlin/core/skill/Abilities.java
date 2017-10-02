@@ -63,13 +63,7 @@ public class Abilities extends LinkedList<Skill>
 			{
 				if(skill.isActive())
 				{
-					/*
-					for(Effect effect : skill.getEffects())
-					{
-						if(!owner.getEffects().hasEffect(effect))
-							owner.getEffects().add(effect);
-					}
-					*/
+					owner.getEffects().addAllFrom(skill);
 				}
 				else
 				{
@@ -150,11 +144,15 @@ public class Abilities extends LinkedList<Skill>
 		return false;
 	}
 	/**
-	 * Resets abilities
+	 * Resets passive abilities
 	 */
-	public void reset()
+	public void resetPassives()
 	{
-		owner.getEffects().removeAllFrom(null);
+		for(Skill skill : this)
+		{
+			if(Passive.class.isInstance(skill))
+				owner.getEffects().removeAllFrom(skill);
+		}
 	}
 	/**
 	 * Parses all skills to XML document element

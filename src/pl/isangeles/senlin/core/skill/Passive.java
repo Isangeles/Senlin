@@ -71,7 +71,7 @@ public class Passive extends Skill
 		if(passType == PassiveType.ALWEYSON) 
 		{
 			active = true;
-			activate();
+			//activate();
 		}
 		setTile(gc);
 		setGraphicEffects(gc);

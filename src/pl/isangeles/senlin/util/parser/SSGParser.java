@@ -166,6 +166,7 @@ public final class SSGParser
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
         character.getFlags().addAll(getSavedFlags(flagsE));
         
+        character.getSkills().resetPassives();
         Element effectsE = (Element)charE.getElementsByTagName("effects").item(0);
         character.getEffects().addAll(getSavedEffects(effectsE));
         

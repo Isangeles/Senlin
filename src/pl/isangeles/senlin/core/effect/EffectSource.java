@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core.effect;
 
 import java.util.Collection;
+import java.util.List;
 
 import pl.isangeles.senlin.core.Targetable;
 
@@ -53,4 +54,15 @@ public interface EffectSource
 	 * @return Collection with effects
 	 */
 	public Collection<Effect> getEffects();
+	/**
+	 * Return new instance of effect with specified ID from skill effects list
+	 * @param effectId ID of desired effect 
+	 * @return New instance of effect with specified ID or null if there is no such effect in skill effects list
+	 */
+	public Effect getEffect(String effectId);
+	/**
+	 * Returns list with all IDs of effects from this skill
+	 * @return List with effects IDs
+	 */
+	public List<String> getEffectsIds();
 }
