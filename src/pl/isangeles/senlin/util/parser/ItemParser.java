@@ -92,18 +92,21 @@ public class ItemParser
 		int armRat = Integer.parseInt(itemE.getAttribute("armRat"));
 		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
-		String sprite = "";
+		String maleSprite = "";
+		String femaleSprite = "";
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
-		Element spriteE = (Element)itemE.getElementsByTagName("sprite").item(0);
-		if(spriteE != null)
+		Element mSpriteE = (Element)itemE.getElementsByTagName("maleSprite").item(0);
+		if(mSpriteE != null)
 		{
-			sprite = spriteE.getTextContent();
+			maleSprite = mSpriteE.getTextContent();
 		}
+		Element fSpriteE = (Element)itemE.getElementsByTagName("femaleSpriet").item(0);
 		
-		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon, sprite);
+		
+		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon, maleSprite, femaleSprite);
 	}
 	/**
 	 * Parses item node from trinkets base

@@ -166,7 +166,7 @@ public final class SSGParser
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
         character.getFlags().addAll(getSavedFlags(flagsE));
         
-        character.getSkills().resetPassives();
+        character.getSkills().resetPassives(); //To clear passive effects
         Element effectsE = (Element)charE.getElementsByTagName("effects").item(0);
         character.getEffects().addAll(getSavedEffects(effectsE));
         
@@ -193,7 +193,6 @@ public final class SSGParser
         character.setName(charE.getElementsByTagName("name").item(0).getTextContent());
         character.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));
 
-        //character.getSkills().reset(); //To clear passives effects
         return character;
     }
     /**

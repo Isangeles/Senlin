@@ -65,14 +65,18 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
+	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String mSpriteName, 
+				 String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == ArmorType.CHEST && spriteName != "")
-			setSprite(spriteName);
+		if(type == ArmorType.CHEST)
+		{
+			setMSprite(mSpriteName);
+			setFSprite(fSpriteName);
+		}
 	}
 
 	/**
@@ -93,14 +97,18 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String spriteName, GameContainer gc) 
+	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String mSpriteName,
+				 String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
-		if(type == ArmorType.CHEST && spriteName != "")
-			setSprite(spriteName);
+		if(type == ArmorType.CHEST)
+		{
+			setMSprite(mSpriteName);
+			setFSprite(fSpriteName);
+		}
 	}
 	/**
 	 * Returns item armor rating
@@ -158,39 +166,65 @@ public class Armor extends Equippable
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	private void setSprite() throws SlickException, IOException
+	private void setDefaultMSprite() throws SlickException, IOException
 	{
 		switch(material)
 		{
 		case CLOTH:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
-		case LEATHER:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
-		case IRON:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
-		case STEEL:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
-		case NEPHRITE:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			break;
 		default:
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/cloth12221-60x70.png"), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			break;
 		}
 	}
-
+	/**
+	 * Sets sprite for item depended on item material 
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	private void setDefaultFSprite() throws SlickException, IOException
+	{
+		switch(material)
+		{
+		case CLOTH:
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			break;
+		default:
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			break;
+		}
+	}
 	/**
 	 * Sets specified sprite for item
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	private void setSprite(String spriteFileName) throws SlickException, IOException
+	private void setMSprite(String spriteFileName) throws SlickException, IOException
 	{
 		try
 		{
-			itemSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 80, 90);
 		}
 		catch(SlickException | IOException e)
 		{
-			setSprite();
+			setDefaultMSprite();
+		}
+	}
+	/**
+	 * Sets specified sprite for item
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	private void setFSprite(String spriteFileName) throws SlickException, IOException
+	{
+		try
+		{
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 80, 90);
+		}
+		catch(SlickException | IOException e)
+		{
+			setDefaultFSprite();
 		}
 	}
 	/* (non-Javadoc)

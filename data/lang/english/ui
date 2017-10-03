@@ -106,6 +106,7 @@ dayAfternoon:Afternoon;
 dayNight:Night;
 dayRain:Rain;
 daySun:Sunny;
+genName:Gender;
 genMale:Male;
 genFemale:Female;
 bonHp:Health bonus;

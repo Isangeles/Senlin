@@ -62,4 +62,21 @@ public enum Gender
 			return TConnector.getText("ui", "errorName");
 		}
 	}
+	/**
+	 * Returns name of sprite sheet for this gender
+	 * @param basicSSName Basic name of sprite sheet
+	 * @return String with full sprite sheet name
+	 */
+	public String getSSName(String basicSSName)
+	{
+		switch(this)
+		{
+		case MALE:
+			return "m-" + basicSSName;
+		case FEMALE:
+			return "f-" + basicSSName;
+		default:
+			return "m-" + basicSSName;
+		}
+	}
 }

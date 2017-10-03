@@ -129,36 +129,36 @@ public class Settings
         return resolution.toTable();
     }
     /**
-     * Returns string with all available resolutions    
-     * @return String with resolutions in format: [width]x[height];
+     * Returns array string with all available resolutions    
+     * @return String array with resolutions in format: [width]x[height];
      */
-    public static String getResList()
+    public static String[] getResList()
     {
-    	return "1920x1080;1600x800;1280x720";
+    	return new String[] {"1920x1080", "1600x800", "1280x720"};
     }
     /**
-     * Returns string with language options
-     * @return String with languages options delimited by semicolons(;)
+     * Returns array string with language options
+     * @return String array
      */
-    public static String getLangList()
+    public static String[] getLangList()
     {
-    	return "english;polish";
+    	return new String[] {"english", "polish"};
     }
     /**
-     * Returns string with fog of war options
-     * @return String with FOW options delimited by semicolons(;)
+     * Returns array string with fog of war options
+     * @return String array
      */
-    public static String getFowTypes()
+    public static String[] getFowTypes()
     {
-    	return "light;full;off";
+    	return new String[] {"light", "full", "off"};
     }
     /**
-     * Returns string with map rendering types
-     * @return String with map rendering options delimited by semicolons(;)
+     * Returns array with map rendering types
+     * @return String array
      */
-    public static String getMapRenderTypes()
+    public static String[] getMapRenderTypes()
     {
-    	return "full;light";
+    	return new String[] {"full", "light"};
     }
     /**
      * Returns scale for current resolution

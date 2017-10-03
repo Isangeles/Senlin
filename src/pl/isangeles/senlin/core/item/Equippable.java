@@ -1,3 +1,25 @@
+/*
+ * Equippable.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
@@ -20,7 +42,8 @@ public abstract class Equippable extends Item
 	protected final int type;
 	protected final ItemMaterial material;
 	protected Bonuses bonuses;
-	protected AnimObject itemSprite;
+	protected AnimObject itemMSprite;
+	protected AnimObject itemFSprite;
 	
 	protected abstract String getTypeName();
 	
@@ -54,9 +77,14 @@ public abstract class Equippable extends Item
 		return this.type;
 	}
 	
-	public AnimObject getSprite()
+	public AnimObject getMSprite()
 	{
-		return itemSprite;
+		return itemMSprite;
+	}
+	
+	public AnimObject getFSprite()
+	{
+		return itemFSprite;
 	}
 
 }

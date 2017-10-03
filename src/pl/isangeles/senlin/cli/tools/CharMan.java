@@ -211,6 +211,8 @@ public class CharMan implements CliTool
     			target.getFlags().add(value);
     		else if(prefix.equals("-q") || prefix.equals("-quest"))
         		target.startQuest(QuestsBase.get(value));
+    		else if(prefix.equals("-l") || prefix.equals("-level"))
+    			target.levelUp();
     		else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
         	

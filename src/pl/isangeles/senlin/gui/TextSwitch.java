@@ -48,8 +48,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 {
     private String label;
     private List<String> textToDraw = new ArrayList<>();
-    private int lineId;
-    private Font textFont;
+    private int textId;
     private TrueTypeFont textTtf;
     private Button plus;
     private Button minus;
@@ -63,10 +62,23 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String label, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
+    public TextSwitch(GameContainer gc, String label, String[] textToSwitch) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
-        build(gc, label, textToSwitch, delimiter);
+        
+        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
+        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
+        gc.getInput().addMouseListener(this);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+        
+        this.label = label;
+        for(String text : textToSwitch)
+        {
+            textToDraw.add(text);
+        }
     }
     /**
      * Text switch with info window constructor 
@@ -78,10 +90,23 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String label, String textToSwitch, String delimiter, String info) throws SlickException, FontFormatException, IOException
+    public TextSwitch(GameContainer gc, String label, String[] textToSwitch, String info) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc, info);
-        build(gc, label, textToSwitch, delimiter);
+        
+        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
+        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
+        gc.getInput().addMouseListener(this);
+        
+        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+        
+        this.label = label;
+        for(String text : textToSwitch)
+        {
+            textToDraw.add(text);
+        }
     }
     /**
      * Draws switch
@@ -95,7 +120,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 		minus.draw(x, y+getDis(2));
 		
 		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
-        super.drawString(textToDraw.get(lineId), textTtf);
+        super.drawString(textToDraw.get(textId), textTtf);
     }
     @Override
     public void draw(float x, float y, boolean scaledPos)
@@ -106,15 +131,23 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 		minus.draw(x, y+getDis(2));
 		
 		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
-        super.drawString(textToDraw.get(lineId), textTtf);
+        super.drawString(textToDraw.get(textId), textTtf);
     }
     /**
-     * Get actual switch value
+     * Returns current switch value
      * @return String with actual switch value
      */
     public String getString()
     {
-    	return textToDraw.get(lineId);
+    	return textToDraw.get(textId);
+    }
+    /**
+     * Returns current value ID
+     * @return Numerical ID
+     */
+    public int getValueId()
+    {
+    	return textId;
     }
     /**
      * Checks if switch value been changed
@@ -169,49 +202,21 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-        if(button == Input.MOUSE_LEFT_BUTTON && plus.isMouseOver() && lineId < textToDraw.size()-1)
+        if(button == Input.MOUSE_LEFT_BUTTON && plus.isMouseOver() && textId < textToDraw.size()-1)
         {
             isChange = true;
-            lineId ++;
+            textId ++;
         }
-        else if(button == Input.MOUSE_LEFT_BUTTON && minus.isMouseOver() && lineId > 0)
+        else if(button == Input.MOUSE_LEFT_BUTTON && minus.isMouseOver() && textId > 0)
         {
             isChange = true;
-            lineId --;
+            textId --;
         }
     }
 
     @Override
     public void mouseWheelMoved(int change)
     {
-    }
-    /**
-     * Builds object, called by both constructors
-     * @param gc
-     * @param textToSwitch
-     * @param delimiter
-     * @throws SlickException
-     * @throws FontFormatException
-     * @throws IOException
-     */
-    private void build(GameContainer gc, String label, String textToSwitch, String delimiter) throws SlickException, FontFormatException, IOException
-    {
-        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
-        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
-        gc.getInput().addMouseListener(this);
-        
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
-        
-        this.label = label;
-        Scanner scann = new Scanner(textToSwitch);
-        scann.useDelimiter(delimiter);
-        while(scann.hasNext())
-        {
-            textToDraw.add(scann.next());
-        }
-        scann.close();
     }
 
 }

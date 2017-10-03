@@ -79,6 +79,7 @@ public class LoadingScreen extends BasicGameState
     public LoadingScreen(Character player)
     {
     	this.player = player;
+    	Global.setPlayer(player);
     	loadType = "newGame";
     }
     /**

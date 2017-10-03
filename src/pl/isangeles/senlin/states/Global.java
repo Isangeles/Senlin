@@ -28,7 +28,7 @@ import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 /**
- * Class for game globals, like player character, targeted characters, etc. 
+ * Class for game globals, like player character, active chapter, etc. 
  * @author Isangeles
  *
  */
@@ -48,7 +48,10 @@ public class Global
 	{
 		player = character;
 	}
-	
+	/**
+	 * Sets specified chapter as global active chapter
+	 * @param chapter Game chapter
+	 */
 	public static void setChapter(Chapter chapter)
 	{
 		activeChapter = chapter;

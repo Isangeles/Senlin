@@ -148,6 +148,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
+	/*
 	public Character(GameContainer gc) 
 	        throws SlickException, IOException, FontFormatException
 	{
@@ -178,6 +179,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
 		reservedIDs.add(serialId);
 	}
+	*/
 	/**
 	 * This constructor provides playable character
 	 * @param id Character ID
@@ -211,11 +213,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			avatar = new StaticAvatar(this, gc, spritesheet);
 		else
 			avatar = new Avatar(this, gc, spritesheet);
+
+		addLevel(level);
+		
 		inventory = new Inventory(this);
 		abilities = new Abilities(this);
-		addLevel(level);
 		abilities.add(SkillsBase.getAutoAttack(this));
-		//abilities.add(SkillsBase.getShot(this));
+		abilities.add(SkillsBase.getShot(this));
 		dialogues = DialoguesBase.getDialogues(this.id);
 		qTracker = new QuestTracker(this);
 		sCaster = new SkillCaster(this);
@@ -347,7 +351,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		this.guild = guild;
 	}
-	
+	/**
+	 * Sets character gender
+	 * @param sex Gender to set
+	 */
 	public void setGender(Gender sex)
 	{
 		this.sex = sex;

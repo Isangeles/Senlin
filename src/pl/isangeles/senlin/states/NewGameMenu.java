@@ -42,7 +42,10 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Module;
+import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.character.Race;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -56,25 +59,26 @@ import pl.isangeles.senlin.core.Attributes;
  */
 public class NewGameMenu extends BasicGameState 
 {
-	private Switch strSwitch;
-	private Switch conSwitch;
-	private Switch dexSwitch;
-	private Switch intSwitch;
-	private Switch wisSwitch;
-	private PointsField fieldAtributesPts;
-	private Attribute ptsAtributes;
+	private Switch strS;
+	private Switch conS;
+	private Switch dexS;
+	private Switch intS;
+	private Switch wisS;
+	private TextSwitch genS;
+	private PointsField attrPointsF;
+	private Attribute attrPoints;
 	
-	private TextInput fieldName;
+	private TextInput nameI;
 	
-	private List<Portrait> porList;
+	private List<Portrait> portraits;
 	private int imgId;
-	private Button buttNextPor;
-	private Button buttPrevPor;
+	private Button nextPortraitB;
+	private Button prevPortraitB;
 	
-	private Character player;
+	//private Character player;
 	
-	private Button buttNext;
-	private Button buttBack;
+	private Button nextB;
+	private Button backB;
 	
 	private boolean mainMenuReq;
 	private boolean gameWorldReq;
@@ -90,34 +94,35 @@ public class NewGameMenu extends BasicGameState
 	        EffectsBase.load(Module.getSkillsPath(), container);
         	SkillsBase.load(Module.getSkillsPath(), container);
             
-			player = new Character(container);
-			Global.setPlayer(player);
+			//player = new Character(container);
+			//Global.setPlayer(player);
 			
-			ptsAtributes = new Attribute(5);
+			attrPoints = new Attribute(5);
 			
-			strSwitch = new Switch(container, "Strenght", player.getAttributes().getStr(), ptsAtributes, TConnector.getText("ui", "strInfo"));
-			conSwitch = new Switch(container, "Constitution", player.getAttributes().getCon(), ptsAtributes, TConnector.getText("ui", "conInfo"));
-			dexSwitch = new Switch(container, "Dexterity", player.getAttributes().getDex(), ptsAtributes, TConnector.getText("ui", "dexInfo"));
-			intSwitch = new Switch(container, "Intelect", player.getAttributes().getInt(), ptsAtributes, TConnector.getText("ui", "intInfo"));
-			wisSwitch = new Switch(container, "Wisdom", player.getAttributes().getWis(), ptsAtributes, TConnector.getText("ui", "wisInfo"));
-			fieldAtributesPts = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, ptsAtributes, "Points", container, TConnector.getText("ui", "attPtsInfo"));
+			strS = new Switch(container, "Strenght", 1, attrPoints, TConnector.getText("ui", "strInfo"));
+			conS = new Switch(container, "Constitution", 1, attrPoints, TConnector.getText("ui", "conInfo"));
+			dexS = new Switch(container, "Dexterity", 1, attrPoints, TConnector.getText("ui", "dexInfo"));
+			intS = new Switch(container, "Intelect", 1, attrPoints, TConnector.getText("ui", "intInfo"));
+			wisS = new Switch(container, "Wisdom", 1, attrPoints, TConnector.getText("ui", "wisInfo"));
+			genS = new TextSwitch(container, TConnector.getText("ui", "genName"), new String[] {TConnector.getText("ui", "genMale"), TConnector.getText("ui", "genFemale")});
+			attrPointsF = new PointsField(GConnector.getInput("field/ptsFieldBG.png"), "fieldAP", false, attrPoints, "Points", container, TConnector.getText("ui", "attPtsInfo"));
 			
-			porList = new ArrayList<>();
+			portraits = new ArrayList<>();
 			List<Image> imgPorList = GConnector.getPortraits();
 			for(Image img : imgPorList.toArray(new Image[imgPorList.size()]))
 			{
-				porList.add(new Portrait(img, container));
+				portraits.add(new Portrait(img, container));
 			}
 			
-			buttNextPor = new Button(GConnector.getInput("button/buttonNext.png"), "buttNP", false, "", container);
-			buttPrevPor = new Button(GConnector.getInput("button/buttonBack.png"), "buttBP", false, "", container);
+			nextPortraitB = new Button(GConnector.getInput("button/buttonNext.png"), "buttNP", false, "", container);
+			prevPortraitB = new Button(GConnector.getInput("button/buttonBack.png"), "buttBP", false, "", container);
 			
-			fieldName = new TextInput(GConnector.getInput("field/textFieldBG.png"), "fieldName", false, container);
+			nameI = new TextInput(GConnector.getInput("field/textFieldBG.png"), "fieldName", false, container);
 			
-			buttNext = new Button(GConnector.getInput("button/buttonNext.png"), "buttN", false, "", container);
-			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "buttB", false, "", container);
+			nextB = new Button(GConnector.getInput("button/buttonNext.png"), "buttN", false, "", container);
+			backB = new Button(GConnector.getInput("button/buttonBack.png"), "buttB", false, "", container);
 			
-			buttNext.setActive(false);
+			nextB.setActive(false);
 		} 
 		catch (IOException | FontFormatException | SAXException | ParserConfigurationException e) 
 		{
@@ -130,21 +135,22 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
 	{
-		strSwitch.draw(Coords.getDis(200), Coords.getDis(200), true);
-		conSwitch.draw(Coords.getDis(500), Coords.getDis(200), true);
-		dexSwitch.draw(Coords.getDis(800), Coords.getDis(200), true);
-		intSwitch.draw(Coords.getDis(1100), Coords.getDis(200), true);
-		wisSwitch.draw(Coords.getDis(1400), Coords.getDis(200), true);
-		fieldAtributesPts.draw(Coords.getDis(1400), Coords.getDis(300));
+		strS.draw(Coords.getDis(200), Coords.getDis(200), true);
+		conS.draw(Coords.getDis(500), Coords.getDis(200), true);
+		dexS.draw(Coords.getDis(800), Coords.getDis(200), true);
+		intS.draw(Coords.getDis(1100), Coords.getDis(200), true);
+		wisS.draw(Coords.getDis(1400), Coords.getDis(200), true);
+		attrPointsF.draw(Coords.getDis(1400), Coords.getDis(300));
 		
-		fieldName.draw(Coords.getDis(800), Coords.getDis(100));
-		fieldName.render(g);
-		porList.get(imgId).draw(Coords.getDis(200), Coords.getDis(400), Coords.getSize(100f), Coords.getSize(120f));
-		buttNextPor.draw(Coords.getDis(300), Coords.getDis(480), true);
-		buttPrevPor.draw(Coords.getDis(160), Coords.getDis(480), true);
+		nameI.draw(Coords.getDis(800), Coords.getDis(100));
+		nameI.render(g);
+		genS.draw(Coords.getDis(200), Coords.getDis(300), true);
+		portraits.get(imgId).draw(Coords.getDis(200), Coords.getDis(400), Coords.getSize(100f), Coords.getSize(120f));
+		nextPortraitB.draw(Coords.getDis(300), Coords.getDis(480), true);
+		prevPortraitB.draw(Coords.getDis(160), Coords.getDis(480), true);
 		
-		buttNext.draw(Coords.getDis(1800), Coords.getDis(1000), true);
-		buttBack.draw(Coords.getDis(10), Coords.getDis(1000), true);
+		nextB.draw(Coords.getDis(1800), Coords.getDis(1000), true);
+		backB.draw(Coords.getDis(10), Coords.getDis(1000), true);
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
@@ -160,15 +166,23 @@ public class NewGameMenu extends BasicGameState
 		if(gameWorldReq)
 		{
 		    gameWorldReq = false;
-		    game.addState(new LoadingScreen(player));
+		    try 
+		    {
+				game.addState(new LoadingScreen(createPlayer(container)));
+			} 
+		    catch (IOException | FontFormatException e) 
+		    {
+				e.printStackTrace();
+				System.exit(1);
+			}
 		    game.getState(4).init(container, game);
 		    game.enterState(4);
 		}
 		
-		if(fieldName.getText() != null && ptsAtributes.getValue() == 0)
-		    buttNext.setActive(true);
+		if(nameI.getText() != null && attrPoints.getValue() == 0)
+		    nextB.setActive(true);
 		else 
-		    buttNext.setActive(false);
+		    nextB.setActive(false);
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.BasicGameState#getID()
@@ -182,22 +196,61 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void mouseReleased(int button, int x, int y)
 	{
-		if(buttNextPor.isMouseOver() && imgId < porList.size()-1)
+		if(nextPortraitB.isMouseOver() && imgId < portraits.size()-1)
 			imgId ++;
-		else if(buttPrevPor.isMouseOver() && imgId > 0)
+		else if(prevPortraitB.isMouseOver() && imgId > 0)
 			imgId --;
 		
-		if(buttNext.isMouseOver() && buttNext.isActive())
+		if(nextB.isMouseOver() && nextB.isActive())
 		{
-		    player.setName(fieldName.getText());
-		    player.setPortrait(porList.get(imgId));
-		    player.setAttributes(new Attributes(strSwitch.getValue(), conSwitch.getValue(), dexSwitch.getValue(), intSwitch.getValue(), wisSwitch.getValue()));
+			/*
+		    player.setName(nameI.getText());
+		    switch(genS.getValueId())
+		    {
+		    case 0:
+		    	player.setGender(Gender.MALE);
+		    	break;
+		    case 1:
+		    	player.setGender(Gender.FEMALE);
+		    	break;
+		    default:
+		    	player.setGender(Gender.MALE);
+		    }
+		    player.setPortrait(portraits.get(imgId));
+		    player.setAttributes(new Attributes(strS.getValue(), conS.getValue(), dexS.getValue(), intS.getValue(), wisS.getValue()));
 		    player.levelUp();
+		    */
 		    gameWorldReq = true;
 		}
 		
-		if(buttBack.isMouseOver())
+		if(backB.isMouseOver())
 		    mainMenuReq = true;
 	}
-
+	/**
+	 * Creates player character
+	 * @param gc
+	 * @return
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	private Character createPlayer(GameContainer gc) throws SlickException, IOException, FontFormatException
+	{
+		String name = nameI.getText();
+		Gender gender;
+		switch(genS.getValueId())
+		{
+		case 0:
+			gender = Gender.MALE;
+			break;
+		case 1:
+			gender = Gender.FEMALE;
+			break;
+		default:
+			gender = Gender.MALE;
+		}
+		Portrait portrait = portraits.get(imgId);
+		Attributes attributes = new Attributes(strS.getValue(), conS.getValue(), dexS.getValue(), intS.getValue(), wisS.getValue());
+		return new Character("player", gender, Race.HUMAN, Attitude.FRIENDLY, "", name, 1, attributes, portrait, gender.getSSName("cloth-1222211-80x90.png"), false, gc);
+	}
 }

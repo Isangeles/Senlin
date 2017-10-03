@@ -2,7 +2,8 @@
 <base>
     <item id="acCS00" type="chest" material="cloth" value="2" armRat="0" reqLvl="1">
         <icon>shirtWhite.png</icon>
-        <sprite>m-cloth-1222211-80x90.png</sprite>
+        <maleSprite>m-cloth-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-cloth-1222211-80x90.png</femaleSprite>
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>

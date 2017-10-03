@@ -72,10 +72,10 @@ public class SettingsMenu extends BasicGameState
     {
     	try 
     	{
-    		resolution = new TextSwitch(container, TConnector.getText("ui", "settRes"), Settings.getResList(), ";");
-			language = new TextSwitch(container, TConnector.getText("ui", "settLang"), Settings.getLangList(), ";");
-			fow = new TextSwitch(container, TConnector.getText("ui", "settFow"), Settings.getFowTypes(), ";");
-			mapRender = new TextSwitch(container, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes(), ";");
+    		resolution = new TextSwitch(container, TConnector.getText("ui", "settRes"), Settings.getResList());
+			language = new TextSwitch(container, TConnector.getText("ui", "settLang"), Settings.getLangList());
+			fow = new TextSwitch(container, TConnector.getText("ui", "settFow"), Settings.getFowTypes());
+			mapRender = new TextSwitch(container, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes());
 			effectsVol = new Switch(container, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
             musicVol = new Switch(container, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
 			
