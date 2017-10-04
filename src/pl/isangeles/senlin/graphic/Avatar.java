@@ -67,7 +67,7 @@ public class Avatar extends CharacterAvatar
 		{
 			defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 80, 90);
 			defTorso.setName(spritesheet);
-			defHead = new AnimObject(GConnector.getInput(character.getGender().getSSName("headBlack-1222211-80x90.png")), "headBlackSS", false, 80, 90);
+			defHead = new AnimObject(GConnector.getInput("sprite/avatar/"+character.getGender().getSSName("headBlack-1222211-80x90.png")), "headBlackSS" + character.getId(), false, 80, 90);
 		}
 		
 		torso = defTorso;
@@ -116,17 +116,17 @@ public class Avatar extends CharacterAvatar
 		super.update(delta);
 		
 		if(character.getInventory().getChest() != null)
-			torso = character.getInventory().getChest().getMSprite();
+			torso = character.getInventory().getChest().getSpriteFor(character.getGender());
 		else
 			torso = defTorso;
 		
 		if(character.getInventory().getHelmet() != null)
-			head = character.getInventory().getHelmet().getMSprite();
+			head = character.getInventory().getHelmet().getSpriteFor(character.getGender());
 		else
 			head = defHead;
 		
 		if(character.getInventory().getMainWeapon() != null)
-			this.weapon = character.getInventory().getMainWeapon().getMSprite();
+			this.weapon = character.getInventory().getMainWeapon().getSpriteFor(character.getGender());
 		else
 			this.weapon = null;
 		

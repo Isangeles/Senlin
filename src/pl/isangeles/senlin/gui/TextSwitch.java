@@ -25,12 +25,9 @@ package pl.isangeles.senlin.gui;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -38,6 +35,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
 /**
  * Switch for manipulation of text values
@@ -54,10 +52,9 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     private Button minus;
     private boolean isChange;
     /**
-     * Text switch without info window constructor 
-     * @param gc Game container
-     * @param textToSwitch String with all text value to switch
-     * @param delimiter Delimiter used in textToSwitch
+     * Text switch constructor 
+     * @param gc Slick game container
+     * @param textToSwitch String with all text values to switch
      * @throws SlickException
      * @throws FontFormatException
      * @throws IOException
@@ -66,8 +63,8 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
         
-        plus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchTBP", false, "", gc);
-        minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
+        plus = new Button(GBase.getImage("buttonNext"), "", gc);
+        minus = new Button(GBase.getImage("buttonBack"), "", gc);
         gc.getInput().addMouseListener(this);
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
@@ -81,11 +78,10 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         }
     }
     /**
-     * Text switch with info window constructor 
-     * @param gc Game container
-     * @param textToSwitch textToSwitch String with all text value to switch
-     * @param delimiter Delimiter used in textToSwitch
-     * @param info Information about swith
+     * Text switch constructor(with info window)  
+     * @param gc Slick game container
+     * @param textToSwitch textToSwitch String with all text values to switch
+     * @param info Text for info
      * @throws SlickException
      * @throws FontFormatException
      * @throws IOException

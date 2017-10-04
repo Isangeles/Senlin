@@ -103,7 +103,11 @@ public class ItemParser
 		{
 			maleSprite = mSpriteE.getTextContent();
 		}
-		Element fSpriteE = (Element)itemE.getElementsByTagName("femaleSpriet").item(0);
+		Element fSpriteE = (Element)itemE.getElementsByTagName("femaleSprite").item(0);
+		if(fSpriteE != null)
+		{
+		    femaleSprite = fSpriteE.getTextContent();
+		}
 		
 		
 		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon, maleSprite, femaleSprite);

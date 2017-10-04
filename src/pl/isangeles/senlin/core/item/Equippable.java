@@ -30,6 +30,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.action.EquipAction;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for equippable items
@@ -76,15 +77,21 @@ public abstract class Equippable extends Item
 	{
 		return this.type;
 	}
-	
-	public AnimObject getMSprite()
+	/**
+	 * Returns sprite for specified gender
+	 * @param sex Game character gender
+	 * @return Animated object for specified gender
+	 */
+	public AnimObject getSpriteFor(Gender sex)
 	{
-		return itemMSprite;
+	    switch(sex)
+	    {
+	    case MALE:
+	        return itemMSprite;
+	    case FEMALE:
+	        return itemFSprite;
+	    default:
+	        return itemMSprite;
+	    }
 	}
-	
-	public AnimObject getFSprite()
-	{
-		return itemFSprite;
-	}
-
 }

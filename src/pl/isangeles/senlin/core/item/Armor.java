@@ -162,7 +162,7 @@ public class Armor extends Equippable
 		return material.toString();
 	}
 	/**
-	 * Sets sprite for item depended on item material 
+	 * Sets male sprite for item depended on item material 
 	 * @throws SlickException
 	 * @throws IOException
 	 */
@@ -171,15 +171,18 @@ public class Armor extends Equippable
 		switch(material)
 		{
 		case CLOTH:
-			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
 			break;
+		case LEATHER:
+            itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-leather-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
+            break;
 		default:
-			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
 			break;
 		}
 	}
 	/**
-	 * Sets sprite for item depended on item material 
+	 * Sets female sprite for item depended on item material 
 	 * @throws SlickException
 	 * @throws IOException
 	 */
@@ -188,15 +191,16 @@ public class Armor extends Equippable
 		switch(material)
 		{
 		case CLOTH:
-			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
 			break;
 		default:
-			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "sprite"+id, false, 80, 90);
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
 			break;
 		}
 	}
 	/**
-	 * Sets specified sprite for item
+     * Sets sprite from file with specified name as item male sprite
+     * @param spriteFileName Name of sprite sheet file
 	 * @throws SlickException
 	 * @throws IOException
 	 */
@@ -204,15 +208,16 @@ public class Armor extends Equippable
 	{
 		try
 		{
-			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 80, 90);
+			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "spriteM"+id, false, 80, 90);
 		}
-		catch(SlickException | IOException e)
+		catch(SlickException | NullPointerException | IOException e)
 		{
 			setDefaultMSprite();
 		}
 	}
 	/**
-	 * Sets specified sprite for item
+	 * Sets sprite from file with specified name as item female sprite
+	 * @param spriteFileName Name of sprite sheet file
 	 * @throws SlickException
 	 * @throws IOException
 	 */
@@ -220,9 +225,9 @@ public class Armor extends Equippable
 	{
 		try
 		{
-			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "sprite"+id, false, 80, 90);
+			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/" + spriteFileName), "spriteF"+id, false, 80, 90);
 		}
-		catch(SlickException | IOException e)
+		catch(SlickException | NullPointerException | IOException e)
 		{
 			setDefaultFSprite();
 		}

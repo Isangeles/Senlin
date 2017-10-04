@@ -30,6 +30,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.graphic.AnimObject;
@@ -168,6 +169,12 @@ public class Weapon extends Equippable
 	public boolean use(Targetable user, Targetable target) 
 	{
 		return onUse.start(user, target);
+	}
+	
+	@Override
+	public AnimObject getSpriteFor(Gender sex)
+	{
+	    return itemMSprite;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
