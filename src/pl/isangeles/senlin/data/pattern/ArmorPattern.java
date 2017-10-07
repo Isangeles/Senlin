@@ -50,6 +50,7 @@ public class ArmorPattern
 	private final int value;
 	private final int armRat;
 	private final Bonuses bonuses;
+	private final List<String> equipEffects;
 	private final String icon;
 	private final String mSprite;
 	private final String fSprite;
@@ -62,9 +63,13 @@ public class ArmorPattern
 	 * @param value Item value
 	 * @param armRat Armor rating
 	 * @param bonuses Item bonuses
+	 * @param equipEffects List with IDs of all equip effects
 	 * @param icon Item UI icon
+	 * @param mSprite Name of male sprite sheet file
+	 * @param fSprite Name of female sprite sheet file
 	 */
-	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Bonus> bonuses, String icon, String mSprite, String fSprite) 
+	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Bonus> bonuses, List<String> equipEffects, 
+						String icon, String mSprite, String fSprite) 
 	{
 		this.id = id;
 		this.reqLvl = reqLvl;
@@ -74,6 +79,7 @@ public class ArmorPattern
 		this.armRat = armRat;
 		this.bonuses = new Bonuses();
 		this.bonuses.addAll(bonuses);
+		this.equipEffects = equipEffects;
 		this.icon = icon;
 		this.mSprite = mSprite;
 		this.fSprite = fSprite;
@@ -96,7 +102,7 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, mSprite, fSprite, gc);
+		return new Armor(id, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, reqLvl, icon, mSprite, fSprite, gc);
 	}
 
 	/**
@@ -110,6 +116,6 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, reqLvl, icon, mSprite, fSprite, gc);
+		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, reqLvl, icon, mSprite, fSprite, gc);
 	}
 }

@@ -40,7 +40,7 @@ public class Guild
 	public Guild(String id) 
 	{
 		this.id = id;
-		this.name = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "guilds", id);
+		this.name = TConnector.getTextFromChapter("guilds", id);
 	}
 	
 	public String getName()

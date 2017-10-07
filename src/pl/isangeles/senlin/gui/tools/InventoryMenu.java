@@ -572,7 +572,9 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     		{
     			if(slot == is)
     			{
-    				player.unequipp(slot.getContent().get(0));
+    				Item item = slot.getContent().get(0);
+    				if(Equippable.class.isInstance(item))
+        				player.unequipp((Equippable)item);
     			}
     		}
     	}

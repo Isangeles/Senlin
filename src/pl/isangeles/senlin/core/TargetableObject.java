@@ -63,7 +63,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Sound voice;
     private Portrait portrait;
     private Position pos;
-    private Inventory inventory = new Inventory();
+    private Inventory inventory;
     private Effects effects = new Effects(this);
     private Action onClick;
     /**
@@ -82,6 +82,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         this.id = id;
         this.onClick = onClick;
         name = TConnector.getTextFromModule("objects", id);
+        inventory = new Inventory(this);
         inventory.addAll(items);
         inventory.addGold(gold);
     }
@@ -101,6 +102,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     	this.id = id;
         this.onClick = onClick;
         name = TConnector.getTextFromModule("objects", id);
+        inventory = new Inventory(this);
         inventory.addAll(items);
         inventory.addGold(gold);
     }

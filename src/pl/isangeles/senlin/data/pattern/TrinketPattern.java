@@ -51,6 +51,7 @@ public class TrinketPattern
 	private final int level;
 	private final String icon;
 	private final Bonuses bonuses;
+	private final List<String> equipEffects;
 	private final String actionType;
 	private final String actionId;
 	/**
@@ -61,10 +62,11 @@ public class TrinketPattern
 	 * @param value Item value
 	 * @param icon Item icon for GUI
 	 * @param bonuses Item bonuses 
+	 * @param equipEffects List with IDs of all equip Effects
 	 * @param actionType Type of on-click action
 	 * @param actionId ID for on-click action
 	 */
-	public TrinketPattern(String id, String type, int level, int value, String icon, List<Bonus> bonuses, String actionType, String actionId) 
+	public TrinketPattern(String id, String type, int level, int value, String icon, List<Bonus> bonuses, List<String> equipEffects, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.type = type;
@@ -73,6 +75,7 @@ public class TrinketPattern
 		this.icon = icon;
 		this.bonuses = new Bonuses();
 		this.bonuses.addAll(bonuses);
+		this.equipEffects = equipEffects;
 		this.actionType = actionType;
 		this.actionId = actionId;
 	}
@@ -109,7 +112,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, TrinketType.fromString(type), value, icon, level, bonuses, action, gc);
+		return new Trinket(id, TrinketType.fromString(type), value, icon, level, bonuses, equipEffects, action, gc);
 	}
 	/**
 	 * Return new instance of item(with specified serial number) from this pattern
@@ -137,7 +140,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, serial, TrinketType.fromString(type), value, icon, level, bonuses, action, gc);
+		return new Trinket(id, serial, TrinketType.fromString(type), value, icon, level, bonuses, equipEffects, action, gc);
 	}
 
 }

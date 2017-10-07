@@ -37,7 +37,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-class DayPhase implements SaveElement
+class DayPhase
 {
 	private Sprite morningFilter,
 				   middayFilter,
@@ -97,15 +97,5 @@ class DayPhase implements SaveElement
 	public String toString()
 	{
 		return type.getName();
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
-	 */
-	@Override
-	public Element getSave(Document doc) 
-	{
-		Element phaseE = doc.createElement("phase");
-		phaseE.setTextContent(this.toString());
-		return phaseE;
 	}
 }

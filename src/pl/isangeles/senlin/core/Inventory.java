@@ -30,6 +30,7 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
@@ -45,24 +46,25 @@ import pl.isangeles.senlin.gui.SlotContent;
 public final class Inventory extends LinkedList<Item> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
-	private Character owner;
+	private Targetable owner;
 	private Equipment equipment;
 	private int gold;
 	/**
-	 * Inventory constructor
-	 */
-	public Inventory()
-	{
-		equipment = new Equipment();
-	}
-	/**
-	 * Inventory constructor for game character(with quest tracking)
+	 * Inventory constructor 
 	 * @param character Inventory owner
 	 */
-	public Inventory(Character character)
+	public Inventory(Targetable character)
 	{
 		equipment = new Equipment();
 		owner = character;
+	}
+	
+	public void update()
+	{
+		for(Equippable item : equipment.getAll())
+		{
+			owner.getEffects().addAllFrom(item);
+		}
 	}
     /**
      * Adds item to inventory
@@ -74,8 +76,11 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         if(item != null)
         {
             super.add(item);
-            if(owner != null)
-            	owner.getQTracker().check(item);
+        	item.setOwner(owner);
+            if(Character.class.isInstance(owner))
+            {
+            	((Character)owner).getQTracker().check(item);
+            }
             return true;
         }
         else 
@@ -132,9 +137,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	 * Removes specific item from equippment
 	 * @param item Equipped character item
 	 */
-    public void unequipp(Item item)
+    public void unequipp(Equippable item)
     {
     	equipment.unequipp(item);
+    	owner.getEffects().removeAllFrom(item);
     }
     /**
      * Equips specified item, if item is in character inventory and its equippable

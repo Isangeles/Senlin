@@ -110,7 +110,7 @@ public class NpcPattern
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
 	{
 		this.npcId = npcId;
-		this.npcName = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "npc", npcId);
+		this.npcName = TConnector.getTextFromChapter("npc", npcId);
 		npcAttitude = Attitude.fromString(attitude);
 		npcGender = Gender.fromString(gender);
 		npcRace = Race.fromName(race);

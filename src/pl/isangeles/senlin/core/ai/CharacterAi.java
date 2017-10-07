@@ -32,12 +32,13 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.character.Race;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.TConnector;
 /**
- * Class for artificial intelligence controlling game NPCs
+ * Class for 'artificial intelligence' controlling game NPCs
  * @author Isangeles
  *
  */
@@ -69,7 +70,8 @@ public class CharacterAi
 				if(rng.nextInt(100) == 1)
 				{
 					moveAround(npc);
-	                saySomething(npc, "idle", true);
+					if(npc.getRace() == Race.HUMAN)
+						saySomething(npc, "idle", true);
 				}
 				
 				for(Character nearbyChar : area.getNearbyCharacters(npc))

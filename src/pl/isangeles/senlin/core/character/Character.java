@@ -68,6 +68,7 @@ import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.effect.Effects;
+import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.item.WeaponType;
@@ -142,45 +143,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Area currentArea;
 	private Random numberGenerator = new Random();
 	/**
-	 * Basic constructor for character creation menu, after use this constructor method levelUp() should be called to make new character playable
-	 * @param gc Slick game container
-	 * @throws SlickException
-	 * @throws IOException
-	 * @throws FontFormatException 
-	 */
-	/*
-	public Character(GameContainer gc) 
-	        throws SlickException, IOException, FontFormatException
-	{
-		id = "player";
-		sex = Gender.MALE;
-		race = Race.HUMAN;
-		name = "Name";
-		level = 0;
-		attitude = Attitude.FRIENDLY;
-		guild = GuildsBase.getGuild("none");
-		attributes = new Attributes(1, 1, 1, 1, 1);
-		portrait = new Portrait(GConnector.getPortrait("default.jpg"), gc);
-		live = true;
-		avatar = new Avatar(this, gc, "m-cloth-1222211-80x90.png");
-		inventory = new Inventory(this);
-		abilities = new Abilities(this);
-		abilities.add(SkillsBase.getAutoAttack(this));
-		abilities.add(SkillsBase.getShot(this));
-		qTracker = new QuestTracker(this);
-		sCaster = new SkillCaster(this);
-
-        serialId = id + "_" + serial;
-		while(reservedIDs.contains(serialId))
-        {
-		    serial ++;
-            charCounter ++;
-            serialId = id + "_" + serial;
-        }
-		reservedIDs.add(serialId);
-	}
-	*/
-	/**
 	 * This constructor provides playable character
 	 * @param id Character ID
 	 * @param attitude Character attitude
@@ -208,6 +170,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		this.guild = GuildsBase.getGuild(guildID);
 		this.attributes = atributes;
 		this.portrait = portrait;
+	    File fileForName = new File(portrait.getResourceReference());
+	    this.portrait.setName(fileForName.getName());
 		live = true;
 		if(staticAvatar)
 			avatar = new StaticAvatar(this, gc, spritesheet);
@@ -528,7 +492,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * Removes specific item from equipment
 	 * @param item Equipped character item
 	 */
-	public void unequipp(Item item)
+	public void unequipp(Equippable item)
     { inventory.unequipp(item); }
 	/**
 	 * Draws character avatar
@@ -617,6 +581,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 
 		effects.update(delta);
 	    abilities.update(delta);
+	    inventory.update();
 		avatar.update(delta);
 		flags.update(quests);
 		quests.update();
@@ -805,6 +770,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Gender getGender()
 	{ return sex; }
+	/**
+	 * Returns character race
+	 * @return Race enum
+	 */
+	public Race getRace()
+	{ return race; }
 	/**
 	 * Returns character attitude
 	 * @return Character attitude enumeration
@@ -1093,13 +1064,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		{
 			takeHealth(aggressor, attack.getDamage() - inventory.getArmorRating());
 			effects.addAll(attack.getEffects());
-			if(attack.getEffectType() == EffectType.NORMAL)
+			if(aggressor.getInventory().getMainWeapon() != null)
 			{
-				
-			}
-			else
-			{
-				ABase.get("spellHit").play(1.0f, Settings.getEffectsVol());
+				effects.addAll(aggressor.getInventory().getMainWeapon().getHitEffects());
 			}
 		}
 	}
@@ -1130,8 +1097,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		hp.modValue(value);
 		Log.gainInfo(name, value, TConnector.getText("ui", "hpName"));
-		if(hp.getValue() > hp.getMax())
-			hp.setValue(hp.getMax());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxHealth(int)
@@ -1149,8 +1114,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		mana.modValue(value);
 		Log.gainInfo(name, value, TConnector.getText("ui", "manaName"));
-		if(mana.getValue() > mana.getMax())
-			mana.setValue(mana.getMax());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#incMaxMagicka(int)

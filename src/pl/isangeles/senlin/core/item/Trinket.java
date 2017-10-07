@@ -24,6 +24,7 @@ package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -32,6 +33,8 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.graphic.AnimObject;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
@@ -53,16 +56,17 @@ public class Trinket extends Equippable
 	 * @param imgName Item icon image file name
 	 * @param reqLevel Level required to use this item
 	 * @param bonuses Bonuses for owner
+	 * @param equippEffects List with IDs of all equip effects 
 	 * @param onUse Action on use
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel,
-			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel, Bonuses bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, type.ordinal(), ItemMaterial.IRON);
+		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
@@ -76,16 +80,17 @@ public class Trinket extends Equippable
 	 * @param imgName Item icon image file name
 	 * @param reqLevel Level required to use this item
 	 * @param bonuses Bonuses for owner
+	 * @param equippEffects List with IDs of all equip effects 
 	 * @param onUse Action on use
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel,
-			Bonuses bonuses, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel, Bonuses bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, type.ordinal(), ItemMaterial.IRON);
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.setTile(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
@@ -124,7 +129,6 @@ public class Trinket extends Equippable
 	{
 		return onUse.start(user, target);
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
@@ -133,4 +137,20 @@ public class Trinket extends Equippable
     {
     	return new ItemTile(GConnector.getInput("icon/item/trinket/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Equippable#setMSprite(java.lang.String)
+	 */
+	@Override
+	protected void setMSprite(String ssName) throws IOException, SlickException 
+	{
+		// Trinkets do not use any sprite sheets
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Equippable#setFSprite(java.lang.String)
+	 */
+	@Override
+	protected void setFSprite(String ssName) throws IOException, SlickException 
+	{
+		// Trinkets do not use any sprite sheets
+	}
 }

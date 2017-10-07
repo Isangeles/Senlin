@@ -24,12 +24,17 @@ package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.graphic.AnimObject;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -58,6 +63,7 @@ public class Armor extends Equippable
 	 * @param value Item value in gold
 	 * @param armRat Armor rating value
 	 * @param bonuses Armor bonuses to statistics
+	 * @param equippEffects List with IDs of all equip effects 
 	 * @param reqLevel Level requested to wear armor
 	 * @param imgName Name of image file in icon directory for item tile
 	 * @param gc Slick game container for item tile
@@ -65,11 +71,11 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String mSpriteName, 
-				 String fSpriteName, GameContainer gc) 
+	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, List<String> equipEffects,
+				 int reqLevel, String imgName, String mSpriteName, String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
+		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
 		if(type == ArmorType.CHEST)
@@ -90,6 +96,7 @@ public class Armor extends Equippable
 	 * @param value Item value in gold
 	 * @param armRat Armor rating value
 	 * @param bonuses Armor bonuses to statistics
+	 * @param equippEffects List with IDs of all equip effects 
 	 * @param reqLevel Level requested to wear armor
 	 * @param imgName Name of image file in icon directory for item tile
 	 * @param gc Slick game container for item tile
@@ -97,11 +104,11 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, int reqLevel, String imgName, String mSpriteName,
-				 String fSpriteName, GameContainer gc) 
+	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, List<String> equipEffects, 
+				 int reqLevel, String imgName, String mSpriteName,String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, type.ordinal(), material);
+		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.setTile(gc);
 		if(type == ArmorType.CHEST)
@@ -162,49 +169,13 @@ public class Armor extends Equippable
 		return material.toString();
 	}
 	/**
-	 * Sets male sprite for item depended on item material 
-	 * @throws SlickException
-	 * @throws IOException
-	 */
-	private void setDefaultMSprite() throws SlickException, IOException
-	{
-		switch(material)
-		{
-		case CLOTH:
-			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
-			break;
-		case LEATHER:
-            itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-leather-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
-            break;
-		default:
-			itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
-			break;
-		}
-	}
-	/**
-	 * Sets female sprite for item depended on item material 
-	 * @throws SlickException
-	 * @throws IOException
-	 */
-	private void setDefaultFSprite() throws SlickException, IOException
-	{
-		switch(material)
-		{
-		case CLOTH:
-			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
-			break;
-		default:
-			itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
-			break;
-		}
-	}
-	/**
      * Sets sprite from file with specified name as item male sprite
      * @param spriteFileName Name of sprite sheet file
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	private void setMSprite(String spriteFileName) throws SlickException, IOException
+	@Override
+	protected void setMSprite(String spriteFileName) throws SlickException, IOException
 	{
 		try
 		{
@@ -212,7 +183,18 @@ public class Armor extends Equippable
 		}
 		catch(SlickException | NullPointerException | IOException e)
 		{
-			setDefaultMSprite();
+			switch(material)
+			{
+			case CLOTH:
+				itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
+				break;
+			case LEATHER:
+	            itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-leather-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
+	            break;
+			default:
+				itemMSprite = new AnimObject(GConnector.getInput("sprite/avatar/m-cloth-1222211-80x90.png"), "spriteM"+id, false, 80, 90);
+				break;
+			}
 		}
 	}
 	/**
@@ -221,7 +203,8 @@ public class Armor extends Equippable
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	private void setFSprite(String spriteFileName) throws SlickException, IOException
+	@Override
+	protected void setFSprite(String spriteFileName) throws SlickException, IOException
 	{
 		try
 		{
@@ -229,7 +212,15 @@ public class Armor extends Equippable
 		}
 		catch(SlickException | NullPointerException | IOException e)
 		{
-			setDefaultFSprite();
+			switch(material)
+			{
+			case CLOTH:
+				itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
+				break;
+			default:
+				itemFSprite = new AnimObject(GConnector.getInput("sprite/avatar/f-cloth-1222211-80x90.png"), "spriteF"+id, false, 80, 90);
+				break;
+			}
 		}
 	}
 	/* (non-Javadoc)

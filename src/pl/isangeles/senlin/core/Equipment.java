@@ -291,20 +291,31 @@ public class Equipment implements SaveElement
 	 * Returns list with all equipment items 
 	 * @return ArrayList with items
 	 */
-	public List<Item> getAll()
+	public List<Equippable> getAll()
 	{
-		List<Item> eq = new ArrayList<>();
-		eq.add(weaponMain);
-		eq.add(weaponSec);
-		eq.add(boots);
-		eq.add(gloves);
-		eq.add(shield);
-		eq.add(chest);
-		eq.add(helmet);
-		eq.add(ring);
-		eq.add(ringSec);
-		eq.add(amulet);
-		eq.add(artifact);
+		List<Equippable> eq = new ArrayList<>();
+		if(weaponMain != null)
+			eq.add(weaponMain);
+		if(weaponSec != null)
+			eq.add(weaponSec);
+		if(boots != null)
+			eq.add(boots);
+		if(gloves != null)
+			eq.add(gloves);
+		if(shield != null)
+			eq.add(shield);
+		if(chest != null)
+			eq.add(chest);
+		if(helmet != null)
+			eq.add(helmet);
+		if(ring != null)
+			eq.add(ring);
+		if(ringSec != null)
+			eq.add(ringSec);
+		if(amulet != null)
+			eq.add(amulet);
+		if(artifact != null)
+			eq.add(artifact);
 		return eq;
 	}
 	/**

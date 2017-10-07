@@ -50,6 +50,8 @@ public class WeaponPattern
 	private final int minDmg;
 	private final int maxDmg;
 	private final Bonuses bonuses;
+	private final List<String> equipEffects;
+	private final List<String> hitEffects;
 	private final String icon;
 	private final String spriteSheet;
 	/**
@@ -62,10 +64,13 @@ public class WeaponPattern
 	 * @param minDmg Weapon minimal damage 
 	 * @param maxDmg Weapon maximal damage
 	 * @param bonuses Item bonuses
+	 * @param equipEffects List with IDs of all equip effects
+	 * @param hitEffects List with IDs of all hit effects
 	 * @param icon Item UI icon
 	 * @param spriteSheet Item sprite sheet
 	 */
-	public WeaponPattern(String id, int reqLvl, String type, String material, int value, int minDmg, int maxDmg, List<Bonus> bonuses, String icon, String spriteSheet)
+	public WeaponPattern(String id, int reqLvl, String type, String material, int value, int minDmg, int maxDmg, List<Bonus> bonuses, List<String> equipEffects, 
+						 List<String> hitEffects, String icon, String spriteSheet)
 	{
 		this.id = id;
 		this.reqLvl = reqLvl;
@@ -76,6 +81,8 @@ public class WeaponPattern
 		this.maxDmg = maxDmg;
 		this.bonuses = new Bonuses();
 		this.bonuses.addAll(bonuses);
+		this.equipEffects = equipEffects;
+		this.hitEffects = hitEffects;
 		this.icon = icon;
 		this.spriteSheet = spriteSheet;
 	}
@@ -97,7 +104,7 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
+		return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
 	}
 
 	/**
@@ -111,6 +118,6 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, reqLvl, icon, spriteSheet, gc);
+		return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
 	}
 }

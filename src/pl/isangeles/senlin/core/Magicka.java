@@ -51,7 +51,10 @@ public class Magicka
 	 */
 	public void modValue(int value)
 	{
-		this.value += value;
+		if(this.value + value > max)
+			value = max;
+		else
+			this.value += value;
 	}
 	/**
 	 * Modifies maximal magicka value by specified value

@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
@@ -310,7 +311,7 @@ public final class SSGParser
                 object.setPosition(new Position(objectE.getAttribute("position")));
                 Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
                 if(eqE != null)
-                    object.setInventory(getObjectInventory(eqE));
+                    object.setInventory(getObjectInventory(object, eqE));
                 objects.add(object);
             }
         }
@@ -430,9 +431,9 @@ public final class SSGParser
      * @param eqE SSG eq doc element
      * @return New inventory object
      */
-    private static Inventory getObjectInventory(Element eqE)
+    private static Inventory getObjectInventory(Targetable object, Element eqE)
     {
-    	Inventory objectInventory = new Inventory();
+    	Inventory objectInventory = new Inventory(object);
     	Node inNode = eqE.getElementsByTagName("in").item(0);
     	
     	Element inE = (Element)inNode;
@@ -462,7 +463,7 @@ public final class SSGParser
     {
     	//Day day = new Day();
     	Element dayE = (Element)dayNode;
-    	int dayTime = Integer.parseInt(dayE.getAttribute("time"));
+    	long dayTime = Long.parseLong(dayE.getAttribute("time"));
     	
     	Element weatherE = (Element)dayE.getElementsByTagName("weather").item(0);
     	String weatherId = weatherE.getTextContent();

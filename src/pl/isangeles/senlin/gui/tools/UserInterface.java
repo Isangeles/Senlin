@@ -88,7 +88,9 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     /**
      * UI constructor, calls all UI elements constructors
      * @param gc Game container for superclass and ui elements
+     * @param cli Command line interface
      * @param player Player character 
+     * @param gw Game world
      * @throws SlickException
      * @throws IOException
      * @throws FontFormatException

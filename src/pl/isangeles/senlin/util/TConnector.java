@@ -89,6 +89,10 @@ public final class TConnector
      */
 	public static String getText(String fileName ,String textID)
 	{
+		if(!fileName.endsWith(".lang"))
+	    {
+	    	fileName += ".lang";
+	    }
 		String fullPath = "data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + fileName;
 		return getTextFromFile(fullPath, textID);
 	}
@@ -101,7 +105,28 @@ public final class TConnector
      */
 	public static String getTextFromModule(String fileName ,String textID)
 	{
+		if(!fileName.endsWith(".lang"))
+	    {
+	    	fileName += ".lang";
+	    }
 		String fullPath = Module.getGlobalLangPath() + File.separator + fileName;
+		return getTextFromFile(fullPath, textID);
+	}
+	/**
+     * Returns text with for specified ID from specified file in lang directory of active chapter in current module directory 
+     * (data/modules/[current module name]/chapers/[current chapter name]/lang/[current lang name]/[file name])
+     * construction of text file: [text id]:[text];[new line mark]
+     * @param fileName Name of the file in current lang directory
+     * @param textID Id of text line
+     * @return String with text or error message 
+     */
+	public static String getTextFromChapter(String fileName ,String textID)
+	{
+		if(!fileName.endsWith(".lang"))
+	    {
+	    	fileName += ".lang";
+	    }
+		String fullPath = Module.getLangPath() + File.separator + fileName;
 		return getTextFromFile(fullPath, textID);
 	}
 	/**
@@ -155,11 +180,39 @@ public final class TConnector
 	 */
 	public static String[] getInfoFromModule(String langFile, String id)
 	{
+		if(!langFile.endsWith(".lang"))
+	    {
+	    	langFile += ".lang";
+	    }
 		String[] nameAndInfo = new String[]{"", ""};
 		try
 		{
 			nameAndInfo[0] = getTextFromFile(Module.getGlobalLangPath() + File.separator + langFile, id).split(";")[0];
 			nameAndInfo[1] = getTextFromFile(Module.getGlobalLangPath() + File.separator + langFile, id).split(";")[1];
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			Log.addSystem("tc_get_info_fail_msg///No name or info in " + langFile + " for: " + id);
+		}
+		return nameAndInfo;
+	}
+	/**
+	 * Returns table with name[0] and info[1] for specified ID from lang file in active chapter directory of current module
+	 * @param langFile Some file in current lang directory
+	 * @param id ID of line in specified file
+	 * @return Table with name[0] and info[1]
+	 */
+	public static String[] getInfoFromChapter(String langFile, String id)
+	{
+		if(!langFile.endsWith(".lang"))
+	    {
+	    	langFile += ".lang";
+	    }
+		String[] nameAndInfo = new String[]{"", ""};
+		try
+		{
+			nameAndInfo[0] = getTextFromFile(Module.getLangPath() + File.separator + langFile, id).split(";")[0];
+			nameAndInfo[1] = getTextFromFile(Module.getLangPath() + File.separator + langFile, id).split(";")[1];
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
@@ -175,7 +228,7 @@ public final class TConnector
 	public static String getRanomText(String category)
 	{
 	    Random roll = new Random();
-	    File randomTextFile = new File("data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "random");
+	    File randomTextFile = new File("data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "random.lang");
 	    try
 	    {
 	        Scanner scann = new Scanner(randomTextFile);
@@ -208,7 +261,7 @@ public final class TConnector
 	 */
 	public static String getDialogueText(String id)
 	{
-		return getTextFromFile(Module.getLangPath() + File.separator + "dialogues", id);
+		return getTextFromFile(Module.getLangPath() + File.separator + "dialogues.lang", id);
 	}
 	/**
 	 * Returns setting with specified ID from settings file

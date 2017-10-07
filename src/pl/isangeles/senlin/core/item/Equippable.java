@@ -24,20 +24,27 @@ package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.EquipAction;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.effect.EffectSource;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.graphic.AnimObject;
 /**
  * Class for equippable items
  * @author Isangeles
  *
  */
-public abstract class Equippable extends Item 
+public abstract class Equippable extends Item implements EffectSource
 {
 	protected int reqLevel;
 	protected final int type;
@@ -45,26 +52,27 @@ public abstract class Equippable extends Item
 	protected Bonuses bonuses;
 	protected AnimObject itemMSprite;
 	protected AnimObject itemFSprite;
+	protected List<String> equipEffects;
 	
-	protected abstract String getTypeName();
-	
-	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, ItemMaterial material)
+	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, value, 1, imgName, gc);
 		this.reqLevel = reqLevel;
 		this.bonuses = bonuses;
+		this.equipEffects = equipEffects;
 		this.type = type;
 		this.material = material;
 		onUse = new EquipAction(this);
 	}
 	
-	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, int type, ItemMaterial material)
+	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, serial, value, 1, imgName, gc);
 		this.reqLevel = reqLevel;
 		this.bonuses = bonuses;
+		this.equipEffects = equipEffects;
 		this.type = type;
 		this.material = material;
 		onUse = new EquipAction(this);
@@ -94,4 +102,62 @@ public abstract class Equippable extends Item
 	        return itemMSprite;
 	    }
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getOwner()
+	 */
+	@Override
+	public Targetable getOwner() 
+	{
+		return owner;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffects()
+	 */
+	@Override
+	public Collection<Effect> getEffects() 
+	{
+		List<Effect> effects = new ArrayList<>();
+		for(String id : equipEffects)
+		{
+			effects.add(EffectsBase.getEffect(this, id));
+		}
+		return effects;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffect(java.lang.String)
+	 */
+	@Override
+	public Effect getEffect(String effectId) 
+	{
+		for(String id : equipEffects)
+		{
+			if(id.equals(effectId))
+				return EffectsBase.getEffect(this, id);
+		}
+		return null;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffectsIds()
+	 */
+	@Override
+	public List<String> getEffectsIds() 
+	{
+		return equipEffects;
+	}
+	/**
+     * Sets sprite from file with specified name as item male sprite
+     * @param spriteFileName Name of sprite sheet file
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	protected abstract void setMSprite(String ssName) throws IOException, SlickException;
+	/**
+	 * Sets sprite from file with specified name as item female sprite
+	 * @param spriteFileName Name of sprite sheet file
+	 * @throws SlickException
+	 * @throws IOException
+	 */
+	protected abstract void setFSprite(String ssName) throws IOException, SlickException;
+
+	protected abstract String getTypeName();
 }

@@ -65,8 +65,8 @@ public class Quest implements ScrollableContent, SaveElement
         
         try
         {
-        	name = TConnector.getInfoFromFile(Module.getLangPath() + File.separator + "quests", id)[0];
-            info = TConnector.getInfoFromFile(Module.getLangPath() + File.separator + "quests", id)[1];
+        	name = TConnector.getInfoFromChapter("quests", id)[0];
+            info = TConnector.getInfoFromChapter("quests", id)[1];
         }
         catch(IndexOutOfBoundsException e)
         {

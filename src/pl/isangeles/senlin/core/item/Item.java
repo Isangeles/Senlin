@@ -30,10 +30,12 @@ import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
+import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.gui.SlotContent;
 import pl.isangeles.senlin.gui.tools.ItemTile;
@@ -49,6 +51,7 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
 {
 	private static int itemCounter;
 	private static List<Integer> reservedIDs = new ArrayList<>();
+	protected Targetable owner;
 	protected int itemNumber = itemCounter++;
 	protected String id;
 	protected String serialId;
@@ -117,6 +120,14 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
     public void draw(float x, float y, boolean scaledPos)
     {
     	itemTile.draw(x, y, scaledPos);
+    }
+    /**
+     * Sets item owner 
+     * @param owner Targetable object
+     */
+    public void setOwner(Targetable owner)
+    {
+    	this.owner = owner;
     }
     /**
      * Get item tile

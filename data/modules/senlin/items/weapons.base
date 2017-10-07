@@ -6,8 +6,10 @@
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>
-        <effects>
-        </effects>
+        <equipEffects>
+        </equipEffects>
+        <hitEffects>
+        </hitEffects>
     </item>
     <item id="wBTHW" reqLvl="1" type="bow" material="wood" value="5" dmg="1-3">
         <icon>bow.png</icon>
@@ -15,7 +17,7 @@
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>
-        <effects>
-        </effects>
+        <equipEffects>
+        </equipEffects>
     </item>
 </base>

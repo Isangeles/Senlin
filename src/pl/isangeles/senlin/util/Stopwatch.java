@@ -62,7 +62,7 @@ public class Stopwatch
     public static String timeFromMillis(long timeInMillis)
     {
     	Date date = new Date(timeInMillis);
-    	SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+    	SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
     	String hms = format.format(date);
     	
     	return hms;

@@ -22,10 +22,12 @@
  */
 package pl.isangeles.senlin.util.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
@@ -72,7 +74,42 @@ public class ItemParser
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
-		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, icon, spriteSheet);
+		List<String> equipEffects = new ArrayList<>();
+		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
+		if(equipEffectsE != null)
+		{
+			NodeList equipEffectsNl = equipEffectsE.getElementsByTagName("effect");
+			for(int i = 0; i < equipEffectsNl.getLength(); i++)
+			{
+				Node effectNode = equipEffectsNl.item(i);
+				if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element effectE = (Element)effectNode;
+					String effectId = effectE.getTextContent();
+					equipEffects.add(effectId);
+				}
+			}
+		}
+		
+		List<String> hitEffects = new ArrayList<>();
+		Element hitEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
+		if(hitEffectsE != null)
+		{
+			NodeList hitEffectsNl = hitEffectsE.getElementsByTagName("effect");
+			for(int i = 0; i < hitEffectsNl.getLength(); i++)
+			{
+				Node effectNode = hitEffectsNl.item(i);
+				if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element effectE = (Element)effectNode;
+					String effectId = effectE.getTextContent();
+					equipEffects.add(effectId);
+				}
+			}
+		}
+		
+		
+		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, icon, spriteSheet);
 	}
 	/**
 	 * Parses item node from armors base
@@ -97,6 +134,23 @@ public class ItemParser
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+
+		List<String> equipEffects = new ArrayList<>();
+		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
+		if(equipEffectsE != null)
+		{
+			NodeList equipEffectsNl = equipEffectsE.getElementsByTagName("effect");
+			for(int i = 0; i < equipEffectsNl.getLength(); i++)
+			{
+				Node effectNode = equipEffectsNl.item(i);
+				if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element effectE = (Element)effectNode;
+					String effectId = effectE.getTextContent();
+					equipEffects.add(effectId);
+				}
+			}
+		}
 		
 		Element mSpriteE = (Element)itemE.getElementsByTagName("maleSprite").item(0);
 		if(mSpriteE != null)
@@ -110,7 +164,7 @@ public class ItemParser
 		}
 		
 		
-		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, icon, maleSprite, femaleSprite);
+		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, equipEffects, icon, maleSprite, femaleSprite);
 	}
 	/**
 	 * Parses item node from trinkets base
@@ -130,11 +184,28 @@ public class ItemParser
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
 		
+		List<String> equipEffects = new ArrayList<>();
+		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
+		if(equipEffectsE != null)
+		{
+			NodeList equipEffectsNl = equipEffectsE.getElementsByTagName("effect");
+			for(int i = 0; i < equipEffectsNl.getLength(); i++)
+			{
+				Node effectNode = equipEffectsNl.item(i);
+				if(effectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element effectE = (Element)effectNode;
+					String effectId = effectE.getTextContent();
+					equipEffects.add(effectId);
+				}
+			}
+		}
+		
 		Element actionE = (Element)itemE.getElementsByTagName("action").item(0);
 		String actionType = actionE.getAttribute("type");
 		String actionId = actionE.getTextContent();
 		
-		return new TrinketPattern(id, type, reqLvl, value, icon, bonuses, actionType, actionId);
+		return new TrinketPattern(id, type, reqLvl, value, icon, bonuses, equipEffects, actionType, actionId);
 	}
 	/**
 	 * Parses item node from miscellaneous items base

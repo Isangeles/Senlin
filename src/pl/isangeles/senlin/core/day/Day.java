@@ -40,7 +40,7 @@ public class Day implements SaveElement
 {
 	private Weather conditions;
 	private DayPhase phase;
-	private int time;
+	private long time;
 	private Random rng = new Random();
 	/**
 	 * Day manager constructor
@@ -67,7 +67,7 @@ public class Day implements SaveElement
 	public void update(int delta)
 	{
 		time += delta;
-		if(time > Stopwatch.min(6))
+		if(time < Stopwatch.min(6))
 			phase.changePhase(PhaseType.MORNING);
 		if(time > Stopwatch.min(12))
 			phase.changePhase(PhaseType.MIDDAY);
@@ -75,7 +75,7 @@ public class Day implements SaveElement
 			phase.changePhase(PhaseType.AFTERNOON);
 		if(time > Stopwatch.min(22))
 			phase.changePhase(PhaseType.NIGHT);
-		if(time > Stopwatch.min(14))
+		if(time > Stopwatch.min(24))
 			time = 0;
 		
 		if(!conditions.isRaining() && rng.nextInt(100) == 1)
@@ -87,7 +87,7 @@ public class Day implements SaveElement
 	 * Sets specified time as current time
 	 * @param time Time in milliseconds
 	 */
-	public void setTime(int time)
+	public void setTime(long time)
 	{
 		this.time = time;
 	}
@@ -129,7 +129,6 @@ public class Day implements SaveElement
 	{
 		Element dayE = doc.createElement("day");
 		dayE.setAttribute("time", time+"");
-		//dayE.appendChild(phase.getSave(doc));
 		dayE.appendChild(conditions.getSave(doc));
 		return dayE;
 	}

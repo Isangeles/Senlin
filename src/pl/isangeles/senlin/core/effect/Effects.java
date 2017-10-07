@@ -78,20 +78,23 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	 */
 	public void addAllFrom(EffectSource source)
 	{
-		for(String id : source.getEffectsIds())
+		if(source != null)
 		{
-			if(!hasEffect(id))
+			for(String id : source.getEffectsIds())
 			{
-				add(source.getEffect(id));
-			}
-			else
-			{
-				for(Effect effect : get(id))
+				if(!hasEffect(id))
 				{
-					if(effect.getSource() != source) 
+					add(source.getEffect(id));
+				}
+				else
+				{
+					for(Effect effect : get(id))
 					{
-						add(source.getEffect(id));
-						break;
+						if(effect.getSource() != source) 
+						{
+							add(source.getEffect(id));
+							break;
+						}
 					}
 				}
 			}

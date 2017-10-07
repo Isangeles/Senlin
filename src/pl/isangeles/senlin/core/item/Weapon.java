@@ -24,6 +24,9 @@ package pl.isangeles.senlin.core.item;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -31,6 +34,8 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.graphic.AnimObject;
@@ -51,6 +56,7 @@ public class Weapon extends Equippable
 							FIST = 6;
 	private int maxDamage;
 	private int minDamage;
+	private List<String> hitEffects;
 	/**
 	 * Weapon constructor
 	 * @param id Weapon ID	
@@ -62,6 +68,8 @@ public class Weapon extends Equippable
 	 * @param maxDmg Max weapon damage
 	 * @param minDmg Min weapon damage
 	 * @param bonuses Weapon bonuses
+	 * @param equippEffects List with IDs of all equip effects 
+	 * @param hitEffects List with IDs of all hit effects 
 	 * @param reqLevel Required level
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
@@ -69,12 +77,14 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, List<String> equipEffects, 
+				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, picName, gc, reqLevel, bonuses, type.ordinal(), material);
+		super(id, value, picName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
+		this.hitEffects = hitEffects;
         this.itemTile = this.setTile(gc);
         itemMSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 80, 90);
 	}
@@ -90,6 +100,8 @@ public class Weapon extends Equippable
 	 * @param maxDmg Max weapon damage
 	 * @param minDmg Min weapon damage
 	 * @param bonuses Weapon bonuses
+	 * @param equippEffects List with IDs of all equip effects 
+	 * @param hitEffects List with IDs of all hit effects 
 	 * @param reqLevel Required level
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
@@ -97,14 +109,16 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, int reqLevel, String picName, String spriteName, GameContainer gc) 
+	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, List<String> equipEffects, 
+				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, picName, gc, reqLevel, bonuses, type.ordinal(), material);
+		super(id, serial, value, picName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
+		this.hitEffects = hitEffects;
         this.itemTile = this.setTile(gc);
-        itemMSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 80, 90);
+        setMSprite(spriteName);
 	}
 	/**
 	 * Returns weapon maximal and minimal damage
@@ -177,6 +191,49 @@ public class Weapon extends Equippable
 	    return itemMSprite;
 	}
 	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.effect.EffectSource#getOwner()
+	 */
+	@Override
+	public Targetable getOwner() 
+	{
+		return null;
+	}
+	/**
+	 * Returns all 'on-hit' effects
+	 * @return Collection with all 'on-hit' effects
+	 */
+	public Collection<Effect> getHitEffects() 
+	{
+		List<Effect> effects = new ArrayList<>();
+		for(String id : hitEffects)
+		{
+			effects.add(EffectsBase.getEffect(this, id));
+		}
+		return effects;
+	}
+	/**
+	 * Returns 'on-hit' effects with specified ID
+	 * @param effectId Effects ID
+	 * @return New instance of effect with specified ID or null if no such effects was found
+	 */
+	public Effect getHitEffect(String effectId) 
+	{
+		for(String id : hitEffects)
+		{
+			if(id.equals(effectId))
+				return EffectsBase.getEffect(this, id);
+		}
+		return null;
+	}
+	/**
+	 * Returns all IDs of all 'on-hit' effects
+	 * @return List with effects IDs
+	 */
+	public List<String> getHitEffectsIds() 
+	{
+		return hitEffects;
+	}
+	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
@@ -184,4 +241,20 @@ public class Weapon extends Equippable
     {
     	return new ItemTile(GConnector.getInput("icon/item/weapon/"+imgName), id+itemNumber, false, gc, this.getInfo());
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Equippable#setMSprite(java.lang.String)
+	 */
+	@Override
+	protected void setMSprite(String ssName) throws IOException, SlickException 
+	{
+        itemMSprite = new AnimObject(GConnector.getInput("sprite/item/" + ssName), "sprite"+id, false, 80, 90);
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.item.Equippable#setFSprite(java.lang.String)
+	 */
+	@Override
+	protected void setFSprite(String ssName) throws IOException, SlickException 
+	{
+		//Weapons use only one sprite sheet(male)
+	}
 }

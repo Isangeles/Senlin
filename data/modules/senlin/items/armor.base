@@ -7,5 +7,6 @@
         <bonuses>
             <statsBonus>0;0;0;0;0;</statsBonus>
         </bonuses>
+        <equipEffects></equipEffects>
     </item>
 </base>
