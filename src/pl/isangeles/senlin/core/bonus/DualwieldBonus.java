@@ -1,5 +1,5 @@
 /*
- * BonusType.java
+ * DualwieldBonus.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -22,41 +22,47 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.util.TConnector;
+
 /**
- * Enumeration for bonus types
+ * Class for dualwield bonus
  * @author Isangeles
  *
  */
-public enum BonusType 
+public class DualwieldBonus extends Bonus 
 {
-	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT, DUALWIELD;
+	private float value;
 	/**
-	 * Converts specified type ID to bonus type enum
-	 * @param id String with bonus type ID
-	 * @return Bonus type enum
+	 * Dualwield bonus constructor
+ 	 * @param value Bonus value
 	 */
-	public static BonusType fromString(String id)
+	public DualwieldBonus(int value)
 	{
-		switch(id)
-		{
-		case "statsBonus":
-			return BonusType.STATS;
-		case "healthBonus":
-			return BonusType.HEALTH;
-		case "manaBonus":
-			return BonusType.MANA;
-		case "haseBonus":
-			return BonusType.HASTE;
-		case "dodgeBonus":
-			return BonusType.DODGE;
-		case "damageBonus":
-			return BonusType.DAMAGE; 
-		case "undetectBonus":
-			return BonusType.UNDETECT;
-		case "dualwieldBonus":
-			return BonusType.DUALWIELD;
-		default:
-			return BonusType.NONE;
-		}
+		super(BonusType.DUALWIELD, TConnector.getText("ui", "bonDual") + ":" + value);
+		this.value = value;
+	}	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.Targetable)
+	 */
+	@Override
+	public void applyOn(Targetable object) 
+	{
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
+	 */
+	@Override
+	public void removeFrom(Targetable object) 
+	{
+	}
+	/**
+	 * Returns bonus value
+	 * @return Bonus value
+	 */
+	public float getValue()
+	{
+		return value;
+	}
+
 }

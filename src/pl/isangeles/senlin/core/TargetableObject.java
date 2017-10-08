@@ -32,6 +32,7 @@ import pl.isangeles.senlin.audio.Voicing;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
@@ -64,6 +65,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Portrait portrait;
     private Position pos;
     private Inventory inventory;
+    private Bonuses bonuses = new Bonuses();
     private Effects effects = new Effects(this);
     private Action onClick;
     /**
@@ -521,4 +523,12 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         
         return objectE;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getBonuses()
+	 */
+	@Override
+	public Bonuses getBonuses() 
+	{
+		return bonuses;
+	}
 }

@@ -99,6 +99,22 @@ public class Bonuses extends ArrayList<Bonus>
 		return bonuses;
 	}
 	/**
+	 * Returns all dualwield bonuses
+	 * @return List with dualwield bonuses
+	 */
+	public List<DualwieldBonus> getDualwieldBonuses()
+	{
+		List<DualwieldBonus> bonuses = new ArrayList<>();
+		for(Bonus bonus : this)
+		{
+			if(bonus.getType() == BonusType.DUALWIELD)
+			{
+				bonuses.add((DualwieldBonus)bonus);
+			}
+		}
+		return bonuses;
+	}
+	/**
 	 * Returns stealth level from all bonuses
 	 * @return Stealth level
 	 */

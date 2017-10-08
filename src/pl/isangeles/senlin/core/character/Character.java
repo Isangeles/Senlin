@@ -58,6 +58,7 @@ import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
+import pl.isangeles.senlin.core.bonus.DualwieldBonus;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
@@ -680,9 +681,20 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 					hit += dmgBonus.getDmg();
 			}
 		}
-		if(inventory.getMainWeapon() != null)
+		if(inventory.getMainWeapon() != null || inventory.getOffHand() != null)
 		{
-			hit += (numberGenerator.nextInt(inventory.getWeaponDamage()[0])+inventory.getWeaponDamage()[1]);
+			int[] weaponDmg = inventory.getWeaponDamage();
+			if(inventory.isDualwield())
+			{
+				float dwPenalty = attributes.getDualwieldPenalty();
+				for(DualwieldBonus bonus : bonuses.getDualwieldBonuses())
+				{
+					dwPenalty -= bonus.getValue();
+				}
+				weaponDmg[0] *= dwPenalty;
+				weaponDmg[1] *= dwPenalty;
+			}
+			hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
 		}
 		return hit;
 	}
@@ -1048,6 +1060,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Handles attacks
 	 */
+	@Override
 	public void takeAttack(Targetable aggressor, Attack attack)
 	{
 		if(Character.class.isInstance(aggressor))
@@ -1068,11 +1081,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			{
 				effects.addAll(aggressor.getInventory().getMainWeapon().getHitEffects());
 			}
+			if(aggressor.getInventory().getOffHand() != null)
+			{
+				effects.addAll(aggressor.getInventory().getOffHand().getHitEffects());
+			}
 		}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
 	 */
+	@Override
 	public void takeBuff(Targetable buffer, Buff buff)
 	{
     	effects.addAll(buff.getEffects());
@@ -1260,7 +1278,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * @param skill Some skill known by this character
      * @param target Skill target
      */
-    private CharacterOut useSkillOn(Targetable target, Skill skill)
+    public CharacterOut useSkillOn(Targetable target, Skill skill)
     {
     	CharacterOut out = skill.prepare(this, target);
     	if(live && abilities.contains(skill) && out.isSuccess())

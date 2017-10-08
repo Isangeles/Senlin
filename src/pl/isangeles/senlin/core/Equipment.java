@@ -70,17 +70,21 @@ public class Equipment implements SaveElement
      */
 	private boolean setWeapon(Weapon weapon)
 	{
-		weaponMain = weapon;
-		return true;
-	}
-	/**
-	 * TODO implements secondary weapons
-	 * @param weapon
-	 * @return
-	 */
-	private boolean setSecWeapon(Weapon weapon)
-	{
-		return false;
+		if(weaponMain == null)
+		{
+			weaponMain = weapon;
+			return true;
+		}
+		else if(weaponSec == null)
+		{
+			weaponSec = weapon;
+			return true;
+		}
+		else
+		{
+			weaponMain = weapon;
+			return true;
+		}
 	}
 	/**
 	 * Sets armor part as equipped item
@@ -246,24 +250,19 @@ public class Equipment implements SaveElement
 	}
 	/**
 	 * Return character main weapon
-	 * @return Equipped weapon item, any type OR null if not equipped
+	 * @return Equipped main weapon or null if no item equipped
 	 */
 	public Weapon getMainWeapon()
 	{
 		return weaponMain;
 	}
 	/**
-	 * Returns equipped weapons damage
-	 * @return Table with damage minimal[0] and maximal[1] values
+	 * Returns character off hand
+	 * @return Equipped secondary weapon or null if no item equipped
 	 */
-	public int[] getDamage()
+	public Weapon getOffHand()
 	{
-		if(weaponMain != null)
-		{
-			return weaponMain.getDamage();
-		}
-		else
-			return new int[]{0, 0};
+		return weaponSec;
 	}
 	/**
 	 * Returns total amount of equipment armor rating 
@@ -326,6 +325,14 @@ public class Equipment implements SaveElement
 	public boolean isEquipped(Item item)
 	{
 		return getAll().contains(item);
+	}
+	/**
+	 * Checks if both main and secondary weapons are equipped
+	 * @return True if main and secondary weapons are equipped, false otherwise
+	 */
+	public boolean isDualwield()
+	{
+		return (weaponMain != null && weaponSec != null);
 	}
 	/**
 	 * Parses equipment to XML document element

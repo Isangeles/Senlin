@@ -106,12 +106,28 @@ public class Attributes
 	{
 		return (dexterity.value+(constitution.value/2f))/100;
 	}
-	
+	/**
+	 * Returns haste value(reduces skills cooldown)
+	 * @return Haste value
+	 */
 	public float getHaste()
 	{
-		return 1.0f + (((constitution.value/4) + dexterity.value/2)/2);
+		return 1.0f - (((constitution.value/4) + dexterity.value/2)/2);
+	}
+	/**
+	 * Returns concentration value 
+	 * @return Concentration value
+	 */
+	public float getConcentration()
+	{
+		return 1.0f - ((intelligence.value/4) + (dexterity.value/2)/2);
 	}
 	
+	public float getDualwieldPenalty()
+	{
+		return 2.0f - (dexterity.value/2) + (strength.value/4) + (constitution.value/4);
+	}
+	/*
 	public int getCastBonus()
 	{
 		int castBonus = 0;
@@ -120,7 +136,7 @@ public class Attributes
 			castBonus += 2;
 		}
 		return castBonus;
-	}
+	}*/
 	/**
 	 * Returns new attributes object with all attributes negative
 	 * @return Attributes with inverted values

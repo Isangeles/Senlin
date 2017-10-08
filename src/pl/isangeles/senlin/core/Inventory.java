@@ -31,6 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.bonus.DualwieldBonus;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
@@ -171,7 +172,20 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public int[] getWeaponDamage()
     {
-    	return equipment.getDamage();
+		int[] damage = {0, 0};
+		if(equipment.getMainWeapon() != null)
+		{
+			Weapon mainWeapon = equipment.getMainWeapon();
+			damage[0] += mainWeapon.getDamage()[0];
+			damage[1] += mainWeapon.getDamage()[1];
+		}
+		if(equipment.getOffHand() != null)
+		{
+			Weapon secWeapon = equipment.getOffHand();
+			damage[0] += secWeapon.getDamage()[0];
+			damage[1] += secWeapon.getDamage()[1];
+		}
+		return damage;
     }
     /**
      * Returns armor rating of equipped items
@@ -199,11 +213,19 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	}
 	/**
 	 * Return character main weapon
-	 * @return Equipped weapon item, any type OR null if not equipped
+	 * @return Equipped main weapon or null if no item equipped
 	 */
     public Weapon getMainWeapon()
     {
     	return equipment.getMainWeapon();
+    }
+	/**
+	 * Returns character off hand
+	 * @return Equipped secondary weapon or null if no item equipped
+	 */
+    public Weapon getOffHand()
+    {
+    	return equipment.getOffHand();
     }
     /**
      * Returns item which matches to specific id 
@@ -312,18 +334,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	slotsContent.addAll(this);
     	return slotsContent;
     }
-    /**
-     * UNSED Now slots draws items
-     * @param x
-     * @param y
-     */
-    @Deprecated 
-    public void drawItems(float x, float y)
+    
+    public boolean isDualwield()
     {
-    	for(int i = 0; i < super.size(); i ++)
-    	{
-    		super.get(i).getTile().draw(x, y);
-    	}
+    	return equipment.isDualwield();
     }
     /**
      * Parses inventory to XML document element

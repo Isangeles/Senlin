@@ -66,7 +66,7 @@ public class NpcPattern
 	private final boolean train;
 	private final String guildID;
 	private final int level;
-	private final String constructorLine;
+	private final String stats;
 	private final String headItem;
 	private final String chestItem;
 	private final String handsItem;
@@ -88,9 +88,15 @@ public class NpcPattern
 	private final List<Training> trainings;
 	/**
 	 * NPC pattern constructor
-	 * @param npcId NPC id
-	 * @param constructorLine String with data for character constructor in form:
-	 * [name][level][strength][constitution][dexterity][intelligence][wisdom][portrait(file name in data/portrait dir)]
+	 * @param npcId Character ID
+	 * @param gender Character gender name
+	 * @param race Character race name
+	 * @param attitude NPC attitude name
+	 * @param trade True if character is trader(can trade with player)
+	 * @param train True if character is trainer(can train player) 
+	 * @param guildID Character guild ID
+	 * @param level Character level
+	 * @param stats String with character attributes separated by semicolons
 	 * @param headItem Character head item
 	 * @param chestItem Character chest item
 	 * @param handsItem Character hands item
@@ -101,10 +107,17 @@ public class NpcPattern
 	 * @param fingerAItem Character finger item
 	 * @param fingerBItem Character finger item
 	 * @param artifact Character artifact
-	 * @param gold Character amount of gold
-	 * @param invItems List of all items in character inventory
+	 * @param spritesheet Character sprite sheet file name
+	 * @param staticAvatar True if sprite sheet is for static avatar
+	 * @param portraitName Character portrait file name
+	 * @param gold Character cash
+	 * @param invItems List with IDs of all character items
+	 * @param skills List with IDs of all character skills
+	 * @param effects List with IDs of all characters effects
+	 * @param professions List with character professions
+	 * @param trainings List with all character trainings
 	 */
-	public NpcPattern(String npcId, String gender, String race, String attitude, boolean trade, boolean train, String guildID, int level, String constructorLine, 
+	public NpcPattern(String npcId, String gender, String race, String attitude, boolean trade, boolean train, String guildID, int level, String stats, 
 					  String headItem, String chestItem,String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, 
 					  String fingerBItem, String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
@@ -118,7 +131,7 @@ public class NpcPattern
 		this.train = train;
 		this.guildID = guildID;
 		this.level = level;
-		this.constructorLine = constructorLine;
+		this.stats = stats;
 		this.headItem = headItem;
 		this.chestItem = chestItem;
 		this.handsItem = handsItem;
@@ -159,7 +172,7 @@ public class NpcPattern
 	{
 		Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		portrait.setName(portraitName);
-		Scanner scann = new Scanner(constructorLine);
+		Scanner scann = new Scanner(stats);
 		scann.useDelimiter(";");
 		Character npc = new Character(npcId, npcGender, npcRace, npcAttitude, guildID, npcName, level,
 									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
@@ -231,7 +244,7 @@ public class NpcPattern
     {
         Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
         portrait.setName(portraitName);
-        Scanner scann = new Scanner(constructorLine);
+        Scanner scann = new Scanner(stats);
         scann.useDelimiter(";");
         Character npc = new Character(npcId, serial, npcGender, npcRace, npcAttitude, guildID, npcName, level,
                                       new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 

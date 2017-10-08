@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core;
 
 import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
@@ -61,6 +62,7 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
+	public Bonuses getBonuses();
 	public Inventory getInventory();
 	public Attributes getAttributes();
 	/**

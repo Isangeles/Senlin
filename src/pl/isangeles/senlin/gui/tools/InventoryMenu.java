@@ -440,11 +440,11 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     {
     	private ItemSlot feet;
     	private ItemSlot hands;
-    	private ItemSlot offhand;
     	private ItemSlot chest;
     	private ItemSlot head;
     	
     	private ItemSlot weapon;
+    	private ItemSlot offhand;
     	
     	private ItemSlot finger;
     	private ItemSlot secFinger;
@@ -528,7 +528,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     			return false;
     		}
 
-    		if(eqSlot == weapon && Weapon.class.isInstance(eqItem))
+    		if((eqSlot == weapon || eqSlot == offhand) && Weapon.class.isInstance(eqItem))
     			return player.equipItem(eqItem);
     		if((eqSlot == feet || eqSlot == hands || eqSlot == chest || eqSlot == head) && Armor.class.isInstance(eqItem))
     			return player.equipItem(eqItem);
@@ -625,7 +625,12 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     	{
     		if(Weapon.class.isInstance(item))
     		{
-    			return weapon;
+    			if(weapon.isEmpty())
+        			return weapon;
+    			else if(offhand.isEmpty())
+    				return offhand;
+    			else
+    				return weapon;
     		}
     		
     		if(Armor.class.isInstance(item))
@@ -638,6 +643,8 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     				return hands;
     			case Armor.CHEST:
     				return chest;
+    			case Armor.HEAD:
+    				return head;
     			}
     		}
     		if(Trinket.class.isInstance(item))
@@ -647,7 +654,12 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     			case Trinket.ARTIFACT:
     				return artifact;
     			case Trinket.FINGER:
-    				return finger;
+    				if(finger.isEmpty())
+    					return finger;
+    				else if(secFinger.isEmpty())
+    					return secFinger;
+    				else
+    					return finger;
     			case Trinket.NECK:
     				return neck;
     			}
