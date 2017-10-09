@@ -41,7 +41,7 @@ public class StatsBonus extends Bonus
 	 */
 	public StatsBonus(Attributes stats)
 	{
-		super(BonusType.STATS, TConnector.getText("ui", "nonStats") + ":" + stats.toString());
+		super(BonusType.STATS, TConnector.getText("ui", "bonStats") + ":" + stats.getInfo());
 		statsBonus = stats;
 	}
 	/* (non-Javadoc)
@@ -50,8 +50,7 @@ public class StatsBonus extends Bonus
 	@Override
 	public void applyOn(Targetable object) 
 	{
-	    object.getAttributes().increaseBy(statsBonus);
-	    Log.addSystem("adding stat bon" );
+	    object.getAttributes().mod(statsBonus);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
@@ -59,8 +58,7 @@ public class StatsBonus extends Bonus
 	@Override
 	public void removeFrom(Targetable object) 
 	{
-	    object.getAttributes().decreaseBy(statsBonus);
-	    Log.addSystem("removing stat bon" );
+	    object.getAttributes().mod(statsBonus.nagative());
 	}
 
 }

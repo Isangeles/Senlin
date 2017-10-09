@@ -99,20 +99,20 @@ public class Bonuses extends ArrayList<Bonus>
 		return bonuses;
 	}
 	/**
-	 * Returns all dualwield bonuses
-	 * @return List with dualwield bonuses
+	 * Returns value of dual wielding penalty modifier from all active bonuses
+	 * @return Value of dual wielding penalty modifier
 	 */
-	public List<DualwieldBonus> getDualwieldBonuses()
+	public float getDualwieldBonus()
 	{
-		List<DualwieldBonus> bonuses = new ArrayList<>();
+		float dwMod = 0f;
 		for(Bonus bonus : this)
 		{
 			if(bonus.getType() == BonusType.DUALWIELD)
 			{
-				bonuses.add((DualwieldBonus)bonus);
+				dwMod += ((DualwieldBonus)bonus).getValue();
 			}
 		}
-		return bonuses;
+		return dwMod;
 	}
 	/**
 	 * Returns stealth level from all bonuses

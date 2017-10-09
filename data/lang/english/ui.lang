@@ -28,6 +28,8 @@ eleTNorm:Normal;
 dmgName:Damage;
 durName:Duration;
 hastName:Haste;
+concName:Concentration;
+spName:Spellpower;
 hpName:Health;
 manaName:Magicka;
 expName:Experience;

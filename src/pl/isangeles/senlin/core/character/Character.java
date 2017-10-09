@@ -660,7 +660,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	}
 	/**
 	 * Get character hit
-	 * TODO include offhand weapon damage
 	 * @return Hit value
 	 */
 	public int getHit()
@@ -681,21 +680,16 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 					hit += dmgBonus.getDmg();
 			}
 		}
-		if(inventory.getMainWeapon() != null || inventory.getOffHand() != null)
+		int[] weaponDmg = inventory.getWeaponDamage();
+		if(inventory.isDualwield())
 		{
-			int[] weaponDmg = inventory.getWeaponDamage();
-			if(inventory.isDualwield())
-			{
-				float dwPenalty = attributes.getDualwieldPenalty();
-				for(DualwieldBonus bonus : bonuses.getDualwieldBonuses())
-				{
-					dwPenalty -= bonus.getValue();
-				}
-				weaponDmg[0] *= dwPenalty;
-				weaponDmg[1] *= dwPenalty;
-			}
-			hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
+			float dwPenalty = attributes.getDualwieldPenalty();
+			dwPenalty -= bonuses.getDualwieldBonus();
+			weaponDmg[0] *= dwPenalty;
+			weaponDmg[1] *= dwPenalty;
 		}
+		hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
+		
 		return hit;
 	}
 	/**
@@ -1256,7 +1250,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     
     public void modAttributes(Attributes attributes)
     {
-    	this.attributes.increaseBy(attributes);
+    	this.attributes.mod(attributes);
     }
     /**
      * Activates specified skill, if character know this skill
@@ -1364,7 +1358,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.setAttribute("train", this.train+"");
         
         Element statsE = doc.createElement("stats");
-        statsE.setTextContent(attributes.toLine());
+        statsE.setTextContent(attributes.toString());
         charE.appendChild(statsE);
         
         Element portraitE = doc.createElement("portrait");

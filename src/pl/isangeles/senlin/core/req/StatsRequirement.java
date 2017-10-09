@@ -44,7 +44,7 @@ public class StatsRequirement extends Requirement
 	 */
 	public StatsRequirement(Attributes minStats)
 	{
-		super(RequirementType.STATS, TConnector.getText("ui", "reqStats") + ": " + minStats.toString());
+		super(RequirementType.STATS, TConnector.getText("ui", "reqStats") + ": " + minStats.getInfo());
 		this.minStats = minStats;
 	}
 	/* (non-Javadoc)
@@ -70,7 +70,7 @@ public class StatsRequirement extends Requirement
 	public Element getSave(Document doc) 
 	{
 		Element statsReqE = doc.createElement("statsReq");
-		statsReqE.setTextContent(minStats.toLine());
+		statsReqE.setTextContent(minStats.toString());
 		return statsReqE;
 	}
 

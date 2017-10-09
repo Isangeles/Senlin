@@ -37,7 +37,7 @@ public class DualwieldBonus extends Bonus
 	 * Dualwield bonus constructor
  	 * @param value Bonus value
 	 */
-	public DualwieldBonus(int value)
+	public DualwieldBonus(float value)
 	{
 		super(BonusType.DUALWIELD, TConnector.getText("ui", "bonDual") + ":" + value);
 		this.value = value;

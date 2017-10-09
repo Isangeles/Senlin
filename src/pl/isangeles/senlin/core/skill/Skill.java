@@ -177,7 +177,7 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
 	 */
     public float getCastTime()
     {
-        return castTime * owner.getAttributes().getConcentration(); 
+        return castTime / owner.getAttributes().getConcentration(); 
     }
     /**
      * Returns skill cooldown
@@ -186,9 +186,9 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
     public int getCooldown()
     {
     	if(isMagic())
-    		return (int)(cooldown * owner.getAttributes().getConcentration());
+    		return (int)(cooldown / owner.getAttributes().getConcentration());
     	else
-    		return (int)(cooldown * owner.getAttributes().getHaste());
+    		return (int)(cooldown / owner.getAttributes().getHaste());
     }
     /**
      * Returns skill ID

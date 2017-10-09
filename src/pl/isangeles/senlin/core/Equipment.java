@@ -24,16 +24,10 @@ package pl.isangeles.senlin.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
@@ -60,9 +54,6 @@ public class Equipment implements SaveElement
 	private Trinket amulet;
 	private Trinket artifact;
 	
-	public Equipment() 
-	{
-	}
 	/**
      * Sets item as equipped main weapon
      * @param weapon Any weapon
@@ -223,13 +214,13 @@ public class Equipment implements SaveElement
      */
 	public boolean equip(Equippable item)
 	{
+		item.reset();
+		
 		if(Armor.class.isInstance(item))
 			return setArmor((Armor)item);
-		
-		if(Weapon.class.isInstance(item))
+		else if(Weapon.class.isInstance(item))
 			return setWeapon((Weapon)item);
-		
-		if(Trinket.class.isInstance(item));
+		else if(Trinket.class.isInstance(item));
 			return setTrinket((Trinket)item);
 	}
 	/**

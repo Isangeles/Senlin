@@ -62,7 +62,8 @@ public final class SkillParser
     {
         Element skillE = (Element)skillNode;
         String id = skillE.getAttribute("id");
-        String type = skillE.getAttribute("type");
+        String type = skillE.getAttribute("effect");
+        String attackType = skillE.getAttribute("attackType");
         
         String imgName = skillE.getElementsByTagName("icon").item(0).getTextContent();
         int range = Integer.parseInt(skillE.getElementsByTagName("range").item(0).getTextContent());
@@ -90,7 +91,7 @@ public final class SkillParser
             }
         }
         
-        return new AttackPattern(id, imgName, type, damage, useReqs, cast, cooldown, range, effects, trainReq);
+        return new AttackPattern(id, imgName, type, attackType, damage, useReqs, cast, cooldown, range, effects, trainReq);
     }
     /**
      * Parses specified document node to buff pattern

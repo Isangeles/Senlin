@@ -30,7 +30,7 @@ import org.newdawn.slick.SpriteSheet;
 
 import pl.isangeles.senlin.util.Coords;
 /**
- * Class for animated objects like avatar parts(torso, head, weapon), etc.
+ * Class for fully animated objects like avatar parts(torso, head, weapon), etc.
  * @author Isangeles
  *
  */
@@ -231,6 +231,22 @@ public class AnimObject extends GameObject
 	public void lie(boolean lieReq)
 	{
 		this.lieReq = lieReq;
+	}
+	/**
+	 * Resets objects stance
+	 */
+	public void resetStance()
+	{
+		lieReq = false;
+		kneelReq = false;
+	}
+	/**
+	 * Stops all anims and resets stance of the object
+	 */
+	public void reset()
+	{
+		stopAnim();
+		resetStance();
 	}
 	/**
 	 * Updates object

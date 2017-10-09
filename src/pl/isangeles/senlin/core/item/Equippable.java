@@ -145,6 +145,16 @@ public abstract class Equippable extends Item implements EffectSource
 		return equipEffects;
 	}
 	/**
+	 * Resets item to default state
+	 */
+	public void reset()
+	{
+		if(itemMSprite != null)
+			itemMSprite.reset();
+		if(itemFSprite != null)
+			itemFSprite.reset();
+	}
+	/**
      * Sets sprite from file with specified name as item male sprite
      * @param spriteFileName Name of sprite sheet file
 	 * @throws SlickException

@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.AttackType;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Pattern for attack skills
@@ -46,6 +47,7 @@ public class AttackPattern implements SkillPattern
 {
     private final String id;
     private final EffectType type;
+    private final AttackType attackType;
     private final List<Requirement> useReqs;
     private final int cooldown;
     private final int castTime;
@@ -55,23 +57,24 @@ public class AttackPattern implements SkillPattern
     private final List<String> effects;
     private final List<Requirement> skillReq;
     /**
-     * 
      * Attack pattern constructor
      * @param id Skill ID
      * @param imgName Skill UI icon
-     * @param type Skill type
+     * @param type Skill effect type
+     * @param attackType Attack type
      * @param damage Attack damage
-     * @param magickaCost Skill magicka cost
+     * @param reqs List with all use requirements 
      * @param castTime Skill cast time
      * @param cooldown Skill cooldown
-     * @param useWeapon If weapon is required to use that skill 
-     * @param reqWeapon Type of required weapon
      * @param range Maximal range from target
      * @param effects Skill use effects
+     * @param skillReq List with all train requirements
      */
-    public AttackPattern(String id, String imgName, String type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, List<String> effects, List<Requirement> skillReq)
+    public AttackPattern(String id, String imgName, String type, String attackType, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
+    					 List<String> effects, List<Requirement> skillReq)
     {
         this.type = EffectType.fromString(type);
+        this.attackType = AttackType.fromName(attackType);
         this.id = id;
         this.imgName = imgName;
         this.useReqs = reqs;
@@ -93,9 +96,8 @@ public class AttackPattern implements SkillPattern
      */
     public Attack make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Attack(character, id, imgName, type, damage, useReqs, castTime, cooldown, range, effects, gc);
+        return new Attack(character, id, imgName, type, attackType, damage, useReqs, castTime, cooldown, range, effects, gc);
     }
-
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.pattern.SkillPattern#getId()
      */

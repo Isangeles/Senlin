@@ -58,7 +58,13 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	
 	private boolean openReq;
 	private boolean focus;
-	
+	/**
+	 * Character window constructor
+	 * @param gc Slick game container 
+	 * @param player Player character
+	 * @throws SlickException
+	 * @throws IOException
+	 */
 	public CharacterWindow(GameContainer gc, Character player) throws SlickException, IOException
 	{
 		super(GConnector.getInput("ui/background/infoBG.png"), "uiCharWinBg", false, gc);
@@ -143,7 +149,9 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 		downInfoB.clear();
 		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 	}
-	
+	/**
+	 * Checks if window should be drawn
+	 */
 	public boolean isOpenReq()
 	{
 		return openReq;
@@ -154,8 +162,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void inputEnded() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
@@ -163,8 +169,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void inputStarted() 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
@@ -180,8 +184,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void setInput(Input input) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
@@ -189,8 +191,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
@@ -198,8 +198,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
@@ -207,8 +205,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
@@ -216,8 +212,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
@@ -225,8 +219,6 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
@@ -234,10 +226,7 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
-		// TODO Auto-generated method stub
-		
 	}
-
     /**
      * Builds and returns string with various player statistics
      * @return String with player statistics
@@ -247,7 +236,8 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
     	return new String[]{player.getName(), TConnector.getText("ui", "levelName") + ": " + player.getLevel(), 
     			TConnector.getText("ui", "expName") + ": " + player.getExperience() + "/" + player.getMaxExperience(), TConnector.getText("ui", "guildName") + ": " + player.getGuild().toString(), 
     			TConnector.getText("ui", "hpName") + ": " + player.getHealth(), TConnector.getText("ui", "manaName") + ": " + player.getMagicka(), TConnector.getText("ui", "lpName") + ": " + player.getLearnPoints(),
-    			TConnector.getText("ui", "hastName") + ": " + player.getAttributes().getHaste(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
+    			TConnector.getText("ui", "hastName") + ": " + player.getAttributes().getHaste(), TConnector.getText("ui", "concName") + ":" + player.getAttributes().getConcentration(),
+    			TConnector.getText("ui", "spName") + ": " + player.getAttributes().getSpellPower(), TConnector.getText("ui", "dmgName") + ": " + player.getDamage()[0] + "-" + player.getDamage()[1], 
     			TConnector.getText("ui", "armRat") + ": " + player.getArmorRating(), TConnector.getText("ui", "dodgeCh") + ": " + player.getDodgeChance() + "%", 
     			TConnector.getText("ui", "attStrName") + ": " + player.getAttributes().getStr(), TConnector.getText("ui", "attConName") + ": " + player.getAttributes().getCon(), 
     			TConnector.getText("ui", "attDexName") + ": " + player.getAttributes().getDex(), TConnector.getText("ui", "attIntName") + ": " + player.getAttributes().getInt(), 

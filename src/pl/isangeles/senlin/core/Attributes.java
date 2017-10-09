@@ -21,6 +21,9 @@
  * 
  */
 package pl.isangeles.senlin.core;
+
+import pl.isangeles.senlin.util.TConnector;
+
 /**
  * Class for character attributes
  * @author Isangeles
@@ -112,7 +115,7 @@ public class Attributes
 	 */
 	public float getHaste()
 	{
-		return 1.0f - (((constitution.value/4) + dexterity.value/2)/2);
+		return 1.0f + (((constitution.value/4) + dexterity.value/2)/2);
 	}
 	/**
 	 * Returns concentration value 
@@ -120,7 +123,20 @@ public class Attributes
 	 */
 	public float getConcentration()
 	{
-		return 1.0f - ((intelligence.value/4) + (dexterity.value/2)/2);
+		return 1.0f + ((intelligence.value/4) + (dexterity.value/2)/2);
+	}
+	/**
+	 * Returns spell power value
+	 * @return Spell power value
+	 */
+	public int getSpellPower()
+	{
+		int spellPower = 0;
+		for(int i = 0; i < intelligence.value; i += 5)
+		{
+			spellPower += 1;
+		}
+		return spellPower;
 	}
 	
 	public float getDualwieldPenalty()
@@ -194,25 +210,13 @@ public class Attributes
 	 * Adds specified attributes to this attributes
 	 * @param attributes Attributes object
 	 */
-	public void increaseBy(Attributes attributes)
+	public void mod(Attributes attributes)
 	{
 		strength.value += attributes.getStr();
 		constitution.value += attributes.getCon();
 		dexterity.value += attributes.getDex();
 		intelligence.value += attributes.getInt();
 		wisdom.value += attributes.getWis();
-	}
-	/**
-	 * Decreases attributes by value of specified attributes
-	 * @param attributes Attributes to subtract
-	 */
-	public void decreaseBy(Attributes attributes)
-	{
-		strength.value -= attributes.getStr();
-		constitution.value -= attributes.getCon();
-		dexterity.value -= attributes.getDex();
-		intelligence.value -= attributes.getInt();
-		wisdom.value -= attributes.getWis();
 	}
 	/**
 	 * Compares this attributes to other some attributes 
@@ -232,14 +236,27 @@ public class Attributes
 	    return false;
 	}
 	
-	public String toLine()
+	public String getInfo()
 	{
-		return strength.value + ";" + constitution.value + ";" + dexterity.value + ";" + intelligence.value + ";" +wisdom.value + ";";
+		String info = "";
+		
+		if(strength.value != 0)
+			info += TConnector.getText("ui", "strName") + ":" + strength.value;
+		if(constitution.value != 0)
+			info += TConnector.getText("ui", "conName") + ":" + constitution.value;
+		if(dexterity.value != 0)
+			info += TConnector.getText("ui", "dexName") + ":" + dexterity.value;
+		if(intelligence.value != 0)
+			info += TConnector.getText("ui", "intName") + ":" + intelligence.value;
+		if(wisdom.value != 0)
+			info += TConnector.getText("ui", "wisName") + ":" + wisdom.value;
+		
+		return info;
 	}
 	
 	@Override
 	public String toString()
 	{
-	    return " s:" + strength.value + " c:" + constitution.value + " d:" + dexterity.value + " i:" + intelligence.value + " w:" + wisdom.value;
+		return strength.value + ";" + constitution.value + ";" + dexterity.value + ";" + intelligence.value + ";" +wisdom.value + ";";
 	}
 }

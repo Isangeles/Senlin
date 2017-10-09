@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <base>
-<skill id="autoA" type="normal">
+<skill id="autoA" effect="normal" type="melee">
     <icon>autoAttack.png</icon>
     <range>40</range>
     <cast>0</cast>
@@ -13,7 +13,7 @@
     <trainReq>
     </trainReq>
 </skill>
-<skill id="slash" type="normal">
+<skill id="slash" effect="normal" type="melee">
     <icon>slash.png</icon>
     <range>40</range>
     <cast>0</cast>
@@ -31,7 +31,7 @@
         <pointsReq>1</pointsReq>
     </trainReq>
 </skill>
-<skill id="shot" type="normal">
+<skill id="shot" effect="normal" type="range">
     <icon>shot.png</icon>
     <range>150</range>
     <cast>0</cast>
@@ -45,7 +45,7 @@
     <trainReq>
     </trainReq>
 </skill>
-<skill id="fireball01" type="fire">
+<skill id="fireball01" effect="fire" type="spell">
     <icon>fireball.png</icon>
     <range>300</range>
     <cast>5</cast>

@@ -52,6 +52,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Attack extends Skill 
 {
+	private AttackType attackType;
 	private int damage;
 	private int range;
     protected boolean useWeapon;
@@ -72,11 +73,12 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String imgName, EffectType type, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
+	public Attack(Character character, String id, String imgName, EffectType type, AttackType attackType, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
 	              List<String> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, type, reqs, castTime, cooldown, effects);
+		this.attackType = attackType;
 		this.damage = damage;
 		this.range = range;
 		WeaponRequirement wReq = null;
@@ -100,10 +102,21 @@ public class Attack extends Skill
 		setGraphicEffects(gc);
 		setSoundEffect();
 	}
-	
+	/**
+	 * Returns attack damage
+	 * @return Damage value
+	 */
 	public int getDamage()
 	{
-		return damage + owner.getHit();
+		switch(attackType)
+		{
+		case MELEE: case RANGE:
+			return damage + owner.getHit();
+		case SPELL:
+			return (damage + owner.getAttributes().getBasicSpell()) * owner.getAttributes().getSpellPower();
+		default:
+			return damage;
+		}
 	}
 
 	@Override
@@ -125,7 +138,7 @@ public class Attack extends Skill
 		{
 			if(target != null)
 			{
-				//Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST LINE
+				//Log.addInformation("Range: " + owner.getRangeFrom(target.getPosition()) + " maxRange: " + range); //TEST CODE
 				if(owner.getRangeFrom(target.getPosition()) <= range)
 				{
 				    this.target = target;
