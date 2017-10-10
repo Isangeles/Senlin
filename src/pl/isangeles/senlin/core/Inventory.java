@@ -59,7 +59,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 		equipment = new Equipment();
 		owner = character;
 	}
-	
+	/**
+	 * Updates inventory
+	 * (for example bonuses from equipped items)
+	 */
 	public void update()
 	{
 		for(Equippable item : equipment.getAll())
@@ -117,6 +120,20 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	}
     	else
     		return false;
+    }
+    /**
+     * Removes items with specified serial ID from inventory
+     * @param serialId Serial ID of item to remove
+     * @return True if item was successfully removed, false otherwise
+     */
+    public boolean remove(String serialId)
+    {
+    	for(Item item : this)
+    	{
+    		if(item.getSerialId().equals(serialId))
+    			return remove(item);
+    	}
+    	return false;
     }
     /**
      * Adds gold to inventory

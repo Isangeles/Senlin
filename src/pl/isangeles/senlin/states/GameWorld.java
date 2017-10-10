@@ -258,7 +258,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             if(changeScenarioReq)
                 changeScenario(container, game);
             if(cui != null)
-                activeScenario.runScripts(cui);
+                activeScenario.runScripts(cui, delta);
     	}
     	
     	if(ui != null)

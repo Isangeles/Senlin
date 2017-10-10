@@ -85,6 +85,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private DestinationPoint point;
     private Camera camera;
     private Warning uiWarning;
+    
+    private boolean lock;
     /**
      * UI constructor, calls all UI elements constructors
      * @param gc Game container for superclass and ui elements
@@ -324,7 +326,14 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	inventory.loadLayout(layout.getInvLayouyt());
     	camera.setPos(layout.getCameraPos());
     }
-    
+    /**
+     * Lock on unlocks UI
+     * @param lock True to lock UI, false to unlock
+     */
+    public void setLock(boolean lock)
+    {
+    	this.lock = lock;
+    }
 	@Override
 	public void inputEnded()
 	{
@@ -336,7 +345,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	@Override
 	public boolean isAcceptingInput()
 	{
-		return true;
+		return !lock;
 	}
 	@Override
 	public void setInput(Input input) 

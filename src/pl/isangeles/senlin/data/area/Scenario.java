@@ -193,14 +193,19 @@ public class Scenario implements SaveElement
 	/**
 	 * Runs all scripts for this scenario
 	 * @param cli Command line interface to execute scripts
+	 * @param delta Time from last update
 	 */
-	public void runScripts(CommandInterface cli)
+	public void runScripts(CommandInterface cli, int delta)
 	{
 		for(Script script : scripts)
 		{
 			if(script.isFinished())
 			{
 				finishedScripts.add(script);
+			}
+			else if(script.isWaiting())
+			{
+				script.update(delta);
 			}
 			else
 			{

@@ -21,6 +21,9 @@
  * 
  */
 package pl.isangeles.senlin.util;
+
+import java.util.NoSuchElementException;
+
 /**
  * Tuple for XY position 
  * @author Isangeles
@@ -61,7 +64,7 @@ public class Position
 	 * @param xSemicolonY String in this form: [x position];[y position]
 	 * @throws NumberFormatException
 	 */
-	public Position(String xSemicolonY) throws NumberFormatException
+	public Position(String xSemicolonY) throws NumberFormatException, NoSuchElementException
 	{
 		this.x = Integer.parseInt(xSemicolonY.split(";")[0]);
 		this.y = Integer.parseInt(xSemicolonY.split(";")[1]);

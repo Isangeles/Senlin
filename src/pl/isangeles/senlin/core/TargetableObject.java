@@ -224,7 +224,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public String getSerialId() 
 	{
-		return "object";
+		return id;
 	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#getName()

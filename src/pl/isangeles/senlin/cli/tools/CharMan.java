@@ -30,6 +30,7 @@ import java.util.Scanner;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Profession;
@@ -40,6 +41,8 @@ import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.states.GameWorld;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -51,13 +54,16 @@ import pl.isangeles.senlin.util.TConnector;
 public class CharMan implements CliTool
 {
 	private Character player;
+	private GameWorld gw;
 	/**
 	 * Characters manager constructor
 	 * @param player Player character
+	 * @param gw Game world
 	 */
-	public CharMan(Character player)
+	public CharMan(Character player, GameWorld gw)
 	{
 		this.player = player;
+		this.gw = gw;
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +82,15 @@ public class CharMan implements CliTool
             command = scann.nextLine();
             
             if(commandTarget.equals("player"))
-            	out = playerCommands(command);
+            	out = characterCommands(command, player);
+            else
+            {
+            	Character npc = gw.getCurrentChapter().getCharacter(commandTarget);
+            	if(npc != null)
+            		out = characterCommands(command, npc);
+            	else
+            		Log.addSystem("no such target for charman: " + commandTarget);
+            }
         }
         catch(NoSuchElementException e)
         {
@@ -93,10 +107,11 @@ public class CharMan implements CliTool
 	
 
     /**
-     * Checks entered command for player, second command check
+     * Checks entered command for specified game character, second command check
      * @param commandLine Rest of command line (after target) 
+     * @param target Command target
      */
-    private boolean playerCommands(String commandLine)
+    private boolean characterCommands(String commandLine, Character target)
     {
     	boolean out = false;
         Scanner scann = new Scanner(commandLine);
@@ -106,19 +121,19 @@ public class CharMan implements CliTool
         
         if(command.equals("add"))
         {
-        	out = addCommands(prefix, player);
+        	out = addCommands(prefix, target);
         }
         else if(command.equals("remove"))
         {
-        	out = removeCommands(prefix, player);
+        	out = removeCommands(prefix, target);
         }
         else if(command.equals("set"))
         {
-        	out = setCommands(prefix, player);
+        	out = setCommands(prefix, target);
         }
         else if(command.equals("show"))
         {
-        	out = showCommands(prefix, player);
+        	out = showCommands(prefix, target);
         }
         else
         	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
@@ -151,10 +166,18 @@ public class CharMan implements CliTool
         	}
         	else if(prefix.equals("-position"))
         	{
-        		String[] pos = value.split(" ");
+        		String[] pos = value.split("x");
         		int x = Integer.parseInt(pos[0]);
         		int y = Integer.parseInt(pos[1]);
         		out = target.setPosition(new Position(x, y));
+        	}
+        	else if(prefix.equals("-destination"))
+        	{
+        		String[] pos = value.split("x");
+        		int x = Integer.parseInt(pos[0]);
+        		int y = Integer.parseInt(pos[1]);
+        		target.moveTo(x, y);
+        		out = true;
         	}
         	else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
@@ -190,15 +213,33 @@ public class CharMan implements CliTool
                     Log.addInformation(TConnector.getText("ui", "logAddIFail"));
         	}
     		else if(prefix.equals("-g") || prefix.equals("-gold"))
+    		{
     	        target.addGold(Integer.parseInt(value));
+    	        out = true;
+    		}
     		else if(prefix.equals("-h"))
+    		{
     		    target.modHealth(Integer.parseInt(value));
+    		    out = true;
+    		}
     		else if(prefix.equals("-m"))
+    		{
         	    target.modMagicka(Integer.parseInt(value));
+        	    out = true;
+    		}
     		else if(prefix.equals("-e"))
+    		{
         	    target.modExperience(Integer.parseInt(value));
+        	    out = true;
+    		}
     		else if(prefix.equals("-s") || prefix.equals("-skills"))
         		out = target.addSkill(SkillsBase.getSkill(target, value));
+    		else if(prefix.equals("-sp") ||  prefix.equals("-speech"))
+    		{
+    			String speech = TConnector.getTextFromChapter("speeches", value);
+    			target.speak(speech);
+    			out = true;
+    		}
     		else if(prefix.equals("-p") || prefix.equals("-profession"))
         		out = target.addProfession(new Profession(ProfessionType.fromString(value)));
     		else if(prefix.equals("-r") || prefix.equals("-recipe"))
@@ -208,11 +249,31 @@ public class CharMan implements CliTool
         			out = target.getProfession(recipe.getType()).add(recipe);
         	}
     		else if(prefix.equals("-f") || prefix.equals("-flag"))
+    		{
     			target.getFlags().add(value);
+    			out = true;
+    		}
     		else if(prefix.equals("-q") || prefix.equals("-quest"))
+    		{
         		target.startQuest(QuestsBase.get(value));
+        		out = true;
+    		}
     		else if(prefix.equals("-l") || prefix.equals("-level"))
+    		{
     			target.levelUp();
+    			out = true;
+    		}
+    		else if(prefix.equals("-at") || prefix.equals("-attackTarget"))
+    		{
+    			Targetable attackTarget = gw.getCurrentChapter().getTObject(value);
+    			if(attackTarget != null)
+    			{
+    				target.enterCombat(attackTarget);
+    				out = true;
+    			}
+    			else
+    				Log.addSystem("no such object: " + value);
+    		}
     		else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
         	
@@ -260,6 +321,10 @@ public class CharMan implements CliTool
         	    player.modExperience(-Integer.parseInt(value));
         	    out = true;
         	}
+    		else if(prefix.equals("-i") || prefix.equals("-item"))
+    		{
+    			out = player.getInventory().remove(value);
+    		}
     		else
     			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
     	}

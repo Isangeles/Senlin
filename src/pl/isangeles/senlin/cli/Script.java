@@ -36,6 +36,8 @@ public class Script
 	private String ifBody;
 	private String endBody;
 	private int useCount;
+	private int activeIndex = 1;
+	private long waitTime;
 	private boolean end;
 	/**
 	 * Script constructor
@@ -48,6 +50,18 @@ public class Script
 		this.body = body;
 		this.endBody = endBody;
 		this.ifBody = ifBody;
+	}
+	/**
+	 * Updates script
+	 * @param delta Time from last update
+	 */
+	public void update(int delta)
+	{
+		Log.addSystem(name + " waiting");
+		if(waitTime > 0)
+			waitTime -= delta;
+		if(waitTime < 0)
+			waitTime = 0;
 	}
 	/**
 	 * Return script name 
@@ -80,6 +94,14 @@ public class Script
 		return endBody;
 	}
 	/**
+	 * Returns active script command index
+	 * @return Active command index
+	 */
+	public int getActiveIndex()
+	{
+		return activeIndex;
+	}
+	/**
 	 * Returns number of uses of this script
 	 * @return Number of uses
 	 */
@@ -96,6 +118,14 @@ public class Script
 		return end;
 	}
 	/**
+	 * Checks if script is stopped for some time 
+	 * @return True if script must wait, false otherwise
+	 */
+	public boolean isWaiting()
+	{
+		return waitTime > 0;
+	}
+	/**
 	 * Increases number of uses of this script
 	 */
 	public void used()
@@ -103,10 +133,27 @@ public class Script
 		useCount ++;
 	}
 	/**
+	 * Moves command index forward
+	 */
+	public void next()
+	{
+		activeIndex ++;
+	}
+	/**
+	 * Pauses script for specified time
+	 * @param millis Time in millis
+	 */
+	public void pause(long millis)
+	{
+		waitTime = millis;
+	}
+	/**
 	 * Marks script as finished
 	 */
 	public void finish()
 	{
+		Log.addSystem(name + " finished");
+		activeIndex = 1;
 		end = true;
 	}
 }

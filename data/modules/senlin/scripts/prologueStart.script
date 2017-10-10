@@ -1,11 +1,28 @@
 #Script for prologue start
 script:
-    $charman player add -item acCS00;
-    $charman player add -item wSOHI;
-    $charman player set -position 1700 500;
+    $charman player set -position 1426x1500;
+    $uiman ui -lock true;
+    $uiman camera -center 1457x1267;
+    @wait 2;
+    $charman thug01_0 add -speech pScane01_S01;
+    @wait 2;
+    $charman courier01_0 add -speech pScane01_S02;
+    @wait 2;
+    $charman thug01_1 add -speech pScane01_S03;
+    $charman thug01_0 add -attackTarget courier01_0;
+    $charman thug01_1 add -attackTarget courier01_0;
+    @wait 5;
+    $charman thug01_0 add -speech pScane01_S04;
+    $charman thug01_0 set -destination 1657x1267;
+    $charman thug01_1 set -destination 1657x1267;
+    @wait 2;
+    $worldman remove npc thug01_0;
+    $worldman remove npc thug01_1;
+    $uiman camera -center 1457x1267;
+    $uiman ui -lock false;
     $charman player add -flag prologueStarted;
 if:
     !has flag prologueStarted player;
 end: 
     if:
-        use=1;
+        has flag prologueStarted player;

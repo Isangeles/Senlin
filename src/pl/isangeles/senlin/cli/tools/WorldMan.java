@@ -27,6 +27,7 @@ import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.states.GameWorld;
+import pl.isangeles.senlin.core.character.Character;
 
 /**
  * CLI tool for game world management
@@ -70,13 +71,21 @@ public class WorldMan implements CliTool
         
         if(commandTarget.equals("get"))
         {
-        	return getCommand(command);
+        	return getCommands(command);
+        }
+        else if(commandTarget.equals("remove"))
+        {
+        	return removeCommands(command);
         }
         
 		return false;
 	}
-
-	public boolean getCommand(String command)
+	/**
+	 * Handles get commands
+	 * @param command Command
+	 * @return True if command was successfully executed, false otherwise
+	 */
+	public boolean getCommands(String command)
 	{
 		if(command.equals("time"))
 		{
@@ -84,5 +93,30 @@ public class WorldMan implements CliTool
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * Handles remove commands
+	 * @param commandLine Command
+	 * @return True if command was successfully executed, false otherwise
+	 */
+	public boolean removeCommands(String commandLine)
+	{
+		boolean out = false;
+        Scanner scann = new Scanner(commandLine);
+        String option = scann.next();
+        String arg = scann.next();
+        scann.close();
+        
+        if(option.equals("npc"))
+        {
+        	Character npc = world.getCurrentChapter().getCharacter(arg);
+        	if(npc != null)
+        	{
+        		out = world.getCurrentChapter().removeTObject(npc);
+        	}
+        	else
+        		Log.addSystem("bad value for remove: " + arg);
+        }
+        return out;
 	}
 }

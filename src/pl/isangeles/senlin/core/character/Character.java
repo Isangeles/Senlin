@@ -106,7 +106,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 {
     private static int charCounter;
     private static List<String> reservedIDs = new ArrayList<>();
-    private int serial = charCounter;
+    private int serial = 0;
 	private String id;
 	private String serialId;
 	private String name;

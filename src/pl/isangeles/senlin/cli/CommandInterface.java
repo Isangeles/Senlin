@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.tools.CharMan;
+import pl.isangeles.senlin.cli.tools.UiMan;
 import pl.isangeles.senlin.cli.tools.WorldMan;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
@@ -34,13 +35,15 @@ import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.states.GameWorld;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for game command-line interface
  * 
- * command syntax: $[tool] [target] [command] [-prefix] [value]
+ * command syntax: $[tool] [target] [command] [-option] [value]
  * 
  * @author Isangeles
  *
@@ -48,18 +51,20 @@ import pl.isangeles.senlin.util.TConnector;
 public class CommandInterface 
 {
 	private Character player;
-	private GameWorld gw;
 	private CharMan charman;
 	private WorldMan worldman;
-	
+	private UiMan uiman;
+	/**
+	 * Command interface constructor
+	 * @param player Player character
+	 * @param gw Game world
+	 */
 	public CommandInterface(Character player, GameWorld gw)
 	{
 		this.player = player;
-		this.gw = gw;
-		charman = new CharMan(player);
+		charman = new CharMan(player, gw);
 		worldman = new WorldMan(gw);
 	}
-
     /**
      * Checks entered command target, first command check  
      * @param command Text line with command to check 
@@ -98,12 +103,18 @@ public class CommandInterface
             }
             else if(toolName.equals("$charman"))
             {
-            	Log.addDebug("In charman");
             	out = charman.handleCommand(command);
             }
             else if(toolName.equals("$worldman"))
             {
             	out = worldman.handleCommand(command);
+            }
+            else if(toolName.equals("$uiman"))
+            {
+            	if(uiman != null)
+            		out = uiman.handleCommand(command);
+            	else
+            		Log.addSystem("no GUI set!");
             }
             else
             	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
@@ -116,6 +127,14 @@ public class CommandInterface
         
         return out;
        
+    }
+    /**
+     * Sets GUI to manage by CLI
+     * @param uiToMan GUI 
+     */
+    public void setUiMan(UserInterface uiToMan)
+    {
+    	uiman = new UiMan(uiToMan);
     }
     /**
      * Executes specified script
@@ -134,17 +153,30 @@ public class CommandInterface
     	
     	try
     	{
+    		int commandId = 0;
     		while(scann.hasNext())
         	{
         		if(checkCondition(script, ifCode))
             	{
         			String command = scann.next().replaceFirst("^\\s*", "");
+        			commandId ++;
 
-            		script.used();
-            		if(!executeCommand(command))
+            		if(commandId == script.getActiveIndex())
             		{
-            			out = false;
-            			break;
+            			script.used();
+            			script.next();
+                		if(command.matches("@wait [1-9]+"))
+                		{
+                			int time = Integer.parseInt(command.split(" ")[1]);
+                			long timeSec = Stopwatch.sec(time);
+                			script.pause(timeSec);
+                			break;
+                		}
+                		else if(!executeCommand(command))
+                		{
+                			out = false;
+                			break;
+                		}
             		}
             	}
         		else
@@ -155,7 +187,7 @@ public class CommandInterface
         	if(checkEndCondition(script))
         		script.finish();
     	}
-    	catch(IndexOutOfBoundsException e)
+    	catch(IndexOutOfBoundsException | NoSuchElementException | NumberFormatException e)
     	{
     		Log.addSystem("cli_script_corrupted:" + script.getName());
     		script.finish();

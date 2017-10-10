@@ -26,6 +26,56 @@
     <effects>
     </effects>
 </npc>
+<npc id="thug01" gender="male" race="human" attitude="neutral" guild="none" level="2">
+    <stats>3;2;2;1;1;</stats>
+    <portrait>portrait2.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>acCS00</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+            <item random="false">acCS00</item>
+            <item random="false">wSOHI</item>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="courier01" gender="male" race="human" attitude="neutral" guild="none" level="1">
+    <stats>2;2;2;1;1;</stats>
+    <portrait>portrait2.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>acCS00</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+            <item random="false">acCS00</item>
+            <item random="false">wSOHI</item>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <effects>
+    </effects>
+</npc>
 <npc id="ericP01" gender="male" race="human" attitude="friendly" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
     <portrait>portrait0.jpg</portrait>

@@ -115,7 +115,11 @@ public class Chapter implements SaveElement
 	{
 		return loadedScenarios;
 	}
-	
+	/**
+	 * Returns character with specified ID from all spawned character in this chapter
+	 * @param serial Character serial ID
+	 * @return Character with specified serial ID or null if no character with such serial ID found
+	 */
 	public Character getCharacter(String serial)
 	{
 		for(Scenario scenario : loadedScenarios)
@@ -130,6 +134,58 @@ public class Chapter implements SaveElement
 			}
 		}
 		return null;
+	}
+	/**
+	 * Returns targetable object with specified ID from all spawned object in this chapter
+	 * @param tObId Targetable object ID
+	 * @return Targetable object with specified ID
+	 */
+	public Targetable getTObject(String tObId)
+	{
+		for(Scenario scenario : loadedScenarios)
+		{
+			for(Area area : scenario.getAreas())
+			{
+				for(Character character : area.getCharacters())
+				{
+					if(character.getSerialId().equals(tObId))
+						return character;
+				}
+				
+				for(TargetableObject object : area.getObjects())
+				{
+					if(object.getSerialId().equals(tObId))
+						return object;
+				}
+			}
+		}
+		return null;
+	}
+	/**
+	 * Removes specified targetable object from chapter
+	 * @param obToRemove Targetable object to remove
+	 * @return True if specified object was successfully removed, false otherwise
+	 */
+	public boolean removeTObject(Targetable obToRemove)
+	{
+		for(Scenario scenario : loadedScenarios)
+		{
+			for(Area area : scenario.getAreas())
+			{
+				for(Character character : area.getCharacters())
+				{
+					if(character == obToRemove)
+						return area.getCharacters().remove(obToRemove);
+				}
+				
+				for(TargetableObject object : area.getObjects())
+				{
+					if(object == obToRemove)
+						return area.getObjects().remove(obToRemove);
+				}
+			}
+		}
+		return false;
 	}
 	/**
 	 * Sets scenario with specified ID as active scenario
