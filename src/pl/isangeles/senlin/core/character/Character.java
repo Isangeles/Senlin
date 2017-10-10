@@ -577,7 +577,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(signals.containsKey(CharacterSignal.FIGHTING))
 		{
 			Targetable target = (Targetable)signals.get(CharacterSignal.FIGHTING);
-		    out = useSkillOn(target, abilities.get("autoA"));
+			if(target.isLive())
+			    out = useSkillOn(target, abilities.get("autoA"));
+			else
+				signals.remove(CharacterSignal.FIGHTING);
 		}
 
 		effects.update(delta);
@@ -598,7 +601,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void moveTo(int x, int y)
 	{
 		signals.remove(CharacterSignal.FOLLOWING);
-		//signals.remove(CharacterSignal.FIGHTING);
+		signals.remove(CharacterSignal.FIGHTING);
 		destPoint[0] = x;
 		destPoint[1] = y;
 	}

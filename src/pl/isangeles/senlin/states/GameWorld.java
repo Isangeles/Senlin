@@ -141,7 +141,8 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic = new AudioPlayer();
         	gwMusic.createPlaylist("idle");
         	gwMusic.createPlaylist("combat");
-        	gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+        	gwMusic.createPlaylist("special");
+        	//gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
         	
         	if(dayManager == null)
                 dayManager = new Day();
@@ -162,6 +163,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         		area.getCharacters().add(player);
         	}
         	area.addMusic(gwMusic);
+        	gwMusic.addAllTo("special", "special");
             
         	npcsAi = new CharacterAi();
             npcsAi.addNpcs(mainArea.getNpcs());
@@ -231,15 +233,23 @@ public class GameWorld extends BasicGameState implements SaveElement
     	{
     	    dayManager.update(delta);
             
-            if(combat && !gwMusic.getActivePlaylist().equals("combat"))
+            if(!gwMusic.getActivePlaylist().equals("special"))
             {
-                gwMusic.stop();
-                gwMusic.playRandomFrom("combat", 1.0f, Settings.getMusicVol());
+            	if(combat && !gwMusic.getActivePlaylist().equals("combat"))
+                {
+                    gwMusic.stop();
+                    gwMusic.playRandomFrom("combat", 1.0f, Settings.getMusicVol());
+                }
+                else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
+                {
+                    gwMusic.stop();
+                    gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+                }
             }
-            else if(!combat && !gwMusic.getActivePlaylist().equals("idle"))
+            else
             {
-                gwMusic.stop();
-                gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+            	if(!gwMusic.isPlayling())
+                    gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
             }
             
             CharacterOut out;
@@ -303,6 +313,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     public Area getArea()
     {
     	return area;
+    }
+    /**
+     * Returns game world music player 
+     * @return Audio player
+     */
+    public AudioPlayer getMusiPlayer()
+    {
+    	return gwMusic;
     }
     
     public Day getDay()

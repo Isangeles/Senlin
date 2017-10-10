@@ -115,13 +115,17 @@ public class UiMan implements CliTool
         
         return out;
 	}
-	
+	/**
+	 * Handles UI commands
+	 * @param commandLine Command 
+	 * @return True if command executed successfully, false otherwise
+	 */
 	public boolean uiCommands(String commandLine)
 	{
 		boolean out = false;
         Scanner scann = new Scanner(commandLine);
         String prefix = scann.next();
-        String value = scann.nextLine();
+        String value = scann.next();
         scann.close();
         
         try

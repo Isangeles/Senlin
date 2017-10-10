@@ -1,6 +1,7 @@
-pLumberTalk:Quick talk;I woke up in middle of nowhere, some woodcutters are nearby, better talk with them.;
-pLumberTalk0:Talk with Eric;
-pLumberTalk1:Talk with Ewan in the camp;
+pLumberTalk:Quick talk;I saw some thugs killing courier;
+pLumberTalk0:I should search the body;
+pLumberTalk1:Some, woodcutters are nearby, I better talk with them. Talk with Eric;
+pLumberTalk2:Talk with Ewan in the camp;
 pBanditsKilling:Welcome in the jungle;Ewan ask me to take ride of bandits near camp;
 pBanditsKilling0:Kill 2 bandits;
 pBanditsKilling1:Talk with ewan;

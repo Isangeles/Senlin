@@ -53,7 +53,7 @@ public class Stage
         this.nextStage = nextStage;
         this.flagOn = flagOn;
         this.flagOff = flagOff;
-        info = TConnector.getTextFromFile(Module.getLangPath() + File.separator + "quests", id);
+        info = TConnector.getTextFromChapter("quests", id);
         this.objectives = objectives;
     }
     /**

@@ -105,6 +105,13 @@ public class Avatar extends CharacterAvatar
 		ttf.drawString(x, (y-head.getDis(25)), character.getName());
 		if(this.weapon != null)
 			this.weapon.draw(x, y, 1.5f);
+		
+		/*
+		* After death some characters(e.g. NPCs) are not updated anymore, but still player can loot them,
+		* so appearance changes must be still handled
+		*/
+		if(!character.isLive())
+			updateAppearance();
 	}
 	/**
 	 * Updates avatar animations
@@ -115,20 +122,7 @@ public class Avatar extends CharacterAvatar
 	{
 		super.update(delta);
 		
-		if(character.getInventory().getChest() != null)
-			torso = character.getInventory().getChest().getSpriteFor(character.getGender());
-		else
-			torso = defTorso;
-		
-		if(character.getInventory().getHelmet() != null)
-			head = character.getInventory().getHelmet().getSpriteFor(character.getGender());
-		else
-			head = defHead;
-		
-		if(character.getInventory().getMainWeapon() != null)
-			this.weapon = character.getInventory().getMainWeapon().getSpriteFor(character.getGender());
-		else
-			this.weapon = null;
+		updateAppearance();
 		
 		torso.update(delta);
 		head.update(delta);
@@ -145,6 +139,8 @@ public class Avatar extends CharacterAvatar
 	    head.kneel(true);
 	    if(weapon != null)
 	        weapon.kneel(true);
+		defTorso.kneel(true);
+		defHead.kneel(true);
 	}
 	/**
 	 * Toggles lie animation
@@ -155,6 +151,8 @@ public class Avatar extends CharacterAvatar
 		head.lie(true);
 		if(weapon != null)
 			weapon.lie(true);
+		defTorso.lie(true);
+		defHead.lie(true);
 	}
 	
 	public void goUp()
@@ -163,6 +161,8 @@ public class Avatar extends CharacterAvatar
 		head.goUp();
 		if(weapon != null)
 			weapon.goUp();
+		defTorso.goUp();
+		defHead.goUp();
 	}
 	public void goRight()
 	{
@@ -177,6 +177,8 @@ public class Avatar extends CharacterAvatar
 		head.goDown();
 		if(weapon != null)
 			weapon.goDown();
+		defTorso.goDown();
+		defHead.goDown();
 	}
 	public void goLeft()
 	{
@@ -184,15 +186,19 @@ public class Avatar extends CharacterAvatar
 		head.goLeft();
 		if(weapon != null)
 			weapon.goLeft();
+		defTorso.goLeft();
+		defHead.goLeft();
 	}
 	
-	public void move(boolean trueFalse)
+	public void move(boolean move)
 	{
-		isMove = trueFalse;
-		head.move(trueFalse);
-		torso.move(trueFalse);
+		isMove = move;
+		head.move(move);
+		torso.move(move);
 		if(weapon != null)
-			weapon.move(trueFalse);
+			weapon.move(move);
+		defTorso.move(move);
+		defHead.move(move);
 	}
 	
 	public void meleeAnim(boolean loop)
@@ -201,16 +207,20 @@ public class Avatar extends CharacterAvatar
 		head.meleeAnim(loop);
 		if(weapon != null)
 			weapon.meleeAnim(loop);
+		defTorso.meleeAnim(loop);
+		defHead.meleeAnim(loop);
 	}
 	
 	public void rangeAnim(boolean loop)
 	{
-		torso.rangeAinm(loop);
-		head.rangeAinm(loop);
+		torso.rangeAnim(loop);
+		head.rangeAnim(loop);
 		if(weapon != null)
 		{
-			weapon.rangeAinm(loop);
+			weapon.rangeAnim(loop);
 		}
+		defTorso.rangeAnim(loop);
+		defHead.rangeAnim(loop);
 	}
 	/**
 	 * Toggles spell casting animation
@@ -222,6 +232,8 @@ public class Avatar extends CharacterAvatar
 		head.castAnim(loop);
 		if(weapon != null)
 			weapon.castAnim(loop);
+		defTorso.castAnim(loop);
+		defHead.castAnim(loop);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#stopAnim()
@@ -233,6 +245,16 @@ public class Avatar extends CharacterAvatar
 		head.stopAnim();
 		if(weapon != null)
 			weapon.stopAnim();
+	}
+	/**
+	 * Resets avatar
+	 */
+	public void reset()
+	{
+		stopAnim();
+		torso = defTorso;
+		head = defHead;
+		weapon = null;
 	}
 	/**
 	 * Returns object direction
@@ -272,5 +294,25 @@ public class Avatar extends CharacterAvatar
 	public boolean isMouseOver() 
 	{
 		return avMOA.isMouseOver();
+	}
+	/**
+	 * Updates character appearance
+	 */
+	private void updateAppearance()
+	{
+		if(character.getInventory().getChest() != null)
+			torso = character.getInventory().getChest().getSpriteFor(character.getGender());
+		else
+			torso = defTorso;
+		
+		if(character.getInventory().getHelmet() != null)
+			head = character.getInventory().getHelmet().getSpriteFor(character.getGender());
+		else
+			head = defHead;
+		
+		if(character.getInventory().getMainWeapon() != null)
+			this.weapon = character.getInventory().getMainWeapon().getSpriteFor(character.getGender());
+		else
+			this.weapon = null;
 	}
 }

@@ -153,7 +153,7 @@ public class Equipment implements SaveElement
 	 * Removes specific item from equipment
 	 * @param item Equipped character item
 	 */
-	public void unequipp(Item item)
+	public void unequipp(Equippable item)
 	{
 		if(item == weaponMain)
 		{
@@ -313,7 +313,7 @@ public class Equipment implements SaveElement
 	 * @param item Game item
 	 * @return True if specified item is equipped, false otherwise
 	 */
-	public boolean isEquipped(Item item)
+	public boolean isEquipped(Equippable item)
 	{
 		return getAll().contains(item);
 	}

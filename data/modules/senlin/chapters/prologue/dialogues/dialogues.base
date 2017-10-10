@@ -16,7 +16,7 @@
         </text>
     </dialogue>
 
-    <dialogue id="ericWelcome" npc="ericP01" flagReq="qpLumberTalkStart">
+    <dialogue id="ericWelcome" npc="ericP01" flagReq="qpLumberTalk0">
         <text id="ericWelcome01" on="start">
             <answer>ericWelcome01a01</answer>
             <answer>ericWelcome01a02</answer>

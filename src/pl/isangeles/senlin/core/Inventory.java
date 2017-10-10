@@ -112,10 +112,15 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	 * @param item Game item
 	 * @return True if item was successfully removed, false otherwise
 	 */
-    public boolean remove(Item item)
+	@Override
+    public boolean remove(Object item)
     {
     	if(super.remove(item))
     	{
+    		if(Equippable.class.isInstance(item)) 
+    		{
+    			equipment.unequipp((Equippable)item);
+    		}
     		return true;
     	}
     	else
@@ -134,6 +139,21 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     			return remove(item);
     	}
     	return false;
+    }
+    
+    @Override
+    public boolean removeAll(Collection<?> items)
+    {
+    	boolean ok = true;
+    	for(Object item : items)
+    	{
+    		if(this.contains(item))
+    		{
+    			if(!this.remove(item))
+    				ok = false;
+    		}
+    	}
+    	return ok;
     }
     /**
      * Adds gold to inventory
@@ -181,7 +201,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	 */
     public boolean isEquipped(Item item)
     {
-    	return equipment.isEquipped(item);
+    	if(Equippable.class.isInstance(item))
+        	return equipment.isEquipped((Equippable)item);
+    	else
+    		return false;
     }
     /**
      * Returns weapon damage of equipment items

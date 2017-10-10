@@ -27,6 +27,7 @@ import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.states.GameWorld;
+import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
@@ -77,7 +78,12 @@ public class WorldMan implements CliTool
         {
         	return removeCommands(command);
         }
+        else if(commandTarget.equals("music"))
+        {
+        	return musicCommands(command);
+        }
         
+        Log.addSystem("no such target for worldman:" + commandTarget);
 		return false;
 	}
 	/**
@@ -117,6 +123,37 @@ public class WorldMan implements CliTool
         	else
         		Log.addSystem("bad value for remove: " + arg);
         }
+        return out;
+	}
+	/**
+	 * Handles music commands
+	 * @param commandLine Command
+	 * @return True if command was successfully executed, false otherwise
+	 */
+	public boolean musicCommands(String commandLine)
+	{
+		boolean out = false;
+        Scanner scann = new Scanner(commandLine);
+        String option = scann.next();
+        String arg = scann.next();
+        scann.close();
+        
+        if(option.equals("-play"))
+        {
+        	world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg);
+        	out = true;
+        }
+        else if(option.equals("-playSpecial"))
+        {
+        	world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg);
+        	out = true;
+        }
+        else if(option.equals("-list"))
+        {
+        	Log.addSystem(arg + ":" + world.getMusiPlayer().getTracksList(arg));
+        	out = true;
+        }
+        
         return out;
 	}
 }

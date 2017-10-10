@@ -192,7 +192,7 @@ public class AnimObject extends GameObject
 	/**
 	 * Starts range attack animation
 	 */
-	public void rangeAinm(boolean loop)
+	public void rangeAnim(boolean loop)
 	{
 		rangeReq = true;
 		range.setLooping(loop);

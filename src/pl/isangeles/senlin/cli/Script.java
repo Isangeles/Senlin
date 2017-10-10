@@ -22,8 +22,6 @@
  */
 package pl.isangeles.senlin.cli;
 
-import java.util.List;
-
 /**
  * Class for CLI scripts
  * @author Isangeles
@@ -57,7 +55,6 @@ public class Script
 	 */
 	public void update(int delta)
 	{
-		Log.addSystem(name + " waiting");
 		if(waitTime > 0)
 			waitTime -= delta;
 		if(waitTime < 0)
@@ -152,7 +149,6 @@ public class Script
 	 */
 	public void finish()
 	{
-		Log.addSystem(name + " finished");
 		activeIndex = 1;
 		end = true;
 	}

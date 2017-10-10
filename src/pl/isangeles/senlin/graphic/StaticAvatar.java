@@ -136,7 +136,7 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 	@Override
 	public void rangeAnim(boolean loop)
 	{
-		torso.rangeAinm(loop);
+		torso.rangeAnim(loop);
 	}
 	/* (non-Javadoc)
      * @see pl.isangeles.senlin.graphic.CharacterAvatar#castAnim(boolean)

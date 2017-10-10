@@ -175,7 +175,15 @@ public class Chapter implements SaveElement
 				for(Character character : area.getCharacters())
 				{
 					if(character == obToRemove)
-						return area.getCharacters().remove(obToRemove);
+					{
+						if(area.getCharacters().remove(obToRemove))
+						{
+							character.setArea(null);
+							return true;
+						}
+						else
+							return false;
+					}
 				}
 				
 				for(TargetableObject object : area.getObjects())

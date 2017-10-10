@@ -12,7 +12,7 @@
         <icon>potGreen.png</icon>
         <action type="effectUser">heal01</action>
     </item>
-    <item id="mSList01" value="0" stack="1" disposable="false">
+    <item id="mSLetter01" value="0" stack="1" disposable="false">
         <icon>list01.png</icon>
         <action type="read">MTSIO</action>
     </item>

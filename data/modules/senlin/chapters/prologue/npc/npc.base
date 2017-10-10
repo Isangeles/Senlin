@@ -18,7 +18,7 @@
         <in gold="2">
             <item random="false">acCS00</item>
             <item random="false">wSOHI</item>
-	    <item random="true">wSOHI</item>
+	        <item random="true">wSOHI</item>
         </in>
     </eq>
     <skills>
@@ -69,6 +69,7 @@
         <in gold="2">
             <item random="false">acCS00</item>
             <item random="false">wSOHI</item>
+            <item random="false">mSLetter01</item>
         </in>
     </eq>
     <skills>

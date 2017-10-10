@@ -103,6 +103,7 @@ public class AudioPlayer
 		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -138,6 +139,7 @@ public class AudioPlayer
 		catch(NullPointerException | IOException | SlickException e)
 		{
 			Log.addSystem("audioPlayer_fail_msg///category not found: " + category);
+			e.printStackTrace();
 		}
 	}
 	/**
@@ -163,6 +165,30 @@ public class AudioPlayer
 		}
 		else
 		    Log.addSystem("audioPlayer_fail_msg///no such track: " + trackName);
+	}
+	/**
+	 * Plays track with specified name from playlist with specified name
+	 * @param playlist Playlist name
+	 * @param pitch Audio pitch
+	 * @param volume Audio volume
+	 * @param trackName Track name
+	 */
+	public void playFrom(String playlist, float pitch, float volume, String trackName)
+	{
+		Playlist pl = getPlaylist(playlist);
+		if(pl != null)
+		{
+			Music track = pl.get(trackName);
+			if(track != null)
+			{
+				track.play(pitch, volume);
+				activePlaylist = pl;
+			}
+			else
+			    Log.addSystem("audioPlayer_fail_msg///no such track: " + trackName);
+		}
+		else
+			Log.addSystem("audioPlayer_fail_msg///no such playlist: " + playlist);
 	}
 	/**
 	 * Plays random track from active playlist
@@ -280,6 +306,21 @@ public class AudioPlayer
 	public Music getActiveTrack()
 	{
 		return activePlaylist.getCurrentTrack();
+	}
+	/**
+	 * Returns names of all tracks in playlist with specifie name
+	 * @param playlist Playlist name
+	 * @return String with tracks name 
+	 */
+	public String getTracksList(String playlist)
+	{
+		Playlist pl = getPlaylist(playlist);
+		String tracks = "";
+		for(String name : pl.keySet())
+		{
+			tracks += name + ";";
+		}
+		return tracks;
 	}
 	/**
 	 * Returns playlist with specified name

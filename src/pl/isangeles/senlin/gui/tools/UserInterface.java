@@ -135,10 +135,13 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public void draw(Graphics g)
     {
-        gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
-        conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
-        bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
-        charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
+        if(!lock)
+        {
+        	gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
+            conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
+            bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
+            charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
+        }
         
         if(cast.isOpenReq())
         	cast.draw(Coords.getX("CE", 0), Coords.getY("CE", 100));
