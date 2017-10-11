@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * This class make slick time management easier 
+ * Static class for time management 
  * @author Isangles
  *
  */
@@ -62,7 +62,7 @@ public class Stopwatch
     public static String timeFromMillis(long timeInMillis)
     {
     	Date date = new Date(timeInMillis);
-    	SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+    	SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
     	String hms = format.format(date);
     	
     	return hms;

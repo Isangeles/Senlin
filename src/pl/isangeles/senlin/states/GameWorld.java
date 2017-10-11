@@ -252,14 +252,16 @@ public class GameWorld extends BasicGameState implements SaveElement
                     gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
             }
             
-            CharacterOut out;
-            out = player.update(delta);
+            CharacterOut out = player.update(delta);
             if(out != CharacterOut.SUCCESS)
                 Log.addWarning(out.toString());
             
             npcsAi.update(delta);
             combat = npcsAi.isAttacked(player);
-            
+            for(Character npc : area.getCharactersExcept(player))
+            {
+            	npc.update(delta);
+            }
             for(TargetableObject object : area.getObjects())
             {
             	object.update(delta);
@@ -313,6 +315,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     public Area getArea()
     {
     	return area;
+    }
+    /**
+     * Returns player character 
+     * @return Game character owned by player
+     */
+    public Character getPlayer()
+    {
+    	return player;
     }
     /**
      * Returns game world music player 

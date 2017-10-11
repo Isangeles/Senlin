@@ -70,7 +70,7 @@ import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 
 /**
- * Class to parsing senlin saved games XML files
+ * Class for parsing senlin saved games XML files
  * @author Isangeles
  *
  */
@@ -91,7 +91,8 @@ public final class SSGParser
      * @throws FontFormatException
      * @throws SlickException
      */
-    public static SavedGame parseSSG(File ssgFile, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, FontFormatException, SlickException
+    public static SavedGame parseSSG(File ssgFile, GameContainer gc) 
+    throws ParserConfigurationException, SAXException, IOException, FontFormatException, SlickException
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -200,13 +201,14 @@ public final class SSGParser
      * Parses specified scenario save document element to game area scenario
      * @param scenarioE Scenario element from .ssg document
      * @param gc Slick game container
-     * @return Saved game area scenario
+     * @return Saved game scenario
      * @throws DOMException
      * @throws SlickException
      * @throws IOException
      * @throws FontFormatException
      */
-    public static Scenario getSavedScenario(Element scenarioE, GameContainer gc) throws DOMException, SlickException, IOException, FontFormatException
+    public static Scenario getSavedScenario(Element scenarioE, GameContainer gc) 
+    throws DOMException, SlickException, IOException, FontFormatException, NumberFormatException
     {
         Scenario scenario = ScenariosBase.getScenario(scenarioE.getAttribute("id"));
         
@@ -226,9 +228,15 @@ public final class SSGParser
         	{
         		Element scriptE = (Element)scriptNode;
         		String scriptId = scriptE.getTextContent();
+        		long waitTime = Long.parseLong(scriptE.getAttribute("wait"));
+        		int activeLineId = Integer.parseInt(scriptE.getAttribute("aID"));
         		Script script = DConnector.getScript(scriptId);
         		if(script != null)
+        		{
+        			script.pause(waitTime);
+        			script.setActiveLineId(activeLineId);
         			scripts.add(script);
+        		}
         	}
         }
         

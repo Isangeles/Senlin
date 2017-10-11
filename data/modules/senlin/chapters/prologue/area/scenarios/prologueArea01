@@ -6,9 +6,6 @@
             <npc position="1703;430">ericP01</npc>
             <npc position="1800;300">kianP01</npc>
             <npc position="1950;250">ewanP01</npc>
-            <npc position="1350;1267">thug01</npc>
-            <npc position="1550;1267">thug01</npc>
-            <npc position="1457;1267">courier01</npc>
         </npcs>
         <mobs start="0;0" end="1000;400">
             <mob max="3">bandit01</mob>

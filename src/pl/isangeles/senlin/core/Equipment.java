@@ -158,53 +158,44 @@ public class Equipment implements SaveElement
 		if(item == weaponMain)
 		{
 			weaponMain = null;
-			return;
 		}
 		if(item == weaponSec)
 		{
 			weaponSec = null;
-			return;
 		}
 		if(item == boots)
 		{
 			boots = null;
-			return;
 		}
 		if(item == gloves)
 		{
 			gloves = null;
-			return;
 		}
 		if(item == shield)
 		{
 			shield = null;
-			return;
 		}
 		if(item == chest)
 		{
 			chest = null;
-			return;
 		}
 		if(item == ring)
 		{
 			ring = null;
-			return;
 		}
 		if(item == ringSec)
 		{
 			ringSec = null;
-			return;
 		}
 		if(item == amulet)
 		{
 			amulet = null;
-			return;
 		}
 		if(item == artifact)
 		{
 			artifact = null;
-			return;
 		}
+		item.reset();
 			
 	}
     /**

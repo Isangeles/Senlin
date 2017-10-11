@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
+import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -199,14 +200,14 @@ public class CharMan implements CliTool
 		
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
-    	String value = scann.next();
+    	String[] args = scann.next().split(" ");
     	scann.close();
     	
     	try
     	{
     		if(prefix.equals("-i") || prefix.equals("-item"))
         	{
-    			out = target.addItem(ItemsBase.getItem(value));
+    			out = target.addItem(ItemsBase.getItem(args[0]));
         		if(out)
                     Log.addInformation(TConnector.getText("ui", "logAddI"));
                 else
@@ -214,48 +215,48 @@ public class CharMan implements CliTool
         	}
     		else if(prefix.equals("-g") || prefix.equals("-gold"))
     		{
-    	        target.addGold(Integer.parseInt(value));
+    	        target.addGold(Integer.parseInt(args[0]));
     	        out = true;
     		}
     		else if(prefix.equals("-h"))
     		{
-    		    target.modHealth(Integer.parseInt(value));
+    		    target.modHealth(Integer.parseInt(args[0]));
     		    out = true;
     		}
     		else if(prefix.equals("-m"))
     		{
-        	    target.modMagicka(Integer.parseInt(value));
+        	    target.modMagicka(Integer.parseInt(args[0]));
         	    out = true;
     		}
     		else if(prefix.equals("-e"))
     		{
-        	    target.modExperience(Integer.parseInt(value));
+        	    target.modExperience(Integer.parseInt(args[0]));
         	    out = true;
     		}
     		else if(prefix.equals("-s") || prefix.equals("-skills"))
-        		out = target.addSkill(SkillsBase.getSkill(target, value));
+        		out = target.addSkill(SkillsBase.getSkill(target, args[0]));
     		else if(prefix.equals("-sp") ||  prefix.equals("-speech"))
     		{
-    			String speech = TConnector.getTextFromChapter("speeches", value);
+    			String speech = TConnector.getTextFromChapter("speeches", args[0]);
     			target.speak(speech);
     			out = true;
     		}
     		else if(prefix.equals("-p") || prefix.equals("-profession"))
-        		out = target.addProfession(new Profession(ProfessionType.fromString(value)));
+        		out = target.addProfession(new Profession(ProfessionType.fromString(args[0])));
     		else if(prefix.equals("-r") || prefix.equals("-recipe"))
         	{
-        		Recipe recipe = RecipesBase.get(value);
+        		Recipe recipe = RecipesBase.get(args[0]);
         		if(recipe != null && target.getProfession(recipe.getType()) != null)
         			out = target.getProfession(recipe.getType()).add(recipe);
         	}
     		else if(prefix.equals("-f") || prefix.equals("-flag"))
     		{
-    			target.getFlags().add(value);
+    			target.getFlags().add(args[0]);
     			out = true;
     		}
     		else if(prefix.equals("-q") || prefix.equals("-quest"))
     		{
-        		target.startQuest(QuestsBase.get(value));
+        		target.startQuest(QuestsBase.get(args[0]));
         		out = true;
     		}
     		else if(prefix.equals("-l") || prefix.equals("-level"))
@@ -265,14 +266,14 @@ public class CharMan implements CliTool
     		}
     		else if(prefix.equals("-at") || prefix.equals("-attackTarget"))
     		{
-    			Targetable attackTarget = gw.getCurrentChapter().getTObject(value);
+    			Targetable attackTarget = gw.getCurrentChapter().getTObject(args[0]);
     			if(attackTarget != null)
     			{
     				target.enterCombat(attackTarget);
     				out = true;
     			}
     			else
-    				Log.addSystem("no such object: " + value);
+    				Log.addSystem("no such object: " + args[0]);
     		}
     		else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
@@ -283,6 +284,10 @@ public class CharMan implements CliTool
     	catch(NumberFormatException e)
     	{
     		Log.addSystem(TConnector.getText("ui", "logBadVal"));
+    	}
+    	catch(NoSuchElementException e)
+    	{
+    		Log.addSystem("not enough arguments");
     	}
     	catch(SlickException | IOException | FontFormatException e)
     	{

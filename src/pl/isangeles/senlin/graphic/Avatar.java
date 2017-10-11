@@ -105,13 +105,6 @@ public class Avatar extends CharacterAvatar
 		ttf.drawString(x, (y-head.getDis(25)), character.getName());
 		if(this.weapon != null)
 			this.weapon.draw(x, y, 1.5f);
-		
-		/*
-		* After death some characters(e.g. NPCs) are not updated anymore, but still player can loot them,
-		* so appearance changes must be still handled
-		*/
-		if(!character.isLive())
-			updateAppearance();
 	}
 	/**
 	 * Updates avatar animations

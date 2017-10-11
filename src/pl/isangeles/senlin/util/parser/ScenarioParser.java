@@ -203,7 +203,7 @@ public class ScenarioParser
 					Element npcE = (Element)npcNode;
 					String npcId = npcE.getTextContent();
 					Position npcPos = new Position(npcE.getAttribute("position"));
-					Character npc = NpcBase.spawnAt(npcE.getTextContent(), npcPos);
+					Character npc = NpcBase.spawnAt(npcId, npcPos);
 					npcs.add(npc);
 				}
 				catch(NumberFormatException | DOMException | IOException | FontFormatException | SlickException e)

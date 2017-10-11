@@ -45,6 +45,8 @@ import pl.isangeles.senlin.util.TConnector;
 public class CharacterAi 
 {
 	private List<Character> aiNpcs = new ArrayList<>();
+	List<Character> deadNpcs = new ArrayList<>();
+	List<Character> lostNpcs = new ArrayList<>();
 	private Random rng = new Random();
 	
 	/**
@@ -58,9 +60,7 @@ public class CharacterAi
 	 * @param delta Time between updates
 	 */
 	public void update(int delta)
-	{
-		List<Character> deadNpcs = new ArrayList<>();
-		
+	{	
 		for(Character npc : aiNpcs)
 		{
 			Area area = npc.getCurrentArea();
@@ -82,14 +82,17 @@ public class CharacterAi
 					}
 				}
 
-				npc.update(delta);
 			}
 			
-			if(!npc.isLive() || area == null)
+			if(!npc.isLive())
 				deadNpcs.add(npc);
+			if(area == null)
+				lostNpcs.add(npc);
 		}
 		
 		aiNpcs.removeAll(deadNpcs);
+		aiNpcs.removeAll(lostNpcs);
+		lostNpcs.clear();
 	}
 	/**
 	 * Puts specified NPCs under AI control

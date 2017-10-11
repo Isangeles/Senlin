@@ -22,12 +22,17 @@
  */
 package pl.isangeles.senlin.cli;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import pl.isangeles.senlin.data.save.SaveElement;
+
 /**
  * Class for CLI scripts
  * @author Isangeles
  *
  */
-public class Script 
+public class Script implements SaveElement
 {
 	private String name;
 	private String body;
@@ -123,6 +128,14 @@ public class Script
 		return waitTime > 0;
 	}
 	/**
+	 * Sets specified ID as active script line ID
+	 * @param id ID
+	 */
+	public void setActiveLineId(int id)
+	{
+		activeIndex = id;
+	}
+	/**
 	 * Increases number of uses of this script
 	 */
 	public void used()
@@ -151,5 +164,17 @@ public class Script
 	{
 		activeIndex = 1;
 		end = true;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element scriptE = doc.createElement("script");
+		scriptE.setTextContent(name);
+		scriptE.setAttribute("wait", waitTime+"");
+		scriptE.setAttribute("aID", activeIndex+"");
+		return scriptE;
 	}
 }

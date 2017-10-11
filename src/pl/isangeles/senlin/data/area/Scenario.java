@@ -172,6 +172,18 @@ public class Scenario implements SaveElement
 	    return null;
 	}
 	/**
+	 * Returns area with specified ID
+	 * @param id Desired area ID
+	 * @return Area with specified ID from this scenario
+	 */
+	public Area getArea(String id)
+	{
+		if(mainArea.getId().equals(id))
+			return mainArea;
+		else
+			return getSubArea(id);
+	}
+	/**
 	 * Sets specified list with scripts as scenario scripts
 	 * @param scripts List with game scripts
 	 */
@@ -247,9 +259,7 @@ public class Scenario implements SaveElement
 		Element scriptsE = doc.createElement("scripts");
 		for(Script script : scripts)
 		{
-			Element scriptE = doc.createElement("script");
-			scriptE.setTextContent(script.getName());
-			scriptsE.appendChild(scriptE);
+			scriptsE.appendChild(script.getSave(doc));
 		}
 		scenarioE.appendChild(scriptsE);
 		

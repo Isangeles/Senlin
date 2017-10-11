@@ -22,13 +22,19 @@
  */
 package pl.isangeles.senlin.cli.tools;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.newdawn.slick.SlickException;
+
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.states.GameWorld;
+import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.NpcBase;
 
 /**
  * CLI tool for game world management
@@ -81,6 +87,10 @@ public class WorldMan implements CliTool
         else if(commandTarget.equals("music"))
         {
         	return musicCommands(command);
+        }
+        else if(commandTarget.equals("add"))
+        {
+        	return addCommands(command);
         }
         
         Log.addSystem("no such target for worldman:" + commandTarget);
@@ -154,6 +164,49 @@ public class WorldMan implements CliTool
         	out = true;
         }
         
+        return out;
+	}
+
+	/**
+	 * Handles add commands
+	 * @param commandLine Command
+	 * @return True if command was successfully executed, false otherwise
+	 */
+	public boolean addCommands(String commandLine)
+	{
+		boolean out = false;
+        Scanner scann = new Scanner(commandLine);
+        String option = scann.next();
+        String[] args = {scann.next(), scann.next()};
+        scann.close();
+
+		try
+		{
+			if(option.equals("ch") || option.equals("-character"))
+			{
+				String charId = args[0];
+				String[] pos = {world.getPlayer().getPosition()[0] + "", world.getPlayer().getPosition()[1] + ""};
+				String area = world.getArea().getId();
+				if(args.length > 1)
+					pos = args[1].split("x");
+				if(args.length > 2)
+					area = args[2];
+				
+				Position p = new Position(pos[0] + ";" + pos[1]);
+				Character spawnedChar = NpcBase.spawnIn(charId, world.getCurrentChapter().getActiveScenario().getArea(area), p);
+				world.getArea().getCharacters().add(spawnedChar);
+				spawnedChar.setArea(world.getArea());
+			}
+		}
+		catch(NoSuchElementException e)
+		{
+			Log.addSystem("not enough arguments");
+		}
+		catch(SlickException | IOException | FontFormatException e)
+		{
+			Log.addSystem("game error");
+		}
+		
         return out;
 	}
 }

@@ -2,6 +2,9 @@
 script:
     $worldman music -playSpecial heroicMinority.ogg;
     $charman player set -position 1426x1500;
+    $worldman add -character courier01 1457x1267;
+    $worldman add -character thug01 1350x1267;
+    $worldman add -character thug01 1550x1267;
     $uiman ui -lock true;
     $uiman camera -center 1457x1267;
     @wait 2;

@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.area.Area;

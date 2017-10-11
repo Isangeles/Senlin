@@ -29,6 +29,7 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.Stopwatch;
 /**
@@ -68,6 +69,8 @@ public class Day implements SaveElement
 	{
 		time += delta;
 		if(time < Stopwatch.min(6))
+			phase.changePhase(PhaseType.NIGHT);
+		if(time > Stopwatch.min(6))
 			phase.changePhase(PhaseType.MORNING);
 		if(time > Stopwatch.min(12))
 			phase.changePhase(PhaseType.MIDDAY);

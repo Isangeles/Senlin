@@ -526,6 +526,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(!live)
 		{
 			avatar.lie();
+			avatar.update(delta);
 			attitude = Attitude.DEAD;
 			return CharacterOut.SUCCESS;
 		}
