@@ -1312,7 +1312,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void speak(String what)
 	{
 	    avatar.speak(what);
-        Log.addSpeech(name, what);
+	    if(this.isNearby(Global.getPlayer()))
+	        Log.addSpeech(name, what);
 	}
 	/**
 	 * Starts dialogue with specified game character

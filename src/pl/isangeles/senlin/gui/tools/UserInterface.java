@@ -126,7 +126,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
-        camera = new Camera(new Size(Settings.getResolution()[0], Settings.getResolution()[1]));
+        camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1]));
         
         uiWarning = new Warning(gc);
     }
@@ -205,7 +205,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     public void update(GameContainer gc)
     {
     	if(!gameConsole.isFocused())
-        	keyDown(gc.getInput());
+        	camera.update(gc.getInput());
     	
     	if(player.getTarget() != null)
     	{
@@ -266,6 +266,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         settings.update();
         gameConsole.update();
         conditions.update();
+        
+        camera.setLock(isMouseOver());
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -320,6 +322,14 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	return camera;
     }
     /**
+     * Checks if UI is locked
+     * @return True if UI is locked, false otherwise
+     */
+    public boolean isLocked()
+    {
+    	return lock;
+    }
+    /**
      * Sets specified UI layout
      * @param layout UI layout to set
      */
@@ -336,6 +346,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     public void setLock(boolean lock)
     {
     	this.lock = lock;
+    	camera.setLock(lock);
+    	bBar.setFocus(!lock);
     }
 	@Override
 	public void inputEnded()
@@ -422,17 +434,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
-		if(!isMouseOver())
-		{
-			if(change > 0 && camera.getZoom() < 1.5f)
-        	{
-        		camera.zoom(0.1f);
-        	}
-        	if(change < 0 && camera.getZoom() > 0.5f)
-        	{
-        		camera.unzoom(0.1f);
-        	}
-		}
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.KeyListener#keyPressed(int, char)
@@ -449,22 +450,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	public void keyReleased(int key, char c) 
 	{
 	}
-    /**
-     * KeyDown method called in update, because engine does not provide keyDown method for override  
-     * @param input Input from game container
-     */
-    private void keyDown(Input input)
-    {
-    	if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
-    		camera.up(32);
-        if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
-            camera.down(32);
-        if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
-            camera.left(32);
-        if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
-            camera.right(32);
-        Global.setCamerPos(camera.getPos().x, camera.getPos().y);
-    }
 	
 	public static GameCursor getUiCursor()
 	{

@@ -139,6 +139,14 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
 	public void close() 
 	{
 	}
+	/**
+	 * Sets or removes focus
+	 * @param focus True to set focus, false to remove focus
+	 */
+	public void setFocus(boolean focus)
+	{
+		this.focus = focus;
+	}
     /**
      * Checks if mouse is over bar
      * @return True if mouse is over or false otherwise

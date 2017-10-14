@@ -349,19 +349,22 @@ public class GameWorld extends BasicGameState implements SaveElement
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if((ui == null || !ui.isMouseOver()) && !isPause())
+    	if((ui == null || (!ui.isMouseOver() && !ui.isLocked())) && !isPause())
     	{
             int worldX = (int)Global.worldX(x);
             int worldY = (int)Global.worldY(y);
-    		if(button == Input.MOUSE_LEFT_BUTTON && isMovable(worldX, worldY))
+    		if(button == Input.MOUSE_LEFT_BUTTON)
     		{
-    			for(Character npc : area.getNpcs())
+    			if(isMovable(worldX, worldY))
     			{
-    				if(npc.isMouseOver())
-    					return;
+    				for(Character npc : area.getNpcs())
+        			{
+        				if(npc.isMouseOver())
+        					return;
+        			}
+        			player.moveTo(worldX, worldY);
+        			Log.addInformation("Move: " + worldX + "/" + worldY + " " + area.getMap().getTileId(worldX/area.getMap().getTileWidth(), worldY/area.getMap().getTileHeight(), 1)); //TEST LINE
     			}
-    			player.moveTo(worldX, worldY);
-    			Log.addInformation("Move: " + worldX + "/" + worldY + " " + area.getMap().getTileId(worldX/area.getMap().getTileWidth(), worldY/area.getMap().getTileHeight(), 1)); //TEST LINE
     		}
     		if(button == Input.MOUSE_RIGHT_BUTTON)
     		{
@@ -449,13 +452,6 @@ public class GameWorld extends BasicGameState implements SaveElement
 		return worldE;
 	}
     /**
-     * KeyDown method called in update, because engine does not provide keyDown method for override  
-     * @param input Input from game container
-     */
-    private void keyDown(Input input)
-    {
-    }
-    /**
      * Checks if game should be paused
      * @return True if game should be paused, false otherwise
      */
@@ -478,10 +474,10 @@ public class GameWorld extends BasicGameState implements SaveElement
         try
         {
         	if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
-     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
-     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
-     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
-     	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
+     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
+     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
+     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
+     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
                 return false;
         }
         catch(ArrayIndexOutOfBoundsException e)
