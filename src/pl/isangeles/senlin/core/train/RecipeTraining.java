@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.craft;
+package pl.isangeles.senlin.core.train;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -30,8 +30,9 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.RecipesBase;
 
@@ -43,17 +44,17 @@ import pl.isangeles.senlin.data.RecipesBase;
 public class RecipeTraining extends Training 
 {
 	private final Recipe recipe;
-	private final List<Requirement> requirements;
 	/**
 	 * Recipe training constructor 
 	 * @param recipeId ID of recipe to train
 	 */
 	public RecipeTraining(String recipeId)
 	{
+		super(RecipesBase.get(recipeId).getTrainRequirements());
 		recipe = RecipesBase.get(recipeId);
-		requirements = recipe.getTrainRequirements();
+		name = recipe.getName();
 		info = recipe.getInfo();
-		for(Requirement req : requirements)
+		for(Requirement req : trainReq)
 		{
 			info += System.lineSeparator() + req.getInfo();
 		}
@@ -72,7 +73,7 @@ public class RecipeTraining extends Training
 	@Override
 	public boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException 
 	{
-		for(Requirement req : requirements)
+		for(Requirement req : trainReq)
 		{
 			if(!req.isMetBy(trainingCharacter))
 				return false;
@@ -81,7 +82,7 @@ public class RecipeTraining extends Training
 		Profession recPro = trainingCharacter.getProfession(recipe.getType());
 		if(recPro != null && recPro.getLevel().ordinal() >= recipe.getLevel().ordinal())
 		{
-			for(Requirement req : requirements)
+			for(Requirement req : trainReq)
 			{
 				req.charge(trainingCharacter);
 			}

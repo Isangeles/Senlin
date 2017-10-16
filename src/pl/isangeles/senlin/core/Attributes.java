@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Attributes 
 {
-	private Attribute strength;
+	private Attribute strenght;
 	private Attribute constitution;
 	private Attribute dexterity;
 	private Attribute intelligence;
@@ -46,7 +46,7 @@ public class Attributes
 	 */
 	public Attributes(int str, int con, int dex, int inte, int wis)
 	{
-		strength = new Attribute(str);
+		strenght = new Attribute(str);
 		constitution = new Attribute(con);
 		dexterity = new Attribute(dex);
 		intelligence = new Attribute(inte);
@@ -61,7 +61,7 @@ public class Attributes
 		String[] atts = attLine.split(";");
 		try
 		{
-			strength = new Attribute(Integer.parseInt(atts[0]));
+			strenght = new Attribute(Integer.parseInt(atts[0]));
 			constitution = new Attribute(Integer.parseInt(atts[1]));
 			dexterity = new Attribute(Integer.parseInt(atts[2]));
 			intelligence = new Attribute(Integer.parseInt(atts[3]));
@@ -69,7 +69,7 @@ public class Attributes
 		}
 		catch(NumberFormatException | ArrayIndexOutOfBoundsException e)
 		{
-			strength = new Attribute(0);
+			strenght = new Attribute(0);
 			constitution = new Attribute(0);
 			dexterity = new Attribute(0);
 			intelligence = new Attribute(0);
@@ -78,7 +78,7 @@ public class Attributes
 	}
 	public int addHealth()
 	{
-		return constitution.value * 10 + strength.value;
+		return constitution.value * 10 + strenght.value;
 	}
 	public int addMagicka()
 	{
@@ -94,7 +94,7 @@ public class Attributes
 	 */
 	public int getBasicHit()
 	{
-		return strength.value *2 + constitution.value;
+		return strenght.value *2 + constitution.value;
 	}
 	
 	public int getBasicSpell()
@@ -141,7 +141,7 @@ public class Attributes
 	
 	public float getDualwieldPenalty()
 	{
-		return 2.0f - (dexterity.value/2) + (strength.value/4) + (constitution.value/4);
+		return 2.0f - (dexterity.value/2) + (strenght.value/4) + (constitution.value/4);
 	}
 	/*
 	public int getCastBonus()
@@ -159,11 +159,11 @@ public class Attributes
 	 */
 	public Attributes nagative()
 	{
-		return new Attributes(-strength.value, -constitution.value, -dexterity.value, -intelligence.value, -wisdom.value);
+		return new Attributes(-strenght.value, -constitution.value, -dexterity.value, -intelligence.value, -wisdom.value);
 	}
 	
 	public int getStr()
-	{ return strength.value; }
+	{ return strenght.value; }
 	
 	public int getCon()
 	{ return constitution.value; }
@@ -178,10 +178,10 @@ public class Attributes
 	{ return wisdom.value; }
 	
 	public void addStr()
-	{ strength.value ++; }
+	{ strenght.value ++; }
 	
 	public void addStr(int value)
-	{ strength.value += value; }
+	{ strenght.value += value; }
 	
 	public void addCon()
 	{ constitution.value ++; }
@@ -212,11 +212,37 @@ public class Attributes
 	 */
 	public void mod(Attributes attributes)
 	{
-		strength.value += attributes.getStr();
+		strenght.value += attributes.getStr();
 		constitution.value += attributes.getCon();
 		dexterity.value += attributes.getDex();
 		intelligence.value += attributes.getInt();
 		wisdom.value += attributes.getWis();
+	}
+	/**
+	 * Modifies specified attribute
+	 * @param type Type of attribute to modify
+	 * @param value Mod value
+	 */
+	public void modAtt(AttributeType type, int value)
+	{
+		switch(type)
+		{
+		case STRENGHT:
+			strenght.value += value;
+			break;
+		case CONSTITUTION:
+			constitution.value += value;
+			break;
+		case DEXTERITY:
+			dexterity.value += value;
+			break;
+		case INTELLIGENCE:
+			intelligence.value += value;
+			break;
+		case WISDOM:
+			wisdom.value += value;
+			break;
+		}
 	}
 	/**
 	 * Compares this attributes to other some attributes 
@@ -225,11 +251,11 @@ public class Attributes
 	 */
 	public boolean compareTo(Attributes otherAtt)
 	{
-	    if(strength.getValue() < otherAtt.getStr() || constitution.getValue() < otherAtt.getCon() || dexterity.getValue() < otherAtt.getDex() || 
+	    if(strenght.getValue() < otherAtt.getStr() || constitution.getValue() < otherAtt.getCon() || dexterity.getValue() < otherAtt.getDex() || 
 	       intelligence.getValue() < otherAtt.getInt() || wisdom.getValue() < otherAtt.getWis())
 	        return false;
 	    
-	    if(strength.getValue() >= otherAtt.getStr() && constitution.getValue() >= otherAtt.getCon() && dexterity.getValue() >= otherAtt.getDex() && 
+	    if(strenght.getValue() >= otherAtt.getStr() && constitution.getValue() >= otherAtt.getCon() && dexterity.getValue() >= otherAtt.getDex() && 
            intelligence.getValue() >= otherAtt.getInt() && wisdom.getValue() >= otherAtt.getWis())
             return true;
 	    
@@ -240,8 +266,8 @@ public class Attributes
 	{
 		String info = "";
 		
-		if(strength.value != 0)
-			info += TConnector.getText("ui", "strName") + ":" + strength.value;
+		if(strenght.value != 0)
+			info += TConnector.getText("ui", "strName") + ":" + strenght.value;
 		if(constitution.value != 0)
 			info += TConnector.getText("ui", "conName") + ":" + constitution.value;
 		if(dexterity.value != 0)
@@ -257,6 +283,6 @@ public class Attributes
 	@Override
 	public String toString()
 	{
-		return strength.value + ";" + constitution.value + ";" + dexterity.value + ";" + intelligence.value + ";" +wisdom.value + ";";
+		return strenght.value + ";" + constitution.value + ";" + dexterity.value + ";" + intelligence.value + ";" +wisdom.value + ";";
 	}
 }

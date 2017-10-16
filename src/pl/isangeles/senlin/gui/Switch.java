@@ -34,6 +34,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.core.Attribute;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.*;
 /**
  * Graphical switch to manipulate integers 
@@ -47,8 +48,8 @@ public final class Switch extends InterfaceObject implements MouseListener
 	private Font labelFont;
 	private TrueTypeFont ttf;
 	private String label;
-	private Button buttPlus;
-	private Button buttMinus;
+	private Button plusB;
+	private Button minusB;
 	private GameContainer gc;
 	/**
 	 * Switch constructor (without info window)
@@ -63,7 +64,19 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public Switch(GameContainer gc, String label, int value, Attribute points) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc);
-		build(gc, label, value, points);
+		this.gc = gc;
+		this.label = label;
+		this.value = value;
+		this.points = points;
+		this.gc.getInput().addMouseListener(this);
+		
+		plusB = new Button(GBase.getImage("buttonNext"), "", this.gc);
+		minusB = new Button(GBase.getImage("buttonBack"), "", this.gc);
+		
+		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        
+        ttf = new TrueTypeFont(labelFont.deriveFont(10f), true);
 	}
 	/**
 	 * Switch constructor (with info window)
@@ -79,7 +92,19 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public Switch(GameContainer gc, String label, int value, Attribute points, String textForInfo) throws SlickException, IOException, FontFormatException
 	{
 		super(GConnector.getInput("switch/switchBG.png"), "switch", false, gc, textForInfo);
-		build(gc, label, value, points);
+		this.gc = gc;
+		this.label = label;
+		this.value = value;
+		this.points = points;
+		this.gc.getInput().addMouseListener(this);
+		
+		plusB = new Button(GBase.getImage("buttonNext"), "", this.gc);
+		minusB = new Button(GBase.getImage("buttonBack"), "", this.gc);
+		
+		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
+		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        
+        ttf = new TrueTypeFont(labelFont.deriveFont(10f), true);
 	}
 	
 	@Override
@@ -92,8 +117,8 @@ public final class Switch extends InterfaceObject implements MouseListener
         float textX = ttf.getWidth(label);
         float textY = ttf.getHeight(label);
         
-		buttPlus.draw((x+super.getScaledWidth())-buttPlus.getScaledWidth(), y+2);
-		buttMinus.draw(x, y+2);
+		plusB.draw((x+super.getScaledWidth())-plusB.getScaledWidth(), y+2);
+		minusB.draw(x, y+2);
 		
 		super.drawString(value+"", ttf);
 		ttf.drawString(super.getCenteredCoord(super.x, texEndX, textX), super.getCenteredCoord(super.y, texEndY, textY-20), label);
@@ -143,12 +168,12 @@ public final class Switch extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseReleased(int button, int x, int y) 
 	{
-		if(buttPlus.isMouseOver() && points.getValue() > 0)
+		if(plusB.isMouseOver() && points.getValue() > 0)
 		{
 			value ++;
 			points.decrement();
 		}
-		else if(buttMinus.isMouseOver() && value > 1)
+		else if(minusB.isMouseOver() && value > 1)
 		{
 			value --;
 			points.increment();;
@@ -157,31 +182,5 @@ public final class Switch extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
-	}
-	/**
-	 * Builds switch, called by every constructor
-	 * @param gc Slick game container
-	 * @param label Switch label
-	 * @param value Value for switch 
-	 * @param points Max number of increments
-	 * @throws SlickException
-	 * @throws FontFormatException
-	 * @throws IOException
-	 */
-	private void build(GameContainer gc, String label, int value, Attribute points) throws SlickException, FontFormatException, IOException
-	{
-		this.gc = gc;
-		this.label = label;
-		this.value = value;
-		this.points = points;
-		this.gc.getInput().addMouseListener(this);
-		
-		buttPlus = new Button(GConnector.getInput("switch/switchButtonPlus.png"), "switchBP", false, "", this.gc);
-		buttMinus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchBM", false, "", this.gc);
-		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		labelFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        
-        ttf = new TrueTypeFont(labelFont.deriveFont(10f), true);
 	}
 }

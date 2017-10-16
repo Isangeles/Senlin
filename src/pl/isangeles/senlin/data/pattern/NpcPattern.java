@@ -34,6 +34,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.core.train.Training;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -42,7 +43,6 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Module;
-import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Gender;

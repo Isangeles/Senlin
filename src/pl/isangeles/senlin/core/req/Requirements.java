@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.core.req;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pl.isangeles.senlin.core.character.Character;
 
@@ -34,6 +35,14 @@ import pl.isangeles.senlin.core.character.Character;
 public class Requirements extends ArrayList<Requirement>
 {
     private static final long serialVersionUID = 1L;
+    
+    public Requirements() {}
+    
+    public Requirements(List<Requirement> reqsList)
+    {
+    	super();
+    	this.addAll(reqsList);
+    }
     /**
      * Checks if all requirements are met by specified game character
      * @param character Game character

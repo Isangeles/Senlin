@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.skill;
+package pl.isangeles.senlin.core.train;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -32,7 +32,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.SkillsBase;
@@ -50,17 +49,14 @@ import pl.isangeles.senlin.util.TConnector;
 public class SkillTraining extends Training
 {
     private String skillId;
-    private List<Requirement> trainReq;
-    private String name;
-    private String info;
     /**
      * Training constructor 
      * @param skillID ID of skill to train
      */
     public SkillTraining(String skillId)
     {
+    	super(SkillsBase.getPattern(skillId).getRequirements());
         this.skillId = skillId;
-        trainReq = SkillsBase.getPattern(skillId).getRequirements();
         name = TConnector.getInfoFromModule("skills", skillId)[0];
         info = name + " " + TConnector.getInfoFromModule("skills", skillId)[1];
         for(Requirement req : trainReq)
@@ -89,14 +85,6 @@ public class SkillTraining extends Training
     	}
     	
     	return trainingCharacter.addSkill(SkillsBase.getSkill(trainingCharacter, skillId));
-    }
-    /**
-     * Returns training name
-     * @return String with training name
-     */
-    public String getName()
-    {
-        return name;
     }
     /**
      * Returns training info

@@ -165,7 +165,7 @@
         <professions>
             <profession type="alchemy" level="novice">
                 <trainReq>
-		    <pointsReq>1</pointsReq>
+		            <pointsReq>1</pointsReq>
                     <goldReq>10</goldReq>
                     <statsReq>0;0;0;2;1;</statsReq>
                 </trainReq>        
@@ -177,6 +177,14 @@
         <skills>
             <skill>slash</skill>
         </skills>
+        <attributes>
+            <attribute type="strength">
+                <trainReq>
+                    <pointsReq>1</pointsReq>
+                    <goldReq>5</goldReq>
+                </trainReq>
+            </attribute>
+        </attributes>
     </training>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">
@@ -195,7 +203,7 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-	    <item random="false">wSOHI</item>
+	        <item random="false">wSOHI</item>
         </in>
     </eq>
     <skills>

@@ -20,7 +20,7 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core.craft;
+package pl.isangeles.senlin.core.train;
 
 import java.awt.FontFormatException;
 import java.awt.Window.Type;
@@ -31,8 +31,10 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.craft.ProfessionLevel;
+import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
@@ -45,8 +47,6 @@ import pl.isangeles.senlin.gui.ScrollableContent;
 public class ProfessionTraining extends Training
 {
 	private Profession profession;
-	private List<Requirement> trainingReq;
-	private String name;
 	/**
 	 * Profession training constructor 
 	 * @param type Type of profession to train
@@ -55,9 +55,9 @@ public class ProfessionTraining extends Training
 	 */
 	public ProfessionTraining(ProfessionType type, ProfessionLevel level, List<Requirement> trainingReq)
 	{
+		super(trainingReq);
 		profession = new Profession(type);
 		profession.setLevel(level);
-		this.trainingReq = trainingReq;
 		name = type.getName() + ": " + level.getName();
 		info = name;
 		for(Requirement req : trainingReq)
@@ -71,7 +71,7 @@ public class ProfessionTraining extends Training
 	@Override
 	public boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException
 	{
-		for(Requirement req : trainingReq)
+		for(Requirement req : trainReq)
 		{
 			if(!req.isMetBy(trainingCharacter))
 				return false;
@@ -79,7 +79,7 @@ public class ProfessionTraining extends Training
 		
 		if(profession.getLevel() == ProfessionLevel.NOVICE)
 		{
-			for(Requirement req : trainingReq)
+			for(Requirement req : trainReq)
 			{
 				req.charge(trainingCharacter);
 			}
@@ -92,7 +92,7 @@ public class ProfessionTraining extends Training
 			{
 				if(pro.getLevel().ordinal()+1 == profession.getLevel().ordinal())
 				{
-					for(Requirement req : trainingReq)
+					for(Requirement req : trainReq)
 					{
 						req.charge(trainingCharacter);
 					}
@@ -104,15 +104,6 @@ public class ProfessionTraining extends Training
 		}
 	}
 	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.gui.ScrollableContent#getName()
-	 */
-	@Override
-	public String getName() 
-	{
-		return name;
-	}
-	
-	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
 	 */
 	@Override
@@ -121,10 +112,14 @@ public class ProfessionTraining extends Training
 		Element professionE = doc.createElement("profession");
 		professionE.setAttribute("type", profession.getType().toString());
 		professionE.setAttribute("level", profession.getLevel().toString());
-		for(Requirement req : trainingReq)
+		
+		Element trainReqE = doc.createElement("trainReq");
+		for(Requirement req : trainReq)
 		{
-			professionE.appendChild(req.getSave(doc));
+			trainReqE.appendChild(req.getSave(doc));
 		}
+		professionE.appendChild(trainReqE);
+		
 		return professionE;
 	}
 

@@ -54,15 +54,12 @@ import pl.isangeles.senlin.core.Health;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Magicka;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.Training;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
 import pl.isangeles.senlin.core.craft.Profession;
-import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
-import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
@@ -84,7 +81,10 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
-import pl.isangeles.senlin.core.skill.SkillTraining;
+import pl.isangeles.senlin.core.train.ProfessionTraining;
+import pl.isangeles.senlin.core.train.RecipeTraining;
+import pl.isangeles.senlin.core.train.SkillTraining;
+import pl.isangeles.senlin.core.train.Training;
 import pl.isangeles.senlin.data.ABase;
 import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.GuildsBase;
@@ -629,7 +629,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		Position hitBoxEnd = new Position(target.getPosition()[0] + maxRange, target.getPosition()[1] + maxRange);
 		
 		if(pos.isIn(hitBoxStart, hitBoxEnd))
+		{
+			destPoint[0] = pos.x;
+			destPoint[1] = pos.y;
 			return;
+		}
 		
 		if(target.getPosition()[0] > position[0])
 			destPoint[0] = target.getPosition()[0];// - Coords.getDis(maxRange);

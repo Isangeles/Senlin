@@ -20,16 +20,19 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.train;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.util.List;
 
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
 
@@ -40,7 +43,14 @@ import pl.isangeles.senlin.gui.ScrollableContent;
  */
 public abstract class Training implements SaveElement, ScrollableContent
 {
-	protected String info;
+	protected String name = "";
+	protected String info = "";
+    protected final Requirements trainReq;
+    
+    public Training(List<Requirement> reqs)
+    {
+    	trainReq = new Requirements(reqs);
+    }
 	/**
 	 * Teaches specified character
 	 * @param trainingCharacter Game character
@@ -50,8 +60,15 @@ public abstract class Training implements SaveElement, ScrollableContent
 	 */
 	public abstract boolean teach(Character trainingCharacter) throws SlickException, IOException, FontFormatException;
 	
-	public abstract Element getSave(Document doc);
-	
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.gui.ScrollableContent#getName()
+	 */
+	@Override
+    public String getName()
+    {
+        return name;
+    }
+    
 	public String getInfo()
 	{
 		return info;

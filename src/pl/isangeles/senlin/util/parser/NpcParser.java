@@ -33,16 +33,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Training;
+import pl.isangeles.senlin.core.AttributeType;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionLevel;
-import pl.isangeles.senlin.core.craft.ProfessionTraining;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
-import pl.isangeles.senlin.core.craft.RecipeTraining;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
-import pl.isangeles.senlin.core.skill.SkillTraining;
+import pl.isangeles.senlin.core.train.AttributeTraining;
+import pl.isangeles.senlin.core.train.ProfessionTraining;
+import pl.isangeles.senlin.core.train.RecipeTraining;
+import pl.isangeles.senlin.core.train.SkillTraining;
+import pl.isangeles.senlin.core.train.Training;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
@@ -307,6 +309,28 @@ public final class NpcParser
     				Element skillE = (Element)skillNode;
     				SkillTraining skillTrain = new SkillTraining(skillE.getTextContent());
     				trainings.add(skillTrain);
+    			}
+    		}
+    	}
+    	
+    	Element attributesE = (Element)trainingE.getElementsByTagName("attributes").item(0);
+    	if(attributesE != null)
+    	{
+    		NodeList attributeNl = attributesE.getElementsByTagName("attribute");
+    		for(int i = 0; i < attributeNl.getLength(); i ++)
+    		{
+    			Node attributeNode = attributeNl.item(i);
+    			if(attributeNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    			{
+    				Element attributeE = (Element)attributeNode;
+    				
+    				AttributeType attType = AttributeType.fromId(attributeE.getAttribute("type"));
+    				Node trainReqNode = attributeE.getElementsByTagName("trainReq").item(0);
+    				List<Requirement> reqs = RequirementsParser.getReqFromNode(trainReqNode);
+    				
+    				AttributeTraining attTrain = new AttributeTraining(attType, reqs);
+    				
+    				trainings.add(attTrain);
     			}
     		}
     	}

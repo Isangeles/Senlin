@@ -20,7 +20,7 @@
  </tileset>
  <layer name="ground" width="70" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3DQQ0AAAwDoZNW/6omYl9IWDVVVVVVVVVVVVVVVVVVfT4l7ha2sDYAAA==
+   H4sIAAAAAAAAA+3UsQ2AMAxFQTMQMwAzwGRMDCmoQErSBESuuO4X1is8R8QMAAAAAAAA8FNrhbdvbWU5bad9yG/TZvrAzS0sUdbkoosuujx3qdnrctfb3y3ZpSa9dcn9l6tJT12SscLbtwIAAEDPDkuqT4+wNgAA
   </data>
  </layer>
  <layer name="onground" width="70" height="50">
@@ -35,7 +35,7 @@
  </layer>
  <layer name="water" width="70" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3ZvQ7BUACG4aOugEvwcw3ugcuz+53YDEYJNolN7CRMLCYjn4QoOW2Qak9y3id5Y9Ic39BKagwAAADSUsv6AI6qq0bWh3BQQRWzPoSDKqr65XdKqvyHswAAAABAmpq5Zz4L7xCXLz7dw7et2MUu6re2VFt1VPf+eaun+mrk4S4DNVRzS6t7Ew93GUdsEt5l4dkuUzX7YJe1Z7ssYzZ57LJRW3Z56aCOjj6PCgle632XndrH7HJ2+Dn9yzuLKLb77kldQpnAmJwKVD5wd5ck8b/Ojk0AAAAAAK67AjEiZq2wNgAA
+   H4sIAAAAAAAAA+3ZvQ7BUACG4dPeQV2Cn2twD9yj34nNYJRgk9jETsLEYjLyNamkEhoVp+dE3yd506l6zrcyBgAAAEVpuj6Ap1qq7foQHopUxfUhPFRXjZzvVFXNwlkAAAAAAAD+QScwpqt6qp884wZqqCaB6xMWb6Q7j9XyRZukWQl3mb7ZJL3LqmS7zHXfxQe7bEu2yzpjk8cuO7Vnl6dO6uzpJpHF3z7ozseMXa6ebhL75j+LPC66+y2VCY0JVBha/CgAAAAAAMAP3AHdfcKIsDYAAA==
   </data>
  </layer>
  <layer name="trees" width="70" height="50">
