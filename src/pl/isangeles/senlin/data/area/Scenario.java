@@ -256,6 +256,9 @@ public class Scenario implements SaveElement
 		
 		scenarioE.appendChild(mainareaE);
 		
+		//TODO save quests triggers
+		Element questsE = doc.createElement("quests");
+		
 		Element scriptsE = doc.createElement("scripts");
 		for(Script script : scripts)
 		{

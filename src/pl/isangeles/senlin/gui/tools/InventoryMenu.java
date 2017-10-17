@@ -317,6 +317,10 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
                     if(slots.insertContent(item))
                         Log.addInformation(item.toString() + " added to inventory menu");
                 }
+                else
+                {
+                    eqSlots.insertItem((Equippable)item);
+                }
                 	
                 break;
             }

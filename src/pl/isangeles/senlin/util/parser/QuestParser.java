@@ -105,6 +105,7 @@ public class QuestParser
         Element objectiveE = (Element)objectiveNode;
         
         String type = objectiveE.getAttribute("type");
+        boolean finisher = Boolean.parseBoolean(objectiveE.getAttribute("finisher"));
         int amount = 0;
         try
         {
@@ -117,6 +118,6 @@ public class QuestParser
         }
         String target = objectiveE.getTextContent();
         
-        return new Objective(ObjectiveType.fromString(type), target, amount);
+        return new Objective(ObjectiveType.fromString(type), target, amount, finisher);
     }
 }

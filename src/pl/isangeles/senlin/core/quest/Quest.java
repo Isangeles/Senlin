@@ -75,9 +75,14 @@ public class Quest implements ScrollableContent, SaveElement
         
         for(Stage stage : stages)
         {
-            if(stage.getId().equals(id+"0"))
+            if(stage.getId().equals(id+"00"))
             	currentStage = stage;
         }   
+        if(currentStage == null)
+        {
+            Log.addSystem("quest_construct_warning///No start stage for " + id);
+            currentStage = stages.get(0);
+        }
     }
     /**
      * Changes current stage

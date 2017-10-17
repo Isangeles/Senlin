@@ -90,7 +90,7 @@ public final class Module
 	
 	public static void nextChapter()
 	{
-	    String chaptersInfoPath = modulePath + File.separator + "chapters" + File.separator + "chaptersList";
+	    String chaptersInfoPath = modulePath + File.separator + "chapters" + File.separator + "chapters.list";
 	    String nextChapterName = TConnector.getTextFromFile(chaptersInfoPath, activeChapterName);
 	    activeChapterName = nextChapterName;
 	}

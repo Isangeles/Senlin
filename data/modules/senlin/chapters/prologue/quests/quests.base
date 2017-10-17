@@ -1,8 +1,21 @@
 <?xml version="1.0"?>
 <base>
+	<quest id="senLetter" flagOn="senLetterStart">
+		<stages>
+			<stage id="senLetter00" next="senLetter01">
+				<objective type="talk">ewanSLetter01</objective>
+			</stage>
+			<stage id="senLetter01" next="senLetter03" flagOn="senLetter01" flagOff="senLetterStart">
+				<objective type="talk" finisher="true">ewanSLetter02</objective>
+			</stage>
+			<stage id="senLetter03" next="end" flagOn="senLetter02" flagOff="senLetter01">
+				<objective type="talk">TODO</objective>
+			</stage>
+		</stages>
+	</quest>
 	<quest id="pLumberTalk" flagOn="qpLumberTalkStart">
 	   <stages>
-        <stage id="pLumberTalk0" next="pLumberTalk1" flagOn="qpLumberTalk0" flagOff="qpLumberTalkStart">
+        <stage id="pLumberTalk00" next="pLumberTalk1" flagOn="qpLumberTalk0" flagOff="qpLumberTalkStart">
             <objective type="gather" amount="1">mSLetter01</objective>
         </stage>
         <stage id="pLumberTalk1" next="pLumberTalk2" flagOn="qpLumberTalk1" flagOff="qpLumberTalk0">
@@ -15,7 +28,7 @@
 	</quest>
     <quest id="pBanditsKilling" flagOn="qpBanditsKillingStart" flagOff="qpLumberTalkFinish">
 	   <stages>
-        <stage id="pBanditsKilling0" next="pBanditsKilling1" flagOn="qpBanditsKilling0" flagOff="qpBanditsKillingStart">
+        <stage id="pBanditsKilling00" next="pBanditsKilling1" flagOn="qpBanditsKilling0" flagOff="qpBanditsKillingStart">
             <objective type="kill" amount="2">bandit01</objective>
         </stage>
 	    <stage id="pBanditsKilling1"  next="end" flagOn="qpBanditsKillingFinish" flagOff="qpBanditsKilling0">

@@ -17,12 +17,13 @@ public class Objective implements SaveElement
     private int reqAmount;
     private int amount;
     private boolean complete;
+    private boolean finisher;
     /**
      * Objective constructor
      * @param type Objective type
      * @param target Objective target
      */
-    public Objective(ObjectiveType type, String target, int reqAmount)
+    public Objective(ObjectiveType type, String target, int reqAmount, boolean finisher)
     {
         this.type = type;
         this.target = target;
@@ -30,6 +31,7 @@ public class Objective implements SaveElement
         	this.reqAmount = 1;
         else
             this.reqAmount = reqAmount;
+        this.finisher = finisher;
     }
     /**
      * Completes objective
@@ -45,6 +47,14 @@ public class Objective implements SaveElement
     public boolean isComplete()
     {
         return complete;
+    }
+    /**
+     * Checks if after completing this objective whole stage should be completed
+     * @return True if this objective is stage finisher or false otherwise
+     */
+    public boolean isFinisher()
+    {
+        return finisher;
     }
     /**
      * Checks if specified objective target matches to this objective target

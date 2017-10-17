@@ -392,13 +392,13 @@ public final class DConnector
 		
 		List<File> scenariosFiles = new ArrayList<>();
 
-		File list = new File(scenariosDir + File.separator + "scenariosList");
+		File list = new File(scenariosDir + File.separator + "scenarios.list");
 		
 		Scanner scann = new Scanner(list);
 		scann.useDelimiter(";\r?\n");
 		while(scann.hasNext())
 		{
-			scenariosFiles.add(new File(scenariosDir + File.separator + scann.next()));
+			scenariosFiles.add(new File(scenariosDir + File.separator + scann.next() + ".scen"));
 		}
 		scann.close();
 		

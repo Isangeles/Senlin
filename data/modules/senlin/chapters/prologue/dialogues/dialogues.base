@@ -62,7 +62,7 @@
 	    </text>
     </dialogue>
 
-    <dialogue id="ewanTalk2" npc="ewanP01" flagReq="qpLumberTalkFinish">
+    <dialogue id="ewanTalk2" npc="ewanP01" flagReq="qpLumberTalk1">
         <text id="ewanTalk201" on="start">
             <answer end="true">ewanTalk201a01</answer>
             <answer end="true">bye01</answer>
@@ -79,6 +79,22 @@
                 <take>
                 </take>
             </transfer>
+        </text>
+    </dialogue>
+    <dialogue id="ewanTalk4" npc="ewanP01" flagReq="qpBanditsKillingFinish">
+        <text id="greeting01" on="start">
+            <answer>ewanSLetterStart</answer>
+        </text>
+        <text id="ewanSLetter01" on="ewanSLetterStart">
+            <answer end="true">ewanSLetter01a1</answer>
+            <answer>ewanSLetter01a2</answer>
+        </text>
+        <text id="ewanSLetter02" on="ewanSLetter01a2">
+            <answer end="true">ewanSLetter02a1</answer>
+            <answer>ewanSLetter02a2</answer>
+        </text>
+        <text id="ewanSLetter03" on="ewanSLetter02a2">
+            <answer end="true">ewanSLetter03a1</answer>
         </text>
     </dialogue>
 </base>

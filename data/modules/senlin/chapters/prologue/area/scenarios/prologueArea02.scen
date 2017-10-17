@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<base>
+<scenario id="prologue02">
+    <mainarea id="prologue02" map="area02.tmx">
+        <npcs>
+        </npcs>
+        <quests>
+        </quests>
+        <objects>
+        </objects>
+        <exits>
+        </exits>
+        <music>
+	        <idle>
+                <track category="exploring">$all</track>
+            </idle>
+            <combat>
+            
+            </combat>
+        </music>
+        <subareas>
+        </subareas>
+    </mainarea>
+        <scripts>
+        </scripts>
+</scenario>
+</base>

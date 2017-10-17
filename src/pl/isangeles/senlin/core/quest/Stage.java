@@ -62,14 +62,20 @@ public class Stage
      */
     public boolean isComplete()
     {
+        boolean complete = true;
         for(Objective objecitve : objectives)
         {
             if(!objecitve.isComplete())
             {
-                return false;
+                complete = false;
+            }
+            else
+            {
+                if(objecitve.isFinisher())
+                    return true;
             }
         }
-        return true;
+        return complete;
     }
     /**
      * Returns next stage ID
