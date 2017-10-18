@@ -23,7 +23,7 @@
             <object position="1800;500">hAloe</object>
         </objects>
         <exits>
-            <exit position="0;0" texture="signPost.png" to="0;0">prologue02</exit>
+            <exit position="500;0" texture="signPost.png" to="444;8000">prologue02</exit>
             <exit position="1800;250" texture="" to="0;0">prologue01:tent01</exit>
         </exits>
         <music>

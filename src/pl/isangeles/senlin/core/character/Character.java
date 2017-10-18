@@ -49,7 +49,6 @@ import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Experience;
-import pl.isangeles.senlin.core.Flags;
 import pl.isangeles.senlin.core.Health;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Magicka;
@@ -325,18 +324,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		this.sex = sex;
 	}
 	/**
-	 * Instantly sets character position
-	 * @param x Position on x-axis
-	 * @param y Position on y-axis
-	 */
-	public void setPosition(int x, int y)
-	{
-		position[0] = x;
-		position[1] = y;
-		destPoint[0] = x;
-		destPoint[1] = y;
-	}
-	/**
      * Instantly sets character position
      * @param pos XY position
      */
@@ -516,7 +503,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Updates character avatar animation
 	 * @param delta
-	 * @throws GameLogErr 
 	 */
 	public CharacterOut update(int delta)
 	{
@@ -536,44 +522,55 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
         else
         {
-        	if(signals.containsKey(CharacterSignal.FOLLOWING))
+        	for(int i = 0; i < 2; i ++) //Movement speed is determined by numbers of loops
         	{
-        		Targetable target = (Targetable)signals.get(CharacterSignal.FOLLOWING);
-        		moveTo(target, 10);
+            	if(signals.containsKey(CharacterSignal.FOLLOWING))
+            	{
+            		Targetable target = (Targetable)signals.get(CharacterSignal.FOLLOWING);
+            		moveTo(target, 10);
+            	}
+                avatar.move(true);
+                if(position[0] > destPoint[0])
+                {
+                    if(isMovable(position[0]-1, position[1], currentArea.getMap()))
+                    {
+                        position[0] -= 1;
+                        avatar.goLeft();
+                    }
+                    else
+                    	destPoint[0] = position[0];
+                }
+                if(position[0] < destPoint[0])
+                {
+                    if(isMovable(position[0]+1, position[1], currentArea.getMap()))
+                    {
+                        position[0] += 1;
+                        avatar.goRight();
+                    }
+                    else
+                    	destPoint[0] = position[0];
+                }
+                if(position[1] > destPoint[1])
+                {
+                    if(isMovable(position[0], position[1]-1, currentArea.getMap()))
+                    {
+                        position[1] -= 1;
+                        avatar.goUp();
+                    }
+                    else
+                    	destPoint[1] = position[1];
+                }
+                if(position[1] < destPoint[1])
+                {
+                    if(isMovable(position[0], position[1]+1, currentArea.getMap()))
+                    {
+                        position[1] += 1;
+                        avatar.goDown();
+                    }
+                    else
+                    	destPoint[1] = position[1];
+                }
         	}
-            avatar.move(true);
-            if(position[0] > destPoint[0])
-            {
-                if(isMovable(position[0]-1, position[1], currentArea.getMap()))
-                {
-                    position[0] -= 1;
-                    avatar.goLeft();
-                }
-            }
-            if(position[0] < destPoint[0])
-            {
-                if(isMovable(position[0]+1, position[1], currentArea.getMap()))
-                {
-                    position[0] += 1;
-                    avatar.goRight();
-                }
-            }
-            if(position[1] > destPoint[1])
-            {
-                if(isMovable(position[0], position[1]-1, currentArea.getMap()))
-                {
-                    position[1] -= 1;
-                    avatar.goUp();
-                }
-            }
-            if(position[1] < destPoint[1])
-            {
-                if(isMovable(position[0], position[1]+1, currentArea.getMap()))
-                {
-                    position[1] += 1;
-                    avatar.goDown();
-                }
-            }
         }
 		if(signals.containsKey(CharacterSignal.FIGHTING))
 		{

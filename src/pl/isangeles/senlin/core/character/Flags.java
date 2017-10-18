@@ -20,9 +20,10 @@
  * 
  * 
  */
-package pl.isangeles.senlin.core;
+package pl.isangeles.senlin.core.character;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -44,7 +45,7 @@ public class Flags extends ArrayList<String> implements SaveElement
 	 * Updates flags container by adding and removing requested flags
 	 * @param quests List of all character quests
 	 */
-	public void update(List<Quest> quests)
+	public void update(Collection<Quest> quests)
 	{
 		for(Quest quest : quests)
 		{

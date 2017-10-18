@@ -91,7 +91,7 @@ public class Quest implements ScrollableContent, SaveElement
     {
         if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
         {
-            completed();
+            complete();
             return;
         }
         
@@ -266,11 +266,16 @@ public class Quest implements ScrollableContent, SaveElement
     /**
      * Marks quest as completed
      */
-    public void completed()
+    public void complete()
     {
     	name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
     	complete = true;
     	active = false;
+    }
+    
+    public boolean equals(Quest q)
+    {
+    	return id.equals(q.getId());
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

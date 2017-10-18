@@ -373,7 +373,7 @@ public final class SSGParser
         		Element questE = (Element)questNode;
         		String questId = questE.getTextContent();
         		Quest quest = QuestsBase.get(questId);
-        		quest.completed();
+        		quest.complete();
         		savedQuests.add(quest);
         	}
         }

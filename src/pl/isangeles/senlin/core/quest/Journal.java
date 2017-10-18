@@ -30,16 +30,26 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.data.save.SaveElement;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Class for game character quests container 
  * @author Isangeles
  *
  */
-public class Journal extends ArrayList<Quest> implements SaveElement
+public class Journal extends HashSet<Quest> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 	private List<Quest> qCompleted = new ArrayList<>();
+	
+	@Override
+	public boolean add(Quest quest)
+	{
+		if(!qCompleted.contains(quest))
+			return super.add(quest);
+		else
+			return false;
+	}	
 	/**
 	 * Updates journal
 	 */

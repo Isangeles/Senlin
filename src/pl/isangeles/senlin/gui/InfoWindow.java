@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.data.GBase;
+import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 /**
@@ -73,9 +74,8 @@ public class InfoWindow extends InterfaceObject
 	 */
 	private float getCorrectX(float x)
 	{
-		x += 10;
-		if(x >= Settings.getResolution()[0] - getDis(25))
-			x -= getWidth();
+		if(x + getScaledWidth() >= Global.getCameraSize().width)
+			x -= textTtf.getWidth(textInfo);
 		
 		return x;
 	}
@@ -86,8 +86,8 @@ public class InfoWindow extends InterfaceObject
 	 */
 	private float getCorrectY(float y)
 	{
-		if(y >= Settings.getResolution()[1] - getDis(25))
-			y -= getHeight();
+		if(y + getScaledHeight() >= Global.getCameraSize().height)
+			y -= textTtf.getHeight(textInfo)*noLines;
 		
 		return y;
 	}

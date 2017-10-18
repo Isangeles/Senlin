@@ -85,7 +85,7 @@ public class Avatar extends CharacterAvatar
 	 */
 	@Override
 	public void draw(float x, float y)
-	{
+	{	
     	x -= Coords.getDis(35);
 		y -= Coords.getDis(90);
 		

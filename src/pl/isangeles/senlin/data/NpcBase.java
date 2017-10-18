@@ -62,7 +62,7 @@ public class NpcBase
 		{
 			Character newChar = npcs.get(npcId).make(gc);
 			newChar.setArea(area);
-			newChar.setPosition(pos.x, pos.y);
+			newChar.setPosition(pos);
 			return newChar;
 		}
 		else
@@ -82,7 +82,7 @@ public class NpcBase
 		if(npcs.get(npcId) != null)
 		{
 			Character newChar = npcs.get(npcId).make(gc);
-			newChar.setPosition(pos.x, pos.y);
+			newChar.setPosition(pos);
 			return newChar;
 		}
 		else

@@ -25,8 +25,10 @@ package pl.isangeles.senlin.states;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.gui.GameCursor;
+import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Size;
 /**
  * Class for game globals, like player character, active chapter, etc. 
  * @author Isangeles
@@ -81,6 +83,10 @@ public class Global
 		return cameraPos;
 	}
 	
+	public static Size getCameraSize()
+	{
+		return new Size(cameraPos[0] + Settings.getResolution()[0], cameraPos[1] + Settings.getResolution()[1]);
+	}
 	public static Position getCameraStartPos()
 	{
 		return new Position(cameraPos[0], cameraPos[1]);

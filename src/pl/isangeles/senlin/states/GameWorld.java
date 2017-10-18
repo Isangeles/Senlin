@@ -94,7 +94,6 @@ public class GameWorld extends BasicGameState implements SaveElement
 	public GameWorld(Character player, Chapter chapter)
 	{
         this.player = player;
-        player.setPosition(1700, 500);
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
         activeScenario.startQuests(player);
@@ -110,6 +109,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	    dayManager = savedGame.getDay();
 	    chapter = savedGame.getChapter();
 	    activeScenario = chapter.getActiveScenario();
+	    activeScenario.startQuests(player);
         Global.setChapter(chapter);
 	}
 	/**
@@ -554,11 +554,11 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
     	int renderStartX = ui.getCamera().getPos().x;
     	int renderStartY = ui.getCamera().getPos().y;
-    	int renderEndX = ((int)ui.getCamera().getSize().width)/32;
-    	int renderEndY = ((int)ui.getCamera().getSize().height)/32;
-    	int fTileX = Math.floorDiv(renderStartX, 32);
-    	int fTileY = Math.floorDiv(renderStartY, 32);
+    	int renderEndX = ((int)ui.getCamera().getSize().width)/(int)Coords.getSize(32);
+    	int renderEndY = ((int)ui.getCamera().getSize().height)/(int)Coords.getSize(32);
+    	int fTileX = Math.floorDiv(renderStartX, (int)Coords.getSize(32));
+    	int fTileY = Math.floorDiv(renderStartY, (int)Coords.getSize(32));
     	g.scale(Coords.getScale(), Coords.getScale());
-    	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX, renderEndY);
+    	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX+1, renderEndY+1);
     }
 }
