@@ -284,6 +284,30 @@ public class Area implements SaveElement
 			}
 		}
 	}
+    /**
+     * Checks if specified xy positions are 'moveable' on game world map
+     * @param x Position on x axis
+     * @param y Position on y axis
+     * @return True if position are moveable, false otherwise
+     */
+    public boolean isMovable(int x, int y)
+    {
+        try
+        {
+            if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
+               map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
+               map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
+               map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
+               map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
+                return false;
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            return false;
+        }
+        
+        return true;
+    }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */

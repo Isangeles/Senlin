@@ -118,7 +118,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Health hp = new Health();
 	private Magicka mana = new Magicka(); 
 	private int learnPoints;
-	private int[] position = {0, 0};
+	private int[] position = {-401, -401};
 	private int[] destPoint = {position[0], position[1]};
 	private Attributes attributes;
 	private Portrait portrait;

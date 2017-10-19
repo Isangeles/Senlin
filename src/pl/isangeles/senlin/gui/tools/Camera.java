@@ -42,7 +42,7 @@ import pl.isangeles.senlin.util.Size;
  * @author Isangeles
  *
  */
-public class Camera implements KeyListener, MouseListener, SaveElement
+public class Camera implements SaveElement
 {
 	private Position pos = new Position();
 	private GameWorld gw;
@@ -57,16 +57,6 @@ public class Camera implements KeyListener, MouseListener, SaveElement
 	{
 	    this.size = size;
 	    this.gw = gw;
-	    gc.getInput().addMouseListener(this);
-	}
-	/**
-	 * Updates camera
-	 * @param input
-	 */
-	public void update(Input input)
-	{
-		if(!lock)
-			keyDown(input);
 	}
 	/**
 	 * Moves camera up by specified value
@@ -200,114 +190,5 @@ public class Camera implements KeyListener, MouseListener, SaveElement
 		cameraE.appendChild(posE);
 		
 		return cameraE;
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
-	 */
-	@Override
-	public void inputEnded() 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.ControlledInputReciever#inputStarted()
-	 */
-	@Override
-	public void inputStarted() 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.ControlledInputReciever#isAcceptingInput()
-	 */
-	@Override
-	public boolean isAcceptingInput() 
-	{
-		return !lock;
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.ControlledInputReciever#setInput(org.newdawn.slick.Input)
-	 */
-	@Override
-	public void setInput(Input input) 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.KeyListener#keyPressed(int, char)
-	 */
-	@Override
-	public void keyPressed(int key, char c) 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.KeyListener#keyReleased(int, char)
-	 */
-	@Override
-	public void keyReleased(int key, char c) 
-	{
-	}
-    /**
-     * KeyDown method called in update, because engine does not provide keyDown method for override  
-     * @param input Input from game container
-     */
-    private void keyDown(Input input)
-    {
-    	if(input.isKeyDown(Input.KEY_W) && pos.y > -200)
-    		up(32);
-        if(input.isKeyDown(Input.KEY_S) && getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
-            down(32);
-        if(input.isKeyDown(Input.KEY_A) && pos.x > -200)
-            left(32);
-        if(input.isKeyDown(Input.KEY_D) && getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
-            right(32);
-        Global.setCamerPos(pos.x, pos.y);
-    }
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
-	 */
-	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount)
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mouseDragged(int, int, int, int)
-	 */
-	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)
-	 */
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy)
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mousePressed(int, int, int)
-	 */
-	@Override
-	public void mousePressed(int button, int x, int y)
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mouseReleased(int, int, int)
-	 */
-	@Override
-	public void mouseReleased(int button, int x, int y) 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see org.newdawn.slick.MouseListener#mouseWheelMoved(int)
-	 */
-	@Override
-	public void mouseWheelMoved(int change) 
-	{
-		if(change > 0 && zoom < 1.5f)
-    	{
-    		zoom(0.1f);
-    	}
-    	if(change < 0 && zoom > 0.5f)
-    	{
-    		unzoom(0.1f);
-    	}
 	}
 }

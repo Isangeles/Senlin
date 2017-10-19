@@ -317,6 +317,22 @@ public class GameWorld extends BasicGameState implements SaveElement
     	return area;
     }
     /**
+     * Returns main area of current scenario
+     * @return Game world area
+     */
+    public Area getMainArea()
+    {
+        return mainArea;
+    }
+    /**
+     * Returns list with all sub-areas in current area
+     * @return List with game world areas
+     */
+    public List<Area> getSubAreas()
+    {
+        return subAreas;
+    }
+    /**
      * Returns player character 
      * @return Game character owned by player
      */
@@ -351,86 +367,18 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
     	if((ui == null || (!ui.isMouseOver() && !ui.isLocked())) && !isPause())
     	{
-            int worldX = (int)Global.worldX(x);
-            int worldY = (int)Global.worldY(y);
-    		if(button == Input.MOUSE_LEFT_BUTTON)
-    		{
-    			if(isMovable(worldX, worldY))
-    			{
-    				for(Character npc : area.getNpcs())
-        			{
-        				if(npc.isMouseOver())
-        					return;
-        			}
-        			player.moveTo(worldX, worldY);
-        			Log.addInformation("Move: " + worldX + "/" + worldY + " " + area.getMap().getTileId(worldX/area.getMap().getTileWidth(), worldY/area.getMap().getTileHeight(), 1)); //TEST LINE
-    			}
-    		}
-    		if(button == Input.MOUSE_RIGHT_BUTTON)
-    		{
-    			for(Exit exit : area.getExits())
-    			{
-    				if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 40)
-    				{
-    				    //Log.addSystem(exit.getScenarioId() + " exit clicked!");// TEST LINE
-    					Scenario scenario = chapter.getScenario(exit.getScenarioId());
-    					
-						if(scenario != null)
-						{
-							if(!scenario.getId().equals(activeScenario.getId()))
-							{
-								changeScenarioReq = true;
-								nextScenario = scenario;
-								//Log.addSystem("change to: " + scenario.getId());// TEST LINE
-							}
-							else
-							{
-								if(exit.isToSub())
-								{
-									for(Area subArea : subAreas)
-									{
-										if(subArea.getId().equals(exit.getSubAreaId()))
-										{
-											changeArea(exit, subArea);
-										}
-									}
-								}
-								else
-								    changeArea(exit, mainArea);
-							}
-						}
-    				}
-    			}
-    			
-    			for(TargetableObject object : area.getObjects())
-    			{
-    			    if(object.isMouseOver())
-    			    {
-    			        player.setTarget(object);
-    			        return;
-    			    }
-    			    	
-    			}
-    			
-    			for(Character npc : area.getNpcs())
-    			{
-    			    if(npc.isMouseOver())
-    			    {
-    			        player.setTarget(npc);
-    			        npc.targeted(true);
-    			        return;
-    			    }
-    			    else
-    			        npc.targeted(false);
-    			}
-    			player.setTarget(null);
-    		}
     	}
     }
     
     @Override
     public void keyPressed(int key, char c)
     {
+    }
+    
+    public void setChangeScenarioReq(Scenario scenario)
+    {
+        changeScenarioReq = true;
+        nextScenario = scenario;
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.BasicGameState#getID()
@@ -461,31 +409,6 @@ public class GameWorld extends BasicGameState implements SaveElement
         	return ui.isPauseReq();
         else
         	return false;
-    }
-    /**
-     * Checks if specified xy positions are 'moveable' on game world map
-     * @param x Position on x axis
-     * @param y Position on y axis
-     * @return True if position are moveable, false otherwise
-     */
-    private boolean isMovable(int x, int y)
-    {
-    	TiledMap map = area.getMap();
-        try
-        {
-        	if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
-     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
-     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
-     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
-     	       map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
-                return false;
-        }
-        catch(ArrayIndexOutOfBoundsException e)
-        {
-        	return false;
-        }
-    	
-    	return true;
     }
     /**
      * Draws fog of war on all map tiles except these ones in player field of view
@@ -530,7 +453,7 @@ public class GameWorld extends BasicGameState implements SaveElement
      * @param exit Exit from current area to specified area
      * @param area Area to enter	
      */
-    private void changeArea(Exit exit, Area area)
+    public void changeArea(Exit exit, Area area)
     {
     	if(player.getCurrentArea() != null)
         	player.getCurrentArea().getCharacters().remove(player);

@@ -44,8 +44,12 @@ import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.area.Area;
+import pl.isangeles.senlin.data.area.Exit;
+import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.UiLayout;
@@ -204,8 +208,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public void update(GameContainer gc)
     {
-    	if(!gameConsole.isFocused())
-        	camera.update(gc.getInput());
+        keyDown(gc.getInput());
     	
     	if(player.getTarget() != null)
     	{
@@ -266,8 +269,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         settings.update();
         gameConsole.update();
         conditions.update();
-        
-        camera.setLock(isMouseOver());
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -346,7 +347,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     public void setLock(boolean lock)
     {
     	this.lock = lock;
-    	camera.setLock(lock);
+    	//camera.setLock(lock);
     	bBar.setFocus(!lock);
     }
 	@Override
@@ -387,53 +388,141 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-			Targetable target = player.getTarget();
-			if(target != null)
-			{
-				try
-				{
-					if(target.isMouseOver())
-					{
-						if(target.isLive())
-						{
-		                    Character targetedChar = (Character)target;
-							switch(targetedChar.getAttitudeTo(player))
-							{
-							case FRIENDLY:
-								dialogue.open(player, targetedChar);
-								break;
-							case HOSTILE:
-								player.enterCombat(target);
-								break;
-							case NEUTRAL:
-								player.enterCombat(target);
-								break;
-							case DEAD:
-								break;
-							}
-						}
-						else
-						{
-							player.startLooting(target);
-						}
-					}
-					else
-					{
-						player.stopCombat();
-					}
-				}
-				catch(ClassCastException | NullPointerException e)
-				{
-					Log.addSystem("ui_mcheck_fail!msg///"+e);
-					e.printStackTrace();
-					return;
-				}
-			}
+		    if(!isMouseOver())
+		    {
+	            Targetable target = player.getTarget();
+	            if(target != null)
+	            {
+	                try
+	                {
+	                    if(target.isMouseOver())
+	                    {
+	                        if(target.isLive())
+	                        {
+	                            Character targetedChar = (Character)target;
+	                            switch(targetedChar.getAttitudeTo(player))
+	                            {
+	                            case FRIENDLY:
+	                                dialogue.open(player, targetedChar);
+	                                break;
+	                            case HOSTILE:
+	                                player.enterCombat(target);
+	                                break;
+	                            case NEUTRAL:
+	                                player.enterCombat(target);
+	                                break;
+	                            case DEAD:
+	                                break;
+	                            }
+	                        }
+	                        else
+	                        {
+	                            player.startLooting(target);
+	                        }
+	                    }
+	                    else
+	                    {
+	                        player.stopCombat();
+	                    }
+	                }
+	                catch(ClassCastException | NullPointerException e)
+	                {
+	                    Log.addSystem("ui_mcheck_fail!msg///"+e);
+	                    e.printStackTrace();
+	                    return;
+	                }
+	            }
+	            
+                int worldX = (int)Global.worldX(x);
+                int worldY = (int)Global.worldY(y);
+                if(gw.getArea().isMovable(worldX, worldY))
+                {
+                    for(Character npc : gw.getArea().getNpcs())
+                    {
+                        if(npc.isMouseOver())
+                            return;
+                    }
+                    point.setPosition(new Position(x, y));
+                    player.moveTo((int)Global.worldX(point.getPos().x), (int)Global.worldY(point.getPos().y));
+                    Log.addInformation("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
+                }
+                
+		    }
 		}
+
+        if(button == Input.MOUSE_RIGHT_BUTTON)
+        {
+            for(Exit exit : gw.getArea().getExits())
+            {
+                if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 40)
+                {
+                    //Log.addSystem(exit.getScenarioId() + " exit clicked!");// TEST LINE
+                    Scenario scenario = gw.getCurrentChapter().getScenario(exit.getScenarioId());
+                    
+                    if(scenario != null)
+                    {
+                        if(!scenario.getId().equals(gw.getCurrentChapter().getActiveScenario().getId()))
+                        {
+                            gw.setChangeScenarioReq(scenario);
+                            //Log.addSystem("change to: " + scenario.getId());// TEST LINE
+                        }
+                        else
+                        {
+                            if(exit.isToSub())
+                            {
+                                for(Area subArea : gw.getSubAreas())
+                                {
+                                    if(subArea.getId().equals(exit.getSubAreaId()))
+                                    {
+                                        gw.changeArea(exit, subArea);
+                                    }
+                                }
+                            }
+                            else
+                                gw.changeArea(exit, gw.getMainArea());
+                        }
+                    }
+                }
+            }
+            
+            for(TargetableObject object : gw.getArea().getObjects())
+            {
+                if(object.isMouseOver())
+                {
+                    player.setTarget(object);
+                    return;
+                }
+                    
+            }
+            
+            for(Character npc : gw.getArea().getNpcs())
+            {
+                if(npc.isMouseOver())
+                {
+                    player.setTarget(npc);
+                    npc.targeted(true);
+                    return;
+                }
+                else
+                    npc.targeted(false);
+            }
+            player.setTarget(null);
+        }
 	}
 	@Override
 	public void mouseWheelMoved(int change) 
 	{
+        if(!isMouseOver())
+        {
+            if(change > 0 && camera.getZoom() < 1.5f)
+            {
+                camera.zoom(0.1f);
+            }
+            if(change < 0 && camera.getZoom() > 0.5f)
+            {
+                camera.unzoom(0.1f);
+            }
+        }
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.KeyListener#keyPressed(int, char)
@@ -455,6 +544,22 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	{
 		return cursor;
 	}
+    /**
+     * KeyDown method called in update, because engine does not provide keyDown method for override  
+     * @param input Input from game container
+     */
+    private void keyDown(Input input)
+    {
+        if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
+            camera.up(32);
+        if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
+            camera.down(32);
+        if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
+            camera.left(32);
+        if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
+            camera.right(32);
+        Global.setCamerPos(camera.getPos().x, camera.getPos().y);
+    }
     /**
      * Saves UI configuration to XML document element
      * @param doc Document for save game file
