@@ -86,8 +86,8 @@ public class Avatar extends CharacterAvatar
 	@Override
 	public void draw(float x, float y)
 	{	
-    	//x -= Coords.getDis(25);
-		y -= Coords.getDis(70);
+    	x -= Coords.getDis(35);
+		y -= Coords.getDis(90);
 		
 		super.draw(x, y);
 		
@@ -100,11 +100,11 @@ public class Avatar extends CharacterAvatar
 		if(isTargeted)
 			target.draw(x+target.getDis(35), y+target.getDis(100), false);
 		
-		torso.draw(x, y, 1.5f);
-		head.draw(x, y, 1.5f);
+		torso.draw(x, y);
+		head.draw(x, y);
 		ttf.drawString(x, (y-head.getDis(25)), character.getName());
 		if(this.weapon != null)
-			this.weapon.draw(x, y, 1.5f);
+			this.weapon.draw(x, y);
 	}
 	/**
 	 * Updates avatar animations

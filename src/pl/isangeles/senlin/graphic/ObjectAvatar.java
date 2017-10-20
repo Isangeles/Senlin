@@ -95,7 +95,7 @@ public class ObjectAvatar implements Effective
 	 */
 	public void draw(float size)
 	{
-		texture.draw(size);
+		texture.draw(size, false);
 		
 		for(SimpleAnim effect : effects)
 		{

@@ -157,12 +157,17 @@ public abstract class GameObject extends Image
         }
     }
     
-    public void draw(float reqSize)
+    public void draw(float reqSize, boolean scaledPos)
     {
-    	this.x *= scale;
-        this.y *= scale;
+    	float x = this.x;
+    	float y = this.y;
+        if(scaledPos)
+        {
+        	x *= scale;
+            y *= scale;
+        }
         
-        super.draw(this.x, this.y, scale*reqSize);
+        super.draw(x, y, scale*reqSize);
         
         if(gObjectMOA != null)
         {

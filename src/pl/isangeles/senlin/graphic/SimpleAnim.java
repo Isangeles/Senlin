@@ -143,7 +143,7 @@ public class SimpleAnim extends GameObject
 	}
 	
 	@Override
-	public void draw(float reqSize)
+	public void draw(float reqSize, boolean scaledPos)
 	{
 		objectMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		anim.draw(x ,y, (anim.getCurrentFrame().getWidth() * getScale())*scale, (anim.getCurrentFrame().getHeight() * getScale())*scale);

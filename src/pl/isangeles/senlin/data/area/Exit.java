@@ -35,6 +35,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.util.TilePosition;
 
 /**
  * Class for area exits
@@ -58,7 +59,7 @@ public class Exit
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Exit(Position pos, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Exit(TilePosition pos, String exitToId, TilePosition toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
@@ -73,10 +74,10 @@ public class Exit
 			scenarioId = exitToId;
 			subAreaId = "";
 		}
-		this.pos = pos;
+		this.pos = pos.toPosition();
 		this.texture = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
 		size = new Size(texture.getScaledWidth(), texture.getScaledHeight());
-		this.toPos = toPos;
+		this.toPos = toPos.toPosition();
 	}
 	/**
 	 * Area exit constructor 
@@ -86,7 +87,7 @@ public class Exit
 	 * @throws IOException
 	 * @throws FontFormatException 
 	 */
-	public Exit(Position pos, String texName, String exitToId, Position toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
+	public Exit(TilePosition pos, String texName, String exitToId, TilePosition toPos, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		String[] exitId = exitToId.split(":");
 		if(exitId.length > 1)
@@ -101,8 +102,8 @@ public class Exit
 			scenarioId = exitToId;
 			subAreaId = "";
 		}
-		this.pos = pos;
-        this.toPos = toPos;
+		this.pos = pos.toPosition();
+        this.toPos = toPos.toPosition();
 		this.texture = new Sprite(new Image(GConnector.getInput("object/static/" + texName), texName, false), TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 	/**
@@ -110,7 +111,7 @@ public class Exit
 	 */
 	public void draw()
 	{
-		texture.draw(pos.x, pos.y, true);
+		texture.draw(pos.x, pos.y, false);
 	}
 	/**
 	 * Returns ID of scenario to enter after using this exit

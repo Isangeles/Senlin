@@ -76,7 +76,7 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		height = super.getScaledHeight();
 		
 		Font font = GBase.getFont("mainUiFont");
-		textTtf = new TrueTypeFont(font.deriveFont(12f), true);
+		textTtf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
 		
 		textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)width, (int)height, this);
 		fieldMOA = new MouseOverArea(this.gc, this, 0, 0);
@@ -109,9 +109,9 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		fieldMOA = new MouseOverArea(this.gc, this, 0, 0);
 	}
 	
-	public void draw(float x, float y)
+	public void draw(float x, float y, boolean scaledPos)
 	{
-		super.draw(x, y, width, height);
+		super.draw(x, y, width, height, scaledPos);
 		textField.setLocation((int)super.x, (int)super.y);
 		fieldMOA.setLocation(super.x, super.y);
 	}

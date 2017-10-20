@@ -118,7 +118,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Health hp = new Health();
 	private Magicka mana = new Magicka(); 
 	private int learnPoints;
-	private int[] position = {-401, -401};
+	private int[] position = {-404, -404};
 	private int[] destPoint = {position[0], position[1]};
 	private Attributes attributes;
 	private Portrait portrait;
@@ -324,6 +324,25 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		this.sex = sex;
 	}
 	/**
+     * Instantly sets character position at specified tile position
+     * @param tilePos Tile position(number of row and column)
+     */
+    public boolean setPosition(TilePosition tilePos)
+    {
+    	Position pos = tilePos.toPosition();
+    	
+        if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
+        {
+        	position[0] = (int)(pos.x);
+    		position[1] = (int)(pos.y);
+    		destPoint[0] = (int)(pos.x);
+    		destPoint[1] = (int)(pos.y);
+    		return true;
+        }
+        else
+        	return false;
+    }
+	/**
      * Instantly sets character position
      * @param pos XY position
      */
@@ -331,10 +350,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
-        	position[0] = pos.x;
-    		position[1] = pos.y;
-    		destPoint[0] = pos.x;
-    		destPoint[1] = pos.y;
+        	position[0] = (int)(pos.x);
+    		position[1] = (int)(pos.y);
+    		destPoint[0] = (int)(pos.x);
+    		destPoint[1] = (int)(pos.y);
     		return true;
         }
         else
@@ -484,8 +503,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     { inventory.unequipp(item); }
 	/**
 	 * Draws character avatar
-	 * @param x Position on x axis
-	 * @param y Position on y axis
+	 * @param row Position on x axis
+	 * @param column Position on y axis
 	 */
 	public void draw()
 	{
@@ -1449,7 +1468,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         	positionE.setAttribute("area", currentArea.getId());
         else
         	positionE.setAttribute("area", "none");
-        positionE.setTextContent(new Position(position).toString());
+        positionE.setTextContent(new TilePosition(position[0]/32, position[1]/32).toString());
         charE.appendChild(positionE);
         
         return charE;
@@ -1495,14 +1514,22 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 	    if(map != null)
 	    {
-	        if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
-	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
-	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
-	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
-	           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
-	                 return false;
-	        else
-	            return true;
+	    	try
+	    	{
+		        if(map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 2) != 0 || //blockground layer 
+		           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 3) != 0 || //water layer
+		           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 4) != 0 || //trees layer
+		           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 5) != 0 || //buildings layer
+		           map.getTileId(x/map.getTileWidth(), y/map.getTileHeight(), 6) != 0)   //objects layer
+		                 return false;
+		        else
+		            return true;
+	    	}
+	    	catch(ArrayIndexOutOfBoundsException e)
+	    	{
+	    		System.out.println(serialId + ":moveable_check_fail");
+	    		return false;//throw new ArrayIndexOutOfBoundsException();
+	    	}
 	    }
 	    else
 	        return true;

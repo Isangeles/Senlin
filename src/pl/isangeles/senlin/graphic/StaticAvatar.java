@@ -77,7 +77,7 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 	{
 		super.draw(x, y);
 		
-		torso.draw(x, y, 1.5f);
+		torso.draw(x, y);
 		
 		avMOA.setLocation(Global.uiX(x), Global.uiY(y));
 		if(avMOA.isMouseOver())

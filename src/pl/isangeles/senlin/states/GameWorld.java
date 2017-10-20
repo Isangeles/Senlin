@@ -477,11 +477,11 @@ public class GameWorld extends BasicGameState implements SaveElement
     {
     	int renderStartX = ui.getCamera().getPos().x;
     	int renderStartY = ui.getCamera().getPos().y;
-    	int renderEndX = ((int)ui.getCamera().getSize().width)/(int)Coords.getSize(32);
-    	int renderEndY = ((int)ui.getCamera().getSize().height)/(int)Coords.getSize(32);
-    	int fTileX = Math.floorDiv(renderStartX, (int)Coords.getSize(32));
-    	int fTileY = Math.floorDiv(renderStartY, (int)Coords.getSize(32));
-    	g.scale(Coords.getScale(), Coords.getScale());
+    	int renderEndX = ((int)ui.getCamera().getSize().width)/(int)32;
+    	int renderEndY = ((int)ui.getCamera().getSize().height)/(int)32;
+    	int fTileX = Math.floorDiv(renderStartX, (int)32);
+    	int fTileY = Math.floorDiv(renderStartY, (int)32);
+    	//g.scale(Coords.getScale(), Coords.getScale());
     	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX+1, renderEndY+1);
     }
 }

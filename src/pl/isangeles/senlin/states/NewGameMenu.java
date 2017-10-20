@@ -135,22 +135,22 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
 	{
-		strS.draw(Coords.getDis(200), Coords.getDis(200), true);
-		conS.draw(Coords.getDis(500), Coords.getDis(200), true);
-		dexS.draw(Coords.getDis(800), Coords.getDis(200), true);
-		intS.draw(Coords.getDis(1100), Coords.getDis(200), true);
-		wisS.draw(Coords.getDis(1400), Coords.getDis(200), true);
-		attrPointsF.draw(Coords.getDis(1400), Coords.getDis(300));
+		strS.draw(200, 200, true);
+		conS.draw(500, 200, true);
+		dexS.draw(800, 200, true);
+		intS.draw(1100, 200, true);
+		wisS.draw(1400, 200, true);
+		attrPointsF.draw(1400, 200, false);
 		
-		nameI.draw(Coords.getDis(800), Coords.getDis(100));
+		nameI.draw(800, 100, true);
 		nameI.render(g);
-		genS.draw(Coords.getDis(200), Coords.getDis(300), true);
-		portraits.get(imgId).draw(Coords.getDis(200), Coords.getDis(400), Coords.getSize(100f), Coords.getSize(120f));
-		nextPortraitB.draw(Coords.getDis(300), Coords.getDis(480), true);
-		prevPortraitB.draw(Coords.getDis(160), Coords.getDis(480), true);
+		genS.draw(200, 300, true);
+		portraits.get(imgId).draw(200, 400, Coords.getSize(100f), Coords.getSize(120f));
+		nextPortraitB.draw(300, 480, true);
+		prevPortraitB.draw(160, 480, true);
 		
-		nextB.draw(Coords.getDis(1800), Coords.getDis(1000), true);
-		backB.draw(Coords.getDis(10), Coords.getDis(1000), true);
+		nextB.draw(1800, 1000, true);
+		backB.draw(10, 1000, true);
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)

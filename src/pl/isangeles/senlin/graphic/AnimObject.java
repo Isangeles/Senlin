@@ -138,36 +138,37 @@ public class AnimObject extends GameObject
 	 * @param scale Defines size of object(remember that object is always implicitly scaled to current resolution)
 	 */
 	@Override
-	public void draw(float x, float y, float scale) 
+	public void draw(float x, float y) 
 	{
+		float sc = 1.5f;
 		if(lieReq)
 		{
-			lie.draw(x, y, scale, false);
+			lie.draw(x, y, sc, false);
 			return;
 		}
 		if(isMove && !meleeReq && !rangeReq && !castReq) 
 		{
-			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*scale, (move.getCurrentFrame().getHeight() * getScale())*scale);
+			move.draw(x, y, (move.getCurrentFrame().getWidth() * getScale())*sc, (move.getCurrentFrame().getHeight() * getScale())*sc);
 		} 
 		else if(!meleeReq && !rangeReq && !castReq)
 		{
-			idle.draw(x, y, scale, false);
+			idle.draw(x, y, sc, false);
 		}
 		if(meleeReq)
 		{
-			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*scale, (melee.getCurrentFrame().getHeight() * getScale())*scale);
+			melee.draw(x, y, (melee.getCurrentFrame().getWidth() * getScale())*sc, (melee.getCurrentFrame().getHeight() * getScale())*sc);
 			if(melee.isStopped())
 				meleeReq = false;
 		}
 		if(rangeReq)
 		{
-			range.draw(x, y, (range.getCurrentFrame().getWidth() * getScale())*scale, (range.getCurrentFrame().getHeight() * getScale())*scale);
+			range.draw(x, y, (range.getCurrentFrame().getWidth() * getScale())*sc, (range.getCurrentFrame().getHeight() * getScale())*sc);
 			if(range.isStopped())
 				rangeReq = false;
 		}
 		if(castReq)
 		{
-			cast.draw(x, y, (cast.getCurrentFrame().getWidth() * getScale())*scale, (cast.getCurrentFrame().getHeight() * getScale())*scale);
+			cast.draw(x, y, (cast.getCurrentFrame().getWidth() * getScale())*sc, (cast.getCurrentFrame().getHeight() * getScale())*sc);
 			if(cast.isStopped())
 				castReq = false;
 		}

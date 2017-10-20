@@ -94,13 +94,13 @@ public class SettingsMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
-    	resolution.draw(Coords.getDis(700), Coords.getDis(400), true);
-    	language.draw(Coords.getDis(700), Coords.getDis(550), true);
-    	fow.draw(Coords.getDis(700), Coords.getDis(700), true);
-    	mapRender.draw(Coords.getDis(700), Coords.getDis(850), true);
-    	effectsVol.draw(Coords.getDis(700), Coords.getDis(1000), true);
-        musicVol.draw(Coords.getDis(1000), Coords.getDis(400), true);
-    	buttBack.draw(Coords.getDis(10), Coords.getDis(900));
+    	resolution.draw(700, 400, true);
+    	language.draw(700, 550, true);
+    	fow.draw(700, 700, true);
+    	mapRender.draw(700, 850, true);
+    	effectsVol.draw(700, 1000, true);
+        musicVol.draw(1000, 400, true);
+    	buttBack.draw(10, 900, true);
     	if(message.isOpen())
     		message.draw();
     }

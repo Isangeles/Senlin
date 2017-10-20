@@ -108,25 +108,14 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * Draws switch
      */
     @Override
-    public void draw(float x, float y)
-    {
-        super.draw(x, y);
-        
-        plus.draw(x+super.getWidth()-getDis(35), y+getDis(2));
-		minus.draw(x, y+getDis(2));
-		
-		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
-        super.drawString(textToDraw.get(textId), textTtf);
-    }
-    @Override
     public void draw(float x, float y, boolean scaledPos)
     {
     	super.draw(x, y, scaledPos);
         
-        plus.draw(x+super.getWidth()-getDis(35), y+getDis(2));
-		minus.draw(x, y+getDis(2));
+        plus.draw(x+getWidth()-getDis(35), y+getDis(2), scaledPos);
+		minus.draw(x, y+getDis(2), scaledPos);
 		
-		textTtf.drawString((x+getScaledWidth()/2)-textTtf.getWidth(label), y+getScaledHeight(), label);
+		textTtf.drawString((super.x+getScaledWidth()/2)-textTtf.getWidth(label), super.y+getScaledHeight(), label);
         super.drawString(textToDraw.get(textId), textTtf);
     }
     /**

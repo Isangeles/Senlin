@@ -59,6 +59,7 @@ import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Size;
+import pl.isangeles.senlin.util.TilePosition;
 /**
  * Static class for scenario XMLs parsing methods
  * @author Isangeles
@@ -202,7 +203,7 @@ public class ScenarioParser
 				{
 					Element npcE = (Element)npcNode;
 					String npcId = npcE.getTextContent();
-					Position npcPos = new Position(npcE.getAttribute("position"));
+					TilePosition npcPos = new TilePosition(npcE.getAttribute("position"));
 					Character npc = NpcBase.spawnAt(npcId, npcPos);
 					npcs.add(npc);
 				}
@@ -234,7 +235,7 @@ public class ScenarioParser
 
 					Element objectE = (Element)objectNode;
 					String objectId = objectE.getTextContent();
-					Position objectPos = new Position(objectE.getAttribute("position"));
+					TilePosition objectPos = new TilePosition(objectE.getAttribute("position"));
 					TargetableObject object = ObjectsBase.get(objectId);
 					object.setPosition(objectPos);
 					objects.add(object);
@@ -266,8 +267,8 @@ public class ScenarioParser
 				{
 					Element exitE = (Element)exitNode;
 					String exitToId = exitE.getTextContent();
-					Position exitToPos = new Position(exitE.getAttribute("to"));
-					Position pos = new Position(exitE.getAttribute("position"));
+					TilePosition exitToPos = new TilePosition(exitE.getAttribute("to"));
+					TilePosition pos = new TilePosition(exitE.getAttribute("position"));
 					String texture = exitE.getAttribute("texture");
 					Exit exit;
 					if(texture == "")
@@ -327,8 +328,8 @@ public class ScenarioParser
 	private static MobsArea getMobsAreaFromNode(Node mobsNode) throws NumberFormatException
 	{
 		Element mobsE = (Element)mobsNode;
-		Position areaStart = new Position(mobsE.getAttribute("start"));
-		Position areaEnd = new Position(mobsE.getAttribute("end"));
+		TilePosition areaStart = new TilePosition(mobsE.getAttribute("start"));
+		TilePosition areaEnd = new TilePosition(mobsE.getAttribute("end"));
 		Map<String, Integer> mobCon = new HashMap<>();
 			
 		NodeList mobNl = mobsNode.getChildNodes();

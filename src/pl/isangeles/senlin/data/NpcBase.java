@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.TilePosition;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
@@ -56,13 +57,13 @@ public class NpcBase
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public static Character spawnIn(String npcId, Area area, Position pos) throws IOException, FontFormatException, SlickException
+	public static Character spawnIn(String npcId, Area area, TilePosition tilePos) throws IOException, FontFormatException, SlickException
 	{
 		if(npcs.get(npcId) != null)
 		{
 			Character newChar = npcs.get(npcId).make(gc);
 			newChar.setArea(area);
-			newChar.setPosition(pos);
+			newChar.setPosition(tilePos);
 			return newChar;
 		}
 		else
@@ -75,14 +76,14 @@ public class NpcBase
 	 * @return New character object
 	 * @throws IOException
 	 * @throws FontFormatException
-	 * @throws SlickException
+	 * @throws SlickException 
 	 */
-	public static Character spawnAt(String npcId, Position pos) throws IOException, FontFormatException, SlickException
+	public static Character spawnAt(String npcId, TilePosition tilePos) throws IOException, FontFormatException, SlickException
 	{
 		if(npcs.get(npcId) != null)
 		{
 			Character newChar = npcs.get(npcId).make(gc);
-			newChar.setPosition(pos);
+			newChar.setPosition(tilePos);
 			return newChar;
 		}
 		else

@@ -58,7 +58,7 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	public void draw()
 	{
 		//this.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
-	    super.draw(x, y, false);
+	    super.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
@@ -89,8 +89,8 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	 */
 	public void setPosition(Position pos)
 	{
-	    x = pos.x - getScaledWidth();
-	    y = pos.y - getScaledHeight();
+	    x = pos.x;
+	    y = pos.y;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()

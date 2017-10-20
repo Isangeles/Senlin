@@ -551,13 +551,13 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private void keyDown(Input input)
     {
         if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
-            camera.up(32);
+            camera.up(Coords.getDis(32));
         if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
-            camera.down(32);
+            camera.down(Coords.getDis(32));
         if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
-            camera.left(32);
+            camera.left(Coords.getDis(32));
         if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
-            camera.right(32);
+            camera.right(Coords.getDis(32));
         Global.setCamerPos(camera.getPos().x, camera.getPos().y);
     }
     /**

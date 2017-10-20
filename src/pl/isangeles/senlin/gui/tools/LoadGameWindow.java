@@ -102,7 +102,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         exitB.draw(x+getDis(20), y+getDis(460), false);
         upB.draw(x+getDis(355), y+getDis(25), false);
         downB.draw(x+getDis(355), y+getDis(425), false);
-        fileName.draw(x+getDis(95), y+getDis(460));
+        fileName.draw(x+getDis(95), y+getDis(460), false);
         fileName.render(g);
         
         float firstSlotX = x + getDis(15);

@@ -33,6 +33,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.TilePosition;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 /**
@@ -42,8 +43,8 @@ import pl.isangeles.senlin.core.character.Character;
  */
 public class MobsArea 
 {
-	private Position startPoint;
-	private Position endPoint;
+	private TilePosition startPoint;
+	private TilePosition endPoint;
 	private Map<String, Integer> mobs;
 	/**
 	 * Mobs area constructor 
@@ -51,7 +52,7 @@ public class MobsArea
 	 * @param endPoint XY ending point of area
 	 * @param mobs Map with characters IDs as keys and its max amount in area as values
 	 */
-	public MobsArea(Position startPoint, Position endPoint, Map<String, Integer> mobs) 
+	public MobsArea(TilePosition startPoint, TilePosition endPoint, Map<String, Integer> mobs) 
 	{
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
@@ -73,8 +74,13 @@ public class MobsArea
 		{
 			for(int i = 0; i <  1 + rng.nextInt(mobs.get(mobId)); i ++)
 			{
-				Position mobPos = new Position(startPoint.x + rng.nextInt(endPoint.x), startPoint.y + rng.nextInt(endPoint.y));
-				Character mob = NpcBase.spawnIn(mobId, area, mobPos);
+				TilePosition mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
+				while(!area.isMovable(mobTile.row*32, mobTile.column*32))
+				{
+					mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
+				}
+				//Position mobPos = mobTile.toPosition();
+				Character mob = NpcBase.spawnIn(mobId, area, mobTile);
 				if(mob != null)
 				{
 					mobsList.add(mob);

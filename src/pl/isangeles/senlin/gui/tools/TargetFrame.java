@@ -86,12 +86,13 @@ class TargetFrame extends InterfaceObject
     /**
      * Draws frame
      */
+    @Override
     public void draw(float x, float y)
     {
-        super.draw(x, y);
+        super.draw(x, y, false);
         target.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f));
         textTtf.drawString(super.x+getDis(150), super.y+getDis(15), target.getName());
-        health.draw(x+getDis(139), y+getDis(36));
+        health.draw(x+getDis(139), y+getDis(36), false);
         
         //Draws effects
     	int row = 0;

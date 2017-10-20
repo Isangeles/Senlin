@@ -33,6 +33,7 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.TilePosition;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.NpcBase;
 
@@ -192,7 +193,7 @@ public class WorldMan implements CliTool
 				if(args.length > 2)
 					area = args[2];
 				
-				Position p = new Position(pos[0] + ";" + pos[1]);
+				TilePosition p = new TilePosition(pos[0] + ";" + pos[1]);
 				Character spawnedChar = NpcBase.spawnIn(charId, world.getCurrentChapter().getActiveScenario().getArea(area), p);
 				world.getArea().getCharacters().add(spawnedChar);
 				spawnedChar.setArea(world.getArea());

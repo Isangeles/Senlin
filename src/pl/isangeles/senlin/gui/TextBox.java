@@ -71,8 +71,8 @@ public class TextBox extends InterfaceObject implements MouseListener
     public void draw(float x, float y, float width, float height, boolean scaledPos)
     {
        super.draw(x, y, width, height, scaledPos);
-       up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y);
-       down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight());
+       up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y, scaledPos);
+       down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight(), scaledPos);
        
        for(int i = 0; i < visibleTexts.size(); i ++)
        {

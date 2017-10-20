@@ -68,6 +68,7 @@ import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.TilePosition;
 
 /**
  * Class for parsing senlin saved games XML files
@@ -193,7 +194,7 @@ public final class SSGParser
         }
         
         character.setName(charE.getElementsByTagName("name").item(0).getTextContent());
-        character.setPosition(new Position(charE.getElementsByTagName("position").item(0).getTextContent()));
+        character.setPosition(new TilePosition(charE.getElementsByTagName("position").item(0).getTextContent()));
 
         return character;
     }
@@ -316,7 +317,7 @@ public final class SSGParser
             {
                 Element objectE = (Element)objectNode;
                 TargetableObject object = ObjectsBase.get(objectE.getAttribute("id"));
-                object.setPosition(new Position(objectE.getAttribute("position")));
+                object.setPosition(new TilePosition(objectE.getAttribute("position")));
                 Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
                 if(eqE != null)
                     object.setInventory(getObjectInventory(object, eqE));

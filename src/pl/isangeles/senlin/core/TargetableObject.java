@@ -49,6 +49,7 @@ import pl.isangeles.senlin.gui.Portrait;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.util.TilePosition;
 
 /**
  * Class for simple game objects
@@ -182,9 +183,9 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * Sets specified position as object position
      * @param pos Position to set
      */
-    public void setPosition(Position pos)
+    public void setPosition(TilePosition tilePos)
     {
-        this.pos = pos;
+        this.pos = tilePos.toPosition();
         avatar.setPosition(pos);
     }
     /**
@@ -518,7 +519,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         Element objectE = doc.createElement("object");
         objectE.setAttribute("id", id);
-        objectE.setAttribute("position", pos.toString());
+        objectE.setAttribute("position", new TilePosition(pos.x/32, pos.y/32).toString());
         objectE.appendChild(inventory.getSaveWithoutEq(doc));
         
         return objectE;

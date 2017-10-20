@@ -46,6 +46,7 @@ import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.util.TilePosition;
 
 /**
  * CLI tool for game characters management
@@ -170,7 +171,7 @@ public class CharMan implements CliTool
         		String[] pos = value.split("x");
         		int x = Integer.parseInt(pos[0]);
         		int y = Integer.parseInt(pos[1]);
-        		out = target.setPosition(new Position(x, y));
+        		out = target.setPosition(new TilePosition(x, y));
         	}
         	else if(prefix.equals("-destination"))
         	{

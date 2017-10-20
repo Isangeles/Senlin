@@ -73,8 +73,8 @@ class CharacterFrame extends TargetFrame
 	{
 		super.draw(x, y);
         textTtf.drawString(super.x+getDis(150), super.y+getDis(110), TConnector.getText("ui", "levelName") + ":" + target.getLevel());
-        magicka.draw(x+getDis(139), y+getDis(62));
-        experience.draw(x+getDis(139), y+getDis(88));
+        magicka.draw(x+getDis(139), y+getDis(62), false);
+        experience.draw(x+getDis(139), y+getDis(88), false);
 	}
 	
 	public void setCharacter(Character character)

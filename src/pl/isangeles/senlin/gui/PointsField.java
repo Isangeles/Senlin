@@ -69,9 +69,10 @@ public class PointsField extends InterfaceObject
 	 * @param x Position on x axis
 	 * @param y Position on y axis
 	 */
-	public void draw(float x, float y)
+	@Override
+	public void draw(float x, float y, boolean scaledPos)
 	{
-		super.draw(x, y);
+		super.draw(x, y, scaledPos);
         
         super.drawString(value+"", textTtf);
         textTtf.drawString(this.getCenteredCoord(super.x, texWidth, labelWidth), getCenteredCoord(super.y, texHeight, labelHeight-20), label);

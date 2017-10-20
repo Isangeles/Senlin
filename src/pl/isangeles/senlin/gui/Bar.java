@@ -61,9 +61,9 @@ public class Bar extends InterfaceObject
      * Draws bar
      */
     @Override
-    public void draw(float x, float y)
+    public void draw(float x, float y, boolean scaledPos)
     {
-        super.draw(x, y, getBarSize()-5f, 21f);
+        super.draw(x, y, getBarSize()-5f, 21f, scaledPos);
         barMOA.setLocation(super.x, super.y);
         if(barMOA.isMouseOver())
         	barTtf.drawString(super.x+getDis(20), super.y, label + value + "/" + baseValue);

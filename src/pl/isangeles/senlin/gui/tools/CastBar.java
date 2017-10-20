@@ -63,7 +63,7 @@ public class CastBar extends InterfaceObject implements UiElement
     public void draw(float x, float y)
     {
     	super.draw(x, y, false);
-        castBar.draw(x+getDis(10), y+getDis(10));
+        castBar.draw(x+getDis(10), y+getDis(10), false);
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
