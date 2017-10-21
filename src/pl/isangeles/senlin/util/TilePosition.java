@@ -60,8 +60,8 @@ public class TilePosition
 		this.column = rowColumn[1];
 	}
 	/**
-	 * Constructs position from string in this form: [x position];[y position]
-	 * @param xSemicolonY String in this form: [x position];[y position]
+	 * Constructs position from string in this form: [row ID];[column ID]
+	 * @param xSemicolonY String in this form: [row ID];[column ID]
 	 * @throws NumberFormatException
 	 */
 	public TilePosition(String rowSemicolonColumn) throws NumberFormatException, NoSuchElementException
@@ -70,15 +70,18 @@ public class TilePosition
 		this.column = Integer.parseInt(rowSemicolonColumn.split(";")[1]);
 	}
 	/**
-	 * Returns position as normal table with two values: x[0] and y[1]
-	 * @return Table with x[0] and y[1] position
+	 * Returns position as normal table with two values: row[0] and column[1]
+	 * @return Table with row[0] and column[1] numbers
 	 */
 	public int[] asTable()
 	{
 	    return new int[]{row, column};
 	}
-	
-	public Position toPosition()
+	/**
+	 * Converts tile position to world XY position
+	 * @return XY position
+	 */
+	public Position asPosition()
 	{
 		return new Position(row*32, column*32);
 	}

@@ -74,10 +74,10 @@ public class Exit
 			scenarioId = exitToId;
 			subAreaId = "";
 		}
-		this.pos = pos.toPosition();
+		this.pos = pos.asPosition();
 		this.texture = new Sprite(GBase.getImage("areaExit"), TConnector.getTextFromModule("objects", "areaExit"), gc);
 		size = new Size(texture.getScaledWidth(), texture.getScaledHeight());
-		this.toPos = toPos.toPosition();
+		this.toPos = toPos.asPosition();
 	}
 	/**
 	 * Area exit constructor 
@@ -102,8 +102,8 @@ public class Exit
 			scenarioId = exitToId;
 			subAreaId = "";
 		}
-		this.pos = pos.toPosition();
-        this.toPos = toPos.toPosition();
+		this.pos = pos.asPosition();
+        this.toPos = toPos.asPosition();
 		this.texture = new Sprite(new Image(GConnector.getInput("object/static/" + texName), texName, false), TConnector.getTextFromModule("objects", "areaExit"), gc);
 	}
 	/**

@@ -251,12 +251,12 @@ public class Attributes
 	 */
 	public boolean compareTo(Attributes otherAtt)
 	{
-	    if(strenght.getValue() < otherAtt.getStr() || constitution.getValue() < otherAtt.getCon() || dexterity.getValue() < otherAtt.getDex() || 
-	       intelligence.getValue() < otherAtt.getInt() || wisdom.getValue() < otherAtt.getWis())
+	    if(strenght.getValue() < otherAtt.getStr() || constitution.getValue() < otherAtt.getCon() || dexterity.getValue() < otherAtt.getDex()
+	       || intelligence.getValue() < otherAtt.getInt() || wisdom.getValue() < otherAtt.getWis())
 	        return false;
 	    
-	    if(strenght.getValue() >= otherAtt.getStr() && constitution.getValue() >= otherAtt.getCon() && dexterity.getValue() >= otherAtt.getDex() && 
-           intelligence.getValue() >= otherAtt.getInt() && wisdom.getValue() >= otherAtt.getWis())
+	    if(strenght.getValue() >= otherAtt.getStr() && constitution.getValue() >= otherAtt.getCon() && dexterity.getValue() >= otherAtt.getDex() 
+	       && intelligence.getValue() >= otherAtt.getInt() && wisdom.getValue() >= otherAtt.getWis())
             return true;
 	    
 	    return false;
@@ -267,15 +267,15 @@ public class Attributes
 		String info = "";
 		
 		if(strenght.value != 0)
-			info += TConnector.getText("ui", "strName") + ":" + strenght.value;
+			info += TConnector.getText("ui", "attStrName") + ":" + strenght.value;
 		if(constitution.value != 0)
-			info += TConnector.getText("ui", "conName") + ":" + constitution.value;
+			info += TConnector.getText("ui", "attConName") + ":" + constitution.value;
 		if(dexterity.value != 0)
-			info += TConnector.getText("ui", "dexName") + ":" + dexterity.value;
+			info += TConnector.getText("ui", "attDexName") + ":" + dexterity.value;
 		if(intelligence.value != 0)
-			info += TConnector.getText("ui", "intName") + ":" + intelligence.value;
+			info += TConnector.getText("ui", "attIntName") + ":" + intelligence.value;
 		if(wisdom.value != 0)
-			info += TConnector.getText("ui", "wisName") + ":" + wisdom.value;
+			info += TConnector.getText("ui", "attWisName") + ":" + wisdom.value;
 		
 		return info;
 	}

@@ -28,6 +28,7 @@ import java.util.Scanner;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.Position;
+import pl.isangeles.senlin.util.TilePosition;
 
 /**
  * Class for managing user interface
@@ -106,6 +107,14 @@ public class UiMan implements CliTool
             	ui.getCamera().centerAt(new Position(x, y));
             	out = true;
             }
+            if(prefix.equals("-cat") || prefix.equals("-centerAtTile"))
+            {
+                String[] pos = value.split("x");
+                int x = Integer.parseInt(pos[0]);
+                int y = Integer.parseInt(pos[1]);
+                ui.getCamera().centerAt(new TilePosition(x, y).asPosition());
+                out = true;
+            }
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
@@ -134,6 +143,7 @@ public class UiMan implements CliTool
             {
             	boolean lock = Boolean.parseBoolean(value);
             	ui.setLock(lock);
+            	out = true;
             }
         }
         catch(NumberFormatException | NoSuchElementException e)

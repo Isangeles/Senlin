@@ -31,11 +31,14 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.out.CharacterOut;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 import pl.isangeles.senlin.data.NpcBase;
@@ -137,6 +140,10 @@ public class CharMan implements CliTool
         {
         	out = showCommands(prefix, target);
         }
+        else if(command.equals("use"))
+        {
+            out = useCommands(prefix, target);
+        }
         else
         	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
         return out;
@@ -181,6 +188,15 @@ public class CharMan implements CliTool
         		target.moveTo(x, y);
         		out = true;
         	}
+            else if(prefix.equals("-destTile"))
+            {
+                String[] pos = value.split("x");
+                int row = Integer.parseInt(pos[0]);
+                int column = Integer.parseInt(pos[1]);
+                Position p = new TilePosition(row, column).asPosition();
+                target.moveTo(p.x, p.y);
+                out = true;
+            }
         	else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
     	}
@@ -278,9 +294,6 @@ public class CharMan implements CliTool
     		}
     		else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
-        	
-    		Log.addSystem("Command out:" + out);
-        	
     	}
     	catch(NumberFormatException e)
     	{
@@ -307,29 +320,38 @@ public class CharMan implements CliTool
     	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
-    	String value = scann.next();
+    	String arg1 = scann.next();
+    	String arg2 = null;
+    	if(scann.hasNext())
+    	    arg2 = scann.next();
     	scann.close();
     	
     	try
     	{
     		if(prefix.equals("-h"))
     		{
-    		    player.modHealth(-Integer.parseInt(value));
+    		    target.modHealth(-Integer.parseInt(arg1));
     		    out = true;
     		}
     		else if(prefix.equals("-m"))
         	{
-        	    player.modMagicka(-Integer.parseInt(value));
+        	    target.modMagicka(-Integer.parseInt(arg1));
         	    out = true;
         	}
     		else if(prefix.equals("-e"))
         	{
-        	    player.modExperience(-Integer.parseInt(value));
+        	    target.modExperience(-Integer.parseInt(arg1));
         	    out = true;
         	}
     		else if(prefix.equals("-i") || prefix.equals("-item"))
     		{
-    			out = player.getInventory().remove(value);
+    			if(arg2 == null)
+                    out = target.getInventory().remove(arg1, 1);
+    			else
+    			{
+    			    int amount = Integer.parseInt(arg2);
+                    out = target.getInventory().remove(arg1, amount);
+    			}
     		}
     		else
     			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
@@ -379,5 +401,54 @@ public class CharMan implements CliTool
     	else
         	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));
         return out;
+    }
+    /**
+     * Handles use command
+     * @param commandLine Command
+     * @param target Command target
+     * @return Command out
+     */
+    private boolean useCommands(String commandLine, Character target)
+    {
+       boolean out = false;
+       try
+       {
+           Scanner scann = new Scanner(commandLine);
+           String prefix = scann.next();
+           String arg1 = scann.next();
+           String arg2 = null;
+           if(scann.hasNext())
+               arg2 = scann.next();
+           scann.close();
+           
+           if(prefix.equals("-s") || prefix.equals("-skill"))
+           {
+               Targetable skillTarget = null;
+               if(arg2 != null)
+                   skillTarget = gw.getCurrentChapter().getTObject(arg2);
+               
+               CharacterOut charOut = CharacterOut.UNKNOWN;
+               
+               if(skillTarget != null)
+                   charOut = target.useSkillOn(skillTarget, target.getSkills().get(arg1));
+               else
+                   charOut = target.useSkill(target.getSkills().get(arg1));
+
+               if(charOut != CharacterOut.SUCCESS)
+               {
+                   Log.addSystem(charOut.toString());
+                   out = false;
+               }
+               else
+                   out = true;
+               
+           }
+       }
+       catch(NoSuchElementException e)
+       {
+           out = false;
+       }
+       
+       return out;
     }
 }

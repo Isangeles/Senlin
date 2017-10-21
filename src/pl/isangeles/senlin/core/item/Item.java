@@ -138,8 +138,8 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
     	return itemTile;
     }
     /**
-     * Get item ID
-     * @return Unique item ID in String
+     * Returns item ID
+     * @return String with item ID
      */
     public String getId()
     {

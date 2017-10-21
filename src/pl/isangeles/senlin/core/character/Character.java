@@ -329,7 +329,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public boolean setPosition(TilePosition tilePos)
     {
-    	Position pos = tilePos.toPosition();
+    	Position pos = tilePos.asPosition();
+    	
+        Log.addSystem(serialId + "-setting position to: " + pos.x + ";" + pos.y);
     	
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
@@ -340,7 +342,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     		return true;
         }
         else
-        	return false;
+        {
+            Log.addSystem(serialId + "-fail to set position: " + pos.x + ";" + pos.y);
+            return false;
+        }
     }
 	/**
      * Instantly sets character position
@@ -348,6 +353,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public boolean setPosition(Position pos)
     {
+        Log.addSystem(serialId + "-setting position to: " + pos.x + ";" + pos.y);
+        
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
         	position[0] = (int)(pos.x);
@@ -357,7 +364,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     		return true;
         }
         else
-        	return false;
+        {
+            Log.addSystem(serialId + "-fail to set position: " + pos.x + ";" + pos.y);
+            return false;
+        }
     }
     /**
      * Sets specified area as current area of this character
@@ -526,12 +536,20 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public CharacterOut update(int delta)
 	{
 	    CharacterOut out = CharacterOut.SUCCESS;
+	    
+	    effects.update(delta);
+        abilities.update(delta);
+        inventory.update();
+        avatar.update(delta);
+        flags.update(quests);
+        quests.update();
+        sCaster.update(delta);
+        
 	    if(hp.getValue() < 0)
 	    	live = false;
 		if(!live)
 		{
 			avatar.lie();
-			avatar.update(delta);
 			attitude = Attitude.DEAD;
 			return CharacterOut.SUCCESS;
 		}
@@ -599,14 +617,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			else
 				signals.remove(CharacterSignal.FIGHTING);
 		}
-
-		effects.update(delta);
-	    abilities.update(delta);
-	    inventory.update();
-		avatar.update(delta);
-		flags.update(quests);
-		quests.update();
-		sCaster.update(delta);
 		
 		return out;
 	}
@@ -1282,14 +1292,19 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public CharacterOut useSkill(Skill skill)
     {
-    	CharacterOut out = skill.prepare(this, target);
-		if(live && abilities.contains(skill) && out.isSuccess())
-    	{
-    	    sCaster.cast(skill);
-    	    return CharacterOut.SUCCESS;
-    	}
-    	else
-    		return CharacterOut.UNABLE;
+        if(live && skill != null && abilities.contains(skill))
+        {
+            CharacterOut out = skill.prepare(this, target);
+            if(out.isSuccess())
+            {
+                sCaster.cast(skill);
+                return CharacterOut.SUCCESS;
+            }
+            else
+                return CharacterOut.UNABLE;
+        }
+        else
+            return CharacterOut.UNABLE;
     }
     /**
      * Activates specified skill, if character know this skill
@@ -1298,13 +1313,18 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public CharacterOut useSkillOn(Targetable target, Skill skill)
     {
-    	CharacterOut out = skill.prepare(this, target);
-    	if(live && abilities.contains(skill) && out.isSuccess())
-    	{
-    		sCaster.cast(skill);
-    	    return CharacterOut.SUCCESS;
-    	}
-    	else
+        if(live && skill != null && abilities.contains(skill))
+        {
+            CharacterOut out = skill.prepare(this, target);
+            if(out.isSuccess())
+            {
+                sCaster.cast(skill);
+                return CharacterOut.SUCCESS;
+            }
+            else
+                return CharacterOut.UNABLE;
+        }
+        else
             return CharacterOut.UNABLE;
     }
 	/**

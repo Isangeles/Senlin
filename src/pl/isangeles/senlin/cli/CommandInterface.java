@@ -125,6 +125,7 @@ public class CommandInterface
         }
         scann.close();
         
+        Log.addSystem("Command out:" + out);
         return out;
        
     }

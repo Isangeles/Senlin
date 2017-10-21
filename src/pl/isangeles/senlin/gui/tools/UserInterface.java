@@ -463,7 +463,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                     {
                         if(!scenario.getId().equals(gw.getCurrentChapter().getActiveScenario().getId()))
                         {
-                            gw.setChangeScenarioReq(scenario);
+                            gw.setChangeScenarioReq(exit);
                             //Log.addSystem("change to: " + scenario.getId());// TEST LINE
                         }
                         else

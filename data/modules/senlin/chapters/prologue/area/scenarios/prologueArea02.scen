@@ -3,25 +3,31 @@
 <scenario id="prologue02">
     <mainarea id="prologue02" map="area02.tmx">
         <npcs>
+            <npc position="63;131">wgGuard01</npc>
+            <npc position="53;122">wgGuard01</npc>
+            <npc position="71;122">wgGuard01</npc>
+            <npc position="68;115">wgGuard01</npc>
+            <npc position="67;120">marios01</npc>
         </npcs>
         <quests>
         </quests>
         <objects>
         </objects>
         <exits>
+            <exit position="15;247" texture="signPost.png" to="18;0">prologue01</exit>
         </exits>
         <music>
 	        <idle>
                 <track category="exploring">$all</track>
             </idle>
             <combat>
-            
+                <track category="combat">$all</track>
             </combat>
         </music>
         <subareas>
         </subareas>
     </mainarea>
-        <scripts>
-        </scripts>
+    <scripts>
+    </scripts>
 </scenario>
 </base>

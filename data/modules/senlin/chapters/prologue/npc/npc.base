@@ -57,7 +57,7 @@
     <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
         <head></head>
-        <chest>acCS00</chest>
+        <chest>aImpLArm01</chest>
         <hands></hands>
         <mainhand>wSOHI</mainhand>
         <offhand></offhand>
@@ -67,9 +67,113 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">acCS00</item>
+            <item random="false">aImpLArm01</item>
             <item random="false">wSOHI</item>
             <item random="false">mSLetter01</item>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="mysFigure01" gender="male" race="human" attitude="neutral" guild="redSwords" level="10">
+    <stats>9;9;8;9;9;</stats>
+    <portrait>portrait3.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head>aImpCHelm01</head>
+        <chest>aImpCArm01</chest>
+        <hands>aImpCGlov01</hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet>aImpCBoot01</feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+            <item random="false">aImpCArm01</item>
+            <item random="false">aImpCHelm01</item>
+            <item random="false">aImpCGlov01</item>
+            <item random="false">aImpCBoot01</item>
+            <item random="false">wSOHI</item>
+        </in>
+    </eq>
+    <skills>
+        <skill>fireball01</skill>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="redSwScout01" gender="male" race="human" attitude="neutral" guild="redSwords" level="4">
+    <stats>3;3;4;2;2;</stats>
+    <portrait>portrait2.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aRedSwLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="2">
+            <item random="false">aRedSwLArm01</item>
+            <item random="false">wSOHI</item>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="wgGuard01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="4">
+    <stats>3;3;4;2;2;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aImpLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="20">
+            <item random="false">aImpLArm01</item>
+            <item random="false">wSOHI</item>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="marios01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="5">
+    <stats>4;3;2;2;1;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aImpLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in gold="20">
+            <item random="false">aImpLArm01</item>
+            <item random="false">wSOHI</item>
         </in>
     </eq>
     <skills>

@@ -1,28 +1,33 @@
-#Script for prologue start
+#Script for prologue opening scene
 script:
     $worldman music -playSpecial heroicMinority.ogg;
     $charman player set -position 44x48;
     $worldman add -character courier01 42x41;
-    $worldman add -character thug01 40x41;
-    $worldman add -character thug01 44x41;
+    $worldman add -character redSwScout01 40x41;
+    $worldman add -character redSwScout01 44x41;
+    $worldman add -character mysFigure01 40x39;
     $uiman ui -lock true;
-    $uiman camera -center 1457x1267;
+    $uiman camera -centerAtTile 42x41;
     @wait 2;
-    $charman thug01_0 add -speech pScene01_S01;
+    $charman mysFigure01_0 add -speech pScene01_S01;
     @wait 2;
+    $charman mysFigure01_0 use -skill fireball01 courier01_0;
     $charman courier01_0 add -speech pScene01_S02;
-    @wait 2;
-    $charman thug01_1 add -speech pScene01_S03;
-    $charman thug01_0 add -attackTarget courier01_0;
-    $charman thug01_1 add -attackTarget courier01_0;
     @wait 5;
-    $charman thug01_0 add -speech pScene01_S04;
-    $charman thug01_0 set -destination 1657x1267;
-    $charman thug01_1 set -destination 1657x1267;
+    $charman mysFigure01_0 add -speech pScene01_S03;
+    $charman mysFigure01_0 set -destTile 40x30;
+    @wait 2;
+    $worldman remove npc mysFigure01_0;
+    $charman redSwScout01_0 add -speech pScene01_S04;
+    $charman redSwScout01_1 set -destTile 42x41;
+    @wait 2;
+    $charman courier01_0 remove -item aImpLArm01 1;
+    $charman redSwScout01_0 set -destTile 40x30;
+    $charman redSwScout01_1 set -destTile 40x30;
     @wait 3;
-    $worldman remove npc thug01_0;
-    $worldman remove npc thug01_1;
-    $uiman camera -center 1467x1500;
+    $worldman remove npc redSwScout01_0;
+    $worldman remove npc redSwScout01_1;
+    $uiman camera -center 44x48;
     $uiman ui -lock false;
     $charman player add -flag prologueStarted;
 if:

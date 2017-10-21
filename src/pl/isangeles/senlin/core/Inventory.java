@@ -140,6 +140,27 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	}
     	return false;
     }
+    /**
+     * Removes specified amount of items with specified ID from inventory
+     * @param serialId ID of items to remove
+     * @return True if specified amount of items was successfully removed, false otherwise
+     */
+    public boolean remove(String id, int amount)
+    {
+        List<Item> itemsToRemove = new ArrayList<>();
+        for(Item item : this)
+        {
+            if(item.getId().equals(id))
+                itemsToRemove.add(item);
+            
+            if(itemsToRemove.size() == amount)
+                break;
+        }
+        if(itemsToRemove.size() == amount)
+            return removeAll(itemsToRemove);
+        else
+            return false;
+    }
     
     @Override
     public boolean removeAll(Collection<?> items)

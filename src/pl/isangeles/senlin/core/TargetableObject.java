@@ -185,7 +185,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      */
     public void setPosition(TilePosition tilePos)
     {
-        this.pos = tilePos.toPosition();
+        this.pos = tilePos.asPosition();
         avatar.setPosition(pos);
     }
     /**

@@ -83,7 +83,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private UserInterface ui;
 	private CommandInterface cui;
 	private AudioPlayer gwMusic;
-	private Scenario nextScenario;
+	private Exit exitToNextScen;
 	private boolean changeScenarioReq;
 	private boolean combat;
 	/**
@@ -266,9 +266,9 @@ public class GameWorld extends BasicGameState implements SaveElement
             {
             	object.update(delta);
             }
-            
+               
             if(changeScenarioReq)
-                changeScenario(container, game);
+                changeScenario(exitToNextScen, container, game);
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
     	}
@@ -374,11 +374,10 @@ public class GameWorld extends BasicGameState implements SaveElement
     public void keyPressed(int key, char c)
     {
     }
-    
-    public void setChangeScenarioReq(Scenario scenario)
+    public void setChangeScenarioReq(Exit exitToNewScenario)
     {
         changeScenarioReq = true;
-        nextScenario = scenario;
+        exitToNextScen = exitToNewScenario;
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.BasicGameState#getID()
@@ -437,16 +436,19 @@ public class GameWorld extends BasicGameState implements SaveElement
      * @param game Slick game
      * @throws SlickException
      */
-    private void changeScenario(GameContainer gc, StateBasedGame game) throws SlickException
+    public void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
     {
+        Scenario nextScenario = chapter.getScenario(exit.getScenarioId());
     	this.activeScenario = nextScenario;
     	game.addState(new ReloadScreen());
     	changeScenarioReq = false;
     	nextScenario = null;
     	player.setArea(activeScenario.getMainArea());
+    	player.setPosition(exit.getToPos());
     	//entering to reload screen
     	game.getState(5).init(gc, game);
     	game.enterState(5);
+    	ui.getCamera().centerAt(new Position(player.getPosition()));
     }
     /**
      * Changes current area to specified area
