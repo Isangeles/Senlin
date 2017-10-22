@@ -28,7 +28,7 @@ package pl.isangeles.senlin.core.quest;
  */
 public enum ObjectiveType
 {
-    TALK, KILL, GATHER;
+    TALK, KILL, GATHER, VISIT;
     /**
      * Converts specified objective type name to objective type enumeration
      * @param typeName String with objective type name
@@ -44,6 +44,8 @@ public enum ObjectiveType
             return ObjectiveType.KILL;
         case "gather":
             return ObjectiveType.GATHER;
+        case "visit":
+        	return ObjectiveType.VISIT;
         }
         
         return null;

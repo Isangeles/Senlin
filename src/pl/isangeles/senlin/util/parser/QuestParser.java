@@ -55,8 +55,12 @@ public class QuestParser
         Element questE = (Element)questNode;
         
         String id = questE.getAttribute("id");
-        String flagOn = questE.getAttribute("flagOn");
-        String flagOff = questE.getAttribute("flagOff");
+        Node flagsOnStartNode = questE.getElementsByTagName("qFlagsOnStart").item(0);
+        List<String> flagsOnStart = getFlags(flagsOnStartNode, "on");
+        List<String> flagsOffStart = getFlags(flagsOnStartNode, "off");
+        Node flagsOnEndNode = questE.getElementsByTagName("qFlagsOnEnd").item(0);
+        List<String> flagsOnEnd = getFlags(flagsOnEndNode, "on");
+        List<String> flagsOffEnd = getFlags(flagsOnEndNode, "off");
         List<Stage> stages = new ArrayList<>();
         
         Node stagesNode = questE.getElementsByTagName("stages").item(0);
@@ -68,7 +72,7 @@ public class QuestParser
             	stages.add(getStageFromNode(stageNode));
         }
         
-        return new Quest(id, flagOn, flagOff, stages);
+        return new Quest(id, flagsOnStart, flagsOffStart, flagsOnEnd, flagsOffEnd, stages);
     }
     /**
      * Parses specified stage node
@@ -81,11 +85,18 @@ public class QuestParser
         
         String id = stageE.getAttribute("id");
         String nextStage = stageE.getAttribute("next");
-        String flagOn = stageE.getAttribute("flagOn");
-        String flagOff = stageE.getAttribute("flagOff");
+        
+        Node flagsOnStartNode = stageE.getElementsByTagName("sFlagsOnStart").item(0);
+        List<String> flagsOnStart = getFlags(flagsOnStartNode, "on");
+        List<String> flagsOffStart = getFlags(flagsOnStartNode, "off");
+        Node flagsOnEndNode = stageE.getElementsByTagName("sFlagsOnEnd").item(0);
+        List<String> flagsOnEnd = getFlags(flagsOnEndNode, "on");
+        List<String> flagsOffEnd = getFlags(flagsOnEndNode, "off");
+        
         List<Objective> objectives = new ArrayList<>();
         
-        NodeList objectivesList = stageE.getElementsByTagName("objective");
+        Element objectivesE = (Element)stageE.getElementsByTagName("objectives").item(0);
+        NodeList objectivesList = objectivesE.getElementsByTagName("objective");
         for(int i = 0; i < objectivesList.getLength(); i ++)
         {
             Node objectiveNode = objectivesList.item(i);
@@ -93,7 +104,7 @@ public class QuestParser
                 objectives.add(getObjectiveFromNode(objectiveNode));
         }
         
-        return new Stage(id, flagOn, flagOff, nextStage, objectives);
+        return new Stage(id, flagsOnStart, flagsOffStart, flagsOnEnd, flagsOffEnd, nextStage, objectives);
     }
     /**
      * Parses specified objective node
@@ -119,5 +130,29 @@ public class QuestParser
         String target = objectiveE.getTextContent();
         
         return new Objective(ObjectiveType.fromString(type), target, amount, finisher);
+    }
+    
+    private static List<String> getFlags(Node flagsNode, String flagsType)
+    {
+    	List<String> flags = new ArrayList<>();
+    	if(flagsNode == null)
+    		return flags;
+    	
+    	Element flagsE = (Element)flagsNode;
+    	NodeList flagNl = flagsE.getElementsByTagName("flag");
+    	for(int i = 0; i < flagNl.getLength(); i ++)
+    	{
+    		Node flagNode = flagNl.item(i);
+    		if(flagNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element flagE = (Element)flagNode;
+    			String flagType = flagE.getAttribute("type");
+    			if(flagType.equals(flagsType))
+    			{
+    				flags.add(flagE.getTextContent());
+    			}
+    		}
+    	}
+    	return flags;
     }
 }

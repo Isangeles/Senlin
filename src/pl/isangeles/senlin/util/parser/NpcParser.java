@@ -38,6 +38,7 @@ import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionLevel;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.train.AttributeTraining;
@@ -45,6 +46,7 @@ import pl.isangeles.senlin.core.train.ProfessionTraining;
 import pl.isangeles.senlin.core.train.RecipeTraining;
 import pl.isangeles.senlin.core.train.SkillTraining;
 import pl.isangeles.senlin.core.train.Training;
+import pl.isangeles.senlin.data.DialoguesBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.pattern.NpcPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
@@ -134,9 +136,12 @@ public final class NpcParser
         Node trainingNode = npc.getElementsByTagName("training").item(0);
         List<Training> trainings = getTrainings(trainingNode);
         
+        Node dialoguesNode = npc.getElementsByTagName("dialogues").item(0);
+        List<Dialogue> dialogues = getDialogues(dialoguesNode);
+        
         npcP = new NpcPattern(id, gender, race, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
                               neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, gold, itemsIn, skills, effects,
-                              professions, trainings);
+                              professions, trainings, dialogues);
         return npcP;
     }
     /**
@@ -336,5 +341,33 @@ public final class NpcParser
     	}
     	
     	return trainings;
+    }
+    /**
+     * Parses specified XML node to list with dialogues
+     * @param dialoguesNode XML node from base(dialogues node)
+     * @return List with dialogues
+     */
+    private static List<Dialogue> getDialogues(Node dialoguesNode)
+    {
+    	List<Dialogue> dialogues = new ArrayList<>();
+    	if(dialoguesNode == null)
+    		return dialogues;
+    	
+    	Element dialoguesE = (Element)dialoguesNode;
+    	NodeList dialogueNl = dialoguesE.getElementsByTagName("dialogue");
+    	for(int i = 0; i < dialogueNl.getLength(); i ++)
+    	{
+    		Node dialogueNode = dialogueNl.item(i);
+    		if(dialogueNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+    		{
+    			Element dialogueE = (Element)dialogueNode;
+    			String dialogueId = dialogueE.getTextContent();
+    			Dialogue dialogue = DialoguesBase.getDialogue(dialogueId);
+    			if(dialogue != null)
+    				dialogues.add(dialogue);
+    		}
+    	}
+    	
+    	return dialogues;
     }
 }

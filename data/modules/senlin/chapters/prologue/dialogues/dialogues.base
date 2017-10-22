@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <base>
-    <dialogue id="default">
-        <text id="greeting01" on="start">
-            <answer end="true">bye01</answer>
-        </text>            
-    </dialogue>
-
-    <dialogue id="banditTalk" npc="bandit01">
+    <dialogue id="banditTalk">
         <text id="banditTalk01" on="start">
             <answer>banditTalk01a01</answer>
             <answer end="true">bye01</answer>        
@@ -16,17 +10,17 @@
         </text>
     </dialogue>
 
-    <dialogue id="ericWelcome" npc="ericP01" flagReq="qpLumberTalk0">
+    <dialogue id="ericWelcome">
         <text id="ericWelcome01" on="start">
             <answer>ericWelcome01a01</answer>
             <answer>ericWelcome01a02</answer>
-            <otherTexts>
-                <text id="ericWelcome01o1">
-                    <req>
-                        <statsReq>4;2;0;0;0;</statsReq>
-                    </req>
-                </text>
-            </otherTexts>
+        </text>
+        <text id="ericWelcome01b" on="start">
+            <answer>ericWelcome01a01</answer>
+            <answer>ericWelcome01a02</answer>
+            <req>
+                <statsReq>4;0;0;0;0;</statsReq>
+            </req>
         </text>
         <text id="ericWelcome01f" on="start">
             <answer>ericWelcome01a01</answer>
@@ -45,31 +39,34 @@
         <text id="ericWelcome04" on="ericWelcome01a02">
             <answer end="true">bye01</answer>
         </text>
+        <dReq>
+            <flagReq>qpLumberTalk0</flagReq>
+        </dReq>
     </dialogue>
 
-    <dialogue id="ericTalk0" npc="ericP01" flagReq="qpLumberTalk0">
-        <text id="ericTalk001" on="start">
-            <answer end="true">bye01</answer>
-        </text>
-    </dialogue>
-
-    <dialogue id="ewanTalk1" npc="ewanP01" flagReq="qpLumberTalk0">
+    <dialogue id="ewanTalk1">
         <text id="ewanTalk101" on="start">
 	        <answer>ewanTalk101a01</answer>
 	    </text>
 	    <text id="ewanTalk102" on="ewanTalk101a01">
 	        <answer end="true">bye01</answer>
 	    </text>
+        <dReq>
+            <flagReq>qpLumberTalk1</flagReq>
+        </dReq>
     </dialogue>
 
-    <dialogue id="ewanTalk2" npc="ewanP01" flagReq="qpLumberTalk1">
+    <dialogue id="ewanTalk2">
         <text id="ewanTalk201" on="start">
             <answer end="true">ewanTalk201a01</answer>
             <answer end="true">bye01</answer>
         </text>
+        <dReq>
+            <flagReq>qpLumberTalkFinish</flagReq>
+        </dReq>
     </dialogue>
 
-    <dialogue id="ewanTalk3" npc="ewanP01" flagReq="qpBanditsKilling0">
+    <dialogue id="ewanTalk3">
         <text id="ewanTalk301" on="start">
             <answer end="true">ewanTalk301a01</answer>
             <transfer>
@@ -80,8 +77,12 @@
                 </take>
             </transfer>
         </text>
+        <dReq>
+            <flagReq>qpBanditsKilling0</flagReq>
+        </dReq>
     </dialogue>
-    <dialogue id="ewanTalk4" npc="ewanP01" flagReq="qpBanditsKillingFinish">
+
+    <dialogue id="ewanTalk4">
         <text id="greeting01" on="start">
             <answer>ewanSLetterStart</answer>
         </text>
@@ -96,5 +97,8 @@
         <text id="ewanSLetter03" on="ewanSLetter02a2">
             <answer end="true">ewanSLetter03a1</answer>
         </text>
+        <dReq>
+            <flagReq>qpBanditsKillingFinish</flagReq>
+        </dReq>
     </dialogue>
 </base>

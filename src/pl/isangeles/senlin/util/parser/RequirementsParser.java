@@ -33,6 +33,7 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.item.WeaponType;
+import pl.isangeles.senlin.core.req.FlagRequirement;
 import pl.isangeles.senlin.core.req.GenderRequirement;
 import pl.isangeles.senlin.core.req.GoldRequirement;
 import pl.isangeles.senlin.core.req.ManaRequirement;
@@ -102,6 +103,9 @@ public final class RequirementsParser
 					    WeaponType weapon = WeaponType.fromName(reqE.getTextContent());
 					    reqs.add(new WeaponRequirement(weapon));
 					    break;
+					case "flagReq":
+						String flag = reqE.getTextContent();
+						reqs.add(new FlagRequirement(flag));
 					}
 				}
 				catch(NumberFormatException e)

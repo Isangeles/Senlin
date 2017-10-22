@@ -71,4 +71,19 @@ public class Requirements extends ArrayList<Requirement>
             req.charge(character);
         }
     }
+    
+    public boolean isEmpty()
+    {
+    	if(super.isEmpty())
+    		return true;
+    	else
+    	{
+    		for(Requirement req : this)
+    		{
+    			if(req.getType() != RequirementType.NONE)
+    				return false;
+    		}
+    		return true;
+    	}
+    }
 }

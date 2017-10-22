@@ -48,6 +48,7 @@ import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.character.Race;
 import pl.isangeles.senlin.core.craft.Profession;
+import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.cli.Log;
 /**
@@ -86,6 +87,7 @@ public class NpcPattern
 	private final Map<String, Integer> effects;
 	private final List<Profession> professions;
 	private final List<Training> trainings;
+	private final List<Dialogue> dialogues;
 	/**
 	 * NPC pattern constructor
 	 * @param npcId Character ID
@@ -120,7 +122,7 @@ public class NpcPattern
 	public NpcPattern(String npcId, String gender, String race, String attitude, boolean trade, boolean train, String guildID, int level, String stats, 
 					  String headItem, String chestItem,String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, 
 					  String fingerBItem, String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
-					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings) 
+					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings, List<Dialogue> dialogues) 
 	{
 		this.npcId = npcId;
 		this.npcName = TConnector.getTextFromChapter("npc", npcId);
@@ -151,6 +153,7 @@ public class NpcPattern
 		this.effects = effects;
 		this.professions = professions;
 		this.trainings = trainings;
+		this.dialogues = dialogues;
 	}
 	/**
 	 * Returns ID of NPC from this pattern
@@ -227,6 +230,10 @@ public class NpcPattern
 		{
 			npc.addProfession(profession);
 		}
+        for(Dialogue dialogue : dialogues)
+        {
+        	npc.addDialogue(dialogue);
+        }
 		
 		return npc;
 	}
@@ -298,6 +305,10 @@ public class NpcPattern
         for(Profession profession : professions)
         {
             npc.addProfession(profession);
+        }
+        for(Dialogue dialogue : dialogues)
+        {
+        	npc.addDialogue(dialogue);
         }
         
         return npc;

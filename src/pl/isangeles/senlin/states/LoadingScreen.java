@@ -174,9 +174,9 @@ public class LoadingScreen extends BasicGameState
             SkillsBase.load(Module.getSkillsPath(), container);
             ItemsBase.load(Module.getItemsPath(), container);
             RecipesBase.load(Module.getItemsPath());
+            DialoguesBase.load(Module.getDBasePath());
             GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
-            DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load(Module.getObjectsPath(), container);
             ScenariosBase.load(Module.getAreaPath(), container);
@@ -232,9 +232,9 @@ public class LoadingScreen extends BasicGameState
             SkillsBase.load(Module.getSkillsPath(), container);
             ItemsBase.load(Module.getItemsPath(), container);
             RecipesBase.load(Module.getItemsPath());
+            DialoguesBase.load(Module.getDBasePath());
             GuildsBase.load(Module.getGBasePath());
             NpcBase.load(Module.getNBasePath(), container);
-            DialoguesBase.load(Module.getDBasePath());
             QuestsBase.load(Module.getQBasePath());
             ObjectsBase.load(Module.getObjectsPath(), container);
             ScenariosBase.load(Module.getAreaPath(), container);

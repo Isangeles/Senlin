@@ -74,6 +74,7 @@ import pl.isangeles.senlin.core.quest.Journal;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.quest.QuestTracker;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
@@ -130,7 +131,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Inventory inventory;
 	private Abilities abilities;
 	private Targetable target;
-	private List<Dialogue> dialogues;
+	private Set<Dialogue> dialogues = new HashSet<>();
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects(this);
@@ -184,7 +185,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		abilities = new Abilities(this);
 		abilities.add(SkillsBase.getAutoAttack(this));
 		abilities.add(SkillsBase.getShot(this));
-		dialogues = DialoguesBase.getDialogues(this.id);
+		dialogues.add(DialoguesBase.getDefaultDialogue());
 		qTracker = new QuestTracker(this);
 		sCaster = new SkillCaster(this);
 
@@ -330,9 +331,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public boolean setPosition(TilePosition tilePos)
     {
     	Position pos = tilePos.asPosition();
-    	
-        Log.addSystem(serialId + "-setting position to: " + pos.x + ";" + pos.y);
-    	
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
         	position[0] = (int)(pos.x);
@@ -352,9 +350,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * @param pos XY position
      */
     public boolean setPosition(Position pos)
-    {
-        Log.addSystem(serialId + "-setting position to: " + pos.x + ";" + pos.y);
-        
+    {   
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
         	position[0] = (int)(pos.x);
@@ -376,6 +372,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public void setArea(Area area)
     {
     	//area.addNpc(this);
+    	qTracker.check(area);
         currentArea = area;
     }
     /**
@@ -404,7 +401,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	boolean hasDefD = false;
     	for(Dialogue dialogue : dialogues)
     	{
-    		if(!dialogue.isReqFlag())
+    		if(!dialogue.hasReqs())
     		{
     			hasDefD = true;
     			break;
@@ -415,8 +412,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	
     	for(Dialogue dialogue : dialogues)
     	{
-    		if(!dialogue.isReqFlag())
-    			dialogue.addOption(new Answer("tradeReq", "", true));
+    		if(!dialogue.hasReqs())
+    			dialogue.addOption(new Answer("tradeReq", true));
     	}
     	trade = true;
     }
@@ -483,7 +480,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	boolean hasDefD = false;
     	for(Dialogue dialogue : dialogues)
     	{
-    		if(!dialogue.isReqFlag())
+    		if(!dialogue.hasReqs())
     		{
     			hasDefD = true;
     			break;
@@ -494,8 +491,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	
     	for(Dialogue dialogue : dialogues)
     	{
-    		if(!dialogue.isReqFlag())
-    			dialogue.addOption(new Answer("trainReq", "", true));
+    		if(!dialogue.hasReqs())
+    			dialogue.addOption(new Answer("trainReq", true));
     	}
     	train = true;
     	this.trainings = trainings;
@@ -1230,6 +1227,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			return false;
 	}
 	/**
+	 * Adds specified dialogue to character dialogues
+	 * @param dialogue Dialogue
+	 * @return True if specified dialogue was successfully added, false otherwise
+	 */
+	public boolean addDialogue(Dialogue dialogue)
+	{
+		return dialogues.add(dialogue);
+	}
+	/**
 	 * Adds quest to character quests list
 	 * @param quest Game quest
 	 */
@@ -1241,7 +1247,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			Log.addInformation(quest.getName() + " accepted");
 		}
 		else
-			Log.addSystem("character_startQuest_fail msg//fail to add quest to list");
+			Log.addSystem("char_startQuest_fail-msg//fail to add quest to list");
 	}
 	/**
      * Adds gold to character inventory
@@ -1394,13 +1400,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     public Element getSave(Document doc)
     {   
         Element charE = doc.createElement("character");
-        charE.setAttribute("id", this.id);
+        charE.setAttribute("id", id);
         charE.setAttribute("serial", serial+"");
-        charE.setAttribute("attitude", this.attitude.toString());
-        charE.setAttribute("guild", this.guild.getId());
-        charE.setAttribute("level", this.level+"");
-        charE.setAttribute("trade", this.trade+"");
-        charE.setAttribute("train", this.train+"");
+        charE.setAttribute("attitude", attitude.toString());
+        charE.setAttribute("guild", guild.getId());
+        charE.setAttribute("level", level+"");
+        charE.setAttribute("trade", trade+"");
+        charE.setAttribute("train", train+"");
         
         Element statsE = doc.createElement("stats");
         statsE.setTextContent(attributes.toString());
@@ -1448,6 +1454,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         trainingE.appendChild(recipesE);
         trainingE.appendChild(skillsE);
         charE.appendChild(trainingE);
+        
+        Element dialoguesE = doc.createElement("dialogues");
+        for(Dialogue dialogue : dialogues)
+        {
+        	Element dialogueE = doc.createElement("dialogue");
+        	dialogueE.setTextContent(dialogue.getId());
+        	dialoguesE.appendChild(dialogueE);
+        }
+        charE.appendChild(dialoguesE);
         
         charE.appendChild(quests.getSave(doc));
         
@@ -1511,13 +1526,18 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		for(Dialogue dialogue : dialogues)
 		{
-			if(character.getFlags().contains(dialogue.getReqFlag()))
-				return dialogue;
+			if(dialogue.hasReqs())
+			{
+				if(dialogue.getReqs().isMetBy(character)) 
+				{
+					return dialogue;
+				}
+			}
 		}
 		
 		for(Dialogue dialogue : dialogues)
 		{
-			if(!dialogue.isReqFlag())
+			if(!dialogue.hasReqs())
 				return dialogue;
 		}
 		

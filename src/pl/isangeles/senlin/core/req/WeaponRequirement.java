@@ -75,6 +75,7 @@ public class WeaponRequirement extends Requirement
     @Override
     public void charge(Character character)
     {
+    	//this requirement don't take anything from character
     }
     /**
      * Returns type of weapon required by this requirement

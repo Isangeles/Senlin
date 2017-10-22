@@ -27,7 +27,7 @@ script:
     @wait 3;
     $worldman remove npc redSwScout01_0;
     $worldman remove npc redSwScout01_1;
-    $uiman camera -center 44x48;
+    $uiman camera -centerAtTile 44x48;
     $uiman ui -lock false;
     $charman player add -flag prologueStarted;
 if:

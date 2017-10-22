@@ -37,6 +37,7 @@ import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.dialogue.DialoguePart;
 import pl.isangeles.senlin.core.req.RequirementType;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.StatsRequirement;
 /**
@@ -70,8 +71,6 @@ public class DialogueParser
 	{
 		Element dialog = (Element)dialogueNode;
 		String dialogId = dialog.getAttribute("id");
-		String npcId = dialog.getAttribute("npc");
-		String flagReq = dialog.getAttribute("flagReq");
 		List<DialoguePart> partsList = new ArrayList<>();
 		
 		for(int j = 0; j < dialog.getElementsByTagName("text").getLength(); j ++)
@@ -79,10 +78,11 @@ public class DialogueParser
 			Node textNode = dialog.getElementsByTagName("text").item(j);
 			partsList.add(getDialoguePartFromNode(textNode));
 		}
-		if(dialogId.equals("default"))
-			defaultDialogueNode = dialogueNode;
 		
-		return new Dialogue(dialogId, npcId, flagReq, partsList);
+		Node reqNode = dialog.getElementsByTagName("dReq").item(0);
+		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
+		
+		return new Dialogue(dialogId, reqs, partsList);
 	}
 	/**
 	 * Returns dialogue part from specified XML node
@@ -111,21 +111,10 @@ public class DialogueParser
 					if(answer.hasAttribute("end"))
 						endBool = Boolean.parseBoolean(answer.getAttribute("end"));
 					
-					if(answer.hasAttribute("qOn"))
-						qOn = answer.getAttribute("qOn");
-					
-					answersList.add(new Answer(answer.getTextContent(), qOn, endBool));
+					answersList.add(new Answer(answer.getTextContent(), endBool));
 				}
 				
 				
-			}
-
-			Map<List<Requirement>, String> oTextsMap = null;
-			
-			Node otherTextsNode = textE.getElementsByTagName("otherTexts").item(0);
-			if(otherTextsNode != null)
-			{
-				oTextsMap = getOtherTexts(otherTextsNode);
 			}
 			
 			Node reqNode = textE.getElementsByTagName("req").item(0);
@@ -179,40 +168,15 @@ public class DialogueParser
 					}
 				}
 
-				return new DialoguePart(id, on, oTextsMap, req, answersList, iToGive, iToTake, gToGive, gToTake);
+				return new DialoguePart(id, on, req, answersList, iToGive, iToTake, gToGive, gToTake);
 			}
-			return new DialoguePart(id, on, oTextsMap, req, answersList);
+			return new DialoguePart(id, on, req, answersList);
 		}
 		else
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
-		answersList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err01", "error01", null, null, answersList);
-	}
-	/**
-	 * Parses otherTexts node to map list text requirements as keys ands text ID as values
-	 * @param otherTextsNode Node from dialogues base (otherTexts node)
-	 * @return Map list text requirements as keys ands text ID as values
-	 */
-	public static Map<List<Requirement>, String> getOtherTexts(Node otherTextsNode)
-	{
-		Map<List<Requirement>, String> textsMap = new HashMap<>();
-		Element otherTextsE = (Element)otherTextsNode;
-		NodeList textsList = otherTextsE.getElementsByTagName("text");
-		for(int i = 0; i < textsList.getLength(); i ++)
-		{
-			Node textNode = textsList.item(i);
-			if(textNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-			{
-				Element textE = (Element)textNode;
-				String textId = textE.getAttribute("id");
-				Node reqsNode = textE.getElementsByTagName("req").item(0);
-				List<Requirement> reqs = RequirementsParser.getReqFromNode(reqsNode);
-				textsMap.put(reqs, textId);
-			}
-		}
-		
-		return textsMap;
+		answersList.add(new Answer("bye01", true));
+		return new DialoguePart("err01", "error01", null, answersList);
 	}
 }

@@ -29,7 +29,7 @@ package pl.isangeles.senlin.core.req;
  */
 public enum RequirementType 
 {
-	NONE, LEVEL, STATS, GENDER, GUILD, GOLD, ITEMS, POINTS, MANA, HEALTH, WEAPON;
+	NONE, LEVEL, STATS, GENDER, GUILD, GOLD, ITEMS, POINTS, MANA, HEALTH, WEAPON, FLAG;
 	/**
 	 * Converts type ID to requirement type enum
 	 * @param typeName Requirement type ID
@@ -57,6 +57,10 @@ public enum RequirementType
 		    return RequirementType.MANA;
 		case "hpReq":
 		    return RequirementType.HEALTH;
+		case "weaponReq":
+			return RequirementType.WEAPON;
+		case "flagReq":
+			return RequirementType.FLAG;
 		default:
 			return RequirementType.NONE;
 		}

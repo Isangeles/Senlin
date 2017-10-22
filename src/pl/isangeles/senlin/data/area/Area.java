@@ -40,6 +40,7 @@ import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Size;
@@ -48,7 +49,7 @@ import pl.isangeles.senlin.util.Size;
  * @author Isangeles
  *
  */
-public class Area implements SaveElement
+public class Area implements SaveElement, ObjectiveTarget
 {
 	private String id;
     private TiledMap map;

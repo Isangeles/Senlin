@@ -16,10 +16,9 @@ public class Answer implements ObjectiveTarget
 	/**
 	 * Answer constructor
 	 * @param text Answer text content ID
-	 * @param qOn ID of quest triggered on answer selection 
 	 * @param end If Dialogue should end after this answer
 	 */
-	public Answer(String text, String qOn, boolean end) 
+	public Answer(String text, boolean end) 
 	{
 		this.id = text;
 		this.end = end;

@@ -45,8 +45,10 @@ public class Quest implements ScrollableContent, SaveElement
     private String id;
     private String name;
     private String info;
-    private String flagOn;
-    private String flagOff;
+    private List<String> flagsOnStart;
+    private List<String> flagsOffStart;
+    private List<String> flagsOnEnd;
+    private List<String> flagsOffEnd;
     private List<Stage> stages;
     private Stage currentStage;
     private boolean complete;
@@ -56,13 +58,14 @@ public class Quest implements ScrollableContent, SaveElement
      * @param id Quest ID
      * @param stages List of quest stages
      */
-    public Quest(String id, String flagOn, String flagOff, List<Stage> stages)
+    public Quest(String id, List<String> flagsOnStart, List<String> flagsOffStart, List<String> flagsOnEnd, List<String> flagsOffEnd, List<Stage> stages)
     {
         this.id = id;
         this.stages = stages;
-        this.flagOn = flagOn;
-        this.flagOff = flagOff;
-        
+        this.flagsOnStart = flagsOnStart;
+        this.flagsOffStart = flagsOffStart;
+        this.flagsOnEnd = flagsOnEnd;
+        this.flagsOffEnd = flagsOffEnd;
         try
         {
         	name = TConnector.getInfoFromChapter("quests", id)[0];
@@ -167,11 +170,11 @@ public class Quest implements ScrollableContent, SaveElement
     public List<String> getFlagsToSet()
     {
     	List<String> flags = new ArrayList<>();
-    	flags.add(flagOn);
+    	flags.addAll(flagsOnStart);
     	for(Stage stage : stages)
     	{
     		if(stage.isComplete())
-    			flags.add(stage.getFlagToSet());
+    			flags.addAll(stage.getFlagToSet());
     	}
     	return flags;
     }
@@ -182,11 +185,11 @@ public class Quest implements ScrollableContent, SaveElement
     public List<String> getFlagsToRemove()
     {
     	List<String> flags = new ArrayList<>();
-    	flags.add(flagOff);
+    	flags.addAll(flagsOffStart);
     	for(Stage stage : stages)
     	{
     		if(stage.isComplete())
-    			flags.add(stage.getFlagToRemove());
+    			flags.addAll(stage.getFlagToRemove());
     	}
     	return flags;
     }
@@ -214,7 +217,7 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public void clearFlags()
     {
-    	flagOn = "";
+    	flagsOnStart.clear();
     	for(Stage stage : stages)
     	{
     		stage.clearFlags();
@@ -226,9 +229,9 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public void clearFlag(String flag)
     {
-    	if(flagOn.equals(flag))
+    	if(flagsOnStart.contains(flag))
     	{
-    		flagOn = "";
+    		flagsOnStart.remove(flag);
     		return;
     	}
     	
@@ -252,7 +255,7 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public boolean hasFlag()
     {
-    	if(flagOn != "")
+    	if(!flagsOnStart.isEmpty())
     		return true;
     	
     	for(Stage stage : stages)

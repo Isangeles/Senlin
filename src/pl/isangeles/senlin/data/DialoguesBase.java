@@ -32,7 +32,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
+import pl.isangeles.senlin.core.dialogue.DialoguePart;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.parser.DialogueParser;
 /**
@@ -48,19 +53,16 @@ public class DialoguesBase
 	 */
 	private DialoguesBase() {}
 	/**
-	 * Returns all dialogues for specified NPC
-	 * @param npcId NPC ID
-	 * @return List with dialogues
+	 * Returns dialogue with specified ID
+	 * @param dialogueId String with dialogue ID
+	 * @return Dialogue with specified ID or null if no such dialogue was found
 	 */
-	public static List<Dialogue> getDialogues(String npcId)
+	public static Dialogue getDialogue(String dialogueId)
 	{
-		List<Dialogue> dialogues = new ArrayList<>();
-		for(Dialogue dialogue : dialogsMap.values())
-		{
-			if(dialogue.getNpcId().equals(npcId))
-				dialogues.add(dialogue);
-		}
-		return dialogues;
+		System.out.println("db-req for:" + dialogueId);
+		if(dialogsMap.containsKey(dialogueId))
+			System.out.println("db-contain:true");
+		return dialogsMap.get(dialogueId);
 	}
 	/**
 	 * Returns default dialogue from base
@@ -69,7 +71,14 @@ public class DialoguesBase
 	public static Dialogue getDefaultDialogue()
 	{
 		//return dialogsMap.get("default");
-		return DialogueParser.getDialogueFromNode(DialogueParser.getDefDialogueNode());
+		Answer bye = new Answer("bye01", true);
+		Requirements req = new Requirements();
+		List<Answer> answers = new ArrayList<>();
+		answers.add(bye);
+		DialoguePart dp = new DialoguePart("greeting01", "start", req, answers);
+		List<DialoguePart> parts = new ArrayList<>();
+		parts.add(dp);
+		return new Dialogue("defaultDialogue", req, parts);
 	}
 	/**
 	 * Loads base

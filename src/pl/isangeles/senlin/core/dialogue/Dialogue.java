@@ -27,6 +27,8 @@ import java.util.List;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 /**
  * Class for characters dialogues
  * @author Isangeles
@@ -35,8 +37,7 @@ import pl.isangeles.senlin.core.character.Character;
 public class Dialogue 
 {
 	private final String id;
-	private final String npcId;
-	private final String flagReq;
+	private final Requirements reqs = new Requirements();
 	private final List<DialoguePart> parts;
 	private DialoguePart currentStage;
 	private Character dialogueTarget;
@@ -46,11 +47,10 @@ public class Dialogue
 	 * @param npcId NPC ID holding that dialogue 
 	 * @param parts List with all parts of this dialogue
 	 */
-	public Dialogue(String id, String npcId, String flagReq, List<DialoguePart> parts) 
+	public Dialogue(String id, List<Requirement> reqs, List<DialoguePart> parts) 
 	{
 		this.id = id;
-		this.npcId = npcId;
-		this.flagReq = flagReq;
+		this.reqs.addAll(reqs);
 		this.parts = parts;
 	}
 	
@@ -120,28 +120,20 @@ public class Dialogue
 		return id;
 	}
 	/**
-	 * Returns dialogue owner ID
-	 * @return String with NPC ID
-	 */
-	public String getNpcId()
-	{
-		return npcId;
-	}
-	/**
 	 * Returns flag requested for that dialogue
 	 * @return String with flag ID
 	 */
-	public String getReqFlag()
+	public Requirements getReqs()
 	{
-		return flagReq;
+		return reqs;
 	}
 	/**
 	 * Checks if dialogue require some flag on character 
 	 * @return True if flag is required, false otherwise
 	 */
-	public boolean isReqFlag()
+	public boolean hasReqs()
 	{
-		if(flagReq == null || flagReq == "")
+		if(reqs.isEmpty())
 			return false;
 		else
 			return true;
@@ -157,8 +149,14 @@ public class Dialogue
 		
 		for(DialoguePart dp : parts)
 		{
-		    if(dp.getTrigger().equals(trigger) && dp.hasReq() && dialogueTarget != null && dp.checkReq(dialogueTarget))
-		        return dp;
+		    if(dp.getTrigger().equals(trigger) && dp.hasReq() && dialogueTarget != null)
+		    {
+		    	if(dp.getReqs().isMetBy(dialogueTarget))
+		    	{
+		    		//dp.getReqs().chargeAll(dialogueTarget);
+		    		return dp;
+		    	}
+		    }
 		}
 		for(DialoguePart dp : parts)
 		{
@@ -173,8 +171,8 @@ public class Dialogue
 		}
 		
 		List<Answer> aList = new ArrayList<>();
-		aList.add(new Answer("bye01", "", true));
-		return new DialoguePart("err02", "error02", null, null, aList);
+		aList.add(new Answer("bye01", true));
+		return new DialoguePart("err02", "error02", null, aList);
 	}
 
 }

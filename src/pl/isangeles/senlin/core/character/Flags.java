@@ -93,10 +93,13 @@ public class Flags extends ArrayList<String> implements SaveElement
 	 */
 	public boolean contains(String flag)
 	{
-		for(String ele : this)
+		if(flag != "")
 		{
-			if(ele.equals(flag))
-				return true;
+			for(String ele : this)
+			{
+				if(ele.equals(flag))
+					return true;
+			}
 		}
 		return false;
 	}

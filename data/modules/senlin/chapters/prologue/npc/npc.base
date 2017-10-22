@@ -25,6 +25,9 @@
     </skills>
     <effects>
     </effects>
+    <dialogues>
+        <dialogue>banditTalk</dialogue>
+    </dialogues>
 </npc>
 <npc id="thug01" gender="male" race="human" attitude="neutral" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -205,6 +208,9 @@
     </skills>
     <effects>
     </effects>
+    <dialogues>
+        <dialogue>ericWelcome</dialogue>
+    </dialogues>
 </npc>
 <npc id="kianP01" gender="male" race="human" attitude="friendly" trade="true" guild="none" level="2">
     <stats>3;2;2;1;1;</stats>
@@ -290,6 +296,12 @@
             </attribute>
         </attributes>
     </training>
+    <dialogues>
+        <dialogue>ewanTalk1</dialogue>
+        <dialogue>ewanTalk2</dialogue>
+        <dialogue>ewanTalk3</dialogue>
+        <dialogue>ewanTalk4</dialogue>
+    </dialogues>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">
     <stats>2;2;3;1;1;</stats>

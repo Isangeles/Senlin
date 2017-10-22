@@ -37,8 +37,10 @@ public class Stage
     private String id;
     private String nextStage;
     private String info;
-    private String flagOn;
-    private String flagOff;
+    private List<String> flagsOnStart;
+    private List<String> flagsOffStart;
+    private List<String> flagsOnEnd;
+    private List<String> flagsOffEnd;
     private List<Objective> objectives;
     private boolean complete;
     /**
@@ -47,12 +49,15 @@ public class Stage
      * @param nextStage ID of stage that should be triggered after completing this stage
      * @param objectives List of stage objectives
      */
-    public Stage(String id, String flagOn, String flagOff, String nextStage, List<Objective> objectives)
+    public Stage(String id, List<String> flagsOnStart, List<String> flagsOffStart, List<String> flagsOnEnd, List<String> flagsOffEnd,
+    			 String nextStage, List<Objective> objectives)
     {
         this.id = id;
         this.nextStage = nextStage;
-        this.flagOn = flagOn;
-        this.flagOff = flagOff;
+        this.flagsOnStart = flagsOnStart;
+        this.flagsOffStart = flagsOffStart;
+        this.flagsOnEnd = flagsOnEnd;
+        this.flagsOffEnd = flagsOffEnd;
         info = TConnector.getTextFromChapter("quests", id);
         this.objectives = objectives;
     }
@@ -105,17 +110,17 @@ public class Stage
      * Returns flag to set ID
      * @return Flag ID
      */
-    public String getFlagToSet()
+    public List<String> getFlagToSet()
     {
-    	return flagOn;
+    	return flagsOnEnd;
     }
     /**
      * Returns flag to remove ID
      * @return Flag ID
      */
-    public String getFlagToRemove()
+    public List<String> getFlagToRemove()
     {
-    	return flagOff;
+    	return flagsOffEnd;
     }
     /**
      * Returns list with all objectives of this stage
@@ -141,8 +146,8 @@ public class Stage
      */
     public void clearFlags()
     {
-    	flagOn = "";
-    	flagOff = "";
+    	flagsOnEnd.clear();
+    	flagsOffEnd.clear();
     }
     /**
      * Clears specified stage flag
@@ -150,14 +155,14 @@ public class Stage
      */
     public void clearFlag(String flag)
     {
-    	if(flagOn.equals(flag))
+    	if(flagsOnEnd.contains(flag))
     	{
-    		flagOn = "";
+    		flagsOnEnd.remove(flag);
     		return;
     	}
-    	if(flagOff.equals(flag))
+    	if(flagsOffEnd.contains(flag))
     	{
-    		flagOff = "";
+    		flagsOffEnd.remove(flag);
     		return;
     	}
     }
@@ -167,7 +172,7 @@ public class Stage
      */
     public boolean hasFlag()
     {
-    	if(flagOn != "" || flagOff != "")
+    	if(!flagsOnEnd.isEmpty() || !flagsOffEnd.isEmpty())
     		return true;
     	else
     		return false;
