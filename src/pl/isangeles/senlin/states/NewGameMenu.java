@@ -94,7 +94,6 @@ public class NewGameMenu extends BasicGameState
 	        EffectsBase.load(Module.getSkillsPath(), container);
         	SkillsBase.load(Module.getSkillsPath(), container);
             
-			//player = new Character(container);
 			//Global.setPlayer(player);
 			
 			attrPoints = new Attribute(5);
@@ -140,7 +139,7 @@ public class NewGameMenu extends BasicGameState
 		dexS.draw(800, 200, true);
 		intS.draw(1100, 200, true);
 		wisS.draw(1400, 200, true);
-		attrPointsF.draw(1400, 200, false);
+		attrPointsF.draw(1400, 300, true);
 		
 		nameI.draw(800, 100, true);
 		nameI.render(g);

@@ -19,7 +19,7 @@
             <quest trigger="mSLetter01">senLetter</quest>
         </quests>
         <objects>
-            <object position="61;8">cFire01</object>
+            <object position="60;7">cFire01</object>
             <object position="56;15">hAloe</object>
         </objects>
         <exits>
