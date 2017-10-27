@@ -101,4 +101,22 @@
             <flagReq>qpBanditsKillingFinish</flagReq>
         </dReq>
     </dialogue>
+
+    <dialogue id="cirtaGuardTalk01">
+        <text id="cirtaGuardT01" on="start">
+            <answer>cirtaGuardT01a1</answer>
+            <answer>cirtaGuardT01a2</answer>
+            <answer end="true">bye01</answer>
+        </text>
+        <text id="cirtaGuardT02" on="cirtaGuardT01a1">
+            <answer>cirtaGuardT02a1</answer>
+            <answer end="true">bye01</answer>
+        </text>
+        <text id="cirtaGuardT03" on="cirtaGuardT01a2">
+            <answer end="true">bye01</answer>
+        </text>
+        <text id="cirtaGuardT04" on="cirtaGuardT02a1">
+            <answer>bye01</answer>
+        </text>
+    </dialogue>
 </base>

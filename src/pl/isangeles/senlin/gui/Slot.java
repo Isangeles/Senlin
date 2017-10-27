@@ -46,7 +46,6 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 /**
  * Abstract class for interface slots
- * TODO join super class content field and child classes specific content fields into one super class field 
  * @author Isangeles
  *
  */
@@ -59,16 +58,24 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 	{
 		super(is, ref, flipped, gc);
 		gc.getInput().addMouseListener(this);
+		
 		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(getSize(9f)), true);
 	}
-	
+	/**
+	 * Slot constructor
+	 * @param tex Texture for slot
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Slot(Image tex, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		super(tex, gc);
+		gc.getInput().addMouseListener(this);
 		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(getSize(9f)), true);
 	}
 

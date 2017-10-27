@@ -158,6 +158,9 @@
     </skills>
     <effects>
     </effects>
+    <dialogues>
+        <dialogue>cirtaGuardTalk01</dialogue>
+    </dialogues>
 </npc>
 <npc id="marios01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="5">
     <stats>4;3;2;2;1;</stats>

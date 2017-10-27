@@ -32,11 +32,16 @@ import pl.isangeles.senlin.util.GConnector;
 public class SkillSlot extends Slot implements MouseListener 
 {
 	private Skill skillInSlot;
-	
+	/**
+	 * Skill slot constructor
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public SkillSlot(GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(GBase.getImage("uiSlotB"), gc);
-		gc.getInput().addMouseListener(this);
 	}
 	/**
 	 * Inserts skill in slot
@@ -44,17 +49,15 @@ public class SkillSlot extends Slot implements MouseListener
 	 */
 	public boolean insertContent(SlotContent skill)
 	{
-		if(!isFull())
+		if(!isFull() && Skill.class.isInstance(skill))
 		{
-			try
+			if(super.content.add((Skill)skill)) 
 			{
 				skillInSlot = (Skill)skill;
-				return super.content.add(skill);
+				return true;
 			}
-			catch(ClassCastException e)
-			{
+			else
 				return false;
-			}
 		}
 		else
 			return false;

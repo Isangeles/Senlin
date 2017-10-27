@@ -131,7 +131,12 @@ public class QuestParser
         
         return new Objective(ObjectiveType.fromString(type), target, amount, finisher);
     }
-    
+    /**
+     * Parses specified flags node to list with flags
+     * @param flagsNode XML flags node
+     * @param flagsType String with desired flags type ('on' or 'off')
+     * @return List with flags IDs
+     */
     private static List<String> getFlags(Node flagsNode, String flagsType)
     {
     	List<String> flags = new ArrayList<>();

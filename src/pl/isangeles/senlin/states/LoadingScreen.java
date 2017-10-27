@@ -25,6 +25,7 @@ package pl.isangeles.senlin.states;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -38,6 +39,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Module;
@@ -194,7 +196,7 @@ public class LoadingScreen extends BasicGameState
             break;
         case 5:
         	cli = new CommandInterface(player, gw);
-            ui = new UserInterface(container, cli, player, gw);
+        	ui = new UserInterface(container, cli, player, gw);
             cli.setUiMan(ui);
             gw.setGui(ui);
             gw.setCli(cli);

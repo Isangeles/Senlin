@@ -24,6 +24,7 @@ package pl.isangeles.senlin.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Static class for time management 
@@ -32,6 +33,7 @@ import java.util.Date;
  */
 public class Stopwatch
 {
+	private static long nanoTime;
 	/**
 	 * Private constructor to prevent initialization
 	 */
@@ -66,5 +68,17 @@ public class Stopwatch
     	String hms = format.format(date);
     	
     	return hms;
+    }
+    
+    public static void start()
+    {
+    	nanoTime = System.nanoTime();
+    }
+    
+    public static void stopAndPrint(String name)
+    {
+    	long currentTime = System.nanoTime();
+    	System.out.println(name + " time:" + TimeUnit.SECONDS.convert((currentTime - nanoTime), TimeUnit.NANOSECONDS));
+    	nanoTime = 0L;
     }
 }

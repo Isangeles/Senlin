@@ -246,27 +246,30 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
         		map.close();
     	}
     		
-    	//Slots dragging system
-    	SkillSlot dSlot;
-    	if((dSlot = sSlots.getDragged()) != null)
+    	if(isMouseOver())
     	{
-    		if(sSlots.getOverrided() != null)
-    		{
-    		    sSlots.moveSkill(dSlot, sSlots.getOverrided());
-                return;
-    		}
-    		dSlot.dragged(false);
-    		dSlot.removeContent();
-    	}
-    	//Skills menu slots handling
-    	if(sMenuDSlot != null)
-    	{
-    	    if(sSlots.getOverrided() != null)
-    	    {
-    	        sSlots.insertSkill((Skill)sMenuDSlot.getContent().get(0), sSlots.getOverrided());
-    	        sMenuDSlot.dragged(false);
-    	        sMenuDSlot = null;
-    	    }
+    		//Slots dragging system
+        	SkillSlot dSlot;
+        	if((dSlot = sSlots.getDragged()) != null)
+        	{
+        		if(sSlots.getOverrided() != null)
+        		{
+        		    sSlots.moveSkill(dSlot, sSlots.getOverrided());
+                    return;
+        		}
+        		dSlot.dragged(false);
+        		dSlot.removeContent();
+        	}
+        	//Skills menu slots handling
+        	if(sMenuDSlot != null)
+        	{
+        	    if(sSlots.getOverrided() != null)
+        	    {
+        	        sSlots.insertSkill((Skill)sMenuDSlot.getContent().get(0), sSlots.getOverrided());
+        	        sMenuDSlot.dragged(false);
+        	        sMenuDSlot = null;
+        	    }
+        	}
     	}
     }
 

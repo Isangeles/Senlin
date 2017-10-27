@@ -59,18 +59,14 @@ public class DialoguesBase
 	 */
 	public static Dialogue getDialogue(String dialogueId)
 	{
-		System.out.println("db-req for:" + dialogueId);
-		if(dialogsMap.containsKey(dialogueId))
-			System.out.println("db-contain:true");
 		return dialogsMap.get(dialogueId);
 	}
 	/**
-	 * Returns default dialogue from base
-	 * @return Dialogue object
+	 * Returns new instance of default dialogue
+	 * @return Game dialogue
 	 */
 	public static Dialogue getDefaultDialogue()
 	{
-		//return dialogsMap.get("default");
 		Answer bye = new Answer("bye01", true);
 		Requirements req = new Requirements();
 		List<Answer> answers = new ArrayList<>();
@@ -78,7 +74,7 @@ public class DialoguesBase
 		DialoguePart dp = new DialoguePart("greeting01", "start", req, answers);
 		List<DialoguePart> parts = new ArrayList<>();
 		parts.add(dp);
-		return new Dialogue("defaultDialogue", req, parts);
+		return new Dialogue("default", req, parts);
 	}
 	/**
 	 * Loads base

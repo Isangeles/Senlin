@@ -22,15 +22,18 @@
  */
 package pl.isangeles.senlin;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.states.*;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.Size;
 /**
  * Main game class, contains all game states
  * @author Isangeles
@@ -58,7 +61,19 @@ public class SenlinGame extends StateBasedGame
         try 
         {
             AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
-            appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
+            try
+            {
+            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
+            }
+            catch(SlickException e)
+            {
+            	System.out.println("switching to current resolution...");
+            	Dimension currentResolution = Toolkit.getDefaultToolkit().getScreenSize();
+            	int width = (int)currentResolution.getWidth();
+            	int height = (int)currentResolution.getHeight();
+            	appGC.setDisplayMode(width, height, true);
+            	Settings.setResolution(new Size(width, height));
+            }
             appGC.setTargetFrameRate(60);
             //appGC.setClearEachFrame(false);
             appGC.setIcon("icon.png");

@@ -1537,6 +1537,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		
 		for(Dialogue dialogue : dialogues)
 		{
+			if(!dialogue.hasReqs() && !dialogue.getId().equals("default"))
+				return dialogue;
+		}
+		
+		for(Dialogue dialogue : dialogues)
+		{
 			if(!dialogue.hasReqs())
 				return dialogue;
 		}

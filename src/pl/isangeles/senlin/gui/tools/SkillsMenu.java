@@ -47,6 +47,7 @@ import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
@@ -98,11 +99,9 @@ class SkillsMenu extends InterfaceObject implements UiElement, MouseListener
         }
 		this.slots = new SlotsPages(slots, gc);
 		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
-		addSkills();
         this.slots.insertContent(skills);
 	}
 	

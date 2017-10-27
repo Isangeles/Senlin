@@ -93,8 +93,6 @@ public class NewGameMenu extends BasicGameState
 			Module.setDir(Settings.getModuleName());
 	        EffectsBase.load(Module.getSkillsPath(), container);
         	SkillsBase.load(Module.getSkillsPath(), container);
-            
-			//Global.setPlayer(player);
 			
 			attrPoints = new Attribute(5);
 			
@@ -202,23 +200,6 @@ public class NewGameMenu extends BasicGameState
 		
 		if(nextB.isMouseOver() && nextB.isActive())
 		{
-			/*
-		    player.setName(nameI.getText());
-		    switch(genS.getValueId())
-		    {
-		    case 0:
-		    	player.setGender(Gender.MALE);
-		    	break;
-		    case 1:
-		    	player.setGender(Gender.FEMALE);
-		    	break;
-		    default:
-		    	player.setGender(Gender.MALE);
-		    }
-		    player.setPortrait(portraits.get(imgId));
-		    player.setAttributes(new Attributes(strS.getValue(), conS.getValue(), dexS.getValue(), intS.getValue(), wisS.getValue()));
-		    player.levelUp();
-		    */
 		    gameWorldReq = true;
 		}
 		

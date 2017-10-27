@@ -29,15 +29,26 @@
                     <flag type="off">senLetter01</flag>
                 </sFlagsOnEnd>
 			</stage>
-            <stage id="senLetter03" next="end">
+            <stage id="senLetter03" next="senLetter04">
                 <objectives>
-                    <objective type="talk">TODO</objective>            
+                    <objective type="talk">cirtaGuardT02a1</objective>            
                 </objectives>
                 <sFlagsOnStart>
                 </sFlagsOnStart>
                 <sFlagsOnEnd>
                     <flag type="on">senLetter03</flag>
                     <flag type="off">senLetter02</flag>
+                </sFlagsOnEnd>
+            </stage>
+            <stage id="senLetter04" next="end">
+                <objectives>
+                    <objective type="talk">TODO</objective>            
+                </objectives>
+                <sFlagsOnStart>
+                </sFlagsOnStart>
+                <sFlagsOnEnd>
+                    <flag type="on">senLetter04</flag>
+                    <flag type="off">senLetter03</flag>
                 </sFlagsOnEnd>
             </stage>
 		</stages>

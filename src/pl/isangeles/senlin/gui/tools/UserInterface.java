@@ -25,6 +25,7 @@ package pl.isangeles.senlin.gui.tools;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -41,6 +42,7 @@ import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.Size;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
@@ -108,6 +110,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         gc.getInput().addMouseListener(this);
         
         //cursor = new GameCursor(gc);
+        
         gameConsole = new Console(gc, cli, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new TargetFrame(gc, player);
@@ -130,8 +133,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
-        camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1]));
-        
+        camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1])); 
         uiWarning = new Warning(gc);
     }
     /**
@@ -550,15 +552,18 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     private void keyDown(Input input)
     {
-        if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
-            camera.up(Coords.getDis(32));
-        if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
-            camera.down(Coords.getDis(32));
-        if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
-            camera.left(Coords.getDis(32));
-        if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
-            camera.right(Coords.getDis(32));
-        Global.setCamerPos(camera.getPos().x, camera.getPos().y);
+       if(!gameConsole.isFocused())
+       {
+    	   if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
+               camera.up(Coords.getDis(32));
+           if(input.isKeyDown(Input.KEY_S) && camera.getBRPos().y < (gw.getArea().getMapSize().height+Coords.getSize(200)))
+               camera.down(Coords.getDis(32));
+           if(input.isKeyDown(Input.KEY_A) && camera.getPos().x > -200)
+               camera.left(Coords.getDis(32));
+           if(input.isKeyDown(Input.KEY_D) && camera.getBRPos().x < (gw.getArea().getMapSize().width+Coords.getSize(200)))
+               camera.right(Coords.getDis(32));
+           Global.setCamerPos(camera.getPos().x, camera.getPos().y);
+       }
     }
     /**
      * Saves UI configuration to XML document element
