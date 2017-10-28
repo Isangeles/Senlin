@@ -78,8 +78,7 @@ class SkillsMenu extends InterfaceObject implements UiElement, MouseListener
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public SkillsMenu(GameContainer gc, Character player)
-			throws SlickException, IOException, FontFormatException 
+	public SkillsMenu(GameContainer gc, Character player) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/skillsMenuBGv2.png"), "uiSMenu", false, gc);
 		gc.getInput().addMouseListener(this);

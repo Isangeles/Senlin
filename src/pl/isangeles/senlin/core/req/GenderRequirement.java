@@ -37,7 +37,10 @@ import pl.isangeles.senlin.util.TConnector;
 public class GenderRequirement extends Requirement 
 {
 	private final Gender reqGender;
-	
+	/**
+	 * Gender requirement constructor
+	 * @param gender Game character gender 
+	 */
 	public GenderRequirement(Gender gender)
 	{
 		super(RequirementType.GENDER, TConnector.getText("ui", "reqGender") + ":" + gender);
@@ -53,7 +56,6 @@ public class GenderRequirement extends Requirement
 		statsReqE.setTextContent(reqGender.toString());
 		return statsReqE;
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#isMetBy(pl.isangeles.senlin.core.character.Character)
 	 */
@@ -67,14 +69,13 @@ public class GenderRequirement extends Requirement
 		else
 			return false;
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.character.Character)
 	 */
 	@Override
 	public void charge(Character character) 
 	{
-		return;
+		return;//this requirement don't take anything from character
 	}
 
 }

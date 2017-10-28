@@ -69,12 +69,17 @@ public class Stopwatch
     	
     	return hms;
     }
-    
+    /**
+     * Starts time measurement
+     */
     public static void start()
     {
     	nanoTime = System.nanoTime();
     }
-    
+    /**
+     * Stops and prints time measurement
+     * @param name Measure name
+     */
     public static void stopAndPrint(String name)
     {
     	long currentTime = System.nanoTime();

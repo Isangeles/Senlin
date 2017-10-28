@@ -37,27 +37,30 @@ import pl.isangeles.senlin.core.req.Requirements;
 public class Dialogue 
 {
 	private final String id;
-	private final Requirements reqs = new Requirements();
+	private final Requirements reqs;
 	private final List<DialoguePart> parts;
 	private DialoguePart currentStage;
 	private Character dialogueTarget;
 	/**
 	 * Dialogue constructor
 	 * @param id Dialogue unique ID
-	 * @param npcId NPC ID holding that dialogue 
+	 * @param reqs List with requirements for this dialogue
 	 * @param parts List with all parts of this dialogue
 	 */
 	public Dialogue(String id, List<Requirement> reqs, List<DialoguePart> parts) 
 	{
 		this.id = id;
-		this.reqs.addAll(reqs);
+		this.reqs = new Requirements(reqs);
 		this.parts = parts;
 	}
-	
+	/**
+	 * Starts this dialogue for specified target
+	 * @param target Game character
+	 */
 	public void startFor(Character target)
 	{
 		dialogueTarget = target;
-        currentStage = getPart("start");
+		currentStage = getFirstPart();
 	}
 	/**
 	 * Returns text of current dialogue part
@@ -73,7 +76,7 @@ public class Dialogue
 	 */
 	public List<Answer> getAnswers()
 	{
-		return currentStage.getAnswers();
+		return currentStage.getAnswersFor(dialogueTarget);
 	}
 	/**
 	 * Returns current dialogue part
@@ -89,14 +92,15 @@ public class Dialogue
 	 */
 	public void answerOn(Answer answer)
 	{
-		currentStage = getPart(answer.getId());
+		if(!answer.isEnd())
+			currentStage = getPart(answer.getTo());
 	}
 	/**
 	 * Resets dialogue
 	 */
 	public void reset()
 	{
-		currentStage = getPart("start");
+		currentStage = getFirstPart();
 		dialogueTarget = null;
 	}
 	/**
@@ -139,17 +143,17 @@ public class Dialogue
 			return true;
 	}
 	/**
-	 * Get dialogue part corresponding to specified trigger
-	 * @param trigger Answer id
-	 * @return Dialog part corresponding to trigger
+	 * Get dialogue part with specified ID
+	 * @param partId String with dialogue part ID
+	 * @return Dialog part with specified ID or error part if no such dialogue was found
 	 */
-	private DialoguePart getPart(String trigger)
+	private DialoguePart getPart(String partId)
 	{
-		Log.addDebug("d_trigger_req//" + trigger);
+		Log.addDebug("d_trigger_req//" + partId);
 		
 		for(DialoguePart dp : parts)
 		{
-		    if(dp.getTrigger().equals(trigger) && dp.hasReq() && dialogueTarget != null)
+		    if(dp.getId().equals(partId) && dp.hasReq() && dialogueTarget != null)
 		    {
 		    	if(dp.getReqs().isMetBy(dialogueTarget))
 		    	{
@@ -160,19 +164,45 @@ public class Dialogue
 		}
 		for(DialoguePart dp : parts)
 		{
-			if(dp.getTrigger().equals(trigger))
+			if(dp.getId().equals(partId))
 				return dp;
 		}
 		
 		for(DialoguePart dp : parts)
 		{
-			if(dp.getTrigger().equals("error01"))
+			if(dp.getId().equals("error01"))
 				return dp;
 		}
 		
 		List<Answer> aList = new ArrayList<>();
-		aList.add(new Answer("bye01", true));
-		return new DialoguePart("err02", "error02", null, aList);
+		Requirements reqs = new Requirements();
+		aList.add(new Answer("bye01", "", true, reqs));
+		return new DialoguePart("err02", true, reqs, aList);
 	}
-
+	/**
+	 * Returns first part of this dialogue
+	 * @return Dialogue part
+	 */
+	private DialoguePart getFirstPart()
+	{
+		if(dialogueTarget != null)
+		{
+			for(DialoguePart part : parts)
+			{
+				if(part.isStart() && part.hasReq() && part.getReqs().isMetBy(dialogueTarget))
+				{
+					return part;
+				}
+			}
+		}
+		for(DialoguePart part : parts)
+		{
+			if(part.isStart() && !part.hasReq())
+			{
+				return part;
+			}
+		}
+		
+		return parts.get(0);
+	}
 }

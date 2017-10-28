@@ -75,6 +75,7 @@ import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.quest.QuestTracker;
 import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
@@ -413,7 +414,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	for(Dialogue dialogue : dialogues)
     	{
     		if(!dialogue.hasReqs())
-    			dialogue.addOption(new Answer("tradeReq", true));
+    			dialogue.addOption(new Answer("tradeReq", "", true, new Requirements()));
     	}
     	trade = true;
     }
@@ -492,7 +493,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	for(Dialogue dialogue : dialogues)
     	{
     		if(!dialogue.hasReqs())
-    			dialogue.addOption(new Answer("trainReq", true));
+    			dialogue.addOption(new Answer("trainReq", "", true, new Requirements()));
     	}
     	train = true;
     	this.trainings = trainings;
@@ -1100,7 +1101,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		}
 		else
 		{
-			takeHealth(aggressor, attack.getDamage() - inventory.getArmorRating());
+			int damage = attack.getDamage() - inventory.getArmorRating() - attributes.getResistance().getResistanceFor(attack.getEffectType());
+			if(damage < 0)
+				damage = 0;
+			takeHealth(aggressor, damage);
 			effects.addAll(attack.getEffects());
 			if(aggressor.getInventory().getMainWeapon() != null)
 			{

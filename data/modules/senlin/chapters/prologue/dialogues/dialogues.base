@@ -1,43 +1,48 @@
 <?xml version="1.0"?>
 <base>
     <dialogue id="banditTalk">
-        <text id="banditTalk01" on="start">
-            <answer>banditTalk01a01</answer>
-            <answer end="true">bye01</answer>        
+        <text id="banditTalk01" start="true">
+            <answer id="banditTalk01a01" to="banditTalk02"></answer>
+            <answer id="bye01" end="true"></answer>        
         </text>
-        <text id="banditTalk02" on="banditTalk01a01">
-            <answer end="true">bye01</answer>
+        <text id="banditTalk02">
+            <answer id="bye01" end="true"></answer>
         </text>
     </dialogue>
 
     <dialogue id="ericWelcome">
-        <text id="ericWelcome01" on="start">
-            <answer>ericWelcome01a01</answer>
-            <answer>ericWelcome01a02</answer>
+        <text id="ericWelcome01" start="true">
+            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
+            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
+            <answer id="ericWelcome01a3" to="ericWelcome04">
+                <req>
+                    <statsReq>2;0;0;0;0;</statsReq>
+                </req>
+            </answer>
         </text>
-        <text id="ericWelcome01b" on="start">
-            <answer>ericWelcome01a01</answer>
-            <answer>ericWelcome01a02</answer>
+        <text id="ericWelcome01b" start="true">
+            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
+            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
             <req>
                 <statsReq>4;0;0;0;0;</statsReq>
             </req>
         </text>
-        <text id="ericWelcome01f" on="start">
-            <answer>ericWelcome01a01</answer>
-            <answer>ericWelcome01a02</answer>
+        <text id="ericWelcome01f" start="true">
+            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
+            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
             <req>
                 <genderReq>female</genderReq>
             </req>
         </text>
-        <text id="ericWelcome02" on="ericWelcome01a01">
-            <answer>ericWelcome02a01</answer>
-            <answer end="true">bye01</answer>
+        <text id="ericWelcome02">
+            <answer id="ericWelcome02a01" to="ericWelcome03"></answer>
+            <answer id="bye01" end="true"></answer>
         </text>
-        <text id="ericWelcome03" on="ericWelcome02a01">
-            <answer end="true">bye01</answer>
+        <text id="ericWelcome03">
+            <answer id="bye01" end="true"></answer>
         </text>
-        <text id="ericWelcome04" on="ericWelcome01a02">
-            <answer end="true">bye01</answer>
+        <text id="ericWelcome04">
+            <answer id="bye01" end="true"></answer>
         </text>
         <dReq>
             <flagReq>qpLumberTalk0</flagReq>
@@ -45,11 +50,11 @@
     </dialogue>
 
     <dialogue id="ewanTalk1">
-        <text id="ewanTalk101" on="start">
-	        <answer>ewanTalk101a01</answer>
+        <text id="ewanTalk101" start="true">
+	        <answer id="ewanTalk101a01" to="ewanTalk102"></answer>
 	    </text>
-	    <text id="ewanTalk102" on="ewanTalk101a01">
-	        <answer end="true">bye01</answer>
+	    <text id="ewanTalk102">
+	        <answer id="bye01" end="true"></answer>
 	    </text>
         <dReq>
             <flagReq>qpLumberTalk1</flagReq>
@@ -57,9 +62,9 @@
     </dialogue>
 
     <dialogue id="ewanTalk2">
-        <text id="ewanTalk201" on="start">
-            <answer end="true">ewanTalk201a01</answer>
-            <answer end="true">bye01</answer>
+        <text id="ewanTalk201" start="true">
+            <answer id="ewanTalk201a01" end="true"></answer>
+            <answer id="bye01" end="true"></answer>
         </text>
         <dReq>
             <flagReq>qpLumberTalkFinish</flagReq>
@@ -67,8 +72,8 @@
     </dialogue>
 
     <dialogue id="ewanTalk3">
-        <text id="ewanTalk301" on="start">
-            <answer end="true">ewanTalk301a01</answer>
+        <text id="ewanTalk301" start="true">
+            <answer id="ewanTalk301a01" end="true"></answer>
             <transfer>
                 <give gold="10">
                     <item>mMeat01</item>            
@@ -83,19 +88,19 @@
     </dialogue>
 
     <dialogue id="ewanTalk4">
-        <text id="greeting01" on="start">
-            <answer>ewanSLetterStart</answer>
+        <text id="greeting01" start="true">
+            <answer id="ewanSLetterStart" to="ewanSLetter01"></answer>
         </text>
-        <text id="ewanSLetter01" on="ewanSLetterStart">
-            <answer end="true">ewanSLetter01a1</answer>
-            <answer>ewanSLetter01a2</answer>
+        <text id="ewanSLetter01">
+            <answer id="ewanSLetter01a1" end="true"></answer>
+            <answer id="ewanSLetter01a2" to="ewanSLetter02"></answer>
         </text>
-        <text id="ewanSLetter02" on="ewanSLetter01a2">
-            <answer end="true">ewanSLetter02a1</answer>
-            <answer>ewanSLetter02a2</answer>
+        <text id="ewanSLetter02">
+            <answer id="ewanSLetter02a1" end="true"></answer>
+            <answer id="ewanSLetter02a2" to="ewanSLetter03"></answer>
         </text>
-        <text id="ewanSLetter03" on="ewanSLetter02a2">
-            <answer end="true">ewanSLetter03a1</answer>
+        <text id="ewanSLetter03">
+            <answer id="ewanSLetter03a1" end="true"></answer>
         </text>
         <dReq>
             <flagReq>qpBanditsKillingFinish</flagReq>
@@ -103,20 +108,20 @@
     </dialogue>
 
     <dialogue id="cirtaGuardTalk01">
-        <text id="cirtaGuardT01" on="start">
-            <answer>cirtaGuardT01a1</answer>
-            <answer>cirtaGuardT01a2</answer>
-            <answer end="true">bye01</answer>
+        <text id="cirtaGuardT01" start="true">
+            <answer id="cirtaGuardT01a1" to="cirtaGuardT02"></answer>
+            <answer id="cirtaGuardT01a2" to="cirtaGuardT03"></answer>
+            <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT02" on="cirtaGuardT01a1">
-            <answer>cirtaGuardT02a1</answer>
-            <answer end="true">bye01</answer>
+        <text id="cirtaGuardT02">
+            <answer id="cirtaGuardT02a1" to="cirtaGuardT04"></answer>
+            <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT03" on="cirtaGuardT01a2">
-            <answer end="true">bye01</answer>
+        <text id="cirtaGuardT03">
+            <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT04" on="cirtaGuardT02a1">
-            <answer>bye01</answer>
+        <text id="cirtaGuardT04">
+            <answer id="bye01" end="true"></answer>
         </text>
     </dialogue>
 </base>

@@ -61,7 +61,6 @@ import pl.isangeles.senlin.data.ItemsBase;
 final class Console extends TextInput implements UiElement 
 {
     private boolean hide;
-    private Character player;
     private TextBox logBox;
     private CommandInterface cli;
     /**
@@ -72,11 +71,10 @@ final class Console extends TextInput implements UiElement
      * @throws FontFormatException
      * @throws IOException
      */
-    public Console(GameContainer gc, CommandInterface cli, Character player) throws SlickException, FontFormatException, IOException
+    public Console(GameContainer gc, CommandInterface cli) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("ui/background/consoleBG_DG.png"), "uiConsoleBg", false, gc);
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
-        this.player = player;
         this.cli = cli;
         logBox = new TextBox(gc);
         hide = true;

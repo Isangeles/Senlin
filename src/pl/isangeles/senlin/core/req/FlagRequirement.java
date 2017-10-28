@@ -51,9 +51,7 @@ public class FlagRequirement extends Requirement
 	@Override
 	public boolean isMetBy(Character character)
 	{
-		boolean out = character.getFlags().contains(flag);
-		Log.addSystem("flag req check:" + character.getId() + " has f-" + flag);
-		return out;
+		return character.getFlags().contains(flag);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.character.Character)
@@ -61,7 +59,7 @@ public class FlagRequirement extends Requirement
 	@Override
 	public void charge(Character character) 
 	{
-		//this requirement don't take anything from character
+		return;//this requirement don't take anything from character
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

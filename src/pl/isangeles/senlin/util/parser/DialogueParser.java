@@ -51,9 +51,7 @@ public class DialogueParser
 	/**
 	 * Private constructor to prevent initialization
 	 */
-	private DialogueParser() 
-	{
-	}
+	private DialogueParser() {}
 	/**
 	 * Returns default dialogue XML node
 	 * @return Node with parsed default dialogue
@@ -96,7 +94,7 @@ public class DialogueParser
 		{
 			Element textE = (Element)textNode;
 			String id = textE.getAttribute("id");
-			String on = textE.getAttribute("on");
+			boolean start = Boolean.parseBoolean(textE.getAttribute("start"));
 			
 			NodeList answers = textE.getElementsByTagName("answer");
 			for(int i = 0; i < answers.getLength(); i ++)
@@ -104,17 +102,8 @@ public class DialogueParser
 				Node answerNode = answers.item(i);
 				if(answerNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 				{
-					Element answer = (Element)answerNode;
-					
-					String qOn = "";
-					boolean endBool = false;
-					if(answer.hasAttribute("end"))
-						endBool = Boolean.parseBoolean(answer.getAttribute("end"));
-					
-					answersList.add(new Answer(answer.getTextContent(), endBool));
+					answersList.add(getAnswerFromNode(answerNode));
 				}
-				
-				
 			}
 			
 			Node reqNode = textE.getElementsByTagName("req").item(0);
@@ -168,15 +157,35 @@ public class DialogueParser
 					}
 				}
 
-				return new DialoguePart(id, on, req, answersList, iToGive, iToTake, gToGive, gToTake);
+				return new DialoguePart(id, start, req, answersList, iToGive, iToTake, gToGive, gToTake);
 			}
-			return new DialoguePart(id, on, req, answersList);
+			return new DialoguePart(id, start, req, answersList);
 		}
 		else
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
-		answersList.add(new Answer("bye01", true));
-		return new DialoguePart("err01", "error01", null, answersList);
+		answersList.add(new Answer("bye01", "", true, new Requirements()));
+		return new DialoguePart("err01", true, null, answersList);
+	}
+	/**
+	 * Parses specified answer node to dialogue answer
+	 * @param answerNode XML document node
+	 * @return Dialogue answer from specified node
+	 */
+	private static Answer getAnswerFromNode(Node answerNode)
+	{
+		Element answerE = (Element)answerNode;
+		
+		String aId = answerE.getAttribute("id");
+		String toId = answerE.getAttribute("to");
+		boolean end = false;
+		if(answerE.hasAttribute("end"))
+			end = Boolean.parseBoolean(answerE.getAttribute("end"));
+		
+		Node reqNode = answerE.getElementsByTagName("req").item(0);
+		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
+		
+		return new Answer(aId, toId, end, reqs);
 	}
 }

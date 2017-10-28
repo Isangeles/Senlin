@@ -37,7 +37,10 @@ public class Requirements extends ArrayList<Requirement>
     private static final long serialVersionUID = 1L;
     
     public Requirements() {}
-    
+    /**
+     * Requirements constructor 
+     * @param reqsList List with requirements
+     */
     public Requirements(List<Requirement> reqsList)
     {
     	super();
@@ -71,7 +74,9 @@ public class Requirements extends ArrayList<Requirement>
             req.charge(character);
         }
     }
-    
+    /**
+     * Checks if there is any requirements 
+     */
     public boolean isEmpty()
     {
     	if(super.isEmpty())

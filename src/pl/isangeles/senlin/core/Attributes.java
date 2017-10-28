@@ -36,6 +36,7 @@ public class Attributes
 	private Attribute dexterity;
 	private Attribute intelligence;
 	private Attribute wisdom;
+	private Resistance resistance = new Resistance();
 	/**
 	 * Attributes constructor
 	 * @param str Strength value
@@ -143,16 +144,14 @@ public class Attributes
 	{
 		return 2.0f - (dexterity.value/2) + (strenght.value/4) + (constitution.value/4);
 	}
-	/*
-	public int getCastBonus()
+	/**
+	 * Returns resistance
+	 * @return Resistance
+	 */
+	public Resistance getResistance()
 	{
-		int castBonus = 0;
-		for(float i = getHaste(); i > 0; i --)
-		{
-			castBonus += 2;
-		}
-		return castBonus;
-	}*/
+		return resistance;
+	}
 	/**
 	 * Returns new attributes object with all attributes negative
 	 * @return Attributes with inverted values

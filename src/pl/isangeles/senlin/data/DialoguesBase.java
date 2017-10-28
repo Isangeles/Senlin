@@ -67,14 +67,13 @@ public class DialoguesBase
 	 */
 	public static Dialogue getDefaultDialogue()
 	{
-		Answer bye = new Answer("bye01", true);
-		Requirements req = new Requirements();
+		Answer bye = new Answer("bye01", "", true, new Requirements());
 		List<Answer> answers = new ArrayList<>();
 		answers.add(bye);
-		DialoguePart dp = new DialoguePart("greeting01", "start", req, answers);
+		DialoguePart dp = new DialoguePart("greeting01", true, new Requirements(), answers);
 		List<DialoguePart> parts = new ArrayList<>();
 		parts.add(dp);
-		return new Dialogue("default", req, parts);
+		return new Dialogue("default", new Requirements(), parts);
 	}
 	/**
 	 * Loads base

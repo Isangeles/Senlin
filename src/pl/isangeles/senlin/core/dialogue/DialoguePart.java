@@ -38,8 +38,8 @@ import pl.isangeles.senlin.core.req.Requirements;
 public class DialoguePart 
 {
 	private final String id;
-	private final String on;
-	private final Requirements reqs = new Requirements();
+	private final boolean start;
+	private final Requirements reqs;
 	private final List<Answer> answers;
 	private final List<String> itemsToGive;
 	private final List<String> itemsToTake;
@@ -49,14 +49,15 @@ public class DialoguePart
 	/**
 	 * Dialogue part constructor without any transfer
 	 * @param id Dialogue part ID
-	 * @param on Dialogue part trigger(e.g. dialogue answer ID or 'start' to display this part at dialogue start)
+	 * @param start True if this is first dialogue part
+	 * @param req List with requirements for this dialogue part
 	 * @param answers List of answers on that dialogue part
 	 */
-	public DialoguePart(String id, String on, List<Requirement> req, List<Answer> answers) 
+	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers) 
 	{
 		this.id = id;
-		this.on = on;
-		this.reqs.addAll(req);
+		this.start = start;
+		this.reqs = new Requirements(req);
 		this.answers = answers;
 		itemsToGive = new ArrayList<>();
 		itemsToTake = new ArrayList<>();
@@ -67,19 +68,20 @@ public class DialoguePart
 	/**
 	 * Dialogue part constructor with transfer
 	 * @param id Dialogue part ID
-	 * @param on Dialogue part trigger(e.g. dialogue answer ID or 'start' to display this part at dialogue start)
+	 * @param start True if this is first dialogue part
+	 * @param req List with requirements for this dialogue part
 	 * @param answers List of answers on that dialogue part
 	 * @param itemsToGive Items to give to player on this dialogue part start
 	 * @param itemsToTake Items to take from player on this dialogue part start
 	 * @param goldToGive Amount of gold to give to player on this dialogue part start
 	 * @param goldToTake Amount of gold to take from player on this dialogue part start
 	 */
-	public DialoguePart(String id, String on, List<Requirement> req, List<Answer> answers, List<String> itemsToGive, 
+	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers, List<String> itemsToGive, 
 						List<String> itemsToTake, int goldToGive, int goldToTake) 
 	{
 		this.id = id;
-		this.on = on;
-		this.reqs.addAll(req);
+		this.start = start;
+		this.reqs = new Requirements(req);
 		this.answers = answers;
 		this.itemsToGive = itemsToGive;
 		this.itemsToTake = itemsToTake;
@@ -87,15 +89,21 @@ public class DialoguePart
 		this.goldToTake = goldToTake;
 		transfer = true;
 	}
-	
+	/**
+	 * Adds new answer for this dialogue part
+	 * @param answer Dialogue part answer
+	 */
 	public void addAnswer(Answer answer)
 	{
 		answers.add(answer);
 	}
-
-	public String getTrigger()
+	/**
+	 * Returns text ID
+	 * @return String with text ID
+	 */
+	public String getId()
 	{
-		return on;
+		return id;
 	}
 	/**
 	 * Returns text for specified character
@@ -107,11 +115,26 @@ public class DialoguePart
 		return TConnector.getDialogueText(id);
 	}
 	/**
-	 * Returns all answers for this dialogue part
-	 * @return
+	 * Checks if this part should be first part of dialogue
+	 * @return True if this part should be first part of dialogue, false otherwise
 	 */
-	public List<Answer> getAnswers()
+	public boolean isStart()
 	{
+		return start;
+	}
+	/**
+	 * Returns all answers of this dialogue part for specified dialogue target
+	 * @param dTarget Game character
+	 * @return List with dialogue answers
+	 */
+	public List<Answer> getAnswersFor(Character dTarget)
+	{
+		List<Answer> answers = new ArrayList<>();
+		for(Answer answer : this.answers)
+		{
+			if(answer.getReqs().isMetBy(dTarget))
+				answers.add(answer);
+		}
 		return answers;
 	}
 	/**

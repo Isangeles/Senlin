@@ -33,7 +33,7 @@ import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.data.save.SaveElement;
 /**
- * Container for character flags 
+ * Container for game characters flags 
  * @author Isangeles
  *
  */
