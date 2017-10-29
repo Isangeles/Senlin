@@ -73,7 +73,7 @@ public class AttackPattern implements SkillPattern
     public AttackPattern(String id, String imgName, String type, String attackType, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
     					 List<String> effects, List<Requirement> skillReq)
     {
-        this.type = EffectType.fromString(type);
+        this.type = EffectType.fromId(type);
         this.attackType = AttackType.fromName(attackType);
         this.id = id;
         this.imgName = imgName;

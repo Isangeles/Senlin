@@ -162,6 +162,14 @@ public class Effect implements SaveElement
 	{
 		return duration;
 	}
+	/**
+	 * Returns effect type
+	 * @return Effect type enumeration
+	 */
+	public EffectType getType()
+	{
+		return type;
+	}
 	
 	public boolean isOn()
 	{

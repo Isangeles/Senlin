@@ -39,6 +39,17 @@ public class Attributes
 	private Resistance resistance = new Resistance();
 	/**
 	 * Attributes constructor
+	 */
+	public Attributes()
+	{
+		strenght = new Attribute(0);
+		constitution = new Attribute(0);
+		dexterity = new Attribute(0);
+		intelligence = new Attribute(0);
+		wisdom = new Attribute(0);	
+	}
+	/**
+	 * Attributes constructor
 	 * @param str Strength value
 	 * @param con Constitution value
 	 * @param dex Dexterity value
@@ -148,7 +159,7 @@ public class Attributes
 	 * Returns resistance
 	 * @return Resistance
 	 */
-	public Resistance getResistance()
+	public Resistance getResistances()
 	{
 		return resistance;
 	}

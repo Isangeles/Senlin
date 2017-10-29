@@ -116,6 +116,7 @@ bonMana:Magicka bonus;
 bonStats:Attributes bonus;
 bonDmg:Damage bonus;
 bonUndetect:Undetectable;
+bonResi:Resistance;
 effTime:Time;
 effDuration:Duration;
 logInfo:Information;

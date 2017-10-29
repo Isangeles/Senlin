@@ -64,7 +64,7 @@ public class DamageBonus extends Bonus
 	@Override
 	public void applyOn(Targetable target)
 	{
-		
+		return;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
@@ -72,7 +72,7 @@ public class DamageBonus extends Bonus
 	@Override
 	public void removeFrom(Targetable target)
 	{
-		
+		return;
 	}
 	/**
 	 * Returns bonus damage value

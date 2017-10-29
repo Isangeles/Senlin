@@ -64,7 +64,7 @@ public class PassivePattern implements SkillPattern
     {
     	this.id = id;
     	this.imgName = iconName;
-    	this.effect = EffectType.fromString(effectType);
+    	this.effect = EffectType.fromId(effectType);
     	this.type = PassiveType.fromName(skillType);
     	this.useReqs = new Requirements();
     	this.useReqs.addAll(reqs);

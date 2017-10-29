@@ -64,6 +64,10 @@ public interface Targetable extends ObjectiveTarget
 	public Effects getEffects();
 	public Bonuses getBonuses();
 	public Inventory getInventory();
+	/**
+	 * Returns target attributes
+	 * @return Attributes
+	 */
 	public Attributes getAttributes();
 	/**
 	 * Returns target for graphical effects

@@ -21,6 +21,9 @@
  * 
  */
 package pl.isangeles.senlin.core.effect;
+
+import pl.isangeles.senlin.util.TConnector;
+
 /**
  * Enumeration for effect types used by items, skills, etc.
  * @author Isangeles
@@ -29,10 +32,14 @@ package pl.isangeles.senlin.core.effect;
 public enum EffectType 
 {
 	FIRE, ICE, NATURE, MAGIC, NORMAL;
-	
-	public static EffectType fromString(String typeName)
+	/**
+	 * Converts type ID to effect type enumeration
+	 * @param typeId String with type ID
+	 * @return Effect type enumeration
+	 */
+	public static EffectType fromId(String typeId)
 	{
-		switch(typeName)
+		switch(typeId)
 		{
 		case "fire":
 			return EffectType.FIRE;
@@ -44,6 +51,26 @@ public enum EffectType
 			return EffectType.MAGIC;
 		default:
 			return EffectType.NORMAL;
+		}
+	}
+	/**
+	 * Returns type name
+	 * @return String with type name
+	 */
+	public String getName()
+	{
+		switch(this)
+		{
+		case FIRE:
+			return TConnector.getText("ui", "");
+		case ICE:
+			return TConnector.getText("ui", "");
+		case NATURE:
+			return TConnector.getText("ui", "");
+		case MAGIC:
+			return TConnector.getText("ui", "");
+		default:
+			return "";
 		}
 	}
 }

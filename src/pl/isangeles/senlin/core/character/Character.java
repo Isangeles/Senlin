@@ -1101,7 +1101,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		}
 		else
 		{
-			int damage = attack.getDamage() - inventory.getArmorRating() - attributes.getResistance().getResistanceFor(attack.getEffectType());
+			int damage = attack.getDamage() - inventory.getArmorRating() - attributes.getResistances().getResistanceFor(attack.getEffectType());
 			if(damage < 0)
 				damage = 0;
 			takeHealth(aggressor, damage);

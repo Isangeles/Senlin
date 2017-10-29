@@ -66,6 +66,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Portrait portrait;
     private Position pos;
     private Inventory inventory;
+    private Attributes attributes = new Attributes();
     private Bonuses bonuses = new Bonuses();
     private Effects effects = new Effects(this);
     private Action onClick;
@@ -360,7 +361,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public Attributes getAttributes()
 	{
-		return null;
+		return attributes;
 	}
 	/**
 	 * Sets specified inventory as this object inventory 

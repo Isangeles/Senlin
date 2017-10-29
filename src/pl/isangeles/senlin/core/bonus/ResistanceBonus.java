@@ -1,5 +1,5 @@
 /*
- * DualwieldBonus.java
+ * ResistanceBonus.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -23,48 +23,44 @@
 package pl.isangeles.senlin.core.bonus;
 
 import pl.isangeles.senlin.core.Targetable;
+import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
- * Class for dualwield bonus
+ * Class for resistance bonus
  * @author Isangeles
  *
  */
-public class DualwieldBonus extends Bonus 
+public class ResistanceBonus extends Bonus 
 {
-	private float value;
+	private int value;
+	private EffectType type;
 	/**
-	 * Dualwield bonus constructor
- 	 * @param value Bonus value
+	 * Resistance bonus constructor
+	 * @param type Resistance type
+	 * @param value Resistance value
 	 */
-	public DualwieldBonus(float value)
+	public ResistanceBonus(EffectType type, int value)
 	{
-		super(BonusType.DUALWIELD, TConnector.getText("ui", "bonDual") + ":" + value);
+		super(BonusType.RESISTANCE, TConnector.getText("ui", "bonResi") + "-" + type.getName() + ":" + value);
 		this.value = value;
-	}	
+		this.type = type;
+	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#applyOn(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
 	public void applyOn(Targetable object) 
 	{
-		return;
+		object.getAttributes().getResistances().modResistanceFor(type, value);
 	}
+
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Bonus#removeFrom(pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
 	public void removeFrom(Targetable object) 
 	{
-		return;
+		object.getAttributes().getResistances().modResistanceFor(type, -value);
 	}
-	/**
-	 * Returns bonus value
-	 * @return Bonus value
-	 */
-	public float getValue()
-	{
-		return value;
-	}
-
 }

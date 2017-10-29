@@ -74,7 +74,7 @@ public class BuffPattern implements SkillPattern
 	{
 		this.id = id;
 		this.imgName = imgName;
-		this.effect = EffectType.fromString(effect);
+		this.effect = EffectType.fromId(effect);
 		this.type = BuffType.fromString(type);
 		this.useReqs = new Requirements();
 		this.useReqs.addAll(useReqs);

@@ -67,7 +67,7 @@ public class EffectPattern
     {
         this.id = id;
         this.imgName = imgName;
-        this.type = EffectType.fromString(type);
+        this.type = EffectType.fromId(type);
         this.bonuses = new Bonuses();
         this.bonuses.addAll(bonuses);
         this.dot = dot;

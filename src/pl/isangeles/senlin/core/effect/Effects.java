@@ -57,8 +57,13 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 	@Override
 	public boolean add(Effect effect)
 	{
-		effect.turnOn(owner);
-		return super.add(effect);
+		if(owner.getAttributes().getResistances().getResistanceFor(effect.getType()) < 100)
+		{
+			effect.turnOn(owner);
+			return super.add(effect);
+		}
+		else
+			return false;
 	}
 	
 	@Override

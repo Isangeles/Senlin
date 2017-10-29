@@ -36,12 +36,14 @@ import pl.isangeles.senlin.core.bonus.BonusType;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
 import pl.isangeles.senlin.core.bonus.HealthBonus;
+import pl.isangeles.senlin.core.bonus.ResistanceBonus;
 import pl.isangeles.senlin.core.bonus.StatsBonus;
 import pl.isangeles.senlin.core.bonus.UndetectBonus;
+import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
 
 /**
- * Class for bonuses nodes parsing
+ * Static class for bonuses nodes parsing
  * @author Isangeles
  *
  */
@@ -98,6 +100,11 @@ public final class BonusesParser
 					case DUALWIELD:
 						float dwBonus = Float.parseFloat(bonusE.getTextContent());
 						bonuses.add(new DualwieldBonus(dwBonus));
+						break;
+					case RESISTANCE:
+						int resiValue = Integer.parseInt(bonusE.getTextContent());
+						EffectType resiType = EffectType.fromId(bonusE.getAttribute("type"));
+						bonuses.add(new ResistanceBonus(resiType, resiValue));
 						break;
 					default:
 						break;
