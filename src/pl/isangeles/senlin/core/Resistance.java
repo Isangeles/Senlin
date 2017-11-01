@@ -61,6 +61,9 @@ public class Resistance
 	 */
 	public int getResistanceFor(EffectType type)
 	{
-		return resistances.get(type);
+		if(resistances.containsKey(type))
+		    return resistances.get(type);
+		else
+		    return 0;
 	}
 }

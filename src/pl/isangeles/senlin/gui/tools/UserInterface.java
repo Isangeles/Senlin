@@ -43,12 +43,14 @@ import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.Size;
 import pl.isangeles.senlin.util.Stopwatch;
+import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
@@ -218,7 +220,12 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	}
     	if(player.looting() != null && !loot.isOpenReq())
     	{
-    		loot.open(player.looting());
+    		CharacterOut out = loot.open(player.looting());
+    		if(out == CharacterOut.LOCKED)
+    		{
+    		    player.stopLooting();
+    		    Log.addSystem(TConnector.getText("ui", "logLocked"));
+    		}
     	}
     	if(player.reading() != null && !reading.isOpenReq())
     	{

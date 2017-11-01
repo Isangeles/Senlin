@@ -41,6 +41,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
@@ -129,20 +130,30 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	 * @throws SlickException
 	 * @throws IOException
 	 */
-	public void open(Targetable characterToLoot)
+	public CharacterOut open(Targetable characterToLoot)
 	{
 		if(openReq == false)
 		{
 	        lootedChar = characterToLoot;
 		    if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
 	        {
-		        slotsP.clear();
-	            loadLoot();
-	            openReq = true;
+		        if(!lootedChar.getInventory().isLocked())
+		        {
+		            slotsP.clear();
+	                loadLoot();
+	                openReq = true;
+	                return CharacterOut.SUCCESS;
+		        }
+		        else
+		            return CharacterOut.LOCKED;
 	        }
 	        else
-	            lootingChar.moveTo(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
+	        {
+                lootingChar.moveTo(lootedChar.getPosition()[0], lootedChar.getPosition()[1]);
+                return CharacterOut.NORANGE;
+	        }
 		}
+		return CharacterOut.UNABLE;
 	}
 	/**
 	 * Closes and resets loot window

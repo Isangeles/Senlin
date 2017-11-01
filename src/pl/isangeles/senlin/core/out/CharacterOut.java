@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public enum CharacterOut
 {
-    SUCCESS, NORANGE, NOTARGET, NOTREADY, UNABLE, UNKNOWN;
+    SUCCESS, NORANGE, NOTARGET, NOTREADY, UNABLE, LOCKED, UNKNOWN;
     
     @Override
     public String toString()
@@ -48,6 +48,8 @@ public enum CharacterOut
             return TConnector.getText("ui", "logNotRdy");
         case UNABLE:
             return TConnector.getText("ui", "logUnable");
+        case LOCKED:
+            return TConnector.getText("ui", "logLocked");
         default:
             return TConnector.getText("ui", "errorName");
         }

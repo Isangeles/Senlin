@@ -22,8 +22,10 @@
  */
 package pl.isangeles.senlin.core;
 
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,11 +34,13 @@ import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
+import pl.isangeles.senlin.core.bonus.UnlockBonus;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.item.Weapon;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.SlotContent;
 /**
@@ -50,6 +54,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	private Targetable owner;
 	private Equipment equipment;
 	private int gold;
+	private InventoryLock lock = new InventoryLock();
 	/**
 	 * Inventory constructor 
 	 * @param character Inventory owner
@@ -59,6 +64,17 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 		equipment = new Equipment();
 		owner = character;
 	}
+    /**
+     * Inventory constructor, with lock
+     * @param character Inventory owner 
+     * @param lock Inventory lock
+     */
+    public Inventory(Targetable character, InventoryLock lock)
+    {
+        equipment = new Equipment();
+        owner = character;
+        this.lock = lock;
+    }
 	/**
 	 * Updates inventory
 	 * (for example bonuses from equipped items)
@@ -77,7 +93,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	@Override
     public boolean add(Item item)
     {
-        if(item != null)
+        if(lock.isOpen() && item != null)
         {
             super.add(item);
         	item.setOwner(owner);
@@ -115,7 +131,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	@Override
     public boolean remove(Object item)
     {
-    	if(super.remove(item))
+    	if(lock.isOpen() && super.remove(item))
     	{
     		if(Equippable.class.isInstance(item)) 
     		{
@@ -147,17 +163,22 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public boolean remove(String id, int amount)
     {
-        List<Item> itemsToRemove = new ArrayList<>();
-        for(Item item : this)
+        if(lock.isOpen())
         {
-            if(item.getId().equals(id))
-                itemsToRemove.add(item);
-            
+            List<Item> itemsToRemove = new ArrayList<>();
+            for(Item item : this)
+            {
+                if(item.getId().equals(id))
+                    itemsToRemove.add(item);
+                
+                if(itemsToRemove.size() == amount)
+                    break;
+            }
             if(itemsToRemove.size() == amount)
-                break;
+                return removeAll(itemsToRemove);
+            else
+                return false;
         }
-        if(itemsToRemove.size() == amount)
-            return removeAll(itemsToRemove);
         else
             return false;
     }
@@ -307,9 +328,13 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * @param index Index in inventory container
      * @return Item from inventory container
      */
-    public Item getItem(int index)
+    @Override
+    public Item get(int index)
     {
-    	return super.get(index);
+        if(lock.isOpen())
+            return super.get(index);
+        else
+            return null;
     }
     /**
      * Returns item with specified serial ID
@@ -324,14 +349,6 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     			return super.get(i);
     	}
     	return null;
-    }
-    /**
-     * Returns array with all inventory items
-     * @return Array with items
-     */
-    public Item[] getItems()
-    {
-        return this.toArray(new Item[(this.size())]);
     }
     /**
      * Removes specified item from inventory and returns it
@@ -352,17 +369,22 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public Item takeItem(String itemId)
     {
-    	Item itemToTake = null;
-    	for(Item item : this)
+    	if(lock.isOpen())
     	{
-    		if(item.getId().equals(itemId))
-    		{
-    			itemToTake = item;
-    			break;
-    		}
+    	    Item itemToTake = null;
+            for(Item item : this)
+            {
+                if(item.getId().equals(itemId))
+                {
+                    itemToTake = item;
+                    break;
+                }
+            }
+            this.remove(itemToTake);
+            return itemToTake;
     	}
-    	this.remove(itemToTake);
-    	return itemToTake;
+    	else
+    	    return null;
     }
     /**
      * Removes specified amount of gold from inventory
@@ -371,19 +393,29 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public int takeGold(int value)
     {
-    	gold -= value;
-    	if(gold >= 0)
-    		return value;
+    	if(lock.isOpen())
+    	{
+    	    gold -= value;
+            if(gold >= 0)
+                return value;
+            else
+                return 0;
+    	}
     	else
-    		return 0;
+    	    return 0;
     }
     
     public List<Item> getWithoutEq()
     {
-    	List<Item> invWithoutEq = new ArrayList<>();
-    	invWithoutEq.addAll(this);
-    	invWithoutEq.removeAll(equipment.getAll());
-    	return invWithoutEq;
+    	if(lock.isOpen())
+    	{
+    	    List<Item> invWithoutEq = new ArrayList<>();
+            invWithoutEq.addAll(this);
+            invWithoutEq.removeAll(equipment.getAll());
+            return invWithoutEq;
+    	}
+    	else
+    	    return new ArrayList<Item>();
     }
     /**
      * Returns all inventory as list with slot content
@@ -399,6 +431,32 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     public boolean isDualwield()
     {
     	return equipment.isDualwield();
+    }
+    /**
+     * Checks if inventory is locked
+     * @return True if inventory is locked, false otherwise
+     */
+    public boolean isLocked()
+    {
+        return !lock.isOpen();
+    }
+    /**
+     * Opens lock with specified item
+     * @param key Key item
+     * @return True if lock was successfully opened, false otherwise
+     */
+    public boolean open(Item key)
+    {
+        return lock.open(key);
+    }
+    /**
+     * Opens lock with specified skill
+     * @param skill Skill
+     * @return True if lock was successfully opened, false otherwise
+     */
+    public boolean open(UnlockBonus skill)
+    {
+        return lock.open(skill);
     }
     /**
      * Parses inventory to XML document element
