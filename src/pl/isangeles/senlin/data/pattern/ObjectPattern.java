@@ -32,6 +32,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+import pl.isangeles.senlin.core.InventoryLock;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
@@ -67,11 +68,12 @@ public class ObjectPattern
 	private final ActionType action;
 	private final int gold;
 	private final List<RandomItem> objectItems = new ArrayList<>();
+	private final InventoryLock lock;
 	/**
 	 * ObjectPattern constructor
 	 */
 	public ObjectPattern(String id, String mainTexture, String portrait, String sound, String type, int frames, int fWidth, int fHeight, String action,
-						 int gold, Map<String, Boolean> items) 
+						 int gold, List<RandomItem> items, InventoryLock lock) 
 	{
 		this.id = id;
 		this.info = TConnector.getTextFromModule("objects", id);
@@ -85,10 +87,8 @@ public class ObjectPattern
 		this.flipped = false;
 		this.action = ActionType.fromString(action);
 		this.gold = gold;
-		for(String itemId : items.keySet())
-		{
-		    objectItems.add(new RandomItem(itemId, items.get(itemId)));
-		}
+		this.objectItems.addAll(items);
+		this.lock = lock;
 	}
 	/**
 	 * Return ID of this pattern object 
@@ -121,28 +121,34 @@ public class ObjectPattern
 	        objectAction = new EffectAction();
 	    }
 	    
-	    List<Item> itemsIn = new ArrayList<>();
-	    for(RandomItem rItem : objectItems)
-	    {
-	        itemsIn.add(rItem.make());
-	    }
-	    
+	    TargetableObject object = null;
 	    if(type.equals("anim"))
 	    {
 	    	SimpleAnim animTexture = new SimpleAnim(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
 		    if(objectSound != null)
-				return new TargetableObject(id, animTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+				object = new TargetableObject(id, animTexture, uiPortrait, objectSound, objectAction);
 		    else
-		    	return new TargetableObject(id, animTexture, uiPortrait, objectAction, gold, itemsIn); 	
+		    	object = new TargetableObject(id, animTexture, uiPortrait, objectAction); 	
 	    }
 	    if(type.equals("static"))
 	    {
 	    	Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
 			if(objectSound != null)
-				return new TargetableObject(id, staticTexture, uiPortrait, objectSound, objectAction, gold, itemsIn);
+				object = new TargetableObject(id, staticTexture, uiPortrait, objectSound, objectAction);
 			else
-				return new TargetableObject(id, staticTexture, uiPortrait, objectAction, gold, itemsIn);
+				object = new TargetableObject(id, staticTexture, uiPortrait, objectAction);
 	    }
-		return null;
+	    
+	    if(object != null)
+	    {
+	    	for(RandomItem rItem : objectItems)
+		    {
+		        object.getInventory().add(rItem.make());
+		    }
+		    object.getInventory().addGold(gold);
+		    object.getInventory().lock(lock);
+	    }
+	    
+		return object;
 	}
 }

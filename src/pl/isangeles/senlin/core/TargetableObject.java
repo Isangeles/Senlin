@@ -79,7 +79,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Action onClick)
     {
         this.avatar = new ObjectAvatar(texture);
         this.portrait = portrait;
@@ -87,8 +87,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         this.onClick = onClick;
         name = TConnector.getTextFromModule("objects", id);
         inventory = new Inventory(this);
-        inventory.addAll(items);
-        inventory.addGold(gold);
     }
     /**
      * Simple game object constructor(with static texture)
@@ -99,7 +97,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public TargetableObject(String id, Sprite texture, Portrait portrait, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, Sprite texture, Portrait portrait, Action onClick)
     {
     	this.avatar = new ObjectAvatar(texture);
     	this.portrait = portrait;
@@ -107,8 +105,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         this.onClick = onClick;
         name = TConnector.getTextFromModule("objects", id);
         inventory = new Inventory(this);
-        inventory.addAll(items);
-        inventory.addGold(gold);
     }
     /**
      * Simple game object constructor (with sound and animated texture)
@@ -120,9 +116,9 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, SimpleAnim texture, Portrait portrait, Sound sound, Action onClick)
     {
-    	this(id, texture, portrait, onClick, gold, items);
+    	this(id, texture, portrait, onClick);
     	voice = sound;
     }
     /**
@@ -135,9 +131,9 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * @param gold Amount of gold in object
      * @param items List of items in object
      */
-    public TargetableObject(String id, Sprite texture, Portrait portrait, Sound sound, Action onClick, int gold, List<Item> items)
+    public TargetableObject(String id, Sprite texture, Portrait portrait, Sound sound, Action onClick)
     {
-    	this(id, texture, portrait, onClick, gold, items);
+    	this(id, texture, portrait, onClick);
     	voice = sound;
     }
     /**

@@ -20,6 +20,7 @@
         </quests>
         <objects>
             <object position="60;7">cFire01</object>
+            <object position="62;8">lcChest01</object>
             <object position="56;15">hAloe</object>
         </objects>
         <exits>

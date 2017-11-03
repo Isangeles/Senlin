@@ -6,9 +6,20 @@
     <object id="hAloe" mainTex="aloe.png" type="static" action="loot">
         <portrait>default.png</portrait>
         <in gold="0">
-            <item random="false">aloeL</item>
-            <item random="false">aloeL</item>
-            <item random="true">aloeL</item>
+            <items>
+                <item random="false">aloeL</item>
+                <item random="false">aloeL</item>
+                <item random="true">aloeL</item>
+            </items>
+        </in>
+    </object>
+    <object id="lcChest01" mainTex="chest.png" type="static" action="loot">
+        <portrait>default.png</portrait>
+        <in gold="0">
+            <items>
+                <item random="false">wSOHI</item>
+            </items>
+            <lock level="1" key="lcKey01"></lock>
         </in>
     </object>
 </base>

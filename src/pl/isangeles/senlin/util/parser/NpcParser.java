@@ -100,34 +100,17 @@ public final class NpcParser
         String fingerB = eq.getElementsByTagName("finger2").item(0).getTextContent();
         String artifact = eq.getElementsByTagName("artifact").item(0).getTextContent();
         
-        Element in = (Element)eq.getElementsByTagName("in").item(0);
-        int gold = Integer.parseInt(in.getAttribute("gold"));
+        Node inNode = eq.getElementsByTagName("in").item(0);
+        Element inE = (Element)inNode;
         
-        List<RandomItem> itemsIn = new LinkedList<>();
-        
-        for(int j = 0; j < in.getElementsByTagName("item").getLength(); j ++)
-        {
-            Element itemE = (Element)in.getElementsByTagName("item").item(j);
-            boolean ifRandom = Boolean.parseBoolean(itemE.getAttribute("random"));
-            String itemInId = itemE.getTextContent();
-            String itemSerialS  = itemE.getAttribute("serial");
-            RandomItem ip;
-            if(itemSerialS == "")
-            {
-            	ip = new RandomItem(itemInId, ifRandom);
-            }
-            else
-            {
-                int itemSerial = Integer.parseInt(itemSerialS);
-                ip = new RandomItem(itemInId, itemSerial, ifRandom);
-            }
-            itemsIn.add(ip);
-        }
+        Node itemsNode = (Element)inE.getElementsByTagName("items").item(0);
+        int gold = InventoryParser.getGoldFromNode(inNode);
+        List<RandomItem> itemsIn = InventoryParser.getItemsFromNode(itemsNode);
         
         Node skillsNode = npc.getElementsByTagName("skills").item(0);
         List<String> skills = getSkills(skillsNode);
         
-        Node effectsNode = npc.getElementsByTagName("effects").item(0);
+        Node effectsNode = npc.getElementsByTagName("effects").item(0); 
         Map<String, Integer> effects = new HashMap<>();//getEffects(effectsNode);
         
         Node craftingNode = npc.getElementsByTagName("crafting").item(0);

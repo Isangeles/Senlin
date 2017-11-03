@@ -22,7 +22,9 @@
  */
 package pl.isangeles.senlin.util.parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
@@ -30,7 +32,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.InventoryLock;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
+import pl.isangeles.senlin.data.pattern.RandomItem;
 import pl.isangeles.senlin.graphic.GameObject;
 
 /**
@@ -77,25 +81,21 @@ public class ObjectParser
 		if(soundE != null)
 			sound = soundE.getTextContent();
 		
-		Map<String, Boolean> items = new HashMap<>(); 
-		Element inE = (Element)objectE.getElementsByTagName("in").item(0);
+		List<RandomItem> items = new ArrayList<>(); 
+		Node inNode = objectE.getElementsByTagName("in").item(0);
+		Element inE = (Element)inNode;
         int gold = 0;
+        InventoryLock lock = new InventoryLock();
 		if(inE != null)
 		{
-		    gold = Integer.parseInt(inE.getAttribute("gold"));
-		    NodeList itemsList = inE.getChildNodes();
-	        for(int i = 0; i < itemsList.getLength(); i ++)
-	        {
-	            Node itemNode = itemsList.item(i);
-	            if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-	            {
-	                Element itemE = (Element)itemNode;
-	                Boolean random = Boolean.parseBoolean(itemE.getAttribute("random"));
-	                items.put(itemE.getTextContent(), random);
-	            }
-	        }
+		    Node itemsNode = (Element)inE.getElementsByTagName("items").item(0);
+		    items = InventoryParser.getItemsFromNode(itemsNode);
+		    gold = InventoryParser.getGoldFromNode(inNode);
+		    Node lockNode = (Element)inE.getElementsByTagName("lock").item(0);
+		    if(lockNode != null)
+			    lock = InventoryParser.getLockFromNode(lockNode);
 		}
 		
-		return new ObjectPattern(id, mainTex, portrait, sound, type, frames, fWidth, fHeight, action, gold, items);
+		return new ObjectPattern(id, mainTex, portrait, sound, type, frames, fWidth, fHeight, action, gold, items, lock);
 	}
 }

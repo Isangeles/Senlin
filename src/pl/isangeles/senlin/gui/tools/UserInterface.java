@@ -224,7 +224,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     		if(out == CharacterOut.LOCKED)
     		{
     		    player.stopLooting();
-    		    Log.addSystem(TConnector.getText("ui", "logLocked"));
+    		    Log.addInformation(TConnector.getText("ui", "logLocked"));
     		}
     	}
     	if(player.reading() != null && !reading.isOpenReq())
@@ -515,7 +515,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                 else
                     npc.targeted(false);
             }
-            player.setTarget(null);
+            if(!isMouseOver())
+                player.setTarget(null);
         }
 	}
 	@Override

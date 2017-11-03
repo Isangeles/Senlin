@@ -78,10 +78,15 @@ public class EffectAction extends Action implements EffectSource
         	user.getEffects().addAll(getEffects());
             return true;
         case EFFECTTARGET:
-        	target.getEffects().addAll(getEffects());
-            return true;
+        	if(target != null) 
+        	{
+            	target.getEffects().addAll(getEffects());
+            	return true;
+            }
+        	else
+        		return false;
         default:
-            return true;
+            return false;
         }
     }
 	/* (non-Javadoc)

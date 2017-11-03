@@ -16,9 +16,11 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">acCS00</item>
-            <item random="false">wSOHI</item>
-	        <item random="true">wSOHI</item>
+            <items>
+                <item random="false">acCS00</item>
+                <item random="false">wSOHI</item>
+	            <item random="true">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -45,8 +47,10 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">acCS00</item>
-            <item random="false">wSOHI</item>
+            <items>
+                <item random="false">acCS00</item>
+                <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -70,9 +74,11 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">aImpLArm01</item>
-            <item random="false">wSOHI</item>
-            <item random="false">mSLetter01</item>
+            <items>
+                <item random="false">aImpLArm01</item>
+                <item random="false">wSOHI</item>
+                <item random="false">mSLetter01</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -96,11 +102,13 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">aImpCArm01</item>
-            <item random="false">aImpCHelm01</item>
-            <item random="false">aImpCGlov01</item>
-            <item random="false">aImpCBoot01</item>
-            <item random="false">wSOHI</item>
+            <items>
+                <item random="false">aImpCArm01</item>
+                <item random="false">aImpCHelm01</item>
+                <item random="false">aImpCGlov01</item>
+                <item random="false">aImpCBoot01</item>
+                <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -125,8 +133,10 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-            <item random="false">aRedSwLArm01</item>
-            <item random="false">wSOHI</item>
+            <items>
+                <item random="false">aRedSwLArm01</item>
+                <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -150,8 +160,10 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="20">
-            <item random="false">aImpLArm01</item>
-            <item random="false">wSOHI</item>
+            <items>
+                <item random="false">aImpLArm01</item>
+                <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -178,8 +190,10 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="20">
-            <item random="false">aImpLArm01</item>
-            <item random="false">wSOHI</item>
+            <items>
+                <item random="false">aImpLArm01</item>
+                <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -203,8 +217,10 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-	    <item random="false">acCS00</item>
-	    <item random="false">wSOHI</item>
+            <items>
+	            <item random="false">acCS00</item>
+	            <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -231,11 +247,13 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="20">
-	    <item random="false">acCS00</item>
-	    <item random="false">wSOHI</item>
-	    <item random="false">wBTHW</item>
-	    <item random="false">mMeat01</item>
-	    <item random="false">tSRing</item>
+            <items>
+	            <item random="false">acCS00</item>
+	            <item random="false">wSOHI</item>
+	            <item random="false">wBTHW</item>
+	            <item random="false">mMeat01</item>
+	            <item random="false">tSRing</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -259,9 +277,11 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="12">
-	    <item random="false">acCS00</item>
-	    <item random="false">wSOHI</item>
-	    <item random="false">mMeat01</item>
+            <items>
+	            <item random="false">acCS00</item>
+	            <item random="false">wSOHI</item>
+	            <item random="false">mMeat01</item>
+            </items>
         </in>
     </eq>
     <skills>
@@ -322,7 +342,9 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in gold="2">
-	        <item random="false">wSOHI</item>
+            <items>
+	            <item random="false">wSOHI</item>
+            </items>
         </in>
     </eq>
     <skills>

@@ -137,6 +137,7 @@ logNoTar:No target!;
 logNotRdy:Skill is not ready yet!;
 logNoRange:Target is too far!;
 logUnable:You cant do it!;
+logLocked:It's locked;
 logKilled:is killed;
 logSpeech:says;
 logCmdSys:no such command for system;

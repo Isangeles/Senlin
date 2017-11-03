@@ -22,17 +22,24 @@
  */
 package pl.isangeles.senlin.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.core.bonus.UnlockBonus;
-import pl.isangeles.senlin.core.item.Item;
-import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.core.req.ItemsRequirement;
+import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for inventory lock
  * @author Isangeles
  *
  */
-public class InventoryLock
+public class InventoryLock implements SaveElement
 {
-    private String keyId;
+    private ItemsRequirement keyReq;
     private int level;
     private boolean open;
     /**
@@ -41,6 +48,7 @@ public class InventoryLock
     public InventoryLock()
     {
         open = true;
+        keyReq = new ItemsRequirement(new HashMap<String, Integer>());
     }
     /**
      * Lock constructor
@@ -49,17 +57,19 @@ public class InventoryLock
      */
     public InventoryLock(String keyId, int level)
     {
-        this.keyId = keyId;
+    	Map<String, Integer> keys = new HashMap<>();
+    	keys.put(keyId, 1);
+        keyReq = new ItemsRequirement(keys);
         this.level = level;
     }
     /**
-     * Opens lock with key item
-     * @param key Key item
+     * Opens lock
+     * @param character Game character opening lock
      * @return True if lock was successfully opened, false otherwise
      */
-    public boolean open(Item key)
+    public boolean open(Character character)
     {
-        if(keyId.equals(key.getId()))
+        if(keyReq.isMetBy(character))
         {
             open = true;
             return true;
@@ -90,4 +100,16 @@ public class InventoryLock
     {
         return open;
     }
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element lock = doc.createElement("lock");
+		lock.setAttribute("level", level+"");
+		String keyId = (String)keyReq.getReqItems().keySet().toArray()[0];
+		lock.setAttribute("key", keyId);
+		return lock;
+	}
 }

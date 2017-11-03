@@ -113,14 +113,32 @@ public class ItemsRequirement extends Requirement
 		
 		return reqInfo;
 	}
+	/**
+	 * Returns map with all required items IDs as keys and required amount as value
+	 * @return Map with items IDs as keys and required amount as value
+	 */
+	public Map<String, Integer> getReqItems()
+	{
+		Map<String, Integer> items = new HashMap<>();
+		items.putAll(reqItems);
+		return items;
+	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.SaveElement#getSave(org.w3c.dom.Document)
 	 */
 	@Override
 	public Element getSave(Document doc) 
 	{
-		// TODO Auto-generated method stub
 		Element itemReq = doc.createElement("itemReq");
+		for(String id : reqItems.keySet())
+		{
+			for(int i = 0; i < reqItems.get(id); i ++)
+			{
+				Element itemE = doc.createElement("item");
+				itemE.setTextContent(id);
+				itemReq.appendChild(itemE);
+			}
+		}
 		return itemReq;
 	}
 

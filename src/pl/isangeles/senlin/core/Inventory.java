@@ -441,13 +441,13 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         return !lock.isOpen();
     }
     /**
-     * Opens lock with specified item
-     * @param key Key item
+     * Opens lock
+     * @param character Game character opening lock
      * @return True if lock was successfully opened, false otherwise
      */
-    public boolean open(Item key)
+    public boolean open(Character character)
     {
-        return lock.open(key);
+        return lock.open(character);
     }
     /**
      * Opens lock with specified skill
@@ -459,6 +459,14 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
         return lock.open(skill);
     }
     /**
+     * Lock inventory with specified lock
+     * @param lock Inventory lock
+     */
+    public void lock(InventoryLock lock)
+    {
+    	this.lock = lock;
+    }
+    /**
      * Parses inventory to XML document element
      * @param doc Document for save game file
      * @return XML document element
@@ -468,15 +476,18 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	Element eq = equipment.getSave(doc);
     	Element in = doc.createElement("in");
     	in.setAttribute("gold", gold+"");
+    	Element itemsE = doc.createElement("items");
     	for(Item item : this)
     	{
     		Element itemE = doc.createElement("item");
 			itemE.setAttribute("serial", item.getNumber()+"");
     		itemE.setTextContent(item.getId());
-    		in.appendChild(itemE);
+    		itemsE.appendChild(itemE);
     	}
+    	in.appendChild(itemsE);
+    	if(!lock.isOpen())
+    		in.appendChild(lock.getSave(doc));
     	eq.appendChild(in);
-		
 		return eq;
     }
     /**
@@ -489,13 +500,17 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	Element eq = doc.createElement("eq");
     	Element in = doc.createElement("in");
     	in.setAttribute("gold", gold+"");
+    	Element itemsE = doc.createElement("items");
     	for(Item item : this)
     	{
 			Element itemE = doc.createElement("item");
     		itemE.setAttribute("serial", item.getNumber()+"");
     		itemE.setTextContent(item.getId());
-    		in.appendChild(itemE);
+    		itemsE.appendChild(itemE);
     	}
+    	in.appendChild(itemsE);
+    	if(!lock.isOpen())
+    		in.appendChild(lock.getSave(doc));
     	eq.appendChild(in);
 		
 		return eq;

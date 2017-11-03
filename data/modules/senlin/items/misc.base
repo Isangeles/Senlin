@@ -16,4 +16,8 @@
         <icon>list01.png</icon>
         <action type="read">MTSIO</action>
     </item>
+    <item id="lcKey01" value="1" stack="1" disposable="false">
+        <icon>key01.png</icon>
+        <action type="effectTarget">unlock01</action>
+    </item>
 </base>
