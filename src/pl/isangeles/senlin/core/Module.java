@@ -123,12 +123,11 @@ public final class Module
 		else
 			return null;
 	}
-
 	/**
 	 * Returns path to quests base file in current module directory
 	 * @return String with path to quests base file
 	 */
-	public static String getQBasePath()
+	public static String getQuestsPath()
 	{
 		if(inModDir)
 		{
@@ -137,12 +136,11 @@ public final class Module
 		else
 			return null;
 	}
-	
 	/**
      * Returns path to npc base file in current module directory
      * @return String with path to npc base file
      */
-    public static String getNBasePath()
+    public static String getNpcsPath()
     {
         if(inModDir)
         {
@@ -151,12 +149,11 @@ public final class Module
         else
             return null;
     }
-    
     /**
-     * Returns path to quests base file in current module directory
+     * Returns path to guilds base file in current module directory
      * @return String with path to quests base file
      */
-    public static String getGBasePath()
+    public static String getGuildPath()
     {
         if(inModDir)
         {
@@ -165,7 +162,6 @@ public final class Module
         else
             return null;
     }
-
 	/**
 	 * Returns path to area directory in current module directory
 	 * @return String with path to area directory
@@ -206,7 +202,6 @@ public final class Module
         else
             return null;
     }
-
 	/**
      * Returns path to skills directory in current module directory
      * @return String with path to skills directory
@@ -220,14 +215,26 @@ public final class Module
         else
             return null;
     }
-
 	/**
+     * Returns path to objects directory in current chapter directory
+     * @return String with path to objects directory
+     */
+    public static String getChapterObjectsPath()
+    {
+        if(inModDir)
+        {
+            return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "objects"; 
+        }
+        else
+            return null;
+    }
+    /**
      * Returns path to objects directory in current module directory
      * @return String with path to objects directory
      */
-    public static String getObjectsPath()
+    public static String getModuleObjectsPath()
     {
-        if(inModDir)
+    	if(inModDir)
         {
             return "data" + File.separator + "modules" + File.separator + name + File.separator + "objects"; 
         }

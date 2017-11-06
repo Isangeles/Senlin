@@ -445,7 +445,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * @param character Game character opening lock
      * @return True if lock was successfully opened, false otherwise
      */
-    public boolean open(Character character)
+    public boolean unlock(Character character)
     {
         return lock.open(character);
     }
@@ -454,7 +454,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * @param skill Skill
      * @return True if lock was successfully opened, false otherwise
      */
-    public boolean open(UnlockBonus skill)
+    public boolean unlock(UnlockBonus skill)
     {
         return lock.open(skill);
     }
@@ -464,7 +464,8 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public void lock(InventoryLock lock)
     {
-    	this.lock = lock;
+    	if(lock != null)
+        	this.lock = lock;
     }
     /**
      * Parses inventory to XML document element

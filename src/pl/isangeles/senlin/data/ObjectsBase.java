@@ -78,6 +78,6 @@ public class ObjectsBase
 	public static void load(String objectsPath, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		ObjectsBase.gc = gc;
-		objectsMap = DConnector.getObjects(objectsPath + File.separator + "gameObjects");
+		objectsMap.putAll(DConnector.getObjects(objectsPath + File.separator + "objects"));
 	}
 }

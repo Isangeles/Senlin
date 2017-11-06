@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -48,7 +49,7 @@ public class UnlockBonus extends Bonus
     @Override
     public void applyOn(Targetable object)
     {
-        object.getInventory().open(this);
+    	object.getInventory().unlock(this);
     }
 
     /* (non-Javadoc)

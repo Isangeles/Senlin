@@ -46,6 +46,7 @@ import org.xml.sax.SAXException;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Inventory;
+import pl.isangeles.senlin.core.InventoryLock;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
@@ -319,8 +320,12 @@ public final class SSGParser
                 TargetableObject object = ObjectsBase.get(objectE.getAttribute("id"));
                 object.setPosition(new TilePosition(objectE.getAttribute("position")));
                 Element eqE = (Element)objectE.getElementsByTagName("eq").item(0);
+                Node inNode = eqE.getElementsByTagName("in").item(0);
                 if(eqE != null)
-                    object.setInventory(getObjectInventory(object, eqE));
+                {
+                    Element inE = (Element)inNode;
+                    object.setInventory(getObjectInventory(object, inE));
+                }
                 objects.add(object);
             }
         }
@@ -440,15 +445,15 @@ public final class SSGParser
      * @param eqE SSG eq doc element
      * @return New inventory object
      */
-    private static Inventory getObjectInventory(Targetable object, Element eqE)
+    private static Inventory getObjectInventory(Targetable object, Element inE)
     {
     	Inventory objectInventory = new Inventory(object);
-    	Node inNode = eqE.getElementsByTagName("in").item(0);
+    	Node itemsNode = inE.getElementsByTagName("items").item(0);
     	
-    	Element inE = (Element)inNode;
+    	Element itemsE = (Element)itemsNode;
     	objectInventory.addGold(Integer.parseInt(inE.getAttribute("gold")));
     	
-    	NodeList itemsList = inNode.getChildNodes();
+    	NodeList itemsList = itemsE.getElementsByTagName("item");
     	for(int i = 0; i < itemsList.getLength(); i ++)
     	{
     		Node itemNode = itemsList.item(0);
@@ -457,6 +462,13 @@ public final class SSGParser
     			Element itemE = (Element)itemNode;
     			objectInventory.add(ItemsBase.getItem(itemE.getTextContent()));
     		}
+    	}
+        
+    	Node lockNode = inE.getElementsByTagName("lock").item(0);
+        if(lockNode != null) 
+        {
+        	InventoryLock lock = InventoryParser.getLockFromNode(lockNode);
+        	objectInventory.lock(lock);
     	}
     	
     	return objectInventory;

@@ -13,6 +13,7 @@ import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.InterfaceObject;

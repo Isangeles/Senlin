@@ -98,10 +98,7 @@ public class Misc extends Item
     {
     	boolean out = onUse.start(user, target);
     	if(out && disposable)
-    	{
-    		Character owner = (Character)user;
-    		owner.getInventory().remove(this);
-    	}
+    		user.getInventory().remove(this);
     	return out;
     }
 	/* (non-Javadoc)

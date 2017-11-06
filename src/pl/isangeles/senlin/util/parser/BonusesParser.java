@@ -39,6 +39,7 @@ import pl.isangeles.senlin.core.bonus.HealthBonus;
 import pl.isangeles.senlin.core.bonus.ResistanceBonus;
 import pl.isangeles.senlin.core.bonus.StatsBonus;
 import pl.isangeles.senlin.core.bonus.UndetectBonus;
+import pl.isangeles.senlin.core.bonus.UnlockBonus;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
 
@@ -105,6 +106,10 @@ public final class BonusesParser
 						int resiValue = Integer.parseInt(bonusE.getTextContent());
 						EffectType resiType = EffectType.fromId(bonusE.getAttribute("type"));
 						bonuses.add(new ResistanceBonus(resiType, resiValue));
+						break;
+					case UNLOCK:
+						int lockLevel = Integer.parseInt(bonusE.getTextContent());
+						bonuses.add(new UnlockBonus(lockLevel));
 						break;
 					default:
 						break;

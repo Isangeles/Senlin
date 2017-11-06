@@ -132,6 +132,26 @@ public abstract class InterfaceObject extends Image
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
+     * Creates object with custom MOA size and info window, uses another image
+     * @param image Slick image object
+     * @param textForInfo String with text for info window
+     * @param moaWidth MouseOverArea width
+     * @param moaHeight MouseOverArea height
+     * @param gc Slick game container
+     * @throws IOException 
+     * @throws SlickException 
+     * @throws FileNotFoundException
+     */
+    protected InterfaceObject(Image image, String textForInfo, int moaWidth, int moaHeight, GameContainer gc) throws FontFormatException, SlickException, IOException
+    {
+    	super(image);
+        this.gc = gc;
+        setProportion();
+        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
+    	isInfo = true;
+    	info = new InfoWindow(gc, textForInfo);
+    }
+    /**
      * Constructor for interface object without info window, implicitly scales object for current resolution
      * @param fileInput in - The input stream to read the image from
      * @param ref The name that should be assigned to the image

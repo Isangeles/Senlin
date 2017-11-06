@@ -32,7 +32,7 @@
             <undetectBonus>1</undetectBonus>
         </modifiers>
     </effect>
-    <effect id="unlock01" duration="1" type="normal" icon="open.png">
+    <effect id="unlock01" duration="0" type="normal" icon="open.png">
         <modifiers>
             <unlockBonus>1</unlockBonus>
         </modifiers>

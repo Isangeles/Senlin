@@ -80,6 +80,7 @@ public final class GBase
 		texturesMap.put("buttonDown", new Image(GConnector.getInput("button/buttonDown.png"), "buttonDown", false));
 		texturesMap.put("buttonBack", new Image(GConnector.getInput("button/buttonBack.png"), "buttonBack", false));
         texturesMap.put("areaExit", new Sprite(GConnector.getInput("object/exit.png"), "areaExit", false));
+        texturesMap.put("errorIcon", new Image(GConnector.getInput("icon/unknown.png"), "errorIcon", false));
 		
 		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));
 		fontsMap.put("mainUiFont", simsun);

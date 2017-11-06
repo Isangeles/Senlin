@@ -26,6 +26,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -54,7 +55,7 @@ public class Effect implements SaveElement
     private String id;
     private String name;
     private String info;
-    private String imgName;
+    private Image iconImg;
 	private EffectType type;
 	private Bonuses bonuses;
 	private int dot;
@@ -82,12 +83,12 @@ public class Effect implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Effect(String id, Image iconImg, Bonuses bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
 	    this.info = TConnector.getInfoFromModule("effects", id)[1];
-	    this.imgName = imgName;
+	    this.iconImg = iconImg;
 		this.type = type;
 		this.bonuses = bonuses;
 		this.dot = dot;
@@ -111,13 +112,13 @@ public class Effect implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Effect(String id, String imgName, Bonuses bonuses, int dot, int duration, EffectType type, String savedOwnerId, String savedSourceId, GameContainer gc) 
+	public Effect(String id, Image iconImg, Bonuses bonuses, int dot, int duration, EffectType type, String savedOwnerId, String savedSourceId, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
 	    this.info = TConnector.getInfoFromModule("effects", id)[1];
-	    this.imgName = imgName;
+	    this.iconImg = iconImg;
 		this.type = type;
 		this.bonuses = bonuses;
 		this.dot = dot;
@@ -181,7 +182,7 @@ public class Effect implements SaveElement
 	 */
 	public void updateTime(int delta)
 	{
-		if(ownerToRestore != null)
+		if(ownerToRestore != null)//tries to restore effect source after game load
 		{
 			Character owner = Global.getChapter().getCharacter(ownerToRestore);
 			if(owner != null)
@@ -217,14 +218,14 @@ public class Effect implements SaveElement
 	/**
 	 * Starts effect timer
 	 */
-	public boolean turnOn(Targetable character)
+	public boolean turnOn(Targetable target)
 	{
 		on = true;
 		//character.getEffects().add(this);
 		for(Bonus bonus : bonuses)
 		{
-		    if(!character.hasBonus(bonus))
-		        character.addBonus(bonus);
+		    if(!target.hasBonus(bonus))
+		    	target.addBonus(bonus);
 		}
 		return on;
 	}
@@ -310,7 +311,8 @@ public class Effect implements SaveElement
 	 */
 	private void buildTile(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		tile = new EffectTile(GConnector.getInput("icon/effect/"+imgName), "uiEff"+id, false, gc, getInfo());
+		//tile = new EffectTile(GConnector.getInput("icon/effect/"+imgName), "uiEff"+id, false, gc, getInfo());
+		tile = new EffectTile(iconImg, gc, getInfo());
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)

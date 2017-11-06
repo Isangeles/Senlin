@@ -365,9 +365,6 @@ public class GameWorld extends BasicGameState implements SaveElement
     @Override
     public void mouseReleased(int button, int x, int y)
     {
-    	if((ui == null || (!ui.isMouseOver() && !ui.isLocked())) && !isPause())
-    	{
-    	}
     }
     
     @Override

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -36,6 +37,8 @@ import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.skill.Skill;
+import pl.isangeles.senlin.data.GBase;
+import pl.isangeles.senlin.util.GConnector;
 /**
  * Pattern for creating effects
  * @author Isangeles
@@ -45,6 +48,7 @@ public class EffectPattern
 {
     private String id;
     private String imgName;
+    private Image icon;
     private EffectType type;
     private Bonuses bonuses;
     private int dot;
@@ -62,11 +66,21 @@ public class EffectPattern
      * @param dot Damage over time effect value (positive value heals target) 
      * @param duration Effect duration
      * @param type Effect type
+     * @throws IOException 
+     * @throws SlickException 
      */
     public EffectPattern(String id, String imgName, List<Bonus> bonuses, int dot, int duration, String type)
     {
         this.id = id;
         this.imgName = imgName;
+        try 
+        {
+			icon = new Image(GConnector.getInput("icon/effect/" + imgName), id+"_icon", false);
+		} 
+        catch (SlickException | IOException e) 
+        {
+        	icon = GBase.getImage("errorIcon");
+        }		
         this.type = EffectType.fromId(type);
         this.bonuses = new Bonuses();
         this.bonuses.addAll(bonuses);
@@ -95,7 +109,7 @@ public class EffectPattern
      */
     public Effect make(EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Effect(id, imgName, bonuses, dot, duration, type, source, gc);
+        return new Effect(id, icon, bonuses, dot, duration, type, source, gc);
     }
 
     /**
@@ -110,6 +124,6 @@ public class EffectPattern
      */
     public Effect make(String savedSourceOwner, String savedSource, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Effect(id, imgName, bonuses, dot, duration, type, savedSourceOwner, savedSource, gc);
+        return new Effect(id, icon, bonuses, dot, duration, type, savedSourceOwner, savedSource, gc);
     }
 }

@@ -133,42 +133,6 @@ public class SkillSlot extends Slot implements MouseListener
 	}
 
 	@Override
-	public void inputEnded() 
-	{
-	}
-
-	@Override
-	public void inputStarted() 
-	{
-	}
-
-	@Override
-	public boolean isAcceptingInput() 
-	{
-		return true;
-	}
-
-	@Override
-	public void setInput(Input input) 
-	{
-	}
-
-	@Override
-	public void mouseClicked(int arg0, int arg1, int arg2, int arg3) 
-	{
-	}
-
-	@Override
-	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) 
-	{
-	}
-
-	@Override
-	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) 
-	{
-	}
-
-	@Override
 	public void mousePressed(int button, int x, int y)
 	{
 		super.mousePressed(button, x, y);
@@ -187,10 +151,4 @@ public class SkillSlot extends Slot implements MouseListener
 				skillInSlot.getTile().click(false);
 		}
 	}
-
-	@Override
-	public void mouseWheelMoved(int arg0) 
-	{
-	}
-
 }

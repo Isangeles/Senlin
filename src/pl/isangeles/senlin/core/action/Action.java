@@ -23,8 +23,6 @@
 package pl.isangeles.senlin.core.action;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.effect.Effect;
-import pl.isangeles.senlin.core.skill.Skill;
 
 /**
  * Class for in-game actions(eg. items on-click actions)
@@ -34,6 +32,7 @@ import pl.isangeles.senlin.core.skill.Skill;
 public abstract class Action 
 {
 	protected ActionType type;
+	protected Targetable lastUser;
 	/**
 	 * Default constructor, action do nothing
 	 */

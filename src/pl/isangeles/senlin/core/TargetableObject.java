@@ -433,8 +433,13 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public boolean addBonus(Bonus bonus)
     {
-        // TODO Auto-generated method stub
-        return false;
+    	if(bonuses.add(bonus))
+    	{
+    		bonus.applyOn(this);
+    		return true;
+    	}
+    	else
+    		return false;
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#removeBonus(pl.isangeles.senlin.core.bonus.Bonus)
@@ -442,8 +447,13 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public boolean removeBonus(Bonus bonus)
     {
-        // TODO Auto-generated method stub
-        return false;
+        if(bonuses.remove(bonus))
+        {
+        	bonus.removeFrom(this);
+        	return true;
+        }
+        else
+        	return false;
     }
 
     /* (non-Javadoc)
@@ -452,8 +462,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public boolean hasBonus(Bonus bonus)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return bonuses.contains(bonus);
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#takeAttack(pl.isangeles.senlin.core.Targetable, int, java.util.List)
@@ -470,6 +479,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public void takeBuff(Targetable buffer, Buff buff) 
 	{
+		//TODO buffs handling
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takeHealth(pl.isangeles.senlin.core.Targetable, int)
@@ -485,6 +495,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	@Override
 	public void takePassvie(Targetable passSource, Passive passive) 
 	{
+		//TODO passives handling
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#modMaxHealth(int)

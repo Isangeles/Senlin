@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -51,7 +52,7 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public abstract class Slot extends InterfaceObject implements MouseListener
 {
-	protected List<SlotContent> content = new ArrayList<>();
+	protected LinkedList<SlotContent> content = new LinkedList<>();
 	private TrueTypeFont ttf;
 	
 	private Slot(InputStream is, String ref, boolean flipped, GameContainer gc) throws SlickException, IOException, FontFormatException
@@ -216,7 +217,7 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_LEFT_BUTTON)
+		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
 			for(SlotContent con : content)
 			{
@@ -228,7 +229,6 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 			}
 		}
 	}
-
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
 	 */

@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -48,6 +49,13 @@ public class EffectTile extends InterfaceTile
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(fileInput, ref, flipped, gc, info);
+		ttf = new TrueTypeFont(GBase.getFont("mainUiFont").deriveFont(12f), true);
+	}
+	
+	public EffectTile(Image iconImg, GameContainer gc, String info)
+			throws SlickException, IOException, FontFormatException 
+	{
+		super(iconImg, gc, info);
 		ttf = new TrueTypeFont(GBase.getFont("mainUiFont").deriveFont(12f), true);
 	}
 	/**

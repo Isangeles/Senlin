@@ -720,7 +720,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			weaponDmg[0] *= dwPenalty;
 			weaponDmg[1] *= dwPenalty;
 		}
-		hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
+		if(weaponDmg[0] > 0 && weaponDmg[1] > 1)
+			hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
 		
 		return hit;
 	}

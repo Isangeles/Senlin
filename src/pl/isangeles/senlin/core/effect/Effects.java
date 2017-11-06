@@ -172,6 +172,7 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 			effect.removeFrom(owner);
 		}
 		this.removeAll(effectsToRemove);
+		effectsToRemove.clear();
 	}
 	
 	@Override

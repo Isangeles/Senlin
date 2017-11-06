@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
@@ -39,7 +40,10 @@ import pl.isangeles.senlin.data.EffectsBase;
  */
 public class EffectAction extends Action implements EffectSource
 {
+	private static int counter;
+	private final int id = counter++;
     private final List<String> effectsIds;
+    private int antiLoopCounter;
     /**
      * Default effect action constructor(action from this constructor do nothing)
      */
@@ -72,6 +76,7 @@ public class EffectAction extends Action implements EffectSource
     @Override
     public boolean start(Targetable user, Targetable target)
     {
+    	lastUser = user;
         switch(type)
         {
         case EFFECTUSER:
@@ -103,7 +108,7 @@ public class EffectAction extends Action implements EffectSource
 	@Override
 	public String getSerialId() 
 	{
-		return "effectAction";
+		return "effectAction_" + id;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.effect.EffectSource#getOwner()
@@ -111,7 +116,7 @@ public class EffectAction extends Action implements EffectSource
 	@Override
 	public Targetable getOwner() 
 	{
-		return null;
+		return lastUser;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffects()
@@ -119,12 +124,32 @@ public class EffectAction extends Action implements EffectSource
 	@Override
 	public Collection<Effect> getEffects()
 	{
-		List<Effect> effects = new ArrayList<>();
-		for(String id : effectsIds)
+		List<Effect> effectsToPass = new ArrayList<>();
+		
+		// TODO interestingly, after starting action building effects cause infinite loop, this is some fix for that 
+		antiLoopCounter ++;
+		if(antiLoopCounter > 1) 
 		{
-			effects.add(EffectsBase.getEffect(this, id));
+			antiLoopCounter = 0;
+			return effectsToPass;
 		}
-		return effects;
+		//
+		
+		for(String effectId : effectsIds)
+        {
+        	effectsToPass.add(EffectsBase.getEffect(this, effectId));
+        }
+		/* DEBUG
+		try
+		{
+			throw new Exception();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		*/
+        return effectsToPass;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.effect.EffectSource#getEffect(java.lang.String)

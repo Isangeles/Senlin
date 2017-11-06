@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
@@ -60,6 +61,24 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(fileInput, ref+counter, flipped, gc, info, (int)Coords.getSize(45), (int)Coords.getSize(40));
+		gameInput = gc.getInput();
+		gameInput.addMouseListener(this);
+        clickColor = new Color(73, 73, 73);
+		counter ++;
+	}
+	/**
+	 * InterfaceTile constructor
+	 * @param iconImg Icon image
+	 * @param gc Slick game container
+	 * @param info Info from content
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public InterfaceTile(Image iconImg, GameContainer gc, String info)
+			throws SlickException, IOException, FontFormatException 
+	{
+		super(iconImg, info, (int)Coords.getSize(45), (int)Coords.getSize(40), gc);
 		gameInput = gc.getInput();
 		gameInput.addMouseListener(this);
         clickColor = new Color(73, 73, 73);
