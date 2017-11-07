@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.graphic.AnimObject;
@@ -239,7 +240,14 @@ public class Weapon extends Equippable
 	@Override
 	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
-    	return new ItemTile(GConnector.getInput("icon/item/weapon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+		try 
+		{
+			return new ItemTile(GConnector.getInput("icon/item/weapon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    	}
+		catch(SlickException | IOException e) 
+    	{
+			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
+		}
     }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Equippable#setMSprite(java.lang.String)

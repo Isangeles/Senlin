@@ -126,18 +126,19 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	}
 	/**
 	 * Opens loot window
-	 * @param characterToLoot Character with loot to display 
+	 * @param lootTarget Targetable object with loot to display 
 	 * @throws SlickException
 	 * @throws IOException
+	 * @return Open attempt result
 	 */
-	public CharacterOut open(Targetable characterToLoot)
+	public CharacterOut open(Targetable lootTarget)
 	{
 		if(openReq == false)
 		{
-	        lootedChar = characterToLoot;
+	        lootedChar = lootTarget;
 		    if(lootingChar.getRangeFrom(lootedChar.getPosition()) < 40)
 	        {
-		        if(!lootedChar.getInventory().isLocked())
+		        if(!lootedChar.getInventory().isLocked() || lootedChar.getInventory().unlock(lootingChar))
 		        {
 		            slotsP.clear();
 	                loadLoot();

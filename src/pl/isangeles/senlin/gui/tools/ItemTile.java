@@ -27,9 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.InterfaceTile;
 /**
  * Class for graphical representation of items in ui
@@ -38,10 +40,34 @@ import pl.isangeles.senlin.gui.InterfaceTile;
  */
 public class ItemTile extends InterfaceTile 
 {
+	/**
+	 * Item icon constructor
+	 * @param fileInput Input stream to icon texture
+	 * @param ref Name for icon texture
+	 * @param flipped If icon should be flipped
+	 * @param gc Slick game container
+	 * @param info String with text for info
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public ItemTile(InputStream fileInput, String ref, boolean flipped, GameContainer gc, String info)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(fileInput, ref, flipped, gc, info);
+	}
+	/**
+	 * Item icon constructor
+	 * @param iconImg Icon image 
+	 * @param gc Slick game container
+	 * @param info String with text for info
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public ItemTile(Image iconImg, GameContainer gc, String info) throws SlickException, IOException, FontFormatException
+	{
+		super(iconImg, gc, info);
 	}
 
 	@Override

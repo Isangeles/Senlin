@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.data.EffectsBase;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.graphic.AnimObject;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
@@ -227,8 +228,15 @@ public class Armor extends Equippable
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException
+	protected ItemTile setTile(GameContainer gc) throws FontFormatException, SlickException, IOException
     {
-    	return new ItemTile(GConnector.getInput("icon/item/armor/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    	try 
+    	{
+			return new ItemTile(GConnector.getInput("icon/item/armor/"+imgName), id+itemNumber, false, gc, this.getInfo());
+		} 
+    	catch(SlickException | IOException e) 
+    	{
+			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
+		}
     }
 }

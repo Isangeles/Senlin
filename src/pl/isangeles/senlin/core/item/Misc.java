@@ -32,6 +32,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.gui.tools.ItemTile;
 import pl.isangeles.senlin.util.GConnector;
 /**
@@ -107,6 +108,13 @@ public class Misc extends Item
 	@Override
 	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
-    	return new ItemTile(GConnector.getInput("icon/item/misc/"+imgName), id+itemNumber, false, gc, this.getInfo());
+		try 
+		{
+			return new ItemTile(GConnector.getInput("icon/item/misc/"+imgName), id+itemNumber, false, gc, this.getInfo());
+		}
+		catch(SlickException | IOException e) 
+    	{
+			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
+		}
     }
 }

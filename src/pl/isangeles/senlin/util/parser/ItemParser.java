@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Bonus;
 import pl.isangeles.senlin.core.bonus.Bonuses;
 import pl.isangeles.senlin.data.pattern.ActionPattern;
@@ -224,7 +225,9 @@ public class ItemParser
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		Node actionNode = itemE.getElementsByTagName("action").item(0);
-		ActionPattern onClick = ActionParser.getActionFromNode(actionNode);
+		ActionPattern onClick = new ActionPattern("none", "");
+		if(actionNode != null)
+			onClick = ActionParser.getActionFromNode(actionNode);
 		
 		return new MiscPattern(id, value, stack, disposable, icon, onClick);
 	}
