@@ -557,6 +557,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         }
         else
         {
+            sCaster.reset(); //move interrupts cast
         	for(int i = 0; i < 2; i ++) //Movement speed is determined by numbers of loops
         	{
             	if(signals.containsKey(CharacterSignal.FOLLOWING))
@@ -619,7 +620,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		return out;
 	}
 	/**
-	 * Moves character to given position  
+	 * Moves character to specified position  
 	 * @param x Position on X axis
 	 * @param y Position on Y axis
 	 */
@@ -674,7 +675,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @param moveX Horizontal move value
 	 * @param moveY Vertical move value
 	 */
-	public void move(int moveX, int moveY)
+	public void moveBy(int moveX, int moveY)
 	{
 		destPoint[0] = position[0] + moveX;
 		destPoint[1] = position[1] + moveY;

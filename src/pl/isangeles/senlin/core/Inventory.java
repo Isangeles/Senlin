@@ -93,7 +93,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	@Override
     public boolean add(Item item)
     {
-        if(lock.isOpen() && item != null)
+        if(item != null)
         {
             super.add(item);
         	item.setOwner(owner);
@@ -131,7 +131,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 	@Override
     public boolean remove(Object item)
     {
-    	if(lock.isOpen() && super.remove(item))
+    	if(super.remove(item))
     	{
     		if(Equippable.class.isInstance(item)) 
     		{
@@ -163,22 +163,17 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public boolean remove(String id, int amount)
     {
-        if(lock.isOpen())
+        List<Item> itemsToRemove = new ArrayList<>();
+        for(Item item : this)
         {
-            List<Item> itemsToRemove = new ArrayList<>();
-            for(Item item : this)
-            {
-                if(item.getId().equals(id))
-                    itemsToRemove.add(item);
-                
-                if(itemsToRemove.size() == amount)
-                    break;
-            }
+            if(item.getId().equals(id))
+                itemsToRemove.add(item);
+            
             if(itemsToRemove.size() == amount)
-                return removeAll(itemsToRemove);
-            else
-                return false;
+                break;
         }
+        if(itemsToRemove.size() == amount)
+            return removeAll(itemsToRemove);
         else
             return false;
     }
@@ -331,10 +326,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     @Override
     public Item get(int index)
     {
-        if(lock.isOpen())
-            return super.get(index);
-        else
-            return null;
+        return super.get(index);
     }
     /**
      * Returns item with specified serial ID
@@ -369,22 +361,17 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public Item takeItem(String itemId)
     {
-    	if(lock.isOpen())
-    	{
-    	    Item itemToTake = null;
-            for(Item item : this)
+        Item itemToTake = null;
+        for(Item item : this)
+        {
+            if(item.getId().equals(itemId))
             {
-                if(item.getId().equals(itemId))
-                {
-                    itemToTake = item;
-                    break;
-                }
+                itemToTake = item;
+                break;
             }
-            this.remove(itemToTake);
-            return itemToTake;
-    	}
-    	else
-    	    return null;
+        }
+        this.remove(itemToTake);
+        return itemToTake;
     }
     /**
      * Removes specified amount of gold from inventory
@@ -407,15 +394,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     
     public List<Item> getWithoutEq()
     {
-    	if(lock.isOpen())
-    	{
-    	    List<Item> invWithoutEq = new ArrayList<>();
-            invWithoutEq.addAll(this);
-            invWithoutEq.removeAll(equipment.getAll());
-            return invWithoutEq;
-    	}
-    	else
-    	    return new ArrayList<Item>();
+        List<Item> invWithoutEq = new ArrayList<>();
+        invWithoutEq.addAll(this);
+        invWithoutEq.removeAll(equipment.getAll());
+        return invWithoutEq;
     }
     /**
      * Returns all inventory as list with slot content

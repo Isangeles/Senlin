@@ -215,6 +215,23 @@ public abstract class InterfaceObject extends Image
     	return iObjectMOA.isMouseOver();
     }
     /**
+     * Draws object on current position 
+     * (position is scaled)
+     */
+    @Override
+    public void draw()
+    {
+        float drawX = x * scale;
+        float drawY = y * scale;
+        super.draw(drawX, drawY, scale);
+        
+        iObjectMOA.setLocation(drawX, drawY);
+        if(isInfo && iObjectMOA.isMouseOver())
+        {
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+        }
+    }
+    /**
      * Draws object
      * @param x Position on x axis
      * @param y Position on y axis
@@ -222,11 +239,13 @@ public abstract class InterfaceObject extends Image
     @Override
     public void draw(float x, float y)
     {
-        this.x = x * scale;
-        this.y = y * scale;
-        super.draw(this.x, this.y, scale);
+        setPosition(x, y);
         
-        iObjectMOA.setLocation(this.x, this.y);
+        float drawX = x * scale;
+        float drawY = y * scale;
+        super.draw(drawX, drawY, scale);
+        
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
@@ -241,11 +260,13 @@ public abstract class InterfaceObject extends Image
     @Override
     public void draw(float x, float y, Color filter)
     {
-        this.x = x * scale;
-        this.y = y * scale;
-        super.draw(this.x, this.y, scale, filter);
+        setPosition(x, y);
         
-        iObjectMOA.setLocation(this.x, this.y);
+        float drawX = x * scale;
+        float drawY = y * scale;
+        super.draw(drawX, drawY, scale, filter);
+        
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
@@ -261,17 +282,20 @@ public abstract class InterfaceObject extends Image
     @Override
     public void draw(float x, float y, float width, float height)
     {
-    	this.x = x * scale;
-        this.y = y * scale;
-        this.width = width * scale;
-        this.height = height * scale;
+        setPosition(x, y);
+        setSize(width, height);
+    
+        float drawX = x * scale;
+        float drawY = y * scale;
+        float drawWidth = width * scale;
+        float drawHeight = height * scale;
         
-        super.draw(this.x, this.y, this.width, this.height);
+        super.draw(drawX, drawY, drawWidth, drawHeight);
         
-        iObjectMOA.setLocation(this.x, this.y);
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     /**
@@ -284,21 +308,25 @@ public abstract class InterfaceObject extends Image
      */
     public void draw(float x, float y, float width, float height, boolean scaledPos)
     {
-    	this.x = x;
-    	this.y = y;
-        this.width = width * scale;
-        this.height = height * scale;
+        setPosition(x, y);
+        setSize(width, height);
+        
+        float drawX = x;
+        float drawY = y;
         if(scaledPos)
         {
-        	this.x *= scale;
-            this.y *= scale;
+            drawX *= scale;
+            drawY *= scale;
         }
-        super.draw(this.x, this.y, this.width, this.height);
+        float drawWidth = width * scale;
+        float drawHeight = height * scale;
         
-        iObjectMOA.setLocation(this.x, this.y);
+        super.draw(drawX, drawY, drawWidth, drawHeight);
+        
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     /**
@@ -309,20 +337,21 @@ public abstract class InterfaceObject extends Image
      */
     public void draw(float x, float y, boolean scaledPos)
     {
-    	this.x = x;
-    	this.y = y;
+        setPosition(x, y);
+        
+        float drawX = x;
+        float drawY = y;
         if(scaledPos)
         {
-        	this.x *= scale;
-            this.y *= scale;
+            drawX *= scale;
+            drawY *= scale;
         }
-        super.draw(this.x, this.y, scale);
+        super.draw(drawX, drawY, scale);
         
-        iObjectMOA.setLocation(this.x, this.y);
-        
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     /**
@@ -334,19 +363,21 @@ public abstract class InterfaceObject extends Image
      */
     public void draw(float x, float y, Color filter, boolean scaledPos)
     {
-    	this.x = x;
-    	this.y = y;
+        setPosition(x, y);
+        
+        float drawX = x;
+        float drawY = y;
         if(scaledPos)
         {
-        	this.x *= scale;
-            this.y *= scale;
+            drawX *= scale;
+            drawY *= scale;
         }
-        super.draw(this.x, this.y, scale, filter);
+        super.draw(drawX, drawY, scale, filter);
         
-        iObjectMOA.setLocation(this.x, this.y);
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     /**
@@ -360,21 +391,25 @@ public abstract class InterfaceObject extends Image
      */
     public void draw(float x, float y, float width, float height, Color filter, boolean scaledPos)
     {
-    	this.x = x;
-    	this.y = y;
-        this.width = width * scale;
-        this.height = height * scale;
+        setPosition(x, y);
+        setSize(width, height);
+        
+        float drawX = x;
+        float drawY = y;
         if(scaledPos)
         {
-        	this.x *= scale;
-            this.y *= scale;
+            drawX *= scale;
+            drawY *= scale;
         }
-        super.draw(this.x, this.y, this.width, this.height, filter);
+        float drawWidth = width * scale;
+        float drawHeight = height * scale;
         
-        iObjectMOA.setLocation(this.x, this.y);
+        super.draw(drawX, drawY, drawWidth, drawHeight, filter);
+        
+        iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
         {
-        	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
+            info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
     }
     /**
@@ -443,6 +478,26 @@ public abstract class InterfaceObject extends Image
     {
     	if(isInfo)
         	this.info.setText(info);
+    }
+    /**
+     * Sets object position
+     * @param x Position on x-axis
+     * @param y Position on y-axis
+     */
+    public void setPosition(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    /**
+     * Sets object size
+     * @param width Width
+     * @param height Height
+     */
+    public void setSize(float width, float height)
+    {
+        this.width = width;
+        this.height = height;
     }
     /**
      * Draws object in default scale on unscaled position

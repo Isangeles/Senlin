@@ -278,6 +278,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         settings.update();
         gameConsole.update();
         conditions.update();
+        point.update();
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -451,8 +452,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                         if(npc.isMouseOver())
                             return;
                     }
-                    point.setPosition(new Position(x, y));
-                    player.moveTo((int)Global.worldX(point.getPos().x), (int)Global.worldY(point.getPos().y));
+                    point.setPosition(new Position(Global.worldX(x), Global.worldY(y)));
+                    player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
                     Log.addInformation("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
                 }
                 

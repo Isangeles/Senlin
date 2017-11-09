@@ -41,6 +41,7 @@ import pl.isangeles.senlin.util.Position;
 class DestinationPoint extends InterfaceObject implements UiElement 
 {
 	private Character player;
+	private Position pos;
 	/**
 	 * Destination point constructor
 	 * @param gc Slick game container
@@ -57,8 +58,8 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	@Override
 	public void draw()
 	{
-		//this.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
-	    super.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
+	    //super.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
+	    super.draw(Global.uiX(pos.x), Global.uiY(pos.y), false);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
@@ -89,8 +90,7 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	 */
 	public void setPosition(Position pos)
 	{
-	    x = pos.x;
-	    y = pos.y;
+	    this.pos = pos;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()
@@ -99,7 +99,10 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	public boolean isOpenReq() 
 	{
 		Position pointPos = player.getDestPoint();
-		return !(new Position(player.getPosition()).equals(pointPos));
+		if(!new Position(player.getPosition()).equals(pointPos) && player.isMove())
+		    return true;
+		else
+		    return false;
 	}
 
 }

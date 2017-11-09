@@ -32,11 +32,13 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
+import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
+import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
@@ -109,8 +111,6 @@ public class CharMan implements CliTool
         
 		return out;
 	}
-	
-
     /**
      * Checks entered command for specified game character, second command check
      * @param commandLine Rest of command line (after target) 
@@ -435,18 +435,31 @@ public class CharMan implements CliTool
                    charOut = target.useSkill(target.getSkills().get(arg1));
 
                if(charOut != CharacterOut.SUCCESS)
-               {
                    Log.addSystem(charOut.toString());
-                   out = false;
-               }
                else
                    out = true;
                
            }
+           else if(prefix.equals("-i") || prefix.equals("-item"))
+           {
+               Item item = target.getInventory().getItem(arg1);
+               if(item != null && Usable.class.isInstance(item))
+               {
+                   Usable itemToUse = item;
+                   if(arg2 == null) 
+                       out = itemToUse.use(target, target);
+                   else
+                   {
+                       Targetable useTarget = gw.getCurrentChapter().getTObject(arg2);
+                       if(useTarget != null)
+                           out = itemToUse.use(target, useTarget);
+                   }
+               }
+           }
        }
        catch(NoSuchElementException e)
        {
-           out = false;
+           Log.addSystem("not enough arguments");
        }
        
        return out;

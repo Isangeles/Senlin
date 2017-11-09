@@ -36,8 +36,8 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class SkillCaster 
 {
+    private final Character caster;
 	private Skill skillToCast;
-	private Character caster;
 	private boolean casting;
 	private int time;
 	/**
@@ -87,9 +87,16 @@ public class SkillCaster
 	 */
 	public void reset()
 	{
-		skillToCast = null;
+        if(skillToCast != null)
+        {
+            skillToCast.reset();
+            caster.getAvatar().removeEffect(skillToCast.getCastAnim());
+            skillToCast.getCastSound().stop();
+        }
+        skillToCast = null;
 		time = 0;
 		casting = false;
+		caster.getAvatar().stopAnim();
 	}
 	/**
 	 * Checks if skill is casted by caster

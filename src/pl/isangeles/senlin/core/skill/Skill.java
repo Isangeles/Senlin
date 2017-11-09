@@ -371,6 +371,15 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
      * Activates skill prepared skill
      */
 	public abstract void activate();
+	/**
+	 * Resets skill to default state
+	 */
+	public void reset()
+	{
+	    active = false;
+	    ready = true;
+	    timer = 0;
+	}
 	
 	@Override
 	public Element getSave(Document doc)

@@ -122,12 +122,18 @@ public class Attack extends Skill
 	@Override
 	public String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
+		String fullInfo = name + System.lineSeparator() + 
+		                  TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
 						  TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
 						  TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
-						  TConnector.getText("ui", "castName") + ":" + getCastTime() + System.lineSeparator() + 
-						  TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + " sec"  + System.lineSeparator() + 
-						  info;
+						  TConnector.getText("ui", "castName") + ":" + getCastTime()/1000 + System.lineSeparator() + 
+						  TConnector.getText("ui", "cdName") + ":" + cooldown/1000 + System.lineSeparator();
+		for(Requirement req : useReqs)
+		{
+		    if(!req.getInfo().equals(""))
+		        fullInfo += req.getInfo() + System.lineSeparator();
+		}
+		fullInfo += info;
 		
 		return fullInfo;
 	}

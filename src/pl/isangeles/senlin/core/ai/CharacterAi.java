@@ -130,19 +130,19 @@ public class CharacterAi
 			{
 			case 0:
 				if(npc.getAvatar().getDirection() != Coords.UP)
-					npc.move(0, -4);
+					npc.moveBy(0, -4);
 				break;
 			case 1:
 				if(npc.getAvatar().getDirection() != Coords.RIGHT)
-					npc.move(4, 0);
+					npc.moveBy(4, 0);
 				break;
 			case 2:
 				if(npc.getAvatar().getDirection() != Coords.DOWN)
-					npc.move(0, 4);
+					npc.moveBy(0, 4);
 				break;
 			case 3:
 				if(npc.getAvatar().getDirection() != Coords.LEFT)
-					npc.move(-4, 0);
+					npc.moveBy(-4, 0);
 				break;
 			default:
 				return;
