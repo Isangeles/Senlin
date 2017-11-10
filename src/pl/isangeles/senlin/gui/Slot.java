@@ -217,17 +217,7 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 	@Override
 	public void mousePressed(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_RIGHT_BUTTON)
-		{
-			for(SlotContent con : content)
-			{
-				if(con.getTile().isMouseOver() && !con.getTile().isDragged())
-				{
-					con.getTile().dragged(true);
-					break;
-				}
-			}
-		}
+		
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseClicked(int, int, int, int)
@@ -242,6 +232,14 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) 
 	{
+	    for(SlotContent con : content)
+        {
+            if(con.getTile().isMouseOver() && !con.getTile().isDragged())
+            {
+                con.getTile().dragged(true);
+                break;
+            }
+        }
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.MouseListener#mouseMoved(int, int, int, int)

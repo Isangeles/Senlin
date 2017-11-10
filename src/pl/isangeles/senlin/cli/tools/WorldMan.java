@@ -145,24 +145,44 @@ public class WorldMan implements CliTool
 	{
 		boolean out = false;
         Scanner scann = new Scanner(commandLine);
-        String option = scann.next();
-        String arg = scann.next();
-        scann.close();
-        
-        if(option.equals("-play"))
+        try
         {
-        	world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg);
-        	out = true;
+            String option = scann.next();
+            String arg1 = null;
+            if(scann.hasNext())
+                arg1 = scann.next();
+            scann.close();
+            
+            if(option.equals("-play"))
+            {
+                if(arg1 != null)
+                    world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg1);
+                else
+                    world.getMusiPlayer().playRandomFrom("exploring", 1.0f, Settings.getMusicVol());
+                out = true;
+            }
+            else if(option.equals("-stop"))
+            {
+                world.getMusiPlayer().stop();
+                out = true;
+            }
+            else if(option.equals("-playSpecial") && arg1 != null)
+            {
+                world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
+                out = true;
+            }
+            else if(option.equals("-list"))
+            {
+                if(arg1 != null)
+                    Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList(arg1));
+                else
+                    Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList());
+                out = true;
+            }
         }
-        else if(option.equals("-playSpecial"))
+        catch(NoSuchElementException e)
         {
-        	world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg);
-        	out = true;
-        }
-        else if(option.equals("-list"))
-        {
-        	Log.addSystem(arg + ":" + world.getMusiPlayer().getTracksList(arg));
-        	out = true;
+            Log.addSystem("Not enought arguments");
         }
         
         return out;
@@ -177,12 +197,12 @@ public class WorldMan implements CliTool
 	{
 		boolean out = false;
         Scanner scann = new Scanner(commandLine);
-        String option = scann.next();
-        String[] args = {scann.next(), scann.next()};
-        scann.close();
-
-		try
-		{
+        try
+        {
+            String option = scann.next();
+            String[] args = {scann.next(), scann.next()};
+            scann.close();
+		
 			if(option.equals("ch") || option.equals("-character"))
 			{
 				String charId = args[0];

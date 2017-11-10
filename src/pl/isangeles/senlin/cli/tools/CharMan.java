@@ -157,12 +157,12 @@ public class CharMan implements CliTool
     {
     	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String value = scann.next();
-    	scann.close();
-    	
     	try
-    	{
+        {
+    	    String prefix = scann.next();
+    	    String value = scann.next();
+    	    scann.close();
+    	
     		if(prefix.equals("-guild"))
         	{
     			Guild guild = GuildsBase.getGuild(value);
@@ -200,11 +200,15 @@ public class CharMan implements CliTool
         	else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
     	}
-    	catch(NumberFormatException | NoSuchElementException | IndexOutOfBoundsException e)
-		{
-			Log.addSystem("bad value: " + value);
-		}
-        return out;
+        catch(NoSuchElementException e)
+        {
+            Log.addSystem("Not enought arguments");
+        }
+        catch(NumberFormatException e)
+        {
+            Log.addSystem(TConnector.getText("ui", "logBadVal"));
+        }
+    	return out;
     }
     /**
      * Checks add command for target, last command check
@@ -216,15 +220,18 @@ public class CharMan implements CliTool
 		boolean out = false;
 		
     	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String[] args = scann.next().split(" ");
-    	scann.close();
-    	
     	try
-    	{
+        {
+    	    String prefix = scann.next();
+    	    String arg1 = scann.next();
+    	    String arg2 = null;
+    	    if(scann.hasNext())
+    	        arg2 = scann.next();
+    	    scann.close();
+    	
     		if(prefix.equals("-i") || prefix.equals("-item"))
         	{
-    			out = target.addItem(ItemsBase.getItem(args[0]));
+    			out = target.addItem(ItemsBase.getItem(arg1));
         		if(out)
                     Log.addInformation(TConnector.getText("ui", "logAddI"));
                 else
@@ -232,48 +239,48 @@ public class CharMan implements CliTool
         	}
     		else if(prefix.equals("-g") || prefix.equals("-gold"))
     		{
-    	        target.addGold(Integer.parseInt(args[0]));
+    	        target.addGold(Integer.parseInt(arg1));
     	        out = true;
     		}
     		else if(prefix.equals("-h"))
     		{
-    		    target.modHealth(Integer.parseInt(args[0]));
+    		    target.modHealth(Integer.parseInt(arg1));
     		    out = true;
     		}
     		else if(prefix.equals("-m"))
     		{
-        	    target.modMagicka(Integer.parseInt(args[0]));
+        	    target.modMagicka(Integer.parseInt(arg1));
         	    out = true;
     		}
     		else if(prefix.equals("-e"))
     		{
-        	    target.modExperience(Integer.parseInt(args[0]));
+        	    target.modExperience(Integer.parseInt(arg1));
         	    out = true;
     		}
     		else if(prefix.equals("-s") || prefix.equals("-skills"))
-        		out = target.addSkill(SkillsBase.getSkill(target, args[0]));
+        		out = target.addSkill(SkillsBase.getSkill(target, arg1));
     		else if(prefix.equals("-sp") ||  prefix.equals("-speech"))
     		{
-    			String speech = TConnector.getTextFromChapter("speeches", args[0]);
+    			String speech = TConnector.getTextFromChapter("speeches", arg1);
     			target.speak(speech);
     			out = true;
     		}
     		else if(prefix.equals("-p") || prefix.equals("-profession"))
-        		out = target.addProfession(new Profession(ProfessionType.fromString(args[0])));
+        		out = target.addProfession(new Profession(ProfessionType.fromString(arg1)));
     		else if(prefix.equals("-r") || prefix.equals("-recipe"))
         	{
-        		Recipe recipe = RecipesBase.get(args[0]);
+        		Recipe recipe = RecipesBase.get(arg1);
         		if(recipe != null && target.getProfession(recipe.getType()) != null)
         			out = target.getProfession(recipe.getType()).add(recipe);
         	}
     		else if(prefix.equals("-f") || prefix.equals("-flag"))
     		{
-    			target.getFlags().add(args[0]);
+    			target.getFlags().add(arg1);
     			out = true;
     		}
     		else if(prefix.equals("-q") || prefix.equals("-quest"))
     		{
-        		target.startQuest(QuestsBase.get(args[0]));
+        		target.startQuest(QuestsBase.get(arg1));
         		out = true;
     		}
     		else if(prefix.equals("-l") || prefix.equals("-level"))
@@ -283,14 +290,14 @@ public class CharMan implements CliTool
     		}
     		else if(prefix.equals("-at") || prefix.equals("-attackTarget"))
     		{
-    			Targetable attackTarget = gw.getCurrentChapter().getTObject(args[0]);
+    			Targetable attackTarget = gw.getCurrentChapter().getTObject(arg1);
     			if(attackTarget != null)
     			{
     				target.enterCombat(attackTarget);
     				out = true;
     			}
     			else
-    				Log.addSystem("no such object: " + args[0]);
+    				Log.addSystem("no such object: " + arg1);
     		}
     		else
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
@@ -319,15 +326,16 @@ public class CharMan implements CliTool
     {
     	boolean out = false;
     	Scanner scann = new Scanner(commandLine);
-    	String prefix = scann.next();
-    	String arg1 = scann.next();
-    	String arg2 = null;
-    	if(scann.hasNext())
-    	    arg2 = scann.next();
-    	scann.close();
-    	
     	try
-    	{
+        {
+    	    String prefix = scann.next();
+    	    String arg1 = scann.next();
+    	    String arg2 = null;
+    	    if(scann.hasNext())
+    	        arg2 = scann.next();
+    	    scann.close();
+    	
+    	
     		if(prefix.equals("-h"))
     		{
     		    target.modHealth(-Integer.parseInt(arg1));
@@ -356,9 +364,13 @@ public class CharMan implements CliTool
     		else
     			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem"));
     	}
+    	catch(NoSuchElementException e)
+    	{
+    	    Log.addSystem("Not enought arguments");
+    	}
     	catch(NumberFormatException e)
     	{
-    		Log.addInformation(TConnector.getText("ui", "logBadVal"));
+    		Log.addSystem(TConnector.getText("ui", "logBadVal"));
     	}
     	return out;
     }
@@ -411,9 +423,9 @@ public class CharMan implements CliTool
     private boolean useCommands(String commandLine, Character target)
     {
        boolean out = false;
+       Scanner scann = new Scanner(commandLine);
        try
        {
-           Scanner scann = new Scanner(commandLine);
            String prefix = scann.next();
            String arg1 = scann.next();
            String arg2 = null;

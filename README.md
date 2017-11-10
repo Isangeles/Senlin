@@ -5,7 +5,7 @@ Game engine is completly modular, it means you can easly creats your own modules
 Engine dont use any binary files so all data files like items/quests/NPCs bases, scenarios, saved games, are easy to access and modifiy, most of them are in XML format.
 Currently in early development stage.
 
-### Installing
+## Installation
 
 Simply download and unpack build.
 

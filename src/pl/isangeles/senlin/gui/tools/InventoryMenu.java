@@ -233,26 +233,24 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 				
 				draggedSlot.dragged(false);
 			}
-			
-			if(slots.getMouseOver() != null && !slots.getMouseOver().isEmpty())
-			{
-				Item item = (Item)slots.getMouseOver().getContent().get(0);
-				if(item != null)
-				{
-					System.out.println("using: " + item.getId());
-					if(item.use(player, player.getTarget()))
-					{
-						if(item.getActionType() == ActionType.EQUIP)
-						{
-							autoMoveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
-						}
-					}
-				}
-			}
 		}
 		if(button == Input.MOUSE_RIGHT_BUTTON)
 		{
-			
+		    if(slots.getMouseOver() != null && !slots.getMouseOver().isEmpty())
+            {
+                Item item = (Item)slots.getMouseOver().getContent().get(0);
+                if(item != null)
+                {
+                    System.out.println("using: " + item.getId());
+                    if(item.use(player, player.getTarget()))
+                    {
+                        if(item.getActionType() == ActionType.EQUIP)
+                        {
+                            autoMoveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
+                        }
+                    }
+                }
+            }
 		}
 	}
 	@Override

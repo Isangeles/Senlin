@@ -37,9 +37,7 @@ import pl.isangeles.senlin.cli.Log;
  *
  */
 public class AudioPlayer
-{
-	private static final long serialVersionUID = 1L;
-	
+{	
 	private Playlist mainList;
 	private Playlist activePlaylist;
 	private List<Playlist> playlists = new ArrayList<>();
@@ -160,6 +158,7 @@ public class AudioPlayer
 	    Music track = mainList.get(trackName);
 		if(track != null)
 		{
+		    stop();
 			track.play(pitch, volume);
 			activePlaylist = mainList;
 		}
@@ -181,6 +180,7 @@ public class AudioPlayer
 			Music track = pl.get(trackName);
 			if(track != null)
 			{
+			    stop();
 				track.play(pitch, volume);
 				activePlaylist = pl;
 			}
@@ -203,6 +203,7 @@ public class AudioPlayer
         if(tracks.length > 0)
         {
             int trackId = rng.nextInt(tracks.length);
+            stop();
             tracks[trackId].play(pitch, volume);
         }
         else
@@ -228,6 +229,7 @@ public class AudioPlayer
 	        if(tracks.length > 0)
 	        {
 	            int trackId = rng.nextInt(tracks.length);
+	            stop();
 	            tracks[trackId].play(pitch, volume);
 				activePlaylist = playlist;
 	            return true;
@@ -308,7 +310,7 @@ public class AudioPlayer
 		return activePlaylist.getCurrentTrack();
 	}
 	/**
-	 * Returns names of all tracks in playlist with specifie name
+	 * Returns names of all tracks in playlist with specified name
 	 * @param playlist Playlist name
 	 * @return String with tracks name 
 	 */
@@ -321,6 +323,24 @@ public class AudioPlayer
 			tracks += name + ";";
 		}
 		return tracks;
+	}
+	/**
+	 * Returns string with all playlists and tracks names
+	 * @return String with all playlists and tracks names
+	 */
+	public String getTracksList()
+	{
+	    String playlist = "";
+	    for(Playlist pl : playlists)
+	    {
+	        String tracks = pl.getName() + ":";
+	        for(String track : pl.keySet())
+	        {
+	            tracks += track + ";";
+	        }
+	        playlist += tracks;
+	    }
+	    return playlist;
 	}
 	/**
 	 * Returns playlist with specified name
