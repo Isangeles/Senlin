@@ -39,6 +39,7 @@ import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.graphic.GameObject;
@@ -67,6 +68,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Position pos;
     private Inventory inventory;
     private Attributes attributes = new Attributes();
+    private Defense defense = new Defense(this);
     private Bonuses bonuses = new Bonuses();
     private Effects effects = new Effects(this);
     private Action onClick;
@@ -359,6 +361,14 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	{
 		return attributes;
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getDefense()
+	 */
+	@Override
+	public Defense getDefense() 
+	{
+		return defense;
+	}
 	/**
 	 * Sets specified inventory as this object inventory 
 	 * @param inventory Inventory to set
@@ -464,23 +474,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return bonuses.contains(bonus);
     }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#takeAttack(pl.isangeles.senlin.core.Targetable, int, java.util.List)
-     */
-    @Override
-    public void takeAttack(Targetable aggressor, Attack attack)
-    {
-    	takeHealth(aggressor, attack.getDamage());
-    	effects.addAll(attack.getEffects());
-    }
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
-	 */
-	@Override
-	public void takeBuff(Targetable buffer, Buff buff) 
-	{
-		//TODO buffs handling
-	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#takeHealth(pl.isangeles.senlin.core.Targetable, int)
 	 */
@@ -488,14 +481,6 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 	public void takeHealth(Targetable source, int value) 
 	{
 		hp.modValue(-value);
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#takePassvie(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Passive)
-	 */
-	@Override
-	public void takePassvie(Targetable passSource, Passive passive) 
-	{
-		//TODO passives handling
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Targetable#modMaxHealth(int)

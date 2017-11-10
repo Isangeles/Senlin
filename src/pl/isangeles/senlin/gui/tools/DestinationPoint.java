@@ -41,7 +41,7 @@ import pl.isangeles.senlin.util.Position;
 class DestinationPoint extends InterfaceObject implements UiElement 
 {
 	private Character player;
-	private Position pos;
+	private Position pos = new Position();
 	/**
 	 * Destination point constructor
 	 * @param gc Slick game container
@@ -90,7 +90,8 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	 */
 	public void setPosition(Position pos)
 	{
-	    this.pos = pos;
+	    if(pos != null)
+	    	this.pos = pos;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#isOpenReq()

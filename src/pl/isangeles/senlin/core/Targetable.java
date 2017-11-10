@@ -30,6 +30,7 @@ import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.gui.Portrait;
 
@@ -70,6 +71,11 @@ public interface Targetable extends ObjectiveTarget
 	 */
 	public Attributes getAttributes();
 	/**
+	 * Returns object defense
+	 * @return Targetable object defense
+	 */
+	public Defense getDefense();
+	/**
 	 * Returns target for graphical effects
 	 * @return Graphical object able to handle graphical effects
 	 */
@@ -84,24 +90,6 @@ public interface Targetable extends ObjectiveTarget
 	public int[] getPosition();
 	
 	public void takeHealth(Targetable source, int value);
-	/**
-	 * Handles attacks
-	 * @param aggressor Aggressor
-	 * @param attack Attack skill
-	 */
-	public void takeAttack(Targetable aggressor, Attack attack);
-	/**
-	 * Handles buffs
-	 * @param buffer Buff provider
-	 * @param buff Buff skill
-	 */
-	public void takeBuff(Targetable buffer, Buff buff);
-	/**
-	 * Handles passives
-	 * @param passSource Targetable object
-	 * @param passive Passive skill to handle
-	 */
-	public void takePassvie(Targetable passSource, Passive passive);
 	
 	public void modHealth(int value);
 	public void modMagicka(int value);

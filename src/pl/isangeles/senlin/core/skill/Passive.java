@@ -101,7 +101,7 @@ public class Passive extends Skill
 	{
 		if(active)
 		{
-			target.takePassvie(owner, this);
+			target.getDefense().handleSkill(this);
 		}
 	}
 	/* (non-Javadoc)

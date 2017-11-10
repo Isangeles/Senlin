@@ -122,7 +122,7 @@ public class Buff extends Skill
     {
     	if(active)
     	{
-    		target.takeBuff(owner, this);
+    		target.getDefense().handleSkill(this);
     		castSound.stop();
     		deactivate();
     	}

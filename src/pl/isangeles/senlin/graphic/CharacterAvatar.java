@@ -54,38 +54,31 @@ public abstract class CharacterAvatar implements MouseListener, Effective
 	
 	protected Character character;
 	
-	protected Sprite hostileT;
-	protected Sprite neutralT;
-	protected Sprite friendlyT;
-	protected Sprite deadT;
-	protected Sprite target;
-	
 	protected TrueTypeFont ttf;
 	
 	protected boolean isMove;
-	protected boolean isTargeted;
 	protected boolean isSpeaking;
 	protected int speechTime;
 	
 	private List<SimpleAnim> effects = new ArrayList<>();
 	private List<SimpleAnim> loopEffects = new ArrayList<>();
 	private List<SimpleAnim> effectsToRemove = new ArrayList<>();
-	
+	/**
+	 * Character avatar constructor
+	 * @param character Game character
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public CharacterAvatar(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		gc.getInput().addMouseListener(this);
 		this.character = character;
 		
-		hostileT = new Sprite(GConnector.getInput("sprite/hTarget.png"), "hTarget", false);
-		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
-		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
-		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
-		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
 		ttf = new TrueTypeFont(font.deriveFont(11f), true);
-		
-		setTargetSprite();
 		
 		avName = new InfoWindow(gc, character.getName());
 		speakWindow = new InfoWindow(gc, "");
@@ -122,7 +115,6 @@ public abstract class CharacterAvatar implements MouseListener, Effective
     public void update(int delta)
     {
 		avName.setText(character.getName() + System.lineSeparator() + character.getGuild().getName());
-		setTargetSprite();
 		
     	if(isSpeaking)
 		{
@@ -181,35 +173,6 @@ public abstract class CharacterAvatar implements MouseListener, Effective
 	{
 		speakWindow.setText(text);
 		isSpeaking = true;
-	}
-	/**
-	 * Informs avatar that his character is targeted or not
-	 * @param isTargeted True if is targeted, false otherwise
-	 */
-	public void targeted(boolean isTargeted)
-	{
-	    this.isTargeted = isTargeted;
-	}
-	/**
-	 * Sets color of target circle based on character attitude
-	 */
-	protected void setTargetSprite()
-	{
-		switch(character.getAttitudeTo(Global.getPlayer()))
-		{
-		case HOSTILE:
-			target = hostileT;
-			break;
-		case NEUTRAL:
-			target = neutralT;
-			break;
-		case FRIENDLY:
-			target = friendlyT;
-			break;
-		case DEAD:
-		    target = deadT;
-		    break;
-		}
 	}
     /**
      * Returns object direction

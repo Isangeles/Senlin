@@ -48,6 +48,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.util.*;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.Defense;
 import pl.isangeles.senlin.core.Experience;
 import pl.isangeles.senlin.core.Health;
 import pl.isangeles.senlin.core.Inventory;
@@ -123,6 +124,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private int[] position = {-404, -404};
 	private int[] destPoint = {position[0], position[1]};
 	private Attributes attributes;
+	private Defense defense = new Defense(this);
 	private Portrait portrait;
 	private boolean live;
 	private boolean trade;
@@ -779,6 +781,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 	    return attributes;
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.Targetable#getDefense()
+	 */
+	@Override
+	public Defense getDefense() 
+	{
+		return defense;
+	}
 	
 	public int getLearnPoints()
 	{ return learnPoints; }
@@ -1085,56 +1095,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		learnPoints -= value;
 	}
-	/**
-	 * Handles attacks
-	 */
-	@Override
-	public void takeAttack(Targetable aggressor, Attack attack)
-	{
-		if(Character.class.isInstance(aggressor))
-		{
-			Character aggressorChar = (Character)aggressor;
-			memCharAs(aggressorChar.getSerialId(), Attitude.HOSTILE);
-		}
-		
-		if(numberGenerator.nextFloat()+attributes.getDodge() >= 1f)
-		{
-			Log.addInformation(name + ":" + TConnector.getText("ui", "logDodge"));
-		}
-		else
-		{
-			int damage = attack.getDamage() - inventory.getArmorRating() - attributes.getResistances().getResistanceFor(attack.getEffectType());
-			if(damage < 0)
-				damage = 0;
-			takeHealth(aggressor, damage);
-			effects.addAll(attack.getEffects());
-			if(aggressor.getInventory().getMainWeapon() != null)
-			{
-				effects.addAll(aggressor.getInventory().getMainWeapon().getHitEffects());
-			}
-			if(aggressor.getInventory().getOffHand() != null)
-			{
-				effects.addAll(aggressor.getInventory().getOffHand().getHitEffects());
-			}
-		}
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#takeBuff(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Buff)
-	 */
-	@Override
-	public void takeBuff(Targetable buffer, Buff buff)
-	{
-    	effects.addAll(buff.getEffects());
-    	//bonuses.applyAllOn(this);
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#takePassvie(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.skill.Passive)
-	 */
-	@Override
-	public void takePassvie(Targetable passSource, Passive passive) 
-	{
-		effects.addAll(passive.getEffects());
-	}
 	
 	public void addLearnPoints(int value)
 	{  learnPoints += value; }
@@ -1396,7 +1356,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public void targeted(boolean isTargeted)
     {
-        avatar.targeted(isTargeted);
+        //avatar.targeted(isTargeted);
     }
     /**
      * Parses character to XML document element for game save file

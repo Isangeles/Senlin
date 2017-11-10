@@ -173,7 +173,7 @@ public class Attack extends Skill
 	    if(active)
 	    {
 	        useReqs.chargeAll(owner);
-	        target.takeAttack(owner, this);
+	        target.getDefense().handleSkill(this);
 	        active = false;
 	    }
 	}

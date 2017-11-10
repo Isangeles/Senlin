@@ -91,6 +91,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private SettingsMenu settings;
     private ConditionsInfo conditions;
     private DestinationPoint point;
+    private TargetPoint target;
     private Camera camera;
     private Warning uiWarning;
     
@@ -135,6 +136,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
         point = new DestinationPoint(gc, player);
+        target = new TargetPoint(gc, player);
         camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1])); 
         uiWarning = new Warning(gc);
     }
@@ -143,6 +145,12 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public void draw(Graphics g)
     {
+    	if(point.isOpenReq())
+        	point.draw();
+    	
+    	if(target.isOpenReq())
+    		target.draw();
+    	
         if(!lock)
         {
         	gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
@@ -153,9 +161,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         
         if(cast.isOpenReq())
         	cast.draw(Coords.getX("CE", 0), Coords.getY("CE", 100));
-        
-        if(point.isOpenReq())
-        	point.draw();
         
         if(player.getTarget() != null)
         	targetFrame.draw(Coords.getX("CE", 0), Coords.getY("TR", 0));

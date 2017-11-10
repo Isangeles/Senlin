@@ -97,9 +97,6 @@ public class Avatar extends CharacterAvatar
 			avName.draw(x, y);
 		}
 		
-		if(isTargeted)
-			target.draw(x+target.getDis(35), y+target.getDis(100), false);
-		
 		torso.draw(x, y);
 		head.draw(x, y);
 		ttf.drawString(x, (y-head.getDis(25)), character.getName());

@@ -80,16 +80,14 @@ public class EffectAction extends Action implements EffectSource
         switch(type)
         {
         case EFFECTUSER:
-        	user.getEffects().addAll(getEffects());
+        	user.getDefense().handleEffects(getEffects());
             return true;
         case EFFECTTARGET:
         	if(target != null) 
         	{
-            	target.getEffects().addAll(getEffects());
+        		user.getDefense().handleEffects(getEffects());
             	return true;
             }
-        	else
-        		return false;
         default:
             return false;
         }

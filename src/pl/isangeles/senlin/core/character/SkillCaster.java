@@ -69,18 +69,20 @@ public class SkillCaster
 	 */
 	public void cast(Skill skill)
 	{
-		reset();
-		//if(!skill.isActive())
-		//{
-			if(skill.isInstant())
-			{
-				activateSkill(skill);
-			}
-			else
-			{
-				startCast(skill);
-			}
-		//}
+		if(casting) 
+		{
+			reset();
+			caster.getAvatar().stopAnim();
+		}
+
+		if(skill.isInstant())
+		{
+			activateSkill(skill);
+		}
+		else
+		{
+			startCast(skill);
+		}
 	}
 	/**
 	 * Resets caster
@@ -96,7 +98,7 @@ public class SkillCaster
         skillToCast = null;
 		time = 0;
 		casting = false;
-		caster.getAvatar().stopAnim();
+		//caster.getAvatar().stopAnim();
 	}
 	/**
 	 * Checks if skill is casted by caster
