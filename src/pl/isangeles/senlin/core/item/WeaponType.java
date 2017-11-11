@@ -60,6 +60,33 @@ public enum WeaponType
 		}
 	}
 	/**
+	 * Converts ordinal to weapon type enumeration
+	 * @param ordinal Weapon type enum ordinal
+	 * @return Weapon type enumeration
+	 */
+	public static WeaponType fromOrdinal(int ordinal)
+	{
+		switch(ordinal)
+		{
+		case 0:
+			return DAGGER;
+		case 1:
+			return SWORD;
+		case 2:
+			return AXE;
+		case 3:
+			return MACE;
+		case 4:
+			return SPEAR;
+		case 5:
+			return BOW;
+		case 6:
+			return FIST;
+		default:
+			return FIST;
+		}
+	}
+	/**
 	 * Returns weapon type ID
 	 * @return Weapon type ID
 	 */

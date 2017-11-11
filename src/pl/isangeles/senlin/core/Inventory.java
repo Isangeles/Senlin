@@ -409,7 +409,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	slotsContent.addAll(this);
     	return slotsContent;
     }
-    
+    /**
+     * Checks if both main and off weapon are equipped
+     * @return True if main and off weapon are equipped
+     */
     public boolean isDualwield()
     {
     	return equipment.isDualwield();

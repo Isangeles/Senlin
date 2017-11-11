@@ -1,19 +1,6 @@
 <?xml version="1.0"?>
 <base>
-<skill id="autoA" effect="normal" type="melee">
-    <icon>autoAttack.png</icon>
-    <range>40</range>
-    <cast>0</cast>
-    <damage>0</damage>
-    <cooldown>2</cooldown>
-    <effects>
-    </effects>
-    <useReq>
-    </useReq>
-    <trainReq>
-    </trainReq>
-</skill>
-<skill id="slash" effect="normal" type="melee">
+<skill id="slash" effect="normal" type="melee" useWeapon="true">
     <icon>slash.png</icon>
     <range>40</range>
     <cast>0</cast>
@@ -31,21 +18,7 @@
         <pointsReq>1</pointsReq>
     </trainReq>
 </skill>
-<skill id="shot" effect="normal" type="range">
-    <icon>shot.png</icon>
-    <range>150</range>
-    <cast>0</cast>
-    <damage>0</damage>
-    <cooldown>3</cooldown>
-    <effects>
-    </effects>
-    <useReq>
-        <weaponReq>bow</weaponReq>
-    </useReq>
-    <trainReq>
-    </trainReq>
-</skill>
-<skill id="fireball01" effect="fire" type="spell">
+<skill id="fireball01" effect="fire" type="spell" useWeapon="false">
     <icon>fireball.png</icon>
     <range>300</range>
     <cast>5</cast>

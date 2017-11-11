@@ -80,6 +80,7 @@ public class EffectAction extends Action implements EffectSource
         switch(type)
         {
         case EFFECTUSER:
+        	Log.addSystem("adding effects");
         	user.getDefense().handleEffects(getEffects());
             return true;
         case EFFECTTARGET:

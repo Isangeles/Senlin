@@ -25,7 +25,9 @@ package pl.isangeles.senlin.data;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,6 +37,7 @@ import org.newdawn.slick.SlickException;
 import org.xml.sax.SAXException;
 
 import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.AttackType;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.pattern.AttackPattern;
 import pl.isangeles.senlin.data.pattern.BuffPattern;
@@ -43,8 +46,11 @@ import pl.isangeles.senlin.data.pattern.SkillPattern;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
 import pl.isangeles.senlin.core.item.WeaponType;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.WeaponRequirement;
 /**
  * Static class for skills
  * loaded at newGameMenu initialization
@@ -72,7 +78,10 @@ public class SkillsBase
 	 */
 	public static Attack getAutoAttack(Character character) throws SlickException, IOException, FontFormatException
 	{
-		return attacksMap.get("autoA").make(character, gc);
+		//return attacksMap.get("autoA").make(character, gc);
+
+		List<Requirement> reqs = new ArrayList<Requirement>();
+		return new Attack(character, "autoA", "autoAttack.png", EffectType.NORMAL, AttackType.MELEE, 0, reqs, true, 0, 2000, 40, new ArrayList<String>(), gc);
 	}
 	/**
 	 * Returns shot skill from base
@@ -84,7 +93,11 @@ public class SkillsBase
 	 */
 	public static Attack getShot(Character character) throws SlickException, IOException, FontFormatException
 	{
-		return attacksMap.get("shot").make(character, gc);
+		//return attacksMap.get("shot").make(character, gc);
+		
+		List<Requirement> reqs = new ArrayList<Requirement>();
+		reqs.add(new WeaponRequirement(WeaponType.BOW));
+		return new Attack(character, "shot", "shot.png", EffectType.NORMAL, AttackType.MELEE, 0, reqs, true, 0, 3000, 150, new ArrayList<String>(), gc);
 	}
 	
 	public static Skill getSkill(Character character, String id) throws SlickException, IOException, FontFormatException
@@ -107,6 +120,10 @@ public class SkillsBase
     {
         if(attacksMap.containsKey(id))
             return attacksMap.get(id);
+        else if(buffsMap.containsKey(id))
+        	return buffsMap.get(id);
+        else if(passivesMap.containsKey(id))
+        	return passivesMap.get(id);
         
         return null;
     }

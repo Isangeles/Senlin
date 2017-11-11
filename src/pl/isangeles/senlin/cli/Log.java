@@ -78,6 +78,15 @@ public class Log
 		add(TConnector.getText("ui", "logSysMsg") + ": " + systemMsg);
 	}
 	/**
+	 * Adds new combat message to log
+	 * @param combatMsg String with message
+	 */
+	public static void addCombat(String combatMsg)
+	{
+		clearOld();
+		add(TConnector.getText("ui", "logCombat") + ": " + combatMsg);
+	}
+	/**
 	 * Adds new speech message to log
 	 * @param who Name of speech author
 	 * @param speech Content of speech

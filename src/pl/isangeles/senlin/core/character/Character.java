@@ -93,7 +93,7 @@ import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.save.SaveElement;
-import pl.isangeles.senlin.graphic.Avatar;
+import pl.isangeles.senlin.graphic.DynamicAvatar;
 import pl.isangeles.senlin.graphic.CharacterAvatar;
 import pl.isangeles.senlin.graphic.Effective;
 import pl.isangeles.senlin.graphic.StaticAvatar;
@@ -145,7 +145,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private QuestTracker qTracker;
 	private SkillCaster sCaster;
 	private Area currentArea;
-	private Random numberGenerator = new Random();
+	private Random rng = new Random();
 	/**
 	 * This constructor provides playable character
 	 * @param id Character ID
@@ -180,7 +180,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		if(staticAvatar)
 			avatar = new StaticAvatar(this, gc, spritesheet);
 		else
-			avatar = new Avatar(this, gc, spritesheet);
+			avatar = new DynamicAvatar(this, gc, spritesheet);
 
 		addLevel(level);
 		
@@ -236,9 +236,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		level ++;
 		learnPoints ++;
-		int maxHealth = attributes.addHealth();
+		int maxHealth = attributes.getHealth() + 10;
 		hp = new Health(maxHealth, maxHealth);
-		int maxMagicka = attributes.addMagicka();
+		int maxMagicka = attributes.getMagicka() + 5;
 		mana = new Magicka(maxMagicka, maxMagicka);
 		exp.setMax(1000 * level);
 	}
@@ -694,39 +694,66 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			return false;
 	}
 	/**
-	 * Get character hit
+	 * Returns character hit value
 	 * @return Hit value
 	 */
 	public int getHit()
-	{
-		int hit = numberGenerator.nextInt(10) + attributes.getBasicHit();
-		for(DamageBonus dmgBonus : bonuses.getDmgBonuses())
+	{	
+		Weapon mainWeapon = inventory.getMainWeapon();
+		Weapon offWeapon = inventory.getOffHand();
+		
+		int mainHit = 0;
+		if(rng.nextDouble() + attributes.getMainHitChance() >= 1.0f)
 		{
-			if(dmgBonus.getWeaponType() == null)
-				hit += dmgBonus.getDmg();
-			else
-			{
-				if(inventory.getMainWeapon() == null)
-				{
-					if(dmgBonus.getWeaponType() == WeaponType.FIST)
-						hit += dmgBonus.getDmg();
-				}
-				else if(inventory.getMainWeapon().getType() == dmgBonus.getWeaponType().ordinal())
-					hit += dmgBonus.getDmg();
+			mainHit += rng.nextInt(10) + attributes.getBasicHit();
+			
+			if(mainWeapon != null) 
+			{	
+				mainHit += rng.nextInt(mainWeapon.getDamage()[0]) + mainWeapon.getDamage()[1];
+				mainHit += bonuses.getDmgBonusFor(WeaponType.fromOrdinal(mainWeapon.getType()));
 			}
+			else
+				mainHit += bonuses.getDmgBonusFor(WeaponType.FIST);
 		}
-		int[] weaponDmg = inventory.getWeaponDamage();
+		else
+			mainHit = -1; //means miss
+		
+		if(mainWeapon == null && offWeapon != null)
+			mainHit = 0;
+		
+		int offHit = 0;
+		if(inventory.isDualwield() || offWeapon != null || (mainWeapon == null && offWeapon == null))
+		{	
+			if(rng.nextDouble() + attributes.getOffHitChance() >= 1.0f)
+			{
+				offHit += attributes.getBasicHit();
+				if(offWeapon != null)
+				{
+					offHit += (rng.nextInt(offWeapon.getDamage()[0]) + offWeapon.getDamage()[1]);
+					offHit += bonuses.getDmgBonusFor(WeaponType.fromOrdinal(offWeapon.getType()));
+				}
+				else
+					offHit += bonuses.getDmgBonusFor(WeaponType.FIST);
+			}
+			else
+				offHit = -1; //means miss
+		}
+		
+		int fullHit = mainHit + offHit;
+
+		if(fullHit < 0) 
+		{
+			Log.addInformation(name + ":" + TConnector.getText("ui", "logMiss"));
+			return -1;
+		}
+		
 		if(inventory.isDualwield())
 		{
-			float dwPenalty = attributes.getDualwieldPenalty();
-			dwPenalty -= bonuses.getDualwieldBonus();
-			weaponDmg[0] *= dwPenalty;
-			weaponDmg[1] *= dwPenalty;
+			float dwPenalty = attributes.getDualwieldPenalty() - bonuses.getDualwieldBonus();
+			fullHit /= dwPenalty;
 		}
-		if(weaponDmg[0] > 0 && weaponDmg[1] > 1)
-			hit += (numberGenerator.nextInt(weaponDmg[0])+weaponDmg[1]);
 		
-		return hit;
+		return fullHit;
 	}
 	/**
 	 * Returns character damage
@@ -749,7 +776,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	
 	public int getSpell()
 	{
-		return numberGenerator.nextInt(20) + attributes.getBasicSpell(); 
+		return rng.nextInt(20) + attributes.getBasicSpell(); 
 	}
 	
 	public int getLevel()
@@ -1350,14 +1377,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		return target;
 	}
-    /**
-     * Informs character that is targeted or not
-     * @param isTargeted True if is targeted, false otherwise
-     */
-    public void targeted(boolean isTargeted)
-    {
-        //avatar.targeted(isTargeted);
-    }
     /**
      * Parses character to XML document element for game save file
      * @param doc Document for game save

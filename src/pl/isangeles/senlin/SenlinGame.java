@@ -60,19 +60,18 @@ public class SenlinGame extends StateBasedGame
     {
         try 
         {
-            AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
+        	AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
             try
             {
             	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
             }
             catch(SlickException e)
             {
-            	System.out.println("switching to current resolution...");
-            	Dimension currentResolution = Toolkit.getDefaultToolkit().getScreenSize();
-            	int width = (int)currentResolution.getWidth();
-            	int height = (int)currentResolution.getHeight();
-            	appGC.setDisplayMode(width, height, true);
-            	Settings.setResolution(new Size(width, height));
+            	System.out.println("Unsupported resolution: " + Settings.getResolution()[0] + "x" + Settings.getResolution()[1] + ", switching to system resolution...");
+            	Settings.setResolution(Settings.getSystemResolution());
+            	System.gc();
+            	appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
+            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
             }
             appGC.setTargetFrameRate(60);
             //appGC.setClearEachFrame(false);

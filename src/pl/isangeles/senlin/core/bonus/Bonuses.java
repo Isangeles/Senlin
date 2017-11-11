@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.item.WeaponType;
 /**
  * Container class for bonuses
  * @author Isnageles
@@ -83,20 +84,23 @@ public class Bonuses extends ArrayList<Bonus>
 		return bonusInfo;
 	}
 	/**
-	 * Returns all damage bonuses
-	 * @return List with damage bonuses
+	 * Returns full damage bonus for specified weapon type
+	 * @param weapon Weapon type
+	 * @return Damage bonus for specified weapon type
 	 */
-	public List<DamageBonus> getDmgBonuses()
+	public int getDmgBonusFor(WeaponType weapon)
 	{
-		List<DamageBonus> bonuses = new ArrayList<>();
+		int dmgBonus = 0;
 		for(Bonus bonus : this)
 		{
 			if(bonus.getType() == BonusType.DAMAGE)
 			{
-				bonuses.add((DamageBonus)bonus);
+				DamageBonus dBonus = (DamageBonus)bonus;
+				if(dBonus.getWeaponType() == weapon && dBonus.getWeaponType() == null)
+					dmgBonus += dBonus.getDmg();
 			}
 		}
-		return bonuses;
+		return dmgBonus;
 	}
 	/**
 	 * Returns value of dual wielding penalty modifier from all active bonuses

@@ -90,7 +90,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private LoadGameWindow load;
     private SettingsMenu settings;
     private ConditionsInfo conditions;
-    private DestinationPoint point;
+    private DestinationPoint destination;
     private TargetPoint target;
     private Camera camera;
     private Warning uiWarning;
@@ -135,7 +135,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         settings = new SettingsMenu(gc, gw);
         bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
-        point = new DestinationPoint(gc, player);
+        destination = new DestinationPoint(gc, player);
         target = new TargetPoint(gc, player);
         camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1])); 
         uiWarning = new Warning(gc);
@@ -145,12 +145,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public void draw(Graphics g)
     {
-    	if(point.isOpenReq())
-        	point.draw();
-    	
-    	if(target.isOpenReq())
-    		target.draw();
-    	
         if(!lock)
         {
         	gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
@@ -211,6 +205,16 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         //cursor.draw();   	
+    }
+    /**
+     * Draws UI pointers, like destination point or target point
+     */
+    public void drawPointners()
+    {
+    	if(destination.isOpenReq())
+    		destination.draw();
+    	if(target.isOpenReq())
+    		target.draw();
     }
     /**
      * Updates ui elements
@@ -283,7 +287,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         settings.update();
         gameConsole.update();
         conditions.update();
-        point.update();
+        destination.update();
     }
     /**
      * Checks if mouse is over one of ui elements
@@ -310,7 +314,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public boolean isPauseReq()
     {
-        return !gameConsole.isHidden() || bBar.isPauseReq();
+        return !gameConsole.isHidden() || bBar.isPauseReq() || load.isOpenReq() || save.isOpenReq() || settings.isOpenReq();
     }
     
     public boolean takeSaveReq()
@@ -364,6 +368,27 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	this.lock = lock;
     	//camera.setLock(lock);
     	bBar.setFocus(!lock);
+    }
+    /**
+     * Closes all UI windows
+     */
+    public void closeAll()
+    {
+    	igMenu.close();
+    	charWin.close();
+    	inventory.close();
+    	skills.copy();
+    	crafting.close();
+    	journal.close();
+    	map.close();
+    	loot.close();
+    	trade.close();
+    	train.close();
+    	dialogue.close();
+    	reading.close();
+    	settings.close();
+    	save.close();
+    	load.close();
     }
 	@Override
 	public void inputEnded()
@@ -457,7 +482,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                         if(npc.isMouseOver())
                             return;
                     }
-                    point.setPosition(new Position(Global.worldX(x), Global.worldY(y)));
+                    destination.setPosition(new Position(Global.worldX(x), Global.worldY(y)));
                     player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
                     Log.addInformation("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
                 }
@@ -515,11 +540,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                 if(npc.isMouseOver())
                 {
                     player.setTarget(npc);
-                    npc.targeted(true);
                     return;
                 }
-                else
-                    npc.targeted(false);
             }
             if(!isMouseOver())
                 player.setTarget(null);

@@ -60,7 +60,7 @@ class TargetPoint implements UiElement
 		hostileT = new Sprite(GConnector.getInput("sprite/hTarget.png"), "hTarget", false);
 		neutralT = new Sprite(GConnector.getInput("sprite/nTarget.png"), "nTarget", false);
 		friendlyT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "fTarget", false);
-		deadT = new Sprite(GConnector.getInput("sprite/fTarget.png"), "dTarget", false);
+		deadT = new Sprite(GConnector.getInput("sprite/dTarget.png"), "dTarget", false);
 	}
 	/**
 	 * Draws target point
@@ -76,21 +76,21 @@ class TargetPoint implements UiElement
 				switch(charTarget.getAttitudeTo(player))
 				{
 				case FRIENDLY:
-					friendlyT.draw(Global.uiX(target.getPosition()[0]), Global.uiY(target.getPosition()[1]), false);
+					friendlyT.draw(target.getPosition()[0], target.getPosition()[1], false);
 					break;
 				case NEUTRAL:
-					neutralT.draw(Global.uiX(target.getPosition()[0]), Global.uiY(target.getPosition()[1]), false);
+					neutralT.draw(target.getPosition()[0], target.getPosition()[1], false);
 					break;
 				case HOSTILE:
-					hostileT.draw(Global.uiX(target.getPosition()[0]), Global.uiY(target.getPosition()[1]), false);
+					hostileT.draw(target.getPosition()[0], target.getPosition()[1], false);
 					break;
 				case DEAD:
-					deadT.draw(Global.uiX(target.getPosition()[0]), Global.uiY(target.getPosition()[1]), false);
+					deadT.draw(target.getPosition()[0], target.getPosition()[1], false);
 					break;
 				}
 			}
-			else
-				deadT.draw(Global.uiX(target.getPosition()[0]), Global.uiY(target.getPosition()[1]), false);
+			else 
+				deadT.draw(target.getPosition()[0], target.getPosition()[1], false);
 		}
 	}
 	/* (non-Javadoc)

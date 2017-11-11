@@ -161,7 +161,7 @@ class BottomBar extends InterfaceObject implements UiElement, SaveElement, Mouse
      */
     public boolean isPauseReq()
     {
-        return menu.isOpenReq() || inventory.isOpenReq() || skills.isOpenReq();
+        return menu.isOpenReq() || inventory.isOpenReq() || skills.isOpenReq() || charWin.isOpenReq() || journal.isOpenReq() || map.isOpenReq() || crafting.isOpenReq();
     }
 
     @Override

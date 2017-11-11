@@ -54,12 +54,11 @@ class DestinationPoint extends InterfaceObject implements UiElement
 		super(GConnector.getInput("sprite/nTarget.png"), "uiDestPoint", false, gc);
 		this.player = player;
 	}
-	
 	@Override
 	public void draw()
 	{
 	    //super.draw(Global.uiX(player.getDestPoint().x), Global.uiY(player.getDestPoint().y), false);
-	    super.draw(Global.uiX(pos.x), Global.uiY(pos.y), false);
+		super.draw(pos.x, pos.y, false);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#update()
@@ -68,7 +67,6 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	public void update() 
 	{
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#reset()
 	 */
@@ -76,7 +74,6 @@ class DestinationPoint extends InterfaceObject implements UiElement
 	public void reset() 
 	{
 	}
-
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()
 	 */
@@ -105,5 +102,4 @@ class DestinationPoint extends InterfaceObject implements UiElement
 		else
 		    return false;
 	}
-
 }

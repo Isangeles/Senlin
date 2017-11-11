@@ -23,27 +23,17 @@
 package pl.isangeles.senlin.core.skill;
 
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;
-import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.core.req.Requirement;
-import pl.isangeles.senlin.core.req.WeaponRequirement;
-import pl.isangeles.senlin.data.EffectsBase;
-import pl.isangeles.senlin.graphic.AvatarAnimType;
-import pl.isangeles.senlin.states.Global;
-import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for offensive skills
@@ -55,7 +45,7 @@ public class Attack extends Skill
 	private AttackType attackType;
 	private int damage;
 	private int range;
-    protected boolean useWeapon;
+    private boolean useWeapon;
 	/**
 	 * Attack constructor
 	 * @param character Skill owner
@@ -64,7 +54,8 @@ public class Attack extends Skill
 	 * @param info Skill description
 	 * @param imgName Skill icon file
 	 * @param damage Damage dealt on target
-	 * @param magickaCost Magicka cost of use, determines whether skill is magic or not
+	 * @param reqs List with requirements needed to use skill
+	 * @param useWeapon True if equipped weapon damage should be counted to attack damage, false otherwise
 	 * @param castTime Cast time
 	 * @param cooldown Time that must be waited after skill use
 	 * @param range Required range
@@ -73,30 +64,17 @@ public class Attack extends Skill
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Attack(Character character, String id, String imgName, EffectType type, AttackType attackType, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
-	              List<String> effects, GameContainer gc)
+	public Attack(Character character, String id, String imgName, EffectType type, AttackType attackType, int damage, List<Requirement> reqs,
+				  boolean useWeapon, int castTime, int cooldown, int range, List<String> effects, GameContainer gc)
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, type, reqs, castTime, cooldown, effects);
 		this.attackType = attackType;
 		this.damage = damage;
 		this.range = range;
-		WeaponRequirement wReq = null;
-		for(Requirement req : useReqs)
-		{
-		    if(WeaponRequirement.class.isInstance(req))
-		    {
-		        useWeapon = true;
-		        wReq = (WeaponRequirement)req;
-		        break;
-		    }
-		}
-		if(isMagic())
-			avatarAnim = AvatarAnimType.CAST;
-		else if(wReq != null && wReq.getReqWeaponType() == WeaponType.BOW)
-			avatarAnim = AvatarAnimType.RANGE;
-		else
-			avatarAnim = AvatarAnimType.MELEE;
+		this.useWeapon = useWeapon;
+		
+		avatarAnim = attackType.getAnimType();
 		
 		setTile(gc);
 		setGraphicEffects(gc);
@@ -104,16 +82,24 @@ public class Attack extends Skill
 	}
 	/**
 	 * Returns attack damage
-	 * @return Damage value
+	 * @return Damage value, -1 if attack is missed
 	 */
 	public int getDamage()
 	{
+		int ownerHit = 0;
+		if(useWeapon)
+		{
+			ownerHit = owner.getHit();
+			if(ownerHit < 0) //means miss
+				return -1;
+		}
+		
 		switch(attackType)
 		{
 		case MELEE: case RANGE:
-			return damage + owner.getHit();
+			return damage + ownerHit;
 		case SPELL:
-			return (damage + owner.getAttributes().getBasicSpell()) * owner.getAttributes().getSpellPower();
+			return ((damage + owner.getHit()) + owner.getAttributes().getBasicSpell()) * owner.getAttributes().getSpellPower();
 		default:
 			return damage;
 		}
@@ -137,6 +123,7 @@ public class Attack extends Skill
 		
 		return fullInfo;
 	}
+	
 	@Override
 	public CharacterOut prepare(Character user, Targetable target)
 	{

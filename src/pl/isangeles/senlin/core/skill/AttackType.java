@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.core.skill;
 
+import pl.isangeles.senlin.graphic.AvatarAnimType;
+
 /**
  * Enumeration for attack types
  * @author Isangeles
@@ -47,6 +49,24 @@ public enum AttackType
 			return AttackType.SPELL;
 		default:
 			return AttackType.MELEE;
+		}
+	}
+	/**
+	 * Returns avatar animation type for this attack type
+	 * @return Avatar animation type enumeration
+	 */
+	public AvatarAnimType getAnimType()
+	{
+		switch(this)
+		{
+		case MELEE:
+			return AvatarAnimType.MELEE;
+		case RANGE:
+			return AvatarAnimType.RANGE;
+		case SPELL:
+			return AvatarAnimType.CAST;
+		default:
+			return AvatarAnimType.MELEE;
 		}
 	}
 }

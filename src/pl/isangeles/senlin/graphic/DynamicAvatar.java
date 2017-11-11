@@ -33,11 +33,11 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.util.*;
 /**
- * Graphical representation of character
+ * Class for graphical representation of game character
  * @author Isangeles
  *
  */
-public class Avatar extends CharacterAvatar
+public class DynamicAvatar extends CharacterAvatar
 {
 	protected AnimObject torso;
 	private AnimObject head;
@@ -55,7 +55,7 @@ public class Avatar extends CharacterAvatar
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Avatar(Character character, GameContainer gc, String spritesheet) throws SlickException, IOException, FontFormatException
+	public DynamicAvatar(Character character, GameContainer gc, String spritesheet) throws SlickException, IOException, FontFormatException
 	{
 		super(character, gc);
 		if(isStatic())
@@ -100,8 +100,8 @@ public class Avatar extends CharacterAvatar
 		torso.draw(x, y);
 		head.draw(x, y);
 		ttf.drawString(x, (y-head.getDis(25)), character.getName());
-		if(this.weapon != null)
-			this.weapon.draw(x, y);
+		if(weapon != null)
+			weapon.draw(x, y);
 	}
 	/**
 	 * Updates avatar animations
@@ -118,7 +118,6 @@ public class Avatar extends CharacterAvatar
 		head.update(delta);
 		if(weapon != null)
 			weapon.update(delta);	
-		
 	}
 	/**
 	 * Toggles kneel animation

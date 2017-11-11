@@ -65,16 +65,21 @@ public class Defense
 				((Character)owner).memCharAs((Character)sOwner, Attitude.HOSTILE);
 			
 			Attack attack = (Attack)skill;
-			if(rng.nextFloat()+owner.getAttributes().getDodge() >= 1f)
+			if(rng.nextDouble() + owner.getAttributes().getDodge() >= 1f)
 			{
 				Log.addInformation(owner.getName() + ":" + TConnector.getText("ui", "logDodge"));
 				return;
 			}
 			else
 			{
-				int damage = attack.getDamage() - owner.getInventory().getArmorRating() - owner.getAttributes().getResistances().getResistanceFor(attack.getEffectType());
+				int damage = attack.getDamage();
+				if(damage < 0) //if miss
+					return;
+				
+				damage -= owner.getInventory().getArmorRating() - owner.getAttributes().getResistances().getResistanceFor(attack.getEffectType());
 				if(damage < 0)
 					damage = 0;
+				
 				owner.takeHealth(skill.getOwner(), damage);
 				handleEffects(attack.getEffects());
 				if(sOwner.getInventory().getMainWeapon() != null)
@@ -104,8 +109,10 @@ public class Defense
 	 */
 	public void handleEffect(Effect effect)
 	{
-		if(owner.getAttributes().getResistances().getResistanceFor(effect.getType()) >= 100)
+		if(owner.getAttributes().getResistances().getResistanceFor(effect.getType()) < 100)
 			owner.getEffects().add(effect);
+		else
+			Log.addCombat(owner.getName() + ":" + TConnector.getText("ui", "logResi"));
 	}
 	/**
 	 * Handles effects

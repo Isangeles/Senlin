@@ -46,7 +46,6 @@ import pl.isangeles.senlin.util.Settings;
 public abstract class InterfaceObject extends Image
 {   
     protected GameContainer gc;
-    private float scale;
     protected float x;
     protected float y;
     protected float width;
@@ -66,7 +65,6 @@ public abstract class InterfaceObject extends Image
     {
         super(pathToTex);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
@@ -82,7 +80,6 @@ public abstract class InterfaceObject extends Image
     {
         super(pathToTex);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
@@ -95,7 +92,6 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
@@ -111,7 +107,6 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
@@ -128,7 +123,6 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
@@ -146,7 +140,6 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
@@ -164,7 +157,6 @@ public abstract class InterfaceObject extends Image
     {
         super(fileInput, ref, flipped);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
@@ -201,7 +193,6 @@ public abstract class InterfaceObject extends Image
     {
     	super(fileInput, ref, flipped);
         this.gc = gc;
-        setProportion();
         iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
@@ -221,9 +212,9 @@ public abstract class InterfaceObject extends Image
     @Override
     public void draw()
     {
-        float drawX = x * scale;
-        float drawY = y * scale;
-        super.draw(drawX, drawY, scale);
+        float drawX = x * Coords.getScale();
+        float drawY = y * Coords.getScale();
+        super.draw(drawX, drawY, Coords.getScale());
         
         iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -241,9 +232,9 @@ public abstract class InterfaceObject extends Image
     {
         setPosition(x, y);
         
-        float drawX = x * scale;
-        float drawY = y * scale;
-        super.draw(drawX, drawY, scale);
+        float drawX = x * Coords.getScale();
+        float drawY = y * Coords.getScale();
+        super.draw(drawX, drawY, Coords.getScale());
         
         iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -262,9 +253,9 @@ public abstract class InterfaceObject extends Image
     {
         setPosition(x, y);
         
-        float drawX = x * scale;
-        float drawY = y * scale;
-        super.draw(drawX, drawY, scale, filter);
+        float drawX = x * Coords.getScale();
+        float drawY = y * Coords.getScale();
+        super.draw(drawX, drawY, Coords.getScale(), filter);
         
         iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -285,10 +276,10 @@ public abstract class InterfaceObject extends Image
         setPosition(x, y);
         setSize(width, height);
     
-        float drawX = x * scale;
-        float drawY = y * scale;
-        float drawWidth = width * scale;
-        float drawHeight = height * scale;
+        float drawX = x * Coords.getScale();
+        float drawY = y * Coords.getScale();
+        float drawWidth = width * Coords.getScale();
+        float drawHeight = height * Coords.getScale();
         
         super.draw(drawX, drawY, drawWidth, drawHeight);
         
@@ -315,11 +306,11 @@ public abstract class InterfaceObject extends Image
         float drawY = y;
         if(scaledPos)
         {
-            drawX *= scale;
-            drawY *= scale;
+            drawX *= Coords.getScale();
+            drawY *= Coords.getScale();
         }
-        float drawWidth = width * scale;
-        float drawHeight = height * scale;
+        float drawWidth = width * Coords.getScale();
+        float drawHeight = height * Coords.getScale();
         
         super.draw(drawX, drawY, drawWidth, drawHeight);
         
@@ -343,10 +334,10 @@ public abstract class InterfaceObject extends Image
         float drawY = y;
         if(scaledPos)
         {
-            drawX *= scale;
-            drawY *= scale;
+            drawX *= Coords.getScale();
+            drawY *= Coords.getScale();
         }
-        super.draw(drawX, drawY, scale);
+        super.draw(drawX, drawY, Coords.getScale());
         
         iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -369,10 +360,10 @@ public abstract class InterfaceObject extends Image
         float drawY = y;
         if(scaledPos)
         {
-            drawX *= scale;
-            drawY *= scale;
+            drawX *= Coords.getScale();
+            drawY *= Coords.getScale();
         }
-        super.draw(drawX, drawY, scale, filter);
+        super.draw(drawX, drawY, Coords.getScale(), filter);
         
         iObjectMOA.setLocation(drawX, drawY);
         if(isInfo && iObjectMOA.isMouseOver())
@@ -398,11 +389,11 @@ public abstract class InterfaceObject extends Image
         float drawY = y;
         if(scaledPos)
         {
-            drawX *= scale;
-            drawY *= scale;
+            drawX *= Coords.getScale();
+            drawY *= Coords.getScale();
         }
-        float drawWidth = width * scale;
-        float drawHeight = height * scale;
+        float drawWidth = width * Coords.getScale();
+        float drawHeight = height * Coords.getScale();
         
         super.draw(drawX, drawY, drawWidth, drawHeight, filter);
         
@@ -418,7 +409,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScale()
     {
-    	return scale;
+    	return Coords.getScale();
     }
     /**
      * Returns distance corrected by scale
@@ -427,7 +418,7 @@ public abstract class InterfaceObject extends Image
      */
     public int getDis(int rawDistance)
     {
-    	return Math.round(rawDistance * scale);
+    	return Math.round(rawDistance * Coords.getScale());
     }
     /**
      * Returns size corrected by scale
@@ -436,7 +427,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getSize(float size)
     {
-    	return size * scale;
+    	return size * Coords.getScale();
     }
     /**
      * Returns object position
@@ -452,7 +443,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledWidth()
     {
-    	return super.getWidth()*scale;
+    	return super.getWidth()*Coords.getScale();
     }
     /**
      * Returns height of object corrected by scale
@@ -460,7 +451,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledHeight()
     {
-    	return super.getHeight()*scale;
+    	return super.getHeight()*Coords.getScale();
     }
     /**
      * Returns position in the center of the screen for this object and current resolution
@@ -594,20 +585,6 @@ public abstract class InterfaceObject extends Image
             return new Position((int)x, (int)(y + height));
         else
             return new Position((int)x, (int)(y + getScaledHeight()));       
-    }
-    /**
-     * Sets proportion for object based on current resolution, called by constructor
-     * @throws FileNotFoundException
-     */
-    private void setProportion()
-    {
-        float defResX = 1920;
-        float defResY = 1080;
-        float resX = Settings.getResolution()[0];
-        float resY = Settings.getResolution()[1];
-        float proportionX = resX / defResX;
-        float proportionY = resY / defResY;
-        scale = Math.round(Math.min(proportionX, proportionY) * 10f) / 10f;
     }
     /**
      * Checks if object is drawn in custom size

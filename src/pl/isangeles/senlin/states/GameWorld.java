@@ -190,11 +190,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     		//game world
             g.translate(-ui.getCamera().getPos().x, -ui.getCamera().getPos().y);
             g.scale(ui.getCamera().getZoom(), ui.getCamera().getZoom());
+            //map
             if(Settings.getMapRenderType().equals("full"))
             	area.getMap().render(0, 0); 
             else if(Settings.getMapRenderType().equals("light"))
                 renderLightMap(area.getMap(), g);
-            
+            //interface pointers
+            ui.drawPointners();
+            //objects
             for(TargetableObject object : area.getObjects())
             {
                 if(player.isNearby(object))
@@ -291,6 +294,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         	{
         	   game.addState(new LoadingScreen(ui.getLoadName()));
         	   game.getState(4).init(container, game);
+        	   ui.closeAll();
         	   System.gc();
         	   game.enterState(4);
         	}

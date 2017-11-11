@@ -64,6 +64,9 @@ public class ObjectAvatar implements Effective
 	 */
 	public void draw(float x, float y, boolean scaledPos)
 	{
+		x -= texture.getScaledWidth()/2;
+		y -= texture.getScaledHeight();
+		
 		texture.draw(x, y, scaledPos);
 		
 		for(SimpleAnim effect : effects)

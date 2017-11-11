@@ -47,6 +47,7 @@ public class AttackPattern implements SkillPattern
 {
     private final String id;
     private final EffectType type;
+    private final boolean useWeapon;
     private final AttackType attackType;
     private final List<Requirement> useReqs;
     private final int cooldown;
@@ -70,10 +71,11 @@ public class AttackPattern implements SkillPattern
      * @param effects Skill use effects
      * @param skillReq List with all train requirements
      */
-    public AttackPattern(String id, String imgName, String type, String attackType, int damage, List<Requirement> reqs, int castTime, int cooldown, int range, 
-    					 List<String> effects, List<Requirement> skillReq)
+    public AttackPattern(String id, String imgName, String type, boolean useWeapon, String attackType, int damage, List<Requirement> reqs, 
+    				     int castTime, int cooldown, int range, List<String> effects, List<Requirement> skillReq)
     {
         this.type = EffectType.fromId(type);
+        this.useWeapon = useWeapon;
         this.attackType = AttackType.fromName(attackType);
         this.id = id;
         this.imgName = imgName;
@@ -96,7 +98,7 @@ public class AttackPattern implements SkillPattern
      */
     public Attack make(Character character, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
-        return new Attack(character, id, imgName, type, attackType, damage, useReqs, castTime, cooldown, range, effects, gc);
+        return new Attack(character, id, imgName, type, attackType, damage, useReqs, useWeapon, castTime, cooldown, range, effects, gc);
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.data.pattern.SkillPattern#getId()

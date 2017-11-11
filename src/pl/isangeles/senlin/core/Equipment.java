@@ -314,7 +314,7 @@ public class Equipment implements SaveElement
 	 */
 	public boolean isDualwield()
 	{
-		return (weaponMain != null && weaponSec != null);
+		return (weaponMain != null && weaponSec != null);// || (weaponMain == null && weaponSec == null);
 	}
 	/**
 	 * Parses equipment to XML document element

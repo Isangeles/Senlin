@@ -88,17 +88,21 @@ public class Attributes
 			wisdom = new Attribute(0);
 		}
 	}
-	public int addHealth()
+	/**
+	 * Returns value of health points from this attributes
+	 * @return Amount of health points
+	 */
+	public int getHealth()
 	{
 		return constitution.value * 10 + strenght.value;
 	}
-	public int addMagicka()
+	/**
+	 * Returns value of magicka points from this attributes 
+	 * @return Amount of magicka points
+	 */
+	public int getMagicka()
 	{
 		return intelligence.value * 10 + wisdom.value;
-	}
-	public float addHaste()
-	{
-		return 1.0f + (((constitution.value/4) + dexterity.value/2)/2);
 	}
 	/**
 	 * Returns basic hit value
@@ -154,6 +158,16 @@ public class Attributes
 	public float getDualwieldPenalty()
 	{
 		return 2.0f - (dexterity.value/2) + (strenght.value/4) + (constitution.value/4);
+	}
+	
+	public float getMainHitChance()
+	{
+		return 0.3f + (dexterity.value/2) + (constitution.value/4);
+	}
+	
+	public float getOffHitChance()
+	{
+		return 0.1f + ((dexterity.value/4) + (constitution.value/8));// - getDualwieldPenalty();
 	}
 	/**
 	 * Returns resistance

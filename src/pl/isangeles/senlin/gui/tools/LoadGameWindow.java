@@ -435,9 +435,15 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         }
         
         @Override
+        public boolean isAcceptingInput()
+        {
+        	return isMouseOver();
+        }
+        
+        @Override
         public void mouseReleased(int button, int x, int y)
         {
-            if(openReq && button == Input.MOUSE_LEFT_BUTTON && isMouseOver())
+            if(button == Input.MOUSE_LEFT_BUTTON && openReq && isMouseOver())
             {
                 selectSave(saveFile);
                 unselectAll();

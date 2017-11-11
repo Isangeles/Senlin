@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.util;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -129,6 +131,17 @@ public class Settings
         return resolution.toTable();
     }
     /**
+     * Returns current system resolution
+     * @return Resolution width and height
+     */
+    public static Size getSystemResolution()
+    {
+    	Dimension currentResolution = Toolkit.getDefaultToolkit().getScreenSize();
+    	int width = (int)currentResolution.getWidth();
+    	int height = (int)currentResolution.getHeight();
+    	return new Size(width, height);
+    }
+    /**
      * Returns array string with all available resolutions    
      * @return String array with resolutions in format: [width]x[height];
      */
@@ -214,7 +227,9 @@ public class Settings
      */
     public static void setResolution(Size resolution)
     {
-       newResolution = resolution; 
+    	Settings.resolution = resolution;
+    	newResolution = resolution; 
+    	setScale();
     }
     /**
      * Sets specified language with specified ID as game language
