@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class UnlockBonus extends Bonus
+public class UnlockBonus extends Modifier
 {
     private int level;
     /**
@@ -40,7 +40,7 @@ public class UnlockBonus extends Bonus
      */
     public UnlockBonus(int lockLevel)
     {
-        super(BonusType.UNLOCK, TConnector.getText("ui", "bonUnlock"));
+        super(ModifierType.UNLOCK, TConnector.getText("ui", "bonUnlock"));
         level = lockLevel;
     }
     /* (non-Javadoc)

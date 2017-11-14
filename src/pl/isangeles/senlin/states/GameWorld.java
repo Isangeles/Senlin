@@ -446,6 +446,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	nextScenario = null;
     	player.setArea(activeScenario.getMainArea());
     	player.setPosition(exit.getToPos());
+    	chapter.setScenario(activeScenario.getId());
     	//entering to reload screen
     	game.getState(5).init(gc, game);
     	game.enterState(5);

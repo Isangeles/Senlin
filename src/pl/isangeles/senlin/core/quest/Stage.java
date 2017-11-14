@@ -155,16 +155,10 @@ public class Stage
      */
     public void clearFlag(String flag)
     {
-    	if(flagsOnEnd.contains(flag))
-    	{
-    		flagsOnEnd.remove(flag);
-    		return;
-    	}
-    	if(flagsOffEnd.contains(flag))
-    	{
-    		flagsOffEnd.remove(flag);
-    		return;
-    	}
+    	flagsOnStart.remove(flag);
+    	flagsOffStart.remove(flag);
+    	flagsOnEnd.remove(flag);
+    	flagsOffEnd.remove(flag);
     }
     /**
      * Checks if stage have any flag

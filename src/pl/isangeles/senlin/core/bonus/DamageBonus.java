@@ -32,7 +32,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class DamageBonus extends Bonus
+public class DamageBonus extends Modifier
 {
 	private int dmgBonus;
 	private WeaponType weaponType;
@@ -43,7 +43,7 @@ public class DamageBonus extends Bonus
 	 */
 	public DamageBonus(int dmgValue, WeaponType weaponType)
 	{
-		super(BonusType.DAMAGE, TConnector.getText("ui", "bonDmg") + ":" + dmgValue + "(" + weaponType.getName() + ")");
+		super(ModifierType.DAMAGE, TConnector.getText("ui", "bonDmg") + ":" + dmgValue + "(" + weaponType.getName() + ")");
 		
 		dmgBonus = dmgValue;
 		this.weaponType = weaponType;
@@ -54,7 +54,7 @@ public class DamageBonus extends Bonus
 	 */
 	public DamageBonus(int dmgValue)
 	{
-		super(BonusType.DAMAGE, TConnector.getText("ui", "bonDamage") + ":" + dmgValue);
+		super(ModifierType.DAMAGE, TConnector.getText("ui", "bonDamage") + ":" + dmgValue);
 		
 		dmgBonus = dmgValue;
 	}

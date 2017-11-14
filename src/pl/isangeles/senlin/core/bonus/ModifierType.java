@@ -1,5 +1,5 @@
 /*
- * BonusType.java
+ * ModifierType.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -23,44 +23,46 @@
 package pl.isangeles.senlin.core.bonus;
 
 /**
- * Enumeration for bonus types
+ * Enumeration for modifier types
  * @author Isangeles
  *
  */
-public enum BonusType 
+public enum ModifierType 
 {
-	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT, DUALWIELD, RESISTANCE, UNLOCK;
+	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT, DUALWIELD, RESISTANCE, UNLOCK, ATTITUDE;
 	/**
-	 * Converts specified type ID to bonus type enum
-	 * @param id String with bonus type ID
-	 * @return Bonus type enum
+	 * Converts specified type ID to modifier type enum
+	 * @param id String with modifier type ID
+	 * @return Modifier type enum
 	 */
-	public static BonusType fromString(String id)
+	public static ModifierType fromString(String id)
 	{
 		switch(id)
 		{
 		case "statsBonus":
-			return BonusType.STATS;
+			return ModifierType.STATS;
 		case "healthBonus":
-			return BonusType.HEALTH;
+			return ModifierType.HEALTH;
 		case "manaBonus":
-			return BonusType.MANA;
+			return ModifierType.MANA;
 		case "hasteBonus":
-			return BonusType.HASTE;
+			return ModifierType.HASTE;
 		case "dodgeBonus":
-			return BonusType.DODGE;
+			return ModifierType.DODGE;
 		case "damageBonus":
-			return BonusType.DAMAGE; 
+			return ModifierType.DAMAGE; 
 		case "undetectBonus":
-			return BonusType.UNDETECT;
+			return ModifierType.UNDETECT;
 		case "dualwieldBonus":
-			return BonusType.DUALWIELD;
+			return ModifierType.DUALWIELD;
 		case "resistanceBonus":
-			return BonusType.RESISTANCE;
+			return ModifierType.RESISTANCE;
 		case "unlockBonus":
-		    return BonusType.UNLOCK;
+		    return ModifierType.UNLOCK;
+		case "attitudeModifier":
+			return ModifierType.ATTITUDE;
 		default:
-			return BonusType.NONE;
+			return ModifierType.NONE;
 		}
 	}
 }

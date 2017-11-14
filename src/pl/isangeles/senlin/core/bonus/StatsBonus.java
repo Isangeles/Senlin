@@ -32,7 +32,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class StatsBonus extends Bonus 
+public class StatsBonus extends Modifier 
 {
 	private Attributes statsBonus;
 	/**
@@ -41,7 +41,7 @@ public class StatsBonus extends Bonus
 	 */
 	public StatsBonus(Attributes stats)
 	{
-		super(BonusType.STATS, TConnector.getText("ui", "bonStats") + ":" + stats.getInfo());
+		super(ModifierType.STATS, TConnector.getText("ui", "bonStats") + ":" + stats.getInfo());
 		statsBonus = stats;
 	}
 	/* (non-Javadoc)

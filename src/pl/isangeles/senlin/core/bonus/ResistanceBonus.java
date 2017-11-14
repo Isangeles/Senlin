@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class ResistanceBonus extends Bonus 
+public class ResistanceBonus extends Modifier 
 {
 	private int value;
 	private EffectType type;
@@ -42,7 +42,7 @@ public class ResistanceBonus extends Bonus
 	 */
 	public ResistanceBonus(EffectType type, int value)
 	{
-		super(BonusType.RESISTANCE, TConnector.getText("ui", "bonResi") + "-" + type.getName() + ":" + value);
+		super(ModifierType.RESISTANCE, TConnector.getText("ui", "bonResi") + "-" + type.getName() + ":" + value);
 		this.value = value;
 		this.type = type;
 	}

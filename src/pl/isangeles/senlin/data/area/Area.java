@@ -216,7 +216,7 @@ public class Area implements SaveElement, ObjectiveTarget
     	*/
     	for(Character npc : characters)
     	{
-    		if(npc != character && npc.getBonuses().getStealthLevel() < 1 && character.getRangeFrom(npc.getPosition()) < 200)
+    		if(npc != character && npc.getInvisibilityLevel() < 1 && character.getRangeFrom(npc.getPosition()) < 200)
         		nearbyCharacters.add(npc);
     	}
     	

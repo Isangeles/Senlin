@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import pl.isangeles.senlin.core.Attributes;
-import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.data.pattern.EffectPattern;
 
 /**
@@ -58,7 +58,7 @@ public final class EffectParser
         String icon = effectE.getAttribute("icon");
         
         Node modifersNode = effectE.getElementsByTagName("modifiers").item(0);
-        List<Bonus> bonuses = BonusesParser.getBonusesFromNode(modifersNode);
+        List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(modifersNode);
         
         Node dotNode = effectE.getElementsByTagName("dot").item(0);
         int dot = 0;

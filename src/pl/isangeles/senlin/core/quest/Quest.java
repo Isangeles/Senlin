@@ -229,16 +229,14 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public void clearFlag(String flag)
     {
-    	if(flagsOnStart.contains(flag))
-    	{
-    		flagsOnStart.remove(flag);
-    		return;
-    	}
+    	flagsOnStart.remove(flag);
+    	flagsOffStart.remove(flag);
+    	flagsOnEnd.remove(flag);
+    	flagsOffEnd.remove(flag);
     	
     	for(Stage stage : stages)
     	{
     		stage.clearFlag(flag);
-    		return;
     	}
     }
     /**

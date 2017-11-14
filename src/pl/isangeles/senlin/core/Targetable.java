@@ -22,8 +22,8 @@
  */
 package pl.isangeles.senlin.core;
 
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
@@ -63,7 +63,6 @@ public interface Targetable extends ObjectiveTarget
 	public String getName();
 	public Portrait getPortrait();
 	public Effects getEffects();
-	public Bonuses getBonuses();
 	public Inventory getInventory();
 	/**
 	 * Returns target attributes
@@ -122,10 +121,24 @@ public interface Targetable extends ObjectiveTarget
 	 * Stops reading action
 	 */
 	public void stopReading();
-
-    public boolean addBonus(Bonus bonus);
-    public boolean removeBonus(Bonus bonus);
-    public boolean hasBonus(Bonus bonus);
+	/**
+	 * Adds(and applies) specified modifier to this object 
+	 * @param modifier Modifier to add and apply
+	 * @return True if modifier was successfully added, false otherwise
+	 */
+    public boolean addModifier(Modifier bonus);
+    /**
+     * Removes specified modifier from this object
+     * @param modifier Bonus to remove
+     * @return True if modifier was successfully removed, false otherwise
+     */
+    public boolean removeModifier(Modifier bonus);
+    /**
+     * Checks if object has specified modifier 
+     * @param modifier Modifier to check
+     * @return True if character modifiers container contains specified modifier, false otherwise
+     */
+    public boolean hasModifier(Modifier bonus);
     
 	public boolean isLive();
 	public boolean isMouseOver();

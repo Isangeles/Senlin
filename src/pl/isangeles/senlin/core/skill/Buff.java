@@ -33,8 +33,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectType;

@@ -30,7 +30,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class DualwieldBonus extends Bonus 
+public class DualwieldBonus extends Modifier 
 {
 	private float value;
 	/**
@@ -39,7 +39,7 @@ public class DualwieldBonus extends Bonus
 	 */
 	public DualwieldBonus(float value)
 	{
-		super(BonusType.DUALWIELD, TConnector.getText("ui", "bonDual") + ":" + value);
+		super(ModifierType.DUALWIELD, TConnector.getText("ui", "bonDual") + ":" + value);
 		this.value = value;
 	}	
 	/* (non-Javadoc)

@@ -32,7 +32,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.graphic.AnimObject;
@@ -64,7 +64,7 @@ public class Trinket extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel, Bonuses bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
@@ -88,7 +88,7 @@ public class Trinket extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel, Bonuses bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);

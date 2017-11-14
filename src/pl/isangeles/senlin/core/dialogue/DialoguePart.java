@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
@@ -41,11 +42,9 @@ public class DialoguePart
 	private final boolean start;
 	private final Requirements reqs;
 	private final List<Answer> answers;
-	private final List<String> itemsToGive;
-	private final List<String> itemsToTake;
-	private final int goldToGive;
-	private final int goldToTake;
-	private final boolean transfer;
+	private final DialogueTransfer transfer;
+	private final List<Modifier> modifiersOwner;
+	private final List<Modifier> modifiersPlayer;
 	/**
 	 * Dialogue part constructor without any transfer
 	 * @param id Dialogue part ID
@@ -59,35 +58,30 @@ public class DialoguePart
 		this.start = start;
 		this.reqs = new Requirements(req);
 		this.answers = answers;
-		itemsToGive = new ArrayList<>();
-		itemsToTake = new ArrayList<>();
-		goldToGive = 0;
-		goldToTake = 0;
-		transfer = false;
+		transfer = null;
+		modifiersOwner = new ArrayList<>();
+		modifiersPlayer = new ArrayList<>();
 	}
 	/**
-	 * Dialogue part constructor with transfer
+	 * Dialogue part constructor with characters modifications
 	 * @param id Dialogue part ID
 	 * @param start True if this is first dialogue part
 	 * @param req List with requirements for this dialogue part
 	 * @param answers List of answers on that dialogue part
-	 * @param itemsToGive Items to give to player on this dialogue part start
-	 * @param itemsToTake Items to take from player on this dialogue part start
-	 * @param goldToGive Amount of gold to give to player on this dialogue part start
-	 * @param goldToTake Amount of gold to take from player on this dialogue part start
+	 * @param transfer Dialogue transfer 
+	 * @param modifiersOnwer List with all modifiers to apply on dialogue owner
+	 * @param modifiersPlayer List with all modifiers to apply on player
 	 */
-	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers, List<String> itemsToGive, 
-						List<String> itemsToTake, int goldToGive, int goldToTake) 
+	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers, DialogueTransfer transfer, List<Modifier> modifiersOwner, 
+						List<Modifier> modifiersPlayer) 
 	{
 		this.id = id;
 		this.start = start;
 		this.reqs = new Requirements(req);
 		this.answers = answers;
-		this.itemsToGive = itemsToGive;
-		this.itemsToTake = itemsToTake;
-		this.goldToGive = goldToGive;
-		this.goldToTake = goldToTake;
-		transfer = true;
+		this.transfer = transfer;
+		this.modifiersOwner = modifiersOwner;
+		this.modifiersPlayer = modifiersPlayer;
 	}
 	/**
 	 * Adds new answer for this dialogue part
@@ -146,24 +140,22 @@ public class DialoguePart
 		return reqs;
 	}
 	/**
-	 * Transfers items and gold between two dialogue participants 
+	 * Modifies two dialogue participants(e.q. transfers items between them) 
 	 * @param charA Dialogue owner (e.g. NPC or some game object)
 	 * @param charB Second character (e.g. player character)
 	 */
-	public void transfer(Character charA, Character charB)
+	public void modify(Character charA, Character charB)
 	{
-		if(transfer)
+		if(transfer != null)
+			transfer.exchange(charA, charB);
+			
+		for(Modifier mod : modifiersOwner)
 		{
-			for(String itemId : itemsToGive)
-			{
-				charB.addItem(charA.getInventory().takeItem(itemId));
-			}
-			for(String itemId : itemsToTake)
-			{
-				charA.addItem(charB.getInventory().takeItem(itemId));
-			}
-			charB.addGold(charA.getInventory().takeGold(goldToGive));
-			charA.addGold(charB.getInventory().takeGold(goldToTake));
+			charA.addModifier(mod);
+		}
+		for(Modifier mod : modifiersPlayer)
+		{
+			charB.addModifier(mod);
 		}
 	}
 	/**

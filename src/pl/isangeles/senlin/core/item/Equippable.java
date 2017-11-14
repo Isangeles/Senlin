@@ -33,7 +33,7 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.action.EquipAction;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
@@ -49,12 +49,12 @@ public abstract class Equippable extends Item implements EffectSource
 	protected int reqLevel;
 	protected final int type;
 	protected final ItemMaterial material;
-	protected Bonuses bonuses;
+	protected Modifiers bonuses;
 	protected AnimObject itemMSprite;
 	protected AnimObject itemFSprite;
 	protected List<String> equipEffects;
 	
-	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, List<String> equipEffects, int type, ItemMaterial material)
+	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, value, 1, imgName, gc);
@@ -66,7 +66,7 @@ public abstract class Equippable extends Item implements EffectSource
 		onUse = new EquipAction(this);
 	}
 	
-	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Bonuses bonuses, List<String> equipEffects, int type, ItemMaterial material)
+	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, serial, value, 1, imgName, gc);

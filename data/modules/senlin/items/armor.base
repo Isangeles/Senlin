@@ -59,4 +59,34 @@
         </bonuses>
         <equipEffects></equipEffects>
     </item>
+    
+    <item id="aImpArm01" type="chest" material="iron" value="1000" armRat="20" reqLvl="6">
+        <icon>steelArmor.png</icon>
+        <maleSprite>m-mail-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-mail-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus>0;1;-2;0;0;</statsBonus>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpHelm01" type="head" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelHelmet.png</icon>
+        <maleSprite>m-headBlack-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-headBlack-1222211-80x90.png</femaleSprite>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpGlov01" type="hands" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelGloves.png</icon>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpBoot01" type="feet" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelBoots.png</icon>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
 </base>

@@ -32,7 +32,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.data.EffectsBase;
@@ -78,7 +78,7 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, List<String> equipEffects, 
+	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
 				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
@@ -110,7 +110,7 @@ public class Weapon extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Bonuses bonuses, List<String> equipEffects, 
+	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
 				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{

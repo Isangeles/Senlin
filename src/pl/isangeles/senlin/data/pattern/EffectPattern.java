@@ -31,8 +31,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
 import pl.isangeles.senlin.core.effect.EffectType;
@@ -50,7 +50,7 @@ public class EffectPattern
     private String imgName;
     private Image icon;
     private EffectType type;
-    private Bonuses bonuses;
+    private Modifiers bonuses;
     private int dot;
     private int duration;
     /**
@@ -69,7 +69,7 @@ public class EffectPattern
      * @throws IOException 
      * @throws SlickException 
      */
-    public EffectPattern(String id, String imgName, List<Bonus> bonuses, int dot, int duration, String type)
+    public EffectPattern(String id, String imgName, List<Modifier> bonuses, int dot, int duration, String type)
     {
         this.id = id;
         this.imgName = imgName;
@@ -82,7 +82,7 @@ public class EffectPattern
         	icon = GBase.getImage("errorIcon");
         }		
         this.type = EffectType.fromId(type);
-        this.bonuses = new Bonuses();
+        this.bonuses = new Modifiers();
         this.bonuses.addAll(bonuses);
         this.dot = dot;
         if(duration != -1)

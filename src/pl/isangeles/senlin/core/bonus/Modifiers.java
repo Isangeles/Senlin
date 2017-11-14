@@ -1,5 +1,5 @@
 /*
- * Bonuses.java
+ * Modifiers.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -23,42 +23,41 @@
 package pl.isangeles.senlin.core.bonus;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.WeaponType;
 /**
- * Container class for bonuses
+ * Container class for object modifiers
  * @author Isnageles
  *
  */
-public class Bonuses extends ArrayList<Bonus>
+public class Modifiers extends ArrayList<Modifier>
 {
 	private static final long serialVersionUID = 1L;
 	/**
-	 * Applies all bonuses on specified character
+	 * Applies all modifiers on specified character
 	 * @param character Game character
 	 */
 	public void applyAllOn(Character character)
 	{
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
 			bonus.applyOn(character);
 		}
 	}
 	/**
-	 * Removes all bonuses from specified character
+	 * Removes all modifiers from specified character
 	 * @param character Game character
 	 */
 	public void removeAllFrom(Character character)
 	{
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
 			bonus.removeFrom(character);
 		}
 	}
 	/**
-	 * Check if any bonus occurs
+	 * Check if any modifier occurs
 	 * @return
 	 */
 	public boolean isBonus()
@@ -69,14 +68,14 @@ public class Bonuses extends ArrayList<Bonus>
 			return false;
 	}
 	/**
-	 * Get full info about this specific bonus
-	 * @return String with full info about bonus
+	 * Get info about all active modifiers 
+	 * @return String with info about all modifiers
 	 */
 	public String getInfo()
 	{
 		String bonusInfo = "";
 		
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
 			bonusInfo += bonus.getInfo() + System.lineSeparator();
 		}
@@ -91,9 +90,9 @@ public class Bonuses extends ArrayList<Bonus>
 	public int getDmgBonusFor(WeaponType weapon)
 	{
 		int dmgBonus = 0;
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
-			if(bonus.getType() == BonusType.DAMAGE)
+			if(bonus.getType() == ModifierType.DAMAGE)
 			{
 				DamageBonus dBonus = (DamageBonus)bonus;
 				if(dBonus.getWeaponType() == weapon && dBonus.getWeaponType() == null)
@@ -109,9 +108,9 @@ public class Bonuses extends ArrayList<Bonus>
 	public float getDualwieldBonus()
 	{
 		float dwMod = 0f;
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
-			if(bonus.getType() == BonusType.DUALWIELD)
+			if(bonus.getType() == ModifierType.DUALWIELD)
 			{
 				dwMod += ((DualwieldBonus)bonus).getValue();
 			}
@@ -125,9 +124,9 @@ public class Bonuses extends ArrayList<Bonus>
 	public int getStealthLevel()
 	{
 		int level = 0;
-		for(Bonus bonus : this)
+		for(Modifier bonus : this)
 		{
-			if(bonus.getType() == BonusType.UNDETECT)
+			if(bonus.getType() == ModifierType.UNDETECT)
 				level += ((UndetectBonus)bonus).getLevel();
 		}
 		return level;

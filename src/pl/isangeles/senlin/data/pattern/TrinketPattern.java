@@ -32,8 +32,8 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.TrinketType;
 import pl.isangeles.senlin.data.EffectsBase;
@@ -50,7 +50,7 @@ public class TrinketPattern
 	private final int value;
 	private final int level;
 	private final String icon;
-	private final Bonuses bonuses;
+	private final Modifiers bonuses;
 	private final List<String> equipEffects;
 	private final String actionType;
 	private final String actionId;
@@ -66,14 +66,14 @@ public class TrinketPattern
 	 * @param actionType Type of on-click action
 	 * @param actionId ID for on-click action
 	 */
-	public TrinketPattern(String id, String type, int level, int value, String icon, List<Bonus> bonuses, List<String> equipEffects, String actionType, String actionId) 
+	public TrinketPattern(String id, String type, int level, int value, String icon, List<Modifier> bonuses, List<String> equipEffects, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.type = type;
 		this.value = value;
 		this.level = level;
 		this.icon = icon;
-		this.bonuses = new Bonuses();
+		this.bonuses = new Modifiers();
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
 		this.actionType = actionType;

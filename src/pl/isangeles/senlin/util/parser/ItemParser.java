@@ -30,8 +30,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.core.action.ActionType;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.data.pattern.ActionPattern;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
@@ -73,7 +73,7 @@ public class ItemParser
 		String spriteSheet = itemE.getElementsByTagName("spriteSheet").item(0).getTextContent();
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
-		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+		List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(bonusesNode);
 		
 		List<String> equipEffects = new ArrayList<>();
 		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
@@ -134,7 +134,7 @@ public class ItemParser
 		String femaleSprite = "";
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
-		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+		List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(bonusesNode);
 
 		List<String> equipEffects = new ArrayList<>();
 		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);
@@ -183,7 +183,7 @@ public class ItemParser
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
-		List<Bonus> bonuses = BonusesParser.getBonusesFromNode(bonusesNode);
+		List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(bonusesNode);
 		
 		List<String> equipEffects = new ArrayList<>();
 		Element equipEffectsE = (Element)itemE.getElementsByTagName("equipEffects").item(0);

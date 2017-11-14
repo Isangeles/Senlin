@@ -34,7 +34,7 @@ import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.BuffType;
-import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.character.Character;
 
 /**

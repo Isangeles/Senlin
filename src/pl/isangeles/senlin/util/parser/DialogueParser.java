@@ -33,9 +33,11 @@ import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.dialogue.DialoguePart;
+import pl.isangeles.senlin.core.dialogue.DialogueTransfer;
 import pl.isangeles.senlin.core.req.RequirementType;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.req.Requirement;
@@ -109,55 +111,26 @@ public class DialogueParser
 			Node reqNode = textE.getElementsByTagName("req").item(0);
 			List<Requirement> req = RequirementsParser.getReqFromNode(reqNode);
 			
-			Element transferE = (Element)textE.getElementsByTagName("transfer").item(0);
-			if(transferE != null)
+			Element modE = (Element)textE.getElementsByTagName("mod").item(0);
+			
+			if(modE != null)
 			{
-				List<String> iToGive = new ArrayList<>();
-				List<String> iToTake = new ArrayList<>();
-				int gToGive = 0;
-				int gToTake = 0;
+				DialogueTransfer transfer = new DialogueTransfer();
+				Node transferNode = modE.getElementsByTagName("transfer").item(0);
+				if(transferNode != null)
+					transfer = getTransferFromNode(transferNode);
 				
-				Element giveE = (Element)transferE.getElementsByTagName("give").item(0);
-				try
-				{
-					gToGive = Integer.parseInt(giveE.getAttribute("gold"));
-				}
-				catch(NumberFormatException e)
-				{
-					gToGive = 0;
-				}
-				NodeList itemsToGiveList = giveE.getChildNodes();
-				for(int j = 0; j < itemsToGiveList.getLength(); j ++)
-				{
-					Node itemNode = itemsToGiveList.item(j);
-					if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-					{
-						Element itemE = (Element)itemNode;
-						iToGive.add(itemE.getTextContent());
-					}
-				}
+				List<Modifier> modOwner = new ArrayList<>();
+				Node modOwnerNode = modE.getElementsByTagName("modOwner").item(0);
+				if(modOwnerNode != null)
+					modOwner = ModifiersParser.getModifiersFromNode(modOwnerNode);
 				
-				Element takeE = (Element)transferE.getElementsByTagName("take").item(0);
-				try
-				{
-					gToTake = Integer.parseInt(takeE.getAttribute("gold"));
-				}
-				catch(NumberFormatException e)
-				{
-					gToTake = 0;
-				}
-				NodeList itemsToTakeList = takeE.getChildNodes();
-				for(int j = 0; j < itemsToTakeList.getLength(); j ++)
-				{
-					Node itemNode = itemsToTakeList.item(j);
-					if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-					{
-						Element itemE = (Element)itemNode;
-						iToTake.add(itemE.getTextContent());
-					}
-				}
+				List<Modifier> modPlayer = new ArrayList<>();
+				Node modPlayerNode = modE.getElementsByTagName("modPlayer").item(0);
+				if(modPlayerNode != null)
+					modPlayer = ModifiersParser.getModifiersFromNode(modPlayerNode);
 
-				return new DialoguePart(id, start, req, answersList, iToGive, iToTake, gToGive, gToTake);
+				return new DialoguePart(id, start, req, answersList, transfer ,modOwner, modPlayer);
 			}
 			return new DialoguePart(id, start, req, answersList);
 		}
@@ -187,5 +160,60 @@ public class DialogueParser
 		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
 		
 		return new Answer(aId, toId, end, reqs);
+	}
+	/**
+	 * Parses specified transfer node to dialogue transfer
+	 * @param transferNode XML document node 
+	 * @return Dialogue transfer from specified node
+	 */
+	private static DialogueTransfer getTransferFromNode(Node transferNode)
+	{
+		Element transferE = (Element)transferNode;
+		List<String> iToGive = new ArrayList<>();
+		List<String> iToTake = new ArrayList<>();
+		int gToGive = 0;
+		int gToTake = 0;
+		
+		Element giveE = (Element)transferE.getElementsByTagName("give").item(0);
+		try
+		{
+			gToGive = Integer.parseInt(giveE.getAttribute("gold"));
+		}
+		catch(NumberFormatException e)
+		{
+			gToGive = 0;
+		}
+		NodeList itemsToGiveList = giveE.getChildNodes();
+		for(int j = 0; j < itemsToGiveList.getLength(); j ++)
+		{
+			Node itemNode = itemsToGiveList.item(j);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element itemE = (Element)itemNode;
+				iToGive.add(itemE.getTextContent());
+			}
+		}
+		
+		Element takeE = (Element)transferE.getElementsByTagName("take").item(0);
+		try
+		{
+			gToTake = Integer.parseInt(takeE.getAttribute("gold"));
+		}
+		catch(NumberFormatException e)
+		{
+			gToTake = 0;
+		}
+		NodeList itemsToTakeList = takeE.getChildNodes();
+		for(int j = 0; j < itemsToTakeList.getLength(); j ++)
+		{
+			Node itemNode = itemsToTakeList.item(j);
+			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				Element itemE = (Element)itemNode;
+				iToTake.add(itemE.getTextContent());
+			}
+		}
+		
+		return new DialogueTransfer(iToGive, iToTake, gToGive, gToTake);
 	}
 }

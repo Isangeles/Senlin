@@ -167,8 +167,10 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	public void close()
 	{
 		openReq = false;
-		interlocutorA.stopTalking();
-		interlocutorB.stopTalking();
+		if(interlocutorA != null)
+			interlocutorA.stopTalking();
+		if(interlocutorB != null)
+			interlocutorB.stopTalking();
 		textBox.setFocus(false);
 		reset();
 	}
@@ -382,7 +384,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 					if(option.getId().equals("trainReq"))
 						trainReq = true;
 
-					currentDialogue.getCurrentStage().transfer(interlocutorB, interlocutorA);
+					currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
 					
 					if(option.isEnd())
 					{

@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.bonus.Bonus;
+import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.skill.Attack;

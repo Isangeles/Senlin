@@ -1,5 +1,5 @@
 /*
- * Bonus.java
+ * Modifier.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -25,36 +25,36 @@ package pl.isangeles.senlin.core.bonus;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 /**
- * Class for bonuses
+ * Class for targetable objects modifiers
  * @author Isangeles
  *
  */
-public abstract class Bonus 
+public abstract class Modifier 
 {
-	protected BonusType type;
+	protected ModifierType type;
 	protected String info;
 	/**
-	 * Bonus constructor
-	 * @param type Bonus type
-	 * @param info Bonus info
+	 * Modifier constructor
+	 * @param type Modifier type
+	 * @param info Modifier info
 	 */
-	protected Bonus(BonusType type, String info)
+	protected Modifier(ModifierType type, String info)
 	{
 		this.type = type;
 		this.info = info;
 	}
 	/**
-	 * Applies bonus on specified object
+	 * Applies modifier on specified object
 	 * @param object Targetable game object
 	 */
 	public abstract void applyOn(Targetable object);
 	/**
-	 * Removes bonus from specified object
+	 * Removes modifier from specified object
 	 * @param object Targetable game object
 	 */
 	public abstract void removeFrom(Targetable object);
 	/**
-	 * Returns info about bonus
+	 * Returns info about modifier
 	 * @return String with info
 	 */
 	public String getInfo()
@@ -62,10 +62,10 @@ public abstract class Bonus
 		return info;
 	}
 	/**
-	 * Returns bonus type
-	 * @return Bonus type
+	 * Returns modifier type
+	 * @return Modifier type
 	 */
-	public BonusType getType()
+	public ModifierType getType()
 	{
 		return type;
 	}

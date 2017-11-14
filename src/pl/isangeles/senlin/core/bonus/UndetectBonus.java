@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class UndetectBonus extends Bonus
+public class UndetectBonus extends Modifier
 {
 	private int level;
 	/**
@@ -40,7 +40,7 @@ public class UndetectBonus extends Bonus
 	 */
 	public UndetectBonus(int level) 
 	{
-		super(BonusType.UNDETECT, TConnector.getText("ui", "bonUndetect"));
+		super(ModifierType.UNDETECT, TConnector.getText("ui", "bonUndetect"));
 		this.level = level;
 	}
 

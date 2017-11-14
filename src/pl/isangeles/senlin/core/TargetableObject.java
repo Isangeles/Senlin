@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.audio.Voicing;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
@@ -69,7 +69,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Inventory inventory;
     private Attributes attributes = new Attributes();
     private Defense defense = new Defense(this);
-    private Bonuses bonuses = new Bonuses();
+    private Modifiers bonuses = new Modifiers();
     private Effects effects = new Effects(this);
     private Action onClick;
     /**
@@ -438,10 +438,10 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
 		return null;
 	}
     /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#addBonus(pl.isangeles.senlin.core.bonus.Bonus)
+     * @see pl.isangeles.senlin.core.Targetable#addModifier(pl.isangeles.senlin.core.bonus.Modifier)
      */
     @Override
-    public boolean addBonus(Bonus bonus)
+    public boolean addModifier(Modifier bonus)
     {
     	if(bonuses.add(bonus))
     	{
@@ -452,10 +452,10 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     		return false;
     }
     /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#removeBonus(pl.isangeles.senlin.core.bonus.Bonus)
+     * @see pl.isangeles.senlin.core.Targetable#removeModifier(pl.isangeles.senlin.core.bonus.Modifier)
      */
     @Override
-    public boolean removeBonus(Bonus bonus)
+    public boolean removeModifier(Modifier bonus)
     {
         if(bonuses.remove(bonus))
         {
@@ -470,7 +470,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
      * @see pl.isangeles.senlin.core.Targetable#hasBonus(pl.isangeles.senlin.core.bonus.Bonus)
      */
     @Override
-    public boolean hasBonus(Bonus bonus)
+    public boolean hasModifier(Modifier bonus)
     {
         return bonuses.contains(bonus);
     }
@@ -517,12 +517,4 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
         
         return objectE;
     }
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#getBonuses()
-	 */
-	@Override
-	public Bonuses getBonuses() 
-	{
-		return bonuses;
-	}
 }

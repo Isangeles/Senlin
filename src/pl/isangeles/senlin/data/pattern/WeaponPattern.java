@@ -30,8 +30,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.item.Weapon;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.item.ItemMaterial;
 import pl.isangeles.senlin.core.item.WeaponType;
 
@@ -49,7 +49,7 @@ public class WeaponPattern
 	private final int value;
 	private final int minDmg;
 	private final int maxDmg;
-	private final Bonuses bonuses;
+	private final Modifiers bonuses;
 	private final List<String> equipEffects;
 	private final List<String> hitEffects;
 	private final String icon;
@@ -69,7 +69,7 @@ public class WeaponPattern
 	 * @param icon Item UI icon
 	 * @param spriteSheet Item sprite sheet
 	 */
-	public WeaponPattern(String id, int reqLvl, String type, String material, int value, int minDmg, int maxDmg, List<Bonus> bonuses, List<String> equipEffects, 
+	public WeaponPattern(String id, int reqLvl, String type, String material, int value, int minDmg, int maxDmg, List<Modifier> bonuses, List<String> equipEffects, 
 						 List<String> hitEffects, String icon, String spriteSheet)
 	{
 		this.id = id;
@@ -79,7 +79,7 @@ public class WeaponPattern
 		this.value = value;
 		this.minDmg = minDmg;
 		this.maxDmg = maxDmg;
-		this.bonuses = new Bonuses();
+		this.bonuses = new Modifiers();
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
 		this.hitEffects = hitEffects;

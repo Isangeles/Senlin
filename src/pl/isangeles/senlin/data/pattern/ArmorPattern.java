@@ -29,8 +29,8 @@ import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.ArmorMaterial;
 import pl.isangeles.senlin.core.item.ArmorType;
@@ -49,7 +49,7 @@ public class ArmorPattern
 	private final String material;
 	private final int value;
 	private final int armRat;
-	private final Bonuses bonuses;
+	private final Modifiers bonuses;
 	private final List<String> equipEffects;
 	private final String icon;
 	private final String mSprite;
@@ -68,7 +68,7 @@ public class ArmorPattern
 	 * @param mSprite Name of male sprite sheet file
 	 * @param fSprite Name of female sprite sheet file
 	 */
-	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Bonus> bonuses, List<String> equipEffects, 
+	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Modifier> bonuses, List<String> equipEffects, 
 						String icon, String mSprite, String fSprite) 
 	{
 		this.id = id;
@@ -77,7 +77,7 @@ public class ArmorPattern
 		this.material = material;
 		this.value = value;
 		this.armRat = armRat;
-		this.bonuses = new Bonuses();
+		this.bonuses = new Modifiers();
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
 		this.icon = icon;

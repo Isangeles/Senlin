@@ -34,8 +34,8 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
@@ -57,7 +57,7 @@ public class Effect implements SaveElement
     private String info;
     private Image iconImg;
 	private EffectType type;
-	private Bonuses bonuses;
+	private Modifiers bonuses;
 	private int dot;
 	private int duration;
 	private int time;
@@ -83,7 +83,7 @@ public class Effect implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Effect(String id, Image iconImg, Bonuses bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Effect(String id, Image iconImg, Modifiers bonuses, int dot, int duration, EffectType type, EffectSource source, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
 	    this.name = TConnector.getInfoFromModule("effects", id)[0];
@@ -112,7 +112,7 @@ public class Effect implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Effect(String id, Image iconImg, Bonuses bonuses, int dot, int duration, EffectType type, String savedOwnerId, String savedSourceId, GameContainer gc) 
+	public Effect(String id, Image iconImg, Modifiers bonuses, int dot, int duration, EffectType type, String savedOwnerId, String savedSourceId, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 	    this.id = id;
@@ -150,10 +150,10 @@ public class Effect implements SaveElement
 	 */
 	public void removeFrom(Targetable target)
 	{
-		for(Bonus bonus : bonuses)
+		for(Modifier bonus : bonuses)
 		{
-		    if(target.hasBonus(bonus))
-		        target.removeBonus(bonus);
+		    if(target.hasModifier(bonus))
+		        target.removeModifier(bonus);
 		}
 		time = 0;
 		dotTimer = 0;
@@ -222,10 +222,10 @@ public class Effect implements SaveElement
 	{
 		on = true;
 		//character.getEffects().add(this);
-		for(Bonus bonus : bonuses)
+		for(Modifier bonus : bonuses)
 		{
-		    if(!target.hasBonus(bonus))
-		    	target.addBonus(bonus);
+		    if(!target.hasModifier(bonus))
+		    	target.addModifier(bonus);
 		}
 		return on;
 	}
@@ -287,7 +287,7 @@ public class Effect implements SaveElement
 	public String getInfo()
 	{
 		String fullInfo = info;
-		for(Bonus bonus : bonuses)
+		for(Modifier bonus : bonuses)
 		{
 			fullInfo += System.lineSeparator() + bonus.getInfo();
 		}

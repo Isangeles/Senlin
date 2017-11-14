@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.TConnector;
  * @author Isangeles
  *
  */
-public class HealthBonus extends Bonus 
+public class HealthBonus extends Modifier 
 {
 	private int hpBonus;
 	/**
@@ -40,7 +40,7 @@ public class HealthBonus extends Bonus
 	 */
 	public HealthBonus(int healthPoints)
 	{
-		super(BonusType.HEALTH, TConnector.getText("ui", "bonHp") + ":" + healthPoints);
+		super(ModifierType.HEALTH, TConnector.getText("ui", "bonHp") + ":" + healthPoints);
 		hpBonus = healthPoints;
 	}
 	/* (non-Javadoc)

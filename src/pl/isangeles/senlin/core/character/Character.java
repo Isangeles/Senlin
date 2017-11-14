@@ -54,8 +54,8 @@ import pl.isangeles.senlin.core.Health;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Magicka;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonus;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifier;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
 import pl.isangeles.senlin.core.craft.Profession;
@@ -138,7 +138,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private EnumMap<ProfessionType, Profession> crafting = new EnumMap<>(ProfessionType.class);
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects(this);
-	private Bonuses bonuses = new Bonuses();
+	private Modifiers modifiers = new Modifiers();
 	private Journal quests = new Journal();
 	private Flags flags = new Flags();
 	private List<Training> trainings = new ArrayList<>();
@@ -710,10 +710,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			if(mainWeapon != null) 
 			{	
 				mainHit += rng.nextInt(mainWeapon.getDamage()[0]) + mainWeapon.getDamage()[1];
-				mainHit += bonuses.getDmgBonusFor(WeaponType.fromOrdinal(mainWeapon.getType()));
+				mainHit += modifiers.getDmgBonusFor(WeaponType.fromOrdinal(mainWeapon.getType()));
 			}
 			else
-				mainHit += bonuses.getDmgBonusFor(WeaponType.FIST);
+				mainHit += modifiers.getDmgBonusFor(WeaponType.FIST);
 		}
 		else
 			mainHit = -1; //means miss
@@ -730,10 +730,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 				if(offWeapon != null)
 				{
 					offHit += (rng.nextInt(offWeapon.getDamage()[0]) + offWeapon.getDamage()[1]);
-					offHit += bonuses.getDmgBonusFor(WeaponType.fromOrdinal(offWeapon.getType()));
+					offHit += modifiers.getDmgBonusFor(WeaponType.fromOrdinal(offWeapon.getType()));
 				}
 				else
-					offHit += bonuses.getDmgBonusFor(WeaponType.FIST);
+					offHit += modifiers.getDmgBonusFor(WeaponType.FIST);
 			}
 			else
 				offHit = -1; //means miss
@@ -749,7 +749,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		
 		if(inventory.isDualwield())
 		{
-			float dwPenalty = attributes.getDualwieldPenalty() - bonuses.getDualwieldBonus();
+			float dwPenalty = attributes.getDualwieldPenalty() - modifiers.getDualwieldBonus();
 			fullHit /= dwPenalty;
 		}
 		
@@ -925,6 +925,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		return getRangeFrom(object.getPosition());
 	}
 	/**
+	 * Returns character invisibility level
+	 * @return Invisibility level
+	 */
+	public int getInvisibilityLevel()
+	{
+		return modifiers.getStealthLevel();
+	}
+	/**
 	 * Returns current area of this character
 	 * @return Game world area
 	 */
@@ -1073,9 +1081,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Effects getEffects()
 	{ return effects; }
-	
-	public Bonuses getBonuses()
-	{ return bonuses; }
 	/**
 	 * Returns all character quests
 	 * @return List with quests
@@ -1189,16 +1194,14 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		else
 			return false;
 	}
-	/**
-	 * Adds(and applies) specified bonus to character bonuses
-	 * @param bonus Bonus to add 
-	 * @return True if bonus was successfully added, false otherwise
-	 */
-	public boolean addBonus(Bonus bonus)
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#addModifier(pl.isangeles.senlin.core.bonus.Modifier)
+     */
+	public boolean addModifier(Modifier modifier)
 	{
-		if(bonuses.add(bonus))
+		if(modifiers.add(modifier))
 		{
-			bonus.applyOn(this);
+			modifier.applyOn(this);
 			return true;
 		}
 		else
@@ -1251,29 +1254,25 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	inventory.addGold(value);
     	Log.gainInfo(getName(), value, "gold");
     }
-    /**
-     * Removes specified bonus from character
-     * @param bonus Bonus to remove
-     * @return True if bonus was successfully removed, false otherwise
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#removeModifier(pl.isangeles.senlin.core.bonus.Modifier)
      */
-    public boolean removeBonus(Bonus bonus)
+    public boolean removeModifier(Modifier modifier)
     {
-    	if(bonuses.remove(bonus))
+    	if(modifiers.remove(modifier))
     	{
-    		bonus.removeFrom(this);
+    		modifier.removeFrom(this);
     		return true;
     	}
     	else
     		return false;
     }
-    /**
-     * Checks if character has specified bonus 
-     * @param bonus Bonus to check
-     * @return True if character bonuses container contains specified bonus object, false otherwise
+    /* (non-Javadoc)
+     * @see pl.isangeles.senlin.core.Targetable#hasModifier(pl.isangeles.senlin.core.bonus.Modifier)
      */
-    public boolean hasBonus(Bonus bonus)
+    public boolean hasModifier(Modifier modifier)
     {
-    	return bonuses.contains(bonus);
+    	return modifiers.contains(modifier);
     }
     
     public EffectSource getEffectSource(String sourceId)

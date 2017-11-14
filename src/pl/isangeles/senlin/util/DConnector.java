@@ -52,7 +52,7 @@ import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Attributes;
 import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.Module;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.dialogue.Answer;

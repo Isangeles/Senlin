@@ -32,7 +32,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.bonus.Bonuses;
+import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GBase;
@@ -72,7 +72,7 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, List<String> equipEffects,
+	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects,
 				 int reqLevel, String imgName, String mSpriteName, String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
@@ -105,7 +105,7 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Bonuses bonuses, List<String> equipEffects, 
+	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects, 
 				 int reqLevel, String imgName, String mSpriteName,String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
