@@ -19,18 +19,24 @@ public class Answer implements ObjectiveTarget
 	private final String to;
 	private final boolean end;
 	private final Requirements reqs;
+	private final String text;
 	/**
 	 * Answer constructor
-	 * @param text Answer text content ID
-	 * @param to ID of text to display after this answer
-	 * @param end If Dialogue should end after this answer
+	 * @param id Answer text content ID
+	 * @param to ID of text to display after this answer, 'end' to end dialogue after this answer
+	 * @param end True if dialogue should end after this answer, false otherwise
 	 */
-	public Answer(String text, String to, boolean end, List<Requirement> reqs) 
+	public Answer(String id, String to, boolean end, List<Requirement> reqs) 
 	{
-		this.id = text;
+		this.id = id;
 		this.to = to;
-		this.end = end;
+		if(this.to.equals("end"))
+			this.end = true;
+		else
+			this.end = end;
 		this.reqs = new Requirements(reqs);
+		
+		text = TConnector.getDialogueText(id);
 	}
 	/**
 	 * Returns answer ID
@@ -41,7 +47,7 @@ public class Answer implements ObjectiveTarget
 		return id;
 	}
 	/**
-	 * Returns ID of text to display after this answer
+	 * Returns ordinal ID of text to display after choosing this answer
 	 * @return String with text ID
 	 */
 	public String getTo()
@@ -54,7 +60,7 @@ public class Answer implements ObjectiveTarget
 	 */
 	public String getText()
 	{
-		return TConnector.getDialogueText(id);
+		return text;
 	}
 	/**
 	 * Checks if that answer ends dialogue
@@ -64,7 +70,10 @@ public class Answer implements ObjectiveTarget
 	{
 		return end;
 	}
-	
+	/**
+	 * Returns answer requirements
+	 * @return Requirements container
+	 */
 	public Requirements getReqs()
 	{
 		return reqs;

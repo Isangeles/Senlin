@@ -24,7 +24,6 @@ package pl.isangeles.senlin.core.dialogue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.core.bonus.Modifier;
@@ -32,39 +31,45 @@ import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 /**
- * Class for dialogue parts, contains id corresponding to text in current lang directory and answers 
+ * Class for dialogue parts, contains some dialogue owner text and player answers 
  * @author Isangeles
  *
  */
 public class DialoguePart 
 {
 	private final String id;
+	private final String ordinalId;
 	private final boolean start;
 	private final Requirements reqs;
 	private final List<Answer> answers;
 	private final DialogueTransfer transfer;
 	private final List<Modifier> modifiersOwner;
 	private final List<Modifier> modifiersPlayer;
+	private final String text;
 	/**
 	 * Dialogue part constructor without any transfer
 	 * @param id Dialogue part ID
+	 * @param ordianlId Dialogue part ordinal ID
 	 * @param start True if this is first dialogue part
 	 * @param req List with requirements for this dialogue part
 	 * @param answers List of answers on that dialogue part
 	 */
-	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers) 
+	public DialoguePart(String id, String ordinalId, boolean start, List<Requirement> req, List<Answer> answers) 
 	{
 		this.id = id;
+		this.ordinalId = ordinalId;
 		this.start = start;
 		this.reqs = new Requirements(req);
 		this.answers = answers;
 		transfer = null;
 		modifiersOwner = new ArrayList<>();
 		modifiersPlayer = new ArrayList<>();
+		text = TConnector.getDialogueText(id);
 	}
 	/**
 	 * Dialogue part constructor with characters modifications
 	 * @param id Dialogue part ID
+	 * @param ordianlId Dialogue part ordinal ID
 	 * @param start True if this is first dialogue part
 	 * @param req List with requirements for this dialogue part
 	 * @param answers List of answers on that dialogue part
@@ -72,16 +77,18 @@ public class DialoguePart
 	 * @param modifiersOnwer List with all modifiers to apply on dialogue owner
 	 * @param modifiersPlayer List with all modifiers to apply on player
 	 */
-	public DialoguePart(String id, boolean start, List<Requirement> req, List<Answer> answers, DialogueTransfer transfer, List<Modifier> modifiersOwner, 
-						List<Modifier> modifiersPlayer) 
+	public DialoguePart(String id, String ordinalId, boolean start, List<Requirement> req, List<Answer> answers, DialogueTransfer transfer,
+						List<Modifier> modifiersOwner, List<Modifier> modifiersPlayer) 
 	{
 		this.id = id;
+		this.ordinalId = ordinalId;
 		this.start = start;
 		this.reqs = new Requirements(req);
 		this.answers = answers;
 		this.transfer = transfer;
 		this.modifiersOwner = modifiersOwner;
 		this.modifiersPlayer = modifiersPlayer;
+		text = TConnector.getDialogueText(id);
 	}
 	/**
 	 * Adds new answer for this dialogue part
@@ -100,13 +107,21 @@ public class DialoguePart
 		return id;
 	}
 	/**
+	 * Returns text ordinal ID
+	 * @return String with ordinal ID
+	 */
+	public String getOrdinalId()
+	{
+		return ordinalId;
+	}
+	/**
 	 * Returns text for specified character
 	 * @param dialogueTarget Dialogue target (game character)
 	 * @return String with text
 	 */
 	public String getText(Character dialogueTarget)
 	{
-		return TConnector.getDialogueText(id);
+		return text;
 	}
 	/**
 	 * Checks if this part should be first part of dialogue

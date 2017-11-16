@@ -15,7 +15,7 @@
         </objects>
         <exits>
             <exit position="15;247" texture="signPost.png" to="18;0">prologue01</exit>
-            <exit position="72;120" to="4;9">prologue02:cirtaLianHouse01</exit>
+            <exit position="72;120" to="11;19">prologue02:cirtaLianHouse01</exit>
         </exits>
         <music>
 	        <idle>
@@ -26,13 +26,13 @@
             </combat>
         </music>
         <subareas>
-        		<area id="cirtaLianHouse01" map="tent01.tmx">
+        		<area id="cirtaLianHouse01" map="house01.tmx">
                 <npcs>
 						<npc position="5;4">lian01</npc>                
                 </npcs>
                 <objects></objects>
                 <exits>
-                    <exit position="4;9" to="72;120">prologue02</exit>
+                    <exit position="11;19" to="72;120">prologue02</exit>
                 </exits>
                 <music>
                     <idle>

@@ -143,17 +143,17 @@ public class Dialogue
 			return true;
 	}
 	/**
-	 * Get dialogue part with specified ID
-	 * @param partId String with dialogue part ID
-	 * @return Dialog part with specified ID or error part if no such dialogue was found
+	 * Returns dialogue part with specified ordinal ID
+	 * @param ordinalId String with dialogue part ordinal ID
+	 * @return Dialog part with specified ordinal ID or error part if no such dialogue was found
 	 */
-	private DialoguePart getPart(String partId)
+	private DialoguePart getPart(String ordinalId)
 	{
-		Log.addDebug("d_trigger_req//" + partId);
+		Log.addDebug("d_trigger_req//" + ordinalId);
 		
 		for(DialoguePart dp : parts)
 		{
-		    if(dp.getId().equals(partId) && dp.hasReq() && dialogueTarget != null)
+		    if(dp.getOrdinalId().equals(ordinalId) && dp.hasReq() && dialogueTarget != null)
 		    {
 		    	if(dp.getReqs().isMetBy(dialogueTarget))
 		    	{
@@ -164,7 +164,7 @@ public class Dialogue
 		}
 		for(DialoguePart dp : parts)
 		{
-			if(dp.getId().equals(partId))
+			if(dp.getOrdinalId().equals(ordinalId) && !dp.hasReq())
 				return dp;
 		}
 		
@@ -177,7 +177,7 @@ public class Dialogue
 		List<Answer> aList = new ArrayList<>();
 		Requirements reqs = new Requirements();
 		aList.add(new Answer("bye01", "", true, reqs));
-		return new DialoguePart("err02", true, reqs, aList);
+		return new DialoguePart("err02", "err", true, reqs, aList);
 	}
 	/**
 	 * Returns first part of this dialogue

@@ -70,7 +70,7 @@ public class DialoguesBase
 		Answer bye = new Answer("bye01", "", true, new Requirements());
 		List<Answer> answers = new ArrayList<>();
 		answers.add(bye);
-		DialoguePart dp = new DialoguePart("greeting01", true, new Requirements(), answers);
+		DialoguePart dp = new DialoguePart("greeting01", "0", true, new Requirements(), answers);
 		List<DialoguePart> parts = new ArrayList<>();
 		parts.add(dp);
 		return new Dialogue("default", new Requirements(), parts);

@@ -1,47 +1,47 @@
 <?xml version="1.0"?>
 <base>
     <dialogue id="banditTalk">
-        <text id="banditTalk01" start="true">
-            <answer id="banditTalk01a01" to="banditTalk02"></answer>
+        <text id="banditTalk01" start="true" ordinal="0">
+            <answer id="banditTalk01a01" to="1"></answer>
             <answer id="bye01" end="true"></answer>        
         </text>
-        <text id="banditTalk02">
+        <text id="banditTalk02" ordinal="1">
             <answer id="bye01" end="true"></answer>
         </text>
     </dialogue>
 
     <dialogue id="ericWelcome">
-        <text id="ericWelcome01" start="true">
-            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
-            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
-            <answer id="ericWelcome01a3" to="ericWelcome04">
+        <text id="ericWelcome01" start="true" ordinal="0">
+            <answer id="ericWelcome01a01" to="1"></answer>
+            <answer id="ericWelcome01a02" to="3"></answer>
+            <answer id="ericWelcome01a3" to="3">
                 <req>
                     <statsReq>2;0;0;0;0;</statsReq>
                 </req>
             </answer>
         </text>
-        <text id="ericWelcome01b" start="true">
-            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
-            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
+        <text id="ericWelcome01b" start="true" ordinal="0">
+            <answer id="ericWelcome01a01" to="1"></answer>
+            <answer id="ericWelcome01a02" to="3"></answer>
             <req>
                 <statsReq>4;0;0;0;0;</statsReq>
             </req>
         </text>
-        <text id="ericWelcome01f" start="true">
-            <answer id="ericWelcome01a01" to="ericWelcome02"></answer>
-            <answer id="ericWelcome01a02" to="ericWelcome04"></answer>
+        <text id="ericWelcome01f" start="true" ordinal="0">
+            <answer id="ericWelcome01a01" to="1"></answer>
+            <answer id="ericWelcome01a02" to="3"></answer>
             <req>
                 <genderReq>female</genderReq>
             </req>
         </text>
-        <text id="ericWelcome02">
-            <answer id="ericWelcome02a01" to="ericWelcome03"></answer>
+        <text id="ericWelcome02" ordinal="1">
+            <answer id="ericWelcome02a01" to="2"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="ericWelcome03">
+        <text id="ericWelcome03" ordinal="2">
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="ericWelcome04">
+        <text id="ericWelcome04" ordinal="3">
             <answer id="bye01" end="true"></answer>
         </text>
         <dReq>
@@ -50,10 +50,10 @@
     </dialogue>
 
     <dialogue id="ewanTalk1">
-        <text id="ewanTalk101" start="true">
-	        <answer id="ewanTalk101a01" to="ewanTalk102"></answer>
+        <text id="ewanTalk101" start="true" ordinal="0">
+	        <answer id="ewanTalk101a01" to="1"></answer>
 	    </text>
-	    <text id="ewanTalk102">
+	    <text id="ewanTalk102" ordinal="1">
 	        <answer id="bye01" end="true"></answer>
 	    </text>
         <dReq>
@@ -62,7 +62,7 @@
     </dialogue>
 
     <dialogue id="ewanTalk2">
-        <text id="ewanTalk201" start="true">
+        <text id="ewanTalk201" start="true" ordinal="0">
             <answer id="ewanTalk201a01" end="true"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
@@ -72,7 +72,7 @@
     </dialogue>
 
     <dialogue id="ewanTalk3">
-        <text id="ewanTalk301" start="true">
+        <text id="ewanTalk301" start="true" ordinal="0">
             <answer id="ewanTalk301a01" end="true"></answer>
             <mod>
             	<transfer>
@@ -90,18 +90,18 @@
     </dialogue>
 
     <dialogue id="ewanTalk4">
-        <text id="greeting01" start="true">
-            <answer id="ewanSLetterStart" to="ewanSLetter01"></answer>
+        <text id="greeting01" start="true" ordinal="0">
+            <answer id="ewanSLetterStart" to="1"></answer>
         </text>
-        <text id="ewanSLetter01">
+        <text id="ewanSLetter01" ordinal="1">
             <answer id="ewanSLetter01a1" end="true"></answer>
-            <answer id="ewanSLetter01a2" to="ewanSLetter02"></answer>
+            <answer id="ewanSLetter01a2" to="2"></answer>
         </text>
-        <text id="ewanSLetter02">
+        <text id="ewanSLetter02" ordinal="2">
             <answer id="ewanSLetter02a1" end="true"></answer>
-            <answer id="ewanSLetter02a2" to="ewanSLetter03"></answer>
+            <answer id="ewanSLetter02a2" to="3"></answer>
         </text>
-        <text id="ewanSLetter03">
+        <text id="ewanSLetter03" ordinal="3">
             <answer id="ewanSLetter03a1" end="true"></answer>
         </text>
         <dReq>
@@ -110,46 +110,46 @@
     </dialogue>
 
     <dialogue id="cirtaGuardTalk01">
-        <text id="cirtaGuardT01" start="true">
-            <answer id="cirtaGuardT01a1" to="cirtaGuardT02"></answer>
-            <answer id="cirtaGuardT01a2" to="cirtaGuardT03"></answer>
+        <text id="cirtaGuardT01" start="true" ordinal="0">
+            <answer id="cirtaGuardT01a1" to="1"></answer>
+            <answer id="cirtaGuardT01a2" to="2"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT02">
-            <answer id="cirtaGuardT02a1" to="cirtaGuardT04"></answer>
+        <text id="cirtaGuardT02" ordinal="1">
+            <answer id="cirtaGuardT02a1" to="3"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT03">
+        <text id="cirtaGuardT03" ordinal="2">
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT04">
-        		<answer id="cirtaGuardT04_a0" to="cirtaGuardT05"></answer>
+        <text id="cirtaGuardT04" ordinal="3">
+        		<answer id="cirtaGuardT04_a0" to="4"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
-        <text id="cirtaGuardT05">
+        <text id="cirtaGuardT05" ordinal="4">
         		<answer id="bye01" end="true"/>
         </text>
     </dialogue>
     
     <dialogue id="lianSLTalk01">
-    	  <text id="lianSL01" start="true">
-	    	  <answer id="lianSL01_a0" to="lianSL02"/>
+    	  <text id="lianSL01" start="true" ordinal="0">
+	    	  <answer id="lianSL01_a0" to="1"/>
 	    	  <answer id="bye01" end="true"/>
     	  </text>
-    	  <text id="lianSL02">
-				<answer id="lianSL02_a0" to="lianSL03"/>    	  
+    	  <text id="lianSL02" ordinal="1">
+				<answer id="lianSL02_a0" to="2"/>    	  
     	  </text>
-    	  <text id="lianSL02f">
-				<answer id="lianSL02_a0" to="lianSL03"/>  
+    	  <text id="lianSL02f" ordinal="1">
+				<answer id="lianSL02_a0" to="2"/>  
 				<req>
 					<genderReq>female</genderReq>				
 				</req>  
     	  </text>
-    	  <text id="lianSL03">
-    	  		<answer id="lianSL03_a0" to="lianSL04"/>
-    	  		<answer id="lianSL03_a1" to="lianSL05"/>
+    	  <text id="lianSL03" ordinal="2">
+    	  		<answer id="lianSL03_a0" to="3"/>
+    	  		<answer id="lianSL03_a1" to="4"/>
     	  </text>
-    	  <text id="lianSL04">
+    	  <text id="lianSL04" ordinal="3">
     	  		<answer id="bye01" end="true"/>
     	  		<transfer>
 					<give></give>
@@ -158,11 +158,11 @@
 					</take>    	  		
     	  		</transfer>
     	  </text>
-    	  <text id="lianSL05">
-    	  		<answer id="lianSL05_a0" to="lianSL06"/>
-    	  		<answer id="lianSL05_a1" to="lianSL07"/>
+    	  <text id="lianSL05" ordinal="4">
+    	  		<answer id="lianSL05_a0" to="5"/>
+    	  		<answer id="lianSL05_a1" to="6"/>
     	  </text>
-    	  <text id="lianSL06">
+    	  <text id="lianSL06" ordinal="5">
 				<answer id="wait01" end="true"/>  
 				<mod>
 					<modOwner>
@@ -170,7 +170,7 @@
 					</modOwner>
 				</mod>  	  
     	  </text>
-    	  <text id="lianSL07">
+    	  <text id="lianSL07" ordinal="6">
 				<answer id="bye01" end="true"/> 
     	  		<mod>
 					<transfer>

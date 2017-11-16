@@ -96,6 +96,7 @@ public class DialogueParser
 		{
 			Element textE = (Element)textNode;
 			String id = textE.getAttribute("id");
+			String ordinalId = textE.getAttribute("ordinal");
 			boolean start = Boolean.parseBoolean(textE.getAttribute("start"));
 			
 			NodeList answers = textE.getElementsByTagName("answer");
@@ -130,16 +131,16 @@ public class DialogueParser
 				if(modPlayerNode != null)
 					modPlayer = ModifiersParser.getModifiersFromNode(modPlayerNode);
 
-				return new DialoguePart(id, start, req, answersList, transfer ,modOwner, modPlayer);
+				return new DialoguePart(id, ordinalId, start, req, answersList, transfer ,modOwner, modPlayer);
 			}
-			return new DialoguePart(id, start, req, answersList);
+			return new DialoguePart(id, ordinalId, start, req, answersList);
 		}
 		else
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
 		answersList.add(new Answer("bye01", "", true, new Requirements()));
-		return new DialoguePart("err01", true, null, answersList);
+		return new DialoguePart("err01", "", true, null, answersList);
 	}
 	/**
 	 * Parses specified answer node to dialogue answer
