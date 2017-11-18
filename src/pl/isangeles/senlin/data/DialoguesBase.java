@@ -67,7 +67,7 @@ public class DialoguesBase
 	 */
 	public static Dialogue getDefaultDialogue()
 	{
-		Answer bye = new Answer("bye01", "", true, new Requirements());
+		Answer bye = new Answer("bye01", "", false, false, true, new Requirements());
 		List<Answer> answers = new ArrayList<>();
 		answers.add(bye);
 		DialoguePart dp = new DialoguePart("greeting01", "0", true, new Requirements(), answers);

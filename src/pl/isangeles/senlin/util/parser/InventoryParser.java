@@ -52,7 +52,8 @@ public final class InventoryParser
 	public static List<RandomItem> getItemsFromNode(Node itemsNode)
 	{
 		List<RandomItem> items = new ArrayList<>();
-		
+		if(itemsNode == null)
+			return items;
 		Element itemsE = (Element)itemsNode;
 		NodeList itemsNl = itemsE.getElementsByTagName("item");
 		for(int j = 0; j < itemsNl.getLength(); j ++)

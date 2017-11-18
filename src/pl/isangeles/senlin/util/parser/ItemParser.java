@@ -65,12 +65,17 @@ public class ItemParser
 		String material = itemE.getAttribute("material"); 
 		int value = Integer.parseInt(itemE.getAttribute("value"));
 		
-		String dmg = itemE.getAttribute("dmg");
+		String dmg = itemE.getAttribute("damage");
 		int minDmg = Integer.parseInt(dmg.split("-")[0]);
 		int maxDmg = Integer.parseInt(dmg.split("-")[1]);
 		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
-		String spriteSheet = itemE.getElementsByTagName("spriteSheet").item(0).getTextContent();
+		Element spritesheetE = (Element)itemE.getElementsByTagName("spritesheet").item(0);
+		boolean defaultSS = Boolean.parseBoolean(spritesheetE.getAttribute("default"));
+		String spritesheet = "default";
+		if(defaultSS)
+			spritesheet = spritesheetE.getTextContent();
+			
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(bonusesNode);
@@ -110,7 +115,7 @@ public class ItemParser
 		}
 		
 		
-		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, icon, spriteSheet);
+		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, icon, spritesheet);
 	}
 	/**
 	 * Parses item node from armors base

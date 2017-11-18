@@ -30,7 +30,11 @@ package pl.isangeles.senlin.core.character;
 public enum Race 
 {
 	HUMAN, GOBLIN, WOLF;
-	
+	/**
+	 * Converts specified race name to race enumeration
+	 * @param raceName String with race name
+	 * @return Race with specified name
+	 */
 	public static Race fromName(String raceName)
 	{
 		switch(raceName)
@@ -43,6 +47,24 @@ public enum Race
 			return Race.WOLF;
 		default:
 			return Race.HUMAN;
+		}
+	}
+	/**
+	 * Returns default spritesheet name for this race 
+	 * @return String with spritesheet name
+	 */
+	public String getDefaultSpritesheet(Gender sex)
+	{
+		switch(this)
+		{
+		case HUMAN:
+			return sex.getSSName("cloth-1222211-80x90.png");
+		case GOBLIN:
+			return "goblin-1222211-80x90.png";
+		case WOLF:
+			return "";
+		default:
+			return sex.getSSName("cloth-1222211-80x90.png");
 		}
 	}
 }

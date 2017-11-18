@@ -359,6 +359,51 @@
         <dialogue>ewanTalk4</dialogue>
     </dialogues>
 </npc>
+<npc id="han01" gender="male" race="human" attitude="friendly" guild="none" train="true" trade="true" level="4">
+	<stats>3;2;2;1;2;</stats>
+	<portrait>default.jpg</portrait>
+	<spritesheet default="true" />
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact> 
+	<in gold="200">
+		<items>
+			<item>wSOHS</item>
+			<item>mIronOre01</item>
+		</items>
+	</in>
+	</eq>
+	<training>
+		<professions>
+			<profession type="weapon_crafting" level="novice">
+				<trainReq>
+					<pointsReq>2</pointsReq>
+					<goldReq>100</goldReq>
+					<statsReq>2;0;1;0;1;</statsReq>
+				</trainReq>
+			</profession>
+		</professions>
+		<attributes>
+			<attribute type="strength">
+				<trainReq>
+					<pointsReq>1</pointsReq>
+					<goldReq>10</goldReq>
+				</trainReq>
+			</attribute>
+		</attributes>
+	</training>
+	<dialogues>
+		<dialogue>hanD01</dialogue>
+	</dialogues>
+</npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">
     <stats>2;2;3;1;1;</stats>
     <portrait>goblin01.jpg</portrait>

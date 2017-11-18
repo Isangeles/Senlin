@@ -186,4 +186,26 @@
 				<itemReq amount="1">mSLetter01</itemReq>    	  
     	  </dReq>
     </dialogue>
+    
+    <dialogue id="hanD01">
+		<text id="hanD01T00" ordinal="0">
+			<answer id="whoareu01" to="1"/>
+			<answer id="placeInfo01" to="3"/>
+			<answer id="trainReq01" to="train" />
+			<answer id="tradeReq01" to="trade" /> 
+			<answer id="bye01" to="end" />
+		</text>
+		<text id="hanD02T01" ordinal="1">
+			<answer id="whereufrom01" to="2"/>
+		</text>
+		<text id="hanD03T02" ordinal="2">
+			<answer id="backAns01" to="0" />
+		</text>
+		<text id="hanD04T03" ordinal="3">
+			<answer id="hanD03_a0" to="4" />
+		</text>
+		<text id="hanD05T04" ordinal="4">
+			<answer id="backAns01" to="0" />
+		</text>
+    </dialogue>
 </base>

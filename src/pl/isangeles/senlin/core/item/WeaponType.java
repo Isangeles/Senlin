@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.item;
 
+import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
@@ -137,5 +138,31 @@ public enum WeaponType
         default:
             return TConnector.getText("ui", "errorName");
         }
+	}
+	/**
+	 * Returns default male spritesheet for this weapon type
+	 * @return String with name of default spritesheet
+	 */
+	public String getDefaultMaleSpritesheet()
+	{
+		switch(this)
+		{
+        case DAGGER:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        case SWORD:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        case AXE:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        case MACE:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        case SPEAR:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        case BOW:
+            return "bow-1222211-80x90.png";//Gender.MALE.getSSName("bow-1222211-80x90.png");
+        case FIST:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+        default:
+            return "longsword-1222211-80x90.png";//Gender.MALE.getSSName("longsword-1222211-80x90.png");
+		}
 	}
 }

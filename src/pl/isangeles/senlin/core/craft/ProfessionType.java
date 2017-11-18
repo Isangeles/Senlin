@@ -41,9 +41,9 @@ public enum ProfessionType
 	{
 		switch(proTypeName)
 		{
-		case "armor crafting":
+		case "armor_crafting": case "armor crafting":
 			return ProfessionType.ARMORCRAFTING;
-		case "weapon crafting":
+		case "weapon_crafting": case "weapon crafting":
 			return ProfessionType.WEAPONCRAFTING;
 		case "alchemy":
 			return ProfessionType.ALCHEMY;

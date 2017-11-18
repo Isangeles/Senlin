@@ -31,7 +31,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import pl.isangeles.senlin.gui.Field;
+import pl.isangeles.senlin.gui.InfoField;
 
 /**
  * State for reloading game world
@@ -40,7 +40,7 @@ import pl.isangeles.senlin.gui.Field;
  */
 public class ReloadScreen extends BasicGameState 
 {
-    private Field loadingInfo;
+    private InfoField loadingInfo;
     private int loadCounter;
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -50,7 +50,7 @@ public class ReloadScreen extends BasicGameState
 	{
 		try
         {
-            loadingInfo = new Field(100f, 70f, "Loading...", container);
+            loadingInfo = new InfoField(100f, 70f, "Loading...", container);
         } 
         catch (IOException | FontFormatException e)
         {

@@ -357,6 +357,13 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	private class DialogueOption extends Button 
 	{
 		private Answer option;
+		/**
+		 * Dialogue option constructor
+		 * @param gc Slick game container
+		 * @throws SlickException
+		 * @throws FontFormatException
+		 * @throws IOException
+		 */
 		public DialogueOption(GameContainer gc) throws SlickException, FontFormatException, IOException 
 		{
 			super(GConnector.getInput("ui/background/dialogueOptionBG.png"), "uiDialogueBoxOptionBg", false, "", gc);
@@ -379,10 +386,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 				{
 					interlocutorA.getQTracker().check(option);
 					
-					if(option.getId().equals("tradeReq"))
-						tradeReq = true;
-					if(option.getId().equals("trainReq"))
-						trainReq = true;
+					tradeReq = option.isTrade();
+					trainReq = option.isTrain();
 
 					currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
 					

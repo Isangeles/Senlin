@@ -17,6 +17,8 @@ public class Answer implements ObjectiveTarget
 {
 	private final String id;
 	private final String to;
+	private final boolean train;
+	private final boolean trade;
 	private final boolean end;
 	private final Requirements reqs;
 	private final String text;
@@ -26,10 +28,12 @@ public class Answer implements ObjectiveTarget
 	 * @param to ID of text to display after this answer, 'end' to end dialogue after this answer
 	 * @param end True if dialogue should end after this answer, false otherwise
 	 */
-	public Answer(String id, String to, boolean end, List<Requirement> reqs) 
+	public Answer(String id, String to, boolean train, boolean trade, boolean end, List<Requirement> reqs) 
 	{
 		this.id = id;
 		this.to = to;
+		this.train = train;
+		this.trade = trade;
 		if(this.to.equals("end"))
 			this.end = true;
 		else
@@ -61,6 +65,22 @@ public class Answer implements ObjectiveTarget
 	public String getText()
 	{
 		return text;
+	}
+	/**
+	 * Checks if this answer starts training
+	 * @return True if training should be starter after this answer, false otherwise
+	 */
+	public boolean isTrain()
+	{
+		return train;
+	}
+	/**
+	 * Checks if this answer start trade
+	 * @return True if trade should be started after this answer, false otherwise
+	 */
+	public boolean isTrade()
+	{
+		return trade;
 	}
 	/**
 	 * Checks if that answer ends dialogue

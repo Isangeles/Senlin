@@ -104,7 +104,10 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
+		if(spriteSheet.equals("default") || spriteSheet.equals(""))
+			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, gc);
+		else
+			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
 	}
 
 	/**
@@ -118,6 +121,9 @@ public class WeaponPattern
 	 */
 	public Weapon make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
+		if(spriteSheet.equals("default") || spriteSheet.equals(""))
+			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, gc);
+		else
+			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
 	}
 }

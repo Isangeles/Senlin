@@ -219,8 +219,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 * @throws FontFormatException
 	 */
     public Character(String id, int serial, Gender sex, Race race, Attitude attitude, String guildID, String name, int level, Attributes atributes, Portrait portrait, 
-    				 String spritesheet, boolean staticAvatar, GameContainer gc) 
-            throws SlickException, IOException, FontFormatException
+    				 String spritesheet, boolean staticAvatar, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
         this(id, sex, race, attitude, guildID, name, level, atributes, portrait, spritesheet, staticAvatar, gc);
         
@@ -228,6 +227,45 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         this.serial = serial;
         serialId = id + "_" + serial;
         reservedIDs.add(serialId);
+    }
+	/**
+	 * Character constructor with default spritesheet
+	 * @param id Character ID
+	 * @param attitude Character attitude
+	 * @param guildID Character guild ID
+	 * @param name Character name
+	 * @param level Character level
+	 * @param atributes Character attributes
+	 * @param portrait Character portrait
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Character(String id, Gender sex, Race race, Attitude attitude, String guildID, String name, int level, Attributes atributes, 
+					 Portrait portrait, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+		this(id, sex, race, attitude, guildID, name, level, atributes, portrait, race.getDefaultSpritesheet(sex), false, gc);
+    }
+	/**
+	 * Character constructor with custom serial number and default spritesheet
+	 * @param id Character ID
+	 * @param serial Character serial number
+	 * @param attitude Character attitude
+	 * @param guildID Character guild ID
+	 * @param name Character name
+	 * @param level Character level
+	 * @param atributes Character attributes
+	 * @param portrait Character portrait
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+    public Character(String id, int serial, Gender sex, Race race, Attitude attitude, String guildID, String name, int level, Attributes atributes, 
+    				 Portrait portrait, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+    	this(id, serial, sex, race, attitude, guildID, name, level, atributes, portrait, race.getDefaultSpritesheet(sex), false, gc);
     }
 	/**
 	 * Promotes character to next level
@@ -416,7 +454,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	for(Dialogue dialogue : dialogues)
     	{
     		if(!dialogue.hasReqs())
-    			dialogue.addOption(new Answer("tradeReq", "", true, new Requirements()));
+    			dialogue.addOption(new Answer("tradeReq01", "", false , true, true, new Requirements()));
     	}
     	trade = true;
     }
@@ -495,7 +533,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	for(Dialogue dialogue : dialogues)
     	{
     		if(!dialogue.hasReqs())
-    			dialogue.addOption(new Answer("trainReq", "", true, new Requirements()));
+    			dialogue.addOption(new Answer("trainReq01", "", true, false, true, new Requirements()));
     	}
     	train = true;
     	this.trainings = trainings;

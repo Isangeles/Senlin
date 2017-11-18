@@ -23,4 +23,7 @@
         <icon>picklock01.png</icon>
         <action type="effectTarget">unlock01</action>
     </item>
+    <item id="mIronOre01" value="15" stack="10">
+		<icon>ore01.png</icon>
+    </item>
 </base>

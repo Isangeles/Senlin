@@ -40,7 +40,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.gui.Button;
-import pl.isangeles.senlin.gui.Field;
+import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.TextButton;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;

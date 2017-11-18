@@ -494,7 +494,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         {
             for(Exit exit : gw.getArea().getExits())
             {
-                if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 40)
+                if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 70)
                 {
                     //Log.addSystem(exit.getScenarioId() + " exit clicked!");// TEST LINE
                     Scenario scenario = gw.getCurrentChapter().getScenario(exit.getScenarioId());

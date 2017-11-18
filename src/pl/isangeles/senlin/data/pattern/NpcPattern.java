@@ -175,12 +175,15 @@ public class NpcPattern
 	{
 		Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
 		portrait.setName(portraitName);
-		Scanner scann = new Scanner(stats);
-		scann.useDelimiter(";");
-		Character npc = new Character(npcId, npcGender, npcRace, npcAttitude, guildID, npcName, level,
-									  new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
-									  portrait, spritesheet, staticAvatar, gc);
-		scann.close();
+		
+		Attributes attributes = new Attributes(stats);
+		
+		Character npc = null;
+		if(spritesheet.equals("default") || spritesheet.equals(""))
+			npc = new Character(npcId, npcGender, npcRace, npcAttitude, guildID, npcName, level, attributes, portrait, gc);
+		else
+			npc = new Character(npcId, npcGender, npcRace, npcAttitude, guildID, npcName, level, attributes, portrait, spritesheet, staticAvatar, gc);
+			
 		if(trade)
 			npc.setTrade();
 		if(train)
@@ -251,12 +254,16 @@ public class NpcPattern
     {
         Portrait portrait = new Portrait(GConnector.getPortrait(portraitName), gc);
         portrait.setName(portraitName);
-        Scanner scann = new Scanner(stats);
-        scann.useDelimiter(";");
-        Character npc = new Character(npcId, serial, npcGender, npcRace, npcAttitude, guildID, npcName, level,
-                                      new Attributes(scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt(), scann.nextInt()), 
-                                      portrait, spritesheet, staticAvatar, gc);
-        scann.close();
+        
+        Attributes attributes = new Attributes(stats);
+		
+		Character npc = null;
+		if(spritesheet.equals("default") || spritesheet.equals(""))
+			npc = new Character(npcId, serial, npcGender, npcRace, npcAttitude, guildID, npcName, level, attributes, portrait, gc);
+		else
+			npc = new Character(npcId, serial, npcGender, npcRace, npcAttitude, guildID, npcName, level, attributes, portrait, spritesheet, staticAvatar, gc);
+			
+        
         if(trade)
             npc.setTrade();
         if(train)

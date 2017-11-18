@@ -176,7 +176,7 @@ public class Dialogue
 		
 		List<Answer> aList = new ArrayList<>();
 		Requirements reqs = new Requirements();
-		aList.add(new Answer("bye01", "", true, reqs));
+		aList.add(new Answer("bye01", "", false, false, true, reqs));
 		return new DialoguePart("err02", "err", true, reqs, aList);
 	}
 	/**

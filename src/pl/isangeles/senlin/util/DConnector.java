@@ -140,6 +140,7 @@ public final class DConnector
 				catch(NumberFormatException | NullPointerException e)
 				{
 					Log.addSystem("npc_builder_fail_msg///node corrupted!");
+					System.err.println("npc_builder_fail_msg///node corrupted!");
 					e.printStackTrace();
 					continue;
 				}

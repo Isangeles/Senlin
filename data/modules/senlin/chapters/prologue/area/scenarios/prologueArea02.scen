@@ -16,6 +16,7 @@
         <exits>
             <exit position="15;247" texture="signPost.png" to="18;0">prologue01</exit>
             <exit position="72;120" to="11;19">prologue02:cirtaLianHouse01</exit>
+            <exit position="79;123" to="11;19">prologue02:cirtaHanHouse01</exit>
         </exits>
         <music>
 	        <idle>
@@ -28,7 +29,7 @@
         <subareas>
         		<area id="cirtaLianHouse01" map="house01.tmx">
                 <npcs>
-						<npc position="5;4">lian01</npc>                
+					<npc position="5;4">lian01</npc>                
                 </npcs>
                 <objects></objects>
                 <exits>
@@ -36,10 +37,29 @@
                 </exits>
                 <music>
                     <idle>
+                        <track category="exploring">shamanicFlute.ogg</track>
                     </idle>
                     <combat>
-                    </combat>
+						<track category="combat">$all</track>
+					</combat>
                 </music>
+        		</area>
+        		<area id="cirtaHanHouse01" map="house01.tmx">
+					<npcs>
+						<npc position="6;5">han01</npc>
+					</npcs>
+					<objects></objects>
+					<exits>
+						<exit position="11;19" to="79;123">prologue02</exit>
+					</exits>
+					<music>
+						<idle>
+							<track category="exploring">rainFlute.ogg</track>
+						</idle>
+						<combat>
+							<track category="combat">$all</track>
+						</combat>
+					</music>
         		</area>
         </subareas>
     </mainarea>

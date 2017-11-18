@@ -122,6 +122,57 @@ public class Weapon extends Equippable
         setMSprite(spriteName);
 	}
 	/**
+	 * Weapon constructor (with default spritesheet)
+	 * @param id Weapon ID	
+	 * @param name Weapon name
+	 * @param info Informations about weapon
+	 * @param type Weapon type (0-5)
+	 * @param material Weapon material (0-2)
+	 * @param value Weapon value
+	 * @param maxDmg Max weapon damage
+	 * @param minDmg Min weapon damage
+	 * @param bonuses Weapon bonuses
+	 * @param equippEffects List with IDs of all equip effects 
+	 * @param hitEffects List with IDs of all hit effects 
+	 * @param reqLevel Required level
+	 * @param picName Weapon icon image file name
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
+				  List<String> hitEffects, int reqLevel, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	{
+		this(id, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLevel, picName, type.getDefaultMaleSpritesheet(), gc);
+	}
+	/**
+	 * Weapon constructor (with saved serial number and default spritesheet)
+	 * @param id Weapon ID	
+     * @param serial Saved serial number
+	 * @param name Weapon name
+	 * @param info Informations about weapon
+	 * @param type Weapon type (0-5)
+	 * @param material Weapon material (0-2)
+	 * @param value Weapon value
+	 * @param maxDmg Max weapon damage
+	 * @param minDmg Min weapon damage
+	 * @param bonuses Weapon bonuses
+	 * @param equippEffects List with IDs of all equip effects 
+	 * @param hitEffects List with IDs of all hit effects 
+	 * @param reqLevel Required level
+	 * @param picName Weapon icon image file name
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Weapon(String id, int serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
+				  List<String> hitEffects, int reqLevel, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	{
+		this(id, serial, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLevel, picName, type.getDefaultMaleSpritesheet(), gc);
+	}
+	/**
 	 * Returns weapon maximal and minimal damage
 	 * @return Table with min[0] and max[1] damage
 	 */
@@ -244,7 +295,7 @@ public class Weapon extends Equippable
 		{
 			return new ItemTile(GConnector.getInput("icon/item/weapon/"+imgName), id+itemNumber, false, gc, this.getInfo());
     	}
-		catch(SlickException | IOException e) 
+		catch(SlickException | IOException | NullPointerException e) 
     	{
 			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
 		}

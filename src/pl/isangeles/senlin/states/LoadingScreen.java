@@ -56,7 +56,7 @@ import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
-import pl.isangeles.senlin.gui.Field;
+import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.tools.UserInterface;
 /**
  * Class for game loading state
@@ -65,7 +65,7 @@ import pl.isangeles.senlin.gui.tools.UserInterface;
  */
 public class LoadingScreen extends BasicGameState
 {
-    private Field loadingInfo;
+    private InfoField loadingInfo;
     private Character player;
     private SavedGame gameToLoad;
     private String saveName;
@@ -102,7 +102,7 @@ public class LoadingScreen extends BasicGameState
     {
         try
         {
-            loadingInfo = new Field(100f, 70f, "Loading...", container);
+            loadingInfo = new InfoField(100f, 70f, "Loading...", container);
         } 
         catch (IOException | FontFormatException e)
         {

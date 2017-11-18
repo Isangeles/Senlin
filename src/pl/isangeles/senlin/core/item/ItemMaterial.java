@@ -72,7 +72,7 @@ public enum ItemMaterial
 			return ItemMaterial.WOOD;
 		case "iron":
 			return ItemMaterial.IRON;
-		case "stell":
+		case "steel":
 			return ItemMaterial.STEEL;
 		case "nephrite":
 			return ItemMaterial.NEPHRITE;

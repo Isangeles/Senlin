@@ -139,7 +139,7 @@ public class DialogueParser
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
-		answersList.add(new Answer("bye01", "", true, new Requirements()));
+		answersList.add(new Answer("bye01", "", false, false, true, new Requirements()));
 		return new DialoguePart("err01", "", true, null, answersList);
 	}
 	/**
@@ -152,15 +152,31 @@ public class DialogueParser
 		Element answerE = (Element)answerNode;
 		
 		String aId = answerE.getAttribute("id");
-		String toId = answerE.getAttribute("to");
+		boolean train = false;
+		boolean trade = false;
 		boolean end = false;
+		if(answerE.hasAttribute("train"))
+			train = Boolean.parseBoolean(answerE.getAttribute("train"));
+		if(answerE.hasAttribute("trade"))
+			trade = Boolean.parseBoolean(answerE.getAttribute("trade"));
 		if(answerE.hasAttribute("end"))
 			end = Boolean.parseBoolean(answerE.getAttribute("end"));
+
+		String toId = answerE.getAttribute("to");
+		if(toId.equals("end"))
+			end = true;
+		if(toId.equals("train"))
+			train = true;
+		if(toId.equals("trade"))
+			trade = true;
+		
+		if(train || trade)
+			end = true;
 		
 		Node reqNode = answerE.getElementsByTagName("req").item(0);
 		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
 		
-		return new Answer(aId, toId, end, reqs);
+		return new Answer(aId, toId, train, trade, end, reqs);
 	}
 	/**
 	 * Parses specified transfer node to dialogue transfer

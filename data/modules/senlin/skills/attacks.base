@@ -7,7 +7,7 @@
     <damage>0</damage>
     <cooldown>5</cooldown>
     <effects>
-        <effect>bleed</effect>
+        <effect>bleed01</effect>
     </effects>
     <useReq>
         <weaponReq>sword</weaponReq>

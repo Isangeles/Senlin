@@ -85,6 +85,11 @@ public final class NpcParser
         Element spritesheetE = (Element)npc.getElementsByTagName("spritesheet").item(0);
         String spritesheet = spritesheetE.getTextContent();
         boolean ssType = Boolean.parseBoolean(spritesheetE.getAttribute("static"));
+        boolean defaultSS = Boolean.parseBoolean(spritesheetE.getAttribute("default"));
+        if(defaultSS)
+        {
+        	spritesheet = "default";
+        }
         
         NodeList npcNodes = npcNode.getChildNodes();
         Element eq = (Element)npcNodes;
