@@ -83,8 +83,8 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private UserInterface ui;
 	private CommandInterface cui;
 	private AudioPlayer gwMusic;
-	private Exit exitToNextScen;
-	private boolean changeScenarioReq;
+	private Exit exitToNewArea;
+	private boolean changeAreaReq;
 	private boolean combat;
 	/**
 	 * Creates game world for new game
@@ -270,8 +270,14 @@ public class GameWorld extends BasicGameState implements SaveElement
             	object.update(delta);
             }
                
-            if(changeScenarioReq)
-                changeScenario(exitToNextScen, container, game);
+            if(changeAreaReq && exitToNewArea != null)
+            {
+            	if(exitToNewArea.getScenarioId().equals(activeScenario.getId()))
+            		changeArea(exitToNewArea);
+            	else
+                    changeScenario(exitToNewArea, container, game);
+            }
+            
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
     	}
@@ -375,10 +381,18 @@ public class GameWorld extends BasicGameState implements SaveElement
     public void keyPressed(int key, char c)
     {
     }
-    public void setChangeScenarioReq(Exit exitToNewScenario)
+    /**
+     * Requests world to change area to area from specified exit
+     * @param exit Game world exit
+     */
+    public void setChangeAreaReq(Exit exit)
     {
-        changeScenarioReq = true;
-        exitToNextScen = exitToNewScenario;
+    	Scenario scenario = getCurrentChapter().getScenario(exit.getScenarioId());
+        if(scenario != null)
+        {
+        	changeAreaReq = true;
+        	exitToNewArea = exit;
+        }
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.BasicGameState#getID()
@@ -403,12 +417,20 @@ public class GameWorld extends BasicGameState implements SaveElement
      * Checks if game should be paused
      * @return True if game should be paused, false otherwise
      */
-    private boolean isPause()
+    public boolean isPause()
     {
         if(ui != null)
         	return ui.isPauseReq();
         else
         	return false;
+    }
+    /**
+     * Checks if area change is requested
+     * @return True if area change is requested, false otherwise
+     */
+    public boolean isChangeAreaReq()
+    {
+    	return changeAreaReq;
     }
     /**
      * Draws fog of war on all map tiles except these ones in player field of view
@@ -437,12 +459,12 @@ public class GameWorld extends BasicGameState implements SaveElement
      * @param game Slick game
      * @throws SlickException
      */
-    public void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
+    private void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
     {
         Scenario nextScenario = chapter.getScenario(exit.getScenarioId());
     	this.activeScenario = nextScenario;
     	game.addState(new ReloadScreen());
-    	changeScenarioReq = false;
+    	changeAreaReq = false;
     	nextScenario = null;
     	player.setArea(activeScenario.getMainArea());
     	player.setPosition(exit.getToPos());
@@ -457,8 +479,14 @@ public class GameWorld extends BasicGameState implements SaveElement
      * @param exit Exit from current area to specified area
      * @param area Area to enter	
      */
-    public void changeArea(Exit exit, Area area)
+    private void changeArea(Exit exit)
     {
+    	Area area = mainArea;
+    	if(!exit.isToSub())
+    		area = activeScenario.getMainArea();
+    	else
+    		area = activeScenario.getArea(exit.getSubAreaId());
+    	
     	if(player.getCurrentArea() != null)
         	player.getCurrentArea().getCharacters().remove(player);
     	player.setArea(area);
@@ -471,6 +499,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
         }
     	this.area = area;
+    	changeAreaReq = false;
     	ui.getCamera().centerAt(new Position(player.getPosition()));
     }
     /**

@@ -495,34 +495,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
             for(Exit exit : gw.getArea().getExits())
             {
                 if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 70)
-                {
-                    //Log.addSystem(exit.getScenarioId() + " exit clicked!");// TEST LINE
-                    Scenario scenario = gw.getCurrentChapter().getScenario(exit.getScenarioId());
-                    
-                    if(scenario != null)
-                    {
-                        if(!scenario.getId().equals(gw.getCurrentChapter().getActiveScenario().getId()))
-                        {
-                            gw.setChangeScenarioReq(exit);
-                            //Log.addSystem("change to: " + scenario.getId());// TEST LINE
-                        }
-                        else
-                        {
-                            if(exit.isToSub())
-                            {
-                                for(Area subArea : gw.getSubAreas())
-                                {
-                                    if(subArea.getId().equals(exit.getSubAreaId()))
-                                    {
-                                        gw.changeArea(exit, subArea);
-                                    }
-                                }
-                            }
-                            else
-                                gw.changeArea(exit, gw.getMainArea());
-                        }
-                    }
-                }
+                	gw.setChangeAreaReq(exit);
             }
             
             for(TargetableObject object : gw.getArea().getObjects())
