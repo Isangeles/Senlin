@@ -105,7 +105,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		effectsVolS.draw(x+getDis(40), y+getDis(340), false);
 		musicVolS.draw(x+getDis(40), y+getDis(420), false);
 		backB.draw(x+getDis(20), (y+super.getScaledHeight())-backB.getScaledHeight(), false);
-		if(restartInfo.isOpen())
+		if(restartInfo.isOpenReq())
 			restartInfo.draw();
 	}
 	/**
@@ -229,7 +229,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 			{
 				if(change)
 				{
-					restartInfo.show(TConnector.getText("ui", "settWinInfo"));
+					restartInfo.open(TConnector.getText("ui", "settWinInfo"));
 					applySettings();
 					Settings.saveSettings();
 					close();

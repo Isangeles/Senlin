@@ -46,7 +46,7 @@ public class Message extends InterfaceObject implements MouseListener
     protected Button buttonOk;
     private Font textFont;
     private TrueTypeFont textTtf;
-    private boolean isOpen;
+    private boolean openReq;
     
     /**
      * Message constructor
@@ -71,16 +71,16 @@ public class Message extends InterfaceObject implements MouseListener
      * If message should be shown
      * @return
      */
-    public boolean isOpen()
+    public boolean isOpenReq()
     {
-        return isOpen;
+        return openReq;
     }
     /**
      * Force message to close
      */
     public void close()
     {
-        isOpen = false;
+        openReq = false;
     }
     /**
      * Draws message
@@ -103,17 +103,11 @@ public class Message extends InterfaceObject implements MouseListener
      * Sets text and opens message 
      * @param textMessage Text for message
      */
-    public void show(String textMessage)
+    public void open(String textMessage)
     {
-    	set(textMessage);
-        isOpen = true;
+    	this.textMessage = textMessage;
+        openReq = true;
     }
-    
-    private void set(String textMessage)
-    {
-        this.textMessage = textMessage;
-    }
-
     @Override
     public void inputEnded()
     {
@@ -127,7 +121,7 @@ public class Message extends InterfaceObject implements MouseListener
     @Override
     public boolean isAcceptingInput()
     {
-        return true;
+        return openReq;
     }
 
     @Override

@@ -78,7 +78,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private Character player;
 	private Area area;
 	private Area mainArea;
-	private List<Area> subAreas = new ArrayList<>();
+	private List<Area> subAreas;
 	private CharacterAi npcsAi;
 	private UserInterface ui;
 	private CommandInterface cui;
@@ -86,6 +86,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private Exit exitToNewArea;
 	private boolean changeAreaReq;
 	private boolean combat;
+	private int waitForRender;
 	/**
 	 * Creates game world for new game
 	 * @param player Player character
@@ -232,6 +233,32 @@ public class GameWorld extends BasicGameState implements SaveElement
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
+    	if(ui != null)
+    	{
+    		ui.update(container);
+        	if(ui.takeSaveReq() == true)
+        	{
+    			try 
+    			{
+    				SaveEngine.save(player, this, ui, ui.getSaveName());
+    			} 
+    			catch (ParserConfigurationException | TransformerException e) 
+    			{
+    				Log.addSystem("save_builder_fail_msg///" + e.getMessage());
+    			}
+        	}
+        	if(ui.takeLoadReq() == true)
+        	{
+        	   game.addState(new LoadingScreen(ui.getLoadName()));
+        	   game.getState(4).init(container, game);
+        	   ui.closeAll();
+        	   System.gc();
+        	   game.enterState(4);
+        	}
+        	if(ui.isExitReq())
+        		container.exit();
+    	}
+    	
     	if(!isPause())
     	{
     	    dayManager.update(delta);
@@ -272,48 +299,35 @@ public class GameWorld extends BasicGameState implements SaveElement
                
             if(changeAreaReq && exitToNewArea != null)
             {
-            	if(exitToNewArea.getScenarioId().equals(activeScenario.getId()))
-            		changeArea(exitToNewArea);
+            	if(waitForRender <= 0)//to let UI to display appropriate message
+            	{
+                	if(exitToNewArea.getScenarioId().equals(activeScenario.getId()))
+                		changeArea(exitToNewArea);
+                	else
+                        changeScenario(exitToNewArea, container, game);
+                	
+                	waitForRender = 0;
+            	}
             	else
-                    changeScenario(exitToNewArea, container, game);
+            		waitForRender --;
             }
             
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
     	}
-    	
-    	if(ui != null)
-    	{
-    		ui.update(container);
-        	if(ui.takeSaveReq() == true)
-        	{
-    			try 
-    			{
-    				SaveEngine.save(player, this, ui, ui.getSaveName());
-    			} 
-    			catch (ParserConfigurationException | TransformerException e) 
-    			{
-    				Log.addSystem("save_builder_fail_msg///" + e.getMessage());
-    			}
-        	}
-        	if(ui.takeLoadReq() == true)
-        	{
-        	   game.addState(new LoadingScreen(ui.getLoadName()));
-        	   game.getState(4).init(container, game);
-        	   ui.closeAll();
-        	   System.gc();
-        	   game.enterState(4);
-        	}
-        	if(ui.isExitReq())
-        		container.exit();
-    	}
     }
-    
+    /**
+     * Returns active chapter
+     * @return Module chapter
+     */
     public Chapter getCurrentChapter()
     {
     	return chapter;
     }
-    
+    /**
+     * Returns current area map
+     * @return Tiled map of current area
+     */
     public TiledMap getAreaMap()
     {
         return area.getMap();
@@ -392,6 +406,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         {
         	changeAreaReq = true;
         	exitToNewArea = exit;
+        	waitForRender = 1;//to let UI to display appropriate message
         }
     }
     /* (non-Javadoc)

@@ -148,6 +148,7 @@ logCmdSet:no such option for set;
 logCmdAdd:no such option for add;
 logCmdRem:no such option for remove;
 logCmdSho:no such option for show;
+loadAreaInfo:Loading area...;
 uiClose:Close;
 winClose:Close;
 errorName:Error;

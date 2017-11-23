@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -40,6 +41,7 @@ import pl.isangeles.senlin.util.AConnector;
 public final class ABase 
 {
 	private static Map<String, Sound> effects = new HashMap<>();
+	private static Map<Music, String> music = new HashMap<>();
 	/**
 	 * Private constructor to prevent initialization
 	 */

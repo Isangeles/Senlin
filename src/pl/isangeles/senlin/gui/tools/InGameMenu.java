@@ -96,7 +96,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 		
 		menuMOA.setLocation(super.x, super.y);
 		
-		if(menuWarning.isOpen())
+		if(menuWarning.isOpenReq())
 			menuWarning.draw();
 		if(!menuWarning.isUndecided() && menuWarning.isCancel())
 		{
@@ -244,7 +244,7 @@ class InGameMenu extends InterfaceObject implements UiElement, MouseListener
 			if(exit.isMouseOver())
 			{
 				exitReq = true;
-				menuWarning.show(TConnector.getText("menu", "warnConf"));
+				menuWarning.open(TConnector.getText("menu", "warnConf"));
 			}
 			if(resume.isMouseOver())
 			{

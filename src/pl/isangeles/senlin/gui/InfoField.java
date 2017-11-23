@@ -41,8 +41,6 @@ public class InfoField extends InterfaceObject
 {
     private String label;
     private TrueTypeFont ttf;
-    private float width;
-    private float height;
     /**
      * Information field constructor
      * @param width Field width
@@ -58,8 +56,26 @@ public class InfoField extends InterfaceObject
         super(GConnector.getInput("field/infoWindowBG.png"), "uiField", false, gc);
         
         this.label = label;
-        this.width = width;
-        this.height = height;
+        setSize(width, height);
+        
+        Font font = GBase.getFont("mainUiFont");
+        ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
+    }
+    /**
+     * Information field constructor
+     * @param width Field width
+     * @param height Field height
+     * @param gc Slick game container
+     * @throws SlickException
+     * @throws IOException
+     * @throws FontFormatException
+     */
+    public InfoField(float width, float height, GameContainer gc) throws SlickException, IOException, FontFormatException
+    {
+        super(GConnector.getInput("field/infoWindowBG.png"), "uiField", false, gc);
+        
+        this.label = "";
+        setSize(width, height);
         
         Font font = GBase.getFont("mainUiFont");
         ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);

@@ -38,11 +38,11 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public class Warning extends Message 
 {
-	Button abort;
+	private Button abortB;
 	
-	boolean cancel;
-	boolean accept;
-	boolean undecided;
+	private boolean cancel;
+	private boolean accept;
+	private boolean undecided;
 	/**
 	 * Warning constructor
 	 * @param gc Game container for superclass
@@ -55,7 +55,7 @@ public class Warning extends Message
 	{
 		super(gc);
 		
-		abort = new Button(GConnector.getInput("button/buttonNo.png"), "bWarnNo", false, "", gc);
+		abortB = new Button(GConnector.getInput("button/buttonNo.png"), "bWarnNo", false, "", gc);
 		cancel = true;
 	}
 	
@@ -63,20 +63,20 @@ public class Warning extends Message
 	public void draw(float x, float y)
 	{
 		super.draw(x, y);
-		abort.draw(x+getDis(50), y+super.getScaledHeight()-getDis(50), false);
+		abortB.draw(x+getDis(50), y+super.getScaledHeight()-getDis(50), false);
 	}
 	
 	@Override
 	public void draw()
 	{
 		super.draw(Coords.getX("CE", -200), Coords.getY("CE", -80), false);
-		abort.draw(x+getDis(50), y+super.getScaledHeight()-getDis(50), false);
+		abortB.draw(x+getDis(50), y+super.getScaledHeight()-getDis(50), false);
 	}
 	
 	@Override
-	public void show(String textWarning)
+	public void open(String textWarning)
 	{
-		super.show(textWarning);
+		super.open(textWarning);
 		undecided = true;
 	}
 	
@@ -105,7 +105,7 @@ public class Warning extends Message
 	@Override
 	public void mouseReleased(int button, int x, int y)
 	{
-		if(button == Input.MOUSE_LEFT_BUTTON && abort.isMouseOver())
+		if(button == Input.MOUSE_LEFT_BUTTON && abortB.isMouseOver())
 		{
 			cancel = true;
 			close();

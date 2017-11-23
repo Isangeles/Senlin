@@ -101,7 +101,7 @@ public class SettingsMenu extends BasicGameState
     	effectsVol.draw(700, 1000, true);
         musicVol.draw(1000, 400, true);
     	buttBack.draw(10, 900, true);
-    	if(message.isOpen())
+    	if(message.isOpenReq())
     		message.draw();
     }
     /* (non-Javadoc)
@@ -111,7 +111,7 @@ public class SettingsMenu extends BasicGameState
     public void update(GameContainer container, StateBasedGame game, int delta)
             throws SlickException
     {
-    	if(backReq && !message.isOpen())
+    	if(backReq && !message.isOpenReq())
     	{
     		backReq = false;
     		applySettings();
@@ -130,7 +130,7 @@ public class SettingsMenu extends BasicGameState
     	    backReq = true;
     	    if(resolution.isChange())
     	    {
-    	    	message.show(TConnector.getText("menu", "settMessConf"));
+    	    	message.open(TConnector.getText("menu", "settMessConf"));
     	    	changed = true;
     	    }
     	}

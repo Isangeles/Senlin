@@ -32,6 +32,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.gui.InfoField;
+import pl.isangeles.senlin.util.Coords;
 
 /**
  * State for reloading game world
@@ -50,10 +51,11 @@ public class ReloadScreen extends BasicGameState
 	{
 		try
         {
-            loadingInfo = new InfoField(100f, 70f, "Loading...", container);
+            loadingInfo = new InfoField(Coords.getSize(200f), Coords.getSize(70f), "Loading...", container);
         } 
         catch (IOException | FontFormatException e)
         {
+        	System.err.println("reloading screen initialization error:" + e.getMessage());
             e.printStackTrace();
         }
 	}

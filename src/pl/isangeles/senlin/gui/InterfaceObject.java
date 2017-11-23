@@ -48,8 +48,8 @@ public abstract class InterfaceObject extends Image
     protected GameContainer gc;
     protected float x;
     protected float y;
-    protected float width;
-    protected float height;
+    protected float width = getWidth();
+    protected float height = getHeight();
     
     private InfoWindow info;
     private boolean isInfo;
@@ -443,7 +443,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledWidth()
     {
-    	return super.getWidth()*Coords.getScale();
+    	return width*Coords.getScale();
     }
     /**
      * Returns height of object corrected by scale
@@ -451,7 +451,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledHeight()
     {
-    	return super.getHeight()*Coords.getScale();
+    	return height*Coords.getScale();
     }
     /**
      * Returns position in the center of the screen for this object and current resolution
@@ -510,8 +510,8 @@ public abstract class InterfaceObject extends Image
      */
     protected void drawString(String text, TrueTypeFont ttf)
     {
-        float thisEndX = getScaledWidth();
-        float thisEndY = getScaledHeight();
+        float thisEndX = width;
+        float thisEndY = height;
         float textX = ttf.getWidth(text);
         float textY = ttf.getHeight(text);
         
@@ -525,15 +525,15 @@ public abstract class InterfaceObject extends Image
      */
     protected void drawString(String text, TrueTypeFont ttf, Color color)
     {
-        float thisEndX = getScaledWidth();
-        float thisEndY = getScaledHeight();
-        float textX = ttf.getWidth(text);
-        float textY = ttf.getHeight(text);
+        float thisEndX = width;
+        float thisEndY = height;
+        float textWidth = ttf.getWidth(text);
+        float textHeight = ttf.getHeight(text);
         
-        ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text, color);
+        ttf.drawString(getCenteredCoord(x, thisEndX, textWidth), getCenteredCoord(y, thisEndY, textHeight), text, color);
     }
     /**
-     * Moves object MouseOverArea
+     * Moves MouseOverArea
      * @param x position on x-axis
      * @param y position on y-axis
      */

@@ -56,6 +56,7 @@ import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.GameCursor;
+import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.gui.Warning;
 import pl.isangeles.senlin.gui.tools.*;
@@ -94,6 +95,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private TargetPoint target;
     private Camera camera;
     private Warning uiWarning;
+    private InfoFrame info;
     
     private boolean lock;
     /**
@@ -113,7 +115,9 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         gc.getInput().addMouseListener(this);
         
         //cursor = new GameCursor(gc);
-        
+
+        uiWarning = new Warning(gc);
+        info = new InfoFrame(gc);
         gameConsole = new Console(gc, cli);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new TargetFrame(gc, player);
@@ -138,7 +142,6 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         destination = new DestinationPoint(gc, player);
         target = new TargetPoint(gc, player);
         camera = new Camera(gc, gw, new Size(Settings.getResolution()[0], Settings.getResolution()[1])); 
-        uiWarning = new Warning(gc);
     }
     /**
      * Draws ui elements
@@ -204,6 +207,9 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         if(settings.isOpenReq())
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
+        if(info.isOpenReq())
+        	info.draw(Coords.getX("CE", 0) - (info.getScaledWidth()/2), Coords.getY("CE", 0) - (info.getScaledHeight()/2));
+        
         //cursor.draw();   	
     }
     /**
@@ -266,6 +272,10 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     		settings.open();
     		hideMenu();
     	}
+    	if(gw.isChangeAreaReq())
+    		info.open(TConnector.getText("ui", "loadAreaInfo"));
+    	else if(!gw.isChangeAreaReq() && info.isOpenReq())
+    		info.close();
     	
     	bBar.update();
         charFrame.update();
