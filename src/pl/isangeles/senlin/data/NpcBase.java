@@ -4,6 +4,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -40,12 +41,12 @@ public class NpcBase
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public static Character spawn(String npcId) throws IOException, FontFormatException, SlickException
+	public static Character spawn(String npcId) throws IOException, FontFormatException, SlickException, NoSuchElementException
 	{
 		if(npcs.get(npcId) != null)
 			return npcs.get(npcId).make(gc);
 		else
-			return null;
+			throw new NoSuchElementException("No such NPC found");
 	}
 	/**
 	 * Spawns new instance of game character with specified id in specified area and at specified position
@@ -57,7 +58,7 @@ public class NpcBase
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public static Character spawnIn(String npcId, Area area, TilePosition tilePos) throws IOException, FontFormatException, SlickException
+	public static Character spawnIn(String npcId, Area area, TilePosition tilePos) throws IOException, FontFormatException, SlickException, NoSuchElementException
 	{
 		if(npcs.get(npcId) != null)
 		{
@@ -67,7 +68,7 @@ public class NpcBase
 			return newChar;
 		}
 		else
-			return null;
+			throw new NoSuchElementException("No such NPC found");
 	}
 	/**
 	 * Spawns new instance of game character with specified id at specified position
@@ -78,7 +79,7 @@ public class NpcBase
 	 * @throws FontFormatException
 	 * @throws SlickException 
 	 */
-	public static Character spawnAt(String npcId, TilePosition tilePos) throws IOException, FontFormatException, SlickException
+	public static Character spawnAt(String npcId, TilePosition tilePos) throws IOException, FontFormatException, SlickException, NoSuchElementException
 	{
 		if(npcs.get(npcId) != null)
 		{
@@ -87,7 +88,7 @@ public class NpcBase
 			return newChar;
 		}
 		else
-			return null;
+			throw new NoSuchElementException("No such NPC found");
 	}
 	/**
 	 * Loads base

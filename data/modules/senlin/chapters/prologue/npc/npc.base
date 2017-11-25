@@ -404,6 +404,30 @@
 		<dialogue>hanD01</dialogue>
 	</dialogues>
 </npc>
+<npc id="amaj01" gender="male" race="human" attitude="friendly" guild="none" level="3">
+	<stats>2;2;4;3;2</stats>
+	<portrait>portrait0.jpg</portrait>
+	<spritesheet default="true"/>
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact> 
+		<in gold="0">
+			<items></items>
+		</in>
+	</eq>
+	<dialogues>
+		<dialogue>amajD01</dialogue>
+		<dialogue>amajD02</dialogue>
+	</dialogues>
+</npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">
     <stats>2;2;3;1;1;</stats>
     <portrait>goblin01.jpg</portrait>

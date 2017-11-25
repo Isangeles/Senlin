@@ -8,6 +8,7 @@
             <npc position="71;122">wgGuard01</npc>
             <npc position="68;115">wgGuard01</npc>
             <npc position="67;120">marios01</npc>
+            <npc position="64;109">amaj01</npc>
         </npcs>
         <quests>
         </quests>
@@ -17,6 +18,7 @@
             <exit position="15;247" texture="signPost.png" to="18;0">prologue01</exit>
             <exit position="72;120" to="11;19">prologue02:cirtaLianHouse01</exit>
             <exit position="79;123" to="11;19">prologue02:cirtaHanHouse01</exit>
+            <exit position="68;109" to="24;2">prologue02:cirtaInn01</exit>
         </exits>
         <music>
 	        <idle>
@@ -59,6 +61,17 @@
 						<combat>
 							<track category="combat">$all</track>
 						</combat>
+					</music>
+        		</area>
+        		<area id="cirtaInn01" map="inn01.tmx">
+					<npcs></npcs>
+					<objects></objects>
+					<exits>
+						<exit position="24;2" to="68;109">prologue02</exit>
+					</exits>
+					<music>
+						<idle></idle>
+						<combat></combat>
 					</music>
         		</area>
         </subareas>

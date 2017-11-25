@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -209,8 +210,15 @@ public class ScenarioParser
 				}
 				catch(NumberFormatException | DOMException | IOException | FontFormatException | SlickException e)
 				{
+					System.err.println("scenario_builder_fail msg///npc node corrupted:" + npcNode.getTextContent());
 					Log.addSystem("scenario_builder_fail msg///npc node corrupted:" + npcNode.getTextContent());
-					break;
+					continue;
+				}
+				catch(NoSuchElementException e)
+				{
+					System.err.println("scenario_builder_fail msg///no such NPC in base:" + npcNode.getTextContent());
+					Log.addSystem("scenario_builder_fail msg///no such NPC in base:" + npcNode.getTextContent());
+					continue;
 				}
 			}
 		}

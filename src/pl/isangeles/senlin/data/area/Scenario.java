@@ -74,11 +74,11 @@ public class Scenario implements SaveElement
 	/**
 	 * Scenario constructor 
 	 * @param id Scenario ID
-	 * @param mapFile Scenario TMX map file
-	 * @param npcs Map with NPCs IDs as keys and its positions as values
+	 * @param mainArea Main area for scenario
+	 * @param subAreas List with all sub-areas for scenario
 	 * @param mobsAreas List containing areas with mobs in scenario
-	 * @param quests List with quests IDs
-	 * @param exits Exits from map
+	 * @param quests Map with quests IDs as keys and triggers IDs as values
+	 * @param scripts List with scripts for scenario
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException

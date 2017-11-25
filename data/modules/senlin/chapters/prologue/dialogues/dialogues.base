@@ -195,17 +195,49 @@
 			<answer id="tradeReq01" to="trade" /> 
 			<answer id="bye01" to="end" />
 		</text>
-		<text id="hanD02T01" ordinal="1">
+		<text id="hanD01T01" ordinal="1">
 			<answer id="whereufrom01" to="2"/>
 		</text>
-		<text id="hanD03T02" ordinal="2">
+		<text id="hanD01T02" ordinal="2">
 			<answer id="backAns01" to="0" />
 		</text>
-		<text id="hanD04T03" ordinal="3">
+		<text id="hanD01T03" ordinal="3">
 			<answer id="hanD03_a0" to="4" />
 		</text>
-		<text id="hanD05T04" ordinal="4">
+		<text id="hanD01T04" ordinal="4">
 			<answer id="backAns01" to="0" />
 		</text>
+    </dialogue>
+    
+    <dialogue id="awajD01">
+		<text id="awajD01T00" ordinal="0"> 
+			<answer id="whoareu01" to="1" />
+			<answer id="bye01" to="end" />
+		</text>
+		<text id="awajD01T01" ordinal="1">
+			<answer id="bye01" to="end"/>
+		</text>
+    </dialogue>
+    
+    <dialogue id="amajD02">
+		<text id="amajD02T00" ordinal="0">
+			<answer id="amajD02T00_a0" to="1"/>
+			<answer id="amajD02T01_a1" to="2" />
+		</text>
+		<text id="amajD02T01" ordinal="1">
+			<answer id="amajD0201_a0" to="3" />
+		</text>
+		<text id="amajD02T02" ordinal="2">
+			<answer id="amajD02T02_a0" to="4"/>
+		</text>
+		<text id="amajD02T03" ordinal="3">
+			<answer id="bye01" to="end"/>
+		</text>
+		<text id="amajD02T04" ordinal="4">
+			<answer id="bye01" to="end" />
+		</text>
+		<dReq>
+			<flagReq>sLetterTalked</flagReq>
+		</dReq>
     </dialogue>
 </base>

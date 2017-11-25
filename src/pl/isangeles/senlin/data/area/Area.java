@@ -56,8 +56,8 @@ public class Area implements SaveElement, ObjectiveTarget
     private String mapFileName;
     private Size size;
     private Set<Character> characters = new HashSet<>();
-    private List<TargetableObject> objects;
-    private List<Exit> exits;
+    private List<TargetableObject> objects = new ArrayList<>();
+    private List<Exit> exits = new ArrayList<>();
 	private Map<String, String> idleMusic = new HashMap<>();
 	private Map<String, String> combatMusic = new HashMap<>();
     /**
@@ -72,9 +72,6 @@ public class Area implements SaveElement, ObjectiveTarget
     	this.map = map;
     	this.mapFileName = mapFileName;
     	size = new Size(map.getWidth(), map.getHeight());
-    	
-    	objects = new ArrayList<>();
-    	exits = new ArrayList<>();
     }
     /**
      * Area constructor
