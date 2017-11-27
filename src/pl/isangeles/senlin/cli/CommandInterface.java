@@ -22,7 +22,6 @@
  */
 package pl.isangeles.senlin.cli;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -30,20 +29,14 @@ import pl.isangeles.senlin.cli.tools.CharMan;
 import pl.isangeles.senlin.cli.tools.UiMan;
 import pl.isangeles.senlin.cli.tools.WorldMan;
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.character.Guild;
-import pl.isangeles.senlin.data.GuildsBase;
-import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.states.GameWorld;
-import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for game command-line interface
  * 
- * command syntax: $[tool] [target] [command] [-option] [value]
+ * command syntax: $[tool] [target] [command] [-option] [arguments]
  * 
  * @author Isangeles
  *
@@ -54,6 +47,7 @@ public class CommandInterface
 	private CharMan charman;
 	private WorldMan worldman;
 	private UiMan uiman;
+	private ScriptProcessor sProcessor;
 	/**
 	 * Command interface constructor
 	 * @param player Player character
@@ -64,21 +58,23 @@ public class CommandInterface
 		this.player = player;
 		charman = new CharMan(player, gw);
 		worldman = new WorldMan(gw);
+		sProcessor = new ScriptProcessor(this);
 	}
-    /**
-     * Checks entered command target, first command check  
-     * @param command Text line with command to check 
-     */
-    public boolean executeCommand(String line)
+	/**
+	 * Executes specified command
+	 * @param line String with command
+	 * @return String with command out
+	 */
+    public String executeCommand(String line)
     {
     	//If not a game command
     	if(!line.startsWith("$"))
     	{
     		player.speak(line);
-    		return true;
+    		return "1";
     	}
     	
-    	boolean out = true;
+    	String out = "0";
     	
         Scanner scann = new Scanner(line);
         String toolName = "";
@@ -99,7 +95,7 @@ public class CommandInterface
             		Log.setDebug(false);
             	}
             	
-            	out = true;
+            	out = "1";
             }
             else if(toolName.equals("$charman"))
             {
@@ -125,9 +121,16 @@ public class CommandInterface
         }
         scann.close();
         
-        Log.addSystem("Command out:" + out);
         return out;
-       
+    }
+    /**
+     * Executes specified script
+     * @param script Script object
+     * @return True if script was successfully executed, false otherwise
+     */
+    public boolean executeScript(Script script)
+    {
+        return sProcessor.process(script);
     }
     /**
      * Sets GUI to manage by CLI
@@ -138,155 +141,11 @@ public class CommandInterface
     	uiman = new UiMan(uiToMan);
     }
     /**
-     * Executes specified script
-     * @param script Script object
-     * @return True if script was successfully executed, false otherwise
+     * Returns player character
+     * @return Game character
      */
-    public boolean executeScript(Script script)
+    public Character getPlayer()
     {
-    	boolean out = true;
-    	String scriptCode = script.toString();
-    	String ifCode = script.getIfCode();
-    	String endCode = script.getEndCode();
-    	
-    	Scanner scann = new Scanner(scriptCode);
-    	scann.useDelimiter(";|(;\r?\n)");
-    	
-    	try
-    	{
-    		int commandId = 0;
-    		while(scann.hasNext())
-        	{
-        		if(checkCondition(script, ifCode))
-            	{
-        			String command = scann.next().replaceFirst("^\\s*", "");
-        			commandId ++;
-
-            		if(commandId == script.getActiveIndex())
-            		{
-            			script.used();
-            			script.next();
-                		if(command.matches("@wait [1-9]+"))
-                		{
-                			int time = Integer.parseInt(command.split(" ")[1]);
-                			long timeSec = Stopwatch.sec(time);
-                			script.pause(timeSec);
-                			break;
-                		}
-                		else if(!executeCommand(command))
-                		{
-                			out = false;
-                			break;
-                		}
-            		}
-            	}
-        		else
-        			break;
-        	}
-        	scann.close();
-        	
-        	if(checkEndCondition(script))
-        		script.finish();
-    	}
-    	catch(IndexOutOfBoundsException | NoSuchElementException | NumberFormatException e)
-    	{
-    		Log.addSystem("cli_script_corrupted:" + script.getName());
-    		script.finish();
-    	}
-    	
-    	return out;
-    }
-    /**
-     * Executes 'if code' of the script
-     * @param script Script object
-     * @param ifCode Code after if
-     * @return True if conditions from if code are met, false otherwise 
-     * @throws IndexOutOfBoundsException
-     */
-    private boolean checkCondition(Script script, String ifCode) throws IndexOutOfBoundsException
-    {
-    	boolean out = false;
-    	Scanner scann = new Scanner(ifCode);
-    	scann.useDelimiter("\r?\n");
-    	
-    	while(scann.hasNext())
-    	{
-    		String command = scann.next().replaceFirst("^\\s*", "");
-        	if(command.equals("true;"))
-        		out = true;
-        	if(command.startsWith("use="))
-        	{
-        		int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
-        		if(script.getUseCount() >= value)
-        			out = true;
-        		else
-        		{
-        			out = false;
-        			break;
-        		}
-        	}
-        	if(command.startsWith("has"))
-        	{
-        		String[] hasCommand = command.split(" ");
-        		if(hasCommand[1].equals("flag"))
-        		{
-        			String flag = hasCommand[2];
-        			if(hasCommand.length < 4 || hasCommand[3].equals("player"))
-        			{
-        				if(player.getFlags().contains(flag))
-        					out = true;
-        				else
-        				{
-        					out = false;
-        					break;
-        				}
-        			}
-        		}
-        	}
-        	if(command.startsWith("!has"))
-        	{
-        		String[] hasCommand = command.split(" ");
-        		if(hasCommand[1].equals("flag"))
-        		{
-        			String flag = hasCommand[2];
-        			if(hasCommand.length < 4 || hasCommand[3].equals("player;"))
-        			{
-        				if(!player.getFlags().contains(flag))
-        					out = true;
-        				else
-        				{
-        					out = false;
-        					break;
-        				}
-        			}
-        		}
-        	}
-    	}
-    	
-    	scann.close();
-    	
-    	return out;
-    }
-    /**
-     * Executes code after end statement
-     * @param script Script object
-     * @return True if conditions of end code are met, false otherwise
-     * @throws IndexOutOfBoundsException
-     */
-    private boolean checkEndCondition(Script script) throws IndexOutOfBoundsException
-    {
-    	boolean out = false;
-    	Scanner scann = new Scanner(script.getEndCode());
-    	scann.useDelimiter(":|(:\r?\n)");
-    	if(scann.next().equals("if"))
-    	{
-    		String ifCommand = scann.next();
-    		ifCommand.replaceFirst("^\\s*", "");
-    		
-    		out = checkCondition(script, ifCommand);
-    	}
-    	
-    	scann.close();
-    	return out;
+        return player;
     }
 }

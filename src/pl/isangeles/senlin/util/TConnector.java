@@ -272,7 +272,7 @@ public final class TConnector
 	 */
 	public static String getSetting(String settingId) throws FileNotFoundException, NoSuchElementException
 	{
-	    File textFile = new File("settings.txt");
+	    File textFile = new File("game.conf");
 	    
 	    Scanner scann;
         scann = new Scanner(textFile);

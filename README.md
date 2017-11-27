@@ -13,7 +13,7 @@ Simply download and unpack build.
 
 Simply run senlin executable(.sh on Linux or .exe on Windows).
 
-If you have problem with game startup, try to change game resolution(in settings.txt) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
+If you have problem with game startup, try to change game resolution(in game.conf) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
 
 ## License
 

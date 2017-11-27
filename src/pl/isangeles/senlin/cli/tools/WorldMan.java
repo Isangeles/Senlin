@@ -57,7 +57,7 @@ public class WorldMan implements CliTool
 	 * @see pl.isangeles.senlin.cli.tools.CliTool#handleCommand(java.lang.String)
 	 */
 	@Override
-	public boolean handleCommand(String line) 
+	public String handleCommand(String line) 
 	{
 		Scanner scann = new Scanner(line);
         String commandTarget = "";
@@ -70,7 +70,7 @@ public class WorldMan implements CliTool
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
-        	return false;
+        	return "0";
         }
         finally
         {
@@ -95,30 +95,30 @@ public class WorldMan implements CliTool
         }
         
         Log.addSystem("no such target for worldman:" + commandTarget);
-		return false;
+		return "1";
 	}
 	/**
 	 * Handles get commands
 	 * @param command Command
 	 * @return True if command was successfully executed, false otherwise
 	 */
-	public boolean getCommands(String command)
+	public String getCommands(String command)
 	{
 		if(command.equals("time"))
 		{
-			Log.addSystem(world.getDay().getTime());
-			return true;
+			return world.getDay().getTime();
 		}
-		return false;
+		
+		return "0";
 	}
 	/**
 	 * Handles remove commands
 	 * @param commandLine Command
 	 * @return True if command was successfully executed, false otherwise
 	 */
-	public boolean removeCommands(String commandLine)
+	public String removeCommands(String commandLine)
 	{
-		boolean out = false;
+	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         String option = scann.next();
         String arg = scann.next();
@@ -129,7 +129,8 @@ public class WorldMan implements CliTool
         	Character npc = world.getCurrentChapter().getCharacter(arg);
         	if(npc != null)
         	{
-        		out = world.getCurrentChapter().removeTObject(npc);
+        		if(world.getCurrentChapter().removeTObject(npc))
+        		    out = "0";
         	}
         	else
         		Log.addSystem("bad value for remove: " + arg);
@@ -141,9 +142,9 @@ public class WorldMan implements CliTool
 	 * @param commandLine Command
 	 * @return True if command was successfully executed, false otherwise
 	 */
-	public boolean musicCommands(String commandLine)
+	public String musicCommands(String commandLine)
 	{
-		boolean out = false;
+	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         try
         {
@@ -159,17 +160,17 @@ public class WorldMan implements CliTool
                     world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg1);
                 else
                     world.getMusiPlayer().playRandomFrom("exploring", 1.0f, Settings.getMusicVol());
-                out = true;
+                out = "0";
             }
             else if(option.equals("-stop"))
             {
                 world.getMusiPlayer().stop();
-                out = true;
+                out = "0";
             }
             else if(option.equals("-playSpecial") && arg1 != null)
             {
                 world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
-                out = true;
+                out = "0";
             }
             else if(option.equals("-list"))
             {
@@ -177,7 +178,7 @@ public class WorldMan implements CliTool
                     Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList(arg1));
                 else
                     Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList());
-                out = true;
+                out = "0";
             }
         }
         catch(NoSuchElementException e)
@@ -193,9 +194,9 @@ public class WorldMan implements CliTool
 	 * @param commandLine Command
 	 * @return True if command was successfully executed, false otherwise
 	 */
-	public boolean addCommands(String commandLine)
+	public String addCommands(String commandLine)
 	{
-		boolean out = false;
+	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         try
         {
@@ -217,6 +218,7 @@ public class WorldMan implements CliTool
 				Character spawnedChar = NpcBase.spawnIn(charId, world.getCurrentChapter().getActiveScenario().getArea(area), p);
 				world.getArea().getCharacters().add(spawnedChar);
 				spawnedChar.setArea(world.getArea());
+				out = "0";
 			}
 		}
 		catch(NoSuchElementException e)

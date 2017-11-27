@@ -40,6 +40,7 @@ public class Script implements SaveElement
 	private String endBody;
 	private int useCount;
 	private int activeIndex = 1;
+	private int noCommands;
 	private long waitTime;
 	private boolean end;
 	/**
@@ -53,6 +54,8 @@ public class Script implements SaveElement
 		this.body = body;
 		this.endBody = endBody;
 		this.ifBody = ifBody;
+		
+		noCommands = body.split("\r?\n").length;
 	}
 	/**
 	 * Updates script
@@ -147,7 +150,10 @@ public class Script implements SaveElement
 	 */
 	public void next()
 	{
-		activeIndex ++;
+	    if(activeIndex >= noCommands)
+	        activeIndex = 1;
+	    else
+	        activeIndex ++;
 	}
 	/**
 	 * Pauses script for specified time

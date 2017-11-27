@@ -29,9 +29,9 @@ package pl.isangeles.senlin.cli.tools;
 public interface CliTool 
 {
 	/**
-	 * 
+	 * Handles specified command
 	 * @param command
 	 * @return
 	 */
-	public boolean handleCommand(String command);
+	public String handleCommand(String command);
 }

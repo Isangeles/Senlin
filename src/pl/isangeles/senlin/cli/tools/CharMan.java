@@ -77,9 +77,9 @@ public class CharMan implements CliTool
 	 * @see pl.isangeles.senlin.cli.CliTool#handleCommand(java.lang.String)
 	 */
 	@Override
-	public boolean handleCommand(String line) 
+	public String handleCommand(String line) 
 	{
-		boolean out = false;
+		String out = "1";
 		Scanner scann = new Scanner(line);
         String commandTarget = "";
         String command = "";
@@ -102,7 +102,7 @@ public class CharMan implements CliTool
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
-        	out = false;
+        	out = "1";
         }
         finally
         {
@@ -116,9 +116,9 @@ public class CharMan implements CliTool
      * @param commandLine Rest of command line (after target) 
      * @param target Command target
      */
-    private boolean characterCommands(String commandLine, Character target)
+    private String characterCommands(String commandLine, Character target)
     {
-    	boolean out = false;
+    	String out = "1";
         Scanner scann = new Scanner(commandLine);
         String command = scann.next();
         String prefix = scann.nextLine();
@@ -126,15 +126,18 @@ public class CharMan implements CliTool
         
         if(command.equals("add"))
         {
-        	out = addCommands(prefix, target);
+        	if(addCommands(prefix, target))
+        	    out = "0";
         }
         else if(command.equals("remove"))
         {
-        	out = removeCommands(prefix, target);
+        	if(removeCommands(prefix, target))
+        	    out = "0";
         }
         else if(command.equals("set"))
         {
-        	out = setCommands(prefix, target);
+        	if(setCommands(prefix, target))
+        	    out = "0";
         }
         else if(command.equals("show"))
         {
@@ -142,7 +145,8 @@ public class CharMan implements CliTool
         }
         else if(command.equals("use"))
         {
-            out = useCommands(prefix, target);
+            if(useCommands(prefix, target))
+                out = "0";
         }
         else
         	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
@@ -379,15 +383,15 @@ public class CharMan implements CliTool
      * @param commLine Rest of command line (after command)
      * @param target Target of command
      */
-    private boolean showCommands(String commandLine, Character target)
+    private String showCommands(String commandLine, Character target)
     {
-    	boolean out = false;
+    	String out = "1";
     	Scanner scann = new Scanner(commandLine);
     	String prefix = scann.next();
-    	String value = "";
+    	String arg1 = "";
     	try
     	{
-        	value = scann.next();
+        	arg1 = scann.next();
     	}
     	catch(NoSuchElementException e)
     	{
@@ -397,18 +401,27 @@ public class CharMan implements CliTool
     	
     	if(prefix.equals("-f"))
     	{
-    		Log.addSystem(target.getName() + "//flags: " + target.getFlags().list());
-    		out = true;
+    		out = target.getName() + "//flags: " + target.getFlags().list();
     	}
     	else if(prefix.equals("-r"))
     	{
-    		Log.addSystem(target.getProfession(ProfessionType.fromString(value)).toString());
-    		out = true;
+    		out = target.getProfession(ProfessionType.fromString(arg1)).toString();
     	}
     	else if(prefix.equals("-e"))
     	{
-    		Log.addSystem(target.getEffects().list());
-    		out = true;
+    		out = target.getEffects().list();
+    	}
+    	else if(prefix.equals("-d") || prefix.equals("-dis"))
+    	{
+    	    Targetable object = null;
+    	    
+    	    if(arg1.equals("player"))
+    	        object = player;
+    	    else
+    	        object = gw.getCurrentChapter().getTObject(arg1);
+    	    
+    	    if(object != null)
+    	        out = "range from " + object.getId() +":" + target.getRangeFrom(object);
     	}
     	else
         	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho"));

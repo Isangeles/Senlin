@@ -50,9 +50,9 @@ public class UiMan implements CliTool
 	 * @see pl.isangeles.senlin.cli.tools.CliTool#handleCommand(java.lang.String)
 	 */
 	@Override
-	public boolean handleCommand(String line) 
+	public String handleCommand(String line) 
 	{
-		boolean out = false;
+	    String out = "1";
 		Scanner scann = new Scanner(line);
         String commandTarget = "";
         String command = "";
@@ -69,7 +69,7 @@ public class UiMan implements CliTool
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error:" + line);
-        	out = false;
+        	out = "1";
         }
         finally
         {
@@ -83,9 +83,9 @@ public class UiMan implements CliTool
 	 * @param commandLine Command
 	 * @return True if command executed successfully, false otherwise
 	 */
-	public boolean cameraCommands(String commandLine)
+	public String cameraCommands(String commandLine)
 	{
-		boolean out = false;
+	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         String prefix = scann.next();
         String value = scann.next();
@@ -97,7 +97,7 @@ public class UiMan implements CliTool
             {
             	Position pos = new Position(value);
             	ui.getCamera().setPos(pos);
-            	out = true;
+            	out = "0";
             }
             if(prefix.equals("-c") || prefix.equals("-center"))
             {
@@ -105,7 +105,7 @@ public class UiMan implements CliTool
         		int x = Integer.parseInt(pos[0]);
         		int y = Integer.parseInt(pos[1]);
             	ui.getCamera().centerAt(new Position(x, y));
-            	out = true;
+            	out = "0";
             }
             if(prefix.equals("-cat") || prefix.equals("-centerAtTile"))
             {
@@ -113,13 +113,13 @@ public class UiMan implements CliTool
                 int x = Integer.parseInt(pos[0]);
                 int y = Integer.parseInt(pos[1]);
                 ui.getCamera().centerAt(new TilePosition(x, y).asPosition());
-                out = true;
+                out = "0";
             }
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
         	Log.addSystem("bad value for camera:" + value);
-        	return false;
+        	return "1";
         }
         
         return out;
@@ -129,9 +129,9 @@ public class UiMan implements CliTool
 	 * @param commandLine Command 
 	 * @return True if command executed successfully, false otherwise
 	 */
-	public boolean uiCommands(String commandLine)
+	public String uiCommands(String commandLine)
 	{
-		boolean out = false;
+	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         String prefix = scann.next();
         String value = scann.next();
@@ -143,13 +143,13 @@ public class UiMan implements CliTool
             {
             	boolean lock = Boolean.parseBoolean(value);
             	ui.setLock(lock);
-            	out = true;
+            	out = "0";
             }
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
         	Log.addSystem("bad value for lock: " + value);
-        	return false;
+        	return "1";
         }
         
         return out;
