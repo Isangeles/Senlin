@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.cli.tools;
 
 /**
+ * Interface for CLI tools
  * @author Isangeles
  *
  */
@@ -30,8 +31,8 @@ public interface CliTool
 {
 	/**
 	 * Handles specified command
-	 * @param command
-	 * @return
+	 * @param command Command to handle
+	 * @return String with out of specified command
 	 */
 	public String handleCommand(String command);
 }

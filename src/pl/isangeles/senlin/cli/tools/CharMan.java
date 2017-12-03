@@ -401,7 +401,7 @@ public class CharMan implements CliTool
     	
     	if(prefix.equals("-f"))
     	{
-    		out = target.getName() + "//flags: " + target.getFlags().list();
+    		out = target.getName() + "-flags: " + target.getFlags().list();
     	}
     	else if(prefix.equals("-r"))
     	{

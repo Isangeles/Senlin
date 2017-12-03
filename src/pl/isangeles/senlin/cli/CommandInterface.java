@@ -125,7 +125,7 @@ public class CommandInterface
     }
     /**
      * Executes specified script
-     * @param script Script object
+     * @param script Script to execute
      * @return True if script was successfully executed, false otherwise
      */
     public boolean executeScript(Script script)

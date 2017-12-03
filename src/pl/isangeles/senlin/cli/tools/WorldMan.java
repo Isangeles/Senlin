@@ -175,10 +175,9 @@ public class WorldMan implements CliTool
             else if(option.equals("-list"))
             {
                 if(arg1 != null)
-                    Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList(arg1));
+                    out = arg1 + ":" + world.getMusiPlayer().getTracksList(arg1);
                 else
-                    Log.addSystem(arg1 + ":" + world.getMusiPlayer().getTracksList());
-                out = "0";
+                    out = arg1 + ":" + world.getMusiPlayer().getTracksList();
             }
         }
         catch(NoSuchElementException e)
@@ -204,7 +203,7 @@ public class WorldMan implements CliTool
             String[] args = {scann.next(), scann.next()};
             scann.close();
 		
-			if(option.equals("ch") || option.equals("-character"))
+			if(option.equals("-c") || option.equals("-character"))
 			{
 				String charId = args[0];
 				String[] pos = {world.getPlayer().getPosition()[0] + "", world.getPlayer().getPosition()[1] + ""};
