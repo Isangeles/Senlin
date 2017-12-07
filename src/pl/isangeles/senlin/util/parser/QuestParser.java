@@ -50,17 +50,16 @@ public class QuestParser
      * @param questNode Quest node from quests base
      * @return Quest object
      */
-    public static Quest getQuestFromNode(Node questNode)
+    public static Quest getQuestFromNode(Node questNode) throws NumberFormatException
     {
         Element questE = (Element)questNode;
         
         String id = questE.getAttribute("id");
-        Node flagsOnStartNode = questE.getElementsByTagName("qFlagsOnStart").item(0);
-        List<String> flagsOnStart = getFlags(flagsOnStartNode, "on");
-        List<String> flagsOffStart = getFlags(flagsOnStartNode, "off");
-        Node flagsOnEndNode = questE.getElementsByTagName("qFlagsOnEnd").item(0);
-        List<String> flagsOnEnd = getFlags(flagsOnEndNode, "on");
-        List<String> flagsOffEnd = getFlags(flagsOnEndNode, "off");
+        Node qFlagsNode = questE.getElementsByTagName("qFlags").item(0);
+        List<String> flagsOnStart = getFlags(qFlagsNode, "on", "start");
+        List<String> flagsOffStart = getFlags(qFlagsNode, "off", "start");
+        List<String> flagsOnEnd = getFlags(qFlagsNode, "on", "end");
+        List<String> flagsOffEnd = getFlags(qFlagsNode, "off", "end");
         List<Stage> stages = new ArrayList<>();
         
         Node stagesNode = questE.getElementsByTagName("stages").item(0);
@@ -79,29 +78,31 @@ public class QuestParser
      * @param stageNode Stage node
      * @return Stage object
      */
-    private static Stage getStageFromNode(Node stageNode)
+    private static Stage getStageFromNode(Node stageNode) throws NumberFormatException
     {
         Element stageE = (Element)stageNode;
         
         String id = stageE.getAttribute("id");
         String nextStage = stageE.getAttribute("next");
         
-        Node flagsOnStartNode = stageE.getElementsByTagName("sFlagsOnStart").item(0);
-        List<String> flagsOnStart = getFlags(flagsOnStartNode, "on");
-        List<String> flagsOffStart = getFlags(flagsOnStartNode, "off");
-        Node flagsOnEndNode = stageE.getElementsByTagName("sFlagsOnEnd").item(0);
-        List<String> flagsOnEnd = getFlags(flagsOnEndNode, "on");
-        List<String> flagsOffEnd = getFlags(flagsOnEndNode, "off");
+        Node sFlagsNode = stageE.getElementsByTagName("sFlagsNode").item(0);
+        List<String> flagsOnStart = getFlags(sFlagsNode, "on", "start");
+        List<String> flagsOffStart = getFlags(sFlagsNode, "off", "start");
+        List<String> flagsOnEnd = getFlags(sFlagsNode, "on", "end");
+        List<String> flagsOffEnd = getFlags(sFlagsNode, "off", "end");
         
         List<Objective> objectives = new ArrayList<>();
         
         Element objectivesE = (Element)stageE.getElementsByTagName("objectives").item(0);
-        NodeList objectivesList = objectivesE.getElementsByTagName("objective");
-        for(int i = 0; i < objectivesList.getLength(); i ++)
+        NodeList objectivesList = objectivesE.getChildNodes();
+        for(int i = 0; i < objectivesList.getLength(); i ++) //accepts both objectives and finishers
         {
             Node objectiveNode = objectivesList.item(i);
-            if(objectiveNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-                objectives.add(getObjectiveFromNode(objectiveNode));
+            if(objectiveNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE) 
+            {
+        		Objective objective = getObjectiveFromNode(objectiveNode);
+                objectives.add(objective);
+            }
         }
         
         return new Stage(id, flagsOnStart, flagsOffStart, flagsOnEnd, flagsOffEnd, nextStage, objectives);
@@ -111,25 +112,23 @@ public class QuestParser
      * @param objectiveNode Objective node
      * @return Objective object
      */
-    private static Objective getObjectiveFromNode(Node objectiveNode)
+    private static Objective getObjectiveFromNode(Node objectiveNode) throws NumberFormatException
     {
         Element objectiveE = (Element)objectiveNode;
         
         String type = objectiveE.getAttribute("type");
-        boolean finisher = Boolean.parseBoolean(objectiveE.getAttribute("finisher"));
+        boolean finisher = (objectiveE.getTagName() == "finisher");
+        String to = "";
+        if(finisher)
+        	to = objectiveE.getAttribute("to");
         int amount = 0;
-        try
-        {
-        	if(type.equals("kill") || type.equals("gather"))
-            	amount = Integer.parseInt(objectiveE.getAttribute("amount"));
-        }
-        catch(NumberFormatException e)
-        {
-        	Log.addWarning("quest_builder_objective_fail_msg//node corrupted");;
-        }
+    	
+        if(type.equals("kill") || type.equals("gather"))
+    		amount = Integer.parseInt(objectiveE.getAttribute("amount"));
+        
         String target = objectiveE.getTextContent();
         
-        return new Objective(ObjectiveType.fromString(type), target, amount, finisher);
+        return new Objective(ObjectiveType.fromString(type), target, amount, finisher, to);
     }
     /**
      * Parses specified flags node to list with flags
@@ -137,7 +136,7 @@ public class QuestParser
      * @param flagsType String with desired flags type ('on' or 'off')
      * @return List with flags IDs
      */
-    private static List<String> getFlags(Node flagsNode, String flagsType)
+    private static List<String> getFlags(Node flagsNode, String flagsType, String flagsTrigger)
     {
     	List<String> flags = new ArrayList<>();
     	if(flagsNode == null)
@@ -152,7 +151,8 @@ public class QuestParser
     		{
     			Element flagE = (Element)flagNode;
     			String flagType = flagE.getAttribute("type");
-    			if(flagType.equals(flagsType))
+    			String flagTrigger = flagE.getAttribute("on");
+    			if(flagType.equals(flagsType) && flagTrigger.equals(flagsTrigger))
     			{
     				flags.add(flagE.getTextContent());
     			}

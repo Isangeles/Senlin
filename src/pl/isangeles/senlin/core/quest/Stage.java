@@ -22,10 +22,8 @@
  */
 package pl.isangeles.senlin.core.quest;
 
-import java.io.File;
 import java.util.List;
 
-import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for quest stages
@@ -42,7 +40,6 @@ public class Stage
     private List<String> flagsOnEnd;
     private List<String> flagsOffEnd;
     private List<Objective> objectives;
-    private boolean complete;
     /**
      * Stage constructor 
      * @param id Stage ID
@@ -68,16 +65,17 @@ public class Stage
     public boolean isComplete()
     {
         boolean complete = true;
-        for(Objective objecitve : objectives)
+        for(Objective objective : objectives)
         {
-            if(!objecitve.isComplete())
+            if(!objective.isComplete() && !objective.isFinisher())
             {
                 complete = false;
             }
-            else
+            else if(objective.isComplete() && objective.isFinisher())
             {
-                if(objecitve.isFinisher())
-                    return true;
+            	if(!objective.getToId().equals("")) //TODO maybe some more validation needed
+            		nextStage = objective.getToId();
+                return true;
             }
         }
         return complete;

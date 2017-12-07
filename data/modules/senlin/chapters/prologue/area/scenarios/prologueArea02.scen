@@ -11,6 +11,7 @@
             <npc position="64;109">amaj01</npc>
         </npcs>
         <quests>
+			<quest trigger="amajD02T01_a0">amajDeal</quest>
         </quests>
         <objects>
         </objects>

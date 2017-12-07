@@ -18,12 +18,16 @@ public class Objective implements SaveElement
     private int amount;
     private boolean complete;
     private boolean finisher;
+    private String to;
     /**
      * Objective constructor
      * @param type Objective type
      * @param target Objective target
+     * @param reqAmount Required amount of specified target
+     * @param finisher If quest stage should be finished after completing this objective
+     * @param to String with ID of next stage after completing this objective 
      */
-    public Objective(ObjectiveType type, String target, int reqAmount, boolean finisher)
+    public Objective(ObjectiveType type, String target, int reqAmount, boolean finisher, String to)
     {
         this.type = type;
         this.target = target;
@@ -32,6 +36,7 @@ public class Objective implements SaveElement
         else
             this.reqAmount = reqAmount;
         this.finisher = finisher;
+        this.to = to;
     }
     /**
      * Completes objective
@@ -84,6 +89,14 @@ public class Objective implements SaveElement
     public int getReqAmount()
     {
     	return reqAmount;
+    }
+    /**
+     * Returns ID of next stage
+     * @return String with stage ID
+     */
+    public String getToId()
+    {
+    	return to;
     }
     /**
      * Sets objective complete or incomplete

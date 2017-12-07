@@ -446,8 +446,16 @@ public final class DConnector
 	        Node questNode = questsList.item(i);
 	        if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 	        {
-	            Quest quest = QuestParser.getQuestFromNode(questNode);
-	            questsMap.put(quest.getId(), quest);
+	            try
+	            {
+	            	Quest quest = QuestParser.getQuestFromNode(questNode);
+		            questsMap.put(quest.getId(), quest);
+	            }
+	            catch(NumberFormatException e) 
+	            {
+	            	Log.addSystem("quests_builder_fail-msg///quest node corrupted!");
+	            	continue;
+	            }
 	        }
 	    }
 	    
