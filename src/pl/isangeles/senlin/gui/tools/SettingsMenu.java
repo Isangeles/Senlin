@@ -146,7 +146,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 	@Override
 	public void reset() 
 	{
-		moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
+		hideMOA();
 	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()

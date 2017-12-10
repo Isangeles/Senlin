@@ -390,7 +390,7 @@ class LoadGameWindow extends InterfaceObject implements UiElement, MouseListener
         public void draw(float x, float y, boolean scaledPos)
         {
             if(select)
-            	selectTex.draw(x, y);
+            	selectTex.draw(x, y, getScale(), getScale());
             
             super.draw(x, y, scaledPos);
         }

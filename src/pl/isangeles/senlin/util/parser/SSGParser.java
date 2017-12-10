@@ -49,6 +49,7 @@ import pl.isangeles.senlin.core.Inventory;
 import pl.isangeles.senlin.core.InventoryLock;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
+import pl.isangeles.senlin.core.WorldTime;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.day.Day;
@@ -492,7 +493,7 @@ public final class SSGParser
     	int weatherDuration = Integer.parseInt(weatherE.getAttribute("to"));
     	
     	Day day = new Day();
-    	day.setTime(dayTime);
+    	day.setTime(new WorldTime(dayTime));
     	day.setWeather(WeatherType.fromId(weatherId), weatherTime, weatherDuration);
     	
     	return day;

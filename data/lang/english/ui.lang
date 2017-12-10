@@ -119,6 +119,8 @@ bonUndetect:Undetectable;
 bonResi:Resistance;
 effTime:Time;
 effDuration:Duration;
+waitWinTitle:Wait;
+waitWinWait:Wait;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

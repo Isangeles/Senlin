@@ -30,6 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.WorldTime;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.Stopwatch;
 /**
@@ -41,7 +42,8 @@ public class Day implements SaveElement
 {
 	private Weather conditions;
 	private DayPhase phase;
-	private long time;
+	private WorldTime time;
+	private int second;
 	private Random rng = new Random();
 	/**
 	 * Day manager constructor
@@ -67,19 +69,22 @@ public class Day implements SaveElement
 	 */
 	public void update(int delta)
 	{
-		time += delta;
-		if(time < Stopwatch.min(6))
+		second += delta;
+		if(second >= 1000)
+		{
+			time.addMinutes(1);
+			second = 0;
+		}
+		if(time.inMillis() < Stopwatch.min(6))
 			phase.changePhase(PhaseType.NIGHT);
-		if(time > Stopwatch.min(6))
+		if(time.inMillis() > Stopwatch.min(6))
 			phase.changePhase(PhaseType.MORNING);
-		if(time > Stopwatch.min(12))
+		if(time.inMillis() > Stopwatch.min(12))
 			phase.changePhase(PhaseType.MIDDAY);
-		if(time > Stopwatch.min(18))
+		if(time.inMillis() > Stopwatch.min(18))
 			phase.changePhase(PhaseType.AFTERNOON);
-		if(time > Stopwatch.min(22))
+		if(time.inMillis() > Stopwatch.min(22))
 			phase.changePhase(PhaseType.NIGHT);
-		if(time > Stopwatch.min(24))
-			time = 0;
 		
 		if(!conditions.isRaining() && rng.nextInt(100) == 1)
 			conditions.startRaining(10000+(rng.nextInt(50000)));
@@ -90,9 +95,9 @@ public class Day implements SaveElement
 	 * Sets specified time as current time
 	 * @param time Time in milliseconds
 	 */
-	public void setTime(long time)
+	public void setTime(WorldTime time)
 	{
-		this.time = time;
+		this.time = new WorldTime(time.inMillis());
 	}
 	
 	public void setWeather(WeatherType type, int timerState, int duration)
@@ -103,10 +108,9 @@ public class Day implements SaveElement
 	 * Returns current game time
 	 * @return String with game time
 	 */
-	public String getTime()
+	public WorldTime getTime()
 	{
-		String[] hms = Stopwatch.timeFromMillis(time).split(":");
-		return hms[1] + ":" + hms[2];
+		return time;
 	}
 	/**
 	 * Returns current day phase name

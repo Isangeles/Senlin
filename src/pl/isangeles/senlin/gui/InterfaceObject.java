@@ -542,7 +542,7 @@ public abstract class InterfaceObject extends Image
     	iObjectMOA.setLocation(x, y);
     }
     /**
-     * Hides MouseOverArea(moves it outside the screen)
+     * Moves MouseOverArea to unreachable by user position(behind bottom right edge of screen)
      */
     protected void hideMOA()
     {
@@ -562,7 +562,7 @@ public abstract class InterfaceObject extends Image
         if(isCustomSize())
             return new Position((int)(x + width), (int)y);
         else
-            return new Position((int)(x + getScaledHeight()), (int)y);
+            return new Position((int)(x + getScaledWidth()), (int)y);
     }
     /**
      * Returns bottom right corner of basic interface object texture
@@ -573,7 +573,7 @@ public abstract class InterfaceObject extends Image
         if(isCustomSize())
             return new Position((int)(x + width), (int)(y + height));
         else
-            return new Position((int)(x + getScaledHeight()), (int)(y + getScaledWidth()));
+            return new Position((int)(x + getScaledWidth()), (int)(y + getScaledHeight()));
     }
     /**
      * Returns bottom left corner of basic interface object texture
@@ -585,6 +585,17 @@ public abstract class InterfaceObject extends Image
             return new Position((int)x, (int)(y + height));
         else
             return new Position((int)x, (int)(y + getScaledHeight()));       
+    }
+    /**
+     * Returns position at center of object texture 
+     * @return XY position
+     */
+    protected Position getCenter()
+    {
+    	if(isCustomSize())
+    		return new Position((int)x + (width/2), (int)y + (height/2));
+    	else
+    		return new Position((int)x + (getScaledWidth()/2), (int)y + (getScaledHeight()/2));
     }
     /**
      * Checks if object is drawn in custom size

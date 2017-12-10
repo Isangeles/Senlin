@@ -90,6 +90,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private SaveGameWindow save;
     private LoadGameWindow load;
     private SettingsMenu settings;
+    private WaitWindow waitWin;
     private ConditionsInfo conditions;
     private DestinationPoint destination;
     private TargetPoint target;
@@ -113,6 +114,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         this.player = player;
         this.gw = gw;
         gc.getInput().addMouseListener(this);
+        gc.getInput().addKeyListener(this);
         
         //cursor = new GameCursor(gc);
 
@@ -137,6 +139,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         save = new SaveGameWindow(gc);
         load = new LoadGameWindow(gc);
         settings = new SettingsMenu(gc, gw);
+        waitWin = new WaitWindow(gc, gw);
         bBar = new BottomBar(gc, gw, igMenu, charWin, inventory, skills, journal, crafting, map, player);
         conditions = new ConditionsInfo(gc, gw);
         destination = new DestinationPoint(gc, player);
@@ -206,6 +209,9 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         
         if(settings.isOpenReq())
         	settings.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        
+        if(waitWin.isOpenReq())
+        	waitWin.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         if(info.isOpenReq())
         	info.draw(Coords.getX("CE", 0) - (info.getScaledWidth()/2), Coords.getY("CE", 0) - (info.getScaledHeight()/2));
@@ -295,6 +301,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         save.update();
         load.update();
         settings.update();
+        waitWin.update();
         gameConsole.update();
         conditions.update();
         destination.update();
@@ -308,7 +315,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || gameConsole.isMouseOver() || inventory.isMouseOver() || 
     		   skills.isMouseOver() || journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || 
     		   train.isMouseOver() || save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver() ||
-    		   charWin.isMouseOver() || map.isMouseOver();
+    		   charWin.isMouseOver() || map.isMouseOver() || waitWin.isMouseOver();
     }
     /**
      * Checks if exit game is requested
@@ -324,7 +331,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public boolean isPauseReq()
     {
-        return !gameConsole.isHidden() || bBar.isPauseReq() || load.isOpenReq() || save.isOpenReq() || settings.isOpenReq();
+        return !gameConsole.isHidden() || bBar.isPauseReq() || load.isOpenReq() || save.isOpenReq() || settings.isOpenReq() || waitWin.isOpenReq();
     }
     
     public boolean takeSaveReq()
@@ -346,7 +353,10 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     {
         return load.getSaveName();
     }
-    
+    /**
+     * Returns UI camera
+     * @return UI camera
+     */
     public Camera getCamera()
     {
     	return camera;
@@ -560,7 +570,11 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	public void keyReleased(int key, char c) 
 	{
 	}
-	
+	/**
+	 * UNUSED
+	 * @return
+	 * @deprecated
+	 */
 	public static GameCursor getUiCursor()
 	{
 		return cursor;
@@ -597,7 +611,9 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 		uiE.appendChild(camera.getSave(doc));
 		return uiE;
 	}
-	
+	/**
+	 * Hides in-game menu
+	 */
 	private void hideMenu()
 	{
 		igMenu.close();

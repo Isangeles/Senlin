@@ -51,12 +51,20 @@ public final class GBase
 	 * Private constructor to prevent initialization
 	 */
 	private GBase() {}
-	
+	/**
+	 * Returns image with specified ID from base
+	 * @param name ID of desired image in base
+	 * @return Image with specified ID or null if no such image was found
+	 */
 	public static Image getImage(String name)
 	{
 		return texturesMap.get(name);
 	}
-	
+	/**
+	 * Returns font with specified ID form base
+	 * @param name ID of desired font in base
+	 * @return Font with specified ID or null if no such font was found
+	 */
 	public static Font getFont(String name)
 	{
 		return fontsMap.get(name);

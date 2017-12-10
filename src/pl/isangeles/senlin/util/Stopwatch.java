@@ -43,7 +43,7 @@ public class Stopwatch
      * @param sec Time in seconds
      * @return Time in milliseconds
      */
-    public static int sec(int sec)
+    public static long sec(int sec)
     {
         return sec * 1000;
     }
@@ -52,9 +52,29 @@ public class Stopwatch
      * @param sec Time in minutes
      * @return Time in milliseconds
      */
-    public static int min(int min)
+    public static long min(int min)
     {
-        return min * 10000;
+        return min * 60000;
+    }
+    /**
+     * Converts time in milliseconds to minutes 
+     * @param millis Milliseconds
+     * @return Time in minutes
+     */
+    public static long toMin(long millis)
+    {
+    	long min = millis / 60000;
+    	return min;
+    }
+    /**
+     * Converts milliseconds to seconds
+     * @param millis Milliseconds
+     * @return Time in seconds
+     */
+    public static long toSec(long millis)
+    {
+    	long sec = millis / 1000;
+    	return sec;
     }
     /**
      * Returns string with specified time in HMS format

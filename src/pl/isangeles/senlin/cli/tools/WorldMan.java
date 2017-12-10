@@ -106,7 +106,7 @@ public class WorldMan implements CliTool
 	{
 		if(command.equals("time"))
 		{
-			return world.getDay().getTime();
+			return world.getDay().getTime().toString();
 		}
 		
 		return "0";
@@ -191,7 +191,7 @@ public class WorldMan implements CliTool
 	/**
 	 * Handles add commands
 	 * @param commandLine Command
-	 * @return True if command was successfully executed, false otherwise
+	 * @return Command out
 	 */
 	public String addCommands(String commandLine)
 	{
@@ -228,6 +228,43 @@ public class WorldMan implements CliTool
 		{
 			Log.addSystem("game error");
 		}
+		
+        return out;
+	}
+	/**
+	 * Handles set commands
+	 * @param command Command
+	 * @return Command out
+	 */
+	public String setCommands(String command)
+	{
+		String out = "1";
+        Scanner scann = new Scanner(command);
+        try
+        {
+            String option = scann.next();
+            String[] args = {scann.next(), scann.next()};
+            scann.close();
+            
+        	if(option.equals("-t") || option.equals("-time"))
+        	{
+        		int hours = Integer.parseInt(args[0]);
+        		int minutes = 0;
+        		if(args[1] != null)
+        			minutes = Integer.parseInt(args[1]);
+        		
+        		world.getDay().getTime().addHours(hours);
+        		world.getDay().getTime().addMinutes(minutes);
+        	}
+		}
+		catch(NoSuchElementException e)
+		{
+			Log.addSystem("not enough arguments");
+		}
+        catch(NumberFormatException e)
+        {
+        	Log.addSystem("wrong arguments values");
+        }
 		
         return out;
 	}
