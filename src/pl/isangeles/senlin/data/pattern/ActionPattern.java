@@ -25,7 +25,9 @@ package pl.isangeles.senlin.data.pattern;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.action.EffectAction;
+import pl.isangeles.senlin.core.action.LootAction;
 import pl.isangeles.senlin.core.action.ReadAction;
+import pl.isangeles.senlin.core.action.RestAction;
 import pl.isangeles.senlin.data.EffectsBase;
 
 /**
@@ -61,6 +63,10 @@ public class ActionPattern
 			return new EffectAction(actionId, "target");
 		case READ:
 			return new ReadAction(actionId);
+		case LOOT:
+			return new LootAction();
+		case REST:
+			return new RestAction();
 		default:
 			return new EffectAction();
 		}

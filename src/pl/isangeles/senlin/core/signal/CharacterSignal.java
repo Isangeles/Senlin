@@ -22,8 +22,6 @@
  */
 package pl.isangeles.senlin.core.signal;
 
-import pl.isangeles.senlin.core.Targetable;
-
 /**
  * Enumeration for character signals
  * @author Isangeles
@@ -31,5 +29,5 @@ import pl.isangeles.senlin.core.Targetable;
  */
 public enum CharacterSignal 
 {
-	LOOTING, TALKING, FIGHTING, FOLLOWING, READING
+	LOOTING, TALKING, FIGHTING, FOLLOWING, READING, RESTING;
 }

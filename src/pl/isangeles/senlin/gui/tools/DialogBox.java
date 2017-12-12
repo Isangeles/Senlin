@@ -168,9 +168,9 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	{
 		openReq = false;
 		if(interlocutorA != null)
-			interlocutorA.stopTalking();
+			interlocutorA.getSignals().stopTalking();
 		if(interlocutorB != null)
-			interlocutorB.stopTalking();
+			interlocutorB.getSignals().stopTalking();
 		textBox.setFocus(false);
 		reset();
 	}

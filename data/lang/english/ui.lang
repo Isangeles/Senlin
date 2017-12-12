@@ -121,6 +121,7 @@ effTime:Time;
 effDuration:Duration;
 waitWinTitle:Wait;
 waitWinWait:Wait;
+waitWinRest:Rest;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

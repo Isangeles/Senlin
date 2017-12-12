@@ -36,7 +36,7 @@ public class LootAction extends Action
 	 */
     public LootAction()
     {
-        type = ActionType.LOOT;
+        super(ActionType.LOOT);
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
@@ -45,7 +45,7 @@ public class LootAction extends Action
     public boolean start(Targetable user, Targetable target)
     {
         //user.setTarget(target);
-        user.startLooting(target);
+        user.getSignals().startLooting(target);
         return user.looting() != null;
     }
 

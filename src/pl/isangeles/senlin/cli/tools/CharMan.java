@@ -297,7 +297,7 @@ public class CharMan implements CliTool
     			Targetable attackTarget = gw.getCurrentChapter().getTObject(arg1);
     			if(attackTarget != null)
     			{
-    				target.enterCombat(attackTarget);
+    				target.getSignals().startCombat(attackTarget);
     				out = true;
     			}
     			else

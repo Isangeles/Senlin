@@ -1,5 +1,5 @@
 /*
- * EquipAction.java
+ * RestAction.java
  * 
  * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
@@ -23,39 +23,29 @@
 package pl.isangeles.senlin.core.action;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.core.item.Equippable;
 
 /**
- * Class for equip action, for equippable items
+ * Class for rest action
  * @author Isangeles
  *
  */
-public class EquipAction extends Action 
+public class RestAction extends Action 
 {
-	private Equippable item;
 	/**
-	 * Equip action constructor
-	 * @param item Item to equip on action start
+	 * Read action constructor
 	 */
-	public EquipAction(Equippable item)
+	public RestAction()
 	{
-		super(ActionType.EQUIP);
-		this.item = item;
+		super(ActionType.REST);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
 	 */
 	@Override
-	public boolean start(Targetable user, Targetable target) 
+	public boolean start(Targetable user, Targetable target)
 	{
-		if(Character.class.isInstance(user))
-		{
-			Character userChar = (Character)user;
-			return userChar.equipItem(item);
-		}
-		else
-			return false;
+		user.getSignals().startResting();
+		return true;
 	}
 
 }

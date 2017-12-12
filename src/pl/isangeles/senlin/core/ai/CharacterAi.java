@@ -159,13 +159,13 @@ public class CharacterAi
 		if(aggressor.getTarget() == null && target.isLive())
 		{
 			aggressor.setTarget(target);
-            aggressor.enterCombat(target);
+            aggressor.getSignals().startCombat(target);
             saySomething(aggressor, "aggressive", false);
 		}
 		else if(aggressor.getTarget() != null && !target.isLive())
 		{
             aggressor.setTarget(null);
-            aggressor.stopCombat();
+            aggressor.getSignals().stopCombat();
 		}
 	}
 	/**

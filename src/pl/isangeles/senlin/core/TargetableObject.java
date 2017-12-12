@@ -29,6 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.audio.Voicing;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Modifier;
@@ -36,6 +37,7 @@ import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.signal.Signals;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
@@ -71,6 +73,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     private Defense defense = new Defense(this);
     private Modifiers bonuses = new Modifiers();
     private Effects effects = new Effects(this);
+    private Signals signals = new Signals();
     private Action onClick;
     /**
      * Simple game object constructor(with animated texture)
@@ -194,6 +197,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     public void startAction(Targetable user)
     {
         onClick.start(user, this);
+        Log.addSystem("action started");
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#setTarget(pl.isangeles.senlin.core.Targetable)
@@ -393,34 +397,11 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     {
         return inventory;
     }
-    /* (non-Javadoc)
-     * @see pl.isangeles.senlin.core.Targetable#looting(boolean)
-     */
-    @Override
-    public void startLooting(Targetable target)
+    
+    public Signals getSignals()
     {
+    	return signals;
     }
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#stopLooting()
-	 */
-	@Override
-	public void stopLooting() 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#startReading(java.lang.String)
-	 */
-	@Override
-	public void startReading(String textId) 
-	{
-	}
-	/* (non-Javadoc)
-	 * @see pl.isangeles.senlin.core.Targetable#stopReading()
-	 */
-	@Override
-	public void stopReading() 
-	{
-	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#looting()
      */

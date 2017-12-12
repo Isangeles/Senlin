@@ -112,7 +112,7 @@ class ReadWindow extends InterfaceObject implements UiElement, MouseListener
 		openReq = false;
 		focus = false;
 		this.text.setFocus(false);
-		player.stopReading();
+		player.getSignals().stopReading();
 		reset();
 	}
 

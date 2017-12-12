@@ -58,17 +58,19 @@ public class ObjectParser
 	{
 		Element objectE = (Element)objectNode;
 		String id = objectE.getAttribute("id");
-		String mainTex = objectE.getAttribute("mainTex");
-		String type = objectE.getAttribute("type");
 		String action = objectE.getAttribute("action");
+		
+		Element textureE = (Element)objectE.getElementsByTagName("texture").item(0);
+		String mainTex = textureE.getTextContent();
+		String type = textureE.getAttribute("type");
 		int frames = 0;
 		int fWidth = 0;
 		int fHeight = 0;
 		if(type.equals("anim"))
 		{
-			frames = Integer.parseInt(objectE.getAttribute("frames"));
-			fWidth = Integer.parseInt(objectE.getAttribute("fWidth"));
-			fHeight = Integer.parseInt(objectE.getAttribute("fHeight"));
+			frames = Integer.parseInt(textureE.getAttribute("frames"));
+			fWidth = Integer.parseInt(textureE.getAttribute("fWidth"));
+			fHeight = Integer.parseInt(textureE.getAttribute("fHeight"));
 		}
 		
 		String portrait = "default.png";

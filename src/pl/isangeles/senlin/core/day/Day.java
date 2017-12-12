@@ -135,7 +135,7 @@ public class Day implements SaveElement
 	public Element getSave(Document doc) 
 	{
 		Element dayE = doc.createElement("day");
-		dayE.setAttribute("time", time+"");
+		dayE.setAttribute("time", time.inMillis() + "");
 		dayE.appendChild(conditions.getSave(doc));
 		return dayE;
 	}

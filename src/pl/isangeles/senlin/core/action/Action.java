@@ -41,6 +41,14 @@ public abstract class Action
 		type = ActionType.NONE;
 	}
 	/**
+	 * Action constructor
+	 * @param type Type of action
+	 */
+	public Action(ActionType type)
+	{
+		this.type = type;
+	}
+	/**
 	 * Starts action
 	 * @param user Action user
 	 * @param target User target 

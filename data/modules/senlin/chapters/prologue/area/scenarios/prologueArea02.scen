@@ -34,7 +34,9 @@
                 <npcs>
 					<npc position="5;4">lian01</npc>                
                 </npcs>
-                <objects></objects>
+                <objects>
+					<object position="15;6">bed01</object>
+                </objects>
                 <exits>
                     <exit position="11;19" to="72;120">prologue02</exit>
                 </exits>

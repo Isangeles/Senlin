@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <base>
-    <object id="lcChest01" mainTex="chest.png" type="static" action="loot">
+    <object id="lcChest01" action="loot">
         <portrait>default.png</portrait>
+        <texture type="static">chest.png</texture>
         <in gold="0">
             <items>
                 <item random="false">wSOHI</item>

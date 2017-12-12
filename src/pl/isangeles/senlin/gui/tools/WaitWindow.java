@@ -66,6 +66,7 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	
 	private boolean focus;
 	private boolean openReq;
+	private boolean rest;
 	/**
 	 * Waiting window constructor 
 	 * @param gc Slick game container
@@ -99,7 +100,10 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	{
 		super.draw(x, y, false);
 		
-		ttf.drawString(super.getCenter().x, super.getTR().y, TConnector.getText("ui", "waitWinTitle"));
+		if(rest)
+			ttf.drawString(super.getCenter().x, super.getTR().y, TConnector.getText("ui", "waitWinTitle"));
+		else
+			ttf.drawString(super.getCenter().x, super.getTR().y, TConnector.getText("ui", "waitWinRest"));
 		hMinusB.draw(super.x, super.getCenter().y, false);
 		hPlusB.draw(super.getBR().x - hPlusB.getScaledWidth(), super.getCenter().y, false);
 		waitB.draw(super.getCenter().x - waitB.getScaledWidth()/2, super.getCenter().y + getDis(40), false);
@@ -107,10 +111,16 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	}
 	/**
 	 * Opens window
+	 * @param rest True if character waiting, false if just waiting 
 	 */
-	public void open()
+	public void open(boolean rest)
 	{
 		openReq = true;
+		this.rest = rest;
+		if(rest)
+			waitB.setLabel(TConnector.getText("ui", "waitWinRest"));
+		else
+			waitB.setLabel(TConnector.getText("ui", "waitWinWait"));
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.tools.UiElement#close()
@@ -136,6 +146,8 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	public void reset() 
 	{
 		hideMOA();
+		focus = false;
+		rest = false;
 		waitTimeH = 0;
 		waitTimeM = 0;
 	}
@@ -245,7 +257,7 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	public void keyReleased(int key, char c) 
 	{
 		if(key == Input.KEY_T && !openReq)
-			open();
+			open(false);
 		else if(key == Input.KEY_ESCAPE || (key == Input.KEY_T && openReq))
 			close();
 	}

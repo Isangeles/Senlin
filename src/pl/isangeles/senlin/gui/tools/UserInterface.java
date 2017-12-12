@@ -51,6 +51,7 @@ import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.out.CharacterOut;
+import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
@@ -244,13 +245,18 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     		CharacterOut out = loot.open(player.looting());
     		if(out == CharacterOut.LOCKED)
     		{
-    		    player.stopLooting();
+    		    player.getSignals().stopLooting();
     		    Log.addInformation(TConnector.getText("ui", "logLocked"));
     		}
     	}
     	if(player.reading() != null && !reading.isOpenReq())
     	{
     		reading.open(player.reading());
+    	}
+    	if(player.getSignals().get(CharacterSignal.RESTING) != null)
+    	{
+    		waitWin.open(true);
+    		player.getSignals().stopResting();
     	}
     	if(dialogue.isTradeReq())
     	{
@@ -453,44 +459,37 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	            Targetable target = player.getTarget();
 	            if(target != null)
 	            {
-	                try
-	                {
-	                    if(target.isMouseOver())
-	                    {
-	                        if(target.isLive())
-	                        {
-	                            Character targetedChar = (Character)target;
-	                            switch(targetedChar.getAttitudeTo(player))
-	                            {
-	                            case FRIENDLY:
-	                                dialogue.open(player, targetedChar);
-	                                break;
-	                            case HOSTILE:
-	                                player.enterCombat(target);
-	                                break;
-	                            case NEUTRAL:
-	                                player.enterCombat(target);
-	                                break;
-	                            case DEAD:
-	                                break;
-	                            }
-	                        }
-	                        else
-	                        {
-	                            player.startLooting(target);
-	                        }
-	                    }
-	                    else
-	                    {
-	                        player.stopCombat();
-	                    }
-	                }
-	                catch(ClassCastException | NullPointerException e)
-	                {
-	                    Log.addSystem("ui_mcheck_fail!msg///"+e);
-	                    e.printStackTrace();
-	                    return;
-	                }
+	            	if(target.isMouseOver())
+                    {
+                    	if(Character.class.isInstance(target))
+                    	{
+                    		Character targetedChar = (Character)target;
+                            switch(targetedChar.getAttitudeTo(player))
+                            {
+                            case FRIENDLY:
+                                dialogue.open(player, targetedChar);
+                                break;
+                            case HOSTILE:
+                                player.getSignals().startCombat(target);
+                                break;
+                            case NEUTRAL:
+                                player.getSignals().startCombat(target);
+                                break;
+                            case DEAD:
+                            	player.getSignals().startLooting(target);
+                                break;
+                            }
+                    	}
+                    	else if(TargetableObject.class.isInstance(target))
+                    	{
+                    		TargetableObject targetedObject = (TargetableObject)target;
+                    		targetedObject.startAction(player);
+                    	}
+                    }
+                    else
+                    {
+                        player.getSignals().stopCombat();
+                    }
 	            }
 	            
                 int worldX = (int)Global.worldX(x);

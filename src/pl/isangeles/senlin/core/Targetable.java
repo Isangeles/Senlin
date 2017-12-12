@@ -27,6 +27,7 @@ import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effects;
 import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
+import pl.isangeles.senlin.core.signal.Signals;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
 import pl.isangeles.senlin.core.skill.Passive;
@@ -104,23 +105,10 @@ public interface Targetable extends ObjectiveTarget
 	 */
 	public void modMaxMagicka(int value);
 	/**
-	 * Starts looting action on specified target
-	 * @param target Targetable object to loot
+	 * Returns target signals 
+	 * @return Signals container
 	 */
-	public void startLooting(Targetable target);
-	/**
-	 * Stops looting action
-	 */
-	public void stopLooting();
-	/**
-	 * Starts reading action
-	 * @param textId ID of text to read
-	 */
-	public void startReading(String textId);
-	/**
-	 * Stops reading action
-	 */
-	public void stopReading();
+	public Signals getSignals();
 	/**
 	 * Adds(and applies) specified modifier to this object 
 	 * @param modifier Modifier to add and apply

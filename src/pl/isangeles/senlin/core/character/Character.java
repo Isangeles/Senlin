@@ -78,6 +78,7 @@ import pl.isangeles.senlin.core.quest.QuestTracker;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.signal.CharacterSignal;
+import pl.isangeles.senlin.core.signal.Signals;
 import pl.isangeles.senlin.core.skill.Abilities;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Buff;
@@ -129,7 +130,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private boolean live;
 	private boolean trade;
 	private boolean train;
-	private EnumMap<CharacterSignal, Object>signals = new EnumMap<>(CharacterSignal.class);
+	private Signals signals = new Signals();
 	private CharacterAvatar avatar;
 	private Inventory inventory;
 	private Abilities abilities;
@@ -459,58 +460,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	trade = true;
     }
     /**
-     * 
-     * @param talking
+     * Returns character signals
+     * @return Signals container 
      */
-    public void startTalking(Targetable target)
+    public Signals getSignals()
     {
-    	signals.put(CharacterSignal.TALKING, target);
-    }    
-    
-    public void stopTalking()
-    {
-    	signals.remove(CharacterSignal.TALKING);
-    }
-    
-    public void startLooting(Targetable target)
-    {
-        signals.put(CharacterSignal.LOOTING, target);
-    }	
-    
-    public void stopLooting()
-    {
-    	signals.remove(CharacterSignal.LOOTING);
-    }
-    
-	public void startFollowing(Targetable target)
-	{
-		signals.put(CharacterSignal.FOLLOWING, target);
-	}
-	
-	public void stopFollowing()
-	{
-		signals.remove(CharacterSignal.FOLLOWING);
-	}
-    
-    public void enterCombat(Targetable target)
-    {
-    	signals.put(CharacterSignal.FIGHTING, target);
-    	startFollowing(target);
-    }
-    
-    public void stopCombat()
-    {
-    	signals.remove(CharacterSignal.FIGHTING);
-    }
-    
-    public void startReading(String textId)
-    {
-    	signals.put(CharacterSignal.READING, textId);
-    }
-    
-    public void stopReading()
-    {
-    	signals.remove(CharacterSignal.READING);
+    	return signals;
     }
     /**
      * Marks this character as trainer
@@ -1398,8 +1353,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public Dialogue startDialogueWith(Character dialogueTarget)
 	{
-		startTalking(dialogueTarget);
-		dialogueTarget.startTalking(this);
+		signals.startTalking(dialogueTarget);
+		dialogueTarget.getSignals().startTalking(this);
 		Dialogue dialogue = getDialogueFor(dialogueTarget);
 		dialogue.startFor(dialogueTarget);
 		return dialogue;

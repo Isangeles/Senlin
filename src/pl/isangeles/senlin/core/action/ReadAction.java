@@ -39,8 +39,8 @@ public class ReadAction extends Action
 	 */
 	public ReadAction(String textId)
 	{
+		super(ActionType.READ);
 		this.textId = textId;
-		type = ActionType.READ;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.action.Action#start(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
@@ -48,7 +48,7 @@ public class ReadAction extends Action
 	@Override
 	public boolean start(Targetable user, Targetable target) 
 	{
-		user.startReading(textId);
+		user.getSignals().startReading(textId);
 		return user.reading() != null;
 	}
 

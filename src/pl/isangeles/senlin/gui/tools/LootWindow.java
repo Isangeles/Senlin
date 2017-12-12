@@ -162,7 +162,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	public void close()
 	{
 		openReq = false;
-		lootingChar.stopLooting();
+		lootingChar.getSignals().stopLooting();
 		reset();
 	}
 	/**
