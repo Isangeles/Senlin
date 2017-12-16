@@ -15,6 +15,11 @@ Simply run senlin executable(.sh on Linux or .exe on Windows).
 
 If you have problem with game startup, try to change game resolution(in game.conf) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
 
+## Screenshots
+![sc1](/screenshots/sc2.jpg)
+![sc2](/screenshots/sc3.jpg)
+![sc3](/screenshots/sc4.jpg)
+
 ## License
 
 Copyright 2017 Dariusz Sikora

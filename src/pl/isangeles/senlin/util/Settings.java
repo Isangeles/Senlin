@@ -46,6 +46,7 @@ public class Settings
     private static String fowType;
     private static String mRenderType;
     private static String module;
+    public static final String SCREENSHOTS_DIR = "screenshots";
     /**
      * Private constructor to prevent initialization
      */

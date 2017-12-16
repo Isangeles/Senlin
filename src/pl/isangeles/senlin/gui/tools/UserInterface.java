@@ -100,6 +100,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     private InfoFrame info;
     
     private boolean lock;
+    private boolean screenshotReq;
     /**
      * UI constructor, calls all UI elements constructors
      * @param gc Game container for superclass and ui elements
@@ -376,6 +377,16 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	return lock;
     }
     /**
+     * Takes screenshot requested 
+     * @return True if screenshot is requested, false otherwise
+     */
+    public boolean takeScreenshotReq()
+    {
+    	boolean sReq = screenshotReq;
+    	screenshotReq = false;
+    	return sReq;
+    }
+    /**
      * Sets specified UI layout
      * @param layout UI layout to set
      */
@@ -568,6 +579,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 	@Override
 	public void keyReleased(int key, char c) 
 	{
+    	if(key == Input.KEY_F10)
+    		screenshotReq = true;
 	}
 	/**
 	 * UNUSED

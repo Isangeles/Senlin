@@ -23,8 +23,13 @@
 package pl.isangeles.senlin.states;
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,8 +38,11 @@ import javax.xml.transform.TransformerException;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.imageout.ImageIOWriter;
+import org.newdawn.slick.imageout.ImageOut;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -224,6 +232,18 @@ public class GameWorld extends BasicGameState implements SaveElement
             g.resetTransform();
             dayManager.draw();
             ui.draw(g);
+
+            if(ui.takeScreenshotReq())
+            {
+            	try
+            	{
+                	printScreen(g);
+            	}
+            	catch(IOException | SlickException e)
+            	{
+            		Log.addSystem("Fail to save screenshot! msg//" + e.getMessage());
+            	}
+            }
     	}
     }
     /* (non-Javadoc)
@@ -531,5 +551,20 @@ public class GameWorld extends BasicGameState implements SaveElement
     	int fTileY = Math.floorDiv(renderStartY, (int)32);
     	//g.scale(Coords.getScale(), Coords.getScale());
     	map.render(renderStartX, renderStartY, fTileX, fTileY, renderEndX+1, renderEndY+1);
+    }
+    /**
+     * Prints screen to image and saves it in screenshots directory
+     * @param g Game graphics
+     * @throws SlickException 
+     * @throws IOException 
+     */
+    private void printScreen(Graphics g) throws SlickException, IOException
+    {
+    	Image screenshot = new Image((int)Settings.getResolution()[0], (int)Settings.getResolution()[1]);
+    	g.copyArea(screenshot, 0, 0);
+    	
+    	ImageOut.write(screenshot, Settings.SCREENSHOTS_DIR + File.separator + "screenshot-" + new Date().toString() + ".jpg");
+    	
+    	Log.addSystem("Screenshot captured!");
     }
 }
