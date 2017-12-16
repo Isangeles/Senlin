@@ -60,32 +60,72 @@ public class ObjectPattern
 	private final String mainTexture;
 	private final String portrait;
 	private final String sound;
-	private final String type;
+	private final boolean anim;
 	private final int frames;
 	private final int fWidth;
 	private final int fHeight;
 	private final boolean flipped;
-	private final ActionType action;
+	private final ActionPattern actionP;
 	private final int gold;
 	private final List<RandomItem> objectItems = new ArrayList<>();
 	private final InventoryLock lock;
 	/**
-	 * ObjectPattern constructor
+	 * Game object pattern constructor(with animated texture)
+	 * @param id ID for object
+	 * @param mainTexture Name of main texture of object
+	 * @param portrait Name of portrait for object
+	 * @param sound Name of audio file for object sound
+	 * @param frames Number of frames for animation
+	 * @param fWidth Width of one frame for animation
+	 * @param fHeight Height of one frame for animation
+	 * @param action Action pattern for object(on click)
+	 * @param gold Amount of gold for object inventory
+	 * @param items Items for object inventory
+	 * @param lock Lock for object inventory
 	 */
-	public ObjectPattern(String id, String mainTexture, String portrait, String sound, String type, int frames, int fWidth, int fHeight, String action,
-						 int gold, List<RandomItem> items, InventoryLock lock) 
+	public ObjectPattern(String id, String mainTexture, String portrait, String sound, int frames, int fWidth, int fHeight, 
+						 ActionPattern action, int gold, List<RandomItem> items, InventoryLock lock) 
 	{
 		this.id = id;
 		this.info = TConnector.getTextFromModule("objects", id);
 		this.mainTexture = mainTexture;
 		this.portrait = portrait;
 		this.sound = sound;
-		this.type = type;
+		this.anim = true;
 		this.frames = frames;
 		this.fWidth = fWidth;
 		this.fHeight = fHeight;
 		this.flipped = false;
-		this.action = ActionType.fromString(action);
+		this.actionP = action;
+		this.gold = gold;
+		this.objectItems.addAll(items);
+		this.lock = lock;
+	}
+	/**
+	 * Game object pattern constructor(with static texture)
+	 * @param id ID for object
+	 * @param mainTexture Name of main texture of object
+	 * @param portrait Name of portrait for object
+	 * @param sound Name of audio file for object sound
+	 * @param action Action pattern for object(on click)
+	 * @param gold Amount of gold for object inventory
+	 * @param items Items for object inventory
+	 * @param lock Lock for object inventory
+	 */
+	public ObjectPattern(String id, String mainTexture, String portrait, String sound, ActionPattern action, int gold, 
+						 List<RandomItem> items, InventoryLock lock) 
+	{
+		this.id = id;
+		this.info = TConnector.getTextFromModule("objects", id);
+		this.mainTexture = mainTexture;
+		this.portrait = portrait;
+		this.sound = sound;
+		this.anim = false;
+		this.frames = 0;
+		this.fWidth = 0;
+		this.fHeight = 0;
+		this.flipped = false;
+		this.actionP = action;
 		this.gold = gold;
 		this.objectItems.addAll(items);
 		this.lock = lock;
@@ -111,32 +151,24 @@ public class ObjectPattern
 	    Sound objectSound = null;
 	    if(sound != "")
 		    objectSound = new Sound(AConnector.getInput("effects/" + sound), sound);
-	    Action objectAction;
-	    switch(action)
-	    {
-	    case LOOT:
-	        objectAction = new LootAction();
-	        break;
-	    default:
-	        objectAction = new EffectAction();
-	    }
+	    
 	    
 	    TargetableObject object = null;
-	    if(type.equals("anim"))
+	    if(anim)
 	    {
 	    	SimpleAnim animTexture = new SimpleAnim(GConnector.getInput("object/anim/"+mainTexture), id, flipped, fWidth, fHeight, frames, info, gc);
 		    if(objectSound != null)
-				object = new TargetableObject(id, animTexture, uiPortrait, objectSound, objectAction);
+				object = new TargetableObject(id, animTexture, uiPortrait, objectSound, actionP.make());
 		    else
-		    	object = new TargetableObject(id, animTexture, uiPortrait, objectAction); 	
+		    	object = new TargetableObject(id, animTexture, uiPortrait, actionP.make()); 	
 	    }
-	    if(type.equals("static"))
+	    else
 	    {
 	    	Sprite staticTexture = new Sprite(GConnector.getInput("object/static/"+mainTexture), id, flipped, info, gc);
 			if(objectSound != null)
-				object = new TargetableObject(id, staticTexture, uiPortrait, objectSound, objectAction);
+				object = new TargetableObject(id, staticTexture, uiPortrait, objectSound, actionP.make());
 			else
-				object = new TargetableObject(id, staticTexture, uiPortrait, objectAction);
+				object = new TargetableObject(id, staticTexture, uiPortrait, actionP.make());
 	    }
 	    
 	    if(object != null)

@@ -36,11 +36,11 @@ public class Script implements SaveElement
 {
 	private String name;
 	private String body;
+	private String[] commands;
 	private String ifBody;
 	private String endBody;
 	private int useCount;
-	private int activeIndex = 1;
-	private int noCommands;
+	private int activeIndex;
 	private long waitTime;
 	private boolean end;
 	/**
@@ -55,7 +55,11 @@ public class Script implements SaveElement
 		this.endBody = endBody;
 		this.ifBody = ifBody;
 		
-		noCommands = body.split("\r?\n").length;
+		commands = body.split(";|(;\\r?\\n)");
+		for(String command : commands)
+		{
+			command = command.replaceFirst("^\\s*", "");
+		}
 	}
 	/**
 	 * Updates script
@@ -99,6 +103,14 @@ public class Script implements SaveElement
 		return endBody;
 	}
 	/**
+	 * Returns active command of script
+	 * @return String with script command
+	 */
+	public String getActiveCommand()
+	{
+		return commands[activeIndex];
+	}
+	/**
 	 * Returns active script command index
 	 * @return Active command index
 	 */
@@ -121,6 +133,11 @@ public class Script implements SaveElement
 	public boolean isFinished()
 	{
 		return end;
+	}
+	
+	public boolean hasNext()
+	{
+		return activeIndex < commands.length;
 	}
 	/**
 	 * Checks if script is stopped for some time 
@@ -146,14 +163,20 @@ public class Script implements SaveElement
 		useCount ++;
 	}
 	/**
+	 * Restarts command index
+	 * (next command will be first command of the script)
+	 */
+	public void restart()
+	{
+		activeIndex = 0;
+	}
+	/**
 	 * Moves command index forward
 	 */
 	public void next()
 	{
-	    if(activeIndex >= noCommands)
-	        activeIndex = 1;
-	    else
-	        activeIndex ++;
+		if(hasNext())
+			activeIndex ++;
 	}
 	/**
 	 * Pauses script for specified time
@@ -168,7 +191,6 @@ public class Script implements SaveElement
 	 */
 	public void finish()
 	{
-		activeIndex = 1;
 		end = true;
 	}
 	/* (non-Javadoc)

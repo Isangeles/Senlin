@@ -197,7 +197,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     public void startAction(Targetable user)
     {
         onClick.start(user, this);
-        Log.addSystem("action started");
+        Log.addSystem(onClick.getType() + " action started");
     }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#setTarget(pl.isangeles.senlin.core.Targetable)

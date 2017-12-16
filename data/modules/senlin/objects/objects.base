@@ -4,9 +4,10 @@
 		<texture type="anim" frames="5" fWidth="64" fHeight="64">campFire.png</texture>
         <sound>campFire.ogg</sound>
     </object>
-    <object id="hAloe" action="loot">
+    <object id="hAloe">
         <portrait>default.png</portrait>
         <texture type="static">aloe.png</texture>
+        <action type="loot" />
         <in gold="0">
             <items>
                 <item random="false">aloeL</item>
@@ -15,7 +16,8 @@
             </items>
         </in>
     </object>
-    <object id="bed01" action="rest">
+    <object id="bed01">
 		<texture type="static">bed01.png</texture>
+        <action type="rest" />
     </object>
 </base>

@@ -52,58 +52,42 @@ public class ScriptProcessor
     public boolean process(Script script)
     {
         boolean out = true;
-        String scriptCode = script.toString();
         String ifCode = script.getIfCode();
-        String endCode = script.getEndCode();
         
-        Scanner scann = new Scanner(scriptCode);
-        scann.useDelimiter(";|(;\r?\n)");
-        
-        try
+        if(!script.isFinished() && !script.isWaiting())
         {
-            int commandId = 0;
-            while(scann.hasNext())
+        	while(script.hasNext() && checkCondition(script, ifCode))
             {
-                if(checkCondition(script, ifCode))
+            	//Log.addSystem(script.getName() +  "-active command:" + script.getActiveCommand());
+            	String command = script.getActiveCommand();
+            	if(command.matches("@wait [1-9]+"))
                 {
-                    String command = scann.next().replaceFirst("^\\s*", "");
-                    commandId ++;
-
-                    if(commandId == script.getActiveIndex())
-                    {
-                        script.used();
-                        script.next();
-                        if(command.matches("@wait [1-9]+"))
-                        {
-                            int time = Integer.parseInt(command.split(" ")[1]);
-                            long timeSec = Stopwatch.sec(time);
-                            script.pause(timeSec);
-                            break;
-                        }
-                        else if(cli.executeCommand(command).equals("1"))
-                        {
-                            out = false;
-                            break;
-                        }
-                    }
+                    int time = Integer.parseInt(command.split(" ")[1]);
+                    long timeSec = Stopwatch.sec(time);
+                    script.pause(timeSec);
+                    script.next();
+                    break;
                 }
                 else
                 {
-                    break;
+                	if(cli.executeCommand(command).equals("1"))
+                	{
+                        out = false;
+                        Log.addSystem("ssp: " + script.getName() + " processing fail - corrupted at line:" + script.getActiveIndex());
+                        break;	
+                	}
+                	else
+                    	script.next();
                 }
             }
-            scann.close();
-            
-            if(checkEndCondition(script))
-                script.finish();
+        	if(!script.hasNext())
+        	{
+        		script.used();
+        		script.restart();
+            	if(checkEndCondition(script))
+            		script.finish();
+        	}
         }
-        catch(IndexOutOfBoundsException | NoSuchElementException | NumberFormatException e)
-        {
-            Log.addSystem("cli_script_corrupted:" + script.getName());
-            e.printStackTrace();
-            script.finish();
-        }
-        
         return out;
     }
     /**
@@ -160,10 +144,12 @@ public class ScriptProcessor
                 if(hasCommand[1].equals("flag"))
                 {
                     String flag = hasCommand[2];
-                    if(hasCommand.length < 4 || hasCommand[3].equals("player;"))
+                    if(hasCommand.length < 4 || hasCommand[3].equals("player"))
                     {
-                        if(!cli.getPlayer().getFlags().contains(flag))
+                        if(!cli.getPlayer().getFlags().contains(flag)) 
+                        {
                             out = true;
+                        }
                         else 
                         {
                             out = false;
@@ -175,19 +161,21 @@ public class ScriptProcessor
             if(command.startsWith("dis"))
             {
                 String[] disCommand = command.split(" ");
-                int comDis = Integer.parseInt(disCommand[5].replaceAll(";", ""));
+                int disToCheck = Integer.parseInt(disCommand[5].replaceAll(";", ""));
                 
                 String disOut = cli.executeCommand("$charman " + disCommand[1] + " show -dis " + disCommand[3]);
                 int dis = Integer.parseInt(disOut.split(":")[1]);
                 
                 if(disCommand[4].equals("less"))
-                    out = dis < comDis;
+                    out = dis < disToCheck;
                 
                 if(!out)
                     break;
             }
         }
         scann.close();
+        
+        //Log.addSystem(ifCode + "-check:" + out);
         
         return out;
     }

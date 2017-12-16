@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.action;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 
 /**
@@ -44,6 +45,7 @@ public class RestAction extends Action
 	@Override
 	public boolean start(Targetable user, Targetable target)
 	{
+		Log.addSystem("rest action started!");
 		user.getSignals().startResting();
 		return true;
 	}

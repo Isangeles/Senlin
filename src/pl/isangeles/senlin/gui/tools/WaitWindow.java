@@ -50,13 +50,14 @@ import pl.isangeles.senlin.core.character.Character;
  * @author Isangeles
  *
  */
-public class WaitWindow extends InterfaceObject implements UiElement, KeyListener, MouseListener
+class WaitWindow extends InterfaceObject implements UiElement, KeyListener, MouseListener
 {
 	private GameWorld gw;
 	
 	private Button hPlusB;
 	private Button hMinusB;
 	private Button waitB;
+	//private Button closeB;
 	private InfoField waitTimeF;
 	private TrueTypeFont ttf;
 	
@@ -86,6 +87,7 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 		hPlusB = new Button(GBase.getImage("buttonNext"), "", gc);
 		hMinusB = new Button(GBase.getImage("buttonBack"), "", gc);
 		waitB = new Button(GBase.getImage("buttonS"), TConnector.getText("ui", "waitWinWait"), gc);
+		//closeB = new Button(GBase.getImage("buttonClose"), TConnector.getText("ui", "close"), gc);
 		waitTimeF = new InfoField(getSize(70f), getSize(50f), gc);
 		Font font = GBase.getFont("mainUiFont");
 		ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
@@ -146,7 +148,6 @@ public class WaitWindow extends InterfaceObject implements UiElement, KeyListene
 	public void reset() 
 	{
 		hideMOA();
-		focus = false;
 		rest = false;
 		waitTimeH = 0;
 		waitTimeM = 0;

@@ -37,7 +37,7 @@ import pl.isangeles.senlin.states.GameWorld;
  * @author Isangeles
  *
  */
-public class ConditionsInfo extends InterfaceObject implements UiElement 
+class ConditionsInfo extends InterfaceObject implements UiElement 
 {
 	private GameWorld world;
 	private String conInfo;

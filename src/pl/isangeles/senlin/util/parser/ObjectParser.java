@@ -33,6 +33,7 @@ import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.InventoryLock;
+import pl.isangeles.senlin.data.pattern.ActionPattern;
 import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.data.pattern.RandomItem;
 import pl.isangeles.senlin.graphic.GameObject;
@@ -58,7 +59,6 @@ public class ObjectParser
 	{
 		Element objectE = (Element)objectNode;
 		String id = objectE.getAttribute("id");
-		String action = objectE.getAttribute("action");
 		
 		Element textureE = (Element)objectE.getElementsByTagName("texture").item(0);
 		String mainTex = textureE.getTextContent();
@@ -83,6 +83,11 @@ public class ObjectParser
 		if(soundE != null)
 			sound = soundE.getTextContent();
 		
+		ActionPattern ap = new ActionPattern("none", "");
+		Node actionNode = objectE.getElementsByTagName("action").item(0);
+		if(actionNode != null)
+			ap = ActionParser.getActionFromNode(actionNode);
+		
 		List<RandomItem> items = new ArrayList<>(); 
 		Node inNode = objectE.getElementsByTagName("in").item(0);
 		Element inE = (Element)inNode;
@@ -98,6 +103,9 @@ public class ObjectParser
 			    lock = InventoryParser.getLockFromNode(lockNode);
 		}
 		
-		return new ObjectPattern(id, mainTex, portrait, sound, type, frames, fWidth, fHeight, action, gold, items, lock);
+		if(type.equals("anim"))
+			return new ObjectPattern(id, mainTex, portrait, sound, frames, fWidth, fHeight, ap, gold, items, lock);
+		else
+			return new ObjectPattern(id, mainTex, portrait, sound, ap, gold, items, lock);
 	}
 }

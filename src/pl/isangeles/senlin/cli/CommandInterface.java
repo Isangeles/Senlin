@@ -47,7 +47,7 @@ public class CommandInterface
 	private CharMan charman;
 	private WorldMan worldman;
 	private UiMan uiman;
-	private ScriptProcessor sProcessor;
+	private ScriptProcessor ssp;
 	/**
 	 * Command interface constructor
 	 * @param player Player character
@@ -58,7 +58,7 @@ public class CommandInterface
 		this.player = player;
 		charman = new CharMan(player, gw);
 		worldman = new WorldMan(gw);
-		sProcessor = new ScriptProcessor(this);
+		ssp = new ScriptProcessor(this);
 	}
 	/**
 	 * Executes specified command
@@ -66,14 +66,7 @@ public class CommandInterface
 	 * @return String with command out
 	 */
     public String executeCommand(String line)
-    {
-    	//If not a game command
-    	if(!line.startsWith("$"))
-    	{
-    		player.speak(line);
-    		return "1";
-    	}
-    	
+    {	
     	String out = "0";
     	
         Scanner scann = new Scanner(line);
@@ -130,7 +123,7 @@ public class CommandInterface
      */
     public boolean executeScript(Script script)
     {
-        return sProcessor.process(script);
+        return ssp.process(script);
     }
     /**
      * Sets GUI to manage by CLI

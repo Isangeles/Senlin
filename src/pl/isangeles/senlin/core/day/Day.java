@@ -54,6 +54,7 @@ public class Day implements SaveElement
 	{
 		conditions = new Weather();
 		phase = new DayPhase();
+		time = new WorldTime();
 	}
 	/**
 	 * Draws current weather and day phase filter

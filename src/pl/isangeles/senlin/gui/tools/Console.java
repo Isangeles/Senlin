@@ -63,6 +63,7 @@ final class Console extends TextInput implements UiElement
     private boolean hide;
     private TextBox logBox;
     private CommandInterface cli;
+    private Character player;
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -71,11 +72,12 @@ final class Console extends TextInput implements UiElement
      * @throws FontFormatException
      * @throws IOException
      */
-    public Console(GameContainer gc, CommandInterface cli) throws SlickException, FontFormatException, IOException
+    public Console(GameContainer gc, CommandInterface cli, Character player) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("ui/background/consoleBG_DG.png"), "uiConsoleBg", false, gc);
         super.textField = new TextField(gc, textTtf, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), super.getWidth(), super.getHeight()-170, this);
         this.cli = cli;
+        this.player = player;
         logBox = new TextBox(gc);
         hide = true;
         logBox.setFocus(true);
@@ -132,8 +134,14 @@ final class Console extends TextInput implements UiElement
         
         if(key == Input.KEY_ENTER && !hide)
         {
-            if(super.getText() != null)
-            	Log.addSystem("command out:" + cli.executeCommand(super.getText()));
+        	String textLine = super.getText();
+            if(textLine != null)
+            {            	
+            	if(textLine.startsWith("$")) //if entered text is a game command
+                	Log.addSystem("command out:" + cli.executeCommand(super.getText()));
+            	else
+            		player.speak(textLine);
+            }
             super.clear();
         }
     }

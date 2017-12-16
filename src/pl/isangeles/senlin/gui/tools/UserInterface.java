@@ -121,7 +121,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 
         uiWarning = new Warning(gc);
         info = new InfoFrame(gc);
-        gameConsole = new Console(gc, cli);
+        gameConsole = new Console(gc, cli, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new TargetFrame(gc, player);
         igMenu = new InGameMenu(gc);
