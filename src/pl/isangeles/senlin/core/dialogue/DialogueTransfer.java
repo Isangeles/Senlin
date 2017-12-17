@@ -77,7 +77,7 @@ public class DialogueTransfer
 		{
 			charA.addItem(charB.getInventory().takeItem(itemId));
 		}
-		charB.addGold(charA.getInventory().takeGold(goldToGive));
-		charA.addGold(charB.getInventory().takeGold(goldToTake));
+		//charB.addGold(charA.getInventory().takeGold(goldToGive));
+		//charA.addGold(charB.getInventory().takeGold(goldToTake));
 	}
 }

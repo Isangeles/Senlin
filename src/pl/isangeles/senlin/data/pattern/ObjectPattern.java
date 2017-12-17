@@ -177,7 +177,6 @@ public class ObjectPattern
 		    {
 		        object.getInventory().add(rItem.make());
 		    }
-		    object.getInventory().addGold(gold);
 		    object.getInventory().lock(lock);
 	    }
 	    

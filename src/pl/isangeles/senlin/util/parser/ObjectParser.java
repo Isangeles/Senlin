@@ -97,7 +97,7 @@ public class ObjectParser
 		{
 		    Node itemsNode = (Element)inE.getElementsByTagName("items").item(0);
 		    items = InventoryParser.getItemsFromNode(itemsNode);
-		    gold = InventoryParser.getGoldFromNode(inNode);
+		    //gold = InventoryParser.getGoldFromNode(inNode);
 		    Node lockNode = (Element)inE.getElementsByTagName("lock").item(0);
 		    if(lockNode != null)
 			    lock = InventoryParser.getLockFromNode(lockNode);

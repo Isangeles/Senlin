@@ -116,9 +116,9 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 		super.draw(x, y, false);
 		//Text
 		String windowTitle = trader.getName() + " " + "assortment";
-		String aoGold = "Gold: " + trader.getInventory().getGold();
+		//String aoGold = "Gold: " + trader.getInventory().getGold();
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(windowTitle)), y, windowTitle);
-		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
+		//ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
 		//Slots
 		slotsBuy.draw(x+getDis(8), y+getDis(72), false);
 		slotsSell.draw(x+getDis(322), y+getDis(72), false);
@@ -336,7 +336,7 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private boolean trade()
 	{
-	   if(((trader.getInventory().getGold()+buyValue)-sellValue) >= 0 && ((buyer.getInventory().getGold()+sellValue)-buyValue) >= 0)
+	   if(((trader.getInventory().getCashValue()+buyValue)-sellValue) >= 0 && ((buyer.getInventory().getCashValue()+sellValue)-buyValue) >= 0)
 	   {
 		   deal();
 		   return true;
@@ -349,10 +349,10 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private void deal()
 	{
-		buyer.addGold(sellValue);
-        trader.getInventory().takeGold(sellValue);
-        buyer.getInventory().takeGold(buyValue);
-        trader.addGold(buyValue);
+		//buyer.addGold(sellValue);
+        //trader.getInventory().takeGold(sellValue);
+        //buyer.getInventory().takeGold(buyValue);
+        //trader.addGold(buyValue);
 	    
 	    for(Item item : itemsToBuy)
 	    {

@@ -243,7 +243,13 @@ public class CharMan implements CliTool
         	}
     		else if(prefix.equals("-g") || prefix.equals("-gold"))
     		{
-    	        target.addGold(Integer.parseInt(arg1));
+    			int amount = Integer.parseInt(arg1);
+    			Item[] gold = new Item[amount];
+    			for(Item coin : gold)
+    			{
+    				coin = ItemsBase.getItem("gold01");
+    			}
+    	        target.getInventory().addAll(gold);
     	        out = true;
     		}
     		else if(prefix.equals("-h"))

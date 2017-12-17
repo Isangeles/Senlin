@@ -124,6 +124,22 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 		return isOk; 
 	}
 	/**
+	 * Adds all items from collection to inventory
+	 * @param items Collection with items
+	 * @return True if all items was added successfully, false if at least one wasn't added
+	 */
+	public boolean addAll(Item[] items)
+	{
+    	boolean isOk = true;
+		for(Item item : items)
+		{
+			if(!add(item))
+				isOk = false;
+		}
+		
+		return isOk; 
+	}
+	/**
 	 * Removes specified item from inventory
 	 * @param item Game item
 	 * @return True if item was successfully removed, false otherwise
@@ -196,7 +212,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * Adds gold to inventory
      * @param value Integer value to add
      */
-    public void addGold(int value)
+    private void addGold(int value)
     {
     	gold += value;
     }
@@ -204,9 +220,23 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * Returns all gold in inventory
      * @return Amount of gold in integer
      */
-    public int getGold()
+    private int getGold()
     {
         return gold;
+    }
+    /**
+     * Returns value of all coins in this inventory
+     * @return Value of coins in inventory
+     */
+    public int getCashValue()
+    {
+    	int value = 0;
+    	for(Item item : this)
+    	{
+    		if(item.getId().equals("gold01") && item.getId().equals("silver01") && item.getId().equals("copper01"))
+    			value += item.getValue();
+    	}	
+    	return value;
     }
     /**
 	 * Removes specific item from equippment
@@ -319,6 +349,45 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	return null;//ItemsBase.getErrorItem(itemId);
     }
     /**
+     * Returns specified amount of items with specified ID
+     * @param id Items ID
+     * @param amount Amount of items to return
+     * @return Collection with specified amount of items with specified ID or empty collection if specified amount is too big 
+     */
+    public Collection<Item> getItems(String id, int amount)
+    {
+    	List<Item> items = new ArrayList<>();
+    	int counter = 0;
+    	for(Item item : this)
+    	{
+    		if(item.getId().equals(id))
+    		{
+    			counter ++;
+        		items.add(item);
+        		if(counter == amount)
+        			break;
+    		}
+    	}
+    	if(counter != amount)
+    		items.clear();
+    	return items;
+    }
+    /**
+     * Returns all items with specified ID from inventory
+     * @param id String with items ID
+     * @return Collection with all items with specified ID from inventory
+     */
+    public Collection<Item> getItems(String id)
+    {
+    	List<Item> items = new ArrayList<>();
+    	for(Item item : this)
+    	{
+    		if(item.getId().equals(id))
+        		items.add(item);
+    	}
+    	return items;
+    }
+    /**
      * Returns item with specific index in inventory container
      * @param index Index in inventory container
      * @return Item from inventory container
@@ -378,7 +447,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      * @param value Amount of gold to remove
      * @return Removed value or 0 if value is to big to remove
      */
-    public int takeGold(int value)
+    private int takeGold(int value)
     {
     	if(lock.isOpen())
     	{
@@ -391,7 +460,52 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	else
     	    return 0;
     }
-    
+    /**
+     * Takes amount of coins with specified value from inventory 
+     * @param value Value to 'pay' with coins from inventory
+     * @return True if value was successfully 'paid', false if there was no enough coins in inventory
+     */
+    public boolean takeCash(int value)
+    {
+    	Collection<Item> gold = getItems("gold01");
+    	Collection<Item> silver = getItems("sliver01");
+    	Collection<Item> copper = getItems("copper01");
+    	List<Item> coinsToTake = new ArrayList<>();
+    	
+    	for(Item coin : gold)
+		{
+			if(value - coin.getValue() >= 0)
+			{
+				value -= coin.getValue();
+				coinsToTake.add(coin);
+			}
+		}
+		for(Item coin : silver)
+		{
+			if(value - coin.getValue() >= 0)
+			{
+				value -= coin.getValue();
+				coinsToTake.add(coin);
+			}
+		}
+		for(Item coin : copper)
+		{
+			if(value - coin.getValue() >= 0)
+			{
+				value -= coin.getValue();
+				coinsToTake.add(coin);
+			}
+		}
+		if(value > 0)
+			return false;
+		else
+			return removeAll(coinsToTake);
+    	 
+    }
+    /**
+     * Returns all items except equipped items
+     * @return List with items
+     */
     public List<Item> getWithoutEq()
     {
         List<Item> invWithoutEq = new ArrayList<>();

@@ -109,7 +109,7 @@ public final class NpcParser
         Element inE = (Element)inNode;
         
         Node itemsNode = (Element)inE.getElementsByTagName("items").item(0);
-        int gold = InventoryParser.getGoldFromNode(inNode);
+        //int gold = InventoryParser.getGoldFromNode(inNode);
         List<RandomItem> itemsIn = InventoryParser.getItemsFromNode(itemsNode);
         
         Node skillsNode = npc.getElementsByTagName("skills").item(0);
@@ -128,7 +128,7 @@ public final class NpcParser
         List<Dialogue> dialogues = getDialogues(dialoguesNode);
         
         npcP = new NpcPattern(id, gender, race, attitude, trade, train, guildID, level, stats, head, chest, hands, mainHand, offHand, feet,
-                              neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, gold, itemsIn, skills, effects,
+                              neck, fingerA, fingerB, artifact, spritesheet, ssType, portraitName, itemsIn, skills, effects,
                               professions, trainings, dialogues);
         return npcP;
     }

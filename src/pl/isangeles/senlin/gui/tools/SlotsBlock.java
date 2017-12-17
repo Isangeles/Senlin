@@ -98,7 +98,7 @@ public class SlotsBlock
 		{
 			for(int j = 0; j < slots[i].length; j ++)
 			{
-				if(slots[i][j].isEmpty())
+				if(!slots[i][j].isFull())
 				{
 					slots[i][j].insertContent(content);
 					return true;

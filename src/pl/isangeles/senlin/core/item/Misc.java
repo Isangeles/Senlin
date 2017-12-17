@@ -77,7 +77,7 @@ public class Misc extends Item
 	 */
 	public Misc(String id, int serial, int value, int maxStack, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, maxStack, value, imgName, gc);
+		super(id, serial, value, maxStack, imgName, gc);
 		this.disposable = disposable;
 		this.onUse = onUse;
 		this.itemTile = setTile(gc);

@@ -56,8 +56,6 @@
                 <objectives>
                     <objective type="gather" amount="1">mSLetter01</objective>
                 </objectives>
-                <sFlagsOnStart>
-                </sFlagsOnStart>
                 <sFlags>
                     <flag type="on" on="end">qpLumberTalk0</flag>
                     <flag type="off" on="end">qpLumberTalkStart</flag>

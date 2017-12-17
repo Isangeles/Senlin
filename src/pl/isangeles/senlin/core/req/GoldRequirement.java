@@ -52,7 +52,7 @@ public class GoldRequirement extends Requirement
 	@Override
 	public boolean isMetBy(Character character) 
 	{
-		if(character.getInventory().getGold() >= reqGold)
+		if(character.getInventory().getCashValue() >= reqGold)
 		{
 			met = true;
 			return true;
@@ -68,7 +68,7 @@ public class GoldRequirement extends Requirement
 	{
 		if(met)
 		{
-			character.getInventory().takeGold(reqGold);
+			character.getInventory().takeCash(reqGold);
 			met = false;
 		}
 	}

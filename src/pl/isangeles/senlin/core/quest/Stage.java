@@ -25,6 +25,8 @@ package pl.isangeles.senlin.core.quest;
 import java.util.List;
 
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for quest stages
  * @author Isangeles
@@ -81,6 +83,24 @@ public class Stage
         return complete;
     }
     /**
+     * Starts stage for specified character
+     * @param character Game character
+     */
+    public void start(Character character)
+    {
+    	character.getFlags().addAll(flagsOnStart);
+    	character.getFlags().removeAll(flagsOffStart);
+    }
+    /**
+     * Completes stage for specified character
+     * @param character Game character
+     */
+    public void complete(Character character)
+    {
+    	character.getFlags().addAll(flagsOnEnd);
+    	character.getFlags().removeAll(flagsOffEnd);
+    }
+    /**
      * Returns next stage ID
      * @return String with next stage ID
      */
@@ -105,22 +125,6 @@ public class Stage
     	return info;
     }
     /**
-     * Returns flag to set ID
-     * @return Flag ID
-     */
-    public List<String> getFlagToSet()
-    {
-    	return flagsOnEnd;
-    }
-    /**
-     * Returns flag to remove ID
-     * @return Flag ID
-     */
-    public List<String> getFlagToRemove()
-    {
-    	return flagsOffEnd;
-    }
-    /**
      * Returns list with all objectives of this stage
      * @return List with objectives
      */
@@ -138,25 +142,6 @@ public class Stage
         {
             objective.check(ot);
         }
-    }
-    /**
-     * Clears all stage flags
-     */
-    public void clearFlags()
-    {
-    	flagsOnEnd.clear();
-    	flagsOffEnd.clear();
-    }
-    /**
-     * Clears specified stage flag
-     * @param flag Flag ID
-     */
-    public void clearFlag(String flag)
-    {
-    	flagsOnStart.remove(flag);
-    	flagsOffStart.remove(flag);
-    	flagsOnEnd.remove(flag);
-    	flagsOffEnd.remove(flag);
     }
     /**
      * Checks if stage have any flag

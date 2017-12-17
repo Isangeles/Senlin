@@ -85,7 +85,7 @@ public class QuestParser
         String id = stageE.getAttribute("id");
         String nextStage = stageE.getAttribute("next");
         
-        Node sFlagsNode = stageE.getElementsByTagName("sFlagsNode").item(0);
+        Node sFlagsNode = stageE.getElementsByTagName("sFlags").item(0);
         List<String> flagsOnStart = getFlags(sFlagsNode, "on", "start");
         List<String> flagsOffStart = getFlags(sFlagsNode, "off", "start");
         List<String> flagsOnEnd = getFlags(sFlagsNode, "on", "end");

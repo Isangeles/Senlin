@@ -58,21 +58,35 @@ public final class InventoryParser
 		NodeList itemsNl = itemsE.getElementsByTagName("item");
 		for(int j = 0; j < itemsNl.getLength(); j ++)
         {
-            Element itemE = (Element)itemsE.getElementsByTagName("item").item(j);
-            boolean ifRandom = Boolean.parseBoolean(itemE.getAttribute("random"));
-            String itemInId = itemE.getTextContent();
-            String itemSerialS  = itemE.getAttribute("serial");
-            RandomItem ip;
-            if(itemSerialS.equals(""))
+            try
             {
-            	ip = new RandomItem(itemInId, ifRandom);
+            	Element itemE = (Element)itemsE.getElementsByTagName("item").item(j);
+                int amount = 1;
+                if(itemE.hasAttribute("amount"))
+                	amount = Integer.parseInt(itemE.getAttribute("amount"));
+                boolean ifRandom = Boolean.parseBoolean(itemE.getAttribute("random"));
+                String itemInId = itemE.getTextContent();
+                String itemSerialS  = itemE.getAttribute("serial");
+                if(itemSerialS.equals(""))
+                {
+                	for(int i = 0;i < amount; i ++)
+                    {
+                    	RandomItem ip = new RandomItem(itemInId, ifRandom);
+                        items.add(ip);
+                    }
+                }
+                else
+                {
+                    int itemSerial = Integer.parseInt(itemSerialS);
+                    RandomItem ip = new RandomItem(itemInId, itemSerial, ifRandom);
+                    items.add(ip);
+                }
             }
-            else
+            catch(NumberFormatException e)
             {
-                int itemSerial = Integer.parseInt(itemSerialS);
-                ip = new RandomItem(itemInId, itemSerial, ifRandom);
+            	Log.addSystem("inventory_parser_fail-msg//item node corrupted");
+            	continue;
             }
-            items.add(ip);
         }
 		
 		return items;
@@ -82,7 +96,7 @@ public final class InventoryParser
 	 * @param inNode XML inventory node
 	 * @return Gold value from specified inventory node
 	 */
-	public static int getGoldFromNode(Node inNode)
+	private static int getGoldFromNode(Node inNode)
 	{
 		try
 		{

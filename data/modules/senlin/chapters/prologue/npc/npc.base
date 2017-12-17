@@ -78,6 +78,7 @@
                 <item random="false">aImpLArm01</item>
                 <item random="false">wSOHI</item>
                 <item random="false">mSLetter01</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>

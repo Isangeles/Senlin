@@ -452,7 +452,7 @@ public final class SSGParser
     	Node itemsNode = inE.getElementsByTagName("items").item(0);
     	
     	Element itemsE = (Element)itemsNode;
-    	objectInventory.addGold(Integer.parseInt(inE.getAttribute("gold")));
+    	//objectInventory.addGold(Integer.parseInt(inE.getAttribute("gold")));
     	
     	NodeList itemsList = itemsE.getElementsByTagName("item");
     	for(int i = 0; i < itemsList.getLength(); i ++)
@@ -461,7 +461,13 @@ public final class SSGParser
     		if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
     		{
     			Element itemE = (Element)itemNode;
-    			objectInventory.add(ItemsBase.getItem(itemE.getTextContent()));
+    			int amount = 1;
+                if(itemE.hasAttribute("amount"))
+                	amount = Integer.parseInt(itemE.getAttribute("amount"));
+                for(int j = 0; j < amount; j ++)
+                {
+        			objectInventory.add(ItemsBase.getItem(itemE.getTextContent()));
+                }
     		}
     	}
         

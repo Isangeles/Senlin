@@ -534,7 +534,6 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         abilities.update(delta);
         inventory.update();
         avatar.update(delta);
-        flags.update(quests);
         quests.update();
         sCaster.update(delta);
         
@@ -1232,21 +1231,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		if(quests.add(quest))
 		{
-			quest.start();
+			quest.start(this);
 			Log.addInformation(quest.getName() + " accepted");
 		}
 		else
 			Log.addSystem("char_startQuest_fail-msg//fail to add quest to list");
 	}
-	/**
-     * Adds gold to character inventory
-     * @param value Integer value to add
-     */
-    public void addGold(int value)
-    { 
-    	inventory.addGold(value);
-    	Log.gainInfo(getName(), value, "gold");
-    }
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.core.Targetable#removeModifier(pl.isangeles.senlin.core.bonus.Modifier)
      */

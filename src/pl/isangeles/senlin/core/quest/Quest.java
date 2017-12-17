@@ -30,11 +30,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
-import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for game quests
  * @author Isangeles
@@ -53,6 +52,7 @@ public class Quest implements ScrollableContent, SaveElement
     private Stage currentStage;
     private boolean complete;
     private boolean active;
+    private Character owner;
     /**
      * Quest constructor 
      * @param id Quest ID
@@ -83,38 +83,49 @@ public class Quest implements ScrollableContent, SaveElement
         }   
         if(currentStage == null)
         {
-            Log.addSystem("quest_construct_warning///No start stage for " + id);
+            Log.addSystem("quest_constructor_warning///No start stage for " + id);
             currentStage = stages.get(0);
         }
     }
     /**
      * Changes current stage
      */
-    public void nextStage()
+    private void nextStage()
     {
-        if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
-        {
-            complete();
-            return;
-        }
-        
-        for(Stage stage : stages)
-        {
-            if(stage.getId().equals(currentStage.getNextStage()))
+    	if(active)
+    	{
+    		currentStage.complete(owner);
+            if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
             {
-                currentStage = stage;
-                break;
+                complete();
+                return;
             }
-        }
+            
+            for(Stage stage : stages)
+            {
+                if(stage.getId().equals(currentStage.getNextStage()))
+                {
+                	stage.start(owner);
+                    currentStage = stage;
+                    break;
+                }
+            }
+    	}
     }
     /**
      * Starts quest
      */
-    public void start()
+    public void start(Character character)
     {
     	active = true;
+    	owner = character;
+    	owner.getFlags().addAll(flagsOnStart);
+    	owner.getFlags().removeAll(flagsOffStart);
     }
-    
+    /**
+     * Sets stage with specified ID as current stage of this quest
+     * @param stageId String with quest stage ID
+     */
     public void setStage(String stageId)
     {
         for(Stage stage : stages)
@@ -164,36 +175,6 @@ public class Quest implements ScrollableContent, SaveElement
     	return currentStage.getObjectives();
     }
     /**
-     * Returns list of flags from quest and completed stages that should be set for character
-     * @return List with flags IDs to set
-     */
-    public List<String> getFlagsToSet()
-    {
-    	List<String> flags = new ArrayList<>();
-    	flags.addAll(flagsOnStart);
-    	for(Stage stage : stages)
-    	{
-    		if(stage.isComplete())
-    			flags.addAll(stage.getFlagToSet());
-    	}
-    	return flags;
-    }
-    /**
-     * Returns list of flags from quest and completed stages that should bet removed from character
-     * @return List with flags IDs to remove
-     */
-    public List<String> getFlagsToRemove()
-    {
-    	List<String> flags = new ArrayList<>();
-    	flags.addAll(flagsOffStart);
-    	for(Stage stage : stages)
-    	{
-    		if(stage.isComplete())
-    			flags.addAll(stage.getFlagToRemove());
-    	}
-    	return flags;
-    }
-    /**
      * Returns quest info
      * @return String with quest info
      */
@@ -207,37 +188,15 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public void check(ObjectiveTarget ot)
     {
-        currentStage.check(ot);
-        
-        if(currentStage.isComplete())
-        	nextStage();
-    }
-    /**
-     * Clears all quest flags(stages flags too)
-     */
-    public void clearFlags()
-    {
-    	flagsOnStart.clear();
-    	for(Stage stage : stages)
-    	{
-    		stage.clearFlags();
-    	}
-    }
-    /**
-     * Clears specified flag
-     * @param flag Flag ID
-     */
-    public void clearFlag(String flag)
-    {
-    	flagsOnStart.remove(flag);
-    	flagsOffStart.remove(flag);
-    	flagsOnEnd.remove(flag);
-    	flagsOffEnd.remove(flag);
-    	
-    	for(Stage stage : stages)
-    	{
-    		stage.clearFlag(flag);
-    	}
+        if(active)
+        {
+        	currentStage.check(ot);
+            
+            if(currentStage.isComplete())
+            {
+            	nextStage();
+            }
+        }
     }
     /**
      * Checks if quest is completed
@@ -269,9 +228,14 @@ public class Quest implements ScrollableContent, SaveElement
      */
     public void complete()
     {
-    	name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
-    	complete = true;
-    	active = false;
+    	if(active)
+    	{
+    		owner.getFlags().addAll(flagsOnEnd);
+    		owner.getFlags().removeAll(flagsOffEnd);
+    		name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
+        	complete = true;
+        	active = false;
+    	}
     }
     
     public boolean equals(Quest q)

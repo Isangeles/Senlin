@@ -99,9 +99,9 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		super.draw(x, y, false);
 		//Text
 		String windowTitle = lootedChar.getName() + " " + "loot";
-		String aoGold = "Gold: " + lootedChar.getInventory().getGold();
+		//String aoGold = "Gold: " + lootedChar.getInventory().getGold();
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(windowTitle)), y, windowTitle);
-		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
+		//ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
 		//Slots
 		slotsP.draw(x+getDis(15), y+getDis(70), false);
 		//Buttons
@@ -234,12 +234,12 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 				}
 				lootedChar.getInventory().removeAll(itemsToTake);
 				
-				lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
+				//lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
 				close();
 			}
 			if(takeGold.isMouseOver())
 			{
-				lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
+				//lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
 				close();
 			}
 		}

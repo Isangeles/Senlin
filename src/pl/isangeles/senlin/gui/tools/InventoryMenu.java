@@ -112,7 +112,7 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
         eqSlots.draw(x, y);
         //Title and gold info
         textTtf.drawString(x+getDis(20), y+getDis(5), TConnector.getText("ui", "iMenuTitle"));
-        textTtf.drawString(x+getDis(390), y+getDis(215), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
+        //textTtf.drawString(x+getDis(390), y+getDis(215), TConnector.getText("ui", "iMenuGold") + ": " + player.getInventory().getGold());
     }
     /**
      * Checks if mouse is over inventory menu

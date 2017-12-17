@@ -81,7 +81,7 @@ public class NpcPattern
 	private final String spritesheet;
 	private final boolean staticAvatar;
 	private final String portraitName;
-	private final int gold;
+	//private final int gold;
 	private final List<RandomItem> invItems;
 	private final List<String> skills;
 	private final Map<String, Integer> effects;
@@ -121,7 +121,7 @@ public class NpcPattern
 	 */
 	public NpcPattern(String npcId, String gender, String race, String attitude, boolean trade, boolean train, String guildID, int level, String stats, 
 					  String headItem, String chestItem,String handsItem, String mainHandItem, String offHandItem, String feetItem, String neckItem, String fingerAItem, 
-					  String fingerBItem, String artifact, String spritesheet, boolean staticAvatar, String portraitName, int gold, List<RandomItem> invItems, List<String> skills,
+					  String fingerBItem, String artifact, String spritesheet, boolean staticAvatar, String portraitName, List<RandomItem> invItems, List<String> skills,
 					  Map<String, Integer> effects, List<Profession> professions, List<Training> trainings, List<Dialogue> dialogues) 
 	{
 		this.npcId = npcId;
@@ -147,7 +147,6 @@ public class NpcPattern
 		this.spritesheet = spritesheet;
 		this.staticAvatar = staticAvatar;
 		this.portraitName = portraitName;
-		this.gold = gold;
 		this.invItems = invItems;
 		this.skills = skills;
 		this.effects = effects;
@@ -218,7 +217,6 @@ public class NpcPattern
 		npc.equipItem(ringB);
 		npc.equipItem(artifact);
 		
-		npc.addGold(gold);
 		for(String skillId : skills)
 		{
 			npc.addSkill(SkillsBase.getSkill(npc, skillId));
@@ -298,7 +296,6 @@ public class NpcPattern
         npc.equipItem(ringB);
         npc.equipItem(artifact);
         
-        npc.addGold(gold);
         for(String skillId : skills)
         {
             npc.addSkill(SkillsBase.getSkill(npc, skillId));
