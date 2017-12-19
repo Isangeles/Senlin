@@ -16,10 +16,17 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class ErrorItem extends Misc 
 {
-
+	/**
+	 * Error item constructor
+	 * @param id Error ID
+	 * @param gc Slick game container
+	 * @throws SlickException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public ErrorItem(String id, GameContainer gc)throws SlickException, IOException, FontFormatException 
 	{
-		super("error" + id, 0, 0, false, "unknown.png", new EffectAction(), gc);
+		super("error" + id, 0, 0, false, false, "unknown.png", new EffectAction(), gc);
 		name = TConnector.getText("items", "erorrItem-name");
 		info = TConnector.getText("items", "errorItem-info" + " " + id);
 	}

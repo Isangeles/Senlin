@@ -15,11 +15,12 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
                 <item random="false">acCS00</item>
                 <item random="false">wSOHI</item>
 	            <item random="true">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -46,10 +47,11 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
                 <item random="false">acCS00</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -73,7 +75,7 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
                 <item random="false">aImpLArm01</item>
                 <item random="false">wSOHI</item>
@@ -102,13 +104,14 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
                 <item random="false">aImpCArm01</item>
                 <item random="false">aImpCHelm01</item>
                 <item random="false">aImpCGlov01</item>
                 <item random="false">aImpCBoot01</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -133,10 +136,11 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
                 <item random="false">aRedSwLArm01</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -160,10 +164,11 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="20">
+        <in>
             <items>
                 <item random="false">aImpLArm01</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -190,10 +195,11 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="20">
+        <in>
             <items>
                 <item random="false">aImpLArm01</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -220,10 +226,12 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2000">
+        <in>
             <items>
                 <item random="false">aImpArm01</item>
                 <item random="false">wSOHI</item>
+                <item random="false" amount="30">silver01</item>
+                <item random="false" amount="30">gold01</item>
             </items>
         </in>
     </eq>
@@ -250,10 +258,11 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
 	            <item random="false">acCS00</item>
 	            <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
             </items>
         </in>
     </eq>
@@ -287,6 +296,9 @@
 	            <item random="false">wBTHW</item>
 	            <item random="false">mMeat01</item>
 	            <item random="false">tSRing</item>
+                <item random="false" amount="30">copper01</item>
+                <item random="false" amount="20">silver01</item>
+                <item random="false" amount="10">gold01</item>
             </items>
         </in>
     </eq>
@@ -310,11 +322,13 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="12">
+        <in>
             <items>
 	            <item random="false">acCS00</item>
 	            <item random="false">wSOHI</item>
 	            <item random="false">mMeat01</item>
+	            <item random="false" amount="20">copper01</item>
+	            <item random="false" amount="20">silver01</item>
             </items>
         </in>
     </eq>
@@ -375,10 +389,13 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact> 
-	<in gold="200">
+	<in>
 		<items>
 			<item>wSOHS</item>
 			<item>mIronOre01</item>
+			<item random="false" amount="20">copper01</item>
+			<item random="false" amount="20">silver01</item>
+			<item random="false" amount="20">gold01</item>
 		</items>
 	</in>
 	</eq>
@@ -420,8 +437,10 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact> 
-		<in gold="0">
-			<items></items>
+		<in>
+			<items>
+	            <item random="false" amount="20">copper01</item>
+			</items>
 		</in>
 	</eq>
 	<dialogues>
@@ -444,9 +463,10 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="2">
+        <in>
             <items>
 	            <item random="false">wSOHI</item>
+	            <item random="false" amount="20">copper01</item>
             </items>
         </in>
     </eq>

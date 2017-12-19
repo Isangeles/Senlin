@@ -26,6 +26,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -43,6 +44,7 @@ import pl.isangeles.senlin.util.GConnector;
 public class Misc extends Item 
 {
 	private boolean disposable;
+	private boolean currency;
 	/**
 	 * Miscellaneous item constructor
 	 * @param id Item ID
@@ -55,12 +57,14 @@ public class Misc extends Item
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Misc(String id, int value, int maxStack, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Misc(String id, int value, int maxStack, boolean disposable, boolean currency, String imgName, Action onUse, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, maxStack, imgName, gc);
 		this.disposable = disposable;
+		this.currency = currency;
 		this.onUse = onUse;
-		this.itemTile = setTile(gc);
+		this.itemTile = buildIcon(gc);
 	}
 	/**
 	 * Miscellaneous item constructor (with saved serial number)
@@ -75,22 +79,15 @@ public class Misc extends Item
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Misc(String id, int serial, int value, int maxStack, boolean disposable, String imgName, Action onUse, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public Misc(String id, int serial, int value, int maxStack, boolean disposable, boolean currency, String imgName, Action onUse, GameContainer gc) 
+			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, maxStack, imgName, gc);
 		this.disposable = disposable;
+		this.currency = currency;
 		this.onUse = onUse;
-		this.itemTile = setTile(gc);
+		this.itemTile = buildIcon(gc);
 	}
-    /**
-     * Returns basic info about item for item tile
-     * @return String with basic info
-     */
-    protected String getInfo()
-    {
-    	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;
-    	return fullInfo;
-    }
     /* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Usable#use(pl.isangeles.senlin.core.Targetable, pl.isangeles.senlin.core.Targetable)
 	 */
@@ -102,15 +99,42 @@ public class Misc extends Item
     		user.getInventory().remove(this);
     	return out;
     }
+    /**
+     * Checks if this items can be treated as currency
+     * @return True if this items is currency, false otherwise
+     */
+    public boolean isCurrency()
+    {
+    	return currency;
+    }
+    /**
+     * Returns basic info about item for item tile
+     * @return String with basic info
+     */
+    protected String getInfo()
+    {
+    	String fullInfo = name + System.lineSeparator() + info + System.lineSeparator() + "Value: " + value;
+    	return fullInfo;
+    }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
+	protected ItemTile buildIcon(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
 		try 
 		{
-			return new ItemTile(GConnector.getInput("icon/item/misc/"+imgName), id+itemNumber, false, gc, this.getInfo());
+			if(!icons.containsKey(id))
+			{
+				Image iconImg = new Image(GConnector.getInput("icon/item/misc/"+imgName), id, false);
+				icons.put(id, iconImg);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
+			else
+			{
+				Image iconImg = icons.get(id);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
 		}
 		catch(SlickException | IOException e) 
     	{

@@ -39,6 +39,7 @@ import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
+import pl.isangeles.senlin.core.item.Misc;
 import pl.isangeles.senlin.core.item.Weapon;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.save.SaveElement;
@@ -210,7 +211,9 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     }
     /**
      * Adds gold to inventory
+     * DEPRECATED now currency is represented as in-game items
      * @param value Integer value to add
+     * @deprecated
      */
     private void addGold(int value)
     {
@@ -218,7 +221,9 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     }
     /**
      * Returns all gold in inventory
+     * DEPRECATED now currency is represented as in-game items
      * @return Amount of gold in integer
+     * @deprecated
      */
     private int getGold()
     {
@@ -233,8 +238,12 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	int value = 0;
     	for(Item item : this)
     	{
-    		if(item.getId().equals("gold01") && item.getId().equals("silver01") && item.getId().equals("copper01"))
-    			value += item.getValue();
+    		if(Misc.class.isInstance(item))
+    		{
+    			Misc misc = (Misc)item;
+        		if(misc.isCurrency())
+        			value += item.getValue();	
+    		}
     	}	
     	return value;
     }
@@ -444,8 +453,10 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     }
     /**
      * Removes specified amount of gold from inventory
+     * DEPRECATED now currency is represented by in-game items
      * @param value Amount of gold to remove
      * @return Removed value or 0 if value is to big to remove
+     * @deprecated
      */
     private int takeGold(int value)
     {
@@ -467,6 +478,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public boolean takeCash(int value)
     {
+    	//TODO gold, silver and copper coins can't retrieved by ID, because e.q. there can be more then one type of gold coin 
     	Collection<Item> gold = getItems("gold01");
     	Collection<Item> silver = getItems("sliver01");
     	Collection<Item> copper = getItems("copper01");

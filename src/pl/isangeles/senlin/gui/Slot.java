@@ -170,10 +170,8 @@ public abstract class Slot extends InterfaceObject implements MouseListener
 		super.draw(x, y, false);
 		if(!isEmpty())
 		{
-			for(SlotContent con : content)
-			{
-				con.draw(x - getDis(3), y - getDis(3), scaledPos);
-			}
+			SlotContent firstCon = content.getFirst();
+			firstCon.draw(x - getDis(3), y - getDis(3), scaledPos);
 			if(content.size() > 1)
 			{
 				ttf.drawString(x, y, content.size()+"");

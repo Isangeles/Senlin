@@ -45,6 +45,7 @@ public class MiscPattern
 	private final int value;
 	private final int maxStack;
 	private final boolean disposable;
+	private final boolean currency;
 	private final String icon;
 	private final ActionPattern onClick;
 	/**
@@ -55,12 +56,13 @@ public class MiscPattern
 	 * @param imgName Item image name, for icon
 	 * @param onUse Action on use(ppm click in inventory)
 	 */
-	public MiscPattern(String id, int value, int maxStack, boolean disposable, String icon, ActionPattern onClick) 
+	public MiscPattern(String id, int value, int maxStack, boolean disposable, boolean currency, String icon, ActionPattern onClick) 
 	{
 		this.id = id;
 		this.value = value;
 		this.maxStack = maxStack;
 		this.disposable = disposable;
+		this.currency = currency;
 		this.icon = icon;
 		this.onClick = onClick;
 	}
@@ -83,7 +85,7 @@ public class MiscPattern
 	public Misc make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		Action onClick = this.onClick.make();
-		return new Misc(id, value, maxStack, disposable, icon, onClick, gc);
+		return new Misc(id, value, maxStack, disposable, currency, icon, onClick, gc);
 	}
 
 	/**
@@ -98,6 +100,6 @@ public class MiscPattern
 	public Misc make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
 	{
 		Action onClick = this.onClick.make();
-		return new Misc(id, serial, value, maxStack, disposable, icon, onClick, gc);
+		return new Misc(id, serial, value, maxStack, disposable, currency, icon, onClick, gc);
 	}
 }

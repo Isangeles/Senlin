@@ -227,6 +227,9 @@ public class ItemParser
 		int value = Integer.parseInt(itemE.getAttribute("value"));
 		int stack = Integer.parseInt(itemE.getAttribute("stack"));
 		boolean disposable = Boolean.parseBoolean(itemE.getAttribute("disposable"));
+		boolean currency = false;
+		if(itemE.hasAttribute("currency"))
+			currency = Boolean.parseBoolean(itemE.getAttribute("currency"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		
 		Node actionNode = itemE.getElementsByTagName("action").item(0);
@@ -234,6 +237,6 @@ public class ItemParser
 		if(actionNode != null)
 			onClick = ActionParser.getActionFromNode(actionNode);
 		
-		return new MiscPattern(id, value, stack, disposable, icon, onClick);
+		return new MiscPattern(id, value, stack, disposable, currency, icon, onClick);
 	}
 }

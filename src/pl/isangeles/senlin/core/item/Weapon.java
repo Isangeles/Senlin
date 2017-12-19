@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -86,7 +87,7 @@ public class Weapon extends Equippable
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
 		this.hitEffects = hitEffects;
-        this.itemTile = this.setTile(gc);
+        this.itemTile = this.buildIcon(gc);
         itemMSprite = new AnimObject(GConnector.getInput("sprite/item/" + spriteName), "sprite"+id, false, 80, 90);
 	}
 	/**
@@ -118,7 +119,7 @@ public class Weapon extends Equippable
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
 		this.hitEffects = hitEffects;
-        this.itemTile = this.setTile(gc);
+        this.itemTile = this.buildIcon(gc);
         setMSprite(spriteName);
 	}
 	/**
@@ -289,11 +290,21 @@ public class Weapon extends Equippable
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
+	protected ItemTile buildIcon(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
 		try 
 		{
-			return new ItemTile(GConnector.getInput("icon/item/weapon/"+imgName), id+itemNumber, false, gc, this.getInfo());
+			if(!icons.containsKey(id))
+			{
+				Image iconImg = new Image(GConnector.getInput("icon/item/weapon/"+imgName), id, false);
+				icons.put(id, iconImg);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
+			else
+			{
+				Image iconImg = icons.get(id);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
     	}
 		catch(SlickException | IOException | NullPointerException e) 
     	{

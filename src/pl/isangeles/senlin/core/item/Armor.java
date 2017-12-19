@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -78,7 +79,7 @@ public class Armor extends Equippable
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		armorRating = armRat;
-		this.itemTile = this.setTile(gc);
+		this.itemTile = this.buildIcon(gc);
 		if(type == ArmorType.CHEST || type == ArmorType.HEAD)
 		{
 			setMSprite(mSpriteName);
@@ -111,7 +112,7 @@ public class Armor extends Equippable
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		armorRating = armRat;
-		this.itemTile = this.setTile(gc);
+		this.itemTile = this.buildIcon(gc);
 		if(type == ArmorType.CHEST)
 		{
 			setMSprite(mSpriteName);
@@ -228,11 +229,21 @@ public class Armor extends Equippable
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	protected ItemTile setTile(GameContainer gc) throws FontFormatException, SlickException, IOException
+	protected ItemTile buildIcon(GameContainer gc) throws FontFormatException, SlickException, IOException
     {
     	try 
     	{
-			return new ItemTile(GConnector.getInput("icon/item/armor/"+imgName), id+itemNumber, false, gc, this.getInfo());
+    		if(!icons.containsKey(id))
+    		{
+    			Image iconImg = new Image(GConnector.getInput("icon/item/armor/"+imgName), id, false);
+    			icons.put(id, iconImg);
+    			return new ItemTile(iconImg, gc, this.getInfo());
+    		}
+    		else
+    		{
+    			Image iconImg = icons.get(id);
+    			return new ItemTile(iconImg, gc, this.getInfo());
+    		}
 		} 
     	catch(SlickException | IOException e) 
     	{

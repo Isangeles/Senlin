@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -68,7 +69,7 @@ public class Trinket extends Equippable
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
-		this.itemTile = this.setTile(gc);
+		this.itemTile = this.buildIcon(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
 	}
@@ -92,7 +93,7 @@ public class Trinket extends Equippable
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
-		this.itemTile = this.setTile(gc);
+		this.itemTile = this.buildIcon(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
 	}
@@ -134,11 +135,21 @@ public class Trinket extends Equippable
 	 * @see pl.isangeles.senlin.core.item.Item#setTile(org.newdawn.slick.GameContainer)
 	 */
 	@Override
-	protected ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException 
+	protected ItemTile buildIcon(GameContainer gc) throws SlickException, IOException, FontFormatException 
     {
 		try 
 		{
-			return new ItemTile(GConnector.getInput("icon/item/trinket/"+imgName), id+itemNumber, false, gc, this.getInfo());
+			if(!icons.containsKey(id))
+			{
+				Image iconImg = new Image(GConnector.getInput("icon/item/trinket/"+imgName), id, false);
+				icons.put(id, iconImg);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
+			else
+			{
+				Image iconImg = icons.get(id);
+				return new ItemTile(iconImg, gc, this.getInfo());
+			}
 		}
 		catch(SlickException | IOException e) 
     	{

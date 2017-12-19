@@ -25,9 +25,12 @@ package pl.isangeles.senlin.core.item;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.core.Targetable;
@@ -51,6 +54,7 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
 {
 	private static int itemCounter;
 	private static List<Integer> reservedIDs = new ArrayList<>();
+	protected static Map<String, Image> icons = new HashMap<>();
 	protected Targetable owner;
 	protected int itemNumber = itemCounter++;
 	protected String id;
@@ -145,7 +149,9 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
     {
     	return id;
     }
-    
+    /**
+     * Returns serial ID of this item
+     */
     public String getSerialId()
     {
     	return serialId;
@@ -220,7 +226,7 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
      * @throws IOException
      * @throws FontFormatException
      */
-    protected abstract ItemTile setTile(GameContainer gc) throws SlickException, IOException, FontFormatException;
+    protected abstract ItemTile buildIcon(GameContainer gc) throws SlickException, IOException, FontFormatException;
     /**
      * Sets item icon
      * UNUSED
