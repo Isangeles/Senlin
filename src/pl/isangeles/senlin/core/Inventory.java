@@ -397,6 +397,24 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     	return items;
     }
     /**
+     * Returns all coins in inventory
+     * @return Collections with items
+     */
+    public Collection<Item> getCoins()
+    {
+    	List<Item> coins = new ArrayList<>();
+    	for(Item item : coins)
+    	{
+    		if(Misc.class.isInstance(item))
+    		{
+    			Misc misc = (Misc)item;
+    			if(misc.isCurrency())
+    				coins.add(misc);
+    		}
+    	}
+    	return coins;
+    }
+    /**
      * Returns item with specific index in inventory container
      * @param index Index in inventory container
      * @return Item from inventory container
@@ -478,12 +496,23 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
      */
     public boolean takeCash(int value)
     {
-    	//TODO gold, silver and copper coins can't retrieved by ID, because e.q. there can be more then one type of gold coin 
+    	//TODO gold, silver and copper coins be can't retrieved by ID, because e.q. there can be more then one type of gold coin
+    	Collection<Item> coins = getCoins();
+    	List<Item> coinsToTake = new ArrayList<>();
+    	
+    	for(Item coin : coins)
+    	{
+    		if(value - coin.getValue() >= 0)
+			{
+				value -= coin.getValue();
+				coinsToTake.add(coin);
+			}
+    	}
+
+    	/*
     	Collection<Item> gold = getItems("gold01");
     	Collection<Item> silver = getItems("sliver01");
     	Collection<Item> copper = getItems("copper01");
-    	List<Item> coinsToTake = new ArrayList<>();
-    	
     	for(Item coin : gold)
 		{
 			if(value - coin.getValue() >= 0)
@@ -508,6 +537,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
 				coinsToTake.add(coin);
 			}
 		}
+		*/
 		if(value > 0)
 			return false;
 		else

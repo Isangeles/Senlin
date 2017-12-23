@@ -241,7 +241,6 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
                 Item item = (Item)slots.getMouseOver().getContent().get(0);
                 if(item != null)
                 {
-                    System.out.println("using: " + item.getId());
                     if(item.use(player, player.getTarget()))
                     {
                         if(item.getActionType() == ActionType.EQUIP)

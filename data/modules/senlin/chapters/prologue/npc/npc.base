@@ -289,7 +289,7 @@
         <finger1></finger1>
         <finger2></finger2>
         <artifact></artifact>    
-        <in gold="20">
+        <in>
             <items>
 	            <item random="false">acCS00</item>
 	            <item random="false">wSOHI</item>

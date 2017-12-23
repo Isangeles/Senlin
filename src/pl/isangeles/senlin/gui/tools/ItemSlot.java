@@ -41,14 +41,25 @@ class ItemSlot extends Slot implements MouseListener
 	}
 	/**
 	 * Inserts item in slot
-	 * @param item Item tile
+	 * @param item Item as slot content
+	 * @return True if content was successfully inserted, false otherwise
 	 */
 	public boolean insertContent(SlotContent item)
 	{
 		if(!isFull())
 		{
 			if(Item.class.isInstance(item))
-				return super.content.add((Item)item);
+			{
+				if(isEmpty())
+					return super.content.add((Item)item);
+				else
+				{
+					if(item.getId().equals(content.getFirst().getId()))
+						return super.content.add((Item)item);
+					else
+						return false;
+				}
+			}
 			else
 				return false;
 		}

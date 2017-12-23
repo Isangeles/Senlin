@@ -22,7 +22,7 @@ mPLock01:Picklock;Good friend of all thieves;
 lcKey01:Key;Key, necessary to open locks;
 mIronOre01:Iron ore;Most common ore;
 gold01:Gold;Shinny;
-sliver01:Silver;Always second;
+silver01:Silver;Always second;
 copper01:Copper;Most common currency; 
 recName:Recipe;
 errorItem:Error Item;Error Item;

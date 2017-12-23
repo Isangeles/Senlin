@@ -303,6 +303,20 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 			    	resetTrade();
 					loadAssortment();
 	            }
+			    if(slotsBuy.getDragged() != null)
+			    {
+			    	Slot dSlot = slotsBuy.getDragged();
+			    	Slot moSlot = slotsBuy.getMouseOver();
+			    	if(moSlot != null)
+			    		moveItem(dSlot, moSlot);
+			    }
+			    if(slotsSell.getDragged() != null)
+			    {
+			    	Slot dSlot = slotsSell.getDragged();
+			    	Slot moSlot = slotsSell.getMouseOver();
+			    	if(moSlot != null)
+			    		moveItem(dSlot, moSlot);
+			    }
 			}
 		}
 	}
@@ -387,4 +401,43 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	    sellValue = 0;
 	    buyValue = 0;
 	}
+    /**
+     * Moves all dragged items from one slot to another specified slot
+     * @param draggedSlot Slot with dragged items
+     * @param slotForItem New slot for dragged items
+     */
+    private void moveItem(Slot draggedSlot, Slot slotForItem)
+    {
+    	if(draggedSlot == slotForItem)
+		{
+			draggedSlot.dragged(false);
+			return;
+		}
+		if(!slotForItem.isEmpty())
+    	{
+    		if(slotForItem.insertContent(draggedSlot.getDraggedContent()))
+    		{
+    			draggedSlot.removeContent(draggedSlot.getDraggedContent());
+    		}
+    		else
+    		{
+    			/*
+        		List<Item> contentMem = slotForItem.getContent();
+    			slotForItem.removeContent();
+    			slotForItem.insertContent(draggedSlot.getDraggedContent());
+    			draggedSlot.removeContent(draggedSlot.getDraggedContent());
+    			draggedSlot.insertContent(contentMem);
+    			*/
+    		}
+    		draggedSlot.dragged(false);
+    		slotForItem.dragged(false);
+    	}
+    	else
+    	{
+        	slotForItem.insertContent(draggedSlot.getDraggedContent());
+        	draggedSlot.removeContent(draggedSlot.getDraggedContent());
+        	draggedSlot.dragged(false);
+    		slotForItem.dragged(false);
+    	}
+    }
 }
