@@ -141,6 +141,11 @@ public class AnimObject extends GameObject
 	public void draw(float x, float y) 
 	{
 		float sc = 1.5f;
+		if(kneelReq)
+		{
+			kneel.draw(x, y, false);
+			return;
+		}
 		if(lieReq)
 		{
 			lie.draw(x, y, sc, false);
@@ -223,6 +228,7 @@ public class AnimObject extends GameObject
 	
 	public void kneel(boolean kneelReq)
 	{
+		resetStance();
 		this.kneelReq = kneelReq;
 	}
 	/**
@@ -231,6 +237,7 @@ public class AnimObject extends GameObject
 	 */
 	public void lie(boolean lieReq)
 	{
+		resetStance();
 		this.lieReq = lieReq;
 	}
 	/**

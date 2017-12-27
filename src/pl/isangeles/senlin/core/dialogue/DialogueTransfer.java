@@ -23,9 +23,12 @@
 package pl.isangeles.senlin.core.dialogue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.item.Item;
 
 /**
  * Class for dialogue transfer
@@ -34,19 +37,15 @@ import pl.isangeles.senlin.core.character.Character;
  */
 public class DialogueTransfer 
 {
-	private final List<String> itemsToGive;
-	private final List<String> itemsToTake;
-	private final int goldToGive;
-	private final int goldToTake;
+	private final Map<String, Integer> itemsToGive;
+	private final Map<String, Integer> itemsToTake;
 	/**
 	 * Default constructor, creates empty transfer
 	 */
 	public DialogueTransfer()
 	{
-		itemsToGive = new ArrayList<>();
-		itemsToTake = new ArrayList<>();
-		goldToGive = 0;
-		goldToTake = 0;
+		itemsToGive = new HashMap<>();
+		itemsToTake = new HashMap<>();
 	}
 	/**
 	 * Dialogue transfer constructor
@@ -55,12 +54,10 @@ public class DialogueTransfer
 	 * @param goldToGive Amount of gold to give to player 
 	 * @param goldToTake Amount of gold to take from player
 	 */
-	public DialogueTransfer(List<String> itemsToGive, List<String> itemsToTake, int goldToGive, int goldToTake)
+	public DialogueTransfer(Map<String, Integer> itemsToGive, Map<String, Integer> itemsToTake)
 	{
 		this.itemsToGive = itemsToGive;
 		this.itemsToTake = itemsToTake;
-		this.goldToGive = goldToGive;
-		this.goldToTake = goldToTake;
 	}
 	/**
 	 * Transfers items and gold between to characters
@@ -69,15 +66,25 @@ public class DialogueTransfer
 	 */
 	public void exchange(Character charA, Character charB)
 	{
-		for(String itemId : itemsToGive)
+		for(String itemId : itemsToGive.keySet())
 		{
-			charB.addItem(charA.getInventory().takeItem(itemId));
+			int amount = itemsToGive.get(itemId);
+			for(int i = 0; i < amount; i ++)
+			{
+				Item takenItem = charA.getInventory().takeItem(itemId);
+				if(takenItem != null)
+					charB.addItem(takenItem);
+			}
 		}
-		for(String itemId : itemsToTake)
+		for(String itemId : itemsToTake.keySet())
 		{
-			charA.addItem(charB.getInventory().takeItem(itemId));
+			int amount = itemsToGive.get(itemId);
+			for(int i = 0; i < amount; i ++)
+			{
+				Item takenItem = charA.getInventory().takeItem(itemId);
+				if(takenItem != null)
+					charA.addItem(takenItem);
+			}
 		}
-		//charB.addGold(charA.getInventory().takeGold(goldToGive));
-		//charA.addGold(charB.getInventory().takeGold(goldToTake));
 	}
 }

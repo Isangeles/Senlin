@@ -166,6 +166,10 @@ public abstract class CharacterAvatar implements MouseListener, Effective
      */
     public abstract void stopAnim();
     /**
+     * Resets avatar stance
+     */
+    public abstract void resetStance();
+    /**
      * Displays specified text above avatar head
      * @param text Text to display
      */

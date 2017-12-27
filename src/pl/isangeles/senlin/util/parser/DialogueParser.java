@@ -186,20 +186,10 @@ public class DialogueParser
 	private static DialogueTransfer getTransferFromNode(Node transferNode)
 	{
 		Element transferE = (Element)transferNode;
-		List<String> iToGive = new ArrayList<>();
-		List<String> iToTake = new ArrayList<>();
-		int gToGive = 0;
-		int gToTake = 0;
+		Map<String, Integer> iToGive = new HashMap<>();
+		Map<String, Integer> iToTake = new HashMap<>();
 		
 		Element giveE = (Element)transferE.getElementsByTagName("give").item(0);
-		try
-		{
-			gToGive = Integer.parseInt(giveE.getAttribute("gold"));
-		}
-		catch(NumberFormatException e)
-		{
-			gToGive = 0;
-		}
 		NodeList itemsToGiveList = giveE.getChildNodes();
 		for(int j = 0; j < itemsToGiveList.getLength(); j ++)
 		{
@@ -207,19 +197,23 @@ public class DialogueParser
 			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				Element itemE = (Element)itemNode;
-				iToGive.add(itemE.getTextContent());
+				int amount = 1;
+				if(itemE.hasAttribute("amount"))
+				{
+					try 
+					{
+						amount = Integer.parseInt(itemE.getAttribute("amount"));
+					}
+					catch(NumberFormatException e)
+					{
+						Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
+					}
+				}
+				iToGive.put(itemE.getTextContent(), amount);
 			}
 		}
 		
 		Element takeE = (Element)transferE.getElementsByTagName("take").item(0);
-		try
-		{
-			gToTake = Integer.parseInt(takeE.getAttribute("gold"));
-		}
-		catch(NumberFormatException e)
-		{
-			gToTake = 0;
-		}
 		NodeList itemsToTakeList = takeE.getChildNodes();
 		for(int j = 0; j < itemsToTakeList.getLength(); j ++)
 		{
@@ -227,10 +221,22 @@ public class DialogueParser
 			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				Element itemE = (Element)itemNode;
-				iToTake.add(itemE.getTextContent());
+				int amount = 1;
+				if(itemE.hasAttribute("amount"))
+				{
+					try 
+					{
+						amount = Integer.parseInt(itemE.getAttribute("amount"));
+					}
+					catch(NumberFormatException e)
+					{
+						Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
+					}
+				}
+				iToTake.put(itemE.getTextContent(), amount);
 			}
 		}
 		
-		return new DialogueTransfer(iToGive, iToTake, gToGive, gToTake);
+		return new DialogueTransfer(iToGive, iToTake);
 	}
 }

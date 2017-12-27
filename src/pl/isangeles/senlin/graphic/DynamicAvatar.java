@@ -236,6 +236,16 @@ public class DynamicAvatar extends CharacterAvatar
 			weapon.stopAnim();
 	}
 	/**
+	 * Resets avatar stance
+	 */
+	public void resetStance()
+	{
+		torso.resetStance();
+		head.resetStance();
+		if(weapon != null)
+			weapon.resetStance();
+	}
+	/**
 	 * Resets avatar
 	 */
 	public void reset()

@@ -128,6 +128,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Defense defense = new Defense(this);
 	private Portrait portrait;
 	private boolean live;
+	private boolean agony;
 	private boolean trade;
 	private boolean train;
 	private Signals signals = new Signals();
@@ -525,6 +526,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	/**
 	 * Updates character avatar animation
 	 * @param delta
+	 * @return Character out message
 	 */
 	public CharacterOut update(int delta)
 	{
@@ -537,8 +539,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         quests.update();
         sCaster.update(delta);
         
+        if(agony && hp.getValue() >= 10)
+        	agony = false;
+        else if(hp.getValue() < 10)
+        	agony = true;
 	    if(hp.getValue() < 0)
 	    	live = false;
+	    
+	    if(agony)
+	    	avatar.kneel();
 		if(!live)
 		{
 			avatar.lie();
@@ -549,7 +558,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         {
             avatar.move(false);
         }
-        else
+        else if(!agony)
         {
             sCaster.reset(); //move interrupts cast
         	for(int i = 0; i < 2; i ++) //Movement speed is determined by numbers of loops

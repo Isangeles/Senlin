@@ -76,11 +76,12 @@
             <answer id="ewanTalk301a01" end="true"></answer>
             <mod>
             	<transfer>
-                	<give gold="10">
-                  	  <item>mMeat01</item>            
+                	<give>
+                  	  <item>mMeat01</item>  
+                  	  <item amount="10">copper01</item>          
                 	</give>
                 	<take>
-               	 </take>
+					</take>
             	</transfer>
             </mod>
         </text>

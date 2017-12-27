@@ -171,6 +171,14 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 		// TODO Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#resetStance()
+	 */
+	@Override
+	public void resetStance() 
+	{
+		// TODO Auto-generated method stub
+	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDirection()
      */
