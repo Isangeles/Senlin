@@ -41,6 +41,7 @@ import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.train.AttributeTraining;
 import pl.isangeles.senlin.core.train.ProfessionTraining;
 import pl.isangeles.senlin.core.train.RecipeTraining;
@@ -109,12 +110,13 @@ public final class NpcParser
         Element inE = (Element)inNode;
         
         Node itemsNode = (Element)inE.getElementsByTagName("items").item(0);
-        //int gold = InventoryParser.getGoldFromNode(inNode);
+        //int gold = InventoryParser.getGoldFromNode(inNode); //now gold is represented by in-game items
         List<RandomItem> itemsIn = InventoryParser.getItemsFromNode(itemsNode);
         
         Node skillsNode = npc.getElementsByTagName("skills").item(0);
         List<String> skills = getSkills(skillsNode);
         
+        //UNUSED adding effects to character on NPCs base level is not supported anymore 
         Node effectsNode = npc.getElementsByTagName("effects").item(0); 
         Map<String, Integer> effects = new HashMap<>();//getEffects(effectsNode);
         
@@ -162,6 +164,7 @@ public final class NpcParser
     }
     /**
      * Parses specified effects node to map with effects IDs as keys and current duration time as values 
+     * UNUSED adding effects to character on NPCs base level is not supported anymore
      * @param effectsNode NPC base node (effects node)
      * @return Map with effects IDs as key and current duration time as values
      * @throws NullPointerException
@@ -225,7 +228,11 @@ public final class NpcParser
     	
     	return professions;
     }
-    
+    /**
+     * Parses specified element to list with recipes
+     * @param professionE XML document element 
+     * @return List with recipes
+     */
     private static List<Recipe> getRecipes(Element professionE)
     {
     	List<Recipe> recipes = new ArrayList<>();
@@ -349,10 +356,17 @@ public final class NpcParser
     		if(dialogueNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
     		{
     			Element dialogueE = (Element)dialogueNode;
-    			String dialogueId = dialogueE.getTextContent();
+    			
+    			String dialogueId = dialogueE.getAttribute("id");
+    			Node dReqNode = dialogueE.getElementsByTagName("dReq").item(0);
+    			List<Requirement> reqs = RequirementsParser.getReqFromNode(dReqNode);
+    			
     			Dialogue dialogue = DialoguesBase.getDialogue(dialogueId);
-    			if(dialogue != null)
-    				dialogues.add(dialogue);
+    			if(dialogue != null) 
+    			{
+    				dialogue.getReqs().addAll(reqs);
+    				dialogues.add(dialogue);	
+    			}
     		}
     	}
     	

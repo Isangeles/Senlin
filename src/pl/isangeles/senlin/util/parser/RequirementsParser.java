@@ -56,7 +56,7 @@ public final class RequirementsParser
 	/**
 	 * Parses specified node to list with requirements
 	 * @param reqsNode XML document node
-	 * @return List with requirements objects
+	 * @return List with requirements (NOTE that if specified node is null then returns empty list) 
 	 */
 	public static List<Requirement> getReqFromNode(Node reqsNode)
 	{

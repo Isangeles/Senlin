@@ -35,7 +35,9 @@ import pl.isangeles.senlin.core.character.Character;
 public class Requirements extends ArrayList<Requirement>
 {
     private static final long serialVersionUID = 1L;
-    
+    /**
+     * Default constructor
+     */
     public Requirements() {}
     /**
      * Requirements constructor 

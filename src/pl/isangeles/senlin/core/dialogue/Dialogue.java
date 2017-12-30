@@ -37,7 +37,7 @@ import pl.isangeles.senlin.core.req.Requirements;
 public class Dialogue 
 {
 	private final String id;
-	private final Requirements reqs;
+	private Requirements reqs;
 	private final List<DialoguePart> parts;
 	private DialoguePart currentStage;
 	private Character dialogueTarget;

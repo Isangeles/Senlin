@@ -59,7 +59,7 @@ public final class ModifiersParser
 	/**
 	 * Parses specified modifiers node to list with modifiers
 	 * @param modifiersNode Modifiers node with modifier nodes
-	 * @return List with modifiers objects
+	 * @return List with modifiers objects (NOTE that if specified node is null then returns empty list) 
 	 */
 	public static List<Modifier> getModifiersFromNode(Node modifiersNode)
 	{

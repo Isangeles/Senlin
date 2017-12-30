@@ -47,7 +47,7 @@ public final class InventoryParser
 	/**
 	 * Parses specified inventory node to list items IDs
 	 * @param inNode XML inventory node
-	 * @return List with random items patterns
+	 * @return List with random items patterns (NOTE that if specified node is null then returns empty list) 
 	 */
 	public static List<RandomItem> getItemsFromNode(Node itemsNode)
 	{
@@ -93,9 +93,11 @@ public final class InventoryParser
 	}
 	/**
 	 * Parses specified inventory node to gold value
+	 * DEPRECATED gold id now represented by in-game items
 	 * @param inNode XML inventory node
 	 * @return Gold value from specified inventory node
 	 */
+	@Deprecated
 	private static int getGoldFromNode(Node inNode)
 	{
 		try

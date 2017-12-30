@@ -44,9 +44,6 @@
         <text id="ericWelcome04" ordinal="3">
             <answer id="bye01" end="true"></answer>
         </text>
-        <dReq>
-            <flagReq>qpLumberTalk0</flagReq>
-        </dReq>
     </dialogue>
 
     <dialogue id="ewanTalk1">
@@ -56,9 +53,6 @@
 	    <text id="ewanTalk102" ordinal="1">
 	        <answer id="bye01" end="true"></answer>
 	    </text>
-        <dReq>
-            <flagReq>qpLumberTalk1</flagReq>
-        </dReq>
     </dialogue>
 
     <dialogue id="ewanTalk2">
@@ -66,9 +60,6 @@
             <answer id="ewanTalk201a01" end="true"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
-        <dReq>
-            <flagReq>qpLumberTalkFinish</flagReq>
-        </dReq>
     </dialogue>
 
     <dialogue id="ewanTalk3">
@@ -85,9 +76,6 @@
             	</transfer>
             </mod>
         </text>
-        <dReq>
-            <flagReq>qpBanditsKilling0</flagReq>
-        </dReq>
     </dialogue>
 
     <dialogue id="ewanTalk4">
@@ -105,9 +93,6 @@
         <text id="ewanSLetter03" ordinal="3">
             <answer id="ewanSLetter03a1" end="true"></answer>
         </text>
-        <dReq>
-            <flagReq>qpBanditsKillingFinish</flagReq>
-        </dReq>
     </dialogue>
 
     <dialogue id="cirtaGuardTalk01">
@@ -182,10 +167,6 @@
     	  			</transfer>     	  		
     	  		</mod>  	  
     	  </text>
-    	  <dReq>
-				<flagReq>senLetter03</flagReq>
-				<itemReq amount="1">mSLetter01</itemReq>    	  
-    	  </dReq>
     </dialogue>
     
     <dialogue id="hanD01">
@@ -237,8 +218,12 @@
 		<text id="amajD02T04" ordinal="4">
 			<answer id="bye01" to="end" />
 		</text>
-		<dReq>
-			<flagReq>sLetterTalked</flagReq>
-		</dReq>
+    </dialogue>
+    
+    <dialogue id="kifD01">
+		<text id="kifD01T00" oridinal="0">
+			<answer id="tradeReq01" to="trade" /> 
+			<answer id="bye01" to="end" />
+		</text>
     </dialogue>
 </base>

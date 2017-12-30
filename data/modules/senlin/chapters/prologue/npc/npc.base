@@ -29,7 +29,7 @@
     <effects>
     </effects>
     <dialogues>
-        <dialogue>banditTalk</dialogue>
+        <dialogue id="banditTalk" />
     </dialogues>
 </npc>
 <npc id="thug01" gender="male" race="human" attitude="neutral" guild="none" level="2">
@@ -177,7 +177,7 @@
     <effects>
     </effects>
     <dialogues>
-        <dialogue>cirtaGuardTalk01</dialogue>
+        <dialogue id="cirtaGuardTalk01" />
     </dialogues>
 </npc>
 <npc id="marios01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="5">
@@ -208,7 +208,7 @@
     <effects>
     </effects>
     <dialogues>
-	 	  <dialogue>cirtaGuardTalk01</dialogue>    
+	 	  <dialogue id="cirtaGuardTalk01" />    
     </dialogues>
 </npc>
 <npc id="lian01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="7">
@@ -240,7 +240,12 @@
     <effects>
     </effects>
     <dialogues>
-	 	  <dialogue>lianSLTalk01</dialogue>    
+	 	  <dialogue id="lianSLTalk01">
+			  <dReq>
+				  <flagReq>senLetter03</flagReq>
+				  <itemReq amount="1">mSLetter01</itemReq>    	  
+			  </dReq>
+	 	  </dialogue>    
     </dialogues>
 </npc>
 <npc id="ericP01" gender="male" race="human" attitude="friendly" guild="none" level="2">
@@ -271,7 +276,11 @@
     <effects>
     </effects>
     <dialogues>
-        <dialogue>ericWelcome</dialogue>
+        <dialogue id="ericWelcome">        
+			<dReq>
+				<flagReq>qpLumberTalk0</flagReq>
+			</dReq>
+        </dialogue>
     </dialogues>
 </npc>
 <npc id="kianP01" gender="male" race="human" attitude="friendly" trade="true" guild="none" level="2">
@@ -368,10 +377,26 @@
         </attributes>
     </training>
     <dialogues>
-        <dialogue>ewanTalk1</dialogue>
-        <dialogue>ewanTalk2</dialogue>
-        <dialogue>ewanTalk3</dialogue>
-        <dialogue>ewanTalk4</dialogue>
+        <dialogue id="ewanTalk1">
+			<dReq>
+				<flagReq>qpLumberTalk1</flagReq>
+			</dReq>
+        </dialogue>
+        <dialogue id="ewanTalk2">        
+			<dReq>
+				<flagReq>qpLumberTalkFinish</flagReq>
+			</dReq>
+        </dialogue>
+        <dialogue id="ewanTalk3">			
+			<dReq>
+				<flagReq>qpBanditsKilling0</flagReq>
+			</dReq>
+        </dialogue>
+        <dialogue id="ewanTalk4">        
+			<dReq>
+				<flagReq>qpBanditsKillingFinish</flagReq>
+			</dReq>
+        </dialogue>
     </dialogues>
 </npc>
 <npc id="han01" gender="male" race="human" attitude="friendly" guild="none" train="true" trade="true" level="4">
@@ -419,7 +444,7 @@
 		</attributes>
 	</training>
 	<dialogues>
-		<dialogue>hanD01</dialogue>
+		<dialogue id="hanD01" />
 	</dialogues>
 </npc>
 <npc id="amaj01" gender="male" race="human" attitude="friendly" guild="none" level="3">
@@ -444,8 +469,89 @@
 		</in>
 	</eq>
 	<dialogues>
-		<dialogue>amajD01</dialogue>
-		<dialogue>amajD02</dialogue>
+		<dialogue id="amajD01" />
+		<dialogue id="amajD02">
+			<dReq>
+				<flagReq>sLetterTalked</flagReq>
+			</dReq>
+		</dialogue>
+	</dialogues>
+</npc>
+<npc id="kif01" gender="male" race="human" attitude="friendly" guild="none" trade="true" level="2">
+	<stats>2;2;4;3;2</stats>
+	<portrait>portrait0.jpg</portrait>
+	<spritesheet default="true"/>
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact> 
+		<in>
+			<items>
+	            <item random="false" amount="60">copper01</item>
+	            <item random="false" amount="20">silver01</item>
+	            <item random="false" amount="5">gold01</item>
+			</items>
+		</in>
+	</eq>
+	<dialogues>
+		<dialogue id="kifD01" />
+	</dialogues>
+</npc>
+<npc id="sog01" gender="male" race="human" attitude="friendly" guild="none" level="1">
+	<stats>2;2;4;3;2</stats>
+	<portrait>portrait0.jpg</portrait>
+	<spritesheet default="true"/>
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact> 
+		<in>
+			<items>
+	            <item random="false" amount="10">copper01</item>
+			</items>
+		</in>
+	</eq>
+	<dialogues>
+	</dialogues>
+</npc>
+<npc id="bouve01" gender="male" race="human" attitude="friendly" guild="none" level="4">
+	<stats>2;2;4;3;2</stats>
+	<portrait>portrait0.jpg</portrait>
+	<spritesheet default="true"/>
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact> 
+		<in>
+			<items>
+	            <item random="false" amount="60">copper01</item>
+	            <item random="false" amount="20">silver01</item>
+	            <item random="false" amount="5">gold01</item>
+			</items>
+		</in>
+	</eq>
+	<dialogues>
 	</dialogues>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">

@@ -524,7 +524,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		portrait.draw(x, y, 50f, 70f);
 	}
 	/**
-	 * Updates character avatar animation
+	 * Updates character
 	 * @param delta
 	 * @return Character out message
 	 */
@@ -635,7 +635,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		destPoint[1] = y;
 	}
 	/**
-	 * Moves character to given target position   
+	 * Moves character to specified target position   
 	 * @param target Some targetable character
 	 */
 	public void moveTo(Targetable target)

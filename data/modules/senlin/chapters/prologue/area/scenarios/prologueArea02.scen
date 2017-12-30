@@ -67,7 +67,11 @@
 					</music>
         		</area>
         		<area id="cirtaInn01" map="inn01.tmx">
-					<npcs></npcs>
+					<npcs>
+						<npc position="1;7">kif01</npc>
+						<npc position="28;8">sog01</npc>
+						<npc position="2;11">bouve01</npc>
+					</npcs>
 					<objects></objects>
 					<exits>
 						<exit position="24;2" to="68;109">prologue02</exit>
