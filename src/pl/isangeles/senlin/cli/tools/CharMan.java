@@ -145,8 +145,7 @@ public class CharMan implements CliTool
         }
         else if(command.equals("use"))
         {
-            if(useCommands(prefix, target))
-                out = "0";
+            out = useCommands(prefix, target);
         }
         else
         	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
@@ -439,9 +438,9 @@ public class CharMan implements CliTool
      * @param target Command target
      * @return Command out
      */
-    private boolean useCommands(String commandLine, Character target)
+    private String useCommands(String commandLine, Character target)
     {
-       boolean out = false;
+       String out = "0";
        Scanner scann = new Scanner(commandLine);
        try
        {
@@ -468,7 +467,7 @@ public class CharMan implements CliTool
                if(charOut != CharacterOut.SUCCESS)
                    Log.addSystem(charOut.toString());
                else
-                   out = true;
+                   out = "0";
                
            }
            else if(prefix.equals("-i") || prefix.equals("-item"))
@@ -478,12 +477,18 @@ public class CharMan implements CliTool
                {
                    Usable itemToUse = item;
                    if(arg2 == null) 
-                       out = itemToUse.use(target, target);
+                   {
+                	   itemToUse.use(target, target);
+                       out = "0";
+                   }
                    else
                    {
                        Targetable useTarget = gw.getCurrentChapter().getTObject(arg2);
                        if(useTarget != null)
-                           out = itemToUse.use(target, useTarget);
+                       {
+                    	   itemToUse.use(target, useTarget);
+                    	   out = "0";
+                       }
                    }
                }
            }
@@ -494,5 +499,40 @@ public class CharMan implements CliTool
        }
        
        return out;
+    }
+    /**
+     * Handles has commands 
+     * @param commandLine Command
+     * @param target Command target
+     * @return String with command output
+     */
+    private String hasCommands(String commandLine, Character target)
+    {
+    	String out = "0";
+        Scanner scann = new Scanner(commandLine);
+        try
+        {
+            String prefix = scann.next();
+            String arg1 = scann.next();
+            String arg2 = null;
+            if(scann.hasNext())
+                arg2 = scann.next();
+            scann.close();
+            
+            if(prefix.equals("-flag"))
+            {
+            	if(target.getFlags().contains(arg1))
+            		out = "true";
+            	else
+            		out = "false";
+            }
+            
+        }
+        catch(NoSuchElementException e)
+        {
+            Log.addSystem("not enough arguments");
+        }
+        
+        return out;
     }
 }

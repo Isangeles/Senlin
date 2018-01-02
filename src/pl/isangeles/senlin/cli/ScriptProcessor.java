@@ -107,6 +107,7 @@ public class ScriptProcessor
         while(scann.hasNext())
         {
             String command = scann.next().replaceFirst("^\\s*", "");
+            
             if(command.equals("true;"))
                 out = true;
             if(command.startsWith("use="))
@@ -173,6 +174,7 @@ public class ScriptProcessor
                     break;
             }
         }
+        
         scann.close();
         
         //Log.addSystem(ifCode + "-check:" + out);

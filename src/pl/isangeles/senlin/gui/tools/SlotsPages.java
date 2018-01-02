@@ -52,7 +52,7 @@ public class SlotsPages extends SlotsBlock implements MouseListener
 	private boolean focus;
 	/**
 	 * Slots pages constructor
-	 * @param pageSlots Multidimensional(2d) table with slot
+	 * @param pageSlots Multidimensional(2d) table with slots
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws FontFormatException

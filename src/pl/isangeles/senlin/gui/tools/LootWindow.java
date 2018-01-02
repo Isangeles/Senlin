@@ -45,6 +45,7 @@ import pl.isangeles.senlin.core.out.CharacterOut;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Slot;
+import pl.isangeles.senlin.gui.SlotContent;
 /**
  * Class for loot window
  * TODO disable items dragging
@@ -57,12 +58,13 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	private Targetable lootedChar;
 	private TrueTypeFont ttf;
 	private Button takeAll;
-	private Button takeGold;
 	private SlotsPages slotsP;
 	private boolean openReq;
+	private boolean focus;
 	/**
 	 * Loot window constructor
 	 * @param gc Slick game container
+	 * @param player Player character
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
@@ -80,7 +82,6 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		ttf = new TrueTypeFont(font.deriveFont(12f), true);
 		
 		takeAll = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB1S", false, "Take all",  gc);
-		takeGold = new Button(GConnector.getInput("button/buttonS.png"), "uiLootB2S", false, "Take gold",  gc);
 		
 		ItemSlot[][] isTab = new ItemSlot[6][6]; 
 		for(int i = 0; i < isTab.length; i ++)
@@ -99,14 +100,11 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		super.draw(x, y, false);
 		//Text
 		String windowTitle = lootedChar.getName() + " " + "loot";
-		//String aoGold = "Gold: " + lootedChar.getInventory().getGold();
 		ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(windowTitle)), y, windowTitle);
-		//ttf.drawString(x+((getScaledWidth()/2)-ttf.getWidth(aoGold)), y+getDis(30), aoGold);
 		//Slots
 		slotsP.draw(x+getDis(15), y+getDis(70), false);
 		//Buttons
 		takeAll.draw(x+getDis(159), y+getDis(350), false);
-		takeGold.draw(x+getDis(70), y+getDis(350), false);
 	}
 	
 	@Override
@@ -120,6 +118,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public void reset() 
 	{
+		focus = false;
 		super.moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
 		lootedChar = null;
 		slotsP.clear();
@@ -143,6 +142,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 		            slotsP.clear();
 	                loadLoot();
 	                openReq = true;
+	                focus = true;
 	                return CharacterOut.SUCCESS;
 		        }
 		        else
@@ -188,7 +188,7 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	@Override
 	public boolean isAcceptingInput()
 	{
-		return openReq;
+		return focus;
 	}
 
 	@Override
@@ -224,6 +224,22 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 	{
 		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
+			Slot slot = slotsP.getMouseOver();
+			if(slot != null)
+			{
+				List<? extends SlotContent> content = slot.getContent();
+				for(SlotContent con : content)
+				{
+					if(Item.class.isInstance(con))
+					{
+						Item item = (Item)con;
+						lootingChar.getInventory().add(item);
+						lootedChar.getInventory().remove(item);
+						slotsP.clear();
+						loadLoot();
+					}
+				}
+			}
 			if(takeAll.isMouseOver())
 			{
 				List<Item> itemsToTake = new ArrayList<>();
@@ -234,12 +250,6 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 				}
 				lootedChar.getInventory().removeAll(itemsToTake);
 				
-				//lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
-				close();
-			}
-			if(takeGold.isMouseOver())
-			{
-				//lootingChar.addGold(lootedChar.getInventory().takeGold(lootedChar.getInventory().getGold()));
 				close();
 			}
 		}
