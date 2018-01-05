@@ -57,93 +57,112 @@ public class WorldMan implements CliTool
 	 * @see pl.isangeles.senlin.cli.tools.CliTool#handleCommand(java.lang.String)
 	 */
 	@Override
-	public String handleCommand(String line) 
+	public String[] handleCommand(String line) 
 	{
+		String[] output = {"0", ""};
 		Scanner scann = new Scanner(line);
-        String commandTarget = "";
-        String command = "";
         try
         {
-            commandTarget = scann.next();
-            command = scann.nextLine();
+            String commandTarget = scann.next();
+            String command = scann.nextLine();
+            
+            if(commandTarget.equals("get"))
+            {
+            	output = getCommands(command);
+            }
+            else if(commandTarget.equals("remove"))
+            {
+            	output = removeCommands(command);
+            }
+            else if(commandTarget.equals("music"))
+            {
+            	output = musicCommands(command);
+            }
+            else if(commandTarget.equals("add"))
+            {
+            	output = addCommands(command);
+            }
+            else
+            {
+                Log.addSystem("no such target for worldman:" + commandTarget);
+                output[0] = "5";
+            }
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
-        	return "0";
+        	output[0] = "6";
         }
         finally
         {
             scann.close();
         }
-        
-        if(commandTarget.equals("get"))
-        {
-        	return getCommands(command);
-        }
-        else if(commandTarget.equals("remove"))
-        {
-        	return removeCommands(command);
-        }
-        else if(commandTarget.equals("music"))
-        {
-        	return musicCommands(command);
-        }
-        else if(commandTarget.equals("add"))
-        {
-        	return addCommands(command);
-        }
-        
-        Log.addSystem("no such target for worldman:" + commandTarget);
-		return "1";
+		return output;
 	}
 	/**
 	 * Handles get commands
 	 * @param command Command
-	 * @return True if command was successfully executed, false otherwise
+	 * @return Command result[0] and output[1]
 	 */
-	public String getCommands(String command)
+	public String[] getCommands(String command)
 	{
+		String result = "0";
+		String out = "";
 		if(command.equals("time"))
 		{
-			return world.getDay().getTime().toString();
+			out = world.getDay().getTime().toString();
 		}
 		
-		return "0";
+		return new String[] {result, out};
 	}
 	/**
 	 * Handles remove commands
 	 * @param commandLine Command
-	 * @return True if command was successfully executed, false otherwise
+	 * @return Command result[0] and output[1]
 	 */
-	public String removeCommands(String commandLine)
+	public String[] removeCommands(String commandLine)
 	{
-	    String out = "1";
+		String result = "0";
+	    String out = "";
         Scanner scann = new Scanner(commandLine);
-        String option = scann.next();
-        String arg = scann.next();
-        scann.close();
-        
-        if(option.equals("npc"))
+        try
         {
-        	Character npc = world.getCurrentChapter().getCharacter(arg);
-        	if(npc != null)
-        	{
-        		if(world.getCurrentChapter().removeTObject(npc))
-        		    out = "0";
-        	}
-        	else
-        		Log.addSystem("bad value for remove: " + arg);
+            String option = scann.next();
+            String arg1 = scann.next();
+            
+            if(option.equals("npc"))
+            {
+            	Character npc = world.getCurrentChapter().getCharacter(arg1);
+            	if(npc != null)
+            	{
+            		if(!world.getCurrentChapter().removeTObject(npc))
+            		    result = "2";
+            	}
+            	else
+            	{
+            		Log.addSystem("bad value for remove: " + arg1);
+            		result = "2";
+            	}
+            }
         }
-        return out;
+        catch(NoSuchElementException e)
+        {
+        	result = "2";
+        }
+        finally
+        {
+            scann.close();
+        }
+        return new String[] {result, out};
 	}
 	/**
 	 * Handles music commands
 	 * @param commandLine Command
-	 * @return True if command was successfully executed, false otherwise
+	 * @return Command result[0] and output[1]
 	 */
-	public String musicCommands(String commandLine)
+	public String[] musicCommands(String commandLine)
 	{
+		String result = "0";
 	    String out = "1";
         Scanner scann = new Scanner(commandLine);
         try
@@ -152,7 +171,6 @@ public class WorldMan implements CliTool
             String arg1 = null;
             if(scann.hasNext())
                 arg1 = scann.next();
-            scann.close();
             
             if(option.equals("-play"))
             {
@@ -160,17 +178,14 @@ public class WorldMan implements CliTool
                     world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg1);
                 else
                     world.getMusiPlayer().playRandomFrom("exploring", 1.0f, Settings.getMusicVol());
-                out = "0";
             }
             else if(option.equals("-stop"))
             {
                 world.getMusiPlayer().stop();
-                out = "0";
             }
             else if(option.equals("-playSpecial") && arg1 != null)
             {
                 world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
-                out = "0";
             }
             else if(option.equals("-list"))
             {
@@ -183,89 +198,118 @@ public class WorldMan implements CliTool
         catch(NoSuchElementException e)
         {
             Log.addSystem("Not enought arguments");
+            result = "2";
+        }
+        finally
+        {
+            scann.close();
         }
         
-        return out;
+        return new String[] {result, out};
 	}
 
 	/**
 	 * Handles add commands
 	 * @param commandLine Command
-	 * @return Command out
+	 * @return Command result[0] and out[1]
 	 */
-	public String addCommands(String commandLine)
+	public String[] addCommands(String commandLine)
 	{
-	    String out = "1";
+		String result = "0";
+	    String out = "";
         Scanner scann = new Scanner(commandLine);
         try
         {
             String option = scann.next();
-            String[] args = {scann.next(), scann.next()};
-            scann.close();
+            String arg1 = scann.next();
+            String arg2 = null;
+            String arg3 = null;
+            if(scann.hasNext())
+            	arg2 = scann.next();
+            if(scann.hasNext())
+            	arg3 = scann.next();
 		
 			if(option.equals("-c") || option.equals("-character"))
 			{
-				String charId = args[0];
+				String charId = arg1;
 				String[] pos = {world.getPlayer().getPosition()[0] + "", world.getPlayer().getPosition()[1] + ""};
 				String area = world.getArea().getId();
-				if(args.length > 1)
-					pos = args[1].split("x");
-				if(args.length > 2)
-					area = args[2];
+				if(arg2 != null)
+					pos = arg2.split("x");
+				if(arg3 != null)
+					area = arg3;
 				
 				TilePosition p = new TilePosition(pos[0] + ";" + pos[1]);
 				Character spawnedChar = NpcBase.spawnIn(charId, world.getCurrentChapter().getActiveScenario().getArea(area), p);
 				world.getArea().getCharacters().add(spawnedChar);
 				spawnedChar.setArea(world.getArea());
-				out = "0";
 			}
+        	else
+        		result = "3";
 		}
 		catch(NoSuchElementException e)
 		{
 			Log.addSystem("not enough arguments");
+			result = "2";
 		}
 		catch(SlickException | IOException | FontFormatException e)
 		{
 			Log.addSystem("game error");
+			result = "2";
 		}
+        finally
+        {
+            scann.close();
+        }
 		
-        return out;
+        return new String[] {result, out};
 	}
 	/**
 	 * Handles set commands
 	 * @param command Command
-	 * @return Command out
+	 * @return Command result[0] and out[0]
 	 */
-	public String setCommands(String command)
+	public String[] setCommands(String command)
 	{
-		String out = "1";
+		String result = "0";
+		String out = "";
         Scanner scann = new Scanner(command);
         try
         {
             String option = scann.next();
-            String[] args = {scann.next(), scann.next()};
-            scann.close();
+            String arg1 = scann.next();
+            String arg2 = null;
+            if(scann.hasNext())
+            	arg2 = scann.next();
             
         	if(option.equals("-t") || option.equals("-time"))
         	{
-        		int hours = Integer.parseInt(args[0]);
+        		int hours = Integer.parseInt(arg1);
         		int minutes = 0;
-        		if(args[1] != null)
-        			minutes = Integer.parseInt(args[1]);
+        		if(arg2 != null)
+        			minutes = Integer.parseInt(arg2);
         		
         		world.getDay().getTime().addHours(hours);
         		world.getDay().getTime().addMinutes(minutes);
         	}
+        	else
+        		result = "3";
 		}
 		catch(NoSuchElementException e)
 		{
 			Log.addSystem("not enough arguments");
+			result = "2";
 		}
         catch(NumberFormatException e)
         {
         	Log.addSystem("wrong arguments values");
+			result = "2";
+        }
+        finally
+        {
+            scann.close();
         }
 		
-        return out;
+        return new String[] {result, out};
 	}
 }

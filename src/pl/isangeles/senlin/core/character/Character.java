@@ -525,7 +525,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	}
 	/**
 	 * Updates character
-	 * @param delta
+	 * @param delta Time between updates
 	 * @return Character out message
 	 */
 	public CharacterOut update(int delta)
@@ -541,9 +541,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         
         if(agony && hp.getValue() >= 10)
         	agony = false;
-        else if(hp.getValue() < 10)
+        else if(hp.getValue() < 10 && hp.getValue() > 0)
         	agony = true;
-	    if(hp.getValue() < 0)
+        else if(hp.getValue() < 0)
 	    	live = false;
 	    
 	    if(agony)

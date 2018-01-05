@@ -1,0 +1,10 @@
+#Amaj's scripted speech
+script:
+    $charman amaj01_0 add -speech amajLeeterSpeech01;
+    @wait 15;
+if:
+    has flag sLetterTalked player;
+    dis amaj01_0 from player less 60;
+end:
+    if:
+        has flag amajTalked01 player;

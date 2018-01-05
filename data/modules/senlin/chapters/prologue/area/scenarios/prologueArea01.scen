@@ -53,6 +53,7 @@
     </mainarea>
     <scripts>
         <script>prologueStart</script>
+        <script>ericStop</script>
     </scripts>
 </scenario>
 </base>

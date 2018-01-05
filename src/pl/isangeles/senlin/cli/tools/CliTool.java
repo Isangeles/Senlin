@@ -32,7 +32,7 @@ public interface CliTool
 	/**
 	 * Handles specified command
 	 * @param command Command to handle
-	 * @return String with out of specified command
+	 * @return String with result[0](0 success >0 error) and output[1] of specified command
 	 */
-	public String handleCommand(String command);
+	public String[] handleCommand(String command);
 }

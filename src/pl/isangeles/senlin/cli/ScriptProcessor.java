@@ -70,7 +70,7 @@ public class ScriptProcessor
                 }
                 else
                 {
-                	if(cli.executeCommand(command).equals("1"))
+                	if(!cli.executeCommand(command)[0].equals("0"))
                 	{
                         out = false;
                         Log.addSystem("ssp: " + script.getName() + " processing fail - corrupted at line:" + script.getActiveIndex());
@@ -101,80 +101,15 @@ public class ScriptProcessor
     {
         boolean out = false;
         Scanner scann = new Scanner(ifCode);
-        //scann.useDelimiter("\r?\n");
         scann.useDelimiter(";");
         
         while(scann.hasNext())
         {
             String command = scann.next().replaceFirst("^\\s*", "");
-            
-            if(command.equals("true;"))
-                out = true;
-            if(command.startsWith("use="))
-            {
-                int value = Integer.parseInt(command.substring(command.indexOf("=")+1, command.indexOf(";")));
-                if(script.getUseCount() >= value)
-                    out = true;
-                else
-                {
-                    out = false;
-                    break;
-                }
-            }
-            if(command.startsWith("has"))
-            {
-                String[] hasCommand = command.split(" ");
-                if(hasCommand[1].equals("flag"))
-                {
-                    String flag = hasCommand[2];
-                    if(hasCommand.length < 4 || hasCommand[3].equals("player;"))
-                    {
-                        if(cli.getPlayer().getFlags().contains(flag))
-                            out = true;
-                        else
-                        {
-                            out = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            if(command.startsWith("!has"))
-            {
-                String[] hasCommand = command.split(" ");
-                if(hasCommand[1].equals("flag"))
-                {
-                    String flag = hasCommand[2];
-                    if(hasCommand.length < 4 || hasCommand[3].equals("player"))
-                    {
-                        if(!cli.getPlayer().getFlags().contains(flag)) 
-                        {
-                            out = true;
-                        }
-                        else 
-                        {
-                            out = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            if(command.startsWith("dis"))
-            {
-                String[] disCommand = command.split(" ");
-                int disToCheck = Integer.parseInt(disCommand[5].replaceAll(";", ""));
-                
-                String disOut = cli.executeCommand("$charman " + disCommand[1] + " show -dis " + disCommand[3]);
-                int dis = Integer.parseInt(disOut.split(":")[1]);
-                
-                if(disCommand[4].equals("less"))
-                    out = dis < disToCheck;
-                
-                if(!out)
-                    break;
-            }
+            command.replaceAll(";", "");
+            String bool = cli.executeCommand(command)[1];
+            out = bool.equals("true");
         }
-        
         scann.close();
         
         //Log.addSystem(ifCode + "-check:" + out);

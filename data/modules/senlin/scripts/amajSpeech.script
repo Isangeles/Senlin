@@ -3,8 +3,8 @@ script:
     $charman amaj01_0 add -speech amajLeeterSpeech01;
     @wait 15;
 if:
-    has flag sLetterTalked player;
-    dis amaj01_0 from player less 60;
+    $charman player is -flag sLetterTalked;
+    $charman player is -dis< 60 amaj01_0;
 end:
     if:
-        has flag amajTalked01 player;
+        $charman player is -flag amajTalked01;

@@ -32,7 +32,7 @@ script:
     $worldman music -stop;
     $charman player add -flag prologueStarted;
 if:
-    $charman player is -flag! prologueStarted;
+    !has flag prologueStarted player;
 end: 
     if:
-        $charman player is -flag prologueStarted;
+        has flag prologueStarted player;

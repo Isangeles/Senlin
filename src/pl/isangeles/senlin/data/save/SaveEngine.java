@@ -66,9 +66,10 @@ public class SaveEngine
 	 */
 	private SaveEngine(){};
 	/**
-	 * Collects save data from player character and game scenarios then saves it to file in savegames catalog
+	 * Collects save data from player and game world and UI then saves it to file in savegames catalog
 	 * @param player Player game character
-	 * @param scenarios List with game scenarios
+	 * @param world Game world to save
+	 * @param ui UI to save
 	 * @param saveName Name for save game file
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException

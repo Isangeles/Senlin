@@ -50,108 +50,125 @@ public class UiMan implements CliTool
 	 * @see pl.isangeles.senlin.cli.tools.CliTool#handleCommand(java.lang.String)
 	 */
 	@Override
-	public String handleCommand(String line) 
+	public String[] handleCommand(String line) 
 	{
-	    String out = "1";
+	    String[] output = new String[] {"0", ""};
 		Scanner scann = new Scanner(line);
-        String commandTarget = "";
-        String command = "";
         try
         {
-            commandTarget = scann.next();
-            command = scann.nextLine();
+            String commandTarget = scann.next();
+            String command = scann.nextLine();
             
-           if(commandTarget.equals("camera"))
-        	   out = cameraCommands(command);
-           if(commandTarget.equals("ui"))
-        	   out = uiCommands(command);
+            switch(commandTarget)
+            {
+            case "camera":
+            	output = cameraCommands(command);
+            	break;
+            case "ui":
+            	output = uiCommands(command);
+            	break;
+        	default:
+        		output[0] = "5";
+            }
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error:" + line);
-        	out = "1";
+        	output[0] = "6";
         }
         finally
         {
             scann.close();
         }
         
-		return out;
+		return output;
 	}
 	/**
 	 * Handles camera commands
 	 * @param commandLine Command
-	 * @return True if command executed successfully, false otherwise
+	 * @return Command result[0] and output[1]
 	 */
-	public String cameraCommands(String commandLine)
+	public String[] cameraCommands(String commandLine)
 	{
-	    String out = "1";
+		String result = "0";
+	    String out = "";
         Scanner scann = new Scanner(commandLine);
-        String prefix = scann.next();
-        String value = scann.next();
-        scann.close();
         
         try
         {
-            if(prefix.equals("-m") || prefix.equals("-move"))
-            {
-            	Position pos = new Position(value);
-            	ui.getCamera().setPos(pos);
-            	out = "0";
-            }
-            if(prefix.equals("-c") || prefix.equals("-center"))
-            {
-            	String[] pos = value.split("x");
-        		int x = Integer.parseInt(pos[0]);
-        		int y = Integer.parseInt(pos[1]);
-            	ui.getCamera().centerAt(new Position(x, y));
-            	out = "0";
-            }
-            if(prefix.equals("-cat") || prefix.equals("-centerAtTile"))
-            {
-                String[] pos = value.split("x");
-                int x = Integer.parseInt(pos[0]);
-                int y = Integer.parseInt(pos[1]);
-                ui.getCamera().centerAt(new TilePosition(x, y).asPosition());
-                out = "0";
-            }
+            String prefix = scann.next();
+            String arg1 = scann.next();
+            
+        	switch(prefix)
+        	{
+        	case "-m": case "-move":
+            	Position posMove = new Position(arg1);
+            	ui.getCamera().setPos(posMove);
+            	break;
+        	case "-c": case "-center":
+            	String[] posCenter = arg1.split("x");
+        		int xC = Integer.parseInt(posCenter[0]);
+        		int yC = Integer.parseInt(posCenter[1]);
+            	ui.getCamera().centerAt(new Position(xC, yC));
+            	break;
+        	case "-cat": case "-centerAtTile":
+                String[] posCenterT = arg1.split("x");
+                int xCat = Integer.parseInt(posCenterT[0]);
+                int yCat = Integer.parseInt(posCenterT[1]);
+                ui.getCamera().centerAt(new TilePosition(xCat, yCat).asPosition());
+                break;
+            default:
+            	result = "3";
+        	}
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
-        	Log.addSystem("bad value for camera:" + value);
-        	return "1";
+        	Log.addSystem("bad value for camera");
+        	result = "1";
+        }
+        finally
+        {
+        	scann.close();
         }
         
-        return out;
+        return new String[] {result, out};
 	}
 	/**
 	 * Handles UI commands
 	 * @param commandLine Command 
-	 * @return True if command executed successfully, false otherwise
+	 * @return Command result[0] and output[1]
 	 */
-	public String uiCommands(String commandLine)
+	public String[] uiCommands(String commandLine)
 	{
-	    String out = "1";
+		String result = "0";
+	    String out = "";
         Scanner scann = new Scanner(commandLine);
-        String prefix = scann.next();
-        String value = scann.next();
-        scann.close();
         
         try
         {
-            if(prefix.equals("-l") || prefix.equals("-lock"))
+            String prefix = scann.next();
+            String value = scann.next();
+            
+            switch(prefix)
             {
+            case "-l": case "-lock":
             	boolean lock = Boolean.parseBoolean(value);
-            	ui.setLock(lock);
-            	out = "0";
+            	ui.setLock(lock);	
+            	break;
+        	default:
+        		result = "3";
             }
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
-        	Log.addSystem("bad value for lock: " + value);
-        	return "1";
+        	Log.addSystem("bad value for lock");
+        	result = "1";
+        }
+        finally
+        {
+            scann.close();
         }
         
-        return out;
+        return new String[] {result, out};
 	}
 }

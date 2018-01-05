@@ -63,19 +63,16 @@ public class CommandInterface
 	/**
 	 * Executes specified command
 	 * @param line String with command
-	 * @return String with command out
+	 * @return Array with command result[0] and output[1]
 	 */
-    public String executeCommand(String line)
+    public String[] executeCommand(String line)
     {	
-    	String out = "0";
-    	
+    	String[] output = {"0", ""};
         Scanner scann = new Scanner(line);
-        String toolName = "";
-        String command = "";
         try
         {
-            toolName = scann.next();
-            command = scann.nextLine();
+            String toolName = scann.next();
+            String command = scann.nextLine();
             
             if(toolName.equals("$debug"))
             {
@@ -87,34 +84,42 @@ public class CommandInterface
             	{
             		Log.setDebug(false);
             	}
-            	
-            	out = "1";
             }
             else if(toolName.equals("$charman"))
             {
-            	out = charman.handleCommand(command);
+            	output = charman.handleCommand(command);
             }
             else if(toolName.equals("$worldman"))
             {
-            	out = worldman.handleCommand(command);
+            	output = worldman.handleCommand(command);
             }
             else if(toolName.equals("$uiman"))
             {
             	if(uiman != null)
-            		out = uiman.handleCommand(command);
-            	else
+            		output = uiman.handleCommand(command);
+            	else 
+            	{
             		Log.addSystem("no GUI set!");
+            		output[0] = "7";
+            	}
             }
             else
+            {
             	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
+            	output[0] = "8";
+            }
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
+        	output[0] = "9";
         }
-        scann.close();
+        finally 
+        {
+            scann.close();
+        }
         
-        return out;
+        return output;
     }
     /**
      * Executes specified script

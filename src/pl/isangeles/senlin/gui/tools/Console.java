@@ -138,7 +138,10 @@ final class Console extends TextInput implements UiElement
             if(textLine != null)
             {            	
             	if(textLine.startsWith("$")) //if entered text is a game command
-                	Log.addSystem("command out:" + cli.executeCommand(super.getText()));
+            	{
+            		String[] output = cli.executeCommand(super.getText());
+                	Log.addSystem("command out: [" + output[0] + "] " + output[1]);
+            	}
             	else
             		player.speak(textLine);
             }
