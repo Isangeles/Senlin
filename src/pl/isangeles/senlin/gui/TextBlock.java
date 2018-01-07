@@ -37,6 +37,7 @@ import pl.isangeles.senlin.util.Position;
  */
 public class TextBlock
 {
+	private static final int PADDING_LEFT = Coords.getDis(10);
     private List<String> textLines = new ArrayList<>();
     private String text;
     private int charsInLine;
@@ -74,7 +75,10 @@ public class TextBlock
         
         pos = new Position();
         
-        addLines(text, charsInLine);
+        for(String line : text.split("\r?\n"))
+        {
+            addLines(line, charsInLine);
+        }
     }
     /**
      * Creates new empty text block
@@ -101,9 +105,9 @@ public class TextBlock
         for(int i = 0; i < textLines.size(); i ++)
         {
             if(textLines.size() > 1)
-                ttf.drawString(x+Coords.getDis(10), y+ttf.getHeight(textLines.get(i))*i, textLines.get(i));
+                ttf.drawString(x+PADDING_LEFT, y+ttf.getHeight(textLines.get(i))*i, textLines.get(i));
             else
-                ttf.drawString(x+Coords.getDis(10), y, textLines.get(0));
+                ttf.drawString(x+PADDING_LEFT, y, textLines.get(0));
         }
     }
     /**
@@ -164,7 +168,7 @@ public class TextBlock
     		if(lineWidth > maxWidth)
     			maxWidth = lineWidth;
     	}
-    	return maxWidth;
+    	return maxWidth + PADDING_LEFT;
     }
     /**
      * Returns box position

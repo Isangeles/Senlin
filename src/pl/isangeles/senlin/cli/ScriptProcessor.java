@@ -56,36 +56,45 @@ public class ScriptProcessor
         
         if(!script.isFinished() && !script.isWaiting())
         {
-        	while(script.hasNext() && checkCondition(script, ifCode))
-            {
-            	//Log.addSystem(script.getName() +  "-active command:" + script.getActiveCommand());
-            	String command = script.getActiveCommand();
-            	if(command.matches("@wait [1-9]+"))
-                {
-                    int time = Integer.parseInt(command.split(" ")[1]);
-                    long timeSec = Stopwatch.sec(time);
-                    script.pause(timeSec);
-                    script.next();
-                    break;
-                }
-                else
-                {
-                	if(!cli.executeCommand(command)[0].equals("0"))
-                	{
-                        out = false;
-                        Log.addSystem("ssp: " + script.getName() + " processing fail - corrupted at line:" + script.getActiveIndex());
-                        break;	
-                	}
-                	else
-                    	script.next();
-                }
-            }
-        	if(!script.hasNext())
+        	try
         	{
-        		script.used();
-        		script.restart();
-            	if(checkEndCondition(script))
-            		script.finish();
+        		while(script.hasNext() && checkCondition(script, ifCode))
+                {
+                	//Log.addSystem(script.getName() +  "-active command:" + script.getActiveCommand());
+                	String command = script.getActiveCommand();
+                	if(command.matches("@wait [1-9]+[0-9]?"))
+                    {
+                        int time = Integer.parseInt(command.split(" ")[1]);
+                        long timeSec = Stopwatch.sec(time);
+                        script.pause(timeSec);
+                        script.next();
+                        break;
+                    }
+                    else
+                    {
+                    	String[] output = cli.executeCommand(command);
+                    	if(!output[0].equals("0"))
+                    	{
+                            out = false;
+                            Log.addSystem("ssp: " + script.getName() + " processing fail[" + output[0] + "] - corrupted at line:" + script.getActiveIndex());
+                            break;	
+                    	}
+                    	else
+                        	script.next();
+                    }
+                }
+            	if(!script.hasNext())
+            	{
+            		script.used();
+            		script.restart();
+                	if(checkEndCondition(script))
+                		script.finish();
+            	}
+        	}
+        	catch(NumberFormatException e)
+        	{
+        		out = false;
+                Log.addSystem("ssp: " + script.getName() + " processing fail - corrupted at line:" + script.getActiveIndex());
         	}
         }
         return out;

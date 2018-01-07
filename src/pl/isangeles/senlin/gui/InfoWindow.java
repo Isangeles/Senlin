@@ -1,3 +1,25 @@
+/*
+ * InfoWindow.java
+ * 
+ * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.gui;
 
 import java.awt.Font;
@@ -14,16 +36,14 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 /**
- * Class for information windows
+ * Class for floating window with text
  * @author Isangeles
  *
  */
 public class InfoWindow extends InterfaceObject
 {
-	private String textInfo;
-	private Font textFont;
-	private TrueTypeFont textTtf;
-	private int noLines = 0;
+	private TextBlock text;
+	private TrueTypeFont ttf;
 	/**
 	 * Info window constructor
 	 * @param gc Slick game container
@@ -35,28 +55,19 @@ public class InfoWindow extends InterfaceObject
 	public InfoWindow(GameContainer gc, String textInfo) throws SlickException, IOException, FontFormatException 
 	{
 		super(GBase.getImage("infoWinBg"), gc);
-		this.textInfo = textInfo;
+
+		Font font = GBase.getFont("mainUiFont");
+		ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
 		
-		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-		textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
-		
-		countLines();
+		this.text = new TextBlock(textInfo, 30, ttf);
 	}
 	/**
 	 * Draws window with information text split into lines
 	 */
 	public void draw(float x, float y)
 	{
-	    String[] lines = textInfo.split(System.lineSeparator());
-	    super.drawUnscaled(getCorrectX(x), getCorrectY(y), textTtf.getWidth(textInfo), textTtf.getHeight(textInfo)*noLines);
-		for(int i = 0; i < noLines; i ++)
-		{
-	        if(noLines > 1)
-	            textTtf.drawString(super.x+getDis(10), super.y+textTtf.getHeight(lines[i])*i, lines[i]);
-	        else
-	            textTtf.drawString(super.x+getDis(10), super.y, lines[i]);
-		}
+	    super.drawUnscaled(getCorrectX(x), getCorrectY(y), text.getTextWidth(), text.getTextHeight());
+	    text.draw(super.x, super.y);
 	}
 	/**
 	 * Sets text to display
@@ -64,8 +75,7 @@ public class InfoWindow extends InterfaceObject
 	 */
 	public void setText(String text)
 	{
-		this.textInfo = text;
-		countLines();
+		this.text = new TextBlock(text, 30, ttf);
 	}
 	/**
 	 * Checks if specified x position need to be corrected to not protrude the screen 
@@ -75,7 +85,7 @@ public class InfoWindow extends InterfaceObject
 	private float getCorrectX(float x)
 	{
 		if(x + getScaledWidth() >= Global.getCameraSize().width)
-			x -= textTtf.getWidth(textInfo);
+			x -= text.getTextWidth();
 		
 		return x;
 	}
@@ -87,19 +97,8 @@ public class InfoWindow extends InterfaceObject
 	private float getCorrectY(float y)
 	{
 		if(y + getScaledHeight() >= Global.getCameraSize().height)
-			y -= textTtf.getHeight(textInfo)*noLines;
+			y -= text.getTextHeight();
 		
 		return y;
-	}
-	/**
-	 * Counts lines for current text
-	 */
-	private void countLines()
-	{
-		noLines = 0;
-		for(String line : textInfo.split(System.lineSeparator())) //counting lines 
-        {
-            noLines++;
-        }
 	}
 }
