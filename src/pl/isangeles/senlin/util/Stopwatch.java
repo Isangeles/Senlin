@@ -97,6 +97,17 @@ public class Stopwatch
     	nanoTime = System.nanoTime();
     }
     /**
+     * Stops time measurement and returns measured time
+     * @return Measured time as seconds
+     */
+    public static long stop() 
+    {
+    	long currentTime = System.nanoTime();
+    	long measure = TimeUnit.SECONDS.convert(currentTime - nanoTime, TimeUnit.NANOSECONDS);
+    	nanoTime = 0L;
+    	return measure;
+    }
+    /**
      * Stops and prints time measurement
      * @param name Measure name
      */

@@ -1,7 +1,7 @@
 /*
  * InfoWindow.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ import pl.isangeles.senlin.util.Settings;
  */
 public class InfoWindow extends InterfaceObject
 {
+	private static final int MAX_CHARS = 30;
+	private static final float FONT_SIZE = 12f;
 	private TextBlock text;
 	private TrueTypeFont ttf;
 	/**
@@ -57,9 +59,9 @@ public class InfoWindow extends InterfaceObject
 		super(GBase.getImage("infoWinBg"), gc);
 
 		Font font = GBase.getFont("mainUiFont");
-		ttf = new TrueTypeFont(font.deriveFont(getSize(12f)), true);
+		ttf = new TrueTypeFont(font.deriveFont(getSize(FONT_SIZE)), true);
 		
-		this.text = new TextBlock(textInfo, 30, ttf);
+		this.text = new TextBlock(textInfo, MAX_CHARS, ttf);
 	}
 	/**
 	 * Draws window with information text split into lines
@@ -75,7 +77,7 @@ public class InfoWindow extends InterfaceObject
 	 */
 	public void setText(String text)
 	{
-		this.text = new TextBlock(text, 30, ttf);
+		this.text = new TextBlock(text, MAX_CHARS, ttf);
 	}
 	/**
 	 * Checks if specified x position need to be corrected to not protrude the screen 

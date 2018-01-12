@@ -123,7 +123,7 @@ public class UiMan implements CliTool
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
-        	Log.addSystem("bad value for camera");
+        	Log.addSystem("bad value for camera" + ":'" + commandLine + "'");
         	result = "1";
         }
         finally
@@ -161,7 +161,7 @@ public class UiMan implements CliTool
         }
         catch(NumberFormatException | NoSuchElementException e)
         {
-        	Log.addSystem("bad value for lock");
+        	Log.addSystem("bad value for lock" + ":'" + commandLine + "'");
         	result = "1";
         }
         finally

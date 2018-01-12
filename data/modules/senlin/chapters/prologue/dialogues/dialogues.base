@@ -222,8 +222,55 @@
     
     <dialogue id="kifD01">
 		<text id="kifD01T00" oridinal="0">
+			<answer id="whoareu" to="1" />
+			<answer id="rumAsk01" to="2" />
+			<answer id="jobAsk01" to="3" />
 			<answer id="tradeReq01" to="trade" /> 
 			<answer id="bye01" to="end" />
+		</text>
+		<text id="kifD01T01" ordinal="1">
+			<answer id="backAns01" to="0"/>
+		</text>
+		<text id="kifD01T02" ordinal="2">
+			<answer id="backAns01" to="0"/>
+		</text>
+		<text id="kifD01T03" ordinal="3">
+			<answer id="backAns01" to="0"/>
+			<mod>
+				<modTarget>
+					<flagModifier>bouveJob00</flagModifier>
+				</modTarget>
+			</mod>
+		</text>
+    </dialogue>
+    
+    <dialogue id="bouveD01">
+		<text id="bouveD01T00" ordinal="0">
+			<answer id="whoareu01" to="1"/>
+			<answer id="bouveD01T00_a0" to="2"/>
+			<answer id="trainReq01" to="train">
+				<req>
+					<flagReq>bouveJob01</flagReq>
+				</req>
+			</answer>
+			<answer id="bye01" to="end"/>
+		</text>
+		<text id="bouveD01T01" ordinal="1">
+			<answer id="backAns01" to="0"/>
+		</text>
+		<text id="bouveD01T02" ordinal="2">
+			<answer id="bouveD01T02_a0" to="3"/>
+			<req>
+				<flagReq>bouveJob00</flagReq>
+			</req>
+		</text>
+		<text id="bouveD01T03" ordinal="3">
+			<answer id="backAns01" to="0"/>
+			<mod>
+				<modTarget>
+					<flagModifier>bouveJob01</flagModifier>
+				</modTarget>
+			</mod>
 		</text>
     </dialogue>
 </base>

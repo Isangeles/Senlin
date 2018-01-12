@@ -197,7 +197,7 @@ public class WorldMan implements CliTool
         }
         catch(NoSuchElementException e)
         {
-            Log.addSystem("Not enought arguments");
+            Log.addSystem("Not enought arguments" + ":'" + commandLine + "'");
             result = "2";
         }
         finally
@@ -249,7 +249,7 @@ public class WorldMan implements CliTool
 		}
 		catch(NoSuchElementException e)
 		{
-			Log.addSystem("not enough arguments");
+			Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
 			result = "2";
 		}
 		catch(SlickException | IOException | FontFormatException e)
@@ -297,12 +297,12 @@ public class WorldMan implements CliTool
 		}
 		catch(NoSuchElementException e)
 		{
-			Log.addSystem("not enough arguments");
+			Log.addSystem("not enough arguments" + ":'" + command + "'");
 			result = "2";
 		}
         catch(NumberFormatException e)
         {
-        	Log.addSystem("wrong arguments values");
+        	Log.addSystem("wrong arguments values" + ":'" + command + "'");
 			result = "2";
         }
         finally

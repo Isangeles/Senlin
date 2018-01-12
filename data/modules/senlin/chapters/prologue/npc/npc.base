@@ -552,6 +552,7 @@
 		</in>
 	</eq>
 	<dialogues>
+		<dialogue id="bouveD01" />
 	</dialogues>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">

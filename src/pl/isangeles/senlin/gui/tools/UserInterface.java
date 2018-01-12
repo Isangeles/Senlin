@@ -290,6 +290,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	else if(!gw.isChangeAreaReq() && info.isOpenReq())
     		info.close();
     	
+    	waitWin.setFocus(!gameConsole.isFocused());
+    	
     	bBar.update();
         charFrame.update();
         cast.update();
@@ -514,7 +516,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                     }
                     destination.setPosition(new Position(Global.worldX(x), Global.worldY(y)));
                     player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
-                    Log.addInformation("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
+                    Log.addSystem("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
                 }
                 
 		    }

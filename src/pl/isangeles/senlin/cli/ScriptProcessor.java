@@ -117,6 +117,7 @@ public class ScriptProcessor
             String command = scann.next().replaceFirst("^\\s*", "");
             command.replaceAll(";", "");
             String bool = cli.executeCommand(command)[1];
+            //Log.addSystem("check: " + command + " - " + out);
             out = bool.equals("true");
         }
         scann.close();

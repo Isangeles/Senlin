@@ -54,7 +54,6 @@ import pl.isangeles.senlin.data.ItemsBase;
 /**
  * Class for game console
  * command syntax: $[target] [command] [-prefix] [value]
- * TODO Seems to command check not work entirely properly
  * @author Isangeles
  *
  */
@@ -140,7 +139,7 @@ final class Console extends TextInput implements UiElement
             	if(textLine.startsWith("$")) //if entered text is a game command
             	{
             		String[] output = cli.executeCommand(super.getText());
-                	Log.addSystem("command out: [" + output[0] + "] " + output[1]);
+                	Log.addSystem("command out[" + output[0] + "]: " + output[1]);
             	}
             	else
             		player.speak(textLine);

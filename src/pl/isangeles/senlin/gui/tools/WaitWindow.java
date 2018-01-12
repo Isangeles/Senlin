@@ -160,6 +160,14 @@ class WaitWindow extends InterfaceObject implements UiElement, KeyListener, Mous
 	{
 		return openReq;
 	}
+	/**
+	 * Sets or removes focus from window
+	 * @param focus True to set focus, false to remove
+	 */
+	public void setFocus(boolean focus)
+	{
+		this.focus = focus;
+	}
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.ControlledInputReciever#inputEnded()
 	 */

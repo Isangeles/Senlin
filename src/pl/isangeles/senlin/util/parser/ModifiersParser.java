@@ -1,7 +1,7 @@
 /*
  * ModifiersParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.bonus.ModifierType;
 import pl.isangeles.senlin.core.bonus.AttitudeModifier;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
+import pl.isangeles.senlin.core.bonus.FlagModifier;
 import pl.isangeles.senlin.core.bonus.HealthBonus;
 import pl.isangeles.senlin.core.bonus.ResistanceBonus;
 import pl.isangeles.senlin.core.bonus.StatsBonus;
@@ -116,6 +117,10 @@ public final class ModifiersParser
 					case ATTITUDE:
 						Attitude attitude = Attitude.fromString(modifierE.getTextContent());
 						modifiers.add(new AttitudeModifier(attitude));
+						break;
+					case FLAG:
+						String flag = modifierE.getTextContent();
+						modifiers.add(new FlagModifier(flag));
 						break;
 					default:
 						break;

@@ -218,7 +218,7 @@ public class CharMan implements CliTool
         }
         catch(NumberFormatException e)
         {
-            Log.addSystem(TConnector.getText("ui", "logBadVal") + "-/" + commandLine + "/");
+            Log.addSystem(TConnector.getText("ui", "logBadVal") + ":'" + commandLine + "'");
         	result = "1";
         }
         finally
@@ -330,17 +330,17 @@ public class CharMan implements CliTool
     	}
     	catch(NumberFormatException e)
     	{
-    		Log.addSystem(TConnector.getText("ui", "logBadVal") + "-/" + commandLine + "/");
+    		Log.addSystem(TConnector.getText("ui", "logBadVal") + ":'" + commandLine + "'");
     		result = "1";
     	}
     	catch(NoSuchElementException e)
     	{
-    		Log.addSystem("not enough arguments" + "-/" + commandLine + "/");
+    		Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
     		result = "1";
     	}
     	catch(SlickException | IOException | FontFormatException e)
     	{
-    		Log.addSystem("some fatal error" + "-/" + commandLine + "/");
+    		Log.addSystem("some fatal error" + ":'" + commandLine + "'");
     		result = "1";
     	}
         finally
@@ -397,7 +397,7 @@ public class CharMan implements CliTool
     		}
     		else
     		{
-    			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem") + "-/" + commandLine + "/");
+    			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem") + ":'" + commandLine + "'");
     			result = "3";
 			}
     	}
@@ -408,7 +408,7 @@ public class CharMan implements CliTool
     	}
     	catch(NumberFormatException e)
     	{
-    		Log.addSystem(TConnector.getText("ui", "logBadVal") + "-/" + commandLine + "/");
+    		Log.addSystem(TConnector.getText("ui", "logBadVal") + ":'" + commandLine + "'");
     	    result = "1";
     	}
         finally
@@ -431,41 +431,46 @@ public class CharMan implements CliTool
     	try
     	{
         	String prefix = scann.next();
-        	String arg1 = scann.next();
+        	String arg1 = null;
+        	if(scann.hasNext())
+        		arg1 = scann.next();
 			
-			if(prefix.equals("-f"))
+			switch(prefix)
 			{
+			case "-f":
 				out = target.getName() + "-flags: " + target.getFlags().list();
-			}
-			else if(prefix.equals("-r"))
-			{
+				break;
+			case "-r":
 				out = target.getProfession(ProfessionType.fromString(arg1)).toString();
-			}
-			else if(prefix.equals("-e"))
-			{
+				break;
+			case "-e":
 				out = target.getEffects().list();
-			}
-			else if(prefix.equals("-d") || prefix.equals("-dis"))
-			{
-			    Targetable object = null;
-			    
-			    if(arg1.equals("player"))
-			        object = player;
+				break;
+			case "-d": case "--dis":
+			    if(arg1 != null)
+			    {
+			    	Targetable object = null;
+				    
+				    if(arg1.equals("player"))
+				        object = player;
+				    else
+				        object = gw.getCurrentChapter().getTObject(arg1);
+				    
+				    if(object != null)
+				        out = "range from " + object.getId() +":" + target.getRangeFrom(object);
+			    }
 			    else
-			        object = gw.getCurrentChapter().getTObject(arg1);
-			    
-			    if(object != null)
-			        out = "range from " + object.getId() +":" + target.getRangeFrom(object);
-			}
-			else
-			{
-		    	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho") + "-/" + commandLine + "/");
+			    	throw new NoSuchElementException();
+				break;
+			default:
+		    	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho") + ":'" + commandLine + "'");
 		    	result = "3";
+				break;
 			}
     	}
     	catch(NoSuchElementException e)
     	{
-    		Log.addSystem("empty value" + "-/" + commandLine + "/");
+    		Log.addSystem("empty value:" + "'" + commandLine + "'");
     		result = "1";
     	}
     	finally
@@ -537,7 +542,7 @@ public class CharMan implements CliTool
        }
        catch(NoSuchElementException e)
        {
-           Log.addSystem("not enough arguments" + "-/" + commandLine + "/");
+           Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
            result = "1";
        }
        finally
@@ -610,18 +615,19 @@ public class CharMan implements CliTool
             }
             else
             {
+                Log.addSystem("no such option for is: " + prefix);
             	result = "3";
             }
             
         }
         catch(NoSuchElementException e)
         {
-            Log.addSystem("not enough arguments" + "-/" + commandLine + "/");
+            Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
             result = "1";
         }
         catch(NumberFormatException e)
         {
-        	Log.addSystem("bad argument value" + "-/" + commandLine + "/");
+        	Log.addSystem("bad argument value" + ":'" + commandLine + "'");
             result = "1";
         }
         finally

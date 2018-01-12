@@ -41,6 +41,7 @@ import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.cli.CommandInterface;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
@@ -65,6 +66,9 @@ import pl.isangeles.senlin.gui.tools.UserInterface;
  */
 public class LoadingScreen extends BasicGameState
 {
+	private static final int NEW_GAME = 0;
+	private static final int SAVED_GAME = 1;
+	
     private InfoField loadingInfo;
     private Character player;
     private SavedGame gameToLoad;
@@ -72,7 +76,7 @@ public class LoadingScreen extends BasicGameState
     private UserInterface ui;
     private CommandInterface cli;
     private GameWorld gw;
-    private String loadType;
+    private int loadType;
     private int loadCounter;
     /**
      * Creates new game loader
@@ -82,7 +86,7 @@ public class LoadingScreen extends BasicGameState
     {
     	this.player = player;
     	Global.setPlayer(player);
-    	loadType = "newGame";
+    	loadType = NEW_GAME;
     }
     /**
      * Creates saved game loader
@@ -91,7 +95,7 @@ public class LoadingScreen extends BasicGameState
     public LoadingScreen(String saveName)
     {
         this.saveName = saveName;
-        loadType = "savedGame";
+        loadType = SAVED_GAME;
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -128,12 +132,12 @@ public class LoadingScreen extends BasicGameState
     {
     	try 
 		{
-			if(loadType.equals("newGame"))
+			if(loadType == NEW_GAME)
 			{
 				if(!loadNewGame(container, game))
 					container.exit();
 			}
-			if(loadType.equals("savedGame"))
+			else if(loadType == SAVED_GAME)
 			{
 				if(!loadSave(container, game))
 					container.exit();
@@ -163,11 +167,13 @@ public class LoadingScreen extends BasicGameState
      * @throws SAXException
      * @throws SlickException
      */
-    private boolean loadNewGame(GameContainer container, StateBasedGame game) throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
+    private boolean loadNewGame(GameContainer container, StateBasedGame game) 
+    		throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
     {
     	switch(loadCounter)
 		{
 		case 0:
+			Stopwatch.start(); //TEST loading time measurement
 			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
@@ -203,6 +209,7 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 6:
+			Log.addSystem("Loading time:" + Stopwatch.stop() + "s"); //TEST loading time measurement
 	        loadCounter = 0;
 	        game.enterState(gw.getID());
 	        break;
@@ -227,6 +234,7 @@ public class LoadingScreen extends BasicGameState
     	switch(loadCounter)
 		{
 		case 0:
+			Stopwatch.start(); //TEST loading time measurement
 			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
@@ -272,6 +280,7 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 8:
+			Stopwatch.stopAndPrint("Game loading"); //TEST loading time measurement
 	        loadCounter = 0;
 	        game.enterState(gw.getID());
 	        break;
