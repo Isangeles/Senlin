@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.core.bonus;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Character;
 
@@ -32,7 +33,7 @@ import pl.isangeles.senlin.core.character.Character;
  */
 public class FlagModifier extends Modifier 
 {
-	private String flag;
+	private final String flag;
 	/**
 	 * Flag modifier constructor
 	 * @param flag Flag to add on target
@@ -40,6 +41,7 @@ public class FlagModifier extends Modifier
 	public FlagModifier(String flag)
 	{
 		super(ModifierType.FLAG, "");
+		this.flag = flag;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.bonus.Modifier#applyOn(pl.isangeles.senlin.core.Targetable)

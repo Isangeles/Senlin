@@ -15,24 +15,24 @@
             <answer id="ericWelcome01a01" to="1"></answer>
             <answer id="ericWelcome01a02" to="3"></answer>
             <answer id="ericWelcome01a3" to="3">
-                <req>
+                <aReq>
                     <statsReq>2;0;0;0;0;</statsReq>
-                </req>
+                </aReq>
             </answer>
         </text>
         <text id="ericWelcome01b" start="true" ordinal="0">
             <answer id="ericWelcome01a01" to="1"></answer>
             <answer id="ericWelcome01a02" to="3"></answer>
-            <req>
+            <pReq>
                 <statsReq>4;0;0;0;0;</statsReq>
-            </req>
+            </pReq>
         </text>
         <text id="ericWelcome01f" start="true" ordinal="0">
             <answer id="ericWelcome01a01" to="1"></answer>
             <answer id="ericWelcome01a02" to="3"></answer>
-            <req>
+            <pReq>
                 <genderReq>female</genderReq>
-            </req>
+            </pReq>
         </text>
         <text id="ericWelcome02" ordinal="1">
             <answer id="ericWelcome02a01" to="2"></answer>
@@ -127,9 +127,9 @@
     	  </text>
     	  <text id="lianSL02f" ordinal="1">
 				<answer id="lianSL02_a0" to="2"/>  
-				<req>
+				<pReq>
 					<genderReq>female</genderReq>				
-				</req>  
+				</pReq>  
     	  </text>
     	  <text id="lianSL03" ordinal="2">
     	  		<answer id="lianSL03_a0" to="3"/>
@@ -221,7 +221,7 @@
     </dialogue>
     
     <dialogue id="kifD01">
-		<text id="kifD01T00" oridinal="0">
+		<text id="kifD01T00" ordinal="0">
 			<answer id="whoareu" to="1" />
 			<answer id="rumAsk01" to="2" />
 			<answer id="jobAsk01" to="3" />
@@ -237,9 +237,9 @@
 		<text id="kifD01T03" ordinal="3">
 			<answer id="backAns01" to="0"/>
 			<mod>
-				<modTarget>
+				<modPlayer>
 					<flagModifier>bouveJob00</flagModifier>
-				</modTarget>
+				</modPlayer>
 			</mod>
 		</text>
     </dialogue>
@@ -247,11 +247,15 @@
     <dialogue id="bouveD01">
 		<text id="bouveD01T00" ordinal="0">
 			<answer id="whoareu01" to="1"/>
-			<answer id="bouveD01T00_a0" to="2"/>
+			<answer id="bouveD01T00_a0" to="2">				
+				<aReq>
+					<flagReq>bouveJob00</flagReq>
+				</aReq>
+			</answer>
 			<answer id="trainReq01" to="train">
-				<req>
+				<aReq>
 					<flagReq>bouveJob01</flagReq>
-				</req>
+				</aReq>
 			</answer>
 			<answer id="bye01" to="end"/>
 		</text>
@@ -260,16 +264,13 @@
 		</text>
 		<text id="bouveD01T02" ordinal="2">
 			<answer id="bouveD01T02_a0" to="3"/>
-			<req>
-				<flagReq>bouveJob00</flagReq>
-			</req>
 		</text>
 		<text id="bouveD01T03" ordinal="3">
 			<answer id="backAns01" to="0"/>
 			<mod>
-				<modTarget>
+				<modPlayer>
 					<flagModifier>bouveJob01</flagModifier>
-				</modTarget>
+				</modPlayer>
 			</mod>
 		</text>
     </dialogue>

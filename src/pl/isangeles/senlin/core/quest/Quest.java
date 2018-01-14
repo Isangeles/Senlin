@@ -242,6 +242,22 @@ public class Quest implements ScrollableContent, SaveElement
     {
     	return id.equals(q.getId());
     }
+    /**
+     * Sets quest active or inactive
+     * @param active True to set quest active, false to set inactive
+     */
+    public void setActive(boolean active)
+    {
+    	this.active = active;
+    }
+    /**
+     * Sets specified game character as owner of this quest
+     * @param character Game character
+     */
+    public void setOwner(Character character)
+    {
+    	owner = character;
+    }
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
 	 */

@@ -25,16 +25,20 @@ package pl.isangeles.senlin.core.dialogue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
+import pl.isangeles.senlin.data.save.SaveElement;
 /**
  * Class for characters dialogues
  * @author Isangeles
  *
  */
-public class Dialogue 
+public class Dialogue implements SaveElement
 {
 	private final String id;
 	private Requirements reqs;
@@ -142,6 +146,24 @@ public class Dialogue
 		else
 			return true;
 	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.data.save.SaveElement#getSave(org.w3c.dom.Document)
+	 */
+	@Override
+	public Element getSave(Document doc) 
+	{
+		Element dialogueE = doc.createElement("dialogue");
+    	
+		dialogueE.setAttribute("id", id);
+		Element dReq = doc.createElement("dReq");
+		for(Requirement req : reqs)
+		{
+			dReq.appendChild(req.getSave(doc));
+		}
+		dialogueE.appendChild(dReq);
+    	
+    	return dialogueE;
+	}
 	/**
 	 * Returns dialogue part with specified ordinal ID
 	 * @param ordinalId String with dialogue part ordinal ID
@@ -149,8 +171,8 @@ public class Dialogue
 	 */
 	private DialoguePart getPart(String ordinalId)
 	{
-		Log.addDebug("d_trigger_req//" + ordinalId);
-		
+		//Log.addSystem("d_trigger_req//" + ordinalId);
+
 		for(DialoguePart dp : parts)
 		{
 		    if(dp.getOrdinalId().equals(ordinalId) && dp.hasReq() && dialogueTarget != null)
@@ -162,18 +184,20 @@ public class Dialogue
 		    	}
 		    }
 		}
+		
 		for(DialoguePart dp : parts)
 		{
 			if(dp.getOrdinalId().equals(ordinalId) && !dp.hasReq())
 				return dp;
 		}
-		
+
 		for(DialoguePart dp : parts)
 		{
 			if(dp.getId().equals("error01"))
 				return dp;
 		}
-		
+
+		//Error part
 		List<Answer> aList = new ArrayList<>();
 		Requirements reqs = new Requirements();
 		aList.add(new Answer("bye01", "", false, false, true, reqs));

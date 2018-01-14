@@ -61,7 +61,7 @@ public class Flags extends HashSet<String> implements SaveElement
 	 */
 	public boolean contains(String flag)
 	{
-		if(flag != "")
+		if(flag != null && !flag.equals(""))
 		{
 			for(String ele : this)
 			{

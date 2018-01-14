@@ -109,7 +109,7 @@ public class DialogueParser
 				}
 			}
 			
-			Node reqNode = textE.getElementsByTagName("req").item(0);
+			Node reqNode = textE.getElementsByTagName("pReq").item(0);
 			List<Requirement> req = RequirementsParser.getReqFromNode(reqNode);
 			
 			Element modE = (Element)textE.getElementsByTagName("mod").item(0);
@@ -173,7 +173,7 @@ public class DialogueParser
 		if(train || trade)
 			end = true;
 		
-		Node reqNode = answerE.getElementsByTagName("req").item(0);
+		Node reqNode = answerE.getElementsByTagName("aReq").item(0);
 		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
 		
 		return new Answer(aId, toId, train, trade, end, reqs);

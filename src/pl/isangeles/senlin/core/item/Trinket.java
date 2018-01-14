@@ -89,7 +89,7 @@ public class Trinket extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, int serial, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+	public Trinket(String id, long serial, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);

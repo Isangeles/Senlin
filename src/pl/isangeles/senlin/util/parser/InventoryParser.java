@@ -77,7 +77,7 @@ public final class InventoryParser
                 }
                 else
                 {
-                    int itemSerial = Integer.parseInt(itemSerialS);
+                    long itemSerial = Long.parseLong(itemSerialS);
                     RandomItem ip = new RandomItem(itemInId, itemSerial, ifRandom);
                     items.add(ip);
                 }

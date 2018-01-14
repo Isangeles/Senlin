@@ -52,11 +52,11 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public abstract class Item implements SlotContent, Usable, ObjectiveTarget
 {
-	private static int itemCounter;
-	private static List<Integer> reservedIDs = new ArrayList<>();
+	private static long itemCounter;
+	private static List<Long> reservedIDs = new ArrayList<>();
 	protected static Map<String, Image> icons = new HashMap<>();
 	protected Targetable owner;
-	protected int itemNumber = itemCounter++;
+	protected long itemNumber = itemCounter++;
 	protected String id;
 	protected String serialId;
     protected String name;
@@ -108,7 +108,7 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
      * @throws IOException
      * @throws FontFormatException
      */
-    public Item(String id, int serial, int value, int maxStack, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
+    public Item(String id, long serial, int value, int maxStack, String imgName, GameContainer gc) throws SlickException, IOException, FontFormatException
     {
     	this(id, value, maxStack, imgName, gc);
     	serialId = id + "_" + serial;
@@ -160,7 +160,7 @@ public abstract class Item implements SlotContent, Usable, ObjectiveTarget
      * Returns number unique for every item in game
      * @return Item number
      */
-    public int getNumber()
+    public long getNumber()
     {
     	return itemNumber;
     }

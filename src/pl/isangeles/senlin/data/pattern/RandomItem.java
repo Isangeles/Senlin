@@ -34,7 +34,7 @@ import pl.isangeles.senlin.data.ItemsBase;
 public class RandomItem
 {
 	private String id;
-	private int serial = -1;
+	private long serial = -1l;
 	private boolean random;
 	private Random gen = new Random();
 	/**
@@ -52,7 +52,7 @@ public class RandomItem
 	 * @param id Item id
 	 * @param random True if item spawn should be random, false otherwise
 	 */
-	public RandomItem(String id, int serial, boolean random)
+	public RandomItem(String id, long serial, boolean random)
 	{
 		this.id = id;
 		this.serial = serial;

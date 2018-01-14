@@ -79,7 +79,7 @@ public class Misc extends Item
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Misc(String id, int serial, int value, int maxStack, boolean disposable, boolean currency, String imgName, Action onUse, GameContainer gc) 
+	public Misc(String id, long serial, int value, int maxStack, boolean disposable, boolean currency, String imgName, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		super(id, serial, value, maxStack, imgName, gc);

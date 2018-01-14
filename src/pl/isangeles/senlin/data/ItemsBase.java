@@ -105,7 +105,7 @@ public class ItemsBase
 	 * @param serial Serial number for item
 	 * @return New instance of desired item from base or null if item was not found 
 	 */
-	public static Item getItem(String id, int serial)
+	public static Item getItem(String id, long serial)
 	{
 		if(id == "")
 			return null;

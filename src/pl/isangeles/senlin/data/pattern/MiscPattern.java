@@ -97,7 +97,7 @@ public class MiscPattern
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Misc make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	public Misc make(GameContainer gc, long serial) throws SlickException, IOException, FontFormatException
 	{
 		Action onClick = this.onClick.make();
 		return new Misc(id, serial, value, maxStack, disposable, currency, icon, onClick, gc);

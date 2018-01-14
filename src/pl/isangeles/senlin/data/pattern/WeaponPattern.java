@@ -119,7 +119,7 @@ public class WeaponPattern
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Weapon make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	public Weapon make(GameContainer gc, long serial) throws SlickException, IOException, FontFormatException
 	{
 		if(spriteSheet.equals("default") || spriteSheet.equals(""))
 			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, gc);

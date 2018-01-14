@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.QuestsBase;
 /**
@@ -54,8 +55,10 @@ public class QuestTracker
      */
     public void check(ObjectiveTarget ot)
     {
+    	//Log.addSystem("qtrack check:" + ot.getId()); TEST
         for(Quest quest : character.getQuests())
         {
+        	//Log.addSystem("qtrack q check:" + quest.getId()); TEST
             quest.check(ot);
         }
         for(String questId : questsToStart.keySet())

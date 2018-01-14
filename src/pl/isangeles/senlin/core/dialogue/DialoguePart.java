@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.isangeles.senlin.util.TConnector;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.req.Requirement;

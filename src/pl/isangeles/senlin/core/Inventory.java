@@ -25,9 +25,12 @@ package pl.isangeles.senlin.core;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

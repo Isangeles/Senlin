@@ -106,7 +106,7 @@ public class Armor extends Equippable
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, int serial, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects, 
+	public Armor(String id, long serial, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects, 
 				 int reqLevel, String imgName, String mSpriteName,String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{

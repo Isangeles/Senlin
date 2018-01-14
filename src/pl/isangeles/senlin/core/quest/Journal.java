@@ -1,7 +1,7 @@
 /*
  * Journal.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.core.character.Character;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,12 +42,24 @@ public class Journal extends HashSet<Quest> implements SaveElement
 {
 	private static final long serialVersionUID = 1L;
 	private List<Quest> qCompleted = new ArrayList<>();
+	private final Character owner;
+	/**
+	 * Journal constructor
+	 * @param character Game character, owner of journal
+	 */
+	public Journal(Character character)
+	{
+		owner = character;
+	}
 	
 	@Override
 	public boolean add(Quest quest)
 	{
 		if(!qCompleted.contains(quest))
+		{
+			quest.setOwner(owner);
 			return super.add(quest);
+		}
 		else
 			return false;
 	}	

@@ -54,7 +54,8 @@ public abstract class Equippable extends Item implements EffectSource
 	protected AnimObject itemFSprite;
 	protected List<String> equipEffects;
 	
-	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, List<String> equipEffects, int type, ItemMaterial material)
+	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, 
+				      List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, value, 1, imgName, gc);
@@ -66,7 +67,8 @@ public abstract class Equippable extends Item implements EffectSource
 		onUse = new EquipAction(this);
 	}
 	
-	public Equippable(String id, int serial, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, List<String> equipEffects, int type, ItemMaterial material)
+	public Equippable(String id, long serial, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, 
+					  List<String> equipEffects, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
 		super(id, serial, value, 1, imgName, gc);

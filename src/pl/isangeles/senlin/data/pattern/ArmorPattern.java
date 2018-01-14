@@ -114,7 +114,7 @@ public class ArmorPattern
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor make(GameContainer gc, int serial) throws SlickException, IOException, FontFormatException
+	public Armor make(GameContainer gc, long serial) throws SlickException, IOException, FontFormatException
 	{
 		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, reqLvl, icon, mSprite, fSprite, gc);
 	}

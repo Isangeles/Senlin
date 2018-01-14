@@ -141,7 +141,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Map<String, Attitude> attitudeMem = new HashMap<>();
 	private Effects effects = new Effects(this);
 	private Modifiers modifiers = new Modifiers();
-	private Journal quests = new Journal();
+	private Journal quests = new Journal(this);
 	private Flags flags = new Flags();
 	private List<Training> trainings = new ArrayList<>();
 	private QuestTracker qTracker;
@@ -1434,9 +1434,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         Element dialoguesE = doc.createElement("dialogues");
         for(Dialogue dialogue : dialogues)
         {
-        	Element dialogueE = doc.createElement("dialogue");
-        	dialogueE.setTextContent(dialogue.getId());
-        	dialoguesE.appendChild(dialogueE);
+        	dialoguesE.appendChild(dialogue.getSave(doc));
         }
         charE.appendChild(dialoguesE);
         

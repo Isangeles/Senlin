@@ -124,7 +124,7 @@ public class TrinketPattern
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket make(GameContainer gc, int serial) throws NumberFormatException, SlickException, IOException, FontFormatException
+	public Trinket make(GameContainer gc, long serial) throws NumberFormatException, SlickException, IOException, FontFormatException
 	{
 		Action action;
 		ActionType aType = ActionType.fromString(actionType);

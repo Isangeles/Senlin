@@ -365,6 +365,7 @@ public final class SSGParser
                         objective.setAmount(Integer.parseInt(objectiveE.getTextContent().split("/")[0]));
                     }
                 }
+                quest.setActive(true);
                 savedQuests.add(quest);
             }
         }
