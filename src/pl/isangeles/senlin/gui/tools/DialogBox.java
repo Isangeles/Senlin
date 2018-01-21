@@ -53,8 +53,8 @@ import pl.isangeles.senlin.gui.TextBox;
  */
 class DialogBox extends InterfaceObject implements UiElement, MouseListener
 {
-	private Character interlocutorA;
-	private Character interlocutorB;
+	private Character interlocutorA; //player
+	private Character interlocutorB; //npc
 	
 	private Dialogue currentDialogue;
 	
@@ -334,6 +334,10 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	private void nextDialogueStage(Answer dialogueOption)
 	{
         currentDialogue.answerOn(dialogueOption);
+        
+		interlocutorA.getQTracker().check(dialogueOption);
+        interlocutorA.getQTracker().check(currentDialogue.getCurrentStage());
+        
         clearAnswersBox();
         textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
         dialogueAnswers = currentDialogue.getAnswers();
@@ -383,9 +387,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 			if(isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
 			{
 				if(option != null)
-				{
-					interlocutorA.getQTracker().check(option);
-					
+				{	
 					tradeReq = option.isTrade();
 					trainReq = option.isTrain();
 

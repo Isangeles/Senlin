@@ -1,7 +1,7 @@
 /*
  * Scenario.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,37 +23,22 @@
 package pl.isangeles.senlin.data.area;
 
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import pl.isangeles.senlin.data.DialoguesBase;
-import pl.isangeles.senlin.data.NpcBase;
-import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.QuestsBase;
-import pl.isangeles.senlin.data.pattern.ObjectPattern;
 import pl.isangeles.senlin.data.save.SaveElement;
-import pl.isangeles.senlin.graphic.GameObject;
-import pl.isangeles.senlin.util.Position;
-import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
-import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.Quest;
@@ -192,10 +177,10 @@ public class Scenario implements SaveElement
 		this.scripts = scripts;
 	}
 	/**
-	 * Starts all scenario quests for specified character
+	 * Adds all quests as quests to start to specified player quests tracker
 	 * @param player Player character
 	 */
-	public void startQuests(Character player)
+	public void addQuestsToStart(Character player)
 	{
 		for(Entry<Quest, String> q : questsToStart.entrySet())
 		{

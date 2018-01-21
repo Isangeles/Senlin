@@ -12,6 +12,7 @@
         </npcs>
         <quests>
 			<quest trigger="amajD02T01_a0">amajDeal</quest>
+			<quest trigger="kifD01T03">bouveHunt01</quest>
         </quests>
         <objects>
         </objects>

@@ -143,4 +143,24 @@
 			<flag type="on" on="start">amajDeal00</flag>
 		</qFlags>
 	</quest>
+	
+	<quest id="bouveHunt01">
+		<stages>
+			<stage id="bouveHunt01_s0" next="bouveHunt01_s1">
+				<objectives>
+					<objective type="talk">bouveD01T02</objective>
+				</objectives>
+			</stage>
+			<stage id="bouveHunt01_s1" next="bouveHunt01_s2">
+				<objectives>
+					<objective type="gather" amount="5">bouveD01T02</objective>
+				</objectives>
+			</stage>
+			<stage id="bouveHunt01_s2" next="end">
+				<objectives>
+					<objective type="talk">TODO</objective>
+				</objectives>
+			</stage>
+		</stages>
+	</quest>
 </base>

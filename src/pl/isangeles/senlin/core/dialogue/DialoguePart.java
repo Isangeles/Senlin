@@ -29,6 +29,7 @@ import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.core.quest.ObjectiveTarget;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
 /**
@@ -36,7 +37,7 @@ import pl.isangeles.senlin.core.req.Requirements;
  * @author Isangeles
  *
  */
-public class DialoguePart 
+public class DialoguePart implements ObjectiveTarget
 {
 	private final String id;
 	private final String ordinalId;

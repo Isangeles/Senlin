@@ -1,7 +1,7 @@
 /*
  * QuestTracker.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ import pl.isangeles.senlin.data.QuestsBase;
 public class QuestTracker
 {
     private Character character;
-    private Map<String, String> questsToStart = new HashMap<>();
+    private Map<String, String> questsToStart = new HashMap<>(); // key: quest ID, value: trigger ID
     private List<String> startedQuests = new ArrayList<>();
     /**
      * Quest tracker constructor
@@ -63,6 +63,7 @@ public class QuestTracker
         }
         for(String questId : questsToStart.keySet())
         {
+        	//Log.addSystem("check q: " + questId + " trigger:" + ot.getId());
         	if(questsToStart.get(questId).equals(ot.getId()))
         	{
         		character.startQuest(QuestsBase.get(questId));

@@ -1,7 +1,7 @@
 /*
  * GameWorld.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ public class GameWorld extends BasicGameState implements SaveElement
         this.player = player;
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
-        activeScenario.startQuests(player);
+        activeScenario.addQuestsToStart(player);
         Global.setChapter(chapter);
 	}
 	/**
@@ -118,7 +118,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	    dayManager = savedGame.getDay();
 	    chapter = savedGame.getChapter();
 	    activeScenario = chapter.getActiveScenario();
-	    activeScenario.startQuests(player);
+	    activeScenario.addQuestsToStart(player);
         Global.setChapter(chapter);
 	}
 	/**
@@ -503,6 +503,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	nextScenario = null;
     	player.setArea(activeScenario.getMainArea());
     	player.setPosition(exit.getToPos());
+    	activeScenario.addQuestsToStart(player);
     	chapter.setScenario(activeScenario.getId());
     	//entering to reload screen
     	game.getState(5).init(gc, game);
