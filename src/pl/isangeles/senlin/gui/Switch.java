@@ -120,8 +120,8 @@ public final class Switch extends InterfaceObject implements MouseListener
 		plusB.draw((x+super.getWidth())-plusB.getScaledWidth(), y+getDis(2), scaledPos);
 		minusB.draw(x, y+getDis(2), scaledPos);
 		
-		super.drawString(value+"", ttf);
-		ttf.drawString(super.getCenteredCoord(super.x, texEndX, textX), super.getCenteredCoord(super.y, texEndY, textY-20), label);
+		super.drawString(value+"", ttf, scaledPos);
+		ttf.drawString(getCenter(scaledPos).x, getCenter(scaledPos).y-getDis(20), label);
 		
 	}
 	/**

@@ -1,0 +1,6 @@
+language:english;
+resolution:1920.0;1080.0;
+fogOfWar:light;
+mapRenderType:full;
+effectsVol:1.0;
+musicVol:0.0;

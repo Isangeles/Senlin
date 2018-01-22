@@ -67,8 +67,11 @@ public class MainMenu extends BasicGameState
         {
         	GBase.load();
         	ABase.load();
-        	cursor = new GameCursor(container);
-            container.setMouseCursor(cursor, Math.round(10 * Settings.getScale()), 0);
+        	if(!Settings.isHwCursor())
+        	{
+            	cursor = new GameCursor(container);
+                container.setMouseCursor(cursor, Math.round(10 * Settings.getScale()), 0);
+        	}
             logo = new Sprite(GConnector.getInput("field/logox3green.png"), "menuLogo", false);
         	buttNewGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "ngName"), container);
         	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "lgName"), container);

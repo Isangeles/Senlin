@@ -118,9 +118,9 @@ public class Button extends InterfaceObject implements MouseListener
     	else
     		super.draw(x, y, clickColor);
     	
-        moveMOA(super.x, super.y);
+        //moveMOA(super.x, super.y);
         
-        super.drawString(label, ttf);
+        super.drawString(label, ttf, true);
     }
     /**
      * Draws button
@@ -133,9 +133,9 @@ public class Button extends InterfaceObject implements MouseListener
     	else
     		super.draw(x, y, clickColor, scaledPos);
     	
-        moveMOA(super.x, super.y);
+        //moveMOA(super.x, super.y);
         
-        super.drawString(label, ttf);
+        super.drawString(label, ttf, scaledPos);
     }
     
     @Override
@@ -147,9 +147,9 @@ public class Button extends InterfaceObject implements MouseListener
         else
             super.draw(x, y, clickColor, scaledPos);
         
-        moveMOA(super.x, super.y);
+        //moveMOA(super.x, super.y);
         
-        super.drawString(label, ttf);
+        super.drawString(label, ttf, scaledPos);
     }
     
     public boolean clicked()

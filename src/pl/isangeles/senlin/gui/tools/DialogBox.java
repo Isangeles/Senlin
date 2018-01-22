@@ -378,7 +378,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		{
 			super.draw(x, y, scaledPos);
 			if(option != null)
-				super.drawString(option.getText(), ttf);
+				super.drawString(option.getText(), ttf, false);
 		}
 		
 		@Override

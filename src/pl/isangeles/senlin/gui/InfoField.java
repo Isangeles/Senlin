@@ -85,14 +85,14 @@ public class InfoField extends InterfaceObject
     public void draw(float x, float y, boolean scaledPos)
     {
         super.draw(x, y, width, height, scaledPos);
-        super.drawString(label, ttf);
+        super.drawString(label, ttf, scaledPos);
     }
     
     @Override
     public void draw(float x, float y, float width, float height, boolean scaledPos)
     {
         super.draw(x, y, width, height, scaledPos);
-        super.drawString(label, ttf);
+        super.drawString(label, ttf, scaledPos);
     }
     /**
      * Sets specified text as field info

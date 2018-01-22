@@ -1,7 +1,7 @@
 /*
  * InterfaceObject.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ public abstract class InterfaceObject extends Image
     
     private InfoWindow info;
     private boolean isInfo;
-    private MouseOverArea iObjectMOA;
+    private MouseOverArea moa;
     /**
      * Object constructor that uses raw path(outside graphical archive)
      * @param pathToTex Path to image file
@@ -65,7 +65,7 @@ public abstract class InterfaceObject extends Image
     {
         super(pathToTex);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Object constructor with custom MOA size that uses raw path(outside graphical archive)
@@ -80,7 +80,7 @@ public abstract class InterfaceObject extends Image
     {
         super(pathToTex);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
      * Object constructor that uses another image
@@ -92,7 +92,7 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Object with info window constructor that uses another image
@@ -107,7 +107,7 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     }
@@ -123,7 +123,7 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     }
     /**
      * Creates object with custom MOA size and info window, uses another image
@@ -140,7 +140,7 @@ public abstract class InterfaceObject extends Image
     {
     	super(image);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     }
@@ -157,7 +157,7 @@ public abstract class InterfaceObject extends Image
     {
         super(fileInput, ref, flipped);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), (int)getScaledWidth(), (int)getScaledHeight());
     }
     /**
      * Constructor for interface object with info window, implicitly scales object for current resolution
@@ -193,7 +193,7 @@ public abstract class InterfaceObject extends Image
     {
     	super(fileInput, ref, flipped);
         this.gc = gc;
-        iObjectMOA = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
+        moa = new MouseOverArea(gc, this, (int)Coords.getX("BR", 0), (int)Coords.getY("BR", 0), moaWidth, moaHeight);
     	isInfo = true;
     	info = new InfoWindow(gc, textForInfo);
     }
@@ -203,7 +203,7 @@ public abstract class InterfaceObject extends Image
      */
     public boolean isMouseOver()
     {
-    	return iObjectMOA.isMouseOver();
+    	return moa.isMouseOver();
     }
     /**
      * Draws object on current position 
@@ -216,8 +216,8 @@ public abstract class InterfaceObject extends Image
         float drawY = y * Coords.getScale();
         super.draw(drawX, drawY, Coords.getScale());
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -232,12 +232,12 @@ public abstract class InterfaceObject extends Image
     {
         setPosition(x, y);
         
-        float drawX = x * Coords.getScale();
-        float drawY = y * Coords.getScale();
+        float drawX = Coords.getDis((int)x);
+        float drawY = Coords.getDis((int)y);
         super.draw(drawX, drawY, Coords.getScale());
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -257,8 +257,8 @@ public abstract class InterfaceObject extends Image
         float drawY = y * Coords.getScale();
         super.draw(drawX, drawY, Coords.getScale(), filter);
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
         	info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -283,8 +283,8 @@ public abstract class InterfaceObject extends Image
         
         super.draw(drawX, drawY, drawWidth, drawHeight);
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -314,8 +314,8 @@ public abstract class InterfaceObject extends Image
         
         super.draw(drawX, drawY, drawWidth, drawHeight);
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -338,9 +338,9 @@ public abstract class InterfaceObject extends Image
             drawY *= Coords.getScale();
         }
         super.draw(drawX, drawY, Coords.getScale());
-        
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+         
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -365,8 +365,8 @@ public abstract class InterfaceObject extends Image
         }
         super.draw(drawX, drawY, Coords.getScale(), filter);
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -397,8 +397,8 @@ public abstract class InterfaceObject extends Image
         
         super.draw(drawX, drawY, drawWidth, drawHeight, filter);
         
-        iObjectMOA.setLocation(drawX, drawY);
-        if(isInfo && iObjectMOA.isMouseOver())
+        moa.setLocation(drawX, drawY);
+        if(isInfo && moa.isMouseOver())
         {
             info.draw(gc.getInput().getMouseX()+getDis(20), gc.getInput().getMouseY()+getDis(20));
         }
@@ -443,7 +443,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledWidth()
     {
-    	return width*Coords.getScale();
+    	return getWidth()*Coords.getScale();
     }
     /**
      * Returns height of object corrected by scale
@@ -451,7 +451,7 @@ public abstract class InterfaceObject extends Image
      */
     public float getScaledHeight()
     {
-    	return height*Coords.getScale();
+    	return getHeight()*Coords.getScale();
     }
     /**
      * Returns position in the center of the screen for this object and current resolution
@@ -508,14 +508,17 @@ public abstract class InterfaceObject extends Image
      * @param text String to draw
      * @param ttf TTF font for text
      */
-    protected void drawString(String text, TrueTypeFont ttf)
+    protected void drawString(String text, TrueTypeFont ttf, boolean scaledPos)
     {
+    	/*
         float thisEndX = width;
         float thisEndY = height;
         float textX = ttf.getWidth(text);
         float textY = ttf.getHeight(text);
         
         ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text);
+    	*/
+    	ttf.drawString(getCenter(scaledPos).x, getCenter(scaledPos).y, text);
     }
     /**
      * Draws string in specified color in middle of object
@@ -523,14 +526,17 @@ public abstract class InterfaceObject extends Image
      * @param ttf TTF font for text
      * @param color Text color
      */
-    protected void drawString(String text, TrueTypeFont ttf, Color color)
+    protected void drawString(String text, TrueTypeFont ttf, Color color, boolean scaledPos)
     {
+    	/*
         float thisEndX = width;
         float thisEndY = height;
         float textWidth = ttf.getWidth(text);
         float textHeight = ttf.getHeight(text);
         
         ttf.drawString(getCenteredCoord(x, thisEndX, textWidth), getCenteredCoord(y, thisEndY, textHeight), text, color);
+    	*/
+    	ttf.drawString(getCenter(scaledPos).x, getCenter(scaledPos).y, text, color);
     }
     /**
      * Moves MouseOverArea
@@ -539,7 +545,7 @@ public abstract class InterfaceObject extends Image
      */
     protected void moveMOA(float x, float y)
     {
-    	iObjectMOA.setLocation(x, y);
+    	moa.setLocation(x, y);
     }
     /**
      * Moves MouseOverArea to unreachable by user position(behind bottom right edge of screen)
@@ -548,7 +554,14 @@ public abstract class InterfaceObject extends Image
     {
     	moveMOA(Coords.getX("BR", 0), Coords.getY("BR", 0));
     }
-    
+    /**
+     * Now use getCenter()
+     * @param bgCoord
+     * @param bgSize
+     * @param obSize
+     * @return
+     */
+    @Deprecated
     protected float getCenteredCoord(float bgCoord, float bgSize, float obSize)
     {
     	return (bgCoord + (bgSize/2)) - obSize/2; 
@@ -588,14 +601,25 @@ public abstract class InterfaceObject extends Image
     }
     /**
      * Returns position at center of object texture 
+     * @param True if position should be scaled, false otherwise
      * @return XY position
      */
-    protected Position getCenter()
+    protected Position getCenter(boolean scaledPos)
     {
+    	int posx = (int)x;
+    	int posy = (int)y;
+    	
+    	if(scaledPos)
+    	{
+    		posx = getDis((int)x);
+        	posy = getDis((int)y);
+    	}
+    	
+    	
     	if(isCustomSize())
-    		return new Position((int)x + (width/2), (int)y + (height/2));
+    		return new Position(posx + (width/2), posy + (height/2));
     	else
-    		return new Position((int)x + (getScaledWidth()/2), (int)y + (getScaledHeight()/2));
+    		return new Position(posx + (getScaledWidth()/2), posy + (getScaledHeight()/2));
     }
     /**
      * Checks if object is drawn in custom size
@@ -603,6 +627,6 @@ public abstract class InterfaceObject extends Image
      */
     private boolean isCustomSize()
     {
-        return (width != 0 || height != 0);
+        return ((width != getWidth() && width != getScaledWidth()) || (height != getHeight() && height != getScaledHeight()));
     }
 }

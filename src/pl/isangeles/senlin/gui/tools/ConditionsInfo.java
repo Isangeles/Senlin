@@ -56,7 +56,7 @@ class ConditionsInfo extends InterfaceObject implements UiElement
 	public void draw(float x, float y)
 	{
 		super.draw(x, y, false);
-		super.drawString(conInfo, ttf);
+		super.drawString(conInfo, ttf, false);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.gui.elements.UiElement#close()

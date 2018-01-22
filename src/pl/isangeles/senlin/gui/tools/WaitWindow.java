@@ -103,13 +103,13 @@ class WaitWindow extends InterfaceObject implements UiElement, KeyListener, Mous
 		super.draw(x, y, false);
 		
 		if(rest)
-			ttf.drawString(super.getCenter().x, super.getTR().y, TConnector.getText("ui", "waitWinTitle"));
+			ttf.drawString(super.getCenter(false).x, super.getTR().y, TConnector.getText("ui", "waitWinTitle"));
 		else
-			ttf.drawString(super.getCenter().x, super.getTR().y, TConnector.getText("ui", "waitWinRest"));
-		hMinusB.draw(super.x, super.getCenter().y, false);
-		hPlusB.draw(super.getBR().x - hPlusB.getScaledWidth(), super.getCenter().y, false);
-		waitB.draw(super.getCenter().x - waitB.getScaledWidth()/2, super.getCenter().y + getDis(40), false);
-		waitTimeF.draw(super.getCenter().x - getSize(35f), super.getCenter().y - getSize(25f), false);
+			ttf.drawString(super.getCenter(false).x, super.getTR().y, TConnector.getText("ui", "waitWinRest"));
+		hMinusB.draw(super.x, super.getCenter(false).y, false);
+		hPlusB.draw(super.getBR().x - hPlusB.getScaledWidth(), super.getCenter(false).y, false);
+		waitB.draw(super.getCenter(false).x - waitB.getScaledWidth()/2, super.getCenter(false).y + getDis(40), false);
+		waitTimeF.draw(super.getCenter(false).x - getSize(35f), super.getCenter(false).y - getSize(25f), false);
 	}
 	/**
 	 * Opens window

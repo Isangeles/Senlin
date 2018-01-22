@@ -116,7 +116,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 		minus.draw(x, y+getDis(2), scaledPos);
 		
 		textTtf.drawString((super.x+getScaledWidth()/2)-textTtf.getWidth(label), super.y+getScaledHeight(), label);
-        super.drawString(textToDraw.get(textId), textTtf);
+        super.drawString(textToDraw.get(textId), textTtf, scaledPos);
     }
     /**
      * Returns current switch value

@@ -1,7 +1,7 @@
 /*
  * Settings.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ import java.util.Scanner;
  * @author Isangeles
  *
  */
-public class Settings
+public final class Settings
 {
     private static String langId;
     private static String newLangId;
@@ -46,6 +46,7 @@ public class Settings
     private static String fowType;
     private static String mRenderType;
     private static String module;
+    private static boolean hwCursor;
     public static final String SCREENSHOTS_DIR = "screenshots";
     /**
      * Private constructor to prevent initialization
@@ -112,6 +113,14 @@ public class Settings
         catch (FileNotFoundException | NoSuchElementException e)
         {
             module = "senlin";
+        }
+        try
+        {
+            hwCursor = Boolean.parseBoolean(TConnector.getSetting("hwCursor"));
+        }
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            hwCursor = false;
         }
         setScale();
     }
@@ -223,6 +232,14 @@ public class Settings
     	return module;
     }
     /**
+     * Checks if hardware cursor is set
+     * @return True if hardware cursor is set, false otherwise
+     */
+    public static boolean isHwCursor()
+    {
+    	return hwCursor;
+    }
+    /**
      * Sets specified size as game resolution(needs game restart)
      * @param resolution Size with width and height
      */
@@ -231,6 +248,7 @@ public class Settings
     	Settings.resolution = resolution;
     	newResolution = resolution; 
     	setScale();
+    	System.out.println("engine_msg: Resolution set to:" + resolution);
     }
     /**
      * Sets specified language with specified ID as game language
@@ -273,6 +291,14 @@ public class Settings
     public static void setMusicVol(float volLevel)
     {
         musicVol = volLevel;
+    }
+    /**
+     * Enables or disables hardware cursor  
+     * @param hwCursor True to enable hardware cursor, false to disable
+     */
+    public static void setHwCursor(boolean hwCursor)
+    {
+    	Settings.hwCursor = hwCursor;
     }
     /**
      * Saves current settings to settings file
