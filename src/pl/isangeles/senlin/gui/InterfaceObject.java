@@ -570,34 +570,61 @@ public abstract class InterfaceObject extends Image
      * Returns top right corner of basic interface object texture
      * @return Position with top right coordinates
      */
-    protected Position getTR()
+    protected Position getTR(boolean scaledPos)
     {
+    	int posx = (int)x;
+    	int posy = (int)y;
+    	
+    	if(scaledPos)
+    	{
+    		posx = getDis((int)x);
+        	posy = getDis((int)y);
+    	}
+    	
         if(isCustomSize())
-            return new Position((int)(x + width), (int)y);
+            return new Position((int)(posx + width), (int)posy);
         else
-            return new Position((int)(x + getScaledWidth()), (int)y);
+            return new Position((int)(posx + getScaledWidth()), (int)posy);
     }
     /**
      * Returns bottom right corner of basic interface object texture
      * @return Position with bottom right coordinates
      */
-    protected Position getBR()
+    protected Position getBR(boolean scaledPos)
     {
+    	int posx = (int)x;
+    	int posy = (int)y;
+    	
+    	if(scaledPos)
+    	{
+    		posx = getDis((int)x);
+        	posy = getDis((int)y);
+    	}
+    	
         if(isCustomSize())
-            return new Position((int)(x + width), (int)(y + height));
+            return new Position((int)(posx + width), (int)(posy + height));
         else
-            return new Position((int)(x + getScaledWidth()), (int)(y + getScaledHeight()));
+            return new Position((int)(posx + getScaledWidth()), (int)(posy + getScaledHeight()));
     }
     /**
      * Returns bottom left corner of basic interface object texture
      * @return Position with bottom left coordinates
      */
-    protected Position getBL()
+    protected Position getBL(boolean scaledPos)
     {
+    	int posx = (int)x;
+    	int posy = (int)y;
+    	
+    	if(scaledPos)
+    	{
+    		posx = getDis((int)x);
+        	posy = getDis((int)y);
+    	}
+    	
         if(isCustomSize())
-            return new Position((int)x, (int)(y + height));
+            return new Position((int)posx, (int)(posy + height));
         else
-            return new Position((int)x, (int)(y + getScaledHeight()));       
+            return new Position((int)posx, (int)(posy + getScaledHeight()));       
     }
     /**
      * Returns position at center of object texture 
@@ -614,7 +641,6 @@ public abstract class InterfaceObject extends Image
     		posx = getDis((int)x);
         	posy = getDis((int)y);
     	}
-    	
     	
     	if(isCustomSize())
     		return new Position(posx + (width/2), posy + (height/2));

@@ -47,7 +47,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     private String label;
     private List<String> textToDraw = new ArrayList<>();
     private int textId;
-    private TrueTypeFont textTtf;
+    private TrueTypeFont ttf;
     private Button plus;
     private Button minus;
     private boolean isChange;
@@ -69,7 +69,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+        ttf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
         this.label = label;
         for(String text : textToSwitch)
@@ -96,7 +96,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         
         File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        textTtf = new TrueTypeFont(textFont.deriveFont(12f), true);
+        ttf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
         this.label = label;
         for(String text : textToSwitch)
@@ -115,8 +115,8 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         plus.draw(x+getWidth()-getDis(35), y+getDis(2), scaledPos);
 		minus.draw(x, y+getDis(2), scaledPos);
 		
-		textTtf.drawString((super.x+getScaledWidth()/2)-textTtf.getWidth(label), super.y+getScaledHeight(), label);
-        super.drawString(textToDraw.get(textId), textTtf, scaledPos);
+		ttf.drawString(getCenter(scaledPos).x, getBR(scaledPos).y, label);
+		super.drawString(textToDraw.get(textId), ttf, scaledPos);
     }
     /**
      * Returns current switch value

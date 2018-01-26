@@ -110,7 +110,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		ttf.drawString(x+getDis(115), y+getDis(20), interlocutorA.getName());
 		ttf.drawString(x+getDis(265), y+getDis(20), interlocutorB.getName());
 		
-		textBox.draw(x+getDis(15), y+getDis(160), 410f, 160f, true);
+		textBox.draw(x+getDis(15), y+getDis(160), 410f, 160f, false);
 		
 		optionsUp.draw(x+getDis(420), y+getDis(350), false);
 		optionsDown.draw(x+getDis(420), y+getDis(490), false);
@@ -457,7 +457,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	               if(textsLeft.contains(text))
 	            	   text.draw(super.x, (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
 	               if(textsRight.contains(text))
-	            	   text.draw(super.getTR().x - text.getTextWidth(), (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
+	            	   text.draw(super.getTR(scaledPos).x - text.getTextWidth(), (super.y + super.getScaledHeight() - getDis(25)) - text.getTextHeight());
 	           }
 	           else if(i > 0)
 	           {
@@ -465,7 +465,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	               if(textsLeft.contains(text))
 	            	   text.draw(super.x, (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
 	               if(textsRight.contains(text))
-	            	   text.draw(super.getTR().x - text.getTextWidth(), (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
+	            	   text.draw(super.getTR(scaledPos).x - text.getTextWidth(), (prevText.getPosition().y - getDis(10)) - text.getTextHeight());
 	           }
 	       }
 			

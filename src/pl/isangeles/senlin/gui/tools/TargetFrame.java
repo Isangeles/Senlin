@@ -90,7 +90,7 @@ class TargetFrame extends InterfaceObject
     public void draw(float x, float y)
     {
         super.draw(x, y, false);
-        target.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f));
+        target.getPortrait().draw(x+getDis(40), y+getDis(9), getSize(95f), getSize(130f), false);
         textTtf.drawString(super.x+getDis(150), super.y+getDis(15), target.getName());
         health.draw(x+getDis(139), y+getDis(36), false);
         

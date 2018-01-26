@@ -71,8 +71,8 @@ public class TextBox extends InterfaceObject implements MouseListener
     public void draw(float x, float y, float width, float height, boolean scaledPos)
     {
        super.draw(x, y, width, height, scaledPos);
-       up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y, scaledPos);
-       down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight(), scaledPos);
+       up.draw(super.getTR(scaledPos).x - up.getScaledWidth(), super.getTR(scaledPos).y, scaledPos);
+       down.draw(getBR(scaledPos).x - down.getScaledWidth(), getBR(scaledPos).y - down.getScaledHeight(), scaledPos);
        
        for(int i = 0; i < visibleTexts.size(); i ++)
        {
@@ -235,16 +235,16 @@ public class TextBox extends InterfaceObject implements MouseListener
     protected void drawWithoutText(float x, float y, float width, float height, boolean scaledPos)
     {
     	super.draw(x, y, width, height, scaledPos);
-        up.draw(super.getTR().x - up.getScaledWidth(), super.getTR().y);
-        down.draw(getBR().x - down.getScaledWidth(), getBR().y - down.getScaledHeight());
+        up.draw(super.getTR(scaledPos).x - up.getScaledWidth(), super.getTR(scaledPos).y, false);
+        down.draw(getBR(scaledPos).x - down.getScaledWidth(), getBR(scaledPos).y - down.getScaledHeight(), false);
     }
     /**
      * Returns box top right position including up/down button width
      */
     @Override
-    protected Position getTR()
+    protected Position getTR(boolean scaledPos)
     {
-    	return new Position((int)(super.getTR().x - up.getScaledWidth()) - getDis(10), super.getTR().y);  
+    	return new Position((int)(super.getTR(scaledPos).x - up.getScaledWidth()) - getDis(10), super.getTR(scaledPos).y);  
     }
     /**
      * Sets list of text blocks that should be displayed in box

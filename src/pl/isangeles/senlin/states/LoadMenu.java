@@ -232,7 +232,7 @@ public class LoadMenu extends BasicGameState
         public void draw(float x, float y, boolean scaledPos)
         {
             if(select)
-            	selectTex.draw(x, y);
+            	selectTex.draw(x, y, getScale());
             
             super.draw(x, y, scaledPos);
         }

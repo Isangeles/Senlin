@@ -67,7 +67,7 @@ public class SenlinGame extends StateBasedGame
             }
             catch(SlickException e)
             {
-            	System.out.println("engine_msg: Unsupported resolution: " + Settings.getResolution()[0] + "x" + Settings.getResolution()[1] + ", switching to system resolution...");
+            	System.err.println("engine_msg: Unsupported resolution: " + Settings.getResolution()[0] + "x" + Settings.getResolution()[1] + ", switching to system resolution...");
             	Settings.setResolution(Settings.getSystemResolution());
             	System.gc();
             	appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
