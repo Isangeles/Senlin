@@ -235,7 +235,7 @@ public class TextBox extends InterfaceObject implements MouseListener
     protected void drawWithoutText(float x, float y, float width, float height, boolean scaledPos)
     {
     	super.draw(x, y, width, height, scaledPos);
-        up.draw(super.getTR(scaledPos).x - up.getScaledWidth(), super.getTR(scaledPos).y, false);
+        up.draw(getTR(scaledPos).x - up.getScaledWidth(), getTR(scaledPos).y, false);
         down.draw(getBR(scaledPos).x - down.getScaledWidth(), getBR(scaledPos).y - down.getScaledHeight(), false);
     }
     /**

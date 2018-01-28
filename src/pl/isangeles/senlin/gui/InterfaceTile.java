@@ -89,22 +89,22 @@ public abstract class InterfaceTile extends InterfaceObject implements MouseList
 	{
 	    if(clicked)
 	    {
-	        draw(x, y, getSize(45f), getSize(40f), clickColor, scaledPos);
+	        draw(x, y, 45f, 40f, clickColor, scaledPos);
 	        return;
 	    }
 		if(!dragged)
-			super.draw(x, y, getSize(45f), getSize(40f), scaledPos);
+			super.draw(x, y, 45f, 40f, scaledPos);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), getSize(45f), getSize(40f), scaledPos);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, scaledPos);
 		
 	}
 	@Override
 	public void draw(float x, float y, Color filter, boolean scaledPos)
 	{
 		if(!dragged)
-			super.draw(x, y, getSize(45f), getSize(40f), filter, scaledPos);
+			super.draw(x, y, 45f, 40f, filter, scaledPos);
 		else
-			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), getSize(45f), getSize(40f), filter, scaledPos);
+			super.draw(gameInput.getMouseX(), gameInput.getMouseY(), 45f, 40f, filter, scaledPos);
 	}
 	
 	public void dragged(boolean dragged)

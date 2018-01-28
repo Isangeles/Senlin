@@ -578,6 +578,7 @@
         </in>
     </eq>
     <skills>
+	<skill>slash</skill>
     </skills>
     <effects>
     </effects>

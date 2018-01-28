@@ -33,6 +33,8 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Race;
+import pl.isangeles.senlin.core.skill.Attack;
+import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
@@ -79,6 +81,7 @@ public class CharacterAi
 					if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
 					{
 						attack(npc, nearbyChar);
+						useSkill(npc);
 					}
 				}
 
@@ -183,5 +186,26 @@ public class CharacterAi
 	    }
 	    else
 	        who.speak(TConnector.getRanomText(what));
+	}
+	/**
+	 * Uses random skill of specified character
+	 * @param npc Game character
+	 */
+	private void useSkill(Character npc)
+	{
+		Targetable target = npc.getTarget(); 
+		if(target != null)
+		{
+			if(Character.class.isInstance(target))
+			{
+				Character character = (Character)npc;
+				if(character.getAttitudeTo(npc) == Attitude.HOSTILE)
+				{
+					List<Attack> attackSkills = npc.getSkills().getAttacks();
+					Attack skill = attackSkills.get(rng.nextInt(attackSkills.size()));
+					npc.useSkillOn(target, skill);
+				}
+			}
+		}
 	}
 }
