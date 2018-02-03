@@ -1,7 +1,7 @@
 /*
  * Modifier.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 package pl.isangeles.senlin.core.bonus;
 
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.character.Character;
 /**
  * Class for targetable objects modifiers
  * @author Isangeles

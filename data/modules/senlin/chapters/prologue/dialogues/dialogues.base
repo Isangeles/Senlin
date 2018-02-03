@@ -238,7 +238,7 @@
 			<answer id="backAns01" to="0"/>
 			<mod>
 				<modPlayer>
-					<flagModifier>bouveJob00</flagModifier>
+					<flagModifier flag="bouveJob00" />
 				</modPlayer>
 			</mod>
 		</text>
@@ -269,7 +269,7 @@
 			<answer id="backAns01" to="0"/>
 			<mod>
 				<modPlayer>
-					<flagModifier>bouveJob01</flagModifier>
+					<flagModifier flag="bouveJob01" />
 				</modPlayer>
 			</mod>
 		</text>

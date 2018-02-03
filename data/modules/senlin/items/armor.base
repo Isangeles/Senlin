@@ -5,7 +5,7 @@
         <maleSprite>m-cloth-1222211-80x90.png</maleSprite>
         <femaleSprite>f-cloth-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;0;0;0;0;</statsBonus>
+            <statsBonus str="0" con="0" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
@@ -14,7 +14,7 @@
         <maleSprite>m-leather-1222211-80x90.png</maleSprite>
         <femaleSprite>f-leather-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;1;0;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
@@ -23,7 +23,7 @@
         <maleSprite>m-leather-1222211-80x90.png</maleSprite>
         <femaleSprite>f-leather-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;1;0;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
@@ -32,7 +32,7 @@
         <maleSprite>m-mail-1222211-80x90.png</maleSprite>
         <femaleSprite>f-mail-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;3;-1;0;0;</statsBonus>
+            <statsBonus str="0" con="3" dex="-1" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
@@ -41,21 +41,21 @@
         <maleSprite>m-headBlack-1222211-80x90.png</maleSprite>
         <femaleSprite>f-headBlack-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;1;0;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
     <item id="aImpCGlov01" type="hands" material="steel" value="2500" armRat="20" reqLvl="10">
         <icon>steelGlovesC.png</icon>
         <bonuses>
-            <statsBonus>0;1;0;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
     <item id="aImpCBoot01" type="feet" material="steel" value="2500" armRat="20" reqLvl="10">
         <icon>steelBootsC.png</icon>
         <bonuses>
-            <statsBonus>0;1;0;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>
@@ -65,7 +65,7 @@
         <maleSprite>m-mail-1222211-80x90.png</maleSprite>
         <femaleSprite>f-mail-1222211-80x90.png</femaleSprite>
         <bonuses>
-            <statsBonus>0;1;-2;0;0;</statsBonus>
+            <statsBonus str="0" con="1" dex="-2" wis="0" int="0" />
         </bonuses>
         <equipEffects></equipEffects>
     </item>

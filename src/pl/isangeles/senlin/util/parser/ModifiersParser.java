@@ -82,15 +82,20 @@ public final class ModifiersParser
 					switch(type)
 					{
 					case STATS:
-						Attributes stats = new Attributes(modifierE.getTextContent());
+						int str = Integer.parseInt(modifierE.getAttribute("str"));
+						int con = Integer.parseInt(modifierE.getAttribute("con"));
+						int dex = Integer.parseInt(modifierE.getAttribute("dex"));
+						int wis = Integer.parseInt(modifierE.getAttribute("wis"));
+						int in = Integer.parseInt(modifierE.getAttribute("int"));
+						Attributes stats = new Attributes(str, con, dex, wis, in);
 						modifiers.add(new StatsBonus(stats));
 						break;
 					case HEALTH:
-						int hp = Integer.parseInt(modifierE.getTextContent());
+						int hp = Integer.parseInt(modifierE.getAttribute("value"));
 						modifiers.add(new HealthBonus(hp));
 						break;
 					case DAMAGE:
-						int dmg = Integer.parseInt(modifierE.getTextContent());
+						int dmg = Integer.parseInt(modifierE.getAttribute("value"));
 						String wTypeName = modifierE.getAttribute("type");
 						if(wTypeName != "")
 							modifiers.add(new DamageBonus(dmg, WeaponType.fromName(wTypeName)));
@@ -98,28 +103,28 @@ public final class ModifiersParser
 							modifiers.add(new DamageBonus(dmg));
 						break;
 					case UNDETECT:
-						int stealthLevel = Integer.parseInt(modifierE.getTextContent());
+						int stealthLevel = Integer.parseInt(modifierE.getAttribute("level"));
 						modifiers.add(new UndetectBonus(stealthLevel));
 						break;
 					case DUALWIELD:
-						float dwBonus = Float.parseFloat(modifierE.getTextContent());
+						float dwBonus = Float.parseFloat(modifierE.getAttribute("value"));
 						modifiers.add(new DualwieldBonus(dwBonus));
 						break;
 					case RESISTANCE:
-						int resiValue = Integer.parseInt(modifierE.getTextContent());
+						int resiValue = Integer.parseInt(modifierE.getAttribute("value"));
 						EffectType resiType = EffectType.fromId(modifierE.getAttribute("type"));
 						modifiers.add(new ResistanceBonus(resiType, resiValue));
 						break;
 					case UNLOCK:
-						int lockLevel = Integer.parseInt(modifierE.getTextContent());
+						int lockLevel = Integer.parseInt(modifierE.getAttribute("level"));
 						modifiers.add(new UnlockBonus(lockLevel));
 						break;
 					case ATTITUDE:
-						Attitude attitude = Attitude.fromString(modifierE.getTextContent());
+						Attitude attitude = Attitude.fromString(modifierE.getAttribute("value"));
 						modifiers.add(new AttitudeModifier(attitude));
 						break;
 					case FLAG:
-						String flag = modifierE.getTextContent();
+						String flag = modifierE.getAttribute("flag");
 						modifiers.add(new FlagModifier(flag));
 						break;
 					default:

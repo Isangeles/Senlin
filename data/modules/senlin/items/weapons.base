@@ -4,7 +4,7 @@
         <icon>swordIron.png</icon>
         <spritesheet>longsword-1222211-80x90.png</spritesheet>
         <bonuses>
-            <statsBonus>0;0;0;0;0;</statsBonus>
+            <statsBonus str="0" con="0" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects>
         </equipEffects>
@@ -15,7 +15,7 @@
         <icon>bow.png</icon>
         <spritesheet>bow-1222211-80x90.png</spritesheet>
         <bonuses>
-            <statsBonus>0;0;0;0;0;</statsBonus>
+            <statsBonus str="0" con="0" dex="0" wis="0" int="0" />
         </bonuses>
         <equipEffects>
         </equipEffects>
