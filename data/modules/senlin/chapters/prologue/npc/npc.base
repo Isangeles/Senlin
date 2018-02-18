@@ -578,7 +578,34 @@
         </in>
     </eq>
     <skills>
-	<skill>slash</skill>
+		<skill>slash</skill>
+    </skills>
+    <effects>
+    </effects>
+</npc>
+<npc id="wolf01" gender="male" race="wolf" attitude="hostile" guild="beasts" level="1">
+    <stats>2;1;2;1;1;</stats>
+    <portrait>wolf01.jpg</portrait>
+    <spritesheet static="true">wolf-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>    
+        <in>
+            <items>
+				<!-- TODO -->
+            </items>
+        </in>
+    </eq>
+    <skills>
+		<!-- TODO -->
     </skills>
     <effects>
     </effects>

@@ -95,7 +95,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private boolean changeAreaReq;
 	private boolean combat;
 	private int waitForRender;
-	/**
+	/** 
 	 * Creates game world for new game
 	 * @param player Player character
 	 * @param ui User interface
