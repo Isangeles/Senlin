@@ -35,4 +35,7 @@
     <item id="copper01" value="1" stack="1000" disposable="false" currency="true">
 		<icon>coinC01.png</icon>
     </item>
+    <item id="wolfPelt01" value="15" stack="20" disposable="false">
+                <icon>pelt01.png</icon> 
+    </item>
 </base>

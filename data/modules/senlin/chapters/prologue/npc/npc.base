@@ -599,9 +599,9 @@
         <finger2></finger2>
         <artifact></artifact>    
         <in>
-            <items>
-				<!-- TODO -->
-            </items>
+          <items>
+	          <item>wolfPel01</item>
+          </items>
         </in>
     </eq>
     <skills>
