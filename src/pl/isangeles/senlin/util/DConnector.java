@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -393,8 +394,8 @@ public final class DConnector
 		
 		List<File> scenariosFiles = new ArrayList<>();
 
+		/*
 		File list = new File(scenariosDir + File.separator + "scenarios.list");
-		
 		Scanner scann = new Scanner(list);
 		scann.useDelimiter(";\r?\n");
 		while(scann.hasNext())
@@ -402,6 +403,13 @@ public final class DConnector
 			scenariosFiles.add(new File(scenariosDir + File.separator + scann.next() + ".scen"));
 		}
 		scann.close();
+		*/
+		
+		List<String> sFilesNames = TConnector.getValues(scenariosDir + File.separator + "scenarios.list");
+		for(String sFileName : sFilesNames)
+		{
+			scenariosFiles.add(new File(scenariosDir + File.separator + sFileName + ".scen"));
+		}
 		
 		for(File scenarioFile : scenariosFiles)
 		{
@@ -418,6 +426,25 @@ public final class DConnector
 		}
 		
 		return scenariosMap;
+	}
+	/**
+	 * Returns scenario with specified ID from file in specified directory
+	 * @param scenariosDir Directory with scenarios
+	 * @param scenarioId Scenario ID
+	 * @param gc Slick game container
+	 * @return Game world area scenario or null if scenario with such ID was not found
+	 * @throws FontFormatException 
+	 * @throws SlickException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 */
+	public static Scenario getScenario(String scenariosDir, String scenarioId, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
+	{
+		String sFileName = TConnector.getTextFromFile(scenariosDir + File.separator + "scenarios.list", scenarioId);
+		File sFile = new File(scenariosDir + File.separator + sFileName + ".scen");
+		Scenario sc = ScenarioParser.getScenarioFromFile(sFile, gc);
+		return sc;
 	}
 	/**
 	 * Parses specified XML quest base file and returns map with quests ID's as keys and quest as values

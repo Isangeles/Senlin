@@ -182,10 +182,10 @@ public class CharacterAi
 	    if(random)
 	    {
 	        if(rng.nextInt(10) == 1)
-	            who.speak(TConnector.getRanomText(what));
+	            who.speak(TConnector.getRanomText(who.getRace().getRandomTextId(what)));
 	    }
 	    else
-	        who.speak(TConnector.getRanomText(what));
+	        who.speak(TConnector.getRanomText(who.getRace().getRandomTextId(what)));
 	}
 	/**
 	 * Uses random skill of specified character

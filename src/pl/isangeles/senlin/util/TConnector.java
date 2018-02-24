@@ -24,6 +24,8 @@ package pl.isangeles.senlin.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
@@ -79,6 +81,43 @@ public final class TConnector
 		{
 			return "Text not found: " + textID;
 		}
+	}
+	/**
+	 * Returns list with all values from file with specified path
+	 * @param filePath Path to text file
+	 * @return List with string values
+	 */
+	public static List<String> getValues(String filePath)
+	{
+		List<String> values = new ArrayList<>();
+		
+		File textFile = new File(filePath);
+		Scanner scann = null;
+		try 
+		{
+			scann = new Scanner(textFile);
+			while(scann.hasNextLine())
+			{
+				String line = scann.nextLine();
+				String value = line.split(":")[1];
+				value = value.replaceAll(";", "");
+				values.add(value);
+			}
+		} 
+		catch (FileNotFoundException e) 
+		{
+			System.err.println("Text file not fonud: " + filePath);
+		}
+		catch (NoSuchElementException e)
+		{
+			System.err.println("Text file scann error");
+		}
+		finally
+		{
+			if(scann != null)
+				scann.close();
+		}
+		return values;
 	}
 	/**
      * Static method which searches specified text file in current lang directory and return string with specific id
@@ -233,24 +272,38 @@ public final class TConnector
 	    {
 	        Scanner scann = new Scanner(randomTextFile);
 	        scann.useDelimiter(";\r?\n");
-	        String line;
+	        String line = "";
 	        while((line = scann.findInLine(category+".*[^;\r?\n]")) == null)
             {
                 scann.nextLine();
             }
+	        /*
+	        while(scann.hasNextLine())
+	        {
+	        	String l = scann.nextLine();
+	        	if(category.equals(l.split(":")[0]))
+	        	{
+	        		line = l;
+	        		break;
+	        	}
+	        }
+	        */
             scann.close();
             
             String[] textTab = line.split(":")[1].split(";");
-            return textTab[roll.nextInt(textTab.length-1)];
+            if(textTab.length < 2)
+            	return textTab[0];
+            else
+                return textTab[roll.nextInt(textTab.length-1)];
 	    }
 	    catch(FileNotFoundException e)
 	    {
 	        Log.addSystem("tconnector: msg//" + "Random text file not found in: " + randomTextFile);
 	        return "...";
 	    }
-	    catch(NoSuchElementException e)
+	    catch(NoSuchElementException | ArrayIndexOutOfBoundsException e)
 	    {
-	        Log.addSystem("tconnector: msg//" + "No such text in random file!");
+	        Log.addSystem("tconnector: msg//" + "No such text in random file: " + category);
             return "...";
 	    }
 	}

@@ -25,6 +25,8 @@ package pl.isangeles.senlin.states;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,6 +57,8 @@ import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.data.load.GameDataLoader;
+import pl.isangeles.senlin.data.load.GameWorldLoader;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
 import pl.isangeles.senlin.gui.InfoField;
@@ -143,7 +147,7 @@ public class LoadingScreen extends BasicGameState
 					container.exit();
 			}
 		} 
-		catch (IOException | FontFormatException | ParserConfigurationException | SAXException e) 
+		catch (IOException | FontFormatException | ParserConfigurationException | SAXException | InterruptedException e) 
 		{
 			e.printStackTrace();
 		}
@@ -166,10 +170,13 @@ public class LoadingScreen extends BasicGameState
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws SlickException
+     * @throws InterruptedException 
      */
     private boolean loadNewGame(GameContainer container, StateBasedGame game) 
-    		throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
+    		throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException, InterruptedException
     {
+    	//GameDataLoader gdLoad = new GameDataLoader(container);
+    	//ExecutorService exe = Executors.newFixedThreadPool(2);
     	switch(loadCounter)
 		{
 		case 0:
@@ -178,13 +185,15 @@ public class LoadingScreen extends BasicGameState
 		    loadingInfo.setText("loding game data...");
 		    break;
 		case 1:
+			//exe.execute(gdLoad);
+			//exe.awaitTermination(3, TimeUnit.MINUTES);
 			EffectsBase.load(Module.getSkillsPath(), container);
             SkillsBase.load(Module.getSkillsPath(), container);
             ItemsBase.load(Module.getItemsPath(), container);
-            RecipesBase.load(Module.getItemsPath());
-            DialoguesBase.load(Module.getDBasePath());
-            GuildsBase.load(Module.getGuildPath());
+			RecipesBase.load(Module.getItemsPath());
             NpcBase.load(Module.getNpcsPath(), container);
+	        DialoguesBase.load(Module.getDBasePath());
+	        GuildsBase.load(Module.getGuildPath());
             QuestsBase.load(Module.getQuestsPath());
             ObjectsBase.load(Module.getChapterObjectsPath(), container);
             ObjectsBase.load(Module.getModuleObjectsPath(), container);
@@ -209,8 +218,10 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 6:
-			Log.addSystem("Loading time:" + Stopwatch.stop() + "s"); //TEST loading time measurement
-	        loadCounter = 0;
+			long time = Stopwatch.stop();
+			Log.addSystem("Loading time:" + time + "s"); //TEST loading time measurement
+			System.out.println("Loading time:" + time + "s"); //TEST loading time measurement
+			loadCounter = 0;
 	        game.enterState(gw.getID());
 	        break;
 		}
@@ -280,8 +291,10 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 8:
-			Stopwatch.stopAndPrint("Game loading"); //TEST loading time measurement
-	        loadCounter = 0;
+			long time = Stopwatch.stop();
+			Log.addSystem("Loading time:" + time + "s"); //TEST loading time measurement
+			System.out.println("Loading time:" + time + "s"); //TEST loading time measurement
+			loadCounter = 0;
 	        game.enterState(gw.getID());
 	        break;
 		}

@@ -1,2 +1,2 @@
-prologueArea01;
-prologueArea02;
+prologue01:prologueArea01;
+prologue02:prologueArea02;

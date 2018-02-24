@@ -1,7 +1,7 @@
 /*
  * ScenariosBase.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,12 +22,20 @@
  */
 package pl.isangeles.senlin.data;
 
+import java.awt.FontFormatException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-import org.newdawn.slick.GameContainer;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.xml.sax.SAXException;
+
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.util.DConnector;
@@ -38,7 +46,8 @@ import pl.isangeles.senlin.util.DConnector;
  */
 public class ScenariosBase 
 {
-	private static Map<String, Scenario> scenarios;
+	private static Map<String, Scenario> scenarios = new HashMap<>();
+	private static String scenariosDir;
 	private static GameContainer gc;
 	/**
 	 * Private constructor to prevent initialization
@@ -51,14 +60,31 @@ public class ScenariosBase
 	 */
 	public static Scenario getScenario(String id)
 	{
-		return scenarios.get(id);
+		try 
+		{
+			Scenario s = scenarios.get(id);
+			if(s == null) //if scenario was not loaded already
+			{
+				s = DConnector.getScenario(scenariosDir, id, gc);
+				scenarios.put(s.getId(), s);
+			}
+			return s;
+		} 
+		catch (ParserConfigurationException | SAXException | IOException | SlickException | FontFormatException e) 
+		{
+			Log.addSystem("scenarios_base_get_not_found_msg-//" + e.getMessage());
+			return null;
+		}
 	}
 	/**
 	 * Loads base with scenarios for active module
+	 * Note that now scenarios are only loaded dynamically on getScenario call(to shorten game load time) 
 	 * @throws FileNotFoundException
 	 */
 	public static void load(String areaPath, GameContainer gc) throws FileNotFoundException
 	{
-		scenarios = DConnector.getScenarios(areaPath + File.separator + "scenarios", gc);
+		ScenariosBase.scenariosDir = areaPath + File.separator + "scenarios";
+		ScenariosBase.gc = gc;
+		//scenarios = DConnector.getScenarios(scenariosDir, gc); //full loading
 	}
 }

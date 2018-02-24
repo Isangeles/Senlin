@@ -543,8 +543,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         	agony = false;
         else if(hp.getValue() < 10 && hp.getValue() > 0)
         	agony = true;
-        else if(hp.getValue() < 0)
+        else if(hp.getValue() < 0) 
+        {
 	    	live = false;
+    	}
 	    
 	    if(agony)
 	    	avatar.kneel();
@@ -869,11 +871,11 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		if(character == null)
 			return attitude;
-		if(!character.isLive())
+		else if(!isLive())
 		    return Attitude.DEAD;
-		if(attitudeMem.containsKey(character.getSerialId()))
+		else if(attitudeMem.containsKey(character.getSerialId()))
 		    return attitudeMem.get(character.getSerialId());
-		if(!guild.getId().equals("none") && guild == character.getGuild())
+		else if(!guild.getId().equals("none") && guild == character.getGuild())
 			return Attitude.FRIENDLY;
 		else
 			return attitude;

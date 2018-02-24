@@ -105,7 +105,10 @@ public class GameWorld extends BasicGameState implements SaveElement
         this.player = player;
         this.chapter = chapter;
         activeScenario = chapter.getActiveScenario();
-        activeScenario.addQuestsToStart(player);
+        if(activeScenario == null)
+        	throw new NullPointerException("Initial scenario not found");
+        else
+            activeScenario.addQuestsToStart(player);
         Global.setChapter(chapter);
 	}
 	/**

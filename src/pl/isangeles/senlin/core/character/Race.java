@@ -62,9 +62,26 @@ public enum Race
 		case GOBLIN:
 			return "goblin-1222211-80x90.png";
 		case WOLF:
-			return "";
+			return "wolf-1222211-80x90.png";
 		default:
 			return sex.getSSName("cloth-1222211-80x90.png");
+		}
+	}
+	/**
+	 * Returns random text ID of specified category for this race 
+	 * @param category Random text category (e.g. aggressive, idle or friendly)
+	 * @return String with complete random text category ID
+	 */
+	public String getRandomTextId(String category)
+	{
+		switch(this)
+		{
+		case HUMAN: case GOBLIN:
+			return "human-" + category;
+		case WOLF:
+			return "beast-" + category;
+		default:
+			return "human-" + category;
 		}
 	}
 }

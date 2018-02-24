@@ -62,23 +62,31 @@ public final class InventoryParser
             {
             	Element itemE = (Element)itemsE.getElementsByTagName("item").item(j);
                 int amount = 1;
+            	int min = 0;
                 if(itemE.hasAttribute("amount"))
                 	amount = Integer.parseInt(itemE.getAttribute("amount"));
-                boolean ifRandom = Boolean.parseBoolean(itemE.getAttribute("random"));
+                if(itemE.hasAttribute("min"))
+                	min = Integer.parseInt(itemE.getAttribute("min"));
+                boolean random = Boolean.parseBoolean(itemE.getAttribute("random"));
                 String itemInId = itemE.getTextContent();
                 String itemSerialS  = itemE.getAttribute("serial");
                 if(itemSerialS.equals(""))
                 {
-                	for(int i = 0;i < amount; i ++)
+                	for(int i = 0; i < amount; i ++)
                     {
-                    	RandomItem ip = new RandomItem(itemInId, ifRandom);
-                        items.add(ip);
+                		RandomItem ip;
+                		if(i < min)
+                        	ip = new RandomItem(itemInId, false);
+                		else    
+                        	ip = new RandomItem(itemInId, random);
+                		
+                		items.add(ip);
                     }
                 }
                 else
                 {
                     long itemSerial = Long.parseLong(itemSerialS);
-                    RandomItem ip = new RandomItem(itemInId, itemSerial, ifRandom);
+                    RandomItem ip = new RandomItem(itemInId, itemSerial, random);
                     items.add(ip);
                 }
             }

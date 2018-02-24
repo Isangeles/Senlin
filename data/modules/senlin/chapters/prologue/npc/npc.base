@@ -573,7 +573,7 @@
         <in>
             <items>
 	            <item random="false">wSOHI</item>
-	            <item random="false" amount="20">copper01</item>
+	            <item random="true" min="5" amount="20">copper01</item>
             </items>
         </in>
     </eq>
