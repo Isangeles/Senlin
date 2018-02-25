@@ -14,7 +14,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">acCS00</item>
@@ -46,7 +46,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">acCS00</item>
@@ -74,7 +74,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aImpLArm01</item>
@@ -103,7 +103,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aImpCArm01</item>
@@ -135,7 +135,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aRedSwLArm01</item>
@@ -163,7 +163,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aImpLArm01</item>
@@ -194,7 +194,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aImpLArm01</item>
@@ -208,7 +208,7 @@
     <effects>
     </effects>
     <dialogues>
-	 	  <dialogue id="cirtaGuardTalk01" />    
+	 	  <dialogue id="cirtaGuardTalk01" />
     </dialogues>
 </npc>
 <npc id="lian01" gender="male" race="human" attitude="friendly" guild="whiteGuard" level="7">
@@ -225,7 +225,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
                 <item random="false">aImpArm01</item>
@@ -243,9 +243,9 @@
 	 	  <dialogue id="lianSLTalk01">
 			  <dReq>
 				  <flagReq>senLetter03</flagReq>
-				  <itemReq amount="1">mSLetter01</itemReq>    	  
+				  <itemReq amount="1">mSLetter01</itemReq>
 			  </dReq>
-	 	  </dialogue>    
+	 	  </dialogue>
     </dialogues>
 </npc>
 <npc id="ericP01" gender="male" race="human" attitude="friendly" guild="none" level="2">
@@ -262,7 +262,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
 	            <item random="false">acCS00</item>
@@ -276,10 +276,10 @@
     <effects>
     </effects>
     <dialogues>
-        <dialogue id="ericWelcome">        
-			<dReq>
-				<flagReq>qpLumberTalk0</flagReq>
-			</dReq>
+        <dialogue id="ericWelcome">
+    			<dReq>
+    				<flagReq>qpLumberTalk0</flagReq>
+    			</dReq>
         </dialogue>
     </dialogues>
 </npc>
@@ -297,7 +297,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
 	            <item random="false">acCS00</item>
@@ -330,7 +330,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
 	            <item random="false">acCS00</item>
@@ -358,7 +358,7 @@
 		            <pointsReq>1</pointsReq>
                     <goldReq>10</goldReq>
                     <statsReq>0;0;0;2;1;</statsReq>
-                </trainReq>        
+                </trainReq>
             </profession>
         </professions>
         <recipes>
@@ -382,17 +382,17 @@
 				<flagReq>qpLumberTalk1</flagReq>
 			</dReq>
         </dialogue>
-        <dialogue id="ewanTalk2">        
+        <dialogue id="ewanTalk2">
 			<dReq>
 				<flagReq>qpLumberTalkFinish</flagReq>
 			</dReq>
         </dialogue>
-        <dialogue id="ewanTalk3">			
+        <dialogue id="ewanTalk3">
 			<dReq>
 				<flagReq>qpBanditsKilling0</flagReq>
 			</dReq>
         </dialogue>
-        <dialogue id="ewanTalk4">        
+        <dialogue id="ewanTalk4">
 			<dReq>
 				<flagReq>qpBanditsKillingFinish</flagReq>
 			</dReq>
@@ -413,7 +413,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact> 
+        <artifact></artifact>
 	<in>
 		<items>
 			<item>wSOHS</item>
@@ -461,7 +461,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact> 
+        <artifact></artifact>
 		<in>
 			<items>
 	            <item random="false" amount="20">copper01</item>
@@ -491,7 +491,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact> 
+        <artifact></artifact>
 		<in>
 			<items>
 	            <item random="false" amount="60">copper01</item>
@@ -518,7 +518,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact> 
+        <artifact></artifact>
 		<in>
 			<items>
 	            <item random="false" amount="10">copper01</item>
@@ -542,7 +542,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact> 
+        <artifact></artifact>
 		<in>
 			<items>
 	            <item random="false" amount="60">copper01</item>
@@ -569,7 +569,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
             <items>
 	            <item random="false">wSOHI</item>
@@ -597,7 +597,7 @@
         <neck></neck>
         <finger1></finger1>
         <finger2></finger2>
-        <artifact></artifact>    
+        <artifact></artifact>
         <in>
           <items>
 	          <item>wolfPel01</item>

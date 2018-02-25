@@ -1549,7 +1549,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    	}
 	    	catch(ArrayIndexOutOfBoundsException e)
 	    	{
-	    		System.out.println(serialId + ":moveable_check_fail");
+	    		System.err.println(serialId + ":moveable_check_fail");
 	    		return false;//throw new ArrayIndexOutOfBoundsException();
 	    	}
 	    }

@@ -228,15 +228,18 @@ class LootWindow extends InterfaceObject implements UiElement, MouseListener, Ke
 			if(slot != null)
 			{
 				List<? extends SlotContent> content = slot.getContent();
-				for(SlotContent con : content)
+				if(content != null)
 				{
-					if(Item.class.isInstance(con))
+					for(SlotContent con : content)
 					{
-						Item item = (Item)con;
-						lootingChar.getInventory().add(item);
-						lootedChar.getInventory().remove(item);
-						slotsP.clear();
-						loadLoot();
+						if(Item.class.isInstance(con))
+						{
+							Item item = (Item)con;
+							lootingChar.getInventory().add(item);
+							lootedChar.getInventory().remove(item);
+							slotsP.clear();
+							loadLoot();
+						}
 					}
 				}
 			}

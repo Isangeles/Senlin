@@ -22,9 +22,14 @@
  */
 package pl.isangeles.senlin.core;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -32,6 +37,7 @@ import pl.isangeles.senlin.data.ScenariosBase;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SaveElement;
+import pl.isangeles.senlin.data.save.SavedScenario;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
@@ -42,6 +48,7 @@ import pl.isangeles.senlin.core.character.Character;
 public class Chapter implements SaveElement
 { 
 	private String id;
+	private List<SavedScenario> savedScenarios = new ArrayList<>();
 	private List<Scenario> loadedScenarios = new ArrayList<>();
 	private Scenario activeScenario;
 	/**
@@ -49,31 +56,42 @@ public class Chapter implements SaveElement
 	 * @param id Chapter ID
 	 * @param startScenario Start scenario
 	 */
-	public Chapter(String id, String startScenario)
+	public Chapter(String id, String startScenario, GameContainer gc)
 	{
 		this.id = id;
-		setScenario(startScenario);
+		setScenario(startScenario, gc);
 	}
 	/**
 	 * Chapter constructor
 	 * @param id Chapter ID
 	 * @param scenarios List of scenarios
 	 * @param startScenario Start scenario
+	 * @throws FontFormatException 
+	 * @throws IOException 
+	 * @throws SlickException 
+	 * @throws DOMException 
+	 * @throws NumberFormatException 
 	 */
-	public Chapter(String id, List<Scenario> scenarios, String startScenario)
+	public Chapter(String id, List<SavedScenario> savedScenarios, Scenario startScenario, GameContainer gc) 
+			throws NumberFormatException, DOMException, SlickException, IOException, FontFormatException
 	{
 		this.id = id;
-		this.loadedScenarios = scenarios;
-		for(Scenario scenario : scenarios)
+		//this.loadedScenarios = scenarios;
+		this.savedScenarios = savedScenarios;
+		/*
+		for(SavedScenario s : savedScenarios)
 		{
-			if(scenario.getId().equals(startScenario))
+			if(s.getScenarioId().equals(startScenario))
 			{
+				Scenario scenario = s.load(gc);
 				activeScenario = scenario;
 				return;
 			}
 		}
+		*/
+		activeScenario = startScenario;
 		//If start scenario was not found
-		activeScenario = scenarios.get(0);
+		//activeScenario = savedScenarios.get(0).load(gc);
 	}
 	
 	public String getId()
@@ -85,9 +103,24 @@ public class Chapter implements SaveElement
 	 * @param scenarioId String with desired scenario ID
 	 * @return Scenario with specified ID or null if not such scenario was found
 	 */
-	public Scenario getScenario(String scenarioId)
+	public Scenario getScenario(String scenarioId, GameContainer gc)
 	{
 		final String scenarioID = scenarioId;
+		for(SavedScenario s : savedScenarios)
+		{
+			if(s.getScenarioId().equals(scenarioID))
+			{
+				try 
+				{
+					return s.load(gc);
+				} 
+				catch (NumberFormatException | DOMException | SlickException | IOException | FontFormatException e) 
+				{
+					System.err.println("chapter_get_scenario_load_saved_scenario_fail-msg//" + e.getMessage());
+					break;
+				}
+			}
+		}
 		for(Scenario scenario : loadedScenarios)
 		{
 			if(scenario.getId().equals(scenarioID))
@@ -98,6 +131,33 @@ public class Chapter implements SaveElement
 		if(scenario != null)
 			loadedScenarios.add(scenario);
 		return scenario;
+	}
+	/**
+	 * Checks if this chapter contains scenario with specified ID
+	 * @param scenarioId String with scenario ID
+	 * @return True if this character contains scenario with specified ID
+	 */
+	public boolean containsScenario(String scenarioId)
+	{
+		if(activeScenario.getId().equals(scenarioId))
+			return true;
+		else
+		{
+			for(Scenario scenario : loadedScenarios)
+			{
+				if(scenario.getId().equals(scenarioId))
+					return true;
+			}
+			
+			for(SavedScenario s : savedScenarios)
+			{
+				if(s.getScenarioId().equals(scenarioId))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	/**
 	 * Returns active scenario
@@ -200,9 +260,9 @@ public class Chapter implements SaveElement
 	 * @param scenarioId Scenario ID
 	 * @return True if scenario with specified ID was successfully set as active scenario, false otherwise
 	 */
-	public boolean setScenario(String scenarioId)
+	public boolean setScenario(String scenarioId, GameContainer gc)
 	{
-		Scenario scenario = getScenario(scenarioId);
+		Scenario scenario = getScenario(scenarioId, gc);
 		if(scenario != null)
 		{
 			activeScenario = scenario;

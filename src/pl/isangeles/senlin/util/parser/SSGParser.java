@@ -1,7 +1,7 @@
 /*
  * SSGParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,10 +67,12 @@ import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.data.save.SavedGame;
+import pl.isangeles.senlin.data.save.SavedScenario;
 import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TilePosition;
+import pl.isangeles.senlin.util.exception.InvalidDocumentElementException;
 
 /**
  * Class for parsing senlin saved games XML files
@@ -95,7 +97,7 @@ public final class SSGParser
      * @throws SlickException
      */
     public static SavedGame parseSSG(File ssgFile, GameContainer gc) 
-    throws ParserConfigurationException, SAXException, IOException, FontFormatException, SlickException
+		    	  throws ParserConfigurationException, SAXException, IOException, FontFormatException, SlickException
     {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -108,28 +110,47 @@ public final class SSGParser
         
         Element worldE = (Element)saveE.getElementsByTagName("world").item(0);
         
-        List<Scenario> scenarios = new ArrayList<>();
+        //List<Scenario> scenarios = new ArrayList<>();
+        List<SavedScenario> scenarios = new ArrayList<>();
         Element chapterE = (Element)worldE.getElementsByTagName("chapter").item(0);
         String chapterId = chapterE.getAttribute("id");
+        
         Element scenariosE = (Element)chapterE.getElementsByTagName("scenarios").item(0);
         NodeList scenariosList = scenariosE.getElementsByTagName("scenario");
         for(int i = 0; i < scenariosList.getLength(); i ++)
         {
-            Node scenarioNode = scenariosList.item(i);
+        	Node scenarioNode = scenariosList.item(i);
             if(scenarioNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
             {
                 Element scenarioE = (Element)scenarioNode;
+                /*
                 scenarios.add(getSavedScenario(scenarioE, gc));
+            	String id = scenarioE.getAttribute("id");
+                */
+            	SavedScenario s;
+				try 
+				{
+					s = new SavedScenario(scenarioE);
+	            	scenarios.add(s);
+				} 
+				catch (InvalidDocumentElementException e) 
+				{
+					Log.addSystem("ssg_parser_saved_scenario_parse_fail-msg//" + e.getMessage());
+				}
             }
         }
         
         Element scenarioE = (Element)playerE.getElementsByTagName("scenario").item(0);
-        String activeScenario = scenarioE.getTextContent();
+        String activeScenarioId = scenarioE.getTextContent();
         String currentArea = scenarioE.getAttribute("area");
-        for(Scenario scenario : scenarios)
+        Scenario activeScenario = null;
+        for(SavedScenario s : scenarios)
         {
-        	if(scenario.getId().equals(activeScenario))
+        	if(s.getScenarioId().equals(activeScenarioId))
         	{
+        		Scenario scenario = s.load(gc);
+        		activeScenario = scenario;
+        		
         		if(scenario.getMainArea().getId().equals(currentArea))
         			player.setArea(scenario.getMainArea());
         		else
@@ -149,7 +170,7 @@ public final class SSGParser
         Node uiNode = saveE.getElementsByTagName("ui").item(0);
         UiLayout uiLayout = getUiLayout(uiNode);
         
-        return new SavedGame(player, chapterId, scenarios, activeScenario, day, uiLayout);
+        return new SavedGame(player, chapterId, scenarios, activeScenario, day, uiLayout, gc);
     }
     /**
      * Parses specified save document element to game character 
@@ -211,7 +232,7 @@ public final class SSGParser
      * @throws FontFormatException
      */
     public static Scenario getSavedScenario(Element scenarioE, GameContainer gc) 
-    throws DOMException, SlickException, IOException, FontFormatException, NumberFormatException
+    			  throws DOMException, SlickException, IOException, FontFormatException, NumberFormatException
     {
         Scenario scenario = ScenariosBase.getScenario(scenarioE.getAttribute("id"));
         

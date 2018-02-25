@@ -38,13 +38,15 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
+import org.xml.sax.helpers.DefaultHandler;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
@@ -88,6 +90,7 @@ import pl.isangeles.senlin.util.parser.QuestParser;
 import pl.isangeles.senlin.util.parser.RecipeParser;
 import pl.isangeles.senlin.util.parser.RequirementsParser;
 import pl.isangeles.senlin.util.parser.ScenarioParser;
+import pl.isangeles.senlin.util.parser.ScriptParser;
 import pl.isangeles.senlin.util.parser.SkillParser;
 
 /**
@@ -415,7 +418,11 @@ public final class DConnector
 		{
 			try 
 			{
-				Scenario sc = ScenarioParser.getScenarioFromFile(scenarioFile, gc);
+				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+				DocumentBuilder db = dbf.newDocumentBuilder();
+				Document base = db.parse(scenarioFile);
+				Node scenarioNode = base.getDocumentElement();
+				Scenario sc = ScenarioParser.getScenarioFromNode(scenarioNode, gc);
 				scenariosMap.put(sc.getId(), sc);
 			} 
 			catch (ParserConfigurationException | SAXException | IOException | SlickException| FontFormatException e) 
@@ -439,12 +446,41 @@ public final class DConnector
 	 * @throws SAXException 
 	 * @throws ParserConfigurationException 
 	 */
-	public static Scenario getScenario(String scenariosDir, String scenarioId, GameContainer gc) throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
+	public static Scenario getScenario(String scenariosDir, String scenarioId, GameContainer gc) 
+			throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
 	{
 		String sFileName = TConnector.getTextFromFile(scenariosDir + File.separator + "scenarios.list", scenarioId);
 		File sFile = new File(scenariosDir + File.separator + sFileName + ".scen");
-		Scenario sc = ScenarioParser.getScenarioFromFile(sFile, gc);
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document base = db.parse(sFile);
+		Node scenarioNode = base.getDocumentElement();
+		
+		Scenario sc = ScenarioParser.getScenarioFromNode(scenarioNode, gc);
 		return sc;
+	}
+	/**
+	 * Returns scenario with specified specified ID from SSG file with specified name 
+	 * @param ssgName Name of SSG file
+	 * @param scenarioId Scenario ID
+	 * @return Game world area scenario or null
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 */
+	public static Scenario getScenarioFromSSG(String ssgName, String scenarioId) throws ParserConfigurationException, SAXException, IOException
+	{
+		File ssg = new File("data" + File.separator + "savegames" + File.separator + Module.getName() + File.separator + ssgName);
+		
+		SAXParserFactory spf = SAXParserFactory.newInstance();
+		SAXParser sp = spf.newSAXParser();
+		
+		DefaultHandler dh = new DefaultHandler(){};
+		
+		sp.parse(ssg, dh);
+		
+		return null;
 	}
 	/**
 	 * Parses specified XML quest base file and returns map with quests ID's as keys and quest as values
@@ -748,65 +784,7 @@ public final class DConnector
 		
 	    String scriptPath = Module.getScriptsPath() + File.separator + scriptFileName;
 	    File scriptFile = new File(scriptPath);
-	    Scanner scann = new Scanner(scriptFile, "UTF-8");
 	    
-	    String scriptCode = "";
-	    String ifCode = "";
-	    String endCode = "";
-	    
-	    while(scann.hasNextLine())
-	    {
-	    	String line = scann.nextLine().replaceFirst("^\\s*", "");
-	    	if(!line.startsWith("#"))
-	    	{
-	    		if(line.startsWith("script:"))
-	    		{
-	    			while(scann.hasNextLine())
-	    			{
-	    				line = scann.nextLine().replaceFirst("^\\s*", "");
-		    			if(line.startsWith("if:") || line.startsWith("end:"))
-		    			{
-		    				break;
-		    			}
-		    			if(!line.startsWith("#"))
-		    			{
-		    				scriptCode += line;
-		    			}
-	    			}
-	    		}
-	    		if(line.startsWith("if:"))
-	    		{
-	    			while(scann.hasNextLine())
-	    			{
-	    				line = scann.nextLine().replaceFirst("^\\s*", "");
-		    			if(line.startsWith("script:") || line.startsWith("end:"))
-		    			{
-		    				break;
-		    			}
-		    			if(!line.startsWith("#"))
-		    			{
-		    				ifCode += line;
-		    			}
-	    			}
-	    		}
-	    		if(line.startsWith("end:"))
-	    		{
-	    			while(scann.hasNextLine())
-	    			{
-	    				line = scann.nextLine().replaceFirst("^\\s*", "");
-		    			if(line.startsWith("script:"))
-		    			{
-		    				break;
-		    			}
-		    			if(!line.startsWith("#"))
-		    			{
-		    				endCode += line;
-		    			}
-	    			}
-	    		}
-	    	}
-	    }
-	    scann.close();
-	    return new Script(scriptFileName, scriptCode, ifCode, endCode);
+	    return ScriptParser.getScriptFromFile(scriptFile);
 	}
 }

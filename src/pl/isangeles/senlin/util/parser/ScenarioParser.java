@@ -1,7 +1,7 @@
 /*
  * ScenarioParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,75 +82,62 @@ public class ScenarioParser
 	 * @throws SlickException
 	 * @throws FontFormatException
 	 */
-	public static Scenario getScenarioFromFile(File xmlScenario, GameContainer gc) 
-			throws ParserConfigurationException, SAXException, IOException, SlickException, FontFormatException
-	{
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document base = db.parse(xmlScenario);
-		
-		NodeList nl = base.getDocumentElement().getChildNodes();
-		
-		for(int i = 0; i < nl.getLength(); i ++)
+	public static Scenario getScenarioFromNode(Node scenarioNode, GameContainer gc) throws SlickException, IOException, FontFormatException 
+	{		
+		if(scenarioNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 		{
-			Node scenarioNode = nl.item(i);
-				
-			if(scenarioNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-			{
-					Element scenarioE = (Element)scenarioNode;
-					
-					String id = scenarioE.getAttribute("id");
-					
-					Element mainareaE = (Element)scenarioE.getElementsByTagName("mainarea").item(0);
-					
-					Area mainArea = getAreaFromNode(mainareaE, gc);
-					
-					List<MobsArea> mobs = new ArrayList<>();
-					Map<String, String> quests = new HashMap<>();
-				
-					List<Script> scripts = new ArrayList<>();
-					
-					NodeList mobsNl = mainareaE.getElementsByTagName("mobs");
-					for(int j = 0; j < mobsNl.getLength(); j ++)
-					{
-						Node mobsNode = mobsNl.item(j);
-						if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							try
-							{
-								mobs.add(getMobsAreaFromNode(mobsNode));
-							}
-							catch(NumberFormatException e)
-							{
-								Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
-								break;
-							}
-						}
-					}
-					
-					NodeList questsNl = mainareaE.getElementsByTagName("quests").item(0).getChildNodes();
-					for(int j = 0; j < questsNl.getLength(); j ++)
-					{
-						Node questNode = questsNl.item(j);
-						if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-						{
-							Element questE = (Element)questNode;
-							String trigger = questE.getAttribute("trigger");
-							quests.put(questE.getTextContent(), trigger);
-						}
-					}
-					
-					Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
-					scripts = getScriptsFromNode(scriptsNode);
-					
-					
-					Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
-					List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
-					
-					return new Scenario(id, mainArea, subAreas, mobs, quests, scripts);	
-			}
-		}
+			Element scenarioE = (Element)scenarioNode;
+			
+			String id = scenarioE.getAttribute("id");
+			
+			Element mainareaE = (Element)scenarioE.getElementsByTagName("mainarea").item(0);
+			
+			Area mainArea = getAreaFromNode(mainareaE, gc);
+			
+			List<MobsArea> mobs = new ArrayList<>();
+			Map<String, String> quests = new HashMap<>();
 		
+			List<Script> scripts = new ArrayList<>();
+			
+			NodeList mobsNl = mainareaE.getElementsByTagName("mobs");
+			for(int j = 0; j < mobsNl.getLength(); j ++)
+			{
+				Node mobsNode = mobsNl.item(j);
+				if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					try
+					{
+						mobs.add(getMobsAreaFromNode(mobsNode));
+					}
+					catch(NumberFormatException e)
+					{
+						Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
+						break;
+					}
+				}
+			}
+			
+			NodeList questsNl = mainareaE.getElementsByTagName("quests").item(0).getChildNodes();
+			for(int j = 0; j < questsNl.getLength(); j ++)
+			{
+				Node questNode = questsNl.item(j);
+				if(questNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					Element questE = (Element)questNode;
+					String trigger = questE.getAttribute("trigger");
+					quests.put(questE.getTextContent(), trigger);
+				}
+			}
+			
+			Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
+			scripts = getScriptsFromNode(scriptsNode);
+			
+			
+			Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
+			List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
+			
+			return new Scenario(id, mainArea, subAreas, mobs, quests, scripts);	
+		}
 		return null;
 	}
 	/**

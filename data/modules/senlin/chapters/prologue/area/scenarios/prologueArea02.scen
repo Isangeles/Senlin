@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<base>
 <scenario id="prologue02">
     <mainarea id="prologue02" map="area02.tmx">
         <npcs>
@@ -36,7 +35,7 @@
         <subareas>
         		<area id="cirtaLianHouse01" map="house01.tmx">
                 <npcs>
-					<npc position="5;4">lian01</npc>                
+					<npc position="5;4">lian01</npc>
                 </npcs>
                 <objects>
 					<object position="15;6">bed01</object>
@@ -91,4 +90,3 @@
         <script>amajSpeech</script>
     </scripts>
 </scenario>
-</base>

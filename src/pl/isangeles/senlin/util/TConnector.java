@@ -267,30 +267,21 @@ public final class TConnector
 	public static String getRanomText(String category)
 	{
 	    Random roll = new Random();
-	    File randomTextFile = new File("data" + File.separator + "lang" + File.separator + Settings.getLang() + File.separator + "random.lang");
+	    File randomTextFile = new File(Module.getLangPath() + File.separator + "random.lang");
 	    try
 	    {
-	        Scanner scann = new Scanner(randomTextFile);
+	    	Scanner scann = new Scanner(randomTextFile);
 	        scann.useDelimiter(";\r?\n");
 	        String line = "";
+	        
 	        while((line = scann.findInLine(category+".*[^;\r?\n]")) == null)
             {
                 scann.nextLine();
             }
-	        /*
-	        while(scann.hasNextLine())
-	        {
-	        	String l = scann.nextLine();
-	        	if(category.equals(l.split(":")[0]))
-	        	{
-	        		line = l;
-	        		break;
-	        	}
-	        }
-	        */
             scann.close();
             
-            String[] textTab = line.split(":")[1].split(";");
+            String values = line.split(":")[1];
+            String[] textTab = values.split(";");
             if(textTab.length < 2)
             	return textTab[0];
             else

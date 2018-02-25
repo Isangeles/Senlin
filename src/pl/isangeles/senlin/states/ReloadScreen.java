@@ -1,7 +1,7 @@
 /*
  * ReloadScreen.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +31,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import pl.isangeles.senlin.data.ScenariosBase;
+import pl.isangeles.senlin.data.area.Exit;
+import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.core.character.Character;
 
 /**
  * State for reloading game world
@@ -42,7 +46,15 @@ import pl.isangeles.senlin.util.Coords;
 public class ReloadScreen extends BasicGameState 
 {
     private InfoField loadingInfo;
+    private final Exit scExit;
+    private final GameWorld gwToReload;
     private int loadCounter;
+    
+    public ReloadScreen(Exit exit, GameWorld gw)
+    {
+    	scExit = exit;
+    	gwToReload = gw;
+    }
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
 	 */
@@ -77,9 +89,19 @@ public class ReloadScreen extends BasicGameState
 		switch(loadCounter)
 		{
 		case 0:
-			loadingInfo.setText("loading game world...");
+			loadingInfo.setText("loading area scenario...");
 			break;
 		case 1:
+			Scenario sc = ScenariosBase.getScenario(scExit.getScenarioId());
+	    	Character player = gwToReload.getPlayer(); 
+			player.setArea(sc.getMainArea());
+	    	player.setPosition(scExit.getToPos());
+			gwToReload.setScenario(sc, container);
+			break;
+		case 2:
+			loadingInfo.setText("loading game world...");
+			break;
+		case 3:
 			game.getState(2).init(container, game);
 			loadCounter = 0;
 			game.enterState(2);

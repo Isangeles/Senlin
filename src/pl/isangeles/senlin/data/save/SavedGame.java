@@ -22,8 +22,14 @@
  */
 package pl.isangeles.senlin.data.save;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.w3c.dom.DOMException;
 
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.TargetableObject;
@@ -50,11 +56,17 @@ public class SavedGame
      * @param player Player game character
      * @param scenarios List with saved game scenarios
      * @param activeScenarioId ID of active game scenario
+     * @throws FontFormatException 
+     * @throws IOException 
+     * @throws SlickException 
+     * @throws DOMException 
+     * @throws NumberFormatException 
      */
-    public SavedGame(Character player, String chapterId, List<Scenario> savedScenarios, String activeScenarioId, Day savedDay, UiLayout savedLayout)
+    public SavedGame(Character player, String chapterId, List<SavedScenario> savedScenarios, Scenario activeScenario, Day savedDay, UiLayout savedLayout, GameContainer gc) throws NumberFormatException, DOMException, SlickException, IOException, FontFormatException
     {
         this.player = player;
-        chapter = new Chapter(chapterId, savedScenarios, activeScenarioId);
+        chapter = new Chapter(chapterId, savedScenarios, activeScenario, gc);
+        this.player.setArea(chapter.getActiveScenario().getMainArea());
         day = savedDay;
         uiLayout = savedLayout;
     }

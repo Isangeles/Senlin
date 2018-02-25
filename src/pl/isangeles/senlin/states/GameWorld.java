@@ -424,13 +424,23 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     public void setChangeAreaReq(Exit exit)
     {
-    	Scenario scenario = getCurrentChapter().getScenario(exit.getScenarioId());
-        if(scenario != null)
+        if(getCurrentChapter().containsScenario(exit.getScenarioId()))
         {
         	changeAreaReq = true;
         	exitToNewArea = exit;
         	waitForRender = 1;//to let UI to display appropriate message
         }
+    }
+    /**
+     * Sets specified scenario as active scenario of game world(also sets area and centers camera)
+     * @param scenario Game world scenario
+     */
+    public void setScenario(Scenario scenario, GameContainer gc)
+    {
+    	this.activeScenario = scenario;
+    	activeScenario.addQuestsToStart(player);
+    	chapter.setScenario(activeScenario.getId(), gc);
+    	ui.getCamera().centerAt(new Position(player.getPosition()));
     }
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.BasicGameState#getID()
@@ -499,15 +509,20 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     private void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
     {
-        Scenario nextScenario = chapter.getScenario(exit.getScenarioId());
-    	this.activeScenario = nextScenario;
-    	game.addState(new ReloadScreen());
+    	try
+    	{
+        	ReloadScreen rld = (ReloadScreen)game.getState(5);
+        	if(rld == null)
+        		game.addState(new ReloadScreen(exit, this));
+    	}
+    	catch(ClassCastException e)
+    	{
+        	changeAreaReq = false;
+    		Log.addSystem("game_world_change_scenario_fail_msg-//fail to create reload state");
+    		return;
+    	}
+
     	changeAreaReq = false;
-    	nextScenario = null;
-    	player.setArea(activeScenario.getMainArea());
-    	player.setPosition(exit.getToPos());
-    	activeScenario.addQuestsToStart(player);
-    	chapter.setScenario(activeScenario.getId());
     	//entering to reload screen
     	game.getState(5).init(gc, game);
     	game.enterState(5);

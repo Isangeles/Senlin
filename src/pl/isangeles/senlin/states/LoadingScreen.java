@@ -191,8 +191,8 @@ public class LoadingScreen extends BasicGameState
             SkillsBase.load(Module.getSkillsPath(), container);
             ItemsBase.load(Module.getItemsPath(), container);
 			RecipesBase.load(Module.getItemsPath());
-            NpcBase.load(Module.getNpcsPath(), container);
 	        DialoguesBase.load(Module.getDBasePath());
+            NpcBase.load(Module.getNpcsPath(), container);
 	        GuildsBase.load(Module.getGuildPath());
             QuestsBase.load(Module.getQuestsPath());
             ObjectsBase.load(Module.getChapterObjectsPath(), container);
@@ -203,7 +203,7 @@ public class LoadingScreen extends BasicGameState
 			loadingInfo.setText("loading game world...");
 			break;
 		case 3:
-	        gw = new GameWorld(player, Module.getChapter(Module.getActiveChapterName()));
+	        gw = new GameWorld(player, Module.getChapter(Module.getActiveChapterName(), container));
 	        game.addState(gw);
 	        game.getState(gw.getID()).init(container, game);
 	        break;

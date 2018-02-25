@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.newdawn.slick.GameContainer;
+
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TConnector;
 
@@ -81,11 +83,11 @@ public final class Module
 	 * Sets chapter with specified ID as active chapter
 	 * @param chapterId String with desired chapter ID
 	 */
-	public static Chapter getChapter(String chapterId)
+	public static Chapter getChapter(String chapterId, GameContainer gc)
 	{
 		String chapterInfo = "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + chapterId + File.separator + "chapter.conf";
 		String startScenario = TConnector.getTextFromFile(chapterInfo, "startScenario");
-		return new Chapter(chapterId, startScenario);
+		return new Chapter(chapterId, startScenario, gc);
 	}
 	
 	public static void nextChapter()
@@ -241,9 +243,9 @@ public final class Module
         else
             return null;
     }
-
     /**
-     * Returns path to dialogues lang file in current module directory
+     * Returns path to lang directory for current language in current chapter directory of active module
+     * e.g. for english in settings : 'data/modules/[module name]/chapters/[chapter name]/lang/english'
      * @return String with path to dialogues lang file
      */
     public static String getLangPath()

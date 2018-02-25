@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<base>
 <scenario id="prologue01">
     <mainarea id="prologue01main" map="area01.tmx">
         <npcs>
@@ -56,4 +55,3 @@
         <script>ericStop</script>
     </scripts>
 </scenario>
-</base>
