@@ -90,6 +90,7 @@ public class Chapter implements SaveElement
 		}
 		*/
 		activeScenario = startScenario;
+		loadedScenarios.add(activeScenario);
 		//If start scenario was not found
 		//activeScenario = savedScenarios.get(0).load(gc);
 	}
@@ -152,9 +153,7 @@ public class Chapter implements SaveElement
 			for(SavedScenario s : savedScenarios)
 			{
 				if(s.getScenarioId().equals(scenarioId))
-				{
 					return true;
-				}
 			}
 		}
 		return false;

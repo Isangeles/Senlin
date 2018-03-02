@@ -144,8 +144,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
 	 */
     @Override
-    public void init(GameContainer container, StateBasedGame game)
-            throws SlickException
+    public void init(GameContainer container, StateBasedGame game) throws SlickException
     {
     	MainMenu.getMusicPlayer().stop();
         try 
@@ -369,6 +368,7 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     public Area getMainArea()
     {
+    	Log.addSystem("Change req");
         return mainArea;
     }
     /**
@@ -401,6 +401,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     	return dayManager;
     }
     /**
+     * Return current exit to new area
+     * @return Area exit or null if there is now area change request
+     */
+    public Exit getExitToNewArea()
+    {
+    	return exitToNewArea;
+    }
+    /**
      * Restarts game world music
      */
     public void replayMusic()
@@ -424,12 +432,12 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     public void setChangeAreaReq(Exit exit)
     {
-        if(getCurrentChapter().containsScenario(exit.getScenarioId()))
-        {
+        //if(getCurrentChapter().containsScenario(exit.getScenarioId()))
+        //{
         	changeAreaReq = true;
         	exitToNewArea = exit;
         	waitForRender = 1;//to let UI to display appropriate message
-        }
+        //}
     }
     /**
      * Sets specified scenario as active scenario of game world(also sets area and centers camera)
@@ -509,24 +517,29 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     private void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
     {
+    	Log.addSystem("change scen");
     	try
     	{
         	ReloadScreen rld = (ReloadScreen)game.getState(5);
         	if(rld == null)
-        		game.addState(new ReloadScreen(exit, this));
+        	{
+        		rld = new ReloadScreen();
+        		game.addState(rld);
+        	}
+        	
+        	changeAreaReq = false;
+        	//entering to reload screen
+        	rld.init(gc, game);
+        	rld.load(exit, this);
+        	game.enterState(5);
+        	ui.getCamera().centerAt(new Position(player.getPosition()));		
     	}
     	catch(ClassCastException e)
     	{
         	changeAreaReq = false;
-    		Log.addSystem("game_world_change_scenario_fail_msg-//fail to create reload state");
+    		Log.addSystem("game_world_change_scenario_fail-msg//fail to create reload state");
     		return;
     	}
-
-    	changeAreaReq = false;
-    	//entering to reload screen
-    	game.getState(5).init(gc, game);
-    	game.enterState(5);
-    	ui.getCamera().centerAt(new Position(player.getPosition()));
     }
     /**
      * Changes current area to specified area

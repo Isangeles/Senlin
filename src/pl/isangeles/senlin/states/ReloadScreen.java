@@ -36,6 +36,7 @@ import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.Scenario;
 import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.util.Coords;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 
 /**
@@ -46,14 +47,14 @@ import pl.isangeles.senlin.core.character.Character;
 public class ReloadScreen extends BasicGameState 
 {
     private InfoField loadingInfo;
-    private final Exit scExit;
-    private final GameWorld gwToReload;
+    private Exit scExit;
+    private GameWorld gwToReload;
     private int loadCounter;
     
-    public ReloadScreen(Exit exit, GameWorld gw)
+    public void load(Exit scExit, GameWorld gwToReload)
     {
-    	scExit = exit;
-    	gwToReload = gw;
+    	this.scExit = scExit;
+    	this.gwToReload = gwToReload;
     }
 	/* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -92,11 +93,30 @@ public class ReloadScreen extends BasicGameState
 			loadingInfo.setText("loading area scenario...");
 			break;
 		case 1:
-			Scenario sc = ScenariosBase.getScenario(scExit.getScenarioId());
-	    	Character player = gwToReload.getPlayer(); 
-			player.setArea(sc.getMainArea());
-	    	player.setPosition(scExit.getToPos());
-			gwToReload.setScenario(sc, container);
+        	scExit = gwToReload.getExitToNewArea();
+			if(scExit != null)
+			{
+	    		Log.addSystem("try to load sc:" + scExit.getScenarioId());
+				Scenario sc = ScenariosBase.getScenario(scExit.getScenarioId());
+		    	if(sc != null)
+		    	{
+		    		Log.addSystem("loading sc:" + sc.getId());
+		    		Character player = gwToReload.getPlayer(); 
+					player.setArea(sc.getMainArea());
+			    	player.setPosition(scExit.getToPos());
+					gwToReload.setScenario(sc, container);
+		    	}
+		    	else
+		    	{
+		    		Log.addSystem("scenario_load_fail-msg//scenario not found:" + scExit.getScenarioId());
+					game.enterState(2);
+		    	}
+			}
+			else
+			{
+	    		Log.addSystem("scenario_load_fail-msg//no exit to new area");
+				game.enterState(2);
+			}
 			break;
 		case 2:
 			loadingInfo.setText("loading game world...");
