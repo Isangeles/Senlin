@@ -517,7 +517,6 @@ public class GameWorld extends BasicGameState implements SaveElement
      */
     private void changeScenario(Exit exit, GameContainer gc, StateBasedGame game) throws SlickException
     {
-    	Log.addSystem("change scen");
     	try
     	{
         	ReloadScreen rld = (ReloadScreen)game.getState(5);

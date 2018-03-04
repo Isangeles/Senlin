@@ -50,7 +50,11 @@ public class ReloadScreen extends BasicGameState
     private Exit scExit;
     private GameWorld gwToReload;
     private int loadCounter;
-    
+    /**
+     * Prepares reloading screen to load scenario from specified exit to specified game world  
+     * @param scExit Area scenario exit
+     * @param gwToReload Game world
+     */
     public void load(Exit scExit, GameWorld gwToReload)
     {
     	this.scExit = scExit;
@@ -96,11 +100,9 @@ public class ReloadScreen extends BasicGameState
         	scExit = gwToReload.getExitToNewArea();
 			if(scExit != null)
 			{
-	    		Log.addSystem("try to load sc:" + scExit.getScenarioId());
 				Scenario sc = ScenariosBase.getScenario(scExit.getScenarioId());
 		    	if(sc != null)
 		    	{
-		    		Log.addSystem("loading sc:" + sc.getId());
 		    		Character player = gwToReload.getPlayer(); 
 					player.setArea(sc.getMainArea());
 			    	player.setPosition(scExit.getToPos());

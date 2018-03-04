@@ -22,10 +22,14 @@
  */
 package pl.isangeles.senlin.cli;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.tools.CharMan;
+import pl.isangeles.senlin.cli.tools.CliTool;
 import pl.isangeles.senlin.cli.tools.UiMan;
 import pl.isangeles.senlin.cli.tools.WorldMan;
 import pl.isangeles.senlin.core.character.Character;
@@ -43,6 +47,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class CommandInterface 
 {
+	private Map<String, CliTool> tools;
 	private Character player;
 	private CharMan charman;
 	private WorldMan worldman;
@@ -56,8 +61,13 @@ public class CommandInterface
 	public CommandInterface(Character player, GameWorld gw)
 	{
 		this.player = player;
+		
+		tools = new HashMap<>();
 		charman = new CharMan(player, gw);
 		worldman = new WorldMan(gw);
+		tools.put(charman.getName(), charman);
+		tools.put(worldman.getName(), worldman);
+		
 		ssp = new ScriptProcessor(this);
 	}
 	/**
@@ -71,10 +81,10 @@ public class CommandInterface
         Scanner scann = new Scanner(line);
         try
         {
-            String toolName = scann.next();
+            String toolName = scann.next().replace("$", "");
             String command = scann.nextLine();
             
-            if(toolName.equals("$debug"))
+            if(toolName.equals("debug"))
             {
             	if(command.equals("on"))
             	{
@@ -85,28 +95,18 @@ public class CommandInterface
             		Log.setDebug(false);
             	}
             }
-            else if(toolName.equals("$charman"))
-            {
-            	output = charman.handleCommand(command);
-            }
-            else if(toolName.equals("$worldman"))
-            {
-            	output = worldman.handleCommand(command);
-            }
-            else if(toolName.equals("$uiman"))
-            {
-            	if(uiman != null)
-            		output = uiman.handleCommand(command);
-            	else 
-            	{
-            		Log.addSystem("no GUI set!");
-            		output[0] = "7";
-            	}
-            }
             else
             {
-            	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
-            	output[0] = "8";
+        		if(tools.containsKey(toolName))
+        		{
+        			CliTool tool = tools.get(toolName);
+    				output = tool.handleCommand(command);
+        		}
+            	else
+            	{
+                	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
+                	output[0] = "8";
+            	}
             }
         }
         catch(NoSuchElementException e)
@@ -137,6 +137,7 @@ public class CommandInterface
     public void setUiMan(UserInterface uiToMan)
     {
     	uiman = new UiMan(uiToMan);
+    	tools.put(uiman.getName(), uiman);
     }
     /**
      * Returns player character

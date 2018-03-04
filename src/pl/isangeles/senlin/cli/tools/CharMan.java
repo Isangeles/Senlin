@@ -1,7 +1,7 @@
 /*
  * CharMod.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ import pl.isangeles.senlin.util.TilePosition;
  */
 public class CharMan implements CliTool
 {
+	private static final String TOOL_NAME = "charman";
 	private Character player;
 	private GameWorld gw;
 	/**
@@ -71,6 +72,22 @@ public class CharMan implements CliTool
 	{
 		this.player = player;
 		this.gw = gw;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.cli.tools.CliTool#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return TOOL_NAME;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.cli.tools.CliTool#equals(java.lang.String)
+	 */
+	@Override
+	public boolean equals(String name) 
+	{
+		return name.equals(TOOL_NAME);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.cli.CliTool#handleCommand(java.lang.String)

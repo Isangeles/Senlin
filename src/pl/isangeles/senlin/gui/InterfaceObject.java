@@ -1,7 +1,7 @@
 /*
  * InterfaceObject.java
  * 
- * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -510,15 +510,15 @@ public abstract class InterfaceObject extends Image
      */
     protected void drawString(String text, TrueTypeFont ttf, boolean scaledPos)
     {
+        float textWidth = ttf.getWidth(text);
+        float textHeight = ttf.getHeight(text);
     	/*
         float thisEndX = width;
         float thisEndY = height;
-        float textX = ttf.getWidth(text);
-        float textY = ttf.getHeight(text);
         
         ttf.drawString(getCenteredCoord(x, thisEndX, textX), getCenteredCoord(y, thisEndY, textY), text);
     	*/
-    	ttf.drawString(getCenter(scaledPos).x, getCenter(scaledPos).y, text);
+    	ttf.drawString(getCenter(scaledPos).x - textWidth/2, getCenter(scaledPos).y - textHeight/2, text);
     }
     /**
      * Draws string in specified color in middle of object
@@ -528,15 +528,15 @@ public abstract class InterfaceObject extends Image
      */
     protected void drawString(String text, TrueTypeFont ttf, Color color, boolean scaledPos)
     {
+        float textWidth = ttf.getWidth(text);
+        float textHeight = ttf.getHeight(text);
     	/*
         float thisEndX = width;
         float thisEndY = height;
-        float textWidth = ttf.getWidth(text);
-        float textHeight = ttf.getHeight(text);
         
         ttf.drawString(getCenteredCoord(x, thisEndX, textWidth), getCenteredCoord(y, thisEndY, textHeight), text, color);
     	*/
-    	ttf.drawString(getCenter(scaledPos).x, getCenter(scaledPos).y, text, color);
+    	ttf.drawString(getCenter(scaledPos).x - textWidth/2, getCenter(scaledPos).y - textHeight/2, text, color);
     }
     /**
      * Moves MouseOverArea

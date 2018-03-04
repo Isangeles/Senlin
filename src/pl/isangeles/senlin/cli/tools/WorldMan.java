@@ -1,7 +1,7 @@
 /*
  * WorldMan.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ import pl.isangeles.senlin.data.NpcBase;
  */
 public class WorldMan implements CliTool
 {
+	private static final String TOOL_NAME = "worldman";
 	private GameWorld world;
 	/**
 	 * World manager constructor
@@ -52,6 +53,22 @@ public class WorldMan implements CliTool
 	public WorldMan(GameWorld world)
 	{
 		this.world = world;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.cli.tools.CliTool#getName()
+	 */
+	@Override
+	public String getName() 
+	{
+		return TOOL_NAME;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.cli.tools.CliTool#equals(java.lang.String)
+	 */
+	@Override
+	public boolean equals(String name) 
+	{
+		return name.equals(TOOL_NAME);
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.cli.tools.CliTool#handleCommand(java.lang.String)
@@ -82,6 +99,10 @@ public class WorldMan implements CliTool
             {
             	output = addCommands(command);
             }
+            else if(commandTarget.equals("set"))
+            {
+            	output = setCommands(command);
+            }
             else
             {
                 Log.addSystem("no such target for worldman:" + commandTarget);
@@ -104,7 +125,7 @@ public class WorldMan implements CliTool
 	 * @param command Command
 	 * @return Command result[0] and output[1]
 	 */
-	public String[] getCommands(String command)
+	private String[] getCommands(String command)
 	{
 		String result = "0";
 		String out = "";
@@ -120,7 +141,7 @@ public class WorldMan implements CliTool
 	 * @param commandLine Command
 	 * @return Command result[0] and output[1]
 	 */
-	public String[] removeCommands(String commandLine)
+	private String[] removeCommands(String commandLine)
 	{
 		String result = "0";
 	    String out = "";
@@ -160,7 +181,7 @@ public class WorldMan implements CliTool
 	 * @param commandLine Command
 	 * @return Command result[0] and output[1]
 	 */
-	public String[] musicCommands(String commandLine)
+	private String[] musicCommands(String commandLine)
 	{
 		String result = "0";
 	    String out = "1";
@@ -213,7 +234,7 @@ public class WorldMan implements CliTool
 	 * @param commandLine Command
 	 * @return Command result[0] and out[1]
 	 */
-	public String[] addCommands(String commandLine)
+	private String[] addCommands(String commandLine)
 	{
 		String result = "0";
 	    String out = "";
@@ -269,7 +290,7 @@ public class WorldMan implements CliTool
 	 * @param command Command
 	 * @return Command result[0] and out[0]
 	 */
-	public String[] setCommands(String command)
+	private String[] setCommands(String command)
 	{
 		String result = "0";
 		String out = "";
