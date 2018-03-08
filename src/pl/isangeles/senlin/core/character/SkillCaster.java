@@ -164,15 +164,18 @@ public class SkillCaster
 		switch(skill.getAvatarAnimType())
 		{
 		case MELEE:
+			Log.addSystem("melee anim");
 			caster.getAvatar().meleeAnim(false);
 			break;
 		case RANGE:
+			Log.addSystem("range anim");
 			caster.getAvatar().rangeAnim(false);
 			break;
 		case CAST:
 			caster.getAvatar().castAnim(false);
 			break;
 		default:
+			Log.addSystem("def melee anim");
 			caster.getAvatar().meleeAnim(false);
 		}
 		caster.getAvatar().removeEffect(skill.getCastAnim());

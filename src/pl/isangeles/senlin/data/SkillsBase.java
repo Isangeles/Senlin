@@ -97,7 +97,7 @@ public class SkillsBase
 		
 		List<Requirement> reqs = new ArrayList<Requirement>();
 		reqs.add(new WeaponRequirement(WeaponType.BOW));
-		return new Attack(character, "shot", "shot.png", EffectType.NORMAL, AttackType.MELEE, 0, reqs, true, 0, 3000, 150, new ArrayList<String>(), gc);
+		return new Attack(character, "shot", "shot.png", EffectType.NORMAL, AttackType.RANGE, 0, reqs, true, 0, 3000, 150, new ArrayList<String>(), gc);
 	}
 	
 	public static Skill getSkill(Character character, String id) throws SlickException, IOException, FontFormatException

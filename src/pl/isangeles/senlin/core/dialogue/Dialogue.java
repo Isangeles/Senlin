@@ -96,8 +96,17 @@ public class Dialogue implements SaveElement
 	 */
 	public void answerOn(Answer answer)
 	{
+		if(dialogueTarget != null)
+			dialogueTarget.getQTracker().check(answer);
+		
 		if(!answer.isEnd())
+		{
 			currentStage = getPart(answer.getTo());
+			if(dialogueTarget != null)
+				dialogueTarget.getQTracker().check(currentStage);
+		}
+		else
+			reset();
 	}
 	/**
 	 * Resets dialogue

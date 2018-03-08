@@ -55,22 +55,25 @@ public class QuestTracker
      */
     public void check(ObjectiveTarget ot)
     {
-    	//Log.addSystem("qtrack check:" + ot.getId()); TEST
-        for(Quest quest : character.getQuests())
-        {
-        	//Log.addSystem("qtrack q check:" + quest.getId()); TEST
-            quest.check(ot);
-        }
-        for(String questId : questsToStart.keySet())
-        {
-        	//Log.addSystem("check q: " + questId + " trigger:" + ot.getId());
-        	if(questsToStart.get(questId).equals(ot.getId()))
-        	{
-        		character.startQuest(QuestsBase.get(questId));
-        		startedQuests.add(questId);
-        		break;
-        	}
-        }
+    	if(ot != null)
+    	{
+    		//Log.addSystem("qtrack check:" + ot.getId()); //TEST
+            for(Quest quest : character.getQuests())
+            {
+            	//Log.addSystem("qtrack q check:" + quest.getId()); //TEST
+                quest.check(ot);
+            }
+            for(String questId : questsToStart.keySet())
+            {
+            	//Log.addSystem("check q: " + questId + " trigger:" + ot.getId()); //TEST
+            	if(questsToStart.get(questId).equals(ot.getId()))
+            	{
+            		character.startQuest(QuestsBase.get(questId));
+            		startedQuests.add(questId);
+            		break;
+            	}
+            }
+    	}
         for(String startedQuestId : startedQuests)
         {
         	questsToStart.remove(startedQuestId);

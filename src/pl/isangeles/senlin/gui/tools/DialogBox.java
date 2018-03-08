@@ -335,13 +335,15 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	{
         currentDialogue.answerOn(dialogueOption);
         
-		interlocutorA.getQTracker().check(dialogueOption);
-        interlocutorA.getQTracker().check(currentDialogue.getCurrentStage());
-        
-        clearAnswersBox();
-        textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
-        dialogueAnswers = currentDialogue.getAnswers();
-        addOptions(dialogueAnswers);
+        if(dialogueOption.isEnd())
+        	close();
+        else 
+        {
+	        clearAnswersBox();
+	        textBox.addRight(new TextBlock(currentDialogue.getText(), 20, ttf));
+	        dialogueAnswers = currentDialogue.getAnswers();
+	        addOptions(dialogueAnswers);
+        }
 	}
 	/**
 	 * Clears answer buttons
@@ -392,17 +394,9 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 					trainReq = option.isTrain();
 
 					currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
-					
-					if(option.isEnd())
-					{
-						currentDialogue.reset();
-						close();
-					}
-					else if(!option.isEnd())
-					{
-			            textBox.addLeft(new TextBlock(option.getText(), 20, ttf));
-					    nextDialogueStage(option);
-					}
+
+		            textBox.addLeft(new TextBlock(option.getText(), 20, ttf));
+				    nextDialogueStage(option);
 				}
 			}
 		}
