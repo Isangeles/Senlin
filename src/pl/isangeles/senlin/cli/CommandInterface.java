@@ -49,9 +49,6 @@ public class CommandInterface
 {
 	private Map<String, CliTool> tools;
 	private Character player;
-	private CharMan charman;
-	private WorldMan worldman;
-	private UiMan uiman;
 	private ScriptProcessor ssp;
 	/**
 	 * Command interface constructor
@@ -63,8 +60,8 @@ public class CommandInterface
 		this.player = player;
 		
 		tools = new HashMap<>();
-		charman = new CharMan(player, gw);
-		worldman = new WorldMan(gw);
+		CharMan charman = new CharMan(player, gw);
+		WorldMan worldman = new WorldMan(gw);
 		tools.put(charman.getName(), charman);
 		tools.put(worldman.getName(), worldman);
 		
@@ -136,7 +133,7 @@ public class CommandInterface
      */
     public void setUiMan(UserInterface uiToMan)
     {
-    	uiman = new UiMan(uiToMan);
+    	UiMan uiman = new UiMan(uiToMan);
     	tools.put(uiman.getName(), uiman);
     }
     /**

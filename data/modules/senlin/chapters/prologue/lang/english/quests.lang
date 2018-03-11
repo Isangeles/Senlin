@@ -3,7 +3,7 @@ pLumberTalk00:I should search the body;
 pLumberTalk1:Some, woodcutters are nearby, I better talk with them. Talk with Eric;
 pLumberTalk2:Talk with Ewan in the camp;
 pBanditsKilling:Welcome in the jungle;Ewan ask me to take ride of bandits near camp;
-pBanditsKilling0:Kill 2 bandits;
+pBanditsKilling00:Kill 2 bandits;
 pBanditsKilling1:Talk with ewan;
 senLetter:Letter to Senlin;I found letter to imperial officer in Senlin, maybe I should deliver it;
 senLetter00:I should ask someone how I can get to Senlin;

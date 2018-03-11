@@ -20,6 +20,7 @@ pl.isangeles.senlin.core.skill
 pl.isangeles.senlin.core.train
 pl.isangeles.senlin.data
 pl.isangeles.senlin.data.area
+pl.isangeles.senlin.data.load
 pl.isangeles.senlin.data.pattern
 pl.isangeles.senlin.data.save
 pl.isangeles.senlin.graphic
@@ -27,4 +28,5 @@ pl.isangeles.senlin.gui
 pl.isangeles.senlin.gui.tools
 pl.isangeles.senlin.states
 pl.isangeles.senlin.util
+pl.isangeles.senlin.util.exception
 pl.isangeles.senlin.util.parser
