@@ -1,7 +1,7 @@
 /*
- * TextSwitch.java
+ * ObjectSwitch.java
  * 
- * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
+ * Copyright 2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,15 +37,16 @@ import org.newdawn.slick.TrueTypeFont;
 
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
+
 /**
- * Switch for manipulation of text values
+ * Class for object switches
  * @author Isangeles
  *
  */
-public final class TextSwitch extends InterfaceObject implements MouseListener
+public class ObjectSwitch extends InterfaceObject implements MouseListener
 {
-    private String label;
-    private List<String> values = new ArrayList<>();
+	private String label;
+    private List<Switchable> values = new ArrayList<>();
     private int currentValueId;
     private TrueTypeFont ttf;
     private Button plus;
@@ -59,7 +60,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String label, String[] textToSwitch) throws SlickException, FontFormatException, IOException
+    public ObjectSwitch(GameContainer gc, String label, List<Switchable> values) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc);
         
@@ -67,15 +68,11 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         minus = new Button(GBase.getImage("buttonBack"), "", gc);
         gc.getInput().addMouseListener(this);
         
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        Font textFont = GBase.getFont("mainUiFont");
         ttf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
         this.label = label;
-        for(String text : textToSwitch)
-        {
-            values.add(text);
-        }
+        this.values = values;
     }
     /**
      * Text switch constructor(with info window)  
@@ -86,7 +83,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * @throws FontFormatException
      * @throws IOException
      */
-    public TextSwitch(GameContainer gc, String label, String[] textToSwitch, String info) throws SlickException, FontFormatException, IOException
+    public ObjectSwitch(GameContainer gc, String label, List<Switchable> values, String info) throws SlickException, FontFormatException, IOException
     {
         super(GConnector.getInput("switch/switchBG.png"), "switchBG", false, gc, info);
         
@@ -94,15 +91,11 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
         minus = new Button(GConnector.getInput("switch/switchButtonMinus.png"), "switchTBM", false, "", gc);
         gc.getInput().addMouseListener(this);
         
-        File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
-        Font textFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+        Font textFont = GBase.getFont("mainUiFont");
         ttf = new TrueTypeFont(textFont.deriveFont(12f), true);
         
         this.label = label;
-        for(String text : textToSwitch)
-        {
-            values.add(text);
-        }
+        this.values = values;
     }
     /**
      * Draws switch
@@ -116,15 +109,23 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
 		minus.draw(x, y+getDis(2), scaledPos);
 		
 		ttf.drawString(getCenter(scaledPos).x, getBR(scaledPos).y, label);
-		super.drawString(values.get(currentValueId), ttf, scaledPos);
+		super.drawString(values.get(currentValueId).getName(), ttf, scaledPos);
+    }
+    /**
+     * Returns current switch text
+     * @return String with actual switch text
+     */
+    public String getText()
+    {
+    	return values.get(currentValueId).getName();
     }
     /**
      * Returns current switch value
      * @return String with actual switch value
      */
-    public String getString()
+    public String getValue()
     {
-    	return values.get(currentValueId);
+    	return values.get(currentValueId).getId();
     }
     /**
      * Returns current value ID
@@ -138,12 +139,12 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
      * Returns list with switch values
      * @return List with values
      */
-    public List<String>getValues()
+    public List<Switchable>getValues()
     {
     	return values;
     }
     /**
-     * Set value with specified ID as current value
+     * Sets value with specified ID as current value
      * @param valueId Value ID
      * @return True if value was selected, false if specified ID was incorrect
      */
@@ -158,7 +159,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     		return false;
     }
     /**
-     * Set value as current value
+     * Sets value as current value
      * @param valueId Value
      * @return True if value was selected, false if specified value was incorrect
      */
@@ -166,7 +167,7 @@ public final class TextSwitch extends InterfaceObject implements MouseListener
     {
     	for(int i = 0; i < values.size(); i ++)
     	{
-    		if(value.equals(values.get(i)))
+    		if(value.equals(values.get(i).getId()))
     		{
     			currentValueId = i;
     			return true;

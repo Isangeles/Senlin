@@ -1,7 +1,7 @@
 /*
  * Switch.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,12 +111,12 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y, scaledPos);
-		
+		/* 
 		float texEndX = super.getScaledWidth();
         float texEndY = super.getScaledHeight();
         float textX = ttf.getWidth(label);
         float textY = ttf.getHeight(label);
-        
+        */
 		plusB.draw((x+super.getScaledWidth())-plusB.getScaledWidth(), y+getDis(2), scaledPos);
 		minusB.draw(x, y+getDis(2), scaledPos);
 		
@@ -131,6 +131,21 @@ public final class Switch extends InterfaceObject implements MouseListener
 	public int getValue()
 	{
 		return value;
+	}
+	/**
+	 * Set specified value as current switch value
+	 * @param value Value
+	 * @return True if value was successfully set, false if specified value was incorrect
+	 */
+	public boolean setValue(int value)
+	{
+		if(value > 0 && value <= points.getValue())
+		{
+			this.value = value;
+			return true;
+		}
+		else
+			return false;
 	}
 	@Override
 	public void inputEnded() 

@@ -1,7 +1,7 @@
 /*
  * SettingsMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Input;
@@ -38,7 +40,9 @@ import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.Message;
+import pl.isangeles.senlin.gui.ObjectSwitch;
 import pl.isangeles.senlin.gui.Switch;
+import pl.isangeles.senlin.gui.Switchable;
 import pl.isangeles.senlin.gui.TextSwitch;
 import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Coords;
@@ -55,10 +59,10 @@ import pl.isangeles.senlin.util.TConnector;
 class SettingsMenu extends InterfaceObject implements UiElement, MouseListener 
 {
     private GameWorld gw;
-	private TextSwitch resolutionS;
-	private TextSwitch langS;
-	private TextSwitch fowS;
-	private TextSwitch mRenderS;
+	private ObjectSwitch resolutionS;
+	private ObjectSwitch langS;
+	private ObjectSwitch fowS;
+	private ObjectSwitch mRenderS;
 	private Switch effectsVolS;
 	private Switch musicVolS;
 	private Button backB;
@@ -81,10 +85,35 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		
 		this.gw = gw;
 		
-		resolutionS = new TextSwitch(gc, TConnector.getText("ui", "settRes"), Settings.getResList());
-		langS = new TextSwitch(gc, TConnector.getText("ui", "settLang"), Settings.getLangList());
-		fowS = new TextSwitch(gc, TConnector.getText("ui", "settFow"), Settings.getFowTypes());
-		mRenderS = new TextSwitch(gc, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes());
+
+		List<Switchable> resValues = new ArrayList<>();
+		for(String val : Settings.getResList())
+		{
+			Setting res = new Setting(val, val);
+			resValues.add(res);
+		}
+		List<Switchable> langValues = new ArrayList<>();
+		for(String val : Settings.getLangList())
+		{
+			Setting lang = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+			langValues.add(lang);
+		}
+		List<Switchable> fowValues = new ArrayList<>();
+		for(String val : Settings.getFowTypes())
+		{
+			Setting fow = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+			fowValues.add(fow);
+		}
+		List<Switchable> mRenderValues = new ArrayList<>();
+		for(String val : Settings.getMapRenderTypes())
+		{
+			Setting mRender = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+			mRenderValues.add(mRender);
+		}
+		resolutionS = new ObjectSwitch(gc, TConnector.getText("ui", "settRes"), resValues);
+		langS = new ObjectSwitch(gc, TConnector.getText("ui", "settLang"), langValues);
+		fowS = new ObjectSwitch(gc, TConnector.getText("ui", "settFow"), fowValues);
+		mRenderS = new ObjectSwitch(gc, TConnector.getText("ui", "settMRen"), mRenderValues);
 		backB = new Button(GConnector.getInput("button/buttonS.png"), "uiSettingsClose", false, TConnector.getText("ui", "winClose"), gc);
 		effectsVolS = new Switch(gc, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
 		musicVolS = new Switch(gc, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
@@ -114,12 +143,19 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 	public void open()
 	{
 		openReq = true;
+		setCurrentValues();
 	}
 	/**
 	 * Closes menu
 	 */
 	public void close()
 	{
+		if(change)
+		{
+			restartInfo.open(TConnector.getText("ui", "settWinInfo"));
+			applySettings();
+			Settings.saveSettings();
+		}
 		openReq = false;
 		reset();
 	}
@@ -227,15 +263,7 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
 		{
 			if(backB.isMouseOver())
 			{
-				if(change)
-				{
-					restartInfo.open(TConnector.getText("ui", "settWinInfo"));
-					applySettings();
-					Settings.saveSettings();
-					close();
-				}
-				else
-					close();
+				close();
 			}
 		}
 	}
@@ -252,13 +280,57 @@ class SettingsMenu extends InterfaceObject implements UiElement, MouseListener
      */
     private void applySettings()
     {
-        Settings.setLang(langS.getString());
-        Settings.setResolution(new Size(resolutionS.getString().replace('x', ';')));
-        Settings.setFowType(fowS.getString());
-        Settings.setMapRenderType(mRenderS.getString());
+        Settings.setLang(langS.getValue());
+        Settings.setResolution(new Size(resolutionS.getValue().replace('x', ';')));
+        Settings.setFowType(fowS.getValue());
+        Settings.setMapRenderType(mRenderS.getValue());
         Settings.setEffectsVol((float)effectsVolS.getValue()/100);
         Settings.setMusicVol((float)musicVolS.getValue()/100);
-        gw.replayMusic();
+        gw.replayMusic(); //To apply music volume changes
     }
-
+    /**
+     * Sets current values of game settings to settings switches 
+     * @throws ArrayIndexOutOfBoundsException
+     */
+    private void setCurrentValues() throws ArrayIndexOutOfBoundsException
+    {
+    	String currentRes = Settings.getResolution()[0] + "x" + Settings.getResolution()[1];
+    	resolutionS.setValue(currentRes);
+    	langS.setValue(Settings.getLang());
+    	fowS.setValue(Settings.getFowType());
+    	mRenderS.setValue(Settings.getMapRenderType());
+    }
+    /**
+     * Class for settings switches values
+     * @author Isangeles
+     *
+     */
+    class Setting implements Switchable
+    {
+    	private String id;
+    	private String name;
+    	
+    	public Setting(String id, String name)
+    	{
+    		this.id = id;
+    		this.name = name;
+    	}
+		/* (non-Javadoc)
+		 * @see pl.isangeles.senlin.gui.Switchable#getName()
+		 */
+		@Override
+		public String getName() 
+		{
+			return name;
+		}
+		/* (non-Javadoc)
+		 * @see pl.isangeles.senlin.gui.Switchable#getId()
+		 */
+		@Override
+		public String getId() 
+		{
+			return id;
+		}
+    	
+    }
 }

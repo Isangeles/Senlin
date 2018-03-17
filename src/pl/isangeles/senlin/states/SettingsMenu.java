@@ -1,7 +1,7 @@
 /*
  * SettingsMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,7 +40,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.Message;
+import pl.isangeles.senlin.gui.ObjectSwitch;
 import pl.isangeles.senlin.gui.Switch;
+import pl.isangeles.senlin.gui.Switchable;
 import pl.isangeles.senlin.gui.TextSwitch;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
@@ -52,10 +56,10 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class SettingsMenu extends BasicGameState
 {
-	private TextSwitch resolution;
-	private TextSwitch language;
-	private TextSwitch fow;
-	private TextSwitch mapRender;
+	private ObjectSwitch resolution;
+	private ObjectSwitch language;
+	private ObjectSwitch fow;
+	private ObjectSwitch mapRender;
 	private Switch effectsVol;
 	private Switch musicVol;
 	private Button buttBack;
@@ -72,15 +76,41 @@ public class SettingsMenu extends BasicGameState
     {
     	try 
     	{
-    		resolution = new TextSwitch(container, TConnector.getText("ui", "settRes"), Settings.getResList());
-			language = new TextSwitch(container, TConnector.getText("ui", "settLang"), Settings.getLangList());
-			fow = new TextSwitch(container, TConnector.getText("ui", "settFow"), Settings.getFowTypes());
-			mapRender = new TextSwitch(container, TConnector.getText("ui", "settMRen"), Settings.getMapRenderTypes());
+    		List<Switchable> resValues = new ArrayList<>();
+    		for(String val : Settings.getResList())
+    		{
+    			Setting res = new Setting(val, val);
+    			resValues.add(res);
+    		}
+    		List<Switchable> langValues = new ArrayList<>();
+    		for(String val : Settings.getLangList())
+    		{
+    			Setting lang = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+    			langValues.add(lang);
+    		}
+    		List<Switchable> fowValues = new ArrayList<>();
+    		for(String val : Settings.getFowTypes())
+    		{
+    			Setting fow = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+    			fowValues.add(fow);
+    		}
+    		List<Switchable> mRenderValues = new ArrayList<>();
+    		for(String val : Settings.getMapRenderTypes())
+    		{
+    			Setting mRender = new Setting(val, TConnector.getText("ui", "sValue_" + val));
+    			mRenderValues.add(mRender);
+    		}
+    		resolution = new ObjectSwitch(container, TConnector.getText("ui", "settRes"), resValues);
+			language = new ObjectSwitch(container, TConnector.getText("ui", "settLang"), langValues);
+			fow = new ObjectSwitch(container, TConnector.getText("ui", "settFow"), fowValues);
+			mapRender = new ObjectSwitch(container, TConnector.getText("ui", "settMRen"), mRenderValues);
 			effectsVol = new Switch(container, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
             musicVol = new Switch(container, TConnector.getText("ui", "settMVol"), (int)(Settings.getMusicVol()*100), new Attribute(100));
 			
 			buttBack = new Button(GConnector.getInput("button/buttonBack.png"), "BSB", false, "", container);
 			message = new Message(container);
+			
+			setCurrentValues();
 		} 
     	catch (FontFormatException | IOException e) 
     	{
@@ -148,11 +178,56 @@ public class SettingsMenu extends BasicGameState
      */
     private void applySettings()
     {
-        Settings.setLang(language.getString());
-        Settings.setResolution(new Size(resolution.getString().replace('x', ';')));
-        Settings.setFowType(fow.getString());
-        Settings.setMapRenderType(mapRender.getString());
+        Settings.setLang(language.getValue());
+        Settings.setResolution(new Size(resolution.getValue().replace('x', ';')));
+        Settings.setFowType(fow.getValue());
+        Settings.setMapRenderType(mapRender.getValue());
         Settings.setEffectsVol((float)effectsVol.getValue()/100);
         Settings.setMusicVol((float)musicVol.getValue()/100);
+    }
+    /**
+     * Sets current values of game settings to settings switches 
+     * @throws ArrayIndexOutOfBoundsException
+     */
+    private void setCurrentValues() throws ArrayIndexOutOfBoundsException
+    {
+    	String currentRes = Settings.getResolution()[0] + "x" + Settings.getResolution()[1];
+    	resolution.setValue(currentRes);
+    	language.setValue(Settings.getLang());
+    	fow.setValue(Settings.getFowType());
+    	mapRender.setValue(Settings.getMapRenderType());
+    }
+    /**
+     * Class for settings switches values
+     * @author Isangeles
+     *
+     */
+    class Setting implements Switchable
+    {
+    	private String id;
+    	private String name;
+    	
+    	public Setting(String id, String name)
+    	{
+    		this.id = id;
+    		this.name = name;
+    	}
+		/* (non-Javadoc)
+		 * @see pl.isangeles.senlin.gui.Switchable#getName()
+		 */
+		@Override
+		public String getName() 
+		{
+			return name;
+		}
+		/* (non-Javadoc)
+		 * @see pl.isangeles.senlin.gui.Switchable#getId()
+		 */
+		@Override
+		public String getId() 
+		{
+			return id;
+		}
+    	
     }
 }

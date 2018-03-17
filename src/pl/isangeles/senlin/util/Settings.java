@@ -1,7 +1,7 @@
 /*
  * Settings.java
  * 
- * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ public final class Settings
         } 
         catch (FileNotFoundException | NoSuchElementException e)
         {
-            fowType = "FOW OFF";
+            fowType = "off";
         }
         try
         {
@@ -306,7 +306,7 @@ public final class Settings
      */
     public static boolean saveSettings()
     {
-        File settingsFile = new File("settings.txt");
+        File settingsFile = new File("game.conf");
         try 
         {
             PrintWriter pw = new PrintWriter(settingsFile);
