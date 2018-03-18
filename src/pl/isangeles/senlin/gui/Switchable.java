@@ -29,6 +29,14 @@ package pl.isangeles.senlin.gui;
  */
 public interface Switchable 
 {
+	/**
+	 * Returns name to display
+	 * @return String with name to display
+	 */
 	public String getName();
+	/**
+	 * Returns ID
+	 * @return String with ID
+	 */
 	public String getId();
 }

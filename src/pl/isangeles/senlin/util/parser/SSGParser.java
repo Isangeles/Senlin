@@ -187,7 +187,7 @@ public final class SSGParser
         Character character = NpcParser.getNpcFromNode(charE).make(gc, serial);
         
         Element journalE = (Element)charE.getElementsByTagName("journal").item(0);
-        character.getQuests().addAll(getSavedQuests(journalE));
+        character.getQuests().addAll(getSavedQuests(journalE, character));
         
         Element flagsE = (Element)charE.getElementsByTagName("flags").item(0);
         character.getFlags().addAll(getSavedFlags(flagsE));
@@ -358,7 +358,7 @@ public final class SSGParser
      * @param questsE Quests element form .ssg document
      * @return List with saved quests
      */
-    private static List<Quest> getSavedQuests(Element journalE)
+    private static List<Quest> getSavedQuests(Element journalE, Character character)
     {
         List<Quest> savedQuests = new ArrayList<>();
         
@@ -402,6 +402,7 @@ public final class SSGParser
         		Element questE = (Element)questNode;
         		String questId = questE.getTextContent();
         		Quest quest = QuestsBase.get(questId);
+        		quest.setOwner(character);
         		quest.complete();
         		savedQuests.add(quest);
         	}

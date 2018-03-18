@@ -1,7 +1,7 @@
 /*
- * Avatar.java
+ * DynamicAvatar.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.util.*;
 /**
- * Class for graphical representation of game character
+ * Class for character avatar that reflects equipment changes
  * @author Isangeles
  *
  */
@@ -48,7 +48,7 @@ public class DynamicAvatar extends CharacterAvatar
 
 	protected MouseOverArea avMOA;
 	/**
-	 * Character avatar constructor
+	 * Dynamic avatar constructor
 	 * @param character Character to represent by avatar
 	 * @param gc Slick game container
 	 * @throws SlickException

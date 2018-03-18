@@ -462,6 +462,7 @@ public final class DConnector
 	}
 	/**
 	 * Returns scenario with specified specified ID from SSG file with specified name 
+	 * UNUSED
 	 * @param ssgName Name of SSG file
 	 * @param scenarioId Scenario ID
 	 * @return Game world area scenario or null
@@ -469,7 +470,7 @@ public final class DConnector
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
 	 */
-	public static Scenario getScenarioFromSSG(String ssgName, String scenarioId) throws ParserConfigurationException, SAXException, IOException
+	private static Scenario getScenarioFromSSG(String ssgName, String scenarioId) throws ParserConfigurationException, SAXException, IOException
 	{
 		File ssg = new File("data" + File.separator + "savegames" + File.separator + Module.getName() + File.separator + ssgName);
 		

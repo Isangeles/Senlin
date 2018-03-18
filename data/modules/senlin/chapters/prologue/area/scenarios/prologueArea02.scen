@@ -23,6 +23,7 @@
             <exit position="72;120" to="11;19">prologue02:cirtaLianHouse01</exit>
             <exit position="79;123" to="11;19">prologue02:cirtaHanHouse01</exit>
             <exit position="68;109" to="24;2">prologue02:cirtaInn01</exit>
+            <exit position="63;114" to="24;2">prologue02:arttStore01</exit>
         </exits>
         <music>
 	        <idle>
@@ -81,6 +82,21 @@
 					</exits>
 					<music>
 						<idle></idle>
+						<combat></combat>
+					</music>
+        		</area>
+        		<area id="arttStore01" map="house01.tmx">
+					<npcs>
+						<npc position="1;7">artt01</npc>
+					</npcs>
+					<objects></objects>
+					<exits>
+						<exit position="24;2" to="63;114">prologue02</exit>
+					</exits>
+					<music>
+						<idle>
+							<track category="exploring">rainFlute.ogg</track>
+            </idle>
 						<combat></combat>
 					</music>
         		</area>

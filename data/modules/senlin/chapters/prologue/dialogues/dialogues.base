@@ -3,7 +3,7 @@
     <dialogue id="banditTalk">
         <text id="banditTalk01" start="true" ordinal="0">
             <answer id="banditTalk01a01" to="1"></answer>
-            <answer id="bye01" end="true"></answer>        
+            <answer id="bye01" end="true"></answer>
         </text>
         <text id="banditTalk02" ordinal="1">
             <answer id="bye01" end="true"></answer>
@@ -68,8 +68,8 @@
             <mod>
             	<transfer>
                 	<give>
-                  	  <item>mMeat01</item>  
-                  	  <item amount="10">copper01</item>          
+                  	  <item>mMeat01</item>
+                  	  <item amount="10">copper01</item>
                 	</give>
                 	<take>
 					</take>
@@ -116,20 +116,20 @@
         		<answer id="bye01" end="true"/>
         </text>
     </dialogue>
-    
+
     <dialogue id="lianSLTalk01">
     	  <text id="lianSL01" start="true" ordinal="0">
 	    	  <answer id="lianSL01_a0" to="1"/>
 	    	  <answer id="bye01" end="true"/>
     	  </text>
     	  <text id="lianSL02" ordinal="1">
-				<answer id="lianSL02_a0" to="2"/>    	  
+				<answer id="lianSL02_a0" to="2"/>
     	  </text>
     	  <text id="lianSL02f" ordinal="1">
-				<answer id="lianSL02_a0" to="2"/>  
+				<answer id="lianSL02_a0" to="2"/>
 				<pReq>
-					<genderReq>female</genderReq>				
-				</pReq>  
+					<genderReq>female</genderReq>
+				</pReq>
     	  </text>
     	  <text id="lianSL03" ordinal="2">
     	  		<answer id="lianSL03_a0" to="3"/>
@@ -140,8 +140,8 @@
     	  		<transfer>
 					<give></give>
 					<take>
-						<item>mSLetter01</item>					
-					</take>    	  		
+						<item>mSLetter01</item>
+					</take>
     	  		</transfer>
     	  </text>
     	  <text id="lianSL05" ordinal="4">
@@ -149,32 +149,32 @@
     	  		<answer id="lianSL05_a1" to="6"/>
     	  </text>
     	  <text id="lianSL06" ordinal="5">
-				<answer id="wait01" end="true"/>  
+				<answer id="wait01" end="true"/>
 				<mod>
 					<modOwner>
 						<attitudeModifier>hostile</attitudeModifier>
 					</modOwner>
-				</mod>  	  
+				</mod>
     	  </text>
     	  <text id="lianSL07" ordinal="6">
-				<answer id="bye01" end="true"/> 
+				<answer id="bye01" end="true"/>
     	  		<mod>
 					<transfer>
 						<give></give>
 						<take>
-							<item>mSLetter01</item>					
-						</take>    	  		
-    	  			</transfer>     	  		
-    	  		</mod>  	  
+							<item>mSLetter01</item>
+						</take>
+    	  			</transfer>
+    	  		</mod>
     	  </text>
     </dialogue>
-    
+
     <dialogue id="hanD01">
 		<text id="hanD01T00" ordinal="0">
 			<answer id="whoareu01" to="1"/>
 			<answer id="placeInfo01" to="3"/>
 			<answer id="trainReq01" to="train" />
-			<answer id="tradeReq01" to="trade" /> 
+			<answer id="tradeReq01" to="trade" />
 			<answer id="bye01" to="end" />
 		</text>
 		<text id="hanD01T01" ordinal="1">
@@ -190,9 +190,9 @@
 			<answer id="backAns01" to="0" />
 		</text>
     </dialogue>
-    
+
     <dialogue id="amajD01">
-		<text id="amajD01T00" ordinal="0"> 
+		<text id="amajD01T00" ordinal="0">
 			<answer id="whoareu01" to="1" />
 			<answer id="bye01" to="end" />
 		</text>
@@ -200,7 +200,7 @@
 			<answer id="bye01" to="end"/>
 		</text>
     </dialogue>
-    
+
     <dialogue id="amajD02">
 		<text id="amajD02T00" ordinal="0">
 			<answer id="amajD02T00_a0" to="1"/>
@@ -219,13 +219,13 @@
 			<answer id="bye01" to="end" />
 		</text>
     </dialogue>
-    
+
     <dialogue id="kifD01">
 		<text id="kifD01T00" ordinal="0">
 			<answer id="whoareu" to="1" />
 			<answer id="rumAsk01" to="2" />
 			<answer id="jobAsk01" to="3" />
-			<answer id="tradeReq01" to="trade" /> 
+			<answer id="tradeReq01" to="trade" />
 			<answer id="bye01" to="end" />
 		</text>
 		<text id="kifD01T01" ordinal="1">
@@ -243,11 +243,11 @@
 			</mod>
 		</text>
     </dialogue>
-    
+
     <dialogue id="bouveD01">
 		<text id="bouveD01T00" ordinal="0">
 			<answer id="whoareu01" to="1"/>
-			<answer id="bouveD01T00_a0" to="2">				
+			<answer id="bouveD01T00_a0" to="2">
 				<aReq>
 					<flagReq>bouveJob00</flagReq>
 				</aReq>
@@ -273,5 +273,5 @@
 				</modPlayer>
 			</mod>
 		</text>
-    </dialogue>
+  </dialogue>
 </base>

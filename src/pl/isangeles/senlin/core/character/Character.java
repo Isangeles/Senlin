@@ -1,7 +1,7 @@
 /*
  * Character.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Area currentArea;
 	private Random rng = new Random();
 	/**
-	 * This constructor provides playable character
+	 * Creates playable character
 	 * @param id Character ID
 	 * @param attitude Character attitude
 	 * @param guildID Character guild ID
@@ -204,7 +204,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         reservedIDs.add(serialId);
 	}
 	/**
-	 * This constructor provides playable character with specified serial number
+	 * Creates playable character with specified serial number
 	 * @param id Character ID
 	 * @param serial Character serial number
 	 * @param attitude Character attitude
@@ -550,6 +550,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    
 	    if(agony)
 	    	avatar.kneel();
+	    else
+	    	avatar.resetStance();
 		if(!live)
 		{
 			avatar.lie();
@@ -1279,12 +1281,13 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	this.attributes.mod(attributes);
     }
     /**
-     * Activates specified skill, if character know this skill
+     * Activates specified skill(only if character know this skill)
      * @param skill Some skill known by this character
+     * @return Out with result
      */
     public CharacterOut useSkill(Skill skill)
     {
-        if(live && skill != null && abilities.contains(skill))
+        if(live && !agony && skill != null && abilities.contains(skill))
         {
             CharacterOut out = skill.prepare(this, target);
             if(out.isSuccess())
@@ -1299,9 +1302,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             return CharacterOut.UNABLE;
     }
     /**
-     * Activates specified skill, if character know this skill
+     * Activates specified skill(only if character know this skill)
      * @param skill Some skill known by this character
      * @param target Skill target
+     * @return Out with result
      */
     public CharacterOut useSkillOn(Targetable target, Skill skill)
     {
@@ -1320,7 +1324,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             return CharacterOut.UNABLE;
     }
 	/**
-	 * Memorises specified game character as hostile, friendly or neutral
+	 * 'Memorises' specified game character as hostile, friendly or neutral
 	 * @param character Some game character
 	 * @param attitude Attitude to specified character
 	 */
@@ -1329,7 +1333,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	    attitudeMem.put(character.getSerialId(), attitude);
 	}
     /**
-     * Memorises specified game character as hostile, friendly or neutral
+     * 'Memorises' specified game character as hostile, friendly or neutral
      * @param characterSerialID Character serial ID
      * @param attitude Attitude to specified character
      */

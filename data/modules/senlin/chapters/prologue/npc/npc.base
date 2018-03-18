@@ -555,6 +555,32 @@
 		<dialogue id="bouveD01" />
 	</dialogues>
 </npc>
+<npc id="artt01" gender="male" race="human" trade="true" attitude="friendly" guild="none" level="4">
+	<stats>2;2;4;3;2</stats>
+	<portrait>portrait0.jpg</portrait>
+	<spritesheet default="true"/>
+	<eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+		<in>
+			<items>
+	            <item random="false" amount="60">copper01</item>
+	            <item random="false" amount="20">silver01</item>
+	            <item random="false" amount="5">gold01</item>
+			</items>
+		</in>
+	</eq>
+	<dialogues>
+	</dialogues>
+</npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">
     <stats>2;2;3;1;1;</stats>
     <portrait>goblin01.jpg</portrait>

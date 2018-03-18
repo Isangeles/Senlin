@@ -518,28 +518,27 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
                     player.moveTo((int)Global.worldX(x), (int)Global.worldY(y));
                     Log.addSystem("Move: " + worldX + "/" + worldY + " " + gw.getArea().getMap().getTileId(worldX/gw.getArea().getMap().getTileWidth(), worldY/gw.getArea().getMap().getTileHeight(), 1)); //TEST LINE
                 }
+
+                for(Exit exit : gw.getArea().getExits())
+                {
+                    if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 70)
+                    	gw.setChangeAreaReq(exit);
+                }
                 
+                for(TargetableObject object : gw.getArea().getObjects())
+                {
+                    if(object.isMouseOver())
+                    {
+                        player.setTarget(object);
+                        return;
+                    }
+                        
+                }
 		    }
 		}
 
         if(button == Input.MOUSE_RIGHT_BUTTON)
-        {
-            for(Exit exit : gw.getArea().getExits())
-            {
-                if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 70)
-                	gw.setChangeAreaReq(exit);
-            }
-            
-            for(TargetableObject object : gw.getArea().getObjects())
-            {
-                if(object.isMouseOver())
-                {
-                    player.setTarget(object);
-                    return;
-                }
-                    
-            }
-            
+        {   
             for(Character npc : gw.getArea().getNpcs())
             {
                 if(npc.isMouseOver())

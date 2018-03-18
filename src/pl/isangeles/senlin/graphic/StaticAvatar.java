@@ -46,9 +46,10 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
     
     protected MouseOverArea avMOA;
 	/**
-	 * @param character
-	 * @param gc
-	 * @param spritesheet
+	 * Static avatar constructor
+	 * @param character Character for avatar
+	 * @param gc Slick game container
+	 * @param spritesheet Spritesheet for avatar
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
@@ -160,8 +161,7 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 	@Override
 	public void stopAnim() 
 	{
-		// TODO Auto-generated method stub
-		
+		torso.stopAnim();
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.graphic.CharacterAvatar#resetStance()
@@ -169,7 +169,7 @@ public class StaticAvatar extends CharacterAvatar implements MouseListener
 	@Override
 	public void resetStance() 
 	{
-		// TODO Auto-generated method stub
+		torso.resetStance();
 	}
     /* (non-Javadoc)
      * @see pl.isangeles.senlin.graphic.CharacterAvatar#getDirection()
