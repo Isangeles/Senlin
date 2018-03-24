@@ -1,7 +1,7 @@
 /*
  * RequirementsParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.item.WeaponType;
 import pl.isangeles.senlin.core.req.FlagRequirement;
 import pl.isangeles.senlin.core.req.GenderRequirement;
 import pl.isangeles.senlin.core.req.GoldRequirement;
+import pl.isangeles.senlin.core.req.ItemsRequirement;
 import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.PointsRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
@@ -106,11 +107,15 @@ public final class RequirementsParser
 					case "flagReq":
 						String flag = reqE.getTextContent();
 						reqs.add(new FlagRequirement(flag));
+					case "itemReq":
+						int iAmount = Integer.parseInt(reqE.getAttribute("amount"));
+						String iId = reqE.getTextContent();
+						reqs.add(new ItemsRequirement(iId, iAmount));  
 					}
 				}
 				catch(NumberFormatException e)
 				{
-					Log.addSystem("req_builder_fail_msg///some base node corrupted");
+					Log.addSystem("req_builder_fail_msg///some base node corrupted:" + e.getMessage());
 					continue;
 				}
 			}

@@ -2,7 +2,7 @@
 <base>
 	<quest id="senLetter" flagOn="senLetterStart">
 		<stages>
-			<stage id="senLetter00" next="senLetter01">
+			<stage start="start" id="senLetter00" next="senLetter01">
                 <objectives>
 				    <objective type="talk">ewanSLetterStart</objective>
                 </objectives>
@@ -27,7 +27,7 @@
 			</stage>
             <stage id="senLetter03" next="senLetter04">
                 <objectives>
-                    <objective type="talk">cirtaGuardT02a1</objective>            
+                    <objective type="talk">cirtaGuardT02a1</objective>
                 </objectives>
                 <sFlags>
                     <flag type="on" on="end">senLetter03</flag>
@@ -36,9 +36,9 @@
             </stage>
             <stage id="senLetter04" next="end">
                 <objectives>
-                    <finisher type="talk">lianSL03_a0</finisher>  
+                    <finisher type="talk">lianSL03_a0</finisher>
                     <finisher type="talk">lianSL05_a0</finisher>
-                    <finisher type="talk">lianSL05_a1</finisher>          
+                    <finisher type="talk">lianSL05_a1</finisher>
                 </objectives>
                 <sFlags>
                     <flag type="on" on="end">senLetter04</flag>
@@ -52,7 +52,7 @@
 	</quest>
 	<quest id="pLumberTalk">
 	   <stages>
-            <stage id="pLumberTalk00" next="pLumberTalk1">
+            <stage start="start" id="pLumberTalk00" next="pLumberTalk1">
                 <objectives>
                     <objective type="gather" amount="1">mSLetter01</objective>
                 </objectives>
@@ -62,7 +62,7 @@
                 </sFlags>
             </stage>
             <stage id="pLumberTalk1" next="pLumberTalk2">
-                <objectives>    
+                <objectives>
                     <objective type="talk">ericWelcome02a01</objective>
                 </objectives>
                 <sFlags>
@@ -77,8 +77,8 @@
                 <sFlags>
                     <flag type="on" on="end">qpLumberTalkFinish</flag>
                     <flag type="off" on="end">qpLumberTalk1</flag>
-                </sFlags>	
-		    </stage> 
+                </sFlags>
+		    </stage>
 	   </stages>
        <qFlags>
            <flag type="on" on="start">qpLumberTalkStart</flag>
@@ -86,7 +86,7 @@
 	</quest>
     <quest id="pBanditsKilling">
 	   <stages>
-            <stage id="pBanditsKilling00" next="pBanditsKilling1">
+            <stage start="start" id="pBanditsKilling00" next="pBanditsKilling1">
                 <objectives>
                     <objective type="kill" amount="2">bandit01</objective>
                 </objectives>
@@ -97,23 +97,23 @@
             </stage>
 	        <stage id="pBanditsKilling1"  next="end">
                 <objectives>
-			        <objective type="talk">ewanTalk301a01</objective>	
+			        <objective type="talk">ewanTalk301a01</objective>
                 </objectives>
                 <sFlags>
                     <flag type="on" on="end">qpBanditsKillingFinish</flag>
                     <flag type="off" on="end">qpBanditsKilling0</flag>
                 </sFlags>
-		    </stage> 
+		    </stage>
 	   </stages>
         <qFlags>
             <flag type="on" on="start">qpBanditsKillingStart</flag>
             <flag type="off" on="start">qpLumberTalkFinish</flag>
         </qFlags>
 	</quest>
-	
+
 	<quest id="amajDeal">
 		<stages>
-			<stage id="amajDeal00" next="amajDeal01">
+			<stage start="start" id="amajDeal00" next="amajDeal01">
 				<objectives>
 					<objective type="talk">TODO</objective>
                     <finisher type="talk" to="amajDeal02">TODO</finisher>
@@ -143,10 +143,10 @@
 			<flag type="on" on="start">amajDeal00</flag>
 		</qFlags>
 	</quest>
-	
+
 	<quest id="bouveHunt01">
 		<stages>
-			<stage id="bouveHunt01_s0" next="bouveHunt01_s1">
+			<stage start="start" id="bouveHunt01_s0" next="bouveHunt01_s1">
 				<objectives>
 					<objective type="talk">bouveD01T02</objective>
 				</objectives>
@@ -162,5 +162,22 @@
 				</objectives>
 			</stage>
 		</stages>
+	</quest>
+
+	<quest id="fishDeilvery01">
+		<stages>
+			<stage start="start" id="fishDeilvery01_s0" next="end">
+				<objectives>
+					<objective type="talk">arttD01T02</objective>
+				</objectives>
+				<sFlags>
+					<flag type="on" on="start">fish_deliver_01</flag>
+				</sFlags>
+			</stage>
+		</stages>
+		<qFlags>
+			<flag type="on" on="start">fish_deliver_01</flag>
+			<flag type="on" on="end">fish_deliver_finish</flag>
+		</qFlags>
 	</quest>
 </base>

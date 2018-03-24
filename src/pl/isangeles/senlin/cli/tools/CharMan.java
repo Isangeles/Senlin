@@ -1,5 +1,5 @@
 /*
- * CharMod.java
+ * CharMan.java
  * 
  * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
@@ -31,7 +31,6 @@ import org.newdawn.slick.SlickException;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
-import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.Usable;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
@@ -40,15 +39,12 @@ import pl.isangeles.senlin.core.craft.ProfessionType;
 import pl.isangeles.senlin.core.craft.Recipe;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.out.CharacterOut;
-import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
-import pl.isangeles.senlin.data.NpcBase;
 import pl.isangeles.senlin.data.QuestsBase;
 import pl.isangeles.senlin.data.RecipesBase;
 import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.states.GameWorld;
-import pl.isangeles.senlin.states.Global;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.util.TilePosition;
@@ -455,7 +451,7 @@ public class CharMan implements CliTool
 			switch(prefix)
 			{
 			case "-f":
-				out = target.getName() + "-flags: " + target.getFlags().list();
+				out = target.getSerialId() + "-flags: " + target.getFlags().list();
 				break;
 			case "-r":
 				out = target.getProfession(ProfessionType.fromString(arg1)).toString();
@@ -478,6 +474,9 @@ public class CharMan implements CliTool
 			    }
 			    else
 			    	throw new NoSuchElementException();
+				break;
+			case "-q": case "--quests":
+				out = target.getSerialId() + "-quests:" + target.getQuests().list();
 				break;
 			default:
 		    	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho") + ":'" + commandLine + "'");

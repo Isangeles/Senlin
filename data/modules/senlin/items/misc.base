@@ -36,6 +36,10 @@
 		<icon>coinC01.png</icon>
     </item>
     <item id="wolfPelt01" value="15" stack="20" disposable="false">
-                <icon>pelt01.png</icon> 
+                <icon>pelt01.png</icon>
+    </item>
+    <item id="fish01" value="3" stack="20" disposable="true">
+            <icon>food02.png</icon>
+            <action type="effectTarget">heal01</action>
     </item>
 </base>

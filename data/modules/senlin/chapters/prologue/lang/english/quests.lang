@@ -17,3 +17,5 @@ bouveHunt01:The Hunt;Kif said me that man named Bouve has some job for me.;
 bouvehunt01_s0:Talk with Bouve about the job.;
 bouveHunt01_s1:Get five wolves pelts.;
 bouveHunt01_s2:Back to Bouve with pelts.;
+fishDeilvery01:Fish delivery;Fisherman name Mokko ask me to deliver 20 fishes to trader in Cirta name Artt.
+fishDeilvery01_s0:I need to deliver 20 fishes to Artt in Cirta.

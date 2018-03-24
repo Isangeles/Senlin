@@ -238,7 +238,7 @@
 			<answer id="backAns01" to="0"/>
 			<mod>
 				<modPlayer>
-					<flagModifier flag="bouveJob00" />
+					<flagModifier flag="bouveHunt00" />
 				</modPlayer>
 			</mod>
 		</text>
@@ -249,12 +249,12 @@
 			<answer id="whoareu01" to="1"/>
 			<answer id="bouveD01T00_a0" to="2">
 				<aReq>
-					<flagReq>bouveJob00</flagReq>
+					<flagReq>bouveHunt00</flagReq>
 				</aReq>
 			</answer>
 			<answer id="trainReq01" to="train">
 				<aReq>
-					<flagReq>bouveJob01</flagReq>
+					<flagReq>bouveHunt01</flagReq>
 				</aReq>
 			</answer>
 			<answer id="bye01" to="end"/>
@@ -269,9 +269,67 @@
 			<answer id="backAns01" to="0"/>
 			<mod>
 				<modPlayer>
-					<flagModifier flag="bouveJob01" />
+					<flagModifier flag="bouveHunt01" />
 				</modPlayer>
 			</mod>
 		</text>
+  </dialogue>
+
+  <dialogue id="arttD01">
+    <text id="traderGreeting01" ordinal="0">
+      <answer id="whoareu01" to="1"/>
+      <answer id="tradeReq01" to="trade" />
+      <answer id="arttD01T00_a0" to="2">
+          <aReq>
+              <flagReq>fish_deliver_01</flagReq>
+              <itemReq amount="20">fish01</itemReq>
+          </aReq>
+      </answer>
+      <answer id="bye01" to="end"/>
+    </text>
+    <text id="arttD01T01" ordinal="1">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end"/>
+    </text>
+    <text id="arttD01T02" ordinal="2">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end"/>
+      <mod>
+        <transfer>
+          <take>
+            <itemReq amount="20">fish01</itemReq>
+          </take>
+          <give>
+            <item amount="10">copper01</item>
+          </give>
+        </transfer>
+      </mod>
+    </text>
+  </dialogue>
+
+  <dialogue id="mokkoD01">
+      <text id="greeting01" ordinal="0">
+        <answer id="whoareu01" to="1" />
+        <answer id="bye01" to="end" />
+      </text>
+      <text id="mokkoD01T01" ordinal="1" >
+        <answer id="mokkoD01T01_a0" to="2" />
+        <answer id="no01" to="end" />
+      </text>
+      <text id="mokkoD01T02" ordinal="2" >
+        <answer id="mokkoD01T02_a0" to="3" />
+        <answer id="no01" to="end" />
+      </text>
+      <text id="mokkoD01T03" ordinal="3">
+        <answer id="bye01" to="end" />
+        <mod>
+          <transfer>
+            <take></take>
+            <give>
+              <item amount="20">fish01</item>
+            </give>
+          </transfer>
+        </mod>
+      </text>
   </dialogue>
 </base>

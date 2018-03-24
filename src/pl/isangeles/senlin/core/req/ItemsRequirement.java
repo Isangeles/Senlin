@@ -1,7 +1,7 @@
 /*
  * ItemsRequirement.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,10 +42,20 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class ItemsRequirement extends Requirement
 {
-	private Map<String, Integer> reqItems;
-	private List<Item> itemsToRemove = new ArrayList<>();
+	private final Map<String, Integer> reqItems;
+	private final List<Item> itemsToRemove = new ArrayList<>();
 	/**
-	 * Items requirement constructor
+	 * Items requirement constructor (for one type of items)
+	 * @param reqItems Map with required items IDs as keys and amount of thats items as values
+	 */
+	public ItemsRequirement(String id, int amount)
+	{
+		super(RequirementType.ITEMS, "");
+		this.reqItems = new HashMap<>();
+		reqItems.put(id, amount);
+	}
+	/**
+	 * Items requirement constructor (for multiple types of items)
 	 * @param reqItems Map with required items IDs as keys and amount of thats items as values
 	 */
 	public ItemsRequirement(Map<String, Integer> reqItems)
@@ -78,13 +88,11 @@ public class ItemsRequirement extends Requirement
     	if(countMap.equals(reqItems))
     	{
     		met = true;
-    		character.getInventory().removeAll(itemsToRemove);
+    		//character.getInventory().removeAll(itemsToRemove); //separate charge() method to remove required items
     		return true;
     	}
     	else
-    	{
     		return false;
-    	}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
@@ -95,7 +103,7 @@ public class ItemsRequirement extends Requirement
 		if(met)
 		{
 			character.getInventory().removeAll(itemsToRemove);
-			itemsToRemove = null;
+			itemsToRemove.clear();
 			met = false;
 		}
 	}

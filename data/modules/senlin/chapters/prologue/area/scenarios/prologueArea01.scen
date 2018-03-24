@@ -5,6 +5,7 @@
             <npc position="54;14">ericP01</npc>
             <npc position="57;10">kianP01</npc>
             <npc position="61;9">ewanP01</npc>
+            <npc position="41;27">mokko01</npc>
         </npcs>
         <mobs start="0;0" end="21;14">
             <mob max="3">bandit01</mob>
@@ -16,6 +17,7 @@
 	        <quest trigger="now">pLumberTalk</quest>
             <quest trigger="ewanTalk201a01">pBanditsKilling</quest>
             <quest trigger="mSLetter01">senLetter</quest>
+            <quest trigger="mokkoD01T02_a0">fishDeilvery01</quest>
         </quests>
         <objects>
             <object position="60;7">cFire01</object>

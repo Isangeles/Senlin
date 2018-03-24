@@ -140,5 +140,10 @@ public class Misc extends Item
     	{
 			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
 		}
+		catch(NullPointerException e)
+		{
+			System.err.println("item_icon_build_fail_msg-//" + e.getMessage() + ", img_file_name:" + imgName);
+			return new ItemTile(GBase.getImage("errorIcon"), gc, this.getInfo());
+		}
     }
 }

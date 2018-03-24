@@ -66,7 +66,6 @@ public class SavedGame
     {
         this.player = player;
         chapter = new Chapter(chapterId, savedScenarios, activeScenario, gc);
-        this.player.setArea(chapter.getActiveScenario().getMainArea());
         day = savedDay;
         uiLayout = savedLayout;
     }

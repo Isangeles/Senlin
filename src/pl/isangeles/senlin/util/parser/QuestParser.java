@@ -82,6 +82,7 @@ public class QuestParser
     {
         Element stageE = (Element)stageNode;
         
+        boolean startStage = stageE.hasAttribute("start");
         String id = stageE.getAttribute("id");
         String nextStage = stageE.getAttribute("next");
         
@@ -105,7 +106,7 @@ public class QuestParser
             }
         }
         
-        return new Stage(id, flagsOnStart, flagsOffStart, flagsOnEnd, flagsOffEnd, nextStage, objectives);
+        return new Stage(id, flagsOnStart, flagsOffStart, flagsOnEnd, flagsOffEnd, nextStage, objectives, startStage);
     }
     /**
      * Parses specified objective node

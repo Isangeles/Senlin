@@ -150,6 +150,7 @@ public class LoadingScreen extends BasicGameState
 		catch (IOException | FontFormatException | ParserConfigurationException | SAXException | InterruptedException e) 
 		{
 			e.printStackTrace();
+			container.exit();
 		}
     }
     /* (non-Javadoc)

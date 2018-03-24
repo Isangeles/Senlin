@@ -1,7 +1,7 @@
 /*
  * Stage.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,14 +34,15 @@ import pl.isangeles.senlin.core.character.Character;
  */
 public class Stage
 {
-    private String id;
+    private final String id;
     private String nextStage;
-    private String info;
-    private List<String> flagsOnStart;
-    private List<String> flagsOffStart;
-    private List<String> flagsOnEnd;
-    private List<String> flagsOffEnd;
-    private List<Objective> objectives;
+    private final String info;
+    private final List<String> flagsOnStart;
+    private final List<String> flagsOffStart;
+    private final List<String> flagsOnEnd;
+    private final List<String> flagsOffEnd;
+    private final List<Objective> objectives;
+    private final boolean startStage;
     /**
      * Stage constructor 
      * @param id Stage ID
@@ -49,7 +50,7 @@ public class Stage
      * @param objectives List of stage objectives
      */
     public Stage(String id, List<String> flagsOnStart, List<String> flagsOffStart, List<String> flagsOnEnd, List<String> flagsOffEnd,
-    			 String nextStage, List<Objective> objectives)
+    			 String nextStage, List<Objective> objectives, boolean startStage)
     {
         this.id = id;
         this.nextStage = nextStage;
@@ -59,6 +60,7 @@ public class Stage
         this.flagsOffEnd = flagsOffEnd;
         info = TConnector.getTextFromChapter("quests", id);
         this.objectives = objectives;
+        this.startStage = startStage;
     }
     /**
      * Checks if stage objectives all completed
@@ -77,7 +79,7 @@ public class Stage
             {
             	if(!objective.getToId().equals("")) //TODO maybe some more validation needed
             		nextStage = objective.getToId();
-                return true;
+            	return true;
             }
         }
         return complete;
@@ -131,6 +133,14 @@ public class Stage
     public List<Objective> getObjectives()
     {
     	return objectives;
+    }
+    /**
+     * Checks if this stage is start stage
+     * @return True if this start is start stage, false otherwise
+     */
+    public boolean isStartStage()
+    {
+    	return startStage;
     }
     /**
      * Checks if specified objective target meets any stage objective requirements

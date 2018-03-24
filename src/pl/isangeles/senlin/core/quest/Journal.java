@@ -102,4 +102,17 @@ public class Journal extends HashSet<Quest> implements SaveElement
 		
 		return journalE;
 	}
+	/**
+	 * Returns string with IDs of all quests in journal
+	 * @return String with quests IDs
+	 */
+	public String list()
+	{
+		String list = "";
+		for(Quest q : this)
+		{
+			list += q.getId() + ";";
+		}
+		return list;
+	}
 }

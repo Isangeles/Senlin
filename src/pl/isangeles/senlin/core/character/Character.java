@@ -1242,9 +1242,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void startQuest(Quest quest)
 	{
-		if(quests.add(quest))
+		if(quest.start(this) && quests.add(quest))
 		{
-			quest.start(this);
 			Log.addInformation(quest.getName() + " accepted");
 		}
 		else

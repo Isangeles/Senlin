@@ -1,7 +1,7 @@
 /*
  * Quest.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ public class Quest implements ScrollableContent, SaveElement
         
         for(Stage stage : stages)
         {
-            if(stage.getId().equals(id+"00"))
+            if(stage.isStartStage())
             	currentStage = stage;
         }   
         if(currentStage == null)
@@ -114,13 +114,21 @@ public class Quest implements ScrollableContent, SaveElement
     }
     /**
      * Starts quest
+     * @param character Game character
+     * @return True was successfully started, false otherwise
      */
-    public void start(Character character)
+    public boolean start(Character character)
     {
-    	active = true;
-    	owner = character;
-    	owner.getFlags().addAll(flagsOnStart);
-    	owner.getFlags().removeAll(flagsOffStart);
+    	if(character != null)
+    	{
+        	active = true;
+        	owner = character;
+        	owner.getFlags().addAll(flagsOnStart);
+        	owner.getFlags().removeAll(flagsOffStart);
+        	return true;
+    	}
+    	else
+    		return false;
     }
     /**
      * Sets stage with specified ID as current stage of this quest
@@ -235,6 +243,7 @@ public class Quest implements ScrollableContent, SaveElement
     		name += "(" + TConnector.getText("ui", "jMenuCmp") + ")";
         	complete = true;
         	active = false;
+        	Log.addSystem("q_complete_id:" + id);
     	}
     }
     

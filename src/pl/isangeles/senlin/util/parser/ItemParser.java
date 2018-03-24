@@ -70,6 +70,9 @@ public class ItemParser
 		int maxDmg = Integer.parseInt(dmg.split("-")[1]);
 		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		if(icon == null || icon.isEmpty())
+			icon = "unknown.png";
+		
 		Element spritesheetE = (Element)itemE.getElementsByTagName("spritesheet").item(0);
 		boolean defaultSS = Boolean.parseBoolean(spritesheetE.getAttribute("default"));
 		String spritesheet = "default";
@@ -135,6 +138,9 @@ public class ItemParser
 		int armRat = Integer.parseInt(itemE.getAttribute("armRat"));
 		
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		if(icon == null || icon.isEmpty())
+			icon = "unknown.png";
+		
 		String maleSprite = "";
 		String femaleSprite = "";
 		
@@ -186,6 +192,8 @@ public class ItemParser
 		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLevel"));
 		int value = Integer.parseInt(itemE.getAttribute("value"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		if(icon == null || icon.isEmpty())
+			icon = "unknown.png";
 		
 		Node bonusesNode = itemE.getElementsByTagName("bonuses").item(0);
 		List<Modifier> bonuses = ModifiersParser.getModifiersFromNode(bonusesNode);
@@ -231,6 +239,8 @@ public class ItemParser
 		if(itemE.hasAttribute("currency"))
 			currency = Boolean.parseBoolean(itemE.getAttribute("currency"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
+		if(icon == null || icon.isEmpty())
+			icon = "unknown.png";
 		
 		Node actionNode = itemE.getElementsByTagName("action").item(0);
 		ActionPattern onClick = new ActionPattern("none", "");
