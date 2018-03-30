@@ -61,6 +61,7 @@ import pl.isangeles.senlin.data.load.GameDataLoader;
 import pl.isangeles.senlin.data.load.GameWorldLoader;
 import pl.isangeles.senlin.data.save.SaveEngine;
 import pl.isangeles.senlin.data.save.SavedGame;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.tools.UserInterface;
 /**
@@ -72,7 +73,7 @@ public class LoadingScreen extends BasicGameState
 {
 	private static final int NEW_GAME = 0;
 	private static final int SAVED_GAME = 1;
-	
+
     private InfoField loadingInfo;
     private Character player;
     private SavedGame gameToLoad;

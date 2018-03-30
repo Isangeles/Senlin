@@ -82,31 +82,27 @@ public class WorldMan implements CliTool
         {
             String commandTarget = scann.next();
             String command = scann.nextLine();
-            
-            if(commandTarget.equals("get"))
+            switch(commandTarget)
             {
+            case "get":
             	output = getCommands(command);
-            }
-            else if(commandTarget.equals("remove"))
-            {
+            	break;
+            case "remove":
             	output = removeCommands(command);
-            }
-            else if(commandTarget.equals("music"))
-            {
+            	break;
+            case "music":
             	output = musicCommands(command);
-            }
-            else if(commandTarget.equals("add"))
-            {
+            	break;
+            case "add":
             	output = addCommands(command);
-            }
-            else if(commandTarget.equals("set"))
-            {
+            	break;
+            case "set":
             	output = setCommands(command);
-            }
-            else
-            {
+            	break;
+            default:
                 Log.addSystem("no such target for worldman:" + commandTarget);
                 output[0] = "5";
+                break;
             }
         }
         catch(NoSuchElementException e)
@@ -150,9 +146,9 @@ public class WorldMan implements CliTool
         {
             String option = scann.next();
             String arg1 = scann.next();
-            
-            if(option.equals("npc"))
+            switch(option)
             {
+            case "-n": case "--npc":
             	Character npc = world.getCurrentChapter().getCharacter(arg1);
             	if(npc != null)
             	{
@@ -164,6 +160,9 @@ public class WorldMan implements CliTool
             		Log.addSystem("bad value for remove: " + arg1);
             		result = "2";
             	}
+            	break;
+            default: //TODO not such option msg
+            	break;
             }
         }
         catch(NoSuchElementException e)
@@ -193,27 +192,27 @@ public class WorldMan implements CliTool
             if(scann.hasNext())
                 arg1 = scann.next();
             
-            if(option.equals("-play"))
+            switch(option)
             {
+            case "-p": case "--play":
                 if(arg1 != null)
                     world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg1);
                 else
                     world.getMusiPlayer().playRandomFrom("exploring", 1.0f, Settings.getMusicVol());
-            }
-            else if(option.equals("-stop"))
-            {
+                break;
+            case "-s": case "--stop":
                 world.getMusiPlayer().stop();
-            }
-            else if(option.equals("-playSpecial") && arg1 != null)
-            {
-                world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
-            }
-            else if(option.equals("-list"))
-            {
+                break;
+            case "-ps": case "--playSpecial": 
+            		if(arg1 != null)
+            			world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
+                	break;
+            case "-l": case "--list":
                 if(arg1 != null)
                     out = arg1 + ":" + world.getMusiPlayer().getTracksList(arg1);
                 else
                     out = arg1 + ":" + world.getMusiPlayer().getTracksList();
+                break;
             }
         }
         catch(NoSuchElementException e)
@@ -250,8 +249,9 @@ public class WorldMan implements CliTool
             if(scann.hasNext())
             	arg3 = scann.next();
 		
-			if(option.equals("-c") || option.equals("-character"))
-			{
+            switch(option)
+            {
+            case "-c": case "--character":
 				String charId = arg1;
 				String[] pos = {world.getPlayer().getPosition()[0] + "", world.getPlayer().getPosition()[1] + ""};
 				String area = world.getArea().getId();
@@ -264,9 +264,11 @@ public class WorldMan implements CliTool
 				Character spawnedChar = NpcBase.spawnIn(charId, world.getCurrentChapter().getActiveScenario().getArea(area), p);
 				world.getArea().getCharacters().add(spawnedChar);
 				spawnedChar.setArea(world.getArea());
-			}
-        	else
+				break;
+        	default:
         		result = "3";
+				break;
+            }
 		}
 		catch(NoSuchElementException e)
 		{
@@ -302,9 +304,9 @@ public class WorldMan implements CliTool
             String arg2 = null;
             if(scann.hasNext())
             	arg2 = scann.next();
-            
-        	if(option.equals("-t") || option.equals("-time"))
-        	{
+            switch(option)
+            {
+            case "-t": case "--time":
         		int hours = Integer.parseInt(arg1);
         		int minutes = 0;
         		if(arg2 != null)
@@ -312,9 +314,11 @@ public class WorldMan implements CliTool
         		
         		world.getDay().getTime().addHours(hours);
         		world.getDay().getTime().addMinutes(minutes);
-        	}
-        	else
+        		break;
+        	default:
         		result = "3";
+        		break;
+            }
 		}
 		catch(NoSuchElementException e)
 		{

@@ -118,17 +118,17 @@ public class UiMan implements CliTool
             
         	switch(prefix)
         	{
-        	case "-m": case "-move":
+        	case "-m": case "--move":
             	Position posMove = new Position(arg1);
             	ui.getCamera().setPos(posMove);
             	break;
-        	case "-c": case "-center":
+        	case "-c": case "--center":
             	String[] posCenter = arg1.split("x");
         		int xC = Integer.parseInt(posCenter[0]);
         		int yC = Integer.parseInt(posCenter[1]);
             	ui.getCamera().centerAt(new Position(xC, yC));
             	break;
-        	case "-cat": case "-centerAtTile":
+        	case "-cat": case "--centerAtTile":
                 String[] posCenterT = arg1.split("x");
                 int xCat = Integer.parseInt(posCenterT[0]);
                 int yCat = Integer.parseInt(posCenterT[1]);
@@ -168,7 +168,7 @@ public class UiMan implements CliTool
             
             switch(prefix)
             {
-            case "-l": case "-lock":
+            case "-l": case "--lock":
             	boolean lock = Boolean.parseBoolean(value);
             	ui.setLock(lock);	
             	break;

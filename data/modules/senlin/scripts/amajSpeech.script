@@ -1,10 +1,10 @@
 #Amaj's scripted speech
 script:
-    $charman amaj01_0 add -speech amajLeeterSpeech01;
+    $charman amaj01_0 add --speech amajLeeterSpeech01;
     @wait 15;
 if:
-    $charman player is -flag sLetterTalked;
-    $charman player is -dis< 60 amaj01_0;
+    $charman player is --flag sLetterTalked;
+    $charman player is --dis< 60 amaj01_0;
 end:
     if:
-        $charman player is -flag amajTalked01;
+        $charman player is --flag amajTalked01;

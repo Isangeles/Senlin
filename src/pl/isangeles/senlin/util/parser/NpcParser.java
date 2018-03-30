@@ -365,8 +365,7 @@ public final class NpcParser
     			if(dialogue != null) 
     			{
     				dialogue.getReqs().addAll(reqs);
-    				if(dialogues.add(dialogue))
-    					System.out.println("adding dialogue: " + dialogue.getId() + " success");
+    				dialogues.add(dialogue);
     			}
     		}
     	}

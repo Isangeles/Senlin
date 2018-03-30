@@ -140,32 +140,21 @@ public class CharMan implements CliTool
         String prefix = scann.nextLine();
         scann.close();
         
-        if(command.equals("add"))
+        switch(command)
         {
-        	return addCommands(prefix, target);
-        }
-        else if(command.equals("remove"))
-        {
+        case "add":
+          	return addCommands(prefix, target);
+        case "remove":   
         	return removeCommands(prefix, target);
-        }
-        else if(command.equals("set"))
-        {
+        case "set":    
         	return setCommands(prefix, target);
-        }
-        else if(command.equals("show"))
-        {
+        case "show":
         	return showCommands(prefix, target);
-        }
-        else if(command.equals("use"))
-        {
-            return useCommands(prefix, target);
-        }
-        else if(command.equals("is"))
-        {
+        case "use":
+			return useCommands(prefix, target);
+        case "is":      
         	return isCommands(prefix, target);
-        }
-        else
-        {
+        default:
         	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
         	return new String[] {"4", ""};
         }
@@ -185,44 +174,40 @@ public class CharMan implements CliTool
         {
     	    String prefix = scann.next();
     	    String arg1 = scann.next();
-    	
-    		if(prefix.equals("-guild"))
-        	{
+    	    switch(prefix)
+    	    {
+    	    case "-g": case "--guild":
     			Guild guild = GuildsBase.getGuild(arg1);
         		target.setGuild(guild);
-        	}
-        	else if(prefix.equals("-attitude"))
-        	{
+        		break;
+    	    case "-a": case "--attitude":
         		//TODO set attitude command
-        	}
-        	else if(prefix.equals("-position"))
-        	{
+        		break;
+    	    case "-p": case "--position":
         		String[] pos = arg1.split("x");
         		int x = Integer.parseInt(pos[0]);
         		int y = Integer.parseInt(pos[1]);
         		if(!target.setPosition(new TilePosition(x, y)))
         			result = "2";
-        	}
-        	else if(prefix.equals("-destination"))
-        	{
-        		String[] pos = arg1.split("x");
-        		int x = Integer.parseInt(pos[0]);
-        		int y = Integer.parseInt(pos[1]);
-        		target.moveTo(x, y);
-        	}
-            else if(prefix.equals("-destTile"))
-            {
-                String[] pos = arg1.split("x");
-                int row = Integer.parseInt(pos[0]);
-                int column = Integer.parseInt(pos[1]);
+        		break;
+    	    case "-d": case "--destination":
+        		String[] destPos = arg1.split("x");
+        		int destX = Integer.parseInt(destPos[0]);
+        		int destY = Integer.parseInt(destPos[1]);
+        		target.moveTo(destX, destY);
+        		break;
+    	    case "-dt": case "--destTile":
+                String[] tilePos = arg1.split("x");
+                int row = Integer.parseInt(tilePos[0]);
+                int column = Integer.parseInt(tilePos[1]);
                 Position p = new TilePosition(row, column).asPosition();
                 target.moveTo(p.x, p.y);
-            }
-        	else
-        	{
+                break;
+        	default:
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
             	result = "3";
-        	}	
+            	break;
+    		}
     	}
         catch(NoSuchElementException e)
         {
@@ -259,14 +244,13 @@ public class CharMan implements CliTool
     	    String arg2 = null;
     	    if(scann.hasNext())
     	        arg2 = scann.next();
-    	
-    		if(prefix.equals("-i") || prefix.equals("-item"))
-        	{
+    	    switch(prefix)
+    	    {
+    	    case "-i": case "--item":
         		if(!target.addItem(ItemsBase.getItem(arg1)))
                     result = "2";
-        	}
-    		else if(prefix.equals("-g") || prefix.equals("-gold"))
-    		{
+        		break;
+    	    case "-g": case "--gold":
     			int amount = Integer.parseInt(arg1);
     			//TODO looks shady
     			Item[] gold = new Item[amount];
@@ -276,57 +260,46 @@ public class CharMan implements CliTool
     			}
     			if(!target.getInventory().addAll(gold))
     				result = "2";
-    		}
-    		else if(prefix.equals("-h"))
-    		{
+    			break;
+    	    case "-h": case "--health":
     		    target.modHealth(Integer.parseInt(arg1));
-    		}
-    		else if(prefix.equals("-m"))
-    		{
-        	    target.modMagicka(Integer.parseInt(arg1));
-    		}
-    		else if(prefix.equals("-e"))
-    		{
+    		    break;
+    		case "-m": case "--mana":
+	    	    target.modMagicka(Integer.parseInt(arg1));
+        	    break;
+    		case "-e": case "--experience":
         	    target.modExperience(Integer.parseInt(arg1));
-    		}
-    		else if(prefix.equals("-s") || prefix.equals("-skills")) 
-    		{
+        	    break;
+    		case "-s": case "--skills": 
         		if(!target.addSkill(SkillsBase.getSkill(target, arg1)))
         			result = "2";
-    		}
-    		else if(prefix.equals("-sp") ||  prefix.equals("-speech"))
-    		{
+        		break;
+    		case "-sp": case "--speech":
     			String speech = TConnector.getTextFromChapter("speeches", arg1);
     			target.speak(speech);
-    		}
-    		else if(prefix.equals("-p") || prefix.equals("-profession")) 
-    		{
+    			break;
+    		case "-p": case "--profession": 
         		if(!target.addProfession(new Profession(ProfessionType.fromString(arg1))))
         			result = "2";
-    		}
-    		else if(prefix.equals("-r") || prefix.equals("-recipe"))
-        	{
+        		break;
+    		case "-r": case "--recipe":
         		Recipe recipe = RecipesBase.get(arg1);
         		if(recipe != null && target.getProfession(recipe.getType()) != null) 
         		{
         			if(!target.getProfession(recipe.getType()).add(recipe))
         				result = "2";
         		}
-        	}
-    		else if(prefix.equals("-f") || prefix.equals("-flag"))
-    		{
+        		break;
+    		case "-f": case "--flag":
     			target.getFlags().add(arg1);
-    		}
-    		else if(prefix.equals("-q") || prefix.equals("-quest"))
-    		{
+    			break;
+    		case "-q": case "--quest":
         		target.startQuest(QuestsBase.get(arg1));
-    		}
-    		else if(prefix.equals("-l") || prefix.equals("-level"))
-    		{
+        		break;
+    		case "-l": case "--level":
     			target.levelUp();
-    		}
-    		else if(prefix.equals("-at") || prefix.equals("-attackTarget"))
-    		{
+    			break;
+    		case "-at": case "-attackTarget":
     			Targetable attackTarget = gw.getCurrentChapter().getTObject(arg1);
     			if(attackTarget != null)
     			{
@@ -334,12 +307,12 @@ public class CharMan implements CliTool
     			}
     			else
     				Log.addSystem("no such object: " + arg1);
-    		}
-    		else
-    		{
-            	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
+    			break;
+    		default:
+	        	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
             	result = "3";
-    		}
+            	break;
+        	}
     	}
     	catch(NumberFormatException e)
     	{
@@ -382,20 +355,18 @@ public class CharMan implements CliTool
     	    if(scann.hasNext())
     	        arg2 = scann.next();
     	
-    		if(prefix.equals("-h"))
-    		{
-    		    target.modHealth(-Integer.parseInt(arg1));
-    		}
-    		else if(prefix.equals("-m"))
-        	{
+    	    switch(prefix)
+    	    {
+    	    case "-h": case "--health":
+     		    target.modHealth(-Integer.parseInt(arg1));
+    		    break;
+    		case "-m": case "-mana":
         	    target.modMagicka(-Integer.parseInt(arg1));
-        	}
-    		else if(prefix.equals("-e"))
-        	{
+        	    break;
+    		case "-e": case "--experience":
         	    target.modExperience(-Integer.parseInt(arg1));
-        	}
-    		else if(prefix.equals("-i") || prefix.equals("-item"))
-    		{
+        	    break;
+    		case "-i": case "--item":
     			if(arg2 == null) 
     			{
     				if(!target.getInventory().remove(arg1, 1))
@@ -407,12 +378,12 @@ public class CharMan implements CliTool
                     if(!target.getInventory().remove(arg1, amount))
                     	result = "2";
     			}
-    		}
-    		else
-    		{
+    			break;
+    		default:
     			Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdRem") + ":'" + commandLine + "'");
     			result = "3";
-			}
+    			break;
+    		}
     	}
     	catch(NoSuchElementException e)
     	{
@@ -450,13 +421,13 @@ public class CharMan implements CliTool
 			
 			switch(prefix)
 			{
-			case "-f":
+			case "-f": case "--flag":
 				out = target.getSerialId() + "-flags: " + target.getFlags().list();
 				break;
-			case "-r":
+			case "-r": case "--recipes":
 				out = target.getProfession(ProfessionType.fromString(arg1)).toString();
 				break;
-			case "-e":
+			case "-e": case "--effects":
 				out = target.getEffects().list();
 				break;
 			case "-d": case "--dis":
@@ -514,8 +485,9 @@ public class CharMan implements CliTool
            if(scann.hasNext())
                arg2 = scann.next();
            
-           if(prefix.equals("-s") || prefix.equals("-skill"))
+           switch(prefix)
            {
+           case "-s": case "--skill":
                Targetable skillTarget = null;
                if(arg2 != null)
                    skillTarget = gw.getCurrentChapter().getTObject(arg2);
@@ -529,9 +501,8 @@ public class CharMan implements CliTool
 
                if(charOut != CharacterOut.SUCCESS)
                    Log.addSystem(charOut.toString()); //display error message
-           }
-           else if(prefix.equals("-i") || prefix.equals("-item"))
-           {
+               break;
+           case "-i": case "--item":
                Item item = target.getInventory().getItem(arg1);
                if(item != null && Usable.class.isInstance(item))
                {
@@ -550,10 +521,10 @@ public class CharMan implements CliTool
                        }
                    }
                }
-           }
-           else
-           {
+               break;
+           default:
         	   result = "3";
+        	   break;
            }
        }
        catch(NoSuchElementException e)
@@ -586,55 +557,51 @@ public class CharMan implements CliTool
             String arg2 = null;
             if(scann.hasNext())
                 arg2 = scann.next();
-            
-            if(prefix.equals("-dis<"))
+            switch(prefix)
             {
-            	int dis = Integer.parseInt(arg1);
-            	Targetable object = gw.getCurrentChapter().getTObject(arg2);
-            	if(object != null)
+            case "-d<": case "--dis<":
+            	int disL = Integer.parseInt(arg1);
+            	Targetable objectDisL = gw.getCurrentChapter().getTObject(arg2);
+            	if(objectDisL != null)
             	{
-            		if(target.getRangeFrom(object) < dis)
+            		if(target.getRangeFrom(objectDisL) < disL)
                 		out = "true";
                 	else
                 		out = "false";
             	}
             	else
             		result = "2";
-            }
-            else if(prefix.equals("-dis>"))
-            {
-            	int dis = Integer.parseInt(arg1);
-            	Targetable object = gw.getCurrentChapter().getTObject(arg2);
-            	if(object != null)
+            	break;
+            case "-d>": case "--dis>":
+            	int disH = Integer.parseInt(arg1);
+            	Targetable objectDisH = gw.getCurrentChapter().getTObject(arg2);
+            	if(objectDisH != null)
             	{
-            		if(target.getRangeFrom(object) > dis)
+            		if(target.getRangeFrom(objectDisH) > disH)
                 		out = "true";
                 	else
                 		out = "false";
             	}
             	else
             		result = "2";
-            }
-            else if(prefix.equals("-flag"))
-            {
+            	break;
+            case "-f": case "--flag":
             	if(target.getFlags().contains(arg1))
             		out = "true";
             	else
             		out = "false";
-            }
-            else if(prefix.equals("-flag!"))
-            {
+            	break;
+            case "-f!": case "--flag!":
             	if(!target.getFlags().contains(arg1))
             		out = "true";
             	else
             		out = "false";
-            }
-            else
-            {
-                Log.addSystem("no such option for is: " + prefix);
+            	break;
+            default:
+            	Log.addSystem("no such option for is: " + prefix);
             	result = "3";
+            	break;
             }
-            
         }
         catch(NoSuchElementException e)
         {

@@ -1,10 +1,10 @@
 #Eric's scripted speech in prologue
 script:
-	$charman ericP01_0 add -speech stopS;
+	$charman ericP01_0 add --speech stopS;
 	@wait 10;
 if:
-	$charman player is -flag prologueStarted;
-	$charman player is -dis< 60 ericP01_0;
+	$charman player is --flag prologueStarted;
+	$charman player is --dis< 60 ericP01_0;
 end:
 	if:		
-		$charman player is -flag pLumberTalk1;
+		$charman player is --flag pLumberTalk1;
