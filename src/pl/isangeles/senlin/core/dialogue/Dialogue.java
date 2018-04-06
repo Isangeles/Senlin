@@ -40,6 +40,8 @@ import pl.isangeles.senlin.data.save.SaveElement;
  */
 public class Dialogue implements SaveElement
 {
+	public final static String NAME_MACRO = "[$]name"; //regex
+	
 	private final String id;
 	private Requirements reqs;
 	private final List<DialoguePart> parts;

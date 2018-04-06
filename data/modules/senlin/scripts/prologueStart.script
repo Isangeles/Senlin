@@ -17,7 +17,7 @@ script:
     $charman mysFigure01_0 add --speech pScene01_S03;
     $charman mysFigure01_0 set --destTile 40x30;
     @wait 2;
-    $worldman remove npc mysFigure01_0;
+    $worldman remove --npc mysFigure01_0;
     $charman redSwScout01_0 add --speech pScene01_S04;
     $charman redSwScout01_1 set --destTile 42x41;
     @wait 2;

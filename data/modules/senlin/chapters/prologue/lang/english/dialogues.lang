@@ -8,8 +8,11 @@ ericWelcome01a01:What them?;
 ericWelcome01a02:No;
 ericWelcome02:Red Swords, they passed this way some time ago;
 ericWelcome02a01:These Red Swords, who they are ?;
-ericWelcome03:Well, certainly you are not one of them. Enter the camp talk with others, I have to stand on guard.
+ericWelcome03:Well, certainly you are not one of them. So who are you?;
+ericWelcome03_a01:My name is $name.;
+ericWelcome03_a02:I just passing through.;
 ericWelcome04:Ok;
+ericWelcome05:Ok, enter the camp talk with others, I have to stand on guard.;
 ericTalk001:Talk with Ewan;
 ericTalk101:Welcome;
 ewanTalk101:Who are you?;

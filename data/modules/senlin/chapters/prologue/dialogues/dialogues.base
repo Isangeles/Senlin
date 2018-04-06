@@ -39,9 +39,14 @@
             <answer id="bye01" end="true"></answer>
         </text>
         <text id="ericWelcome03" ordinal="2">
+            <answer id="ericWelcome03_a01" to="4"></answer>
+            <answer id="ericWelcome03_a02" to="4"></answer>
             <answer id="bye01" end="true"></answer>
         </text>
         <text id="ericWelcome04" ordinal="3">
+            <answer id="bye01" end="true"></answer>
+        </text>
+        <text id="ericWelcome05" ordinal="4">
             <answer id="bye01" end="true"></answer>
         </text>
     </dialogue>

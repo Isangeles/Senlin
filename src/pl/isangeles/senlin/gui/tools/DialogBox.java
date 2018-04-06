@@ -1,7 +1,7 @@
 /*
  * DialogBox.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -380,7 +380,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		{
 			super.draw(x, y, scaledPos);
 			if(option != null)
-				super.drawString(option.getText(), ttf, false);
+				super.drawString(option.getTextFor(interlocutorA), ttf, false);
 		}
 		
 		@Override
@@ -395,7 +395,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 
 					currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
 
-		            textBox.addLeft(new TextBlock(option.getText(), 20, ttf));
+		            textBox.addLeft(new TextBlock(option.getTextFor(interlocutorA), 20, ttf));
 				    nextDialogueStage(option);
 				}
 			}

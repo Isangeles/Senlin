@@ -1,12 +1,33 @@
+/*
+ * Answer.java
+ * 
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ * 
+ */
 package pl.isangeles.senlin.core.dialogue;
 
 import java.util.List;
 
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
-import pl.isangeles.senlin.core.quest.Quest;
 import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.core.req.Requirements;
-import pl.isangeles.senlin.data.QuestsBase;
+import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.util.TConnector;
 /**
  * Class for answer, smallest dialogue part
@@ -60,11 +81,13 @@ public class Answer implements ObjectiveTarget
 	}
 	/**
 	 * Returns text corresponding to answer ID
+	 * @param dialogueTarget Target of dialogue
 	 * @return String with text
 	 */
-	public String getText()
+	public String getTextFor(Character dialogueTarget)
 	{
-		return text;
+		String textForTar = text.replaceAll(Dialogue.NAME_MACRO, dialogueTarget.getName());
+		return textForTar;
 	}
 	/**
 	 * Checks if this answer starts training

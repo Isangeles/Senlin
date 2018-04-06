@@ -72,7 +72,7 @@ public class ReloadScreen extends BasicGameState
         } 
         catch (IOException | FontFormatException e)
         {
-        	System.err.println("reloading screen initialization error:" + e.getMessage());
+        	System.err.println("reloading_screen_initialization_error:" + e.getMessage());
             e.printStackTrace();
         }
 	}
