@@ -1,7 +1,7 @@
 /*
  * Coords.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  */
 package pl.isangeles.senlin.util;
 /**
- * Static class with methods returning scaled positions for current resolution
+ * Static class with utilities methods for positioning 
  * @author Isangeles
  *
  */

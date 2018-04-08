@@ -1,7 +1,7 @@
 /*
  * GameWorld.java
  * 
- * Copyright 2017-2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.TargetableObject;
+import pl.isangeles.senlin.core.WorldTime;
 import pl.isangeles.senlin.core.ai.CharacterAi;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.day.Day;
@@ -81,7 +82,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 {
     private Chapter chapter;
     private Scenario activeScenario;
-	private Day dayManager;
+	private Day day;
 	private FogOfWar fow;
 	private Character player;
 	private Area area;
@@ -95,6 +96,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private boolean changeAreaReq;
 	private boolean combat;
 	private int waitForRender;
+	private final WorldTime updateTime = new WorldTime(0, 0);
 	/** 
 	 * Creates game world for new game
 	 * @param player Player character
@@ -118,7 +120,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	public GameWorld(SavedGame savedGame)
 	{
 	    player = savedGame.getPlayer();
-	    dayManager = savedGame.getDay();
+	    day = savedGame.getDay();
 	    chapter = savedGame.getChapter();
 	    activeScenario = chapter.getActiveScenario();
 	    activeScenario.addQuestsToStart(player);
@@ -155,8 +157,8 @@ public class GameWorld extends BasicGameState implements SaveElement
         	gwMusic.createPlaylist("special");
         	//gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
         	
-        	if(dayManager == null)
-                dayManager = new Day();
+        	if(day == null)
+                day = new Day();
         	fow = new FogOfWar();
       
         	mainArea = activeScenario.getMainArea();
@@ -232,7 +234,7 @@ public class GameWorld extends BasicGameState implements SaveElement
                 drawFOW(g);
             //interface
             g.resetTransform();
-            dayManager.draw();
+            day.draw();
             ui.draw(g);
 
             if(ui.takeScreenshotReq())
@@ -252,8 +254,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	 * @see org.newdawn.slick.state.GameState#update(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame, int)
 	 */
     @Override
-    public void update(GameContainer container, StateBasedGame game, int delta)
-            throws SlickException
+    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException
     {
     	if(ui != null)
     	{
@@ -283,7 +284,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	
     	if(!isPause())
     	{
-    	    dayManager.update(delta);
+    	    day.update(delta);
             
             if(!gwMusic.getActivePlaylist().equals("special"))
             {
@@ -336,7 +337,13 @@ public class GameWorld extends BasicGameState implements SaveElement
             
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
-    	}
+            
+            if(day.getTime().equals(updateTime))
+            {
+            	//Log.addSystem("game word update time"); //DEBUG
+            	activeScenario.respawnMobs(); //TODO causes significant game lag
+            }
+		}
     }
     /**
      * Returns active chapter
@@ -398,7 +405,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     
     public Day getDay()
     {
-    	return dayManager;
+    	return day;
     }
     /**
      * Return current exit to new area
@@ -466,7 +473,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	{
 		Element worldE = doc.createElement("world");
 		worldE.appendChild(chapter.getSave(doc));
-		worldE.appendChild(dayManager.getSave(doc));
+		worldE.appendChild(day.getSave(doc));
 		return worldE;
 	}
     /**

@@ -94,29 +94,10 @@ public class ScenarioParser
 			
 			Area mainArea = getAreaFromNode(mainareaE, gc);
 			
-			List<MobsArea> mobs = new ArrayList<>();
 			Map<String, String> quests = new HashMap<>();
 		
 			List<Script> scripts = new ArrayList<>();
-			
-			NodeList mobsNl = mainareaE.getElementsByTagName("mobs");
-			for(int j = 0; j < mobsNl.getLength(); j ++)
-			{
-				Node mobsNode = mobsNl.item(j);
-				if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-				{
-					try
-					{
-						mobs.add(getMobsAreaFromNode(mobsNode));
-					}
-					catch(NumberFormatException e)
-					{
-						Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
-						break;
-					}
-				}
-			}
-			
+									
 			NodeList questsNl = mainareaE.getElementsByTagName("quests").item(0).getChildNodes();
 			for(int j = 0; j < questsNl.getLength(); j ++)
 			{
@@ -136,7 +117,7 @@ public class ScenarioParser
 			Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
 			List<Area> subAreas = getSubAreasFromNode(subareasNode, gc);
 			
-			return new Scenario(id, mainArea, subAreas, mobs, quests, scripts);	
+			return new Scenario(id, mainArea, subAreas, quests, scripts);	
 		}
 		return null;
 	}
@@ -171,7 +152,26 @@ public class ScenarioParser
 		Node combatNode = musicE.getElementsByTagName("combat").item(0);
 		Map<String, String> combatMusic = getMusicFromNode(combatNode);
 		
-		return new Area(id, map, mapFile, npcs, objects, exits, idleMusic, combatMusic);
+		List<MobsArea> mobs = new ArrayList<>();
+		NodeList mobsNl = areaE.getElementsByTagName("mobs");
+		for(int j = 0; j < mobsNl.getLength(); j ++)
+		{
+			Node mobsNode = mobsNl.item(j);
+			if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			{
+				try
+				{
+					mobs.add(getMobsAreaFromNode(mobsNode));
+				}
+				catch(NumberFormatException e)
+				{
+					Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
+					break;
+				}
+			}
+		}
+		
+		return new Area(id, map, mapFile, npcs, objects, exits, idleMusic, combatMusic, mobs);
 	}
 	/**
 	 * Parses specified npcs node to list with game characters
@@ -325,7 +325,8 @@ public class ScenarioParser
 		Element mobsE = (Element)mobsNode;
 		TilePosition areaStart = new TilePosition(mobsE.getAttribute("start"));
 		TilePosition areaEnd = new TilePosition(mobsE.getAttribute("end"));
-		Map<String, Integer> mobCon = new HashMap<>();
+		boolean respawn = Boolean.parseBoolean(mobsE.getAttribute("respawn"));
+		Map<String, Integer[]> mobCon = new HashMap<>();
 			
 		NodeList mobNl = mobsNode.getChildNodes();
 		for(int k = 0; k < mobNl.getLength(); k ++)
@@ -334,11 +335,19 @@ public class ScenarioParser
 			if(mobNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
 				Element mobE = (Element)mobNode;
-				mobCon.put(mobE.getTextContent(), Integer.parseInt(mobE.getAttribute("max")));
+				int min = 1;
+				int max = 1;
+				
+				if(mobE.hasAttribute("min"))
+					min = Integer.parseInt(mobE.getAttribute("min"));
+				if(mobE.hasAttribute("max"))
+					max = Integer.parseInt(mobE.getAttribute("max"));
+				
+				mobCon.put(mobE.getTextContent(), new Integer[]{min, max});
 			}
 		}
 			
-		return new MobsArea(areaStart, areaEnd, mobCon);
+		return new MobsArea(areaStart, areaEnd, mobCon, respawn);
 	}
 	/**
 	 * Parses specified scripts node to list with scenario scripts

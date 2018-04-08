@@ -1,7 +1,7 @@
 /*
  * TilePosition.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,9 @@ import java.util.NoSuchElementException;
  */
 public class TilePosition 
 {
+	public static final int TILE_WIDTH = 32;
+	public static final int TILE_HEIGHT = 32;
+	
 	public int row;
 	public int column;
 	/**
@@ -83,7 +86,7 @@ public class TilePosition
 	 */
 	public Position asPosition()
 	{
-		return new Position(row*32, column*32);
+		return new Position(row*TILE_WIDTH, column*TILE_HEIGHT);
 	}
 	
 	@Override

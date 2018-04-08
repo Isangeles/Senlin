@@ -1,7 +1,7 @@
 /*
  * Area.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.data.area;
 
+import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +61,7 @@ public class Area implements SaveElement, ObjectiveTarget
     private List<Exit> exits = new ArrayList<>();
 	private Map<String, String> idleMusic = new HashMap<>();
 	private Map<String, String> combatMusic = new HashMap<>();
+	private List<MobsArea> mobsAreas = new ArrayList<>();
     /**
      * Empty area constructor
      * @param id Area ID
@@ -71,16 +73,23 @@ public class Area implements SaveElement, ObjectiveTarget
     	this.id = id;
     	this.map = map;
     	this.mapFileName = mapFileName;
+    	
     	size = new Size(map.getWidth(), map.getHeight());
     }
     /**
      * Area constructor
+     * @param id Area ID
+     * @param map Tiled map
+     * @param mapFileName Name of tiled map file
      * @param npcs List with NPCs
      * @param objects List with objects
      * @param exits List exits
+     * @param idleMusic 
+     * @param combatMusic
+     * @param mobsAreas List with mobs areaswdaasdawdawdsadwwdsadaw
      */
     public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<TargetableObject> objects, List<Exit> exits,
-			Map<String, String> idleMusic, Map<String, String> combatMusic)
+			Map<String, String> idleMusic, Map<String, String> combatMusic, List<MobsArea> mobsAreas)
     {
     	this.id = id;
         this.map = map;
@@ -92,6 +101,8 @@ public class Area implements SaveElement, ObjectiveTarget
 
 		this.combatMusic = combatMusic;
 		this.idleMusic = idleMusic;
+		
+    	this.mobsAreas = mobsAreas;
 		
         for(Character npc : characters)
         {
@@ -281,6 +292,45 @@ public class Area implements SaveElement, ObjectiveTarget
 				player.addTo("combat", combatMusic.get(track), track);
 			}
 		}
+	}
+	/**
+	 * Spawns all mobs in area
+	 * @return True if all mobs was successfully spawned, false otherwise
+	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 * @throws SlickException
+	 */
+	public boolean spawnMobs() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
+	{
+		boolean spawn = true;
+		for(MobsArea mobsArea : mobsAreas)
+		{
+			if(!getCharacters().addAll(mobsArea.spawnMobs(this)))
+				spawn = false;
+		}
+		return spawn;
+	}
+	/**
+	 * Respawns all 'respawnable' mobs in area
+	 * @return True if mobs was successfully respawned
+	 * @throws ArrayIndexOutOfBoundsException
+	 * @throws IOException
+	 * @throws FontFormatException
+	 * @throws SlickException
+	 */
+	public boolean respawnMobs() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
+	{
+		boolean spawn = true;
+		for(MobsArea mobsArea : mobsAreas)
+		{
+			if(mobsArea.isRespawnable())
+			{
+				if(!getCharacters().addAll(mobsArea.spawnMobs(this)))
+					spawn = false;
+			}
+		}
+		return spawn;
 	}
     /**
      * Checks if specified xy positions are 'moveable' on game world map

@@ -1,7 +1,7 @@
 /*
  * MobsArea.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,18 +45,21 @@ public class MobsArea
 {
 	private TilePosition startPoint;
 	private TilePosition endPoint;
-	private Map<String, Integer> mobs;
+	private Map<String, Integer[]> mobs;
+	private List<Character> spawnedMobs = new ArrayList<>();
+	private boolean respawnable;
 	/**
 	 * Mobs area constructor 
 	 * @param startPoint XY starting point of area
 	 * @param endPoint XY ending point of area
 	 * @param mobs Map with characters IDs as keys and its max amount in area as values
 	 */
-	public MobsArea(TilePosition startPoint, TilePosition endPoint, Map<String, Integer> mobs) 
+	public MobsArea(TilePosition startPoint, TilePosition endPoint, Map<String, Integer[]> mobs, boolean respawnable) 
 	{
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.mobs = mobs;
+		this.respawnable = respawnable;
 	}
 	/**
 	 * Spawns all mobs in area to list
@@ -65,31 +68,57 @@ public class MobsArea
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public List<Character> spawnMobs(Area area) throws IOException, FontFormatException, SlickException
+	public List<Character> spawnMobs(Area area) throws IOException, FontFormatException, SlickException, ArrayIndexOutOfBoundsException
 	{
-		List<Character> mobsList = new ArrayList<>();
+		clearDeadMobs();
+		
+		//List<Character> mobsList = new ArrayList<>();
 		Random rng = new Random();
 		
 		for(String mobId : mobs.keySet())
 		{
-			for(int i = 0; i <  1 + rng.nextInt(mobs.get(mobId)); i ++)
+			int min = mobs.get(mobId)[0];
+			int max = mobs.get(mobId)[1];
+			
+			for(int i = spawnedMobs.size(); i <  min + rng.nextInt(max); i ++)
 			{
 				TilePosition mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
-				while(!area.isMovable(mobTile.row*32, mobTile.column*32))
+				while(!area.isMovable(mobTile.row*TilePosition.TILE_WIDTH, mobTile.column*TilePosition.TILE_HEIGHT)) //TODO possibility of infinite loop if all area won't be 'moveable' 
 				{
 					mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
 				}
-				//Position mobPos = mobTile.toPosition();
+				
 				Character mob = NpcBase.spawnIn(mobId, area, mobTile);
 				if(mob != null)
 				{
-					mobsList.add(mob);
-					Log.addSystem(mobId + " spawned");
+					//mobsList.add(mob);
+					spawnedMobs.add(mob);
+					//Log.addSystem(mobId + " spawned"); //DEBUG
 				}
 			}
 		}
-		
-		return mobsList;
+		return spawnedMobs;
 	}
-
+	/**
+	 * Checks if this area is 'respawnable'
+	 * @return True if area is 'respawnable', false otherwise
+	 */
+	public boolean isRespawnable()
+	{
+		return respawnable;
+	}
+	/**
+	 * Clears all dead mobs from list with spawned mobs
+	 * @return True if all dead mobs was successfully removed, false otherwise
+	 */
+	private boolean clearDeadMobs()
+	{
+		List<Character> deadMobs = new ArrayList<>();
+		for(Character mob : spawnedMobs)
+		{
+			if(!mob.isLive())
+				deadMobs.add(mob);
+		}
+		return spawnedMobs.removeAll(deadMobs);
+	}
 }

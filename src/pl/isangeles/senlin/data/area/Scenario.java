@@ -50,7 +50,6 @@ import pl.isangeles.senlin.core.quest.Quest;
 public class Scenario implements SaveElement
 {
 	private final String id;
-	private List<MobsArea> mobsAreas;
 	private Map<Quest, String> questsToStart = new HashMap<>();
 	private List<Script> scripts = new ArrayList<>();
 	private List<Script> finishedScripts = new ArrayList<>();
@@ -68,7 +67,7 @@ public class Scenario implements SaveElement
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Scenario(String id, Area mainArea, List<Area> subAreas, List<MobsArea> mobsAreas, Map<String, String> quests, List<Script> scripts) 
+	public Scenario(String id, Area mainArea, List<Area> subAreas, Map<String, String> quests, List<Script> scripts) 
 			throws SlickException, IOException, FontFormatException 
 	{
 		this.id = id;
@@ -76,11 +75,10 @@ public class Scenario implements SaveElement
 		this.mainArea = mainArea;
 		this.subAreas = subAreas;
 		
-		this.mobsAreas = mobsAreas;
-		
-		for(MobsArea mobsArea : mobsAreas)
+		mainArea.spawnMobs();
+		for(Area area : subAreas)
 		{
-			this.mainArea.getCharacters().addAll(mobsArea.spawnMobs(mainArea));
+			area.spawnMobs();
 		}
 		
 		for(String qId : quests.keySet())
@@ -88,7 +86,6 @@ public class Scenario implements SaveElement
 			Quest quest = QuestsBase.get(qId);
 			questsToStart.put(quest, quests.get(qId));
 		}
-		this.mobsAreas = mobsAreas;
 		
 		this.scripts = scripts;
 	}
@@ -210,6 +207,32 @@ public class Scenario implements SaveElement
 			}
 		}
 		scripts.removeAll(finishedScripts);
+	}
+	/**
+	 * Respawns all 'respawnable' mobs in all scenario areas
+	 */
+	public void respawnMobs()
+	{
+		try 
+		{
+			mainArea.respawnMobs();
+		} 
+		catch (ArrayIndexOutOfBoundsException | IOException | FontFormatException | SlickException e) 
+		{
+			Log.addSystem("scenario_mobs_respawn_fail_msg:" + mainArea.getId() + " - "+ e.getMessage());
+		}
+	
+		for(Area area : subAreas)
+		{
+			try 
+			{
+				area.respawnMobs();
+			}
+			catch (ArrayIndexOutOfBoundsException | IOException | FontFormatException | SlickException e)
+			{
+				Log.addSystem("scenario_mobs_respawn_fail_msg:" + area.getId() + " - "+ e.getMessage());
+			}
+		}
 	}
 	/**
 	 * Parses all scenario objects to XML document element

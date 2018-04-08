@@ -31,7 +31,7 @@ import pl.isangeles.senlin.util.Stopwatch;
  */
 public class WorldTime 
 {
-	private long time;
+	private long time; //time in millis
 	/**
 	 * World time constructor
 	 */
@@ -126,5 +126,10 @@ public class WorldTime
 	public String toString()
 	{
 		return toHM();
+	}
+	
+	public boolean equals(WorldTime wt)
+	{
+		return time == wt.inMillis();
 	}
 }
