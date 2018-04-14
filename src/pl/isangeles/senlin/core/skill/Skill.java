@@ -1,7 +1,7 @@
 /*
  * Skill.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,8 +107,9 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
 	{
 		this.type = type;
 		this.id = id;
-		this.name = TConnector.getInfoFromModule("skills", id)[0];
-		this.info = TConnector.getInfoFromModule("skills", id)[1];
+		String[] nameInfo = TConnector.getInfoFromModule("skills", id);
+		this.name = nameInfo[0];
+		this.info = nameInfo[1];
 		this.imgName = imgName;
 		this.useReqs.addAll(reqs);
 		this.castTime = castTime;
@@ -404,32 +405,14 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
 		this.tile = new SkillTile(GConnector.getInput("icon/skill/"+imgName), "skillTile", false, gc, getInfo());
 	}
 	/**
-	 * Sets sound effect dependent on skill type
+	 * Sets sound effect dependent on skill effect type
 	 * @throws SlickException
 	 * @throws IOException
 	 */
 	protected void setSoundEffect() throws SlickException, IOException
 	{
-	    switch(type)
-	    {
-	    case NORMAL:
-	    	this.castSound = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
-	    	this.activateSound = new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
-	    	return;
-	    case FIRE:
-	    	this.castSound = new Sound(AConnector.getInput("effects/firebCast.aif"), "firebCast.aif");
-	    	this.activateSound = new Sound(AConnector.getInput("effects/spellHit.aif"), "spellHit.aif");
-	    	return;
-	    case ICE:
-	    	
-	    	return;
-	    case NATURE:
-	    	
-	    	return;
-	    case MAGIC:
-	    	
-	    	return;
-	    }
+	    	this.castSound = type.getCastSoundEffect();
+	    	this.activateSound = type.getActivationSoundEffect();
 	}
 	/**
 	 * Sets graphic effects for this skill
@@ -439,34 +422,7 @@ public abstract class Skill implements SlotContent, SaveElement, EffectSource
 	 */
 	protected void setGraphicEffects(GameContainer gc) throws SlickException, IOException
 	{
-		switch(type)
-		{
-		case FIRE:
-			castAnim = new SimpleAnim(GConnector.getInput("effect/fireSpellCast.png"), "fireSpellC.png", false, 70, 70, 3, gc);
-			activeAnim = new SimpleAnim(GConnector.getInput("effect/fireSpellActive.png"), "fireSpellA.png", false, 70, 70, 3, gc);
-			break;
-		default:
-			castAnim = null;
-			activeAnim = null;
-		}
-	}
-	
-	protected String getTypeString()
-	{
-		switch(type)
-		{
-		case FIRE:
-			return TConnector.getText("ui", "eleTFire");
-		case ICE:
-			return TConnector.getText("ui", "eleTIce");
-		case NATURE:
-			return TConnector.getText("ui", "eleTNat");
-		case MAGIC:
-			return TConnector.getText("ui", "eleTMag");
-		case NORMAL:
-			return TConnector.getText("ui", "eleTNorm");
-		default:
-			return TConnector.getText("ui", "errorName");
-		}
+		activeAnim = type.getActivationGraphicEffect(gc);
+		castAnim = type.getCastGraphicEffect(gc);
 	}
 }

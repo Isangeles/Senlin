@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.core.character;
 
+import pl.isangeles.senlin.util.TConnector;
+
 /**
  * Class for characters races
  * @author Isangeles
@@ -35,9 +37,9 @@ public enum Race
 	 * @param raceName String with race name
 	 * @return Race with specified name
 	 */
-	public static Race fromName(String raceName)
+	public static Race fromId(String raceId)
 	{
-		switch(raceName)
+		switch(raceId)
 		{
 		case "human":
 			return Race.HUMAN;
@@ -48,6 +50,33 @@ public enum Race
 		default:
 			return Race.HUMAN;
 		}
+	}
+	/**
+	 * Returns race ID
+	 * @return String with race ID
+	 */
+	@Override
+	public String toString()
+	{
+		switch(this)
+		{
+		case HUMAN:
+			return "human";
+		case GOBLIN:
+			return "goblin";
+		case WOLF:
+			return "wolf";
+		default:
+			return "human";
+		}
+	}
+	/**
+	 * Returns localized race name
+	 * @return String with race name
+	 */
+	public String getName()
+	{
+		return TConnector.getText("ui", "race_" + toString());
 	}
 	/**
 	 * Returns default spritesheet name for this race 

@@ -127,8 +127,8 @@ public class NpcPattern
 		this.npcId = npcId;
 		this.npcName = TConnector.getTextFromChapter("npc", npcId);
 		npcAttitude = Attitude.fromString(attitude);
-		npcGender = Gender.fromString(gender);
-		npcRace = Race.fromName(race);
+		npcGender = Gender.fromId(gender);
+		npcRace = Race.fromId(race);
 		this.trade = trade;
 		this.train = train;
 		this.guildID = guildID;

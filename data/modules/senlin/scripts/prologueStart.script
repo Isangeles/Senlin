@@ -1,7 +1,7 @@
 #Script for prologue opening scene
 script:
     $worldman music --playSpecial heroicMinority.ogg;
-    $charman player set --position 44x48;
+    $charman player set --positionTile 44x48;
     $worldman add --character courier01 42x41;
     $worldman add --character redSwScout01 40x41;
     $worldman add --character redSwScout01 44x41;
@@ -15,15 +15,15 @@ script:
     $charman courier01_0 add --speech pScene01_S02;
     @wait 5;
     $charman mysFigure01_0 add --speech pScene01_S03;
-    $charman mysFigure01_0 set --destTile 40x30;
+    $charman mysFigure01_0 set --destinationTile 40x30;
     @wait 2;
     $worldman remove --npc mysFigure01_0;
     $charman redSwScout01_0 add --speech pScene01_S04;
-    $charman redSwScout01_1 set --destTile 42x41;
+    $charman redSwScout01_1 set --destinationTile 42x41;
     @wait 2;
     $charman courier01_0 remove --item aImpLArm01 1;
-    $charman redSwScout01_0 set --destTile 40x30;
-    $charman redSwScout01_1 set --destTile 40x30;
+    $charman redSwScout01_0 set --destinationTile 40x30;
+    $charman redSwScout01_1 set --destinationTile 40x30;
     @wait 3;
     $worldman remove --npc redSwScout01_0;
     $worldman remove --npc redSwScout01_1;
@@ -33,6 +33,6 @@ script:
     $charman player add --flag prologueStarted;
 if:
     $charman player is --flag! prologueStarted;
-end: 
+end:
     if:
         $charman player is --flag prologueStarted;

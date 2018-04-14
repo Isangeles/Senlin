@@ -652,7 +652,7 @@
         <artifact></artifact>
         <in>
           <items>
-	          <item>wolfPel01</item>
+	          <item random="false">wolfPelt01</item>
           </items>
         </in>
     </eq>

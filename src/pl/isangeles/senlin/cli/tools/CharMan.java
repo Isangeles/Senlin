@@ -29,6 +29,7 @@ import java.util.Scanner;
 
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Usable;
@@ -91,7 +92,7 @@ public class CharMan implements CliTool
 	@Override
 	public String[] handleCommand(String line) 
 	{
-		String[] output = {"0", ""};
+		String[] output = {CommandInterface.SUCCESS, ""};
 		Scanner scann = new Scanner(line);
         String commandTarget = "";
         String command = "";
@@ -102,6 +103,19 @@ public class CharMan implements CliTool
             
             if(commandTarget.equals("player"))
             	output = characterCommands(command, player);
+            else if(commandTarget.equals("target"))
+            {
+            	if(player.getTarget() != null && Character.class.isInstance(player.getTarget()))
+            	{
+            		Character target = (Character)player.getTarget();
+            		output = characterCommands(command, target);
+            	}
+            	else
+            	{
+            		Log.addSystem("no valid target");
+            		output[0] = CommandInterface.SYNTAX_ERROR;
+            	}
+            }
             else
             {
             	Character npc = gw.getCurrentChapter().getCharacter(commandTarget);
@@ -110,14 +124,14 @@ public class CharMan implements CliTool
             	else
             	{
             		Log.addSystem("no such target for charman: " + commandTarget);
-            		output[0] = "5";
+            		output[0] = CommandInterface.SYNTAX_ERROR;
             	}
             }
         }
         catch(NoSuchElementException e)
         {
-        	Log.addSystem("Command scann error: " + line);
-    		output[0] = "5";
+        	Log.addSystem("command scann error: " + line);
+    		output[0] = CommandInterface.SYNTAX_ERROR;
         }
         finally
         {
@@ -155,8 +169,8 @@ public class CharMan implements CliTool
         case "is":      
         	return isCommands(prefix, target);
         default:
-        	Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
-        	return new String[] {"4", ""};
+        	//Log.addSystem(command + " " + TConnector.getText("ui", "logCmdPla"));
+        	return new String[] {CommandInterface.TOOL_ERROR, "no such command:" + command};
         }
     }
     /**
@@ -187,7 +201,14 @@ public class CharMan implements CliTool
         		String[] pos = arg1.split("x");
         		int x = Integer.parseInt(pos[0]);
         		int y = Integer.parseInt(pos[1]);
-        		if(!target.setPosition(new TilePosition(x, y)))
+        		if(!target.setPosition(new Position(x, y)))
+        			result = "2";
+        		break;
+    	    case "-pt": case "--positionTile":
+        		String[] posT = arg1.split("x");
+        		int xT = Integer.parseInt(posT[0]);
+        		int yT = Integer.parseInt(posT[1]);
+        		if(!target.setPosition(new TilePosition(xT, yT)))
         			result = "2";
         		break;
     	    case "-d": case "--destination":
@@ -196,7 +217,7 @@ public class CharMan implements CliTool
         		int destY = Integer.parseInt(destPos[1]);
         		target.moveTo(destX, destY);
         		break;
-    	    case "-dt": case "--destTile":
+    	    case "-dt": case "--destinationTile":
                 String[] tilePos = arg1.split("x");
                 int row = Integer.parseInt(tilePos[0]);
                 int column = Integer.parseInt(tilePos[1]);
@@ -211,13 +232,15 @@ public class CharMan implements CliTool
     	}
         catch(NoSuchElementException e)
         {
-            Log.addSystem("Not enought arguments");
-        	result = "1";
+            //Log.addSystem("Not enought arguments");
+        	out = "Not enought arguments";
+        	result = CommandInterface.COMMAND_ERROR;
         }
         catch(NumberFormatException e)
         {
-            Log.addSystem(TConnector.getText("ui", "logBadVal") + ":'" + commandLine + "'");
-        	result = "1";
+            //Log.addSystem(TConnector.getText("ui", "logBadVal") + ":'" + commandLine + "'");
+        	out = "args error:" + commandLine;
+        	result = CommandInterface.COMMAND_ERROR;
         }
         finally
         {
@@ -409,7 +432,7 @@ public class CharMan implements CliTool
      */
     private String[] showCommands(String commandLine, Character target)
     {
-        String result = "0";
+        String result = CommandInterface.SUCCESS;
     	String out = "";
     	Scanner scann = new Scanner(commandLine);
     	try
@@ -424,13 +447,13 @@ public class CharMan implements CliTool
 			case "-f": case "--flag":
 				out = target.getSerialId() + "-flags: " + target.getFlags().list();
 				break;
-			case "-r": case "--recipes":
+			case "-pr": case "--recipes":
 				out = target.getProfession(ProfessionType.fromString(arg1)).toString();
 				break;
 			case "-e": case "--effects":
 				out = target.getEffects().list();
 				break;
-			case "-d": case "--dis":
+			case "-d": case "--dis": case "--distance":
 			    if(arg1 != null)
 			    {
 			    	Targetable object = null;
@@ -446,19 +469,24 @@ public class CharMan implements CliTool
 			    else
 			    	throw new NoSuchElementException();
 				break;
+			case "-r": case "--race":
+				out = target.getRace().toString();
+				break;
 			case "-q": case "--quests":
 				out = target.getSerialId() + "-quests:" + target.getQuests().list();
 				break;
 			default:
-		    	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho") + ":'" + commandLine + "'");
-		    	result = "3";
+		    	//Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSho") + ":'" + commandLine + "'");
+		    	out = "no such option:'" + prefix + "'";
+		    	result = CommandInterface.OPTION_ERROR;
 				break;
 			}
     	}
     	catch(NoSuchElementException e)
     	{
-    		Log.addSystem("empty value:" + "'" + commandLine + "'");
-    		result = "1";
+    		//Log.addSystem("empty value:" + "'" + commandLine + "'");
+    		out = "empty value:" + "'" + commandLine + "'";
+    		result = CommandInterface.COMMAND_ERROR;
     	}
     	finally
     	{
@@ -559,7 +587,7 @@ public class CharMan implements CliTool
                 arg2 = scann.next();
             switch(prefix)
             {
-            case "-d<": case "--dis<":
+            case "-d<": case "--distance<":
             	int disL = Integer.parseInt(arg1);
             	Targetable objectDisL = gw.getCurrentChapter().getTObject(arg2);
             	if(objectDisL != null)
@@ -572,7 +600,7 @@ public class CharMan implements CliTool
             	else
             		result = "2";
             	break;
-            case "-d>": case "--dis>":
+            case "-d>": case "--distance>":
             	int disH = Integer.parseInt(arg1);
             	Targetable objectDisH = gw.getCurrentChapter().getTObject(arg2);
             	if(objectDisH != null)

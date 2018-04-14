@@ -1,7 +1,7 @@
 /*
  * Gender.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ public enum Gender
 	 * @param id String with gender ID
 	 * @return Gender enum
 	 */
-	public static Gender fromString(String id)
+	public static Gender fromId(String id)
 	{
 		switch(id)
 		{
@@ -49,8 +49,25 @@ public enum Gender
 			return Gender.MALE;
 		}
 	}
+
 	@Override
 	public String toString()
+	{
+		switch(this)
+		{
+		case MALE:
+			return "male";
+		case FEMALE:
+			return "female";
+		default:
+			return "error";
+		}
+	}
+	/**
+	 * Returns localized gender name
+	 * @return String with geneder name
+	 */
+	public String getName()
 	{
 		switch(this)
 		{

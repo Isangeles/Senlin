@@ -89,7 +89,7 @@ public final class RequirementsParser
 						reqs.add(new PointsRequirement(pAmount));
 						break;
 					case "genderReq":
-						Gender sex = Gender.fromString(reqE.getTextContent());
+						Gender sex = Gender.fromId(reqE.getTextContent());
 						reqs.add(new GenderRequirement(sex));
 						break;
 					case "manaReq":

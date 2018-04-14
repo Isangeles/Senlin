@@ -1,7 +1,7 @@
 /*
  * Buff.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Buff extends Skill
 {
-	private BuffType type;
+	private BuffType buffType;
     private int range;
     /**
      * Buff constructor
@@ -79,7 +79,7 @@ public class Buff extends Skill
 	            List<String> effects, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
 		super(character, id, imgName, effectType, reqs, castTime, cooldown, effects);
-		this.type = type;
+		this.buffType = type;
 		
 		avatarAnim = AvatarAnimType.CAST;
 		setTile(gc);
@@ -96,7 +96,7 @@ public class Buff extends Skill
 	public String getInfo() 
 	{
 	    String fullInfo = name + System.lineSeparator() +
-	            TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() + 
+	            TConnector.getText("ui", "eleTInfo") + ":" + type.getDisplayName() + System.lineSeparator() + 
                 TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
                 TConnector.getText("ui", "castName") + ":" + getCastTime()/1000 + System.lineSeparator() + 
                 TConnector.getText("ui", "cdName") + ":" + cooldown/1000  + System.lineSeparator();
@@ -133,10 +133,10 @@ public class Buff extends Skill
     {
         if(isReady() && useReqs.isMetBy(user))
         {
-        	if(type == BuffType.ONTARGET && target == null)
+        	if(buffType == BuffType.ONTARGET && target == null)
         		return CharacterOut.NOTARGET;
         	
-        	if(type.useTarget() && target != null)
+        	if(buffType.useTarget() && target != null)
         	{
         		if(user.getRangeFrom(target) <= range)
         		{
@@ -152,7 +152,7 @@ public class Buff extends Skill
             		return CharacterOut.NORANGE;
             	}
         	}
-        	else if(type.useUser())
+        	else if(buffType.useUser())
         	{
         		this.target = user;
     			active = true;

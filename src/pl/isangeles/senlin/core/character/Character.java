@@ -1384,6 +1384,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.setAttribute("id", id);
         charE.setAttribute("serial", serial+"");
         charE.setAttribute("attitude", attitude.toString());
+        charE.setAttribute("race", race.toString());
+        charE.setAttribute("gender", sex.toString());
         charE.setAttribute("guild", guild.getId());
         charE.setAttribute("level", level+"");
         charE.setAttribute("trade", trade+"");

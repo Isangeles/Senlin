@@ -1,7 +1,7 @@
 /*
  * Passive.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ public class Passive extends Skill
 	@Override
 	protected String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + getTypeString();
+		String fullInfo = name + System.lineSeparator() + TConnector.getText("ui", "eleTInfo") + ":" + type.getDisplayName();
 
 	    fullInfo += System.lineSeparator() + info;
 

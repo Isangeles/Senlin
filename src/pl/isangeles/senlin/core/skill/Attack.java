@@ -1,7 +1,7 @@
 /*
  * Attack.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ public class Attack extends Skill
 	public String getInfo() 
 	{
 		String fullInfo = name + System.lineSeparator() + 
-		                  TConnector.getText("ui", "eleTInfo") + ":" + getTypeString() + System.lineSeparator() +  
+		                  TConnector.getText("ui", "eleTInfo") + ":" + type.getDisplayName() + System.lineSeparator() +  
 						  TConnector.getText("ui", "dmgName") + ":" + damage + System.lineSeparator() + 
 						  TConnector.getText("ui", "rangeName") + ":" + range + System.lineSeparator() +
 						  TConnector.getText("ui", "castName") + ":" + getCastTime()/1000 + System.lineSeparator() + 

@@ -4,7 +4,7 @@ script:
 	@wait 10;
 if:
 	$charman player is --flag prologueStarted;
-	$charman player is --dis< 60 ericP01_0;
+	$charman player is --distance< 60 ericP01_0;
 end:
-	if:		
+	if:
 		$charman player is --flag pLumberTalk1;

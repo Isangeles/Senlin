@@ -350,13 +350,19 @@ class TradeWindow extends InterfaceObject implements UiElement, MouseListener
 	 */
 	private boolean trade()
 	{
-	   if(((trader.getInventory().getCashValue()+buyValue)-sellValue) >= 0 && ((buyer.getInventory().getCashValue()+sellValue)-buyValue) >= 0)
-	   {
-		   deal();
-		   return true;
-	   }
-	   else
-		   return false;
+		int tradeValue = buyValue - sellValue;
+		if(((trader.getInventory().getCashValue()+buyValue)-sellValue) >= 0 && ((buyer.getInventory().getCashValue()+sellValue)-buyValue) >= 0)
+		{
+			if(tradeValue <= 0)
+			{
+				   deal();
+				   return true;
+			}
+			else 
+				return false;
+		}
+		else
+			return false;
 	}
 	/**
 	 * Completes trade over both characters

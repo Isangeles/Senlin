@@ -1,7 +1,7 @@
 /*
  * InventoryParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,8 +69,7 @@ public final class InventoryParser
                 	min = Integer.parseInt(itemE.getAttribute("min"));
                 boolean random = Boolean.parseBoolean(itemE.getAttribute("random"));
                 String itemInId = itemE.getTextContent();
-                String itemSerialS  = itemE.getAttribute("serial");
-                if(itemSerialS.equals(""))
+                if(!itemE.hasAttribute("serial"))
                 {
                 	for(int i = 0; i < amount; i ++)
                     {
@@ -85,6 +84,7 @@ public final class InventoryParser
                 }
                 else
                 {
+                    String itemSerialS  = itemE.getAttribute("serial");
                     long itemSerial = Long.parseLong(itemSerialS);
                     RandomItem ip = new RandomItem(itemInId, itemSerial, random);
                     items.add(ip);
@@ -92,7 +92,7 @@ public final class InventoryParser
             }
             catch(NumberFormatException e)
             {
-            	Log.addSystem("inventory_parser_fail-msg//item node corrupted");
+            	Log.addSystem("inventory_parser_fail_msg//item node corrupted");
             	continue;
             }
         }

@@ -47,6 +47,15 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class CommandInterface 
 {
+	//output signals codes
+	public static final String SUCCESS = "0",
+				 			   COMMAND_ERROR = "1",
+				 			   OPTION_ERROR = "3",
+				 			   TOOL_ERROR = "4",
+				 			   TOOL_NOT_FOUND = "8",
+				 			   CLI_ERROR = "9",
+						       SYNTAX_ERROR = "5";
+	
 	private Map<String, CliTool> tools;
 	private Character player;
 	private ScriptProcessor ssp;
@@ -102,14 +111,14 @@ public class CommandInterface
             	else
             	{
                 	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
-                	output[0] = "8";
+                	output[0] = CommandInterface.TOOL_NOT_FOUND;
             	}
             }
         }
         catch(NoSuchElementException e)
         {
         	Log.addSystem("Command scann error: " + line);
-        	output[0] = "9";
+        	output[0] = CommandInterface.COMMAND_ERROR;
         }
         finally 
         {
