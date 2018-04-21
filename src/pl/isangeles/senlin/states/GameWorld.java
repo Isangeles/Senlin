@@ -72,6 +72,7 @@ import pl.isangeles.senlin.gui.tools.UserInterface;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
+import pl.isangeles.senlin.util.TConnector;
 /**
  * State for game world
  * 
@@ -284,6 +285,11 @@ public class GameWorld extends BasicGameState implements SaveElement
     	
     	if(!isPause())
     	{
+    		if(ui.isAlertReq()) //to clear game pause alert
+			{
+    			ui.clearAlert();
+			}
+    		
     	    day.update(delta);
             
             if(!gwMusic.getActivePlaylist().equals("special"))
@@ -344,6 +350,11 @@ public class GameWorld extends BasicGameState implements SaveElement
             	activeScenario.respawnMobs(); //TODO causes significant game lag
             }
 		}
+    	else
+    	{
+    		if(ui != null)
+    			ui.setAlert(TConnector.getText("ui", "pauseAlert"));
+    	}
     }
     /**
      * Returns active chapter

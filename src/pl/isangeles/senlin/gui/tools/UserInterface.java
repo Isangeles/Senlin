@@ -1,7 +1,7 @@
 /*
  * UserInterface.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.gui.Warning;
 import pl.isangeles.senlin.gui.tools.*;
 /**
- * Class for game graphical interface
+ * Class for graphical user interface
  * @author Isangeles
  *
  */
@@ -70,8 +70,8 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 {
     private Character player;
     private GameWorld gw;
-    private static GameCursor cursor;
-    private Console gameConsole;
+    private static GameCursor cursor; //UNUSED
+    private Console console;
     private BottomBar bBar;
     private CharacterFrame charFrame;
     private TargetFrame targetFrame;
@@ -122,7 +122,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 
         uiWarning = new Warning(gc);
         info = new InfoFrame(gc);
-        gameConsole = new Console(gc, cli, player);
+        console = new Console(gc, cli, player);
         charFrame = new CharacterFrame(gc, player);
         targetFrame = new TargetFrame(gc, player);
         igMenu = new InGameMenu(gc);
@@ -155,7 +155,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     {
         if(!lock)
         {
-        	gameConsole.draw(Coords.getX("TR", gameConsole.getWidth()+10), Coords.getY("BR", gameConsole.getHeight()+20), g);
+        	console.draw(Coords.getX("TR", console.getWidth()+10), Coords.getY("BR", console.getHeight()+20), g);
             conditions.draw(Coords.getX("BL", 50), Coords.getY("BL", 50));
             bBar.draw(Coords.getX("BL", 200), Coords.getY("BL", 70));
             charFrame.draw(Coords.getX("TL", 10), Coords.getY("TL", 10));
@@ -247,7 +247,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     		if(out == CharacterOut.LOCKED)
     		{
     		    player.getSignals().stopLooting();
-    		    Log.addInformation(TConnector.getText("ui", "logLocked"));
+    		    Log.addWarning(TConnector.getText("ui", "logLocked"));
     		}
     	}
     	if(player.reading() != null && !reading.isOpenReq())
@@ -290,7 +290,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	else if(!gw.isChangeAreaReq() && info.isOpenReq())
     		info.close();
     	
-    	waitWin.setFocus(!gameConsole.isFocused());
+    	waitWin.setFocus(!console.isFocused());
     	
     	bBar.update();
         charFrame.update();
@@ -311,7 +311,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         load.update();
         settings.update();
         waitWin.update();
-        gameConsole.update();
+        console.update();
         conditions.update();
         destination.update();
     }
@@ -321,7 +321,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public boolean isMouseOver()
     {
-    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || gameConsole.isMouseOver() || inventory.isMouseOver() || 
+    	return bBar.isMouseOver() || igMenu.isMouseOver() || charFrame.isMouseOver() || console.isMouseOver() || inventory.isMouseOver() || 
     		   skills.isMouseOver() || journal.isMouseOver() || loot.isMouseOver() || dialogue.isMouseOver() || trade.isMouseOver() || 
     		   train.isMouseOver() || save.isMouseOver() || load.isMouseOver() || settings.isMouseOver() || crafting.isMouseOver() ||
     		   charWin.isMouseOver() || map.isMouseOver() || waitWin.isMouseOver();
@@ -340,7 +340,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     public boolean isPauseReq()
     {
-        return !gameConsole.isHidden() || bBar.isPauseReq() || load.isOpenReq() || save.isOpenReq() || settings.isOpenReq() || waitWin.isOpenReq();
+        return !console.isHidden() || bBar.isPauseReq() || load.isOpenReq() || save.isOpenReq() || settings.isOpenReq() || waitWin.isOpenReq();
     }
     
     public boolean takeSaveReq()
@@ -408,6 +408,30 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
     	//camera.setLock(lock);
     	bBar.setFocus(!lock);
     }
+    /**
+     * Sets specified message as alert to display for unlimited time
+     * @param msg Alert message content
+     */
+    public void setAlert(String alert)
+    {
+    	console.setAlert(alert);
+    }
+    /**
+     * Checks if alert is requested
+     * @return True if alert is requested, false otherwise
+     */
+    public boolean isAlertReq()
+    {
+    	return console.isAlertReq();
+    }
+    /**
+     * Clears alert message
+     */
+    public void clearAlert()
+    {
+    	console.clearAlert();
+    }
+    
     /**
      * Closes all UI windows
      */
@@ -598,7 +622,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
      */
     private void keyDown(Input input)
     {
-       if(!gameConsole.isFocused())
+       if(!console.isFocused())
        {
     	   if(input.isKeyDown(Input.KEY_W) && camera.getPos().y > -200)
                camera.up(Coords.getDis(32));

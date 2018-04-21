@@ -1,7 +1,7 @@
 /*
  * Stopwatch.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Static class for time management 
+ * Class for time management 
  * @author Isangles
  *
  */
@@ -37,7 +37,7 @@ public class Stopwatch
 	/**
 	 * Private constructor to prevent initialization
 	 */
-    private Stopwatch() {}
+    public Stopwatch() {}
     /**
      * Converts seconds to milliseconds
      * @param sec Time in seconds
@@ -92,15 +92,25 @@ public class Stopwatch
     /**
      * Starts time measurement
      */
-    public static void start()
+    public void start()
     {
     	nanoTime = System.nanoTime();
+    }
+    /**
+     * Returns current time
+     * @return Time as seconds 
+     */
+    public long check()
+    {
+    	long currentTime = System.nanoTime();
+    	long measure = TimeUnit.SECONDS.convert(currentTime - nanoTime, TimeUnit.NANOSECONDS);
+    	return measure;
     }
     /**
      * Stops time measurement and returns measured time
      * @return Measured time as seconds
      */
-    public static long stop() 
+    public long stop() 
     {
     	long currentTime = System.nanoTime();
     	long measure = TimeUnit.SECONDS.convert(currentTime - nanoTime, TimeUnit.NANOSECONDS);
@@ -108,10 +118,10 @@ public class Stopwatch
     	return measure;
     }
     /**
-     * Stops and prints time measurement
+     * Stops and prints time measurement to standard out 
      * @param name Measure name
      */
-    public static void stopAndPrint(String name)
+    public void stopAndPrint(String name)
     {
     	long currentTime = System.nanoTime();
     	System.out.println(name + " time:" + TimeUnit.SECONDS.convert((currentTime - nanoTime), TimeUnit.NANOSECONDS));

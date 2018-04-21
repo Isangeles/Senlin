@@ -1,7 +1,7 @@
 /*
  * Log.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ public class Log
         addInformation(who + " " + TConnector.getText("ui", "logPtsGain") + ": " + value + " " + statName);
     }
 	/**
-	 * Returns message with specific index
+	 * Returns message with specified index
 	 * @param index Index of message on list
 	 * @return
 	 */
@@ -162,7 +162,7 @@ public class Log
 	 * Returns list with all messages
 	 * @return LinkedList with messages
 	 */
-	public static List<String> get()
+	public static List<String> getAll()
 	{
 		return commList;
 	}

@@ -122,6 +122,7 @@ effDuration:Duration;
 waitWinTitle:Wait;
 waitWinWait:Wait;
 waitWinRest:Rest;
+pauseAlert:Game is paused;
 logInfo:Information;
 logWarn:Warning;
 logDebug:Debug;

@@ -1,7 +1,7 @@
 /*
  * Console.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.gui.tools;
 
+import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -31,14 +32,17 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
+import pl.isangeles.senlin.util.Stopwatch;
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
@@ -49,11 +53,12 @@ import pl.isangeles.senlin.data.SkillsBase;
 import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.gui.TextBox;
 import pl.isangeles.senlin.gui.TextInput;
+import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.ItemsBase;
 /**
  * Class for game console
- * command syntax: $[target] [command] [-prefix] [value]
+ * command syntax: $[tool] [target] [command] [-option] [arguments]
  * @author Isangeles
  *
  */
@@ -63,6 +68,13 @@ final class Console extends TextInput implements UiElement
     private TextBox logBox;
     private CommandInterface cli;
     private Character player;
+    private TrueTypeFont alertTtf;
+    
+    private final String warningCatName;
+    private String alert;
+    private Stopwatch alertTimer = new Stopwatch();
+    private boolean alertReq;
+    
     /**
      * Console constructor
      * @param gc Game container for superclass
@@ -80,6 +92,11 @@ final class Console extends TextInput implements UiElement
         logBox = new TextBox(gc);
         hide = true;
         logBox.setFocus(true);
+        
+        Font font = GBase.getFont("mainUiFont");
+        alertTtf = new TrueTypeFont(font.deriveFont(Coords.getSize(18f)), true);
+        
+        warningCatName = TConnector.getText("ui", "logWarn");
     }
     /**
      * Draws console on unscaled position
@@ -97,7 +114,16 @@ final class Console extends TextInput implements UiElement
         }
         */
         logBox.draw(x, y, 630f, 180f, false);
-        
+        if(alert != null)
+        {
+        	alertTtf.drawString(Coords.getX("CE", 0), Coords.getY("CE", 350), alert, Color.red);
+        	if(!alertReq && alertTimer.check() > 3)
+        	{
+        		alert = null;
+        		alertTimer.stop();
+        	}
+        }
+                
         if(!hide)
         {   
             textField.setLocation((int)super.x, (int)(super.y + super.getScaledHeight()));
@@ -109,10 +135,21 @@ final class Console extends TextInput implements UiElement
 	@Override
 	public void update() 
 	{
-		for(int i = 0; i < Log.size(); i ++)
+		for(String msg : Log.getAll())
 		{
-			if(!logBox.contains(Log.get(i)))
-				logBox.add(new TextBlock(Log.get(i), 80, textTtf));
+			if(!logBox.contains(msg))
+			{
+				logBox.add(new TextBlock(msg, 80, textTtf));
+				
+				if(isAlertMsg(msg))
+				{
+					alert = msg.split(":")[4];
+					alertTimer.start();
+				}
+				
+				//alert = "test alert"; //TEST
+				//alertTimer.start(); //TEST
+			}
 		}
 	}
             
@@ -147,7 +184,31 @@ final class Console extends TextInput implements UiElement
             super.clear();
         }
     }
-    
+    /**
+     * Sets specified message as alert to display for unlimited time
+     * @param msg Alert message content
+     */
+    public void setAlert(String msg)
+    {
+    	alertReq = true;
+		alert = msg;
+    }
+    /**
+     * Checks if alert is requested
+     * @return True if alert is requested, false otherwise
+     */
+    public boolean isAlertReq()
+    {
+    	return alertReq;
+    }
+    /**
+     * Clears alert message
+     */
+    public void clearAlert()
+    {
+    	alertReq = false;
+		alert = null;
+    }
     @Override
     public void mouseReleased(int button, int x, int y)
     {
@@ -194,6 +255,28 @@ final class Console extends TextInput implements UiElement
 	public boolean isOpenReq() 
 	{
 		return true;
+	}
+	/**
+	 * Checks if specified log message is alert message
+	 * Don't use Log here, causes concurrent exception
+	 * @param msg String Log message('[message category name]:[message content]')
+	 * @return True if specified message is alert message, false otherwise
+	 */
+	private boolean isAlertMsg(String msg)
+	{
+		try
+		{
+			String[] msgParts = msg.split(":");
+			String msgCat = msgParts[3];
+			if(msgParts.length > 4) 
+				return msgCat.equals(warningCatName);
+			else
+				return false;
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			return false;
+		}
 	}
     
 }

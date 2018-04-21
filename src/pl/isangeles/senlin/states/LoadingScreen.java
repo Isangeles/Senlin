@@ -1,7 +1,7 @@
 /*
  * LoadingScreen.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,10 +179,11 @@ public class LoadingScreen extends BasicGameState
     {
     	//GameDataLoader gdLoad = new GameDataLoader(container);
     	//ExecutorService exe = Executors.newFixedThreadPool(2);
+    	Stopwatch loadTimer = new Stopwatch();
     	switch(loadCounter)
 		{
 		case 0:
-			Stopwatch.start(); //TEST loading time measurement
+			loadTimer.start(); //TEST loading time measurement
 			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
@@ -220,7 +221,7 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 6:
-			long time = Stopwatch.stop();
+			long time = loadTimer.stop();
 			Log.addSystem("Loading time:" + time + "s"); //TEST loading time measurement
 			System.out.println("Loading time:" + time + "s"); //TEST loading time measurement
 			loadCounter = 0;
@@ -242,12 +243,14 @@ public class LoadingScreen extends BasicGameState
      * @throws SAXException
      * @throws SlickException
      */
-    private boolean loadSave(GameContainer container, StateBasedGame game) throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
+    private boolean loadSave(GameContainer container, StateBasedGame game) 
+    		throws IOException, FontFormatException, ParserConfigurationException, SAXException, SlickException
     {
+    	Stopwatch loadTimer = new Stopwatch();
     	switch(loadCounter)
 		{
 		case 0:
-			Stopwatch.start(); //TEST loading time measurement
+			loadTimer.start(); //TEST loading time measurement
 			Module.setDir(Settings.getModuleName());
 		    loadingInfo.setText("loding game data...");
 		    break;
@@ -293,7 +296,7 @@ public class LoadingScreen extends BasicGameState
             gw.setCli(cli);
             break;
 		case 8:
-			long time = Stopwatch.stop();
+			long time = loadTimer.stop();
 			Log.addSystem("Loading time:" + time + "s"); //TEST loading time measurement
 			System.out.println("Loading time:" + time + "s"); //TEST loading time measurement
 			loadCounter = 0;
