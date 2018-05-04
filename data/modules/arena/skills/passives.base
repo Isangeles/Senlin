@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<base>
+    <skill id="swordM01" type="alwaysOn">
+        <icon>swordman.png</icon>
+        <effects>
+            <effect>swordBon01</effect>
+        </effects>
+        <useReq>
+        </useReq>
+        <trainReq>
+            <goldReq>250</goldReq>
+            <pointsReq>1</pointsReq>
+        </trainReq>
+    </skill>
+</base>
+

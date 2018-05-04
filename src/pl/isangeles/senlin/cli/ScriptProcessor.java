@@ -1,7 +1,7 @@
 /*
  * ScriptProcessor.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.cli;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -52,15 +53,15 @@ public class ScriptProcessor
     public boolean process(Script script)
     {
         boolean out = true;
-        String ifCode = script.getIfCode();
+        List<String> ifOrCode = script.getIfOrCode();
         
         if(!script.isFinished() && !script.isWaiting())
         {
         	try
         	{
-        		while(script.hasNext() && checkCondition(script, ifCode))
+        		while(script.hasNext() && checkConditions(script, ifOrCode))
                 {
-                	//Log.addSystem(script.getName() +  "-active command:" + script.getActiveCommand());
+                	//Log.addSystem(script.getName() +  "-active command:" + script.getActiveCommand()); //DEBUG
                 	String command = script.getActiveCommand();
                 	if(command.matches("@wait [1-9]+[0-9]?"))
                     {
@@ -91,7 +92,7 @@ public class ScriptProcessor
                 		script.finish();
             	}
         	}
-        	catch(NumberFormatException e)
+        	catch(NumberFormatException | IndexOutOfBoundsException e)
         	{
         		out = false;
                 Log.addSystem("ssp: " + script.getName() + " processing fail - corrupted at line:" + script.getActiveIndex());
@@ -109,23 +110,55 @@ public class ScriptProcessor
     private boolean checkCondition(Script script, String ifCode) throws IndexOutOfBoundsException
     {
         boolean out = false;
-        Scanner scann = new Scanner(ifCode);
-        scann.useDelimiter(";");
         
+    	Scanner scann = new Scanner(ifCode);
+    	scann.useDelimiter(";");
+
         while(scann.hasNext())
         {
             String command = scann.next().replaceFirst("^\\s*", "");
             command.replaceAll(";", "");
-            String bool = cli.executeCommand(command)[1];
-            //Log.addSystem("check: " + command + " - " + out);
-            out = bool.equals("true");
-            if(!out)
-            	break;
+            if(!command.equals(""))
+            {
+            	if(!command.startsWith("!"))
+                {
+                    String bool = cli.executeExpression(command)[1];
+                    //Log.addSystem("sp_check_true: " + command + " - " + bool); //DEBUG
+                	out = bool.equals("true");
+                    if(!out)
+                    	break;
+                }
+                else
+                {
+                    String bool = cli.executeExpression(command.replaceFirst("!", ""))[1];
+                    //Log.addSystem("sp_check_false: " + command + " - " + bool); //DEBUG
+                	out = bool.equals("false");
+                    if(!out)
+                    	break;
+                }
+            }
         }
         scann.close();
+        //Log.addSystem(ifCode + "-check:" + out); //DEBUG            
         
-        //Log.addSystem(ifCode + "-check:" + out);
-        
+        return out;
+    }
+    /**
+     * Executes 'if/or code' of the script
+     * @param script Script object
+     * @param ifCode Code after 'if' and 'or' 
+     * @return True if conditions from 'if' or 'or' code are met, false otherwise 
+     * @throws IndexOutOfBoundsException
+     */
+    private boolean checkConditions(Script script, List<String> ifOrCode) throws IndexOutOfBoundsException
+    {
+        boolean out = false;
+        for(String ifCode : ifOrCode)
+        {
+        	out = checkCondition(script, ifCode);
+        	if(out)
+        		break;
+        }
         return out;
     }
     /**
@@ -139,13 +172,16 @@ public class ScriptProcessor
         boolean out = false;
         Scanner scann = new Scanner(script.getEndCode());
         scann.useDelimiter(":|(:\r?\n)");
-        if(scann.next().equals("if"))
+        
+        String statement = scann.next(); 
+        if(statement.equals("if"))
         {
             String ifCommand = scann.next();
             ifCommand.replaceFirst("^\\s*", "");
-            
             out = checkCondition(script, ifCommand);
         }
+        else if(statement.equals("now;"))
+        	out = true;
         
         scann.close();
         return out;

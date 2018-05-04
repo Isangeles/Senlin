@@ -24,6 +24,8 @@ package pl.isangeles.senlin.util.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import pl.isangeles.senlin.cli.Script;
@@ -51,7 +53,8 @@ public final class ScriptParser
 		String scriptFileName = scriptFile.getName().replaceAll(".ssg", "");
 		
 	    String scriptCode = "";
-	    String ifCode = "";
+	    List<String> ifOr = new ArrayList<>();
+	    //String ifCode = "";
 	    String endCode = "";
 	    
 	    while(scann.hasNextLine())
@@ -64,7 +67,7 @@ public final class ScriptParser
 	    			while(scann.hasNextLine())
 	    			{
 	    				line = scann.nextLine().replaceFirst("^\\s*", "");
-		    			if(line.startsWith("if:") || line.startsWith("end:"))
+		    			if(line.startsWith("if:") || line.startsWith("or:") || line.startsWith("end:"))
 		    			{
 		    				break;
 		    			}
@@ -74,20 +77,41 @@ public final class ScriptParser
 		    			}
 	    			}
 	    		}
-	    		if(line.startsWith("if:"))
+	    		if(line.startsWith("if:") || line.startsWith("or:"))
 	    		{
+	    			String ifCode = "";
 	    			while(scann.hasNextLine())
 	    			{
 	    				line = scann.nextLine().replaceFirst("^\\s*", "");
-		    			if(line.startsWith("script:") || line.startsWith("end:"))
+		    			if(line.startsWith("script:") || line.startsWith("end:") || line.startsWith("or:"))
 		    			{
 		    				break;
 		    			}
 		    			if(!line.startsWith("#"))
 		    			{
+		    				//ifCode += line;
 		    				ifCode += line;
 		    			}
 	    			}
+	    			ifOr.add(ifCode);
+	    		}
+	    		if(line.startsWith("or:"))
+	    		{
+	    			String orCode = "";
+	    			while(scann.hasNextLine())
+	    			{
+	    				line = scann.nextLine().replaceFirst("^\\s*", "");
+		    			if(line.startsWith("script:") || line.startsWith("end:") || line.startsWith("if:"))
+		    			{
+		    				break;
+		    			}
+		    			if(!line.startsWith("#"))
+		    			{
+		    				//ifCode += line;
+		    				orCode += line;
+		    			}
+	    			}
+	    			ifOr.add(orCode);
 	    		}
 	    		if(line.startsWith("end:"))
 	    		{
@@ -107,6 +131,6 @@ public final class ScriptParser
 	    	}
 	    }
 	    scann.close();
-	    return new Script(scriptFileName, scriptCode, ifCode, endCode);
+	    return new Script(scriptFileName, scriptCode, ifOr, endCode);
 	}
 }

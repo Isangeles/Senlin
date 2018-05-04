@@ -1,0 +1,7 @@
+autoA:Attack;Basic attack;
+slash:Slash;Weapon slash causing bleeding;
+shot:Shot;Shot using ranged weapon;
+rage:Rage;Battle rage;
+fireball01:Fireball;Magickal ball of fire;
+swordM01:Swordman;You know how to use swords;
+stealth01:Stealth;'I can avoid being seen if I wish, but to disappear entirely, that is a rare gift';

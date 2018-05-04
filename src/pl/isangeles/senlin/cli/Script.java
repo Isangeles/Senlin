@@ -1,7 +1,7 @@
 /*
  * Script.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
  */
 package pl.isangeles.senlin.cli;
 
+import java.util.List;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -37,7 +39,7 @@ public class Script implements SaveElement
 	private String name;
 	private String body;
 	private String[] commands;
-	private String ifBody;
+	private List<String> ifOrCode;
 	private String endBody;
 	private int useCount;
 	private int activeIndex;
@@ -48,12 +50,12 @@ public class Script implements SaveElement
 	 * @param name Script name
 	 * @param body Script code
 	 */
-	public Script(String name, String body, String ifBody, String endBody)
+	public Script(String name, String body, List<String> ifOrCode, String endBody)
 	{
 		this.name = name;
 		this.body = body;
 		this.endBody = endBody;
-		this.ifBody = ifBody;
+		this.ifOrCode = ifOrCode;
 		
 		commands = body.split(";|(;\\r?\\n)");
 		for(String command : commands)
@@ -90,9 +92,9 @@ public class Script implements SaveElement
 	 * Returns code of if body
 	 * @return String with if body code
 	 */
-	public String getIfCode()
+	public List<String> getIfOrCode()
 	{
-		return ifBody;
+		return ifOrCode;
 	}
 	/**
 	 * Returns code of end body
@@ -134,7 +136,10 @@ public class Script implements SaveElement
 	{
 		return end;
 	}
-	
+	/**
+	 * Checks if script has any next command
+	 * @return True if script has any command to execute, false otherwise
+	 */
 	public boolean hasNext()
 	{
 		return activeIndex < commands.length;

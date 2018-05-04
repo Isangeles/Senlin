@@ -1,0 +1,17 @@
+#Start script
+script:
+	$charman player set --positionTile 44x10;
+	$charman han01_0 set --positionTile 54x12;
+	$charman makk01_0 set --positionTile 50x12;
+	$uiman ui --lock true;
+	$uiman camera --centerAtTile 52x12;
+	@wait 1;
+	$charman arenaMaster01_0 add --speech start_scene_s01;
+	$charman han01_0 set --attackTarget makk01_0;
+	$charman makk01_0 set --attackTarget han01_0;
+	@wait 3;
+	$uiman ui --lock false;
+if:
+	true;
+end:
+	now;

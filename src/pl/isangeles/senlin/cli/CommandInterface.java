@@ -23,6 +23,7 @@
 package pl.isangeles.senlin.cli;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -50,6 +51,7 @@ public class CommandInterface
 	//output signals codes
 	public static final String SUCCESS = "0",
 				 			   COMMAND_ERROR = "1",
+				 			   COMMAND_ERROR_2 = "2",
 				 			   OPTION_ERROR = "3",
 				 			   TOOL_ERROR = "4",
 				 			   TOOL_NOT_FOUND = "8",
@@ -84,48 +86,85 @@ public class CommandInterface
     public String[] executeCommand(String line)
     {	
     	String[] output = {"0", ""};
-        Scanner scann = new Scanner(line);
-        try
+    	
+        if(line.startsWith("$"))
         {
-            String toolName = scann.next().replace("$", "");
-            String command = scann.nextLine();
-            
-            if(toolName.equals("debug")) //TODO debug mode don't work
+        	Scanner scann = new Scanner(line);
+            try
             {
-            	if(command.equals("on"))
-            	{
-            		Log.setDebug(true);
-            	}
-            	else if(command.equals("off"))
-            	{
-            		Log.setDebug(false);
-            	}
+                String toolName = scann.next().replace("$", "");
+                String command = scann.nextLine();
+                
+                if(toolName.equals("debug")) //TODO debug mode don't work
+                {
+                	if(command.equals("on"))
+                	{
+                		Log.setDebug(true);
+                	}
+                	else if(command.equals("off"))
+                	{
+                		Log.setDebug(false);
+                	}
+                }
+                else
+                {
+            		if(tools.containsKey(toolName))
+            		{
+            			CliTool tool = tools.get(toolName);
+        				output = tool.handleCommand(command);
+            		}
+                	else
+                	{
+                    	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
+                    	output[0] = CommandInterface.TOOL_NOT_FOUND;
+                	}
+                }
             }
-            else
+            catch(NoSuchElementException e)
             {
-        		if(tools.containsKey(toolName))
-        		{
-        			CliTool tool = tools.get(toolName);
-    				output = tool.handleCommand(command);
-        		}
-            	else
-            	{
-                	Log.addWarning(toolName + " " + TConnector.getText("ui", "logCmdFail"));
-                	output[0] = CommandInterface.TOOL_NOT_FOUND;
-            	}
+            	Log.addSystem("Command scann error: " + line);
+            	output[0] = CommandInterface.COMMAND_ERROR;
+            }
+            finally 
+            {
+                scann.close();
             }
         }
-        catch(NoSuchElementException e)
-        {
-        	Log.addSystem("Command scann error: " + line);
-        	output[0] = CommandInterface.COMMAND_ERROR;
-        }
-        finally 
-        {
-            scann.close();
-        }
+        else
+        	output[1] = line;
         
         return output;
+    }
+    /**
+     * Executes specified expression
+     * @param expr CLI expression
+     * @return Array with command result[0] and output[1]
+     */
+    public String[] executeExpression(String expr)
+    {
+    	String[] out = {SUCCESS, ""};
+    	if(expr.contains(" \\!\\| "))
+    	{
+    		String[] cmds = expr.split(" \\!\\| ");
+    		for(String cmd : cmds)
+    		{
+    			try
+    			{
+        			out = executeCommand(cmd);
+        			if(out[1].equals("true"))
+        				break;
+    			}
+    			catch(ArrayIndexOutOfBoundsException e)
+    			{
+    				out[0] = CLI_ERROR;
+    				out[1] = "error";
+    			}
+    		}
+    	}
+    	else
+    		out = executeCommand(expr);
+    	
+    	return out;
     }
     /**
      * Executes specified script

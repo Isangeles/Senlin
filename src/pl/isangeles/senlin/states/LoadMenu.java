@@ -168,6 +168,9 @@ public class LoadMenu extends BasicGameState
     private void loadSaves()
     {
         File savesDir = new File(SaveEngine.SAVES_PATH);
+        if(!savesDir.exists())
+        	savesDir.mkdirs();
+        
         for(File save : savesDir.listFiles())
         {
             if(save.getName().endsWith(".ssg"))

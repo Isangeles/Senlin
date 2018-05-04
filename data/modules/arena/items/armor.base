@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<base>
+    <item id="acCS00" type="chest" material="cloth" value="2" armRat="0" reqLvl="1">
+        <icon>shirtWhite.png</icon>
+        <maleSprite>m-cloth-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-cloth-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="0" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpLArm01" type="chest" material="leather" value="100" armRat="5" reqLvl="3">
+        <icon>leatherArmor01.png</icon>
+        <maleSprite>m-leather-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-leather-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aRedSwLArm01" type="chest" material="leather" value="180" armRat="8" reqLvl="3">
+        <icon>leatherArmor02.png</icon>
+        <maleSprite>m-leather-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-leather-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpCArm01" type="chest" material="steel" value="5000" armRat="50" reqLvl="10">
+        <icon>steelArmorC.png</icon>
+        <maleSprite>m-mail-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-mail-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="3" dex="-1" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpCHelm01" type="head" material="steel" value="2500" armRat="20" reqLvl="10">
+        <icon>steelHelmetC.png</icon>
+        <maleSprite>m-headBlack-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-headBlack-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpCGlov01" type="hands" material="steel" value="2500" armRat="20" reqLvl="10">
+        <icon>steelGlovesC.png</icon>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpCBoot01" type="feet" material="steel" value="2500" armRat="20" reqLvl="10">
+        <icon>steelBootsC.png</icon>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="0" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    
+    <item id="aImpArm01" type="chest" material="iron" value="1000" armRat="20" reqLvl="6">
+        <icon>steelArmor.png</icon>
+        <maleSprite>m-mail-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-mail-1222211-80x90.png</femaleSprite>
+        <bonuses>
+            <statsBonus str="0" con="1" dex="-2" wis="0" int="0" />
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpHelm01" type="head" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelHelmet.png</icon>
+        <maleSprite>m-headBlack-1222211-80x90.png</maleSprite>
+        <femaleSprite>f-headBlack-1222211-80x90.png</femaleSprite>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpGlov01" type="hands" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelGloves.png</icon>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+    <item id="aImpBoot01" type="feet" material="iron" value="500" armRat="5" reqLvl="6">
+        <icon>steelBoots.png</icon>
+        <bonuses>
+        </bonuses>
+        <equipEffects></equipEffects>
+    </item>
+</base>

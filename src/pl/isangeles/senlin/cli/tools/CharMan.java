@@ -224,6 +224,17 @@ public class CharMan implements CliTool
                 Position p = new TilePosition(row, column).asPosition();
                 target.moveTo(p.x, p.y);
                 break;
+    		case "-at": case "--attackTarget":
+    			Targetable attackTarget = gw.getCurrentChapter().getTObject(arg1);
+    			if(attackTarget != null)
+    				target.getSignals().startCombat(attackTarget);
+    			else 
+    			{
+    				result = CommandInterface.COMMAND_ERROR_2;
+    				out = "no such object: " + arg1;
+    				//Log.addSystem("no such object: " + arg1);
+    			}
+    			break;
         	default:
             	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdSet"));
             	result = "3";
@@ -321,15 +332,6 @@ public class CharMan implements CliTool
         		break;
     		case "-l": case "--level":
     			target.levelUp();
-    			break;
-    		case "-at": case "-attackTarget":
-    			Targetable attackTarget = gw.getCurrentChapter().getTObject(arg1);
-    			if(attackTarget != null)
-    			{
-    				target.getSignals().startCombat(attackTarget);
-    			}
-    			else
-    				Log.addSystem("no such object: " + arg1);
     			break;
     		default:
 	        	Log.addSystem(prefix + " " + TConnector.getText("ui", "logCmdAdd"));
@@ -581,13 +583,16 @@ public class CharMan implements CliTool
         try
         {
             String prefix = scann.next();
-            String arg1 = scann.next();
+            String arg1 = null;
             String arg2 = null;
-            if(scann.hasNext())
-                arg2 = scann.next();
+            
             switch(prefix)
             {
             case "-d<": case "--distance<":
+                arg1 = scann.next();
+                if(scann.hasNext())
+                    arg2 = scann.next();
+                
             	int disL = Integer.parseInt(arg1);
             	Targetable objectDisL = gw.getCurrentChapter().getTObject(arg2);
             	if(objectDisL != null)
@@ -601,6 +606,10 @@ public class CharMan implements CliTool
             		result = "2";
             	break;
             case "-d>": case "--distance>":
+                arg1 = scann.next();
+                if(scann.hasNext())
+                    arg2 = scann.next();
+                
             	int disH = Integer.parseInt(arg1);
             	Targetable objectDisH = gw.getCurrentChapter().getTObject(arg2);
             	if(objectDisH != null)
@@ -613,33 +622,49 @@ public class CharMan implements CliTool
             	else
             		result = "2";
             	break;
+            case "-pt": case "--positionTile":
+            	arg1 = scann.next();
+            	TilePosition posToCheck = new TilePosition(arg1.replaceAll("x", ";"));
+            	TilePosition targetPos = new TilePosition(new Position(target.getPosition()));
+            	out = Boolean.toString(posToCheck.equals(targetPos));
+            	break;
             case "-f": case "--flag":
+                arg1 = scann.next();
+                
             	if(target.getFlags().contains(arg1))
             		out = "true";
             	else
             		out = "false";
             	break;
             case "-f!": case "--flag!":
+                arg1 = scann.next();
             	if(!target.getFlags().contains(arg1))
             		out = "true";
             	else
             		out = "false";
             	break;
+            case "-l": case "--live":
+            	out = Boolean.toString(target.isLive());
+            	break;
             default:
-            	Log.addSystem("no such option for is: " + prefix);
+            	//Log.addSystem("no such option for is: " + prefix);
+            	out = "no such option for is: " + prefix;
             	result = "3";
             	break;
             }
         }
         catch(NoSuchElementException e)
         {
-            Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
-            result = "1";
+            //Log.addSystem("not enough arguments" + ":'" + commandLine + "'");
+            out = "not enough arguments" + ":'" + commandLine + "'";
+        	result = "1";
+        	e.printStackTrace();
         }
         catch(NumberFormatException e)
         {
-        	Log.addSystem("bad argument value" + ":'" + commandLine + "'");
-            result = "1";
+        	//Log.addSystem("bad argument value" + ":'" + commandLine + "'");
+            out = "bad argument value" + ":'" + commandLine + "'";
+        	result = "1";
         }
         finally
         {

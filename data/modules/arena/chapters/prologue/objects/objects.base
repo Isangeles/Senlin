@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<base>
+    <object id="lcChest01">
+        <portrait>default.png</portrait>
+        <texture type="static">chest.png</texture>
+        <action type="loot" />        
+        <in gold="0">
+            <items>
+                <item random="false">wSOHI</item>
+            </items>
+            <lock level="1" key="lcKey01"></lock>
+        </in>
+    </object>
+</base>

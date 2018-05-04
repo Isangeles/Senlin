@@ -1,7 +1,7 @@
 /*
  * Dialogue.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -224,8 +224,10 @@ public class Dialogue implements SaveElement
 		{
 			for(DialoguePart part : parts)
 			{
+				//Log.addSystem("d_part_check:" + part.getId());
 				if(part.isStart() && part.hasReq() && part.getReqs().isMetBy(dialogueTarget))
 				{
+					//Log.addSystem("req_d_part:" + part.getId());
 					return part;
 				}
 			}
@@ -234,6 +236,7 @@ public class Dialogue implements SaveElement
 		{
 			if(part.isStart() && !part.hasReq())
 			{
+				//Log.addSystem("non_req_d_part:" + part.getId());
 				return part;
 			}
 		}

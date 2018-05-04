@@ -549,7 +549,10 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     	}
 	    
 	    if(agony)
+	    {
 	    	avatar.kneel();
+	    	modHealth(1); //slow HP recover in agony state
+	    }
 	    else
 	    	avatar.resetStance();
 		if(!live)

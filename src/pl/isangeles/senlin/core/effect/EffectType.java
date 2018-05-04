@@ -40,7 +40,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public enum EffectType 
 {
-	FIRE, ICE, NATURE, MAGIC, NORMAL;
+	NORMAL, MAGIC, FIRE, ICE, NATURE;
 	/**
 	 * Converts type ID to effect type enumeration
 	 * @param typeId String with type ID

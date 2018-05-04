@@ -286,9 +286,7 @@ public class GameWorld extends BasicGameState implements SaveElement
     	if(!isPause())
     	{
     		if(ui.isAlertReq()) //to clear game pause alert
-			{
     			ui.clearAlert();
-			}
     		
     	    day.update(delta);
             

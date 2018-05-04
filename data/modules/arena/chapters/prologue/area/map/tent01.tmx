@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tilesetformattedupdate1" tilewidth="32" tileheight="32" tilecount="18">
+  <image source="tile/tilesetformattedupdate1.png" width="112" height="192"/>
+ </tileset>
+ <layer name="ground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NmYGBgHsWDBgMAyAqMIJABAAA=
+  </data>
+ </layer>
+ <layer name="onground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="blockground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="water" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="trees" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="buildings" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="objects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="effects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+</map>

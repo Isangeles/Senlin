@@ -73,6 +73,15 @@ public class TilePosition
 		this.column = Integer.parseInt(rowSemicolonColumn.split(";")[1]);
 	}
 	/**
+	 * Creates tile position from raw position
+	 * @param pos XY position
+	 */
+	public TilePosition(Position pos)
+	{
+		this.row = pos.x / TILE_WIDTH;
+		this.column = pos.y / TILE_HEIGHT;
+	}
+	/**
 	 * Returns position as normal table with two values: row[0] and column[1]
 	 * @return Table with row[0] and column[1] numbers
 	 */
@@ -97,9 +106,11 @@ public class TilePosition
 	
 	public boolean equals(Position pos)
 	{
-		if(row == pos.x && column == pos.y)
-			return true;
-		else
-			return false;
+		return (row == pos.x / TILE_WIDTH && column == pos.y / TILE_HEIGHT);
+	}
+	
+	public boolean equals(TilePosition pos)
+	{
+		return (row == pos.row && column == pos.column);
 	}
 }

@@ -1,0 +1,36 @@
+banditTalk01:I'm bad bandit, arrr!;
+banditTalk02:Yea!;
+banditTalk01a01:Really?;
+am_welcome01_00:Whats your name kid?;
+am_welcome01_01:Welcome in the arena $name, here you can test your skills against best warriors.;
+am_welcome01_02_a1:What are the rules?;
+am_welcome01_02_a2:Who is the champion?;
+am_welcome01_03:There is only one rule, to win you must kill your opponent, winner takes all loot.
+am_welcome01_04:Tao, best warrior I ever see.;
+hanD01_01:Newcomer, huh? Wish you luck at the arena.;
+hanD01_02_a1:How many fights have you won already?;
+hanD01_02_a2:I want to fight with you!;
+hanD01_03:Only one, I fought with the guy called Makk. Not big challenge.
+hanD01_04:TODO;
+makkD01_01:Newcomer, huh? Wish you luck at the arena.;
+makkD01_02_a1:How many fights have you won already?;
+makkD01_02_a2:I want to fight with you!;
+makkD01_03:Only one, I fought with the guy called Han. He was pretty good.
+makkD01_04:TODO;
+whoareu01:Who are you?;
+myname01:My name is $name;
+whereufrom01:Where are you from?;
+placeInfo01:What you can tell me about this place?;
+whatdouneed01:What do you need?;
+backAns01:Let's talk about something else...;
+tradeReq01:Show me your wears.;
+trainReq01:Teach me;
+jobAsk01:I'm looking for job.;
+rumAsk01:You've heard any rumors?;
+greeting01:Welcome.;
+traderGreeting01:Welcome in my store.;
+bye01:Bye;
+wait01:...;
+no01:No.;
+err01:Dialog builder fail!;
+err02:Dialog trigger not found!;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="80" height="70" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399" columns="19">
+  <image source="tile/forestground06dv5.png" width="629" height="679"/>
+ </tileset>
+ <tileset firstgid="400" name="plant2" tilewidth="32" tileheight="32" tilecount="42" columns="7">
+  <image source="tile/plant2.png" width="225" height="205"/>
+ </tileset>
+ <tileset firstgid="442" name="fomeFlora" tilewidth="32" tileheight="32" tilecount="240" columns="20">
+  <image source="tile/fomeFlora.png" width="640" height="400"/>
+ </tileset>
+ <tileset firstgid="682" name="tents" tilewidth="32" tileheight="32" tilecount="460" columns="20">
+  <image source="tile/tents.png" width="650" height="750"/>
+ </tileset>
+ <layer name="ground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3QsQ2AMAwAwbAKMEKAFYD9B8IjuIlwpCuuf31fWusAAAy3hi1pL9BbzRHOpKtAbzX++effvPzzz795+effn+7wJL0FegEAAAAAAAAAAAAAAAAAAABG+QDww+nrgFcAAA==
+  </data>
+ </layer>
+ <layer name="onground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="blockground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="water" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="trees" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+1bN04EQRDcOyDB/wD7Bfg+IaRAhskwETbCBRRCK61Wt2ZcdU/PllTSZTfqrqmumdFWFRens6o6m5H/NFO0a3WF39fgDXiruIYnCtbWrtUT+Ay+gK/gG/iuYJ1NnGM9F+Cl8Lr6arU0r6plcGUuu8Y27rC+e/ABfBSsX1P7Wmu1CB9Y9yf4BX6DP+QaatG+K1bR2zVwHdwAN8EtcJvYcy3a98UOarUL7oH74AF4SKyftPZj4Qg1O+6pW+y5rEH7DKT0JmntpwbLm4a0nyuseBMbpXhTSlj3JhasetOECSVCw/1Wjsj1jK8BEmd8Szpn5mhLOmfnaLbOGRpn5miWziU0njJHM3We+31tF1g6t34nkkrn051IOGJr3FLGckGoxi1lLDaszh8WmPPHkj8w549Vf2BkrBL84W/+pNpb1vOp694aW+cS8qnL3vLxMOtvdmP3VqiHWXuzc91b1j3MB2P2VgkeFoqhvWXdw1hYVGdt54lcvgeRPE909SyX70GkzhN9Pcvhe5AaErN4bM80f+MgOYtT9Yzt3+xZnKpn0vdBMc8TQxro6pmvdqzcB7lqoO5ZqHYsnKV8NRCinVReIJGBfTUQqp2Y/i3hob4aiK2dUP+W9FBfDWg6h0t5aNMrfDUgeZcolYFje4XkvQV7H8T0Cunc20ToPhirgVheUVruje0VJebeGF5h6Q3BVwOhXqEpu/gghQZ8ZmjO76CxNKBphkogRAM+M1TbG5UkXPxTSqca++XqnxJZT7uvuPgnO+vllM37/FMq61nI5jWYWc9SNm+DlfVyz+ZakHM2n/CPX6GJGiGAVwAA
+  </data>
+ </layer>
+ <layer name="buildings" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Wyw2CUBRF0Rf67wmpAVQqwG8H/jglEBkguFay5zdndEv5bXVVyi411dKXrFOb3bq0T4d0TL0tJxmy0ymd0yVd0y3d7TfZI1s90yu908d2wIb4Uebxo3zPjzKfHwUAAAAAAAAAAAAAAAAAAAAAAOB/jPxEMIqAVwAA
+  </data>
+ </layer>
+ <layer name="objects" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="effects" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+</map>

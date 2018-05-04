@@ -113,6 +113,7 @@ public final class Settings
         catch (FileNotFoundException | NoSuchElementException e)
         {
             module = "senlin";
+            System.err.println("settings_module_param_not_found");
         }
         try
         {
@@ -248,7 +249,7 @@ public final class Settings
     	Settings.resolution = resolution;
     	newResolution = resolution; 
     	setScale();
-    	System.out.println("engine_msg: Resolution set to:" + resolution);
+    	System.out.println("engine_msg:Resolution set to:" + resolution);
     }
     /**
      * Sets specified language with specified ID as game language
@@ -333,6 +334,9 @@ public final class Settings
             pw.write(";" + System.lineSeparator());
             
             pw.write("musicVol:" + musicVol);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("module:" + module);
             pw.write(";" + System.lineSeparator());
             
             pw.close();

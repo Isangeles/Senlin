@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<base>
+<skill id="slash" effect="normal" type="melee" useWeapon="true">
+    <icon>slash.png</icon>
+    <range>40</range>
+    <cast>0</cast>
+    <damage>0</damage>
+    <cooldown>5</cooldown>
+    <effects>
+        <effect>bleed01</effect>
+    </effects>
+    <useReq>
+        <weaponReq>sword</weaponReq>
+    </useReq>
+    <trainReq>
+        <goldReq>100</goldReq>
+        <statsReq>3;0;4;0;0;</statsReq>
+        <pointsReq>1</pointsReq>
+    </trainReq>
+</skill>
+<skill id="fireball01" effect="fire" type="spell" useWeapon="false">
+    <icon>fireball.png</icon>
+    <range>300</range>
+    <cast>5</cast>
+    <damage>10</damage>
+    <cooldown>300</cooldown>
+    <effects>
+        <effect>burn01</effect>
+    </effects>
+    <useReq>
+        <manaReq>20</manaReq>
+    </useReq>
+    <trainReq>
+        <goldReq>500</goldReq>
+        <statsReq>0;0;0;5;4;</statsReq>
+        <pointsReq>1</pointsReq>
+    </trainReq>
+</skill>
+</base>

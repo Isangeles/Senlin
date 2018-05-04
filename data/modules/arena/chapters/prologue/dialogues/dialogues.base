@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<base>
+  <dialogue id="am_welcome01">
+    <text id="am_welcome01_00" start="true" ordinal="0">
+      <answer id="myname01" to="1">
+      </answer>
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="greeting01" start="true" ordinal="0">
+      <answer id="wait01" to="2" />
+      <pReq>
+        <flagReq>amGreeting01</flagReq>
+      </pReq>
+    </text>
+    <text id="am_welcome01_01" ordinal="1">
+      <answer id="wait01" to="2" />
+        <mod>
+          <modPlayer>
+            <flagModifier flag="amGreeting01" />
+          </modPlayer>
+        </mod>
+    </text>
+    <text id="whatdouneed01" ordinal="2">
+      <answer id="am_welcome01_02_a1" to="3" />
+      <answer id="am_welcome01_02_a2" to="4" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="am_welcome01_03" ordinal="3">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="am_welcome01_04" ordinal="4">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+
+  <dialogue id="hanD01">
+    <text id="whoareu01" start="true" ordinal="0">
+      <answer id="myname01" to="1" />
+    </text>
+    <text id="greeting01" start="true" ordinal="0">
+      <answer id="wait01" to="2" />
+      <pReq>
+        <flagReq>hanGreeting01</flagReq>
+      </pReq>
+    </text>
+    <text id="hanD01_01" ordinal="1">
+      <answer id="wait01" to="2" />
+      <mod>
+        <modPlayer>
+          <flagModifier flag="hanGreeting01" />
+        </modPlayer>
+      </mod>
+    </text>
+    <text id="whatdouneed01" ordinal="2">
+      <answer id="hanD01_02_a1" to="3" />
+      <answer id="hanD01_02_a2" to="4" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="hanD01_03" ordinal="3">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="hanD01_04" ordinal="4">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+
+  <dialogue id="makkD01">
+    <text id="whoareu01" start="true" ordinal="0">
+      <answer id="myname01" to="1" />
+    </text>
+    <text id="greeting01" start="true" ordinal="0">
+      <answer id="wait01" to="2" />
+      <pReq>
+        <flagReq>makkGreeting01</flagReq>
+      </pReq>
+    </text>
+    <text id="makkD01_01" ordinal="1">
+      <answer id="wait01" to="2" />
+      <mod>
+        <modPlayer>
+          <flagModifier flag="makkGreeting01" />
+        </modPlayer>
+      </mod>
+    </text>
+    <text id="whatdouneed01" ordinal="2">
+      <answer id="makkD01_02_a1" to="3" />
+      <answer id="makkD01_02_a2" to="4" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="makkD01_03" ordinal="3">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="makkD01_04" ordinal="4">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+</base>
