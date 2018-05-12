@@ -211,7 +211,7 @@
     <effects>
     </effects>
     <dialogues>
-      <dialogue id="am_welcome01" />
+      <dialogue id="amD01" />
     </dialogues>
 </npc>
 <npc id="han01" gender="male" race="human" attitude="friendly" level="4">
@@ -274,6 +274,131 @@
     </effects>
     <dialogues>
       <dialogue id="makkD01" />
+    </dialogues>
+</npc>
+<npc id="lau01" gender="male" race="human" attitude="friendly" train="true" level="6">
+    <stats>5;4;4;3;4;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head>aImpCHelm01</head>
+        <chest>aImpCArm01</chest>
+        <hands>aImpCGlov01</hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet>aImpCBoot01</feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false">aImpCArm01</item>
+                <item random="false">aImpCHelm01</item>
+                <item random="false">aImpCGlov01</item>
+                <item random="false">aImpCBoot01</item>
+                <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+      <attributes>
+        <attribute type="strenght">
+          <trainReq>
+            <pointsReq>1</pointsReq>
+            <itemReq amount="20">copper01</itemReq>
+          </trainReq>
+        </attribute>
+      </attributes>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
+      <dialogue id="lauD01" />
+    </dialogues>
+</npc>
+<npc id="ian01" gender="male" race="human" attitude="friendly" train="true" level="4">
+    <stats>3;3;4;2;2;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aImpLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false" amount="3">aImpLArm01</item>
+                <item random="false">wSOHI</item>
+                <item random="false" amount="100">copper01</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+      <attributes>
+        <attribute type="dexterity">
+          <trainReq>
+            <pointsReq>1</pointsReq>
+            <itemReq amount="20">copper01</itemReq>
+          </trainReq>
+        </attribute>
+      </attributes>
+      <professions>
+        <profession type="armor crafting" level="novice">
+          <trainReq>
+            <pointsReq>1</pointsReq>
+            <goldReq>30</goldReq>
+          </trainReq>
+        </profession>
+      </professions>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
+      <dialogue id="ianD01" />
+    </dialogues>
+</npc>
+<npc id="ken01" gender="male" race="human" attitude="friendly" trade="true" level="3">
+    <stats>3;3;2;1;3;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aImpLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHI</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false">aImpLArm01</item>
+                <item random="false">wSOHI</item>
+                <item random="false" amount="30">copper01</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
     </dialogues>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">

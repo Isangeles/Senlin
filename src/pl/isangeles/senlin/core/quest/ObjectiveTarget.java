@@ -33,4 +33,12 @@ public interface ObjectiveTarget
 	 * @return String with objective ID
 	 */
     public String getId();
+    /**
+     * Returns special check ID(normal ID as default)
+     * @return String with check ID
+     */
+    public default String getObjectiveTargetId()
+    {
+    	return getId();
+    }
 }

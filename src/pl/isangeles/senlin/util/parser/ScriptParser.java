@@ -28,7 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.cli.Script;
+import pl.isangeles.senlin.util.DConnector;
 
 /**
  * Class for parsing engine scripts files
@@ -41,6 +47,41 @@ public final class ScriptParser
 	 * Private constructor to prevent initialization
 	 */
 	private ScriptParser() {}
+	/**
+	 * Parses specified scripts node to list with scenario scripts
+	 * @param scriptsNode XML document node, scripts node
+	 * @return List with scripts
+	 * @throws FileNotFoundException
+	 */
+	public static List<Script> getScriptsFromNode(Node scriptsNode)
+	{
+		List<Script> scripts = new ArrayList<>();
+		
+		Element scriptsE = (Element)scriptsNode;
+		NodeList sriptsNl = scriptsE.getElementsByTagName("script");
+		for(int j = 0; j < sriptsNl.getLength(); j ++)
+        {
+            Node scriptNode = sriptsNl.item(j);
+            if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+            {
+            	Element scriptE = (Element)scriptNode;
+                try 
+                {
+                    String scriptName = scriptE.getTextContent();
+                    Script script = DConnector.getScript(scriptName);
+                    if(scriptE.hasAttribute("target"))
+                    	script.setTarget(scriptE.getAttribute("target"));
+					scripts.add(script);
+				} 
+                catch (FileNotFoundException e) 
+                {
+                	Log.addSystem("scenario_builder_fail-msg///script node corrupted:" + scriptE.getTextContent());
+					break;
+				}
+            }
+        }
+		return scripts;
+	}
 	/**
 	 * Parses content of specified file to engine CLI script
 	 * @param scriptFile File with script

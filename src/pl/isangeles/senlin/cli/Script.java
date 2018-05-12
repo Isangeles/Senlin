@@ -22,6 +22,7 @@
  */
 package pl.isangeles.senlin.cli;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -36,11 +37,13 @@ import pl.isangeles.senlin.data.save.SaveElement;
  */
 public class Script implements SaveElement
 {
+	private static final String TARGET_MACRO = "@target";
 	private String name;
 	private String body;
 	private String[] commands;
 	private List<String> ifOrCode;
 	private String endBody;
+	private String targetId;
 	private int useCount;
 	private int activeIndex;
 	private long waitTime;
@@ -86,7 +89,8 @@ public class Script implements SaveElement
 	@Override
 	public String toString()
 	{
-		return body;
+		//TODO return whole script body instead only body
+		return body;//.replaceAll(TARGET_MACRO, targetId);
 	}
 	/**
 	 * Returns code of if body
@@ -94,7 +98,12 @@ public class Script implements SaveElement
 	 */
 	public List<String> getIfOrCode()
 	{
-		return ifOrCode;
+		List<String> code = new LinkedList<>();
+		for(String cmd : ifOrCode)
+		{
+			code.add(cmd.replaceAll(TARGET_MACRO, targetId));
+		}
+		return code;
 	}
 	/**
 	 * Returns code of end body
@@ -102,7 +111,7 @@ public class Script implements SaveElement
 	 */
 	public String getEndCode()
 	{
-		return endBody;
+		return endBody.replaceAll(TARGET_MACRO, targetId);
 	}
 	/**
 	 * Returns active command of script
@@ -110,7 +119,7 @@ public class Script implements SaveElement
 	 */
 	public String getActiveCommand()
 	{
-		return commands[activeIndex];
+		return commands[activeIndex].replaceAll(TARGET_MACRO, targetId);
 	}
 	/**
 	 * Returns active script command index
@@ -159,6 +168,14 @@ public class Script implements SaveElement
 	public void setActiveLineId(int id)
 	{
 		activeIndex = id;
+	}
+	/**
+	 * Sets script target
+	 * @param target Targetable object ID
+	 */
+	public void setTarget(String targetId)
+	{
+		this.targetId = targetId;
 	}
 	/**
 	 * Increases number of uses of this script

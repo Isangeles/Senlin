@@ -406,7 +406,7 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     public Collection<Item> getCoins()
     {
     	List<Item> coins = new ArrayList<>();
-    	for(Item item : coins)
+    	for(Item item : this)
     	{
     		if(Misc.class.isInstance(item))
     		{

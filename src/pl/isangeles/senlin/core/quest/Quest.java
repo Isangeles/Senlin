@@ -125,6 +125,7 @@ public class Quest implements ScrollableContent, SaveElement
         	owner = character;
         	owner.getFlags().addAll(flagsOnStart);
         	owner.getFlags().removeAll(flagsOffStart);
+        	currentStage.start(owner);
         	return true;
     	}
     	else

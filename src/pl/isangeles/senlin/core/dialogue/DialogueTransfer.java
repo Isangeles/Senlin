@@ -1,7 +1,7 @@
 /*
  * DialogueTransfer.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,7 @@
  */
 package pl.isangeles.senlin.core.dialogue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import pl.isangeles.senlin.core.character.Character;
@@ -61,8 +59,8 @@ public class DialogueTransfer
 	}
 	/**
 	 * Transfers items and gold between to characters
-	 * @param charA First game character
-	 * @param charB Second game character
+	 * @param charA First game character(NPC)
+	 * @param charB Second game character(PC)
 	 */
 	public void exchange(Character charA, Character charB)
 	{
@@ -78,10 +76,10 @@ public class DialogueTransfer
 		}
 		for(String itemId : itemsToTake.keySet())
 		{
-			int amount = itemsToGive.get(itemId);
+			int amount = itemsToTake.get(itemId);
 			for(int i = 0; i < amount; i ++)
 			{
-				Item takenItem = charA.getInventory().takeItem(itemId);
+				Item takenItem = charB.getInventory().takeItem(itemId);
 				if(takenItem != null)
 					charA.addItem(takenItem);
 			}

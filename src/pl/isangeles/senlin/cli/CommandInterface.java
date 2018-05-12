@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import pl.isangeles.senlin.cli.tools.CharMan;
 import pl.isangeles.senlin.cli.tools.CliTool;
@@ -137,21 +138,44 @@ public class CommandInterface
     }
     /**
      * Executes specified expression
+     * Expressions: 
+     * 	if false then: [command1] !| [command2] - executes command 2 if command 1 returns false as output value
+     * 	if true then: [command1] | [command2] - executes command 2 if command 1 returns true as output value
      * @param expr CLI expression
      * @return Array with command result[0] and output[1]
      */
     public String[] executeExpression(String expr)
     {
     	String[] out = {SUCCESS, ""};
-    	if(expr.contains(" \\!\\| "))
+    	if(expr.contains(" !| "))
     	{
-    		String[] cmds = expr.split(" \\!\\| ");
+    		String[] cmds = expr.split(Pattern.quote(" !| "));
     		for(String cmd : cmds)
     		{
     			try
     			{
         			out = executeCommand(cmd);
         			if(out[1].equals("true"))
+        				break;
+    			}
+    			catch(ArrayIndexOutOfBoundsException e)
+    			{
+    				out[0] = CLI_ERROR;
+    				out[1] = "error";
+    			}
+    		}
+    	}
+    	else if(expr.contains(" | "))
+    	{
+    		String[] cmds = expr.split(Pattern.quote(" | "));
+    		out[1] = "false";
+    		for(String cmd : cmds)
+    		{
+    			try
+    			{
+        			if(executeCommand(cmd)[1].equals("true"))
+        				out[1] = "true";
+        			else
         				break;
     			}
     			catch(ArrayIndexOutOfBoundsException e)

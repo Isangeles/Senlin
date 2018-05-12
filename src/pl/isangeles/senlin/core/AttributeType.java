@@ -68,7 +68,7 @@ public enum AttributeType
 		case CONSTITUTION:
 			return TConnector.getText("ui", "attCon");
 		case DEXTERITY:
-			return TConnector.getText("ui", "atttDex");
+			return TConnector.getText("ui", "attDex");
 		case INTELLIGENCE:
 			return TConnector.getText("ui", "attInt");
 		case WISDOM:

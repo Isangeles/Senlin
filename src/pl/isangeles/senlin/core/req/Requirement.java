@@ -1,7 +1,7 @@
 /*
  * Requirements.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,10 @@ import pl.isangeles.senlin.data.save.SaveElement;
  */
 public abstract class Requirement implements SaveElement
 {
-	protected RequirementType type;
+	protected final RequirementType type;
 	protected String info;
 	protected boolean met;
+	protected final boolean expect;
 	/**
 	 * Requirement constructor
 	 * @param type Requirement type
@@ -43,6 +44,19 @@ public abstract class Requirement implements SaveElement
 	{
 		this.type = type;
 		this.info = info;
+		expect = true;
+	}
+	/**
+	 * Requirement constructor
+	 * @param type Requirement type
+	 * @param info Requirement info
+	 * @param expect Expected result of requirement check
+	 */
+	protected Requirement(RequirementType type, String info, boolean expect)
+	{
+		this.type = type;
+		this.info = info;
+		this.expect = expect;
 	}
 	/**
 	 * Checks if specified character meets this requirement

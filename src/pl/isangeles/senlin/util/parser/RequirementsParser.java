@@ -106,7 +106,10 @@ public final class RequirementsParser
 					    break;
 					case "flagReq":
 						String flag = reqE.getTextContent();
-						reqs.add(new FlagRequirement(flag));
+						boolean expect = true;
+						if(reqE.hasAttribute("expect"))
+							expect = Boolean.parseBoolean(reqE.getAttribute("expect"));
+						reqs.add(new FlagRequirement(flag, expect));
 					case "itemReq":
 						int iAmount = Integer.parseInt(reqE.getAttribute("amount"));
 						String iId = reqE.getTextContent();

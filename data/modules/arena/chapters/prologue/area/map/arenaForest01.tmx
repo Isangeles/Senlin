@@ -12,6 +12,9 @@
  <tileset firstgid="682" name="tents" tilewidth="32" tileheight="32" tilecount="460" columns="20">
   <image source="tile/tents.png" width="650" height="750"/>
  </tileset>
+ <tileset firstgid="1142" name="tentsBig" tilewidth="32" tileheight="32" tilecount="896" columns="28">
+  <image source="tile/tentsBig.png" width="900" height="1038"/>
+ </tileset>
  <layer name="ground" width="80" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3QsQ2AMAwAwbAKMEKAFYD9B8IjuIlwpCuuf31fWusAAAy3hi1pL9BbzRHOpKtAbzX++effvPzzz795+effn+7wJL0FegEAAAAAAAAAAAAAAAAAAABG+QDww+nrgFcAAA==
@@ -19,7 +22,7 @@
  </layer>
  <layer name="onground" width="80" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+   H4sIAAAAAAAAA+3QyQ3CQAAEwRULIfjAGfhMwc4/KiYE/AGtVCX1fzSlAL/wqKXU9Eyv+u81benyV5+GNKZ3mnz4tTlfLWlNW9rT4b/bznx2+Q0AAAAAAAAAAAAAAAAAAAAAAAAAmvIBPJIs3IBXAAA=
   </data>
  </layer>
  <layer name="blockground" width="80" height="70">
@@ -39,7 +42,7 @@
  </layer>
  <layer name="buildings" width="80" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Wyw2CUBRF0Rf67wmpAVQqwG8H/jglEBkguFay5zdndEv5bXVVyi411dKXrFOb3bq0T4d0TL0tJxmy0ymd0yVd0y3d7TfZI1s90yu908d2wIb4Uebxo3zPjzKfHwUAAAAAAAAAAAAAAAAAAAAAAOB/jPxEMIqAVwAA
+   H4sIAAAAAAAAA+3WR04DQRgF4caeMekUpFPBPeAcpEuQbEBsgRXBiQx7wBk4ALGQWNsjJBhbqk+qdf96qw6hv+1nQjigw0zalwymS3a7omu6oVu6c8tEauxUpwY1qUVt6rhfYq9s9Ubv9EGfbqc/sBKFsBqlfcVgyrNbgbZph3Z/dtxzz56KbFSiMlWoSmd0Thfu11OdjRrUpBa1qUNP9EwvbthVNg4hophyNEwjNEpjNB7//02zvDmXwru/9f1HmeDeSZqiaZpJ8f553l4YoP36ySK7LdGy+yW2xlbrtEGbtEV5KrhhIkfsdEwndEpFKlGZKlR1x67u2eeBHqlGdWpQk1rUdr9EhnIhZChLEcW5tC+SJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmS+tsXOwUmg4BXAAA=
   </data>
  </layer>
  <layer name="objects" width="80" height="70">

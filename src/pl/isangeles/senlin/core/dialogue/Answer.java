@@ -37,6 +37,7 @@ import pl.isangeles.senlin.util.TConnector;
 public class Answer implements ObjectiveTarget
 {
 	private final String id;
+	private final String fullId;
 	private final String to;
 	private final boolean train;
 	private final boolean trade;
@@ -44,14 +45,43 @@ public class Answer implements ObjectiveTarget
 	private final Requirements reqs;
 	private final String text;
 	/**
-	 * Answer constructor
+	 * Answer constructor(without parent dialogue part)
 	 * @param id Answer text content ID
 	 * @param to ID of text to display after this answer, 'end' to end dialogue after this answer
+	 * @param train True if this answer starts training, false otherwise
+	 * @param trade True if this answer starts trade, false otherwise
 	 * @param end True if dialogue should end after this answer, false otherwise
+	 * @param reqs List with requirement for this answer
 	 */
 	public Answer(String id, String to, boolean train, boolean trade, boolean end, List<Requirement> reqs) 
 	{
 		this.id = id;
+		this.fullId = id;
+		this.to = to;
+		this.train = train;
+		this.trade = trade;
+		if(this.to.equals("end"))
+			this.end = true;
+		else
+			this.end = end;
+		this.reqs = new Requirements(reqs);
+		
+		text = TConnector.getDialogueText(id);
+	}
+	/**
+	 * Answer constructor(with parent dialogue part)
+	 * @param id Answer text content ID
+	 * @param parentId ID of parent dialogue part of this answer
+	 * @param to ID of text to display after this answer, 'end' to end dialogue after this answer
+	 * @param train True if this answer starts training, false otherwise
+	 * @param trade True if this answer starts trade, false otherwise
+	 * @param end True if dialogue should end after this answer, false otherwise
+	 * @param reqs List with requirement for this answer
+	 */
+	public Answer(String id, String parentId, String to, boolean train, boolean trade, boolean end, List<Requirement> reqs) 
+	{
+		this.id = id;
+		this.fullId = parentId + "-" + id;
 		this.to = to;
 		this.train = train;
 		this.trade = trade;
@@ -70,6 +100,14 @@ public class Answer implements ObjectiveTarget
 	public String getId()
 	{
 		return id;
+	}
+	/* (non-Javadoc)
+	 * @see pl.isangeles.senlin.core.quest.ObjectiveType#getObjectiveTargetId()
+	 */
+	@Override
+	public String getObjectiveTargetId()
+	{
+		return fullId;
 	}
 	/**
 	 * Returns ordinal ID of text to display after choosing this answer

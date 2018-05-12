@@ -1,7 +1,7 @@
 /*
  * Requirements.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,9 @@ package pl.isangeles.senlin.core.req;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Container class for requirements
@@ -92,5 +94,16 @@ public class Requirements extends ArrayList<Requirement>
     		}
     		return true;
     	}
+    }
+    
+    @Override
+    public String toString()
+    {
+    	String text = TConnector.getText("ui", "reqName") + ":";
+    	for(Requirement req : this)
+    	{
+    		text += System.lineSeparator() + req.getInfo();
+    	}
+    	return text;
     }
 }

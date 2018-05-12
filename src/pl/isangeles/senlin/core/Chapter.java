@@ -201,6 +201,9 @@ public class Chapter implements SaveElement
 	 */
 	public Targetable getTObject(String tObId)
 	{
+		if(tObId.equals("player"))
+			tObId = "player_0";
+		
 		for(Scenario scenario : loadedScenarios)
 		{
 			for(Area area : scenario.getAreas())

@@ -150,6 +150,7 @@ public class LoadingScreen extends BasicGameState
 		} 
 		catch (IOException | FontFormatException | ParserConfigurationException | SAXException | InterruptedException e) 
 		{
+			System.err.println("fail_to_load_game");
 			e.printStackTrace();
 			container.exit();
 		}

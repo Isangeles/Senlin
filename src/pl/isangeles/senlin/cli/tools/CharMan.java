@@ -33,6 +33,7 @@ import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.Usable;
+import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Guild;
 import pl.isangeles.senlin.core.craft.Profession;
@@ -195,7 +196,8 @@ public class CharMan implements CliTool
         		target.setGuild(guild);
         		break;
     	    case "-a": case "--attitude":
-        		//TODO set attitude command
+    	    	Attitude att = Attitude.fromString(arg1);
+    	    	target.setAttitude(att);
         		break;
     	    case "-p": case "--position":
         		String[] pos = arg1.split("x");
@@ -281,8 +283,17 @@ public class CharMan implements CliTool
     	    switch(prefix)
     	    {
     	    case "-i": case "--item":
-        		if(!target.addItem(ItemsBase.getItem(arg1)))
-                    result = "2";
+    	    	int iAmount = 1;
+    	    	if(arg2 != null)
+    	    		iAmount = Integer.parseInt(arg2);
+    	    	for(int i = 0; i < iAmount; i ++)
+    	    	{
+            		if(!target.addItem(ItemsBase.getItem(arg1)))
+            		{
+            			result = "2";
+            			break;
+            		}
+    	    	}
         		break;
     	    case "-g": case "--gold":
     			int amount = Integer.parseInt(arg1);

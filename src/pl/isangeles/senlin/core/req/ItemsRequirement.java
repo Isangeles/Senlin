@@ -30,6 +30,7 @@ import java.util.Map;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.data.save.SaveElement;
@@ -53,6 +54,14 @@ public class ItemsRequirement extends Requirement
 		super(RequirementType.ITEMS, "");
 		this.reqItems = new HashMap<>();
 		reqItems.put(id, amount);
+		
+		info = TConnector.getText("ui", "reqItems") + ": ";
+		for(String itemId : reqItems.keySet())
+		{
+			String itemName = TConnector.getInfoFromModule("items", itemId)[0];
+			String itemAmount = "" + reqItems.get(itemId);
+			info += System.lineSeparator() + itemName + " x" + itemAmount;
+		}
 	}
 	/**
 	 * Items requirement constructor (for multiple types of items)
@@ -77,13 +86,15 @@ public class ItemsRequirement extends Requirement
     	
     	for(Item item : character.getInventory())
     	{
-    		if(countMap.containsKey(item.getId()))
+    		String iId = item.getId();
+    		if(countMap.containsKey(iId) && countMap.get(iId) < reqItems.get(iId))
     		{
     			int amount = countMap.get(item.getId());
     			countMap.put(item.getId(), amount + 1);
     			itemsToRemove.add(item);
     		}
     	}
+    	
     	
     	if(countMap.equals(reqItems))
     	{
@@ -92,7 +103,23 @@ public class ItemsRequirement extends Requirement
     		return true;
     	}
     	else
+    	{
+    		/*
+    		for(String i : countMap.keySet())
+    		{
+    			if(reqItems.containsKey(i))
+    			{
+    				if(countMap.get(i) < (reqItems.get(i)))
+    					return false;
+    			}
+    			else
+    				return false;
+    		}
+    		met = true;
+    		return true;
+    		*/
     		return false;
+    	}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.Character)
@@ -106,20 +133,6 @@ public class ItemsRequirement extends Requirement
 			itemsToRemove.clear();
 			met = false;
 		}
-	}
-	@Override
-	public String getInfo()
-	{
-		String reqInfo = "";
-		
-		for(String itemId : reqItems.keySet())
-		{
-			String itemName = TConnector.getInfoFromModule("items", itemId)[0];
-			String amount = "" + reqItems.get(itemId);
-			reqInfo = TConnector.getText("ui", "reqName") + ": " + itemName + " " + amount;
-		}
-		
-		return reqInfo;
 	}
 	/**
 	 * Returns map with all required items IDs as keys and required amount as value

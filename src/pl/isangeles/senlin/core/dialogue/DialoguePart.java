@@ -27,6 +27,7 @@ import java.util.List;
 
 import pl.isangeles.senlin.util.TConnector;
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.quest.ObjectiveTarget;
@@ -47,6 +48,7 @@ public class DialoguePart implements ObjectiveTarget
 	private final DialogueTransfer transfer;
 	private final List<Modifier> modifiersOwner;
 	private final List<Modifier> modifiersPlayer;
+	private final List<Script> scripts;
 	private final String text;
 	/**
 	 * Dialogue part constructor without any transfer
@@ -66,6 +68,7 @@ public class DialoguePart implements ObjectiveTarget
 		transfer = null;
 		modifiersOwner = new ArrayList<>();
 		modifiersPlayer = new ArrayList<>();
+		scripts = new ArrayList<>();
 		text = TConnector.getDialogueText(id);
 	}
 	/**
@@ -78,9 +81,10 @@ public class DialoguePart implements ObjectiveTarget
 	 * @param transfer Dialogue transfer 
 	 * @param modifiersOnwer List with all modifiers to apply on dialogue owner
 	 * @param modifiersPlayer List with all modifiers to apply on player
+	 * @param scripts List with scripts to start
 	 */
 	public DialoguePart(String id, String ordinalId, boolean start, List<Requirement> req, List<Answer> answers, DialogueTransfer transfer,
-						List<Modifier> modifiersOwner, List<Modifier> modifiersPlayer) 
+						List<Modifier> modifiersOwner, List<Modifier> modifiersPlayer, List<Script> scripts) 
 	{
 		this.id = id;
 		this.ordinalId = ordinalId;
@@ -90,6 +94,7 @@ public class DialoguePart implements ObjectiveTarget
 		this.transfer = transfer;
 		this.modifiersOwner = modifiersOwner;
 		this.modifiersPlayer = modifiersPlayer;
+		this.scripts = scripts;
 		text = TConnector.getDialogueText(id);
 	}
 	/**
@@ -156,6 +161,14 @@ public class DialoguePart implements ObjectiveTarget
 	public Requirements getReqs()
 	{
 		return reqs;
+	}
+	/**
+	 * Returns scripts to start for this dialogue part
+	 * @return List with CLI scripts
+	 */
+	public List<Script> getScripts()
+	{
+		return scripts;
 	}
 	/**
 	 * Modifies two dialogue participants(e.q. transfers items between them) 

@@ -302,7 +302,7 @@
       <mod>
         <transfer>
           <take>
-            <itemReq amount="20">fish01</itemReq>
+            <item amount="20">fish01</item>
           </take>
           <give>
             <item amount="10">copper01</item>

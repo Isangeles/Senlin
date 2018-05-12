@@ -135,7 +135,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         loot = new LootWindow(gc, player);
         trade = new TradeWindow(gc, player);
         train = new TrainingWindow(gc, player);
-        dialogue = new DialogBox(gc);
+        dialogue = new DialogBox(gc, gw);
         reading = new ReadWindow(gc, player);
         cast = new CastBar(gc, player);
         save = new SaveGameWindow(gc);

@@ -1,7 +1,7 @@
 /*
  * FlagRequirement.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,10 +39,11 @@ public class FlagRequirement extends Requirement
 	/**
 	 * Flag requirement constructor
 	 * @param flagId String with flag ID
+	 * @param expect Expected result of flag check
 	 */
-	public FlagRequirement(String flagId)
+	public FlagRequirement(String flagId, boolean expect)
 	{
-		super(RequirementType.FLAG, "");
+		super(RequirementType.FLAG, "", expect);
 		flag = flagId;
 	}
 	/* (non-Javadoc)
@@ -51,7 +52,7 @@ public class FlagRequirement extends Requirement
 	@Override
 	public boolean isMetBy(Character character)
 	{
-		return character.getFlags().contains(flag);
+		return (character.getFlags().contains(flag)) == expect;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#charge(pl.isangeles.senlin.core.character.Character)

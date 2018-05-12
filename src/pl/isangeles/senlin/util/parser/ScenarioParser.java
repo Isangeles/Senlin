@@ -111,7 +111,7 @@ public class ScenarioParser
 			}
 			
 			Node scriptsNode = scenarioE.getElementsByTagName("scripts").item(0);
-			scripts = getScriptsFromNode(scriptsNode);
+			scripts = ScriptParser.getScriptsFromNode(scriptsNode);
 			
 			
 			Node subareasNode = mainareaE.getElementsByTagName("subareas").item(0);
@@ -348,38 +348,6 @@ public class ScenarioParser
 		}
 			
 		return new MobsArea(areaStart, areaEnd, mobCon, respawn);
-	}
-	/**
-	 * Parses specified scripts node to list with scenario scripts
-	 * @param scriptsNode XML document node, scripts node
-	 * @return List with scenario scripts
-	 * @throws FileNotFoundException
-	 */
-	private static List<Script> getScriptsFromNode(Node scriptsNode)
-	{
-		List<Script> scripts = new ArrayList<>();
-		
-		Element scriptsE = (Element)scriptsNode;
-		NodeList sriptsNl = scriptsE.getElementsByTagName("script");
-		for(int j = 0; j < sriptsNl.getLength(); j ++)
-        {
-            Node scriptNode = sriptsNl.item(j);
-            if(scriptNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
-            {
-            	Element scriptE = (Element)scriptNode;
-                try 
-                {
-                    String scriptName = scriptE.getTextContent();
-					scripts.add(DConnector.getScript(scriptName));
-				} 
-                catch (FileNotFoundException e) 
-                {
-                	Log.addSystem("scenario_builder_fail-msg///script node corrupted:" + scriptE.getTextContent());
-					break;
-				}
-            }
-        }
-		return scripts;
 	}
 	/**
 	 * Parses specified music node to map with tracks names as keys and tracks categories as values

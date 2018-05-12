@@ -209,6 +209,14 @@ public class Scenario implements SaveElement
 		scripts.removeAll(finishedScripts);
 	}
 	/**
+	 * Adds specified scripts to this scenario
+	 * @param script CLI script
+	 */
+	public void addScript(Script script)
+	{
+		this.scripts.add(script);
+	}
+	/**
 	 * Respawns all 'respawnable' mobs in all scenario areas
 	 */
 	public void respawnMobs()

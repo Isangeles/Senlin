@@ -1,0 +1,8 @@
+#Script for arena duel, called with NPC ID as @target
+script:
+	$charman @target set --destinationTile 54x12;
+if:
+	true;
+end:
+	if:
+		$charman @target is --positionTile 54x12;

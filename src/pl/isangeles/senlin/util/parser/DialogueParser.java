@@ -1,7 +1,7 @@
 /*
  * DialogueParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,16 +32,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import pl.isangeles.senlin.cli.Log;
-import pl.isangeles.senlin.core.Attributes;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
 import pl.isangeles.senlin.core.dialogue.DialoguePart;
 import pl.isangeles.senlin.core.dialogue.DialogueTransfer;
-import pl.isangeles.senlin.core.req.RequirementType;
 import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.core.req.Requirement;
-import pl.isangeles.senlin.core.req.StatsRequirement;
 /**
  * Static class for dialogues XML base parsing 
  * @author Isangeles
@@ -105,7 +103,7 @@ public class DialogueParser
 				Node answerNode = answers.item(i);
 				if(answerNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 				{
-					answersList.add(getAnswerFromNode(answerNode));
+					answersList.add(getAnswerFromNode(answerNode, id));
 				}
 			}
 			
@@ -131,7 +129,12 @@ public class DialogueParser
 				if(modPlayerNode != null)
 					modPlayer = ModifiersParser.getModifiersFromNode(modPlayerNode);
 
-				return new DialoguePart(id, ordinalId, start, req, answersList, transfer ,modOwner, modPlayer);
+				List<Script> scripts = new ArrayList<>();
+				Node scriptsNode = modE.getElementsByTagName("scripts").item(0);
+				if(scriptsNode != null)
+					scripts = ScriptParser.getScriptsFromNode(scriptsNode);
+				
+				return new DialoguePart(id, ordinalId, start, req, answersList, transfer ,modOwner, modPlayer, scripts);
 			}
 			return new DialoguePart(id, ordinalId, start, req, answersList);
 		}
@@ -139,7 +142,7 @@ public class DialogueParser
 		{
 			Log.addSystem("dialog_builder_msg//fail");
 		}
-		answersList.add(new Answer("bye01", "", false, false, true, new Requirements()));
+		answersList.add(new Answer("bye01", "err01", "", false, false, true, new Requirements()));
 		return new DialoguePart("err01", "", true, null, answersList);
 	}
 	/**
@@ -147,7 +150,7 @@ public class DialogueParser
 	 * @param answerNode XML document node
 	 * @return Dialogue answer from specified node
 	 */
-	private static Answer getAnswerFromNode(Node answerNode)
+	private static Answer getAnswerFromNode(Node answerNode, String dialoguePart)
 	{
 		Element answerE = (Element)answerNode;
 		
@@ -176,7 +179,7 @@ public class DialogueParser
 		Node reqNode = answerE.getElementsByTagName("aReq").item(0);
 		List<Requirement> reqs = RequirementsParser.getReqFromNode(reqNode);
 		
-		return new Answer(aId, toId, train, trade, end, reqs);
+		return new Answer(aId, dialoguePart, toId, train, trade, end, reqs);
 	}
 	/**
 	 * Parses specified transfer node to dialogue transfer
@@ -190,50 +193,56 @@ public class DialogueParser
 		Map<String, Integer> iToTake = new HashMap<>();
 		
 		Element giveE = (Element)transferE.getElementsByTagName("give").item(0);
-		NodeList itemsToGiveList = giveE.getChildNodes();
-		for(int j = 0; j < itemsToGiveList.getLength(); j ++)
+		if(giveE != null)
 		{
-			Node itemNode = itemsToGiveList.item(j);
-			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			NodeList itemsToGiveList = giveE.getChildNodes();
+			for(int j = 0; j < itemsToGiveList.getLength(); j ++)
 			{
-				Element itemE = (Element)itemNode;
-				int amount = 1;
-				if(itemE.hasAttribute("amount"))
+				Node itemNode = itemsToGiveList.item(j);
+				if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 				{
-					try 
+					Element itemE = (Element)itemNode;
+					int amount = 1;
+					if(itemE.hasAttribute("amount"))
 					{
-						amount = Integer.parseInt(itemE.getAttribute("amount"));
+						try 
+						{
+							amount = Integer.parseInt(itemE.getAttribute("amount"));
+						}
+						catch(NumberFormatException e)
+						{
+							Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
+						}
 					}
-					catch(NumberFormatException e)
-					{
-						Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
-					}
+					iToGive.put(itemE.getTextContent(), amount);
 				}
-				iToGive.put(itemE.getTextContent(), amount);
 			}
 		}
 		
 		Element takeE = (Element)transferE.getElementsByTagName("take").item(0);
-		NodeList itemsToTakeList = takeE.getChildNodes();
-		for(int j = 0; j < itemsToTakeList.getLength(); j ++)
+		if(takeE != null)
 		{
-			Node itemNode = itemsToTakeList.item(j);
-			if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			NodeList itemsToTakeList = takeE.getChildNodes();
+			for(int j = 0; j < itemsToTakeList.getLength(); j ++)
 			{
-				Element itemE = (Element)itemNode;
-				int amount = 1;
-				if(itemE.hasAttribute("amount"))
+				Node itemNode = itemsToTakeList.item(j);
+				if(itemNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 				{
-					try 
+					Element itemE = (Element)itemNode;
+					int amount = 1;
+					if(itemE.hasAttribute("amount"))
 					{
-						amount = Integer.parseInt(itemE.getAttribute("amount"));
+						try 
+						{
+							amount = Integer.parseInt(itemE.getAttribute("amount"));
+						}
+						catch(NumberFormatException e)
+						{
+							Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
+						}
 					}
-					catch(NumberFormatException e)
-					{
-						Log.addSystem("dialogue_parser_fail-msg///transfer item node currupted!");
-					}
+					iToTake.put(itemE.getTextContent(), amount);
 				}
-				iToTake.put(itemE.getTextContent(), amount);
 			}
 		}
 		

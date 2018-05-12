@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <base>
-  <dialogue id="am_welcome01">
-    <text id="am_welcome01_00" start="true" ordinal="0">
+  <dialogue id="amD01">
+    <text id="amD01_00" start="true" ordinal="0">
       <answer id="myname01" to="1">
       </answer>
       <answer id="bye01" to="end" />
@@ -12,7 +12,7 @@
         <flagReq>amGreeting01</flagReq>
       </pReq>
     </text>
-    <text id="am_welcome01_01" ordinal="1">
+    <text id="amD01_01" ordinal="1">
       <answer id="wait01" to="2" />
         <mod>
           <modPlayer>
@@ -21,15 +21,15 @@
         </mod>
     </text>
     <text id="whatdouneed01" ordinal="2">
-      <answer id="am_welcome01_02_a1" to="3" />
-      <answer id="am_welcome01_02_a2" to="4" />
+      <answer id="amD01_02_a1" to="3" />
+      <answer id="amD01_02_a2" to="4" />
       <answer id="bye01" to="end" />
     </text>
-    <text id="am_welcome01_03" ordinal="3">
+    <text id="amD01_03" ordinal="3">
       <answer id="backAns01" to="2" />
       <answer id="bye01" to="end" />
     </text>
-    <text id="am_welcome01_04" ordinal="4">
+    <text id="amD01_04" ordinal="4">
       <answer id="backAns01" to="2" />
       <answer id="bye01" to="end" />
     </text>
@@ -63,8 +63,17 @@
       <answer id="bye01" to="end" />
     </text>
     <text id="hanD01_04" ordinal="4">
-      <answer id="backAns01" to="2" />
+      <answer id="yes01" to="5" />
+      <answer id="no01" to="2" />
       <answer id="bye01" to="end" />
+    </text>
+    <text id="hanD01_05" ordinal="5">
+      <answer id="wait01" to="end" />
+      <mod>
+        <scripts>
+          <script target="han01_0">arenaDuel</script>
+        </scripts>
+      </mod>
     </text>
   </dialogue>
 
@@ -96,8 +105,105 @@
       <answer id="bye01" to="end" />
     </text>
     <text id="makkD01_04" ordinal="4">
-      <answer id="backAns01" to="2" />
+      <answer id="yes01" to="5" />
+      <answer id="no01" to="2" />
       <answer id="bye01" to="end" />
+    </text>
+    <text id="makkD01_05" ordinal="5">
+      <answer id="wait01" to="end" />
+      <mod>
+        <scripts>
+          <script target="makk01_0">arenaDuel</script>
+        </scripts>
+      </mod>
+    </text>
+  </dialogue>
+
+  <dialogue id="lauD01">
+    <text id="yes02" start="true" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="trainReq01" to="train" />
+      <answer id="lauD01_00_a2" to="5" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="lauD01_01" ordinal="1">
+      <answer id="whatyouoffer01" to="2" />
+    </text>
+    <text id="lauD01_02" ordinal="2">
+      <answer id="lauD01_02_a1" to="3" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="lauD01_03" ordinal="3">
+      <answer id="lauD01_03_a1" to="4" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="lauD01_04" ordinal="4">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="lauD01_05" ordinal="5">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+
+  <dialogue id="ianD01">
+    <text id="yes02" start="true" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="trainAsk02" to="2" />
+      <answer id="trainReq01" to="train" />
+      <answer id="ianD01_00_a1" to="5">
+        <aReq>
+          <flagReq expect="false">hunt01_start</flagReq>
+          <flagReq expect="false">hunt01_cmp</flagReq>
+        </aReq>
+      </answer>
+      <answer id="ianD01_00_a2" to="6">
+        <aReq>
+          <flagReq expect="true">hunt01_s1</flagReq>
+          <itemReq amount="5">wolfPelt01</itemReq>
+        </aReq>
+      </answer>
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="ianD01_01" ordinal="1">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="ianD01_02" ordinal="2">
+      <answer id="ianD01_02_a1" to="3" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="ianD01_03" ordinal="3">
+      <answer id="ianD01_03_a1" to="4" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="ianD01_04" ordinal="4">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="ianD01_05" ordinal="5">
+      <answer id="qAccept01" to="0" />
+      <answer id="no01" to="end" />
+    </text>
+    <text id="ianD01_06" ordinal="6">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+      <mod>
+        <transfer>
+          <take>
+            <item amount="5">wolfPelt01</item>
+          </take>
+          <give>
+            <item amount="1">aImpLArm01</item>
+            <item amount="10">copper01</item>
+          </give>
+        </transfer>
+      </mod>
     </text>
   </dialogue>
 </base>

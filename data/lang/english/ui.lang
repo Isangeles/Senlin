@@ -95,6 +95,7 @@ cMenuCreateInfo:Item created!;
 cMenuCreateFail:Fail to create item;
 cMenuLevel:Level;
 reqName:Required;
+reqItems:Items;
 reqGold:Gold;
 reqStats:Minimal attributes;
 reqPoints:Learning points;

@@ -38,6 +38,9 @@ import org.newdawn.slick.TrueTypeFont;
 import pl.isangeles.senlin.util.Coords;
 import pl.isangeles.senlin.util.GConnector;
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
+import pl.isangeles.senlin.core.Chapter;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.dialogue.Answer;
 import pl.isangeles.senlin.core.dialogue.Dialogue;
@@ -46,6 +49,7 @@ import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InterfaceObject;
 import pl.isangeles.senlin.gui.TextBlock;
 import pl.isangeles.senlin.gui.TextBox;
+import pl.isangeles.senlin.states.GameWorld;
 /**
  * Class for UI dialog box
  * @author Isangeles
@@ -56,6 +60,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	private Character interlocutorA; //player
 	private Character interlocutorB; //npc
 	
+	private GameWorld gw;
 	private Dialogue currentDialogue;
 	
 	private MessageBox textBox;
@@ -79,7 +84,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public DialogBox(GameContainer gc) throws SlickException, IOException, FontFormatException 
+	public DialogBox(GameContainer gc, GameWorld gw) throws SlickException, IOException, FontFormatException 
 	{
 		super(GConnector.getInput("ui/background/dialogBoxBG.png"), "uiDialogBoxBg", false, gc);
 		
@@ -98,6 +103,8 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		{
 			options.add(new DialogueOption(gc));
 		}
+		
+		this.gw = gw;
 	}
 	
 	@Override
@@ -328,6 +335,24 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		}
 	}
 	/**
+	 * Activated after selecting specific answer
+	 * @param option Selected answer
+	 */
+	private void selectOption(Answer option)
+	{
+		tradeReq = option.isTrade();
+		trainReq = option.isTrain();
+
+		currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
+		for(Script script : currentDialogue.getCurrentStage().getScripts())
+		{
+			gw.addScript(script);
+		}
+		
+        textBox.addLeft(new TextBlock(option.getTextFor(interlocutorA), 20, ttf));
+	    nextDialogueStage(option);
+	}
+	/**
 	 * Sets dialogue stage to specified answer-corresponding stage
 	 * @param dialogueOption Answer on previous stage
 	 */
@@ -389,15 +414,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 			if(isMouseOver() && button == Input.MOUSE_LEFT_BUTTON)
 			{
 				if(option != null)
-				{	
-					tradeReq = option.isTrade();
-					trainReq = option.isTrain();
-
-					currentDialogue.getCurrentStage().modify(interlocutorB, interlocutorA);
-
-		            textBox.addLeft(new TextBlock(option.getTextFor(interlocutorA), 20, ttf));
-				    nextDialogueStage(option);
-				}
+					selectOption(option);
 			}
 		}
 		/**

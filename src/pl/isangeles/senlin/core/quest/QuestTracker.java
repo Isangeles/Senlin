@@ -66,7 +66,8 @@ public class QuestTracker
             for(String questId : questsToStart.keySet())
             {
             	//Log.addSystem("check q: " + questId + " trigger:" + ot.getId()); //TEST
-            	if(questsToStart.get(questId).equals(ot.getId()))
+            	String qTrigger = questsToStart.get(questId);
+            	if(qTrigger.equals(ot.getId()) || qTrigger.equals(ot.getObjectiveTargetId()))
             	{
             		character.startQuest(QuestsBase.get(questId));
             		startedQuests.add(questId);

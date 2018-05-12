@@ -250,17 +250,20 @@ class TrainingWindow extends InterfaceObject implements UiElement, MouseListener
                 close();
             if(train.isMouseOver())
             {
-            	try 
+            	if(selectedTrain != null)
             	{
-					if(selectedTrain.teach(player))
-						Log.addInformation(TConnector.getText("ui", "trainWinTrain") + ": " + selectedTrain.getName());
-					else
-						Log.addInformation(TConnector.getText("ui", "trainWinFail") + ": " + selectedTrain.getName());
-				} 
-            	catch (SlickException | IOException | FontFormatException e1) 
-            	{
-                    Log.addSystem("train_win_skill_builder_fail_msg///" + e1.getMessage());
-				}
+            		try 
+                	{
+    					if(selectedTrain.teach(player))
+    						Log.addInformation(TConnector.getText("ui", "trainWinTrain") + ": " + selectedTrain.getName());
+    					else
+    						Log.addInformation(TConnector.getText("ui", "trainWinFail") + ": " + selectedTrain.getName());
+    				} 
+                	catch (SlickException | IOException | FontFormatException e1) 
+                	{
+                        Log.addSystem("train_win_skill_builder_fail_msg///" + e1.getMessage());
+    				}
+            	}
             }
         }
     }

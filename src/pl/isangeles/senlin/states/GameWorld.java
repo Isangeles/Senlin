@@ -52,6 +52,7 @@ import org.w3c.dom.Element;
 import pl.isangeles.senlin.audio.AudioPlayer;
 import pl.isangeles.senlin.cli.CommandInterface;
 import pl.isangeles.senlin.cli.Log;
+import pl.isangeles.senlin.cli.Script;
 import pl.isangeles.senlin.core.Chapter;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.WorldTime;
@@ -423,6 +424,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     public Exit getExitToNewArea()
     {
     	return exitToNewArea;
+    }
+    /**
+     * Adds specified script to active scenario
+     * @param script CLI script
+     */
+    public void addScript(Script script)
+    {
+    	activeScenario.addScript(script);
     }
     /**
      * Restarts game world music
