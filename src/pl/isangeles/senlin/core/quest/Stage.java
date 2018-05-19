@@ -61,6 +61,10 @@ public class Stage
         info = TConnector.getTextFromChapter("quests", id);
         this.objectives = objectives;
         this.startStage = startStage;
+        
+        //auto flags
+        this.flagsOnStart.add(id);
+        this.flagsOffEnd.add(id);
     }
     /**
      * Checks if stage objectives all completed
@@ -71,16 +75,15 @@ public class Stage
         boolean complete = true;
         for(Objective objective : objectives)
         {
-            if(!objective.isComplete() && !objective.isFinisher())
-            {
-                complete = false;
-            }
-            else if(objective.isComplete() && objective.isFinisher())
+            if(objective.isComplete() && objective.isFinisher())
             {
             	if(!objective.getToId().equals("")) //TODO maybe some more validation needed
             		nextStage = objective.getToId();
             	return true;
             }
+            else if(!objective.isComplete())
+            	complete = false;
+            	
         }
         return complete;
     }

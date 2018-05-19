@@ -30,6 +30,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.MouseOverArea;
 
 import pl.isangeles.senlin.states.Global;
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.util.*;
 /**
@@ -44,7 +45,7 @@ public class DynamicAvatar extends CharacterAvatar
 	private AnimObject weapon;
 	
 	private AnimObject defTorso;
-	private AnimObject defHead;
+	private final AnimObject defHead;
 
 	protected MouseOverArea avMOA;
 	/**
@@ -58,17 +59,9 @@ public class DynamicAvatar extends CharacterAvatar
 	public DynamicAvatar(Character character, GameContainer gc, String spritesheet) throws SlickException, IOException, FontFormatException
 	{
 		super(character, gc);
-		if(isStatic())
-		{
-			defTorso = new AnimObject(GConnector.getInput("sprite/mob/"+spritesheet), spritesheet, false, 80, 90);
-			defTorso.setName(spritesheet);
-		}
-		else
-		{
-			defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 80, 90);
-			defTorso.setName(spritesheet);
-			defHead = new AnimObject(GConnector.getInput("sprite/avatar/"+character.getGender().getSSName("headBlack-1222211-80x90.png")), "headBlackSS" + character.getId(), false, 80, 90);
-		}
+		defTorso = new AnimObject(GConnector.getInput("sprite/avatar/"+spritesheet), spritesheet, false, 80, 90);
+		defTorso.setName(spritesheet);
+		defHead = new AnimObject(GConnector.getInput("sprite/avatar/"+character.getGender().getSSName("headBlack-1222211-80x90.png")), "headBlackSS" + character.getId(), false, 80, 90);
 		
 		torso = defTorso;
 		head = defHead;
@@ -110,14 +103,22 @@ public class DynamicAvatar extends CharacterAvatar
 	@Override
 	public void update(int delta)
 	{
-		super.update(delta);
-		
-		updateAppearance();
-		
-		torso.update(delta);
-		head.update(delta);
-		if(weapon != null)
-			weapon.update(delta);	
+		try
+		{
+			super.update(delta);
+			
+			updateAppearance();
+			
+			torso.update(delta);
+			head.update(delta);
+			if(weapon != null)
+				weapon.update(delta);
+		}
+		catch(Exception e)
+		{
+			System.err.println(character.getSerialId() + "_av_update_fail");
+			throw e;
+		}
 	}
 	/**
 	 * Toggles kneel animation

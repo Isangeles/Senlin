@@ -47,6 +47,7 @@ public final class Settings
     private static String mRenderType;
     private static String module;
     private static boolean hwCursor;
+    private static boolean fullscreen;
     public static final String SCREENSHOTS_DIR = "screenshots";
     /**
      * Private constructor to prevent initialization
@@ -121,7 +122,15 @@ public final class Settings
         }
         catch (FileNotFoundException | NoSuchElementException e)
         {
-            hwCursor = false;
+            hwCursor = true;
+        }
+        try
+        {
+            fullscreen = Boolean.parseBoolean(TConnector.getSetting("fullscreen"));
+        }
+        catch (FileNotFoundException | NoSuchElementException e)
+        {
+            fullscreen = false;
         }
         setScale();
     }
@@ -184,6 +193,12 @@ public final class Settings
     {
     	return new String[] {"full", "light"};
     }
+    
+    public static String[] getModulesNames()
+    {
+    	//TODO return list of modules in data/modules directory
+    	return new String[] {"senlin", "arena"};
+    }
     /**
      * Returns scale for current resolution
      * @return Float scale value
@@ -241,6 +256,14 @@ public final class Settings
     	return hwCursor;
     }
     /**
+     * Checks if fullscreen mode is on
+     * @return True if fullscreen mode is on, false otherwise
+     */
+    public static boolean isFullscreen()
+    {
+    	return fullscreen;
+    }
+    /**
      * Sets specified size as game resolution(needs game restart)
      * @param resolution Size with width and height
      */
@@ -258,6 +281,11 @@ public final class Settings
     public static void setLang(String langId)
     {
         newLangId = langId;
+    }
+    
+    public static void setModuleName(String moduleId)
+    {
+        module = moduleId;
     }
     /**
      * Sets type of fog of war

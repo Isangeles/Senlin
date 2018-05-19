@@ -23,6 +23,12 @@
     <text id="whatdouneed01" ordinal="2">
       <answer id="amD01_02_a1" to="3" />
       <answer id="amD01_02_a2" to="4" />
+      <answer id="amD01_02_a3" to="5" />
+      <answer id="amD01_02_a4" to="6">
+        <aReq>
+          <flagReq>arena01_s1</flagReq>
+        </aReq>
+      </answer>
       <answer id="bye01" to="end" />
     </text>
     <text id="amD01_03" ordinal="3">
@@ -32,6 +38,19 @@
     <text id="amD01_04" ordinal="4">
       <answer id="backAns01" to="2" />
       <answer id="bye01" to="end" />
+    </text>
+    <text id="amD01_05" ordinal="5">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="amD01_06" ordinal="6">
+      <answer id="backAns01" to="2" />
+      <answer id="bye01" to="end" />
+      <mod>
+        <scripts>
+          <script>nextChapter</script>
+        </scripts>
+      </mod>
     </text>
   </dialogue>
 
@@ -142,6 +161,11 @@
     <text id="lauD01_04" ordinal="4">
       <answer id="backAns01" to="0" />
       <answer id="bye01" to="end" />
+      <mod>
+        <modPlayer>
+          <flagModifier flag="magicTrainTalk01" />
+        </modPlayer>
+      </mod>
     </text>
     <text id="lauD01_05" ordinal="5">
       <answer id="backAns01" to="0" />
@@ -203,6 +227,110 @@
             <item amount="10">copper01</item>
           </give>
         </transfer>
+      </mod>
+    </text>
+  </dialogue>
+
+  <dialogue id="kenD01">
+    <text id="yes01" start="true" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="whatyouoffer01" to="2" />
+      <answer id="tradeReq01" to="trade" />
+      <answer id="trainReq01" to="train" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="kenD01_01" ordinal="1">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="kenD01_02" ordinal="2">
+      <answer id="tradeReq01" to="trade" />
+      <answer id="trainReq01" to="train" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+
+  <dialogue id="hermitD01">
+    <text id="yes01" start="true" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="hermitD01_00_a1" to="2">
+        <aReq>
+          <flagReq expect="true">magicTrainTalk01</flagReq>
+          <flagReq expect="false">qDragonAmulet01_start</flagReq>
+          <flagReq expect="false">qDragonAmulet01_end</flagReq>
+        </aReq>
+      </answer>
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="hermitD01_01" ordinal="1">
+      <answer id="hermitD01_00_a1" to="2">
+        <aReq>
+          <flagReq expect="true">magicTrainTalk01</flagReq>
+          <flagReq expect="false">qDragonAmulet01_start</flagReq>
+          <flagReq expect="false">qDragonAmulet01_end</flagReq>
+        </aReq>
+      </answer>
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="hermitD01_02" ordinal="2">
+      <answer id="hermitD01_02_a1" to="3" />
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="hermitD01_03" ordinal="3">
+      <answer id="hermitD01_03_a1" to="4" />
+      <answer id="hermitD01_03_a2" to="end" />
+      <answer id="backAns01" to="0" />
+    </text>
+    <text id="hermitD01_04" ordinal="4">
+      <answer id="hermitD01_04_a1" to="5" />
+      <answer id="hermitD01_03_a2" to="end" />
+      <answer id="backAns01" to="0" />
+      <mod>
+        <modPlayer>
+          <flagModifier>tDaTalk01</flagModifier>
+        </modPlayer>
+      </mod>
+    </text>
+    <text id="hermitD01_05" ordinal="5">
+        <answer id="hermitD01_05_a1" to="6" />
+        <answer id="hermitD01_03_a2" to="end" />
+        <answer id="backAns01" to="0" />
+    </text>
+    <text id="hermitD01_06" ordinal="6">
+        <answer id="hermitD01_06_a1" to="0" />
+        <answer id="hermitD01_03_a2" to="end" />
+        <answer id="backAns01" to="0" />
+    </text>
+  </dialogue>
+
+  <dialogue id="branD01">
+    <text id="branD01_00" start="start" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="branD01_00_a1" to="1">
+        <aReq>
+          <flagReq>tDaTalk01</flagReq>
+        </aReq>
+      </answer>
+      <answer id="duelReq01" to="2" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="branD01_01" ordinal="1">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="branD01_02" ordinal="2">
+      <answer id="branD01_02_a1" to="3" />
+      <answer id="backAns01" to="0" />
+    </text>
+    <text id="branD01_03" ordinal="3">
+      <answer id="wait01" to="end" />
+      <mod>
+        <scripts>
+          <script target="bran01_0">arenaDuel</script>
+        </scripts>
       </mod>
     </text>
   </dialogue>

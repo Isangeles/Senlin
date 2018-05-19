@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="80" height="70" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="fomeFlora" tilewidth="32" tileheight="32" tilecount="240" columns="20">
+  <image source="tile/fomeFlora.png" width="640" height="400"/>
+ </tileset>
+ <tileset firstgid="241" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399" columns="19">
+  <image source="tile/forestground06dv5.png" width="629" height="679"/>
+ </tileset>
+ <tileset firstgid="640" name="4" tilewidth="32" tileheight="32" tilecount="16" columns="4">
+  <image source="tile/camp/4.png" width="128" height="128"/>
+ </tileset>
+ <layer name="ground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3DAQkAAAwDoPEs659xPY6CvaSqqqqqqqqqqqqqqqqqqqqqqqqqqqr67ADZjbSLgFcAAA==
+  </data>
+ </layer>
+ <layer name="onground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="blockground" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="water" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="trees" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2Y0U3DQBBE7xt6gBYg1AA0AT1ADYSyAjUEWgjQBvtjIawk9p7PuzPxPGn+Ttbp1jtzt6UIISLZmN5M79kbIWVr+jB9Zm+EkJ3py/Rt+hmx/sH06Pi+/u3/PJmeHev1b//xYlqbXkeu9/7bQgghxJycmc6zN0FE/7wuTJdJe2GkO68r07VpZbpJ3REH+87r1nRnus/aVCXR77Dunch6Xn2i32HedyIy0e8w7ztRnB6ocyfv/CwL1LkTgy+izp1YfHHM+dX2N6ovRFPb36i+EEltf6P6ghDiOMqNaSg36lFuCIGDsmAayoJ6lAX8sMwAUUGfASLXd44ZoCcPx6xFr29rPHk4tBZpxhvRB548ZMvOpfVBS5D6QIhIkO8f2WzK8B0E1XcR6rotx+8gyL6bXddd4buDdCDX1YNmd9NoMbtbag1a9b7mp4cZykhW/40iOyOZOZWMrGGpnt4KVk9HeJMwe/ocfotQk3209oi5/DYqA711YvCIyAz01InZI/q06KMl31UY+ugQ2d7O3kd639TD5BnZfcKO+qQepj4RQuDwC7BVkJOAVwAA
+  </data>
+ </layer>
+ <layer name="buildings" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3QSQqAQBRDwU+fXUXb6crmCm4UpQrePqQKAAAAAIAnDa1qTFN7e8k3zfltST2tPrxty2d7OtLpPwAAAAAAAAAAAAAAAAAAAH7uAny6o2mAVwAA
+  </data>
+ </layer>
+ <layer name="objects" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+ <layer name="effects" width="80" height="70">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZRC5MRoBXAAA=
+  </data>
+ </layer>
+</map>

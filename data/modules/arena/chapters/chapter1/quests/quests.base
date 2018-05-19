@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<base>
+  <quest id="arena01">
+    <stages>
+      <stage id="arena01_s0">
+        <objectives>
+          <finisher type="kill" amount="1">bran01</finisher>
+          <finisher type="kill" amount="1">makk01</finisher>
+          <finisher type="kill" amount="1">han01</finisher>
+        </objectives>
+      </stage>
+    </stages>
+  </quest>
+
+  <quest id="hunt01">
+    <stages>
+      <stage id="hunt01_s0" start="true" next="hunt01_s1">
+        <objectives>
+          <objective type="gather" amount="5">wolfPelt01</objective>
+        </objectives>
+        <sFlags>
+          <flag type="on" on="start">hunt01_s0</flag>
+          <flag type="off" on="end">hunt01_s0</flag>
+        </sFlags>
+      </stage>
+      <stage id="hunt01_s1" next="end">
+        <objectives>
+          <objective type="talk">ianD01_00_a2</objective>
+        </objectives>
+        <sFlags>
+          <flag type="on" on="start">hunt01_s1</flag>
+          <flag type="off" on="end">hunt01_s1</flag>
+        </sFlags>
+      </stage>
+    </stages>
+    <qFlags>
+      <flag type="on" on="start">hunt01_start</flag>
+      <flag type="off" on="end">hunt01_start</flag>
+      <flag type="on" on="end">hunt01_cmp</flag>
+    </qFlags>
+  </quest>
+
+  <quest id="qDragonAmulet01">
+    <stages>
+      <stage id="qDragonAmulet01_s0" start="true" next="qDragonAmulet01_s1">
+        <objectives>
+          <objective type="gather" amount="1">tDa01</objective>
+        </objectives>
+      </stage>
+      <stage id="qDragonAmulet01_s1" next="end">
+        <objectives>
+          <objective type="talk">TODO</objective>
+        </objectives>
+      </stage>
+    </stages>
+  </quest>
+</base>

@@ -19,7 +19,7 @@
             <items>
                 <item random="false">acCS00</item>
                 <item random="false">wSOHI</item>
-	            <item random="true">wSOHI</item>
+                <item random="true">wSOHI</item>
                 <item random="false" amount="30">copper01</item>
             </items>
         </in>
@@ -185,7 +185,7 @@
     <portrait>portrait1.jpg</portrait>
     <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
-        <head>aImpCHelm01</head>
+        <head></head>
         <chest>aImpCArm01</chest>
         <hands>aImpCGlov01</hands>
         <mainhand>wSOHI</mainhand>
@@ -281,7 +281,7 @@
     <portrait>portrait1.jpg</portrait>
     <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
     <eq>
-        <head>aImpCHelm01</head>
+        <head></head>
         <chest>aImpCArm01</chest>
         <hands>aImpCGlov01</hands>
         <mainhand>wSOHI</mainhand>
@@ -369,7 +369,7 @@
       <dialogue id="ianD01" />
     </dialogues>
 </npc>
-<npc id="ken01" gender="male" race="human" attitude="friendly" trade="true" level="3">
+<npc id="ken01" gender="male" race="human" attitude="friendly" trade="true" train="true" level="3">
     <stats>3;3;2;1;3;</stats>
     <portrait>portrait1.jpg</portrait>
     <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
@@ -389,6 +389,45 @@
                 <item random="false">aImpLArm01</item>
                 <item random="false">wSOHI</item>
                 <item random="false" amount="30">copper01</item>
+                <item random="false" amount="5">mAloeBalm</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+      <professions>
+        <profession type="alchemy" level="novice" />
+      </professions>
+      <recipes>
+        <recipe>raAloeBalm</recipe>
+      </recipes>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
+      <dialogue id="kenD01" />
+    </dialogues>
+</npc>
+<npc id="hermit01" gender="male" race="human" attitude="friendly" train="true" level="5">
+    <stats>2;2;2;4;3;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false" amount="30">copper01</item>
+                <item random="false" amount="5">mAloeBalm</item>
             </items>
         </in>
     </eq>
@@ -399,6 +438,42 @@
     <effects>
     </effects>
     <dialogues>
+      <dialogue id="hermitD01" />
+    </dialogues>
+</npc>
+<npc id="bran01" gender="male" race="human" attitude="friendly" level="3">
+    <stats>3;1;2;1;2;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest>aRedSwLArm01</chest>
+        <hands></hands>
+        <mainhand>wSOHS</mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck>tDa01</neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false" amount="1">tDa01</item>
+                <item random="false" amount="1">wSOHS</item>
+                <item random="false" amount="1">aRedSwLArm01</item>
+                <item random="false" amount="30">copper01</item>
+                <item random="false" amount="5">mAloeBalm</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
+      <dialogue id="branD01" />
     </dialogues>
 </npc>
 <npc id="goblin01" gender="male" race="goblin" attitude="hostile" guild="beasts" level="1">

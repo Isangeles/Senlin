@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="woodland_indoor" tilewidth="32" tileheight="32" tilecount="256">
+  <image source="tile/woodland_indoor.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="woodland_indoor_x2" tilewidth="32" tileheight="32" tilecount="32">
+  <image source="tile/woodland_indoor_x2.png" width="512" height="64"/>
+ </tileset>
+ <tileset firstgid="289" name="woodland_indoor_x3" tilewidth="32" tileheight="32" tilecount="48">
+  <image source="tile/woodland_indoor_x3.png" width="512" height="96"/>
+ </tileset>
+ <layer name="ground" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoC0wp7H5uID7ANmrhEd8FI/iUTyKR/EoHsUjAwMAUCotSWAJAAA=
+  </data>
+ </layer>
+ <layer name="onground" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYOgCFSBWHQB7TYDYdADsHQ7ABYhdgdiNzvaGAHEoEIfR2d4UIE4F4jQ62zsKRsEoGFgAAKUAD61gCQAA
+  </data>
+ </layer>
+ <layer name="blockground" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2LsQ0AIAzDUj6AD+D/I/tAU6kztuQlVkJSFC6zd1Yfmb6Np2mTj0y/xte0yUemAwAAwD8k4bmsPGAJAAA=
+  </data>
+ </layer>
+ <layer name="water" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQlPoAAAeBoqs0udYAkAAA==
+  </data>
+ </layer>
+ <layer name="objectsA" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NggAAxIBZnGNlAh5GBQZcRQdML2ADtsmVE0PQCPkC7fBkRNC3AViDeRhuj8YKjQHxsAOwFgWt0tOsJED+F4md0tPcLEH+F4m90tHcUjIJRMAqGCgAAo588R2AJAAA=
+  </data>
+ </layer>
+ <layer name="buildings" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQlPoAAAeBoqs0udYAkAAA==
+  </data>
+ </layer>
+ <layer name="objectsB" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQlPoAAAeBoqs0udYAkAAA==
+  </data>
+ </layer>
+ <layer name="effects" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQlPoAAAeBoqs0udYAkAAA==
+  </data>
+ </layer>
+</map>

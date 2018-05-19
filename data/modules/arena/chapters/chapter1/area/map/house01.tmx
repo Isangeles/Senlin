@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="interior01" tilewidth="32" tileheight="32" tilecount="256">
+  <image source="tile/interior/interior01.png" width="512" height="512"/>
+ </tileset>
+ <layer name="ground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoD4wpBAbQWlqmWc4hM0zorJ5A+lfdL8MNveNmje0zKMkb1DbfUZDKPyIAchhiw8AACNdReBABgAA
+  </data>
+ </layer>
+ <layer name="onground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMglEwCkgHADV9EcVABgAA
+  </data>
+ </layer>
+ <layer name="blockground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA1NhYGBQoSIWZaAeEB41b9S8UfNGzRs1j2rmsRCJkQE+dQBB+9o5QAYAAA==
+  </data>
+ </layer>
+ <layer name="water" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMglEwCkgHADV9EcVABgAA
+  </data>
+ </layer>
+ <layer name="objectsA" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoD5op0BvIxax6RSYNxGILYHYmgIzRsEoGAWjYBRgAgAPa1SQQAYAAA==
+  </data>
+ </layer>
+ <layer name="buildings" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMglEwCkgHADV9EcVABgAA
+  </data>
+ </layer>
+ <layer name="objectsB" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGFyAg8rmSVDZvFEwCkbBKBgFEAAAuLV6SEAGAAA=
+  </data>
+ </layer>
+ <layer name="effects" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjYBSMglEwCkgHADV9EcVABgAA
+  </data>
+ </layer>
+</map>

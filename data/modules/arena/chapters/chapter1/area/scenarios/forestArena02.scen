@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<scenario id="forestArena02">
+    <mainarea id="forestArena02main" map="arenaForest02.tmx">
+        <npcs>
+          <npc position="26;19">hermit01</npc>
+        </npcs>
+        <mobs start="0;0" end="21;14" respawn="false">
+            <mob min="2" max="3">bandit01</mob>
+        </mobs>
+        <mobs start="3;45" end="28;32" respawn="true">
+            <mob min="2" max="4">goblin01</mob>
+        </mobs>
+        <mobs start="32;50" end="79;69" respawn="true">
+            <mob min="4" max="10">wolf01</mob>
+        </mobs>
+        <quests>
+          <quest trigger="hermitD01_06_a1">qDragonAmulet01</quest>
+        </quests>
+        <objects>
+        </objects>
+        <exits>
+          <exit position="55;1" texture="signPost.png" to="64;69">forestArena01</exit>
+        </exits>
+        <music>
+            <idle>
+                <track category="exploring">$all</track>
+            </idle>
+            <combat>
+                <track category="combat">$all</track>
+            </combat>
+        </music>
+        <subareas>
+        </subareas>
+    </mainarea>
+    <scripts>
+    </scripts>
+</scenario>

@@ -13,4 +13,14 @@
             <effect>heal01</effect>
         </equipEffects>
     </item>
+    <item id="tDa01" reqLevel="3" type="neckle" value="1000">
+        <icon>neckle01.png</icon>
+        <bonuses>
+          <statsModifier>2;1;1;1;0</statsModifier>
+        </bonuses>
+        <action></action>
+        <equipEffects>
+            <!-- <effect>swordBon01</effect> -->
+        </equipEffects>
+    </item>
 </base>

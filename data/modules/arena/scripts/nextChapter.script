@@ -1,0 +1,7 @@
+#Script to move to next chapter
+script:
+	$worldman set --chapter next;
+if:
+	true;
+end:
+	now;

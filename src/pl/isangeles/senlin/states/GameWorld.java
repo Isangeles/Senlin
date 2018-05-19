@@ -96,9 +96,11 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private AudioPlayer gwMusic;
 	private Exit exitToNewArea;
 	private boolean changeAreaReq;
+	private boolean nextChapterReq;
 	private boolean combat;
 	private int waitForRender;
 	private final WorldTime updateTime = new WorldTime(0, 0);
+	private RespawnTask respawn;
 	/** 
 	 * Creates game world for new game
 	 * @param player Player character
@@ -339,6 +341,10 @@ public class GameWorld extends BasicGameState implements SaveElement
             	else
             		waitForRender --;
             }
+            if(nextChapterReq)
+            {
+            	nextChapter(container, game);
+            }
             
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
@@ -347,6 +353,12 @@ public class GameWorld extends BasicGameState implements SaveElement
             {
             	//Log.addSystem("game word update time"); //DEBUG
             	activeScenario.respawnMobs(); //TODO causes significant game lag
+            	
+            	/* 
+            	respawn = new RespawnTask(activeScenario);
+            	Thread respawnT = new Thread(respawn);
+            	respawnT.start();
+            	*/
             }
 		}
     	else
@@ -514,6 +526,14 @@ public class GameWorld extends BasicGameState implements SaveElement
     	return changeAreaReq;
     }
     /**
+     * Sets next chapter request
+     * @param nextChapterReq True to change chapter, false otherwise
+     */
+    public void setNextChapterReq(boolean nextChapterReq)
+    {
+    	this.nextChapterReq = nextChapterReq;
+    }
+    /**
      * Draws fog of war on all map tiles except these ones in player field of view
      */
     private void drawFOW(Graphics g)
@@ -533,6 +553,37 @@ public class GameWorld extends BasicGameState implements SaveElement
             x = 0;
             y += 32;
         }
+    }
+    /**
+     * Loads next chapter
+     * @param gc Slick game container
+     * @param game Game
+     * @throws SlickException
+     */
+    private void nextChapter(GameContainer gc, StateBasedGame game) throws SlickException
+    {
+    	try
+    	{
+        	ChapterLoadingScreen cld = (ChapterLoadingScreen)game.getState(6);
+        	if(cld == null)
+        	{
+        		cld = new ChapterLoadingScreen();
+        		game.addState(cld);
+        	}
+        	
+        	nextChapterReq = false;
+        	//entering to chapter loading screen
+        	cld.init(gc, game);
+        	cld.setupLoad(player);
+        	game.enterState(6);
+        	ui.getCamera().centerAt(new Position(player.getPosition()));		
+    	}
+    	catch(ClassCastException e)
+    	{
+    		nextChapterReq = false;
+    		Log.addSystem("game_world_change_scenario_fail-msg//fail to create reload state");
+    		return;
+    	}
     }
     /**
      * Changes active scenario to next scenario
@@ -622,5 +673,29 @@ public class GameWorld extends BasicGameState implements SaveElement
     	ImageOut.write(screenshot, Settings.SCREENSHOTS_DIR + File.separator + "screenshot-" + new Date().toString() + ".jpg");
     	
     	Log.addSystem("Screenshot captured!");
+    }
+    /**
+     * Class for respawn task
+     * TODO use this runnable task to respawn mobs in background
+     * @author Isangeles
+     *
+     */
+    private class RespawnTask implements Runnable
+    {
+    	private Scenario scenario;
+    	
+    	public RespawnTask(Scenario scenario)
+    	{
+    		this.scenario = scenario;
+    	}
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() 
+		{
+        	scenario.respawnMobs();
+		}
+    	
     }
 }

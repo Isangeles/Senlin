@@ -34,6 +34,7 @@ import pl.isangeles.senlin.states.GameWorld;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Settings;
 import pl.isangeles.senlin.util.TilePosition;
+import pl.isangeles.senlin.core.Module;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.data.NpcBase;
 
@@ -315,6 +316,10 @@ public class WorldMan implements CliTool
         		world.getDay().getTime().addHours(hours);
         		world.getDay().getTime().addMinutes(minutes);
         		break;
+            case "-c": case "--chapter":
+            	if(arg1.equals("next"))
+            		world.setNextChapterReq(true);
+            	break;
         	default:
         		result = "3";
         		break;

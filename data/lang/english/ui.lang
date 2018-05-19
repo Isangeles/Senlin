@@ -82,6 +82,7 @@ settLang:Language;
 settRes:Resolution;
 settFow:Fog of war;
 settMRen:Map rendering;
+settMod:Module;
 proArm:Armor crafting;
 proWea:Weapon crafting;
 proAlch:Alchemy;
