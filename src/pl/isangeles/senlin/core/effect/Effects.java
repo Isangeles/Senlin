@@ -95,7 +95,7 @@ public class Effects extends ArrayList<Effect> implements SaveElement
 				{
 					for(Effect effect : get(id))
 					{
-						if(effect.getSource() != source) 
+						if(effect.getSource() != null && effect.getSource() != source && effect.getSource().getSerialId().equals(source.getSerialId())) 
 						{
 							add(source.getEffect(id));
 							break;

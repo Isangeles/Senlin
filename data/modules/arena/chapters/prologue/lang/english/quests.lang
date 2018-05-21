@@ -1,3 +1,8 @@
+arena01:The Arena;I want to become a famous(and wealthy) gladiator.;
+arena01_s0:I must prove myself by beating one of the others gladiators.;
+arena01_s1:I've won my first fight, I should talk with arena master.;
 hunt01:The Hunt;I must bring wolf's pelts to Ian;
 hunt01_s0:I need collect 5 wolf's pelts;
 hunt01_s1:I need to bring pelts to Ian;
+qDragonAmulet01:The Dragon Amulet:Some old hermit ask me to get ancient artifact for him;
+qDragonAmulet01_s0:Hermit said that man name Bran has this artifact, he can by found near arena at north;

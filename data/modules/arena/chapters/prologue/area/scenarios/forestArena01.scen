@@ -2,11 +2,12 @@
 <scenario id="forestArena01">
     <mainarea id="forestArena01main" map="arenaForest01.tmx">
         <npcs>
-          <npc position="48;6">arenaMaster01</npc>
           <npc position="41;5">han01</npc>
+          <npc position="48;6">arenaMaster01</npc>
           <npc position="35;12">makk01</npc>
           <npc position="61;6">lau01</npc>
           <npc position="64;11">ian01</npc>
+          <npc position="36;13">bran01</npc>
         </npcs>
         <mobs start="0;0" end="21;14" respawn="false">
             <mob min="2" max="3">bandit01</mob>
@@ -14,15 +15,15 @@
         <mobs start="3;45" end="28;32" respawn="true">
             <mob min="2" max="4">goblin01</mob>
         </mobs>
-        <mobs start="32;50" end="79;69" respawn="true">
-            <mob min="4" max="10">wolf01</mob>
-        </mobs>
         <quests>
           <quest trigger="ianD01_05-qAccept01">hunt01</quest>
+          <quest trigger="amD01_05">arena01</quest>
         </quests>
         <objects>
         </objects>
         <exits>
+          <exit position="65;15" to="5;9">forestArena01:kenTent01</exit>
+          <exit position="64;69" texture="signPost.png" to="55;1">forestArena02</exit>
         </exits>
         <music>
             <idle>
@@ -33,6 +34,23 @@
             </combat>
         </music>
         <subareas>
+          <area id="kenTent01" map="tent01.tmx">
+            <npcs>
+              <npc position="5;4">ken01</npc>
+            </npcs>
+            <objects></objects>
+            <exits>
+              <exit position="5;9" to="65;15">forestArena01</exit>
+            </exits>
+            <music>
+              <idle>
+                <track category="exploring">$all</track>
+              </idle>
+              <combat>
+                <track category="combat">$all</track>
+              </combat>
+            </music>
+          </area>
         </subareas>
     </mainarea>
     <scripts>
