@@ -58,7 +58,6 @@ public class SettingsMenu extends BasicGameState
 {
 	private ObjectSwitch resolution;
 	private ObjectSwitch language;
-	private ObjectSwitch module;
 	private ObjectSwitch fow;
 	private ObjectSwitch mapRender;
 	private Switch effectsVol;
@@ -101,15 +100,8 @@ public class SettingsMenu extends BasicGameState
     			Setting mRender = new Setting(val, TConnector.getText("ui", "sValue_" + val));
     			mRenderValues.add(mRender);
     		}
-    		List<Switchable> moduleValues = new ArrayList<>();
-    		for(String val : Settings.getModulesNames())
-    		{
-    			Setting module = new Setting(val, val);
-    			moduleValues.add(module);
-    		}
     		resolution = new ObjectSwitch(container, TConnector.getText("ui", "settRes"), resValues);
 			language = new ObjectSwitch(container, TConnector.getText("ui", "settLang"), langValues);
-			module = new ObjectSwitch(container, TConnector.getText("ui", "settMod"), moduleValues);
 			fow = new ObjectSwitch(container, TConnector.getText("ui", "settFow"), fowValues);
 			mapRender = new ObjectSwitch(container, TConnector.getText("ui", "settMRen"), mRenderValues);
 			effectsVol = new Switch(container, TConnector.getText("ui", "settEVol"), (int)(Settings.getEffectsVol()*100), new Attribute(100));
@@ -138,7 +130,6 @@ public class SettingsMenu extends BasicGameState
     	mapRender.draw(700, 850, true);
     	effectsVol.draw(700, 1000, true);
         musicVol.draw(1000, 400, true);
-        module.draw(1000, 550, true);
     	buttBack.draw(10, 900, true);
     	if(message.isOpenReq())
     		message.draw();
@@ -193,7 +184,6 @@ public class SettingsMenu extends BasicGameState
         Settings.setMapRenderType(mapRender.getValue());
         Settings.setEffectsVol((float)effectsVol.getValue()/100);
         Settings.setMusicVol((float)musicVol.getValue()/100);
-        Settings.setModuleName(module.getValue());
     }
     /**
      * Sets current values of game settings to settings switches 
@@ -206,7 +196,6 @@ public class SettingsMenu extends BasicGameState
     	language.setValue(Settings.getLang());
     	fow.setValue(Settings.getFowType());
     	mapRender.setValue(Settings.getMapRenderType());
-    	module.setValue(Settings.getModuleName());
     }
     /**
      * Class for settings switches values

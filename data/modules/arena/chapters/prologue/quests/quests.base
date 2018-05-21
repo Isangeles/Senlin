@@ -1,22 +1,5 @@
 <?xml version="1.0"?>
 <base>
-  <quest id="arena01">
-    <stages>
-      <stage id="arena01_s0" start="true" next="arena01_s1">
-        <objectives>
-          <finisher type="kill" amount="1">bran01</finisher>
-          <finisher type="kill" amount="1">makk01</finisher>
-          <finisher type="kill" amount="1">han01</finisher>
-        </objectives>
-      </stage>
-      <stage id="arena01_s1" next="end">
-        <objectives>
-          <finisher type="talk">amD01_02_a4</finisher>
-        </objectives>
-      </stage>
-    </stages>
-  </quest>
-
   <quest id="hunt01">
     <stages>
       <stage id="hunt01_s0" start="true" next="hunt01_s1">
@@ -43,20 +26,5 @@
       <flag type="off" on="end">hunt01_start</flag>
       <flag type="on" on="end">hunt01_cmp</flag>
     </qFlags>
-  </quest>
-
-  <quest id="qDragonAmulet01">
-    <stages>
-      <stage id="qDragonAmulet01_s0" start="true" next="qDragonAmulet01_s1">
-        <objectives>
-          <objective type="gather" amount="1">tDa01</objective>
-        </objectives>
-      </stage>
-      <stage id="qDragonAmulet01_s1" next="end">
-        <objectives>
-          <objective type="talk">TODO</objective>
-        </objectives>
-      </stage>
-    </stages>
   </quest>
 </base>

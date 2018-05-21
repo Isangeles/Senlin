@@ -137,17 +137,16 @@ public class LoadingScreen extends BasicGameState
     {
     	try 
 		{
-    		switch(loadType)
-    		{
-    		case NEW_GAME:
+			if(loadType == NEW_GAME)
+			{
 				if(!loadNewGame(container, game))
 					container.exit();
-    			break;
-    		case SAVED_GAME:
+			}
+			else if(loadType == SAVED_GAME)
+			{
 				if(!loadSave(container, game))
 					container.exit();
-    			break;
-    		}
+			}
 		} 
 		catch (IOException | FontFormatException | ParserConfigurationException | SAXException | InterruptedException e) 
 		{
@@ -309,4 +308,5 @@ public class LoadingScreen extends BasicGameState
 		loadCounter ++;
 		return true;
     }
+
 }

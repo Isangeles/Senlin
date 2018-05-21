@@ -75,7 +75,6 @@ public class Quest implements ScrollableContent, SaveElement
         {
         	info = "quests_lang_file_corrupted";
         }
-
         
         for(Stage stage : stages)
         {
@@ -87,11 +86,6 @@ public class Quest implements ScrollableContent, SaveElement
             Log.addSystem("quest_constructor_warning///No start stage for " + id);
             currentStage = stages.get(0);
         }
-        
-        //auto flags
-        this.flagsOnStart.add(id + "_start");
-        this.flagsOffEnd.add(id + "_start");
-        this.flagsOnEnd.add(id + "_end");
     }
     /**
      * Changes current stage

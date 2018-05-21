@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
- <tileset firstgid="1" name="tilesetformattedupdate1" tilewidth="32" tileheight="32" tilecount="18" columns="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tilesetformattedupdate1" tilewidth="32" tileheight="32" tilecount="18">
   <image source="tile/tilesetformattedupdate1.png" width="112" height="192"/>
- </tileset>
- <tileset firstgid="19" name="forestground06dv5" tilewidth="32" tileheight="32" tilecount="399" columns="19">
-  <image source="tile/forestground06dv5.png" width="629" height="679"/>
- </tileset>
- <tileset firstgid="418" name="interior01" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="tile/interior/interior01.png" width="512" height="512"/>
  </tileset>
  <layer name="ground" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA7NjYGCwJ4AdgDgQiIMI4OBRdTjVpQBxKgGcBsQAY76iIJABAAA=
+   H4sIAAAAAAAAA2NmYGBgHsWDBgMAyAqMIJABAAA=
   </data>
  </layer>
  <layer name="onground" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgoA24xIgdo4PLRKoj1jxsai5TYC+6ucT4G5t9xJoHAFjqxciQAQAA
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
  <layer name="blockground" width="10" height="10">
@@ -36,12 +30,12 @@
  </layer>
  <layer name="buildings" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA1vEyEAQLCJCzSjAD4gJQ5AaABO2zd2QAQAA
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
  <layer name="objects" width="10" height="10">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgIA8EMTEwBDMRVpcEVJMMVadOhPqRDgD/Rhy5kAEAAA==
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
   </data>
  </layer>
  <layer name="effects" width="10" height="10">

@@ -39,25 +39,25 @@ public enum ModifierType
 	{
 		switch(id)
 		{
-		case "statsBonus": case "statsModifier":
+		case "statsBonus":
 			return ModifierType.STATS;
-		case "healthBonus": case "healthModifier":
+		case "healthBonus":
 			return ModifierType.HEALTH;
-		case "manaBonus": case "manaModifier":
+		case "manaBonus":
 			return ModifierType.MANA;
-		case "hasteBonus": case "hasteModifier":
+		case "hasteBonus":
 			return ModifierType.HASTE;
-		case "dodgeBonus": case "dodgeModifier":
+		case "dodgeBonus":
 			return ModifierType.DODGE;
-		case "damageBonus": case "damageModifier":
+		case "damageBonus":
 			return ModifierType.DAMAGE; 
-		case "undetectBonus": case "undetectModifier":
+		case "undetectBonus":
 			return ModifierType.UNDETECT;
-		case "dualwieldBonus": case "dualwieldModifier":
+		case "dualwieldBonus":
 			return ModifierType.DUALWIELD;
-		case "resistanceBonus": case "resistanceModifier":
+		case "resistanceBonus":
 			return ModifierType.RESISTANCE;
-		case "unlockBonus": case "unlockModifier":
+		case "unlockBonus":
 		    return ModifierType.UNLOCK;
 		case "attitudeModifier":
 			return ModifierType.ATTITUDE;

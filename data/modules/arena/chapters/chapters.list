@@ -1,2 +1,3 @@
 prologue:chapter1;
-chapter1:end;
+chapter2:chapter3;
+chapter3:end;
