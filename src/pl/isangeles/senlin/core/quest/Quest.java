@@ -86,6 +86,11 @@ public class Quest implements ScrollableContent, SaveElement
             Log.addSystem("quest_constructor_warning///No start stage for " + id);
             currentStage = stages.get(0);
         }
+        
+        //Auto flag
+        this.flagsOnStart.add(id + "_start");
+        this.flagsOffEnd.add(id + "_start");
+        this.flagsOnEnd.add(id + "_end");
     }
     /**
      * Changes current stage

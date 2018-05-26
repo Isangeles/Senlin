@@ -24,15 +24,15 @@
         <action type="effectTarget">unlock01</action>
     </item>
     <item id="mIronOre01" value="15" stack="10">
-		<icon>ore01.png</icon>
+		    <icon>ore01.png</icon>
     </item>
     <item id="gold01" value="50" stack="1000" disposable="false" currency="true">
-		<icon>coinG01.png</icon>
+		    <icon>coinG01.png</icon>
     </item>
     <item id="silver01" value="25" stack="1000" disposable="false" currency="true">
-		<icon>coinS01.png</icon>
+		    <icon>coinS01.png</icon>
     </item>
-    <item id="copper01" value="1" stack="1000" disposable="false" currency="true">
+      <item id="copper01" value="1" stack="1000" disposable="false" currency="true">
 		<icon>coinC01.png</icon>
     </item>
     <item id="wolfPelt01" value="15" stack="20" disposable="false">
@@ -40,6 +40,10 @@
     </item>
     <item id="fish01" value="3" stack="20" disposable="true">
             <icon>food02.png</icon>
+            <action type="effectTarget">heal01</action>
+    </item>
+    <item id="mEPower01" value="70" stack="20" disposable="true">
+            <icon>potGreen.png</icon>
             <action type="effectTarget">heal01</action>
     </item>
 </base>

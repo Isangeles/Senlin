@@ -54,7 +54,7 @@
       </stage>
       <stage id="qDragonAmulet01_s1" next="end">
         <objectives>
-          <objective type="talk">TODO</objective>
+          <objective type="talk">hermitD01_00_a2</objective>
         </objectives>
       </stage>
     </stages>

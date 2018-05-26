@@ -113,7 +113,7 @@ public class Armor extends Equippable
 		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.buildIcon(gc);
-		if(type == ArmorType.CHEST)
+		if(type == ArmorType.CHEST || type == ArmorType.HEAD)
 		{
 			setMSprite(mSpriteName);
 			setFSprite(fSpriteName);

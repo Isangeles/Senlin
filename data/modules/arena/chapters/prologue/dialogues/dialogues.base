@@ -261,6 +261,16 @@
           <flagReq expect="false">qDragonAmulet01_end</flagReq>
         </aReq>
       </answer>
+      <answer id="hermitD01_00_a2" to="7">
+        <aReq>
+          <flagReq except="true">qDragonAmulet01_s1</flagReq>
+        </aReq>
+      </answer>
+      <answer id="trainReq01" to="train">
+        <aReq>
+          <flagReq except="true">qDragonAmulet01_end</flagReq>
+        </aReq>
+      </answer>
       <answer id="bye01" to="end" />
     </text>
     <text id="hermitD01_01" ordinal="1">
@@ -303,6 +313,18 @@
         <answer id="hermitD01_06_a1" to="0" />
         <answer id="hermitD01_03_a2" to="end" />
         <answer id="backAns01" to="0" />
+    </text>
+    <text id="hermitD01_07" ordinal="7">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+      <mod>
+        <transfer>
+          <take>
+            <item amount="1">tDa01</item>
+          </take>
+          <give></give>
+        </transfer>
+      </mod>
     </text>
   </dialogue>
 

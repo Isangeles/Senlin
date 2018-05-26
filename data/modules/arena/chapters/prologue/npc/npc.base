@@ -390,6 +390,7 @@
                 <item random="false">wSOHI</item>
                 <item random="false" amount="30">copper01</item>
                 <item random="false" amount="5">mAloeBalm</item>
+                <item random="false" amount="1">mEPower01</item>
             </items>
         </in>
     </eq>
@@ -434,6 +435,9 @@
     <skills>
     </skills>
     <training>
+      <skills>
+        <skill>fireball01</skill>
+      </skills>
     </training>
     <effects>
     </effects>

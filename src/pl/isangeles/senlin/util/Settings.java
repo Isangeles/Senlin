@@ -27,6 +27,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 /**
@@ -47,6 +49,7 @@ public final class Settings
     private static String mRenderType;
     private static String module;
     private static boolean hwCursor;
+    private static boolean fullscreen;
     public static final String SCREENSHOTS_DIR = "screenshots";
     /**
      * Private constructor to prevent initialization
@@ -123,6 +126,14 @@ public final class Settings
         {
             hwCursor = false;
         }
+        try
+        {
+        	fullscreen = Boolean.parseBoolean(TConnector.getSetting("fullscreen"));
+        }
+        catch(Exception e)
+        {
+        	fullscreen = false;
+        }
         setScale();
     }
     /**
@@ -185,6 +196,21 @@ public final class Settings
     	return new String[] {"full", "light"};
     }
     /**
+     * Returns all names available modules(in data/modules dir)
+     * @return List with modules names
+     */
+    public static List<String> getModulesNames()
+    {
+    	List<String> modulesNames = new ArrayList<>();
+    	File modulesDir = new File("data" + File.separator + "modules");
+    	for(File mDir : modulesDir.listFiles())
+    	{
+    		if(mDir.isDirectory()) //TODO some more validation
+    			modulesNames.add(mDir.getName());
+    	}
+    	return modulesNames;
+    }
+    /**
      * Returns scale for current resolution
      * @return Float scale value
      */
@@ -241,6 +267,14 @@ public final class Settings
     	return hwCursor;
     }
     /**
+     * Checks if fullscreen mode is set
+     * @return True if fullscreen mode is set, false otherwise
+     */
+    public static boolean isFullscreen()
+    {
+    	return fullscreen;
+    }
+    /**
      * Sets specified size as game resolution(needs game restart)
      * @param resolution Size with width and height
      */
@@ -258,6 +292,14 @@ public final class Settings
     public static void setLang(String langId)
     {
         newLangId = langId;
+    }
+    /**
+     * Sets specified string as current module name
+     * @param moduleName String with module name(from data/modules)
+     */
+    public static void setModuleName(String moduleName)
+    {
+    	module = moduleName;
     }
     /**
      * Sets type of fog of war
@@ -334,6 +376,12 @@ public final class Settings
             pw.write(";" + System.lineSeparator());
             
             pw.write("musicVol:" + musicVol);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("hwCursor:" + hwCursor);
+            pw.write(";" + System.lineSeparator());
+            
+            pw.write("fullscreen:" + fullscreen);
             pw.write(";" + System.lineSeparator());
             
             pw.write("module:" + module);

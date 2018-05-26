@@ -15,6 +15,9 @@
         <mobs start="3;45" end="28;32" respawn="true">
             <mob min="2" max="4">goblin01</mob>
         </mobs>
+        <mobs start="43;53" end="79;69" respawn="true">
+            <mob min="2" max="6">wolf01</mob>
+        </mobs>
         <quests>
           <quest trigger="ianD01_05-qAccept01">hunt01</quest>
           <quest trigger="amD01_05">arena01</quest>

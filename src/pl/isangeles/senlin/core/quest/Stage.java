@@ -61,6 +61,10 @@ public class Stage
         info = TConnector.getTextFromChapter("quests", id);
         this.objectives = objectives;
         this.startStage = startStage;
+        
+        //Auto flag
+        this.flagsOnStart.add(id);
+        this.flagsOffEnd.add(id);
     }
     /**
      * Checks if stage objectives all completed

@@ -56,6 +56,8 @@ hermitD01_05:You can buy it, steal it or just kill this trash, the world will be
 hermitD01_05_a1:For what you need this artifact?;
 hermitD01_06:I tell you when you bring it to me, maybe.;
 hermitD01_06_a1:Ok, I bring it to you.;
+hermitD01_00_a2:I have artifact for you.;
+hermitD01_07:Good, good, now I will teach you about magic.;
 branD01_00:What do you want?;
 branD01_00_a1:I've heard you have some ancient artifact.;
 branD01_01:Get lost, I don't have time for talk.;

@@ -20,7 +20,7 @@
         </bonuses>
         <action></action>
         <equipEffects>
-            <!-- <effect>swordBon01</effect> -->
+            <effect>swordBon01</effect>
         </equipEffects>
     </item>
 </base>

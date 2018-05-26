@@ -63,7 +63,7 @@ public class SenlinGame extends StateBasedGame
         	AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
             try
             {
-            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
+            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], Settings.isFullscreen());
             }
             catch(SlickException e)
             {
@@ -71,7 +71,7 @@ public class SenlinGame extends StateBasedGame
             	Settings.setResolution(Settings.getSystemResolution());
             	System.gc();
             	appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
-            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], true);
+            	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], false);
             }
             appGC.setTargetFrameRate(60);
             //appGC.setClearEachFrame(false);
