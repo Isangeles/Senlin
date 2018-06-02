@@ -117,7 +117,7 @@ public final class Switch extends InterfaceObject implements MouseListener
         float textX = ttf.getWidth(label);
         float textY = ttf.getHeight(label);
         */
-		plusB.draw((x+super.getScaledWidth())-plusB.getScaledWidth(), y+getDis(2), scaledPos);
+		plusB.draw((x+super.getWidth())-plusB.getWidth(), y+getDis(2), scaledPos);
 		minusB.draw(x, y+getDis(2), scaledPos);
 		
 		super.drawString(value+"", ttf, scaledPos);

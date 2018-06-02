@@ -27,6 +27,7 @@
         <exits>
           <exit position="65;15" to="5;9">forestArena01:kenTent01</exit>
           <exit position="64;69" texture="signPost.png" to="55;1">forestArena02</exit>
+          <exit position="72;7" to="6;9">forestArena01:arenaSmithy01</exit>
         </exits>
         <music>
             <idle>
@@ -52,6 +53,21 @@
               <combat>
                 <track category="combat">$all</track>
               </combat>
+            </music>
+          </area>
+          <area id="arenaSmithy01" map="smithy01.tmx">
+            <npcs>
+              <npc position="3;3">rian01</npc>
+            </npcs>
+            <objects></objects>
+            <exits>
+              <exit position="6;9" to="72;7">forestArena01</exit>
+            </exits>
+            <music>
+              <idle>
+                  <track category="exploring">$all</track>
+              </idle>
+              <combat></combat>
             </music>
           </area>
         </subareas>

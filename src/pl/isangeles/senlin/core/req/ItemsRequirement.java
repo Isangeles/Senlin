@@ -62,6 +62,7 @@ public class ItemsRequirement extends Requirement
 			String itemAmount = "" + reqItems.get(itemId);
 			info += System.lineSeparator() + itemName + " x" + itemAmount;
 		}
+		Log.addSystem("items_req_info:" + info);
 	}
 	/**
 	 * Items requirement constructor (for multiple types of items)

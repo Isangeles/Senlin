@@ -15,6 +15,9 @@
  <tileset firstgid="1142" name="tentsBig" tilewidth="32" tileheight="32" tilecount="896" columns="28">
   <image source="tile/tentsBig.png" width="900" height="1038"/>
  </tileset>
+ <tileset firstgid="2038" name="buildings2" tilewidth="32" tileheight="32" tilecount="598" columns="23">
+  <image source="tile/buildings2.png" width="750" height="850"/>
+ </tileset>
  <layer name="ground" width="80" height="70">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3QsQ2AMAwAwbAKMEKAFYD9B8IjuIlwpCuuf31fWusAAAy3hi1pL9BbzRHOpKtAbzX++effvPzzz795+effn+7wJL0FegEAAAAAAAAAAAAAAAAAAABG+QDww+nrgFcAAA==
@@ -42,7 +45,7 @@
  </layer>
  <layer name="buildings" width="80" height="70">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3WSTIDYRyG8U902nQK06m4B+cwXcIUoWyxMgQxszdkMhzA+KiyRLqipLV6flXPur96F//qEP62tVwI67SRS/sl2XTMbid0Smd0ThdumcgNO1WoSjWqU4Nu3S+xR7Z6omd6oVe30y+YjkKYidJ+RTYV2G2JirRMKx87rrpnUyU22qU92qcyHdAhHblfUxU2qlKN6tSgW7qje3pww2915kOIKE8xdVE39VAv9eXb/6YRvjmawndb9f6P0s97B2iQhmg4xfeP8e3xDO33l0yw2yRNuV9is2w1R/O0QItUoCU3TGSTnbZom3aoRLu0R/tUztiO7b7fl3zriq7phipUpRrVqZGx/dK63x1xCDnqpIjycfvf8FPe79Z8db+L7tjUf7vf7fbf7ndaPrvfcQZvuCRJkiRJkiRJkiRJkiRJkiRJkiRJkiRl0RsJ6g0ogFcAAA==
+   H4sIAAAAAAAAA+3XR0pDURiG4WOSG01cgH1gG9pdg3UJug9dh20LCvaCM9vIErtJdK6mqwuwvoITQVEi3HOvfC8843v4kJ9ojLfbChizjZ2A3XdMR4yZidh9QzFdsFscCSRxiSuXt9xgt01s+Wy/FDulkUEWOeRRcHm/OLslkPTZfu89stUTnvGCV5e3y7FZHgXc+XA/q0WNKUEAQYTgRG0/6usmQ8ZMhWy/4nMVbFWJKlSjBrWo89iGS+y2jBWsYu1jx3WLe7awUSva0I4OdKIL3R7aL8ZGhzjCMU5wijOce+DvsYetetGHfgxg0EP7pdkogyxyyKOAO9zjwQMbermgw12GgzBKUYYIoih33H/TEN8ctvDdYnv/jVLPexvQiCY0W3z/CN8e9dF+XmqM3cYxof1+3SxbzWEeC1jEEpa14a/aZac97OMAMRziCMc48dmObt/va751g1ukkEYGWeSQ99l+tu53SZj/1RBECE7Y/Tf8Nd3v4vrufq9oxx/7b/fb7f7b/bbVV/c77MMbrpRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJ+7A2uu9dqgFcAAA==
   </data>
  </layer>
  <layer name="objects" width="80" height="70">

@@ -21,11 +21,16 @@
         </equipEffects>
     </item>
     <item id="wSOHS" reqLvl="3" type="sword" material="steel" value="100" damage="5-10">
-		<icon>sword02.png</icon>
-		<spritesheet default="true" />
-		<bonuses></bonuses>
-		<hitEffects>
-			<effect>bleed01</effect>
-		</hitEffects>
+  		<icon>sword02.png</icon>
+  		<spritesheet default="true" />
+  		<bonuses></bonuses>
+  		<hitEffects>
+  			<effect>bleed01</effect>
+  		</hitEffects>
+    </item>
+    <item id="wFineIS01" reqLvl="2" type="sword" material="iron" value="70" damage="3-6">
+  		<icon>sword02.png</icon>
+  		<spritesheet default="true" />
+  		<bonuses></bonuses>
     </item>
 </base>

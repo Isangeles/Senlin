@@ -112,8 +112,8 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y, width, height, scaledPos);
-		textField.setLocation((int)super.x, (int)super.y);
-		fieldMOA.setLocation(super.x, super.y);
+		textField.setLocation((int)(x*getScale()), (int)(y*getScale()));
+		fieldMOA.setLocation(x*getScale(), y*getScale());
 	}
 	
 	public void render(Graphics g)

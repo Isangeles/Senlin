@@ -1,7 +1,7 @@
 /*
  * GBase.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,6 +89,7 @@ public final class GBase
 		texturesMap.put("buttonBack", new Image(GConnector.getInput("button/buttonBack.png"), "buttonBack", false));
         texturesMap.put("areaExit", new Sprite(GConnector.getInput("object/exit.png"), "areaExit", false));
         texturesMap.put("errorIcon", new Image(GConnector.getInput("icon/unknown.png"), "errorIcon", false));
+        texturesMap.put("defIcon", new Image(GConnector.getInput("icon/unknown.png"), "errorIcon", false));
 		
 		Font simsun = Font.createFont(Font.TRUETYPE_FONT, new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf"));
 		fontsMap.put("mainUiFont", simsun);

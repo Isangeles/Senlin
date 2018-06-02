@@ -398,7 +398,12 @@
     </skills>
     <training>
       <professions>
-        <profession type="alchemy" level="novice" />
+        <profession type="alchemy" level="novice">
+          <trainReq>
+            <goldReq>20</goldReq>
+            <pointsReq>1</pointsReq>
+          </trainReq>
+        </profession>
       </professions>
       <recipes>
         <recipe>raAloeBalm</recipe>
@@ -408,6 +413,47 @@
     </effects>
     <dialogues>
       <dialogue id="kenD01" />
+    </dialogues>
+</npc>
+<npc id="rian01" gender="male" race="human" attitude="friendly" trade="true" train="true" level="4">
+    <stats>3;3;2;1;3;</stats>
+    <portrait>portrait1.jpg</portrait>
+    <spritesheet static="false">m-cloth-1222211-80x90.png</spritesheet>
+    <eq>
+        <head></head>
+        <chest></chest>
+        <hands></hands>
+        <mainhand></mainhand>
+        <offhand></offhand>
+        <feet></feet>
+        <neck></neck>
+        <finger1></finger1>
+        <finger2></finger2>
+        <artifact></artifact>
+        <in>
+            <items>
+                <item random="false" amount="2">aImpLArm01</item>
+                <item random="false" amount="3">wSOHI</item>
+                <item random="false" amount="3">wFineIS01</item>
+                <item random="false" amount="30">copper01</item>
+            </items>
+        </in>
+    </eq>
+    <skills>
+    </skills>
+    <training>
+      <professions>
+        <profession type="weapon crafting" level="novice" />
+      </professions>
+      <recipes>
+        <recipe>rsIronIngot01</recipe>
+        <recipe>rsFineIS01</recipe>
+      </recipes>
+    </training>
+    <effects>
+    </effects>
+    <dialogues>
+      <dialogue id="rianD01" />
     </dialogues>
 </npc>
 <npc id="hermit01" gender="male" race="human" attitude="friendly" train="true" level="5">

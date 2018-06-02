@@ -189,14 +189,15 @@ public class WorldMan implements CliTool
         {
             String option = scann.next();
             String arg1 = null;
-            if(scann.hasNext())
-                arg1 = scann.next();
             
             switch(option)
             {
             case "-p": case "--play":
-                if(arg1 != null)
+                if(scann.hasNext())
+                {
+                    arg1 = scann.next();
                     world.getMusiPlayer().play(1.0f, Settings.getMusicVol(), arg1);
+                }
                 else
                     world.getMusiPlayer().playRandomFrom("exploring", 1.0f, Settings.getMusicVol());
                 break;
@@ -204,15 +205,25 @@ public class WorldMan implements CliTool
                 world.getMusiPlayer().stop();
                 break;
             case "-ps": case "--playSpecial": 
-            		if(arg1 != null)
-            			world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
-                	break;
+                if(scann.hasNext()) 
+                {
+                    arg1 = scann.next();
+        			world.getMusiPlayer().playFrom("special", 1.0f, Settings.getMusicVol(), arg1);
+                }
+                break;
             case "-l": case "--list":
-                if(arg1 != null)
+                if(scann.hasNext()) 
+                {
+                    arg1 = scann.next();
                     out = arg1 + ":" + world.getMusiPlayer().getTracksList(arg1);
+                }
                 else
                     out = arg1 + ":" + world.getMusiPlayer().getTracksList();
                 break;
+            case "-n": case "--next":
+            	world.getMusiPlayer().playRandom(1.0f, Settings.getMusicVol());
+            	out = "play:" + world.getMusiPlayer().getActiveTrack().toString(); 
+            	break;
             }
         }
         catch(NoSuchElementException e)

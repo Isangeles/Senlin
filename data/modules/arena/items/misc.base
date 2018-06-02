@@ -26,6 +26,9 @@
     <item id="mIronOre01" value="15" stack="10">
 		    <icon>ore01.png</icon>
     </item>
+    <item id="mIronIngot01" value="25" stack="10">
+		    <icon>unknown.png</icon> <!-- TODO some ingot icon -->
+    </item>
     <item id="gold01" value="50" stack="1000" disposable="false" currency="true">
 		    <icon>coinG01.png</icon>
     </item>

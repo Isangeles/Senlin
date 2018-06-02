@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="interior01" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="tile/interior/interior01.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="woodland_indoor" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+  <image source="tile/woodland_indoor.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="513" name="woodland_indoor_x2" tilewidth="32" tileheight="32" tilecount="32" columns="16">
+  <image source="tile/woodland_indoor_x2.png" width="512" height="64"/>
+ </tileset>
+ <tileset firstgid="545" name="woodland_indoor_x3" tilewidth="32" tileheight="32" tilecount="48" columns="16">
+  <image source="tile/woodland_indoor_x3.png" width="512" height="96"/>
+ </tileset>
+ <layer name="ground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA3NiYGBQZkRgJwbsmAFN3SimDQYA3tfC2JABAAA=
+  </data>
+ </layer>
+ <layer name="onground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="blockground" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA1NhYGBQIQKLMhAGwqPqcKpjwYKRAUwMAG28ICqQAQAA
+  </data>
+ </layer>
+ <layer name="water" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="trees" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="buildings" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+ <layer name="objects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgQIAaBuJAD5HqkAE/EwMDHxDzMiHEeJgw1ckDxeSAWBZJTgaLOlIAO1A/BxFmiAPVSBBpFzHmgQCx5sEAAA1E9SmQAQAA
+  </data>
+ </layer>
+ <layer name="effects" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWDCQAADA0iRpABAAA=
+  </data>
+ </layer>
+</map>

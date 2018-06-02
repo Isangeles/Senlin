@@ -251,6 +251,19 @@
     </text>
   </dialogue>
 
+  <dialogue id="rianD01">
+    <text id="yes01" start="true" ordinal="0">
+      <answer id="whoareu01" to="1" />
+      <answer id="tradeReq01" to="trade" />
+      <answer id="trainReq01" to="train" />
+      <answer id="bye01" to="end" />
+    </text>
+    <text id="rianD01_01" ordinal="1">
+      <answer id="backAns01" to="0" />
+      <answer id="bye01" to="end" />
+    </text>
+  </dialogue>
+
   <dialogue id="hermitD01">
     <text id="yes01" start="true" ordinal="0">
       <answer id="whoareu01" to="1" />

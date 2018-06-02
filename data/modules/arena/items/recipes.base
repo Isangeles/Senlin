@@ -12,5 +12,26 @@
             <statsReq>0;0;0;2;1;</statsReq>
         </trainReq>
     </recipe>
-    
+    <recipe id="rsIronIngot01" type="weapon crafting" level="novice">
+      <result>
+        <item amount="1">mIronIngot01</item>
+      </result>
+      <components>
+        <item amount="2">mIronOre01</item>
+      </components>
+      <trainReq>
+        <goldReq>30</goldReq>
+      </trainReq>
+    </recipe>
+    <recipe id="rsFineIS01" type="weapon crafting" level="novice">
+      <result>
+        <item amount="1">wFineIS01</item>
+      </result>
+      <components>
+        <item amount="2">mIronIngot01</item>
+      </components>
+      <trainReq>
+        <goldReq>70</goldReq>
+      </trainReq>
+    </recipe>
 </base>
