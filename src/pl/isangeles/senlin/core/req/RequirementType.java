@@ -47,7 +47,7 @@ public enum RequirementType
 			return RequirementType.GENDER;
 		case "guildReq":
 			return RequirementType.GUILD;
-		case "goldReq":
+		case "goldReq": case "value":
 			return RequirementType.GOLD;
 		case "itemsReq":
 			return RequirementType.ITEMS;

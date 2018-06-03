@@ -31,6 +31,7 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.craft.Profession;
 import pl.isangeles.senlin.core.craft.ProfessionLevel;

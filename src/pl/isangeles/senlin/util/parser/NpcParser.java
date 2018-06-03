@@ -1,7 +1,7 @@
 /*
  * NpcParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -261,7 +261,7 @@ public final class NpcParser
     		return trainings;
     	
     	Element trainingE = (Element)trainingNode;
-    	
+    	//professions
     	Element professionsE = (Element)trainingE.getElementsByTagName("professions").item(0);
     	if(professionsE != null)
     	{
@@ -280,7 +280,7 @@ public final class NpcParser
     			}
     		}
     	}
-    	
+    	//recipes
     	Element recipesE = (Element)trainingE.getElementsByTagName("recipes").item(0);
     	if(recipesE != null)
     	{
@@ -291,12 +291,23 @@ public final class NpcParser
     			if(recipeNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
     			{
     				Element recipeE = (Element)recipeNode;
-    				RecipeTraining recTrain = new RecipeTraining(recipeE.getTextContent());
-    				trainings.add(recTrain);
+    				
+    				Node trainReqNode = recipeE.getElementsByTagName("trainReq").item(0);
+    				if(trainReqNode != null) //if custom train requirements
+    				{
+    					List<Requirement> reqs = RequirementsParser.getReqFromNode(trainReqNode);
+    					RecipeTraining recTrain = new RecipeTraining(recipeE.getAttribute("id"), reqs);
+    					trainings.add(recTrain);
+    				}
+    				else
+    				{
+        				RecipeTraining recTrain = new RecipeTraining(recipeE.getTextContent());
+        				trainings.add(recTrain);
+    				}
     			}
     		}
     	}
-    	
+    	//skills
     	Element skillsE = (Element)trainingE.getElementsByTagName("skills").item(0);
     	if(skillsE != null)
     	{
@@ -307,12 +318,23 @@ public final class NpcParser
     			if(skillNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
     			{
     				Element skillE = (Element)skillNode;
-    				SkillTraining skillTrain = new SkillTraining(skillE.getTextContent());
-    				trainings.add(skillTrain);
+    				
+    				Node trainReqNode = skillE.getElementsByTagName("trainReq").item(0);
+    				if(trainReqNode != null) //if custom train requirements
+    				{
+    					List<Requirement> reqs = RequirementsParser.getReqFromNode(trainReqNode);
+    					RecipeTraining recTrain = new RecipeTraining(skillE.getAttribute("id"), reqs);
+    					trainings.add(recTrain);
+    				}
+    				else
+    				{
+        				SkillTraining skillTrain = new SkillTraining(skillE.getTextContent());
+        				trainings.add(skillTrain);
+    				}
     			}
     		}
     	}
-    	
+    	//attributes
     	Element attributesE = (Element)trainingE.getElementsByTagName("attributes").item(0);
     	if(attributesE != null)
     	{

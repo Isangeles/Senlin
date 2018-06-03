@@ -37,7 +37,7 @@ import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.gui.ScrollableContent;
 
 /**
- * Interface for training classes
+ * Abstract class for trainings
  * @author Isangeles
  *
  */

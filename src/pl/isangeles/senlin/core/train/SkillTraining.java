@@ -43,12 +43,14 @@ import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Class for skills training
+ * Training requirements should be defined only in npc.base, but for backward compatibility old requirements in recipes.base are also supported
  * @author Isangeles
  *
  */
 public class SkillTraining extends Training
 {
-    private String skillId;
+    private final String skillId;
+    private final boolean customReqs; //for backward compatibility
     /**
      * Training constructor 
      * @param skillID ID of skill to train
@@ -63,6 +65,24 @@ public class SkillTraining extends Training
         {
         	info += System.lineSeparator() + req.getInfo();
         }
+        customReqs = false;
+    }
+    /**
+     * Skill training constructor(with custom training requirements) 
+     * @param skillId ID of skill to train
+     * @param trainReq List with training requirements
+     */
+    public SkillTraining(String skillId, List<Requirement> trainReq)
+    {
+    	super(trainReq);
+    	this.skillId = skillId;
+        name = TConnector.getInfoFromModule("skills", skillId)[0];
+        info = name + " " + TConnector.getInfoFromModule("skills", skillId)[1];
+        for(Requirement req : trainReq)
+        {
+        	info += System.lineSeparator() + req.getInfo();
+        }
+        customReqs = true;
     }
     /**
      * Teaches specified game character skill from this training
@@ -101,7 +121,20 @@ public class SkillTraining extends Training
 	public Element getSave(Document doc) 
 	{
 		Element skillE = doc.createElement("skill");
-		skillE.setTextContent(skillId);
+		if(customReqs)
+		{
+			skillE.setAttribute("id", skillId);
+			Element trainReqE = doc.createElement("trainReq");
+			for(Requirement req : trainReq)
+			{
+				trainReqE.appendChild(req.getSave(doc));
+			}
+			skillE.appendChild(trainReqE);
+		}
+		else
+		{
+			skillE.setTextContent(skillId);
+		}
 		return skillE;
 	}
 }

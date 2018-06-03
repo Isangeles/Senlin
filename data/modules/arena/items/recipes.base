@@ -7,10 +7,6 @@
         <components>
             <item amount="4">aloeL</item>
         </components>
-        <trainReq>
-            <goldReq>10</goldReq>
-            <statsReq>0;0;0;2;1;</statsReq>
-        </trainReq>
     </recipe>
     <recipe id="rsIronIngot01" type="weapon crafting" level="novice">
       <result>
@@ -19,9 +15,6 @@
       <components>
         <item amount="2">mIronOre01</item>
       </components>
-      <trainReq>
-        <goldReq>30</goldReq>
-      </trainReq>
     </recipe>
     <recipe id="rsFineIS01" type="weapon crafting" level="novice">
       <result>
@@ -30,8 +23,5 @@
       <components>
         <item amount="2">mIronIngot01</item>
       </components>
-      <trainReq>
-        <goldReq>70</goldReq>
-      </trainReq>
     </recipe>
 </base>

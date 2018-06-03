@@ -25,8 +25,12 @@ package pl.isangeles.senlin.core.req;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
+import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**

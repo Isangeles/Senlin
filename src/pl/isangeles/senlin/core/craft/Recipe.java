@@ -1,7 +1,7 @@
 /*
  * Recipe.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
@@ -68,13 +69,12 @@ public class Recipe implements ScrollableContent
         this.trainReq = trainReq;
         name = TConnector.getTextFromModule("items", "recName") + ":" + TConnector.getInfoFromModule("items", result.get(0))[0];
         info = name + " " + System.lineSeparator() + TConnector.getInfoFromModule("items", result.get(0))[1] + " " + System.lineSeparator() + 
-        	   TConnector.getText("ui", "cMenuLevel") + ":" + level.getName() + " " + System.lineSeparator() + 
-        	   reqComponents.getInfo();
+        	   TConnector.getText("ui", "cMenuLevel") + ":" + level.getName() + System.lineSeparator() + reqComponents.getInfo();
     }
     /**
      * Creates item from this recipe
-     * @param components List with items IDs
-     * @return New item
+     * @param crafter Game character
+     * @return List with created items
      */
     public List<Item> create(Character crafter)
     {	

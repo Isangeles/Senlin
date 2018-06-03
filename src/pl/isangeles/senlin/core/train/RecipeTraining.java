@@ -1,7 +1,7 @@
 /*
  * RecipeTraining.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,12 +39,14 @@ import pl.isangeles.senlin.data.RecipesBase;
 
 /**
  * Class for recipes trainings
+ * Training requirements should be defined only in npc.base, but for backward compatibility old requirements in recipes.base are also supported
  * @author Isangeles
  *
  */
 public class RecipeTraining extends Training 
 {
 	private final Recipe recipe;
+	private final boolean customReqs; //for backward compatibility
 	/**
 	 * Recipe training constructor 
 	 * @param recipeId ID of recipe to train
@@ -59,6 +61,24 @@ public class RecipeTraining extends Training
 		{
 			info += System.lineSeparator() + req.getInfo();
 		}
+		customReqs = false;
+	}
+	/**
+	 * Recipe training constructor(with custom requirements)
+	 * @param recipeId ID of recipe to train 
+	 * @param reqs List with training requirements
+	 */
+	public RecipeTraining(String recipeId, List<Requirement> reqs)
+	{
+		super(reqs);
+		recipe = RecipesBase.get(recipeId);
+		name = recipe.getName();
+		info = recipe.getInfo();
+		for(Requirement req : trainReq)
+		{
+			info += System.lineSeparator() + req.getInfo();
+		}
+		customReqs = true;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.Training#teach(pl.isangeles.senlin.core.Character)
@@ -94,7 +114,20 @@ public class RecipeTraining extends Training
 	{
 		Element recipeE = doc.createElement("recipe");
 		
-		recipeE.setTextContent(recipe.getId());
+		if(customReqs)
+		{
+			recipeE.setAttribute("id", recipe.getId());
+			Element trainReqE = doc.createElement("trainReq");
+			for(Requirement req : trainReq)
+			{
+				trainReqE.appendChild(req.getSave(doc));
+			}
+			recipeE.appendChild(trainReqE);
+		}
+		else
+		{
+			recipeE.setTextContent(recipe.getId());
+		}
 		
 		return recipeE;
 	}

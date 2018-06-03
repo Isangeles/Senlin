@@ -62,7 +62,6 @@ public class ItemsRequirement extends Requirement
 			String itemAmount = "" + reqItems.get(itemId);
 			info += System.lineSeparator() + itemName + " x" + itemAmount;
 		}
-		Log.addSystem("items_req_info:" + info);
 	}
 	/**
 	 * Items requirement constructor (for multiple types of items)
@@ -72,6 +71,14 @@ public class ItemsRequirement extends Requirement
 	{
 		super(RequirementType.ITEMS, "");
 		this.reqItems = reqItems;
+
+		info = TConnector.getText("ui", "reqItems") + ": ";
+		for(String itemId : reqItems.keySet())
+		{
+			String itemName = TConnector.getInfoFromModule("items", itemId)[0];
+			String itemAmount = "" + reqItems.get(itemId);
+			info += System.lineSeparator() + itemName + " x" + itemAmount;
+		}
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.req.Requirement#isMeet(pl.isangeles.senlin.core.Character)

@@ -406,7 +406,12 @@
         </profession>
       </professions>
       <recipes>
-        <recipe>raAloeBalm</recipe>
+        <recipe id="raAloeBalm">
+        <trainReq>
+            <goldReq>10</goldReq>
+            <statsReq>0;0;0;2;1;</statsReq>
+        </trainReq>
+      </recipe>
       </recipes>
     </training>
     <effects>
@@ -443,11 +448,23 @@
     </skills>
     <training>
       <professions>
-        <profession type="weapon crafting" level="novice" />
+        <profession type="weapon crafting" level="novice">
+          <trainReq>
+            <pointsReq>1</pointsReq>
+          </trainReq>
+        </profession>
       </professions>
       <recipes>
-        <recipe>rsIronIngot01</recipe>
-        <recipe>rsFineIS01</recipe>
+        <recipe id="rsIronIngot01">
+          <trainReq>
+            <goldReq>20</goldReq>
+          </trainReq>
+        </recipe>
+        <recipe id="rsFineIS01">
+          <trainReq>
+            <goldReq>70</goldReq>
+          </trainReq>
+        </recipe>
       </recipes>
     </training>
     <effects>
