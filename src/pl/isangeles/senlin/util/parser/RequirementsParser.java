@@ -37,6 +37,7 @@ import pl.isangeles.senlin.core.req.FlagRequirement;
 import pl.isangeles.senlin.core.req.GenderRequirement;
 import pl.isangeles.senlin.core.req.GoldRequirement;
 import pl.isangeles.senlin.core.req.ItemsRequirement;
+import pl.isangeles.senlin.core.req.LevelRequirement;
 import pl.isangeles.senlin.core.req.ManaRequirement;
 import pl.isangeles.senlin.core.req.PointsRequirement;
 import pl.isangeles.senlin.core.req.Requirement;
@@ -110,10 +111,16 @@ public final class RequirementsParser
 						if(reqE.hasAttribute("expect"))
 							expect = Boolean.parseBoolean(reqE.getAttribute("expect"));
 						reqs.add(new FlagRequirement(flag, expect));
+						break;
 					case "itemReq":
 						int iAmount = Integer.parseInt(reqE.getAttribute("amount"));
 						String iId = reqE.getTextContent();
-						reqs.add(new ItemsRequirement(iId, iAmount));  
+						reqs.add(new ItemsRequirement(iId, iAmount));
+						break;
+					case "levelReq":
+						int reqLevel = Integer.parseInt(reqE.getTextContent());
+						reqs.add(new LevelRequirement(reqLevel));
+						break;
 					}
 				}
 				catch(NumberFormatException e)

@@ -1,7 +1,7 @@
 /*
  * Armor.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import org.newdawn.slick.SlickException;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.graphic.AnimObject;
@@ -49,7 +50,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Armor extends Equippable 
 {
-	public static final int FEET = 0,
+	public static final int FEET = 0, //TODO use armor type enum {@link ArmorType}
 							HANDS = 1,
 							OFFHAND = 2,
 							CHEST = 3,
@@ -66,18 +67,19 @@ public class Armor extends Equippable
 	 * @param armRat Armor rating value
 	 * @param bonuses Armor bonuses to statistics
 	 * @param equippEffects List with IDs of all equip effects 
-	 * @param reqLevel Level requested to wear armor
+	 * @param equipReq List with equip requirements
+	 * @param reqLevel Required level (only for backward compatibility, now requirement in {@link Eqippable#equipReq})
 	 * @param imgName Name of image file in icon directory for item tile
 	 * @param gc Slick game container for item tile
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects,
-				 int reqLevel, String imgName, String mSpriteName, String fSpriteName, GameContainer gc) 
+	public Armor(String id, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects, 
+				 List<Requirement> equipReq, String imgName, String mSpriteName, String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
+		super(id, value, imgName, gc, bonuses, equipEffects, equipReq, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.buildIcon(gc);
 		if(type == ArmorType.CHEST || type == ArmorType.HEAD)
@@ -99,7 +101,7 @@ public class Armor extends Equippable
 	 * @param armRat Armor rating value
 	 * @param bonuses Armor bonuses to statistics
 	 * @param equippEffects List with IDs of all equip effects 
-	 * @param reqLevel Level requested to wear armor
+	 * @param equipReq List with equip requirements
 	 * @param imgName Name of image file in icon directory for item tile
 	 * @param gc Slick game container for item tile
 	 * @throws SlickException
@@ -107,10 +109,10 @@ public class Armor extends Equippable
 	 * @throws FontFormatException
 	 */
 	public Armor(String id, long serial, ArmorType type, ItemMaterial material, int value, int armRat, Modifiers bonuses, List<String> equipEffects, 
-				 int reqLevel, String imgName, String mSpriteName,String fSpriteName, GameContainer gc) 
+				 List<Requirement> equipReq, String imgName, String mSpriteName,String fSpriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
+		super(id, serial, value, imgName, gc, bonuses, equipEffects, equipReq, type.ordinal(), material);
 		armorRating = armRat;
 		this.itemTile = this.buildIcon(gc);
 		if(type == ArmorType.CHEST || type == ArmorType.HEAD)
@@ -139,9 +141,11 @@ public class Armor extends Equippable
 	@Override
 	protected String getInfo()
 	{
+		//TODO include requirements info
 		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterialName() + System.lineSeparator() + 
-				TConnector.getText("ui", "armRat") + ": " + armorRating + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") 
-				+ ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
+				TConnector.getText("ui", "armRat") + ": " + armorRating + System.lineSeparator() + bonuses.getInfo() + 
+			    System.lineSeparator() + equipReq.toString() +
+				System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 
 		return fullInfo;
 	}

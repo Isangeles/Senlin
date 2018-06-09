@@ -1,7 +1,7 @@
 /*
  * ArmorPattern.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.item.Armor;
 import pl.isangeles.senlin.core.item.ArmorMaterial;
 import pl.isangeles.senlin.core.item.ArmorType;
 import pl.isangeles.senlin.core.item.ItemMaterial;
+import pl.isangeles.senlin.core.req.Requirement;
 
 /**
  * Class for armor patterns 
@@ -44,35 +45,34 @@ import pl.isangeles.senlin.core.item.ItemMaterial;
 public class ArmorPattern 
 {
 	private final String id;
-	private final int reqLvl;
 	private final String type;
 	private final String material;
 	private final int value;
 	private final int armRat;
 	private final Modifiers bonuses;
 	private final List<String> equipEffects;
+	private final List<Requirement> equipReq;
 	private final String icon;
 	private final String mSprite;
 	private final String fSprite;
 	/**
 	 * Armor pattern constructor
 	 * @param id Armor ID
-	 * @param reqLvl Level required to use this item
 	 * @param type Armor type
 	 * @param material Armor material
 	 * @param value Item value
 	 * @param armRat Armor rating
 	 * @param bonuses Item bonuses
 	 * @param equipEffects List with IDs of all equip effects
+	 * @param equipReq List with equip requirements
 	 * @param icon Item UI icon
 	 * @param mSprite Name of male sprite sheet file
 	 * @param fSprite Name of female sprite sheet file
 	 */
-	public ArmorPattern(String id, int reqLvl, String type, String material, int value, int armRat, List<Modifier> bonuses, List<String> equipEffects, 
-						String icon, String mSprite, String fSprite) 
+	public ArmorPattern(String id, String type, String material, int value, int armRat, List<Modifier> bonuses, List<String> equipEffects, 
+						List<Requirement> equipReq, String icon, String mSprite, String fSprite) 
 	{
 		this.id = id;
-		this.reqLvl = reqLvl;
 		this.type = type;
 		this.material = material;
 		this.value = value;
@@ -80,6 +80,7 @@ public class ArmorPattern
 		this.bonuses = new Modifiers();
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
+		this.equipReq = equipReq;
 		this.icon = icon;
 		this.mSprite = mSprite;
 		this.fSprite = fSprite;
@@ -102,9 +103,8 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, reqLvl, icon, mSprite, fSprite, gc);
+		return new Armor(id, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, equipReq, icon, mSprite, fSprite, gc);
 	}
-
 	/**
 	 * Creates item from this pattern (with specified serial number)
 	 * @param gc Slick game container
@@ -116,6 +116,6 @@ public class ArmorPattern
 	 */
 	public Armor make(GameContainer gc, long serial) throws SlickException, IOException, FontFormatException
 	{
-		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, reqLvl, icon, mSprite, fSprite, gc);
+		return new Armor(id, serial, ArmorType.fromName(type), ItemMaterial.fromName(material), value, armRat, bonuses, equipEffects, equipReq, icon, mSprite, fSprite, gc);
 	}
 }

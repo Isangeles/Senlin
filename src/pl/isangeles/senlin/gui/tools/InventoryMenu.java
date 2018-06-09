@@ -1,7 +1,7 @@
 /*
  * InventoryMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -226,8 +226,14 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
 				
 				if(eqSlots.getMouseOverSlot() != null)
 				{
-					if(eqSlots.setEqItem(draggedSlot.getContent().get(0), eqSlots.getMouseOverSlot()))
-						moveItem(draggedSlot, eqSlots.getMouseOverSlot());
+					Item draggedSlotContent = draggedSlot.getContent().get(0);
+					if(Equippable.class.isInstance(draggedSlotContent))
+					{
+						if(eqSlots.setEqItem((Equippable)draggedSlotContent, eqSlots.getMouseOverSlot()))
+							moveItem(draggedSlot, eqSlots.getMouseOverSlot());
+						else
+                        	Log.addWarning(TConnector.getText("ui", "equipReqFail"));
+					}
 					return;
 				}
 				
@@ -244,9 +250,12 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
                     if(item.use(player, player.getTarget()))
                     {
                         if(item.getActionType() == ActionType.EQUIP)
-                        {
                             autoMoveItem((ItemSlot)slots.getMouseOver(), eqSlots.getSlotFor((Equippable)item));
-                        }
+                    }
+                    else
+                    {
+                        if(item.getActionType() == ActionType.EQUIP)
+                        	Log.addWarning(TConnector.getText("ui", "equipReqFail"));
                     }
                 }
             }
@@ -520,11 +529,11 @@ class InventoryMenu extends InterfaceObject implements UiElement, SaveElement, M
     	 * @param eqSlot One of equipment item slots
     	 * @return True if item was successful inserted, false otherwise
     	 */
-    	public boolean setEqItem(Item eqItem, ItemSlot eqSlot)
+    	public boolean setEqItem(Equippable eqItem, ItemSlot eqSlot)
     	{
     		try
     		{
-    			if(!isCompatible((Equippable)eqItem, eqSlot))
+    			if(!isCompatible(eqItem, eqSlot))
         			return false;
     		}
     		catch(ClassCastException e)

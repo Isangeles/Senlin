@@ -34,6 +34,7 @@ import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.item.ItemMaterial;
 import pl.isangeles.senlin.core.item.WeaponType;
+import pl.isangeles.senlin.core.req.Requirement;
 
 /**
  * Class for weapons patterns
@@ -43,7 +44,6 @@ import pl.isangeles.senlin.core.item.WeaponType;
 public class WeaponPattern 
 {
 	private final String id;
-	private final int reqLvl;
 	private final String type;
 	private final String material;
 	private final int value;
@@ -52,12 +52,12 @@ public class WeaponPattern
 	private final Modifiers bonuses;
 	private final List<String> equipEffects;
 	private final List<String> hitEffects;
+	private final List<Requirement> equipReq;
 	private final String icon;
 	private final String spriteSheet;
 	/**
 	 * Weapon pattern constructor
 	 * @param id Item ID
-	 * @param reqLvl Level required to use this item
 	 * @param type Item type name
 	 * @param material Item material name
 	 * @param value Item value
@@ -69,11 +69,10 @@ public class WeaponPattern
 	 * @param icon Item UI icon
 	 * @param spriteSheet Item sprite sheet
 	 */
-	public WeaponPattern(String id, int reqLvl, String type, String material, int value, int minDmg, int maxDmg, List<Modifier> bonuses, List<String> equipEffects, 
-						 List<String> hitEffects, String icon, String spriteSheet)
+	public WeaponPattern(String id, String type, String material, int value, int minDmg, int maxDmg, List<Modifier> bonuses, List<String> equipEffects, 
+						 List<String> hitEffects, List<Requirement> equipReq, String icon, String spriteSheet)
 	{
 		this.id = id;
-		this.reqLvl = reqLvl;
 		this.type = type;
 		this.material = material;
 		this.value = value;
@@ -83,6 +82,7 @@ public class WeaponPattern
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
 		this.hitEffects = hitEffects;
+		this.equipReq = equipReq;
 		this.icon = icon;
 		this.spriteSheet = spriteSheet;
 	}
@@ -105,9 +105,9 @@ public class WeaponPattern
 	public Weapon make(GameContainer gc) throws SlickException, IOException, FontFormatException
 	{
 		if(spriteSheet.equals("default") || spriteSheet.equals(""))
-			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, gc);
+			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, icon, gc);
 		else
-			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
+			return new Weapon(id, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, icon, spriteSheet, gc);
 	}
 
 	/**
@@ -122,8 +122,8 @@ public class WeaponPattern
 	public Weapon make(GameContainer gc, long serial) throws SlickException, IOException, FontFormatException
 	{
 		if(spriteSheet.equals("default") || spriteSheet.equals(""))
-			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, gc);
+			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, icon, gc);
 		else
-			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLvl, icon, spriteSheet, gc);
+			return new Weapon(id, serial, WeaponType.fromName(type), ItemMaterial.fromName(material), value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, icon, spriteSheet, gc);
 	}
 }

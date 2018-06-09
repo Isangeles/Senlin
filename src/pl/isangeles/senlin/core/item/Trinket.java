@@ -1,7 +1,7 @@
 /*
  * Trinket.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ import pl.isangeles.senlin.core.action.Action;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.graphic.AnimObject;
 import pl.isangeles.senlin.gui.tools.ItemTile;
@@ -47,7 +48,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class Trinket extends Equippable 
 {
-	public static final int FINGER = 0,
+	public static final int FINGER = 0, //TODO use trinket type enum {@link TrinketType}
 							NECK = 1,
 							ARTIFACT = 2;
 	/**
@@ -59,16 +60,18 @@ public class Trinket extends Equippable
 	 * @param reqLevel Level required to use this item
 	 * @param bonuses Bonuses for owner
 	 * @param equippEffects List with IDs of all equip effects 
+	 * @param equipReq List with equip requirements
 	 * @param onUse Action on use
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+	public Trinket(String id, TrinketType type, int value, String imgName, Modifiers bonuses, List<String> equipEffects, 
+				   List<Requirement> equipReq, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
+		super(id, value, imgName, gc, bonuses, equipEffects, equipReq, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.buildIcon(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
@@ -83,16 +86,18 @@ public class Trinket extends Equippable
 	 * @param reqLevel Level required to use this item
 	 * @param bonuses Bonuses for owner
 	 * @param equippEffects List with IDs of all equip effects 
+	 * @param equipReq List with equip requirements
 	 * @param onUse Action on use
 	 * @param gc Slick game container
 	 * @throws SlickException
 	 * @throws IOException
 	 * @throws FontFormatException
 	 */
-	public Trinket(String id, long serial, TrinketType type, int value, String imgName, int reqLevel, Modifiers bonuses, List<String> equipEffects, Action onUse, GameContainer gc) 
+	public Trinket(String id, long serial, TrinketType type, int value, String imgName, Modifiers bonuses, 
+				   List<String> equipEffects, List<Requirement> equipReq, Action onUse, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, imgName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), ItemMaterial.IRON);
+		super(id, serial, value, imgName, gc, bonuses, equipEffects, equipReq, type.ordinal(), ItemMaterial.IRON);
 		this.itemTile = this.buildIcon(gc);
 		if(onUse.getType() != ActionType.NONE)
 			this.onUse = onUse;
@@ -103,7 +108,8 @@ public class Trinket extends Equippable
 	@Override
 	protected String getInfo() 
 	{
-		String fullInfo = name + System.lineSeparator() + getTypeName() + System.lineSeparator() + bonuses.getInfo() + TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + 
+		String fullInfo = name + System.lineSeparator() + getTypeName() + System.lineSeparator() + bonuses.getInfo() + 
+						  System.lineSeparator() + equipReq.toString() +
 						  System.lineSeparator() + info + System.lineSeparator() + TConnector.getText("ui", "itemVInfo") + ": " + value;
 		return fullInfo;
 	}

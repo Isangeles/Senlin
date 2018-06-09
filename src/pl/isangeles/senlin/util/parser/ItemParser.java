@@ -1,7 +1,7 @@
 /*
  * ItemParser.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import org.w3c.dom.NodeList;
 import pl.isangeles.senlin.core.action.ActionType;
 import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.bonus.Modifiers;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.pattern.ActionPattern;
 import pl.isangeles.senlin.data.pattern.ArmorPattern;
 import pl.isangeles.senlin.data.pattern.MiscPattern;
@@ -60,7 +61,6 @@ public class ItemParser
 		Element itemE = (Element)itemNode;
 		
 		String id = itemE.getAttribute("id");
-		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLvl"));
 		String type = itemE.getAttribute("type");
 		String material = itemE.getAttribute("material"); 
 		int value = Integer.parseInt(itemE.getAttribute("value"));
@@ -117,8 +117,10 @@ public class ItemParser
 			}
 		}
 		
+		Node equipReqsNode = itemE.getElementsByTagName("equipReq").item(0);
+		List<Requirement> eqReqs = RequirementsParser.getReqFromNode(equipReqsNode);
 		
-		return new WeaponPattern(id, reqLvl, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, icon, spritesheet);
+		return new WeaponPattern(id, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, eqReqs, icon, spritesheet);
 	}
 	/**
 	 * Parses item node from armors base
@@ -131,7 +133,6 @@ public class ItemParser
 		Element itemE = (Element)itemNode;
 		
 		String id = itemE.getAttribute("id");
-		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLvl"));
 		String type = itemE.getAttribute("type");
 		String material = itemE.getAttribute("material"); 
 		int value = Integer.parseInt(itemE.getAttribute("value"));
@@ -164,6 +165,9 @@ public class ItemParser
 			}
 		}
 		
+		Node equipReqsNode = itemE.getElementsByTagName("equipReq").item(0);
+		List<Requirement> eqReqs = RequirementsParser.getReqFromNode(equipReqsNode);
+		
 		Element mSpriteE = (Element)itemE.getElementsByTagName("maleSprite").item(0);
 		if(mSpriteE != null)
 		{
@@ -176,7 +180,7 @@ public class ItemParser
 		}
 		
 		
-		return new ArmorPattern(id, reqLvl, type, material, value, armRat, bonuses, equipEffects, icon, maleSprite, femaleSprite);
+		return new ArmorPattern(id, type, material, value, armRat, bonuses, equipEffects, eqReqs, icon, maleSprite, femaleSprite);
 	}
 	/**
 	 * Parses item node from trinkets base
@@ -189,7 +193,6 @@ public class ItemParser
 		
 		String id = itemE.getAttribute("id");
 		String type = itemE.getAttribute("type");
-		int reqLvl = Integer.parseInt(itemE.getAttribute("reqLevel"));
 		int value = Integer.parseInt(itemE.getAttribute("value"));
 		String icon = itemE.getElementsByTagName("icon").item(0).getTextContent();
 		if(icon == null || icon.isEmpty())
@@ -215,11 +218,14 @@ public class ItemParser
 			}
 		}
 		
+		Node equipReqsNode = itemE.getElementsByTagName("equipReq").item(0);
+		List<Requirement> eqReqs = RequirementsParser.getReqFromNode(equipReqsNode);
+		
 		Element actionE = (Element)itemE.getElementsByTagName("action").item(0);
 		String actionType = actionE.getAttribute("type");
 		String actionId = actionE.getTextContent();
 		
-		return new TrinketPattern(id, type, reqLvl, value, icon, bonuses, equipEffects, actionType, actionId);
+		return new TrinketPattern(id, type, value, icon, bonuses, equipEffects, eqReqs, actionType, actionId);
 	}
 	/**
 	 * Parses item node from miscellaneous items base

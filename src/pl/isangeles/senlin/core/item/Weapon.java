@@ -1,7 +1,7 @@
 /*
  * Weapon.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.effect.Effect;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GBase;
 import pl.isangeles.senlin.util.GConnector;
@@ -49,7 +50,7 @@ import pl.isangeles.senlin.gui.tools.ItemTile;
  */
 public class Weapon extends Equippable 
 {
-	public static final int DAGGER = 0,
+	public static final int DAGGER = 0,  //TODO use weapon type enum {@link WeaponType}
 							SWORD = 1,
 							AXE = 2,
 							MACE = 3,
@@ -72,7 +73,7 @@ public class Weapon extends Equippable
 	 * @param bonuses Weapon bonuses
 	 * @param equippEffects List with IDs of all equip effects 
 	 * @param hitEffects List with IDs of all hit effects 
-	 * @param reqLevel Required level
+	 * @param equipReq List with equip requirements
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
 	 * @throws SlickException
@@ -80,10 +81,10 @@ public class Weapon extends Equippable
 	 * @throws FontFormatException
 	 */
 	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
-				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
+				  List<String> hitEffects, List<Requirement> equipReq, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, value, picName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
+		super(id, value, picName, gc, bonuses, equipEffects, equipReq, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
 		this.hitEffects = hitEffects;
@@ -104,7 +105,7 @@ public class Weapon extends Equippable
 	 * @param bonuses Weapon bonuses
 	 * @param equippEffects List with IDs of all equip effects 
 	 * @param hitEffects List with IDs of all hit effects 
-	 * @param reqLevel Required level
+	 * @param equipReq List with equip requirements
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
 	 * @throws SlickException
@@ -112,10 +113,10 @@ public class Weapon extends Equippable
 	 * @throws FontFormatException
 	 */
 	public Weapon(String id, long serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
-				  List<String> hitEffects, int reqLevel, String picName, String spriteName, GameContainer gc) 
+				  List<String> hitEffects, List<Requirement> equipReq, String picName, String spriteName, GameContainer gc) 
 			throws SlickException, IOException, FontFormatException 
 	{
-		super(id, serial, value, picName, gc, reqLevel, bonuses, equipEffects, type.ordinal(), material);
+		super(id, serial, value, picName, gc, bonuses, equipEffects, equipReq, type.ordinal(), material);
 		this.minDamage = minDmg;
 		this.maxDamage = maxDmg;
 		this.hitEffects = hitEffects;
@@ -135,7 +136,7 @@ public class Weapon extends Equippable
 	 * @param bonuses Weapon bonuses
 	 * @param equippEffects List with IDs of all equip effects 
 	 * @param hitEffects List with IDs of all hit effects 
-	 * @param reqLevel Required level
+	 * @param equipReq List with equip requirements
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
 	 * @throws SlickException
@@ -143,9 +144,9 @@ public class Weapon extends Equippable
 	 * @throws FontFormatException
 	 */
 	public Weapon(String id, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
-				  List<String> hitEffects, int reqLevel, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
+				  List<String> hitEffects, List<Requirement> equipReq, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		this(id, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLevel, picName, type.getDefaultMaleSpritesheet(), gc);
+		this(id, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, picName, type.getDefaultMaleSpritesheet(), gc);
 	}
 	/**
 	 * Weapon constructor (with saved serial number and default spritesheet)
@@ -161,7 +162,7 @@ public class Weapon extends Equippable
 	 * @param bonuses Weapon bonuses
 	 * @param equippEffects List with IDs of all equip effects 
 	 * @param hitEffects List with IDs of all hit effects 
-	 * @param reqLevel Required level
+	 * @param equipReq List with equip requirements
 	 * @param picName Weapon icon image file name
 	 * @param gc Slick game container
 	 * @throws SlickException
@@ -169,9 +170,9 @@ public class Weapon extends Equippable
 	 * @throws FontFormatException
 	 */
 	public Weapon(String id, long serial, WeaponType type, ItemMaterial material, int value, int minDmg, int maxDmg, Modifiers bonuses, List<String> equipEffects, 
-				  List<String> hitEffects, int reqLevel, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
+				  List<String> hitEffects, List<Requirement> equipReq, String picName, GameContainer gc) throws SlickException, IOException, FontFormatException 
 	{
-		this(id, serial, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, reqLevel, picName, type.getDefaultMaleSpritesheet(), gc);
+		this(id, serial, type, material, value, minDmg, maxDmg, bonuses, equipEffects, hitEffects, equipReq, picName, type.getDefaultMaleSpritesheet(), gc);
 	}
 	/**
 	 * Returns weapon maximal and minimal damage
@@ -197,7 +198,8 @@ public class Weapon extends Equippable
 	{
 		String fullInfo = name + System.lineSeparator() +  getTypeName() + System.lineSeparator() + getMaterialName() + System.lineSeparator() +
 						TConnector.getText("ui", "dmgName") + ": " +  minDamage + "-" + maxDamage + System.lineSeparator() + bonuses.getInfo() + 
-						TConnector.getText("ui", "itemRLInfo") + ": " + reqLevel + System.lineSeparator() + info + System.lineSeparator() + 
+					    System.lineSeparator() + equipReq.toString() +
+						System.lineSeparator() + info + System.lineSeparator() + 
 						TConnector.getText("ui", "itemVInfo") + ": " + value;
 		
 		return fullInfo;

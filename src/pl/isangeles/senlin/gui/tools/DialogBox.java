@@ -92,7 +92,7 @@ class DialogBox extends InterfaceObject implements UiElement, MouseListener
 		
 		File fontFile = new File("data" + File.separator + "font" + File.separator + "SIMSUN.ttf");
 		Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		ttf = new TrueTypeFont(font.deriveFont(13f), true);
+		ttf = new TrueTypeFont(font.deriveFont(getSize(13f)), true);
 
 		textBox = new MessageBox(gc);
 		

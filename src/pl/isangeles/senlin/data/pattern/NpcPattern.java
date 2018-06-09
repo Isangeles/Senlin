@@ -32,6 +32,7 @@ import java.util.Scanner;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.core.item.Equippable;
 import pl.isangeles.senlin.core.item.Item;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.core.train.Training;
@@ -195,27 +196,34 @@ public class NpcPattern
 				npc.addItem(it);
 		}
 		
-		Item helmet = npc.getItem(headItem);
-		Item chest = npc.getItem(chestItem);
-		Item gloves = npc.getItem(handsItem);
-		Item mainWeap = npc.getItem(mainHandItem);
-		Item offHand = npc.getItem(offHandItem);
-		Item boots = npc.getItem(feetItem);
-		Item amulet = npc.getItem(neckItem);
-		Item ringA = npc.getItem(fingerAItem);
-		Item ringB = npc.getItem(fingerBItem);
-		Item artifact = npc.getItem(this.artifact);
+		try
+		{
+			Equippable helmet = (Equippable)npc.getItem(headItem);
+			Equippable chest = (Equippable)npc.getItem(chestItem);
+			Equippable gloves = (Equippable)npc.getItem(handsItem);
+			Equippable mainWeap = (Equippable)npc.getItem(mainHandItem);
+			Equippable offHand = (Equippable)npc.getItem(offHandItem);
+			Equippable boots = (Equippable)npc.getItem(feetItem);
+			Equippable amulet = (Equippable)npc.getItem(neckItem);
+			Equippable ringA = (Equippable)npc.getItem(fingerAItem);
+			Equippable ringB = (Equippable)npc.getItem(fingerBItem);
+			Equippable artifact = (Equippable)npc.getItem(this.artifact);
 
-		npc.equipItem(helmet);
-		npc.equipItem(chest);
-		npc.equipItem(gloves);
-		npc.equipItem(mainWeap);
-		npc.equipItem(offHand);
-		npc.equipItem(boots);
-		npc.equipItem(amulet);
-		npc.equipItem(ringA);
-		npc.equipItem(ringB);
-		npc.equipItem(artifact);
+			npc.equipItem(helmet);
+			npc.equipItem(chest);
+			npc.equipItem(gloves);
+			npc.equipItem(mainWeap);
+			npc.equipItem(offHand);
+			npc.equipItem(boots);
+			npc.equipItem(amulet);
+			npc.equipItem(ringA);
+			npc.equipItem(ringB);
+			npc.equipItem(artifact);
+		}
+		catch(Exception e)
+		{
+			Log.addSystem("npc_pattern:" + npcId + "-fail_to_set_equipment");
+		}
 		
 		for(String skillId : skills)
 		{
@@ -273,28 +281,35 @@ public class NpcPattern
             if(it != null)
                 npc.addItem(it);
         }
-        
-        Item helmet = npc.getItem(headItem);
-        Item chest = npc.getItem(chestItem);
-        Item gloves = npc.getItem(handsItem);
-        Item mainWeap = npc.getItem(mainHandItem);
-        Item offHand = npc.getItem(offHandItem);
-        Item boots = npc.getItem(feetItem);
-        Item amulet = npc.getItem(neckItem);
-        Item ringA = npc.getItem(fingerAItem);
-        Item ringB = npc.getItem(fingerBItem);
-        Item artifact = npc.getItem(this.artifact);
-        
-        npc.equipItem(helmet);
-        npc.equipItem(chest);
-        npc.equipItem(gloves);
-        npc.equipItem(mainWeap);
-        npc.equipItem(offHand);
-        npc.equipItem(boots);
-        npc.equipItem(amulet);
-        npc.equipItem(ringA);
-        npc.equipItem(ringB);
-        npc.equipItem(artifact);
+
+		try
+		{
+			Equippable helmet = (Equippable)npc.getItem(headItem);
+			Equippable chest = (Equippable)npc.getItem(chestItem);
+			Equippable gloves = (Equippable)npc.getItem(handsItem);
+			Equippable mainWeap = (Equippable)npc.getItem(mainHandItem);
+			Equippable offHand = (Equippable)npc.getItem(offHandItem);
+			Equippable boots = (Equippable)npc.getItem(feetItem);
+			Equippable amulet = (Equippable)npc.getItem(neckItem);
+			Equippable ringA = (Equippable)npc.getItem(fingerAItem);
+			Equippable ringB = (Equippable)npc.getItem(fingerBItem);
+			Equippable artifact = (Equippable)npc.getItem(this.artifact);
+
+			npc.equipItem(helmet);
+			npc.equipItem(chest);
+			npc.equipItem(gloves);
+			npc.equipItem(mainWeap);
+			npc.equipItem(offHand);
+			npc.equipItem(boots);
+			npc.equipItem(amulet);
+			npc.equipItem(ringA);
+			npc.equipItem(ringB);
+			npc.equipItem(artifact);
+		}
+		catch(Exception e)
+		{
+			Log.addSystem("npc_pattern:" + npcId + "-fail_to_set_equipment");
+		}
         
         for(String skillId : skills)
         {

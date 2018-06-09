@@ -1,7 +1,7 @@
 /*
  * Equippable.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@ import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.character.Gender;
 import pl.isangeles.senlin.core.effect.Effect;
 import pl.isangeles.senlin.core.effect.EffectSource;
+import pl.isangeles.senlin.core.req.Requirement;
+import pl.isangeles.senlin.core.req.Requirements;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.graphic.AnimObject;
 /**
@@ -46,35 +48,67 @@ import pl.isangeles.senlin.graphic.AnimObject;
  */
 public abstract class Equippable extends Item implements EffectSource
 {
-	protected int reqLevel;
+	private static final int EQUIPABLE_MAX_STACK = 1;
+	
 	protected final int type;
 	protected final ItemMaterial material;
 	protected Modifiers bonuses;
 	protected AnimObject itemMSprite;
 	protected AnimObject itemFSprite;
 	protected List<String> equipEffects;
-	
-	public Equippable(String id, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, 
-				      List<String> equipEffects, int type, ItemMaterial material)
+	protected Requirements equipReq;
+	/**
+	 * Eqippable item constructor
+	 * @param id Item ID
+	 * @param value Item value
+	 * @param imgName Item icon image file name
+	 * @param gc Slick game container
+	 * @param reqLevel Required level to equip(only for backward compatibility, now requirement in {@link Eqippable#equipReq})
+	 * @param bonuses List with on-equip modifiers
+	 * @param equipEffects List with IDs of on-equip effects
+	 * @param equipReq List with equip requirements
+	 * @param type Type of equipable item
+	 * @param material Item material
+	 * @throws SlickException 
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Equippable(String id, int value, String imgName, GameContainer gc, Modifiers bonuses, List<String> equipEffects, 
+					  List<Requirement> equipReq, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
-		super(id, value, 1, imgName, gc);
-		this.reqLevel = reqLevel;
+		super(id, value, EQUIPABLE_MAX_STACK, imgName, gc);
 		this.bonuses = bonuses;
 		this.equipEffects = equipEffects;
+		this.equipReq = new Requirements(equipReq);
 		this.type = type;
 		this.material = material;
 		onUse = new EquipAction(this);
 	}
-	
-	public Equippable(String id, long serial, int value, String imgName, GameContainer gc, int reqLevel, Modifiers bonuses, 
-					  List<String> equipEffects, int type, ItemMaterial material)
+	/**
+	 * Eqippable item constructor(with custom serial number, for save engine)
+	 * @param id Item ID
+	 * @param serial Item serial numberc
+	 * @param value Item value
+	 * @param imgName Item icon image file name
+	 * @param gc Slick game container
+	 * @param bonuses List with on-equip modifiers
+	 * @param equipEffects List with IDs of on-equip effects
+	 * @param equipReq List with equip requirements
+	 * @param type Type of equipable item
+	 * @param material Item material
+	 * @throws SlickException 
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
+	public Equippable(String id, long serial, int value, String imgName, GameContainer gc, Modifiers bonuses, 
+					  List<String> equipEffects, List<Requirement> equipReq, int type, ItemMaterial material)
 			throws SlickException, IOException, FontFormatException
 	{
-		super(id, serial, value, 1, imgName, gc);
-		this.reqLevel = reqLevel;
+		super(id, serial, value, EQUIPABLE_MAX_STACK, imgName, gc);
 		this.bonuses = bonuses;
 		this.equipEffects = equipEffects;
+		this.equipReq = new Requirements(equipReq);
 		this.type = type;
 		this.material = material;
 		onUse = new EquipAction(this);
@@ -103,6 +137,14 @@ public abstract class Equippable extends Item implements EffectSource
 	    default:
 	        return itemMSprite;
 	    }
+	}
+	/**
+	 * Returns equip requirements
+	 * @return Equip requirements
+	 */
+	public Requirements getEquipReqs()
+	{
+		return equipReq;
 	}
 	/* (non-Javadoc)
 	 * @see pl.isangeles.senlin.core.effect.EffectSource#getOwner()
@@ -147,7 +189,7 @@ public abstract class Equippable extends Item implements EffectSource
 		return equipEffects;
 	}
 	/**
-	 * Resets item to default state
+	 * Resets item to default state(resets item sprite)
 	 */
 	public void reset()
 	{

@@ -423,9 +423,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      * @param item Equippable item in character inventory
      * @return True if item was successfully equipped, false otherwise
      */
-    public boolean equipItem(Item item)
+    public boolean equipItem(Equippable item)
     {
-    	return inventory.equip(item);
+    	if(item.getEquipReqs().isMetBy(this))
+        	return inventory.equip(item);
+    	else
+    		return false;
     }
     /**
      * Sets specified flag for character

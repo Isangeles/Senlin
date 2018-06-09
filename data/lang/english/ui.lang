@@ -124,6 +124,7 @@ effDuration:Duration;
 waitWinTitle:Wait;
 waitWinWait:Wait;
 waitWinRest:Rest;
+equipReqFail:Can't equip this item;
 pauseAlert:Game is paused;
 logInfo:Information;
 logWarn:Warning;

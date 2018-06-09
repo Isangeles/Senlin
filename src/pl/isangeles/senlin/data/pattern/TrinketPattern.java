@@ -1,7 +1,7 @@
 /*
  * TrinketPattern.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.bonus.Modifier;
 import pl.isangeles.senlin.core.bonus.Modifiers;
 import pl.isangeles.senlin.core.item.Trinket;
 import pl.isangeles.senlin.core.item.TrinketType;
+import pl.isangeles.senlin.core.req.Requirement;
 import pl.isangeles.senlin.data.EffectsBase;
 
 /**
@@ -48,17 +49,17 @@ public class TrinketPattern
 	private final String id;
 	private final String type;
 	private final int value;
-	private final int level;
 	private final String icon;
 	private final Modifiers bonuses;
 	private final List<String> equipEffects;
+	private final List<Requirement> equipReq;
 	private final String actionType;
 	private final String actionId;
 	/**
 	 * Trinket pattern constructor
 	 * @param id Trinket ID
 	 * @param type String with trinket type name
-	 * @param level Level required to use this item
+	 * @param level Level required to use this item (only for backward compatibility, now requirement in {@link WaponPattern#equipReq})
 	 * @param value Item value
 	 * @param icon Item icon for GUI
 	 * @param bonuses Item bonuses 
@@ -66,16 +67,17 @@ public class TrinketPattern
 	 * @param actionType Type of on-click action
 	 * @param actionId ID for on-click action
 	 */
-	public TrinketPattern(String id, String type, int level, int value, String icon, List<Modifier> bonuses, List<String> equipEffects, String actionType, String actionId) 
+	public TrinketPattern(String id, String type, int value, String icon, List<Modifier> bonuses, List<String> equipEffects,
+						  List<Requirement> equipReq, String actionType, String actionId) 
 	{
 		this.id = id;
 		this.type = type;
 		this.value = value;
-		this.level = level;
 		this.icon = icon;
 		this.bonuses = new Modifiers();
 		this.bonuses.addAll(bonuses);
 		this.equipEffects = equipEffects;
+		this.equipReq = equipReq;
 		this.actionType = actionType;
 		this.actionId = actionId;
 	}
@@ -112,7 +114,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, TrinketType.fromString(type), value, icon, level, bonuses, equipEffects, action, gc);
+		return new Trinket(id, TrinketType.fromString(type), value, icon, bonuses, equipEffects, equipReq, action, gc);
 	}
 	/**
 	 * Return new instance of item(with specified serial number) from this pattern
@@ -140,7 +142,7 @@ public class TrinketPattern
 			action = new EffectAction();
 		}
 		
-		return new Trinket(id, serial, TrinketType.fromString(type), value, icon, level, bonuses, equipEffects, action, gc);
+		return new Trinket(id, serial, TrinketType.fromString(type), value, icon, bonuses, equipEffects, equipReq, action, gc);
 	}
 
 }

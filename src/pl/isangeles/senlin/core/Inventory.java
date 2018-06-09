@@ -1,7 +1,7 @@
 /*
  * Inventory.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -268,7 +268,8 @@ public final class Inventory extends LinkedList<Item> implements SaveElement
     {
     	if(this.contains(item) && Equippable.class.isInstance(item))
     	{
-    		return equipment.equip((Equippable)item);
+    		Equippable eqItem = (Equippable)item;
+    		return equipment.equip(eqItem);
     	}
     	else
     		return false;

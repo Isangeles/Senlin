@@ -1,7 +1,7 @@
 /*
  * RequirementType.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ public enum RequirementType
 			return RequirementType.GENDER;
 		case "guildReq":
 			return RequirementType.GUILD;
-		case "goldReq": case "value":
+		case "goldReq": case "value": //goldReq deprecated
 			return RequirementType.GOLD;
 		case "itemsReq":
 			return RequirementType.ITEMS;
@@ -63,6 +63,40 @@ public enum RequirementType
 			return RequirementType.FLAG;
 		default:
 			return RequirementType.NONE;
+		}
+	}
+	/**
+	 * Returns name of XML tag for this type
+	 * @return String with type name
+	 */
+	public String toTagName()
+	{
+		switch(this)
+		{
+		case LEVEL:
+			return "levelReq";
+		case STATS:
+			return "statsReq";
+		case GENDER:
+			return "genderReq";
+		case GUILD:
+			return "guildReq";
+		case GOLD:
+			return "value";
+		case ITEMS:
+			return "itemsReq";
+		case POINTS:
+			return "pointsReq";
+		case MANA:
+			return "manaReq";
+		case HEALTH:
+			return "hpReq";
+		case WEAPON:
+			return "weaponReq";
+		case FLAG:
+			return "flagReq";
+		default:
+			return "";
 		}
 	}
 }
