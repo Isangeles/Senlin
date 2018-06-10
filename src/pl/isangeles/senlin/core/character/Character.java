@@ -425,7 +425,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
      */
     public boolean equipItem(Equippable item)
     {
-    	if(item.getEquipReqs().isMetBy(this))
+    	if(item != null && item.getEquipReqs().isMetBy(this))
         	return inventory.equip(item);
     	else
     		return false;

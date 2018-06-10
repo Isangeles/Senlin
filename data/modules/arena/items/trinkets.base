@@ -1,19 +1,25 @@
 <?xml version="1.0"?>
 <base>
-    <item id="tSRing" reqLevel="1" type="finger" value="50">
+    <item id="tSRing" type="finger" value="50">
         <icon>ring01.png</icon>
         <bonuses></bonuses>
         <action></action>
+        <equipReq>
+          <levelReq>1</levelReq>
+        </equipReq>
     </item>
-    <item id="tRegRing01" reqLevel="1" type="finger" value="1000">
+    <item id="tRegRing01" type="finger" value="1000">
         <icon>ring01.png</icon>
         <bonuses></bonuses>
         <action></action>
         <equipEffects>
             <effect>heal01</effect>
         </equipEffects>
+        <equipReq>
+          <levelReq>1</levelReq>
+        </equipReq>
     </item>
-    <item id="tDa01" reqLevel="3" type="neckle" value="1000">
+    <item id="tDa01" type="neckle" value="1000">
         <icon>neckle01.png</icon>
         <bonuses>
           <statsModifier>2;1;1;1;0</statsModifier>
@@ -22,5 +28,8 @@
         <equipEffects>
             <effect>swordBon01</effect>
         </equipEffects>
+        <equipReq>
+          <levelReq>3</levelReq>
+        </equipReq>
     </item>
 </base>
