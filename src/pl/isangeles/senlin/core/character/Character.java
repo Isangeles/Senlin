@@ -454,6 +454,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     		}
     	}
     	if(!hasDefD)
+    		
     		dialogues.add(DialoguesBase.getDefaultDialogue());
     	
     	for(Dialogue dialogue : dialogues)

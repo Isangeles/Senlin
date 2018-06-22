@@ -172,8 +172,13 @@ public class ChapterLoadingScreen extends BasicGameState
 			loadingInfo.setText("loading game world...");
 			break;
 		case 3:
-			gw = new GameWorld(pc, Module.getChapter(Module.getActiveChapterName(), container));
-	        game.addState(gw);
+			gw = (GameWorld)game.getState(2);
+			if(gw == null)
+			{
+				gw = new GameWorld(pc, Module.getChapter(Module.getActiveChapterName(), container));
+		        game.addState(gw);
+			}
+			gw.setupWorld(pc, Module.getChapter(Module.getActiveChapterName(), container));
 	        game.getState(gw.getID()).init(container, game);
 	        break;
         case 4:

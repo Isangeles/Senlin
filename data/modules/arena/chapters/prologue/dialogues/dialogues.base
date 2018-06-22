@@ -48,7 +48,7 @@
       <answer id="bye01" to="end" />
       <mod>
         <scripts>
-          <!-- <script>nextChapter</script> -->
+          <script>nextChapter</script>
         </scripts>
       </mod>
     </text>

@@ -326,6 +326,10 @@ public class WorldMan implements CliTool
         		world.getDay().getTime().addHours(hours);
         		world.getDay().getTime().addMinutes(minutes);
         		break;
+            case "-c": case "--chapter":
+            	if(arg1.equals("next"))
+            		world.setNextChapterReq();
+            	break;
         	default:
         		result = "3";
         		break;

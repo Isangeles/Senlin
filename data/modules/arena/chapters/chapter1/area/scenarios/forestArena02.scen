@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<scenario id="forestArena02">
-    <mainarea id="forestArena02main" map="arenaForest02.tmx">
+<scenario id="forestArena02_c1">
+    <mainarea id="forestArena02_c1main" map="arenaForest02.tmx">
         <npcs>
           <npc position="26;19">hermit01</npc>
         </npcs>
@@ -14,12 +14,11 @@
             <mob min="4" max="10">wolf01</mob>
         </mobs>
         <quests>
-          <quest trigger="hermitD01_06_a1">qDragonAmulet01</quest>
         </quests>
         <objects>
         </objects>
         <exits>
-          <exit position="55;1" texture="signPost.png" to="64;69">forestArena01</exit>
+          <exit position="55;1" texture="signPost.png" to="64;69">forestArena01_c1</exit>
         </exits>
         <music>
             <idle>

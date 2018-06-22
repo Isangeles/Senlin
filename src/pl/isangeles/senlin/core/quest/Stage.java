@@ -72,21 +72,23 @@ public class Stage
      */
     public boolean isComplete()
     {
-        boolean complete = true;
-        for(Objective objective : objectives)
-        {
-            if(!objective.isComplete() && !objective.isFinisher())
-            {
-                complete = false;
-            }
-            else if(objective.isComplete() && objective.isFinisher())
+    	for(Objective objective : objectives)
+    	{
+            if(objective.isComplete() && objective.isFinisher())
             {
             	if(!objective.getToId().equals("")) //TODO maybe some more validation needed
             		nextStage = objective.getToId();
             	return true;
             }
+    	}
+    	
+        for(Objective objective : objectives)
+        {
+            if(!objective.isComplete())
+	            return false;
         }
-        return complete;
+        
+        return true;
     }
     /**
      * Starts stage for specified character

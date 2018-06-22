@@ -93,31 +93,6 @@ public class Quest implements ScrollableContent, SaveElement
         this.flagsOnEnd.add(id + "_end");
     }
     /**
-     * Changes current stage
-     */
-    private void nextStage()
-    {
-    	if(active)
-    	{
-    		currentStage.complete(owner);
-            if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
-            {
-                complete();
-                return;
-            }
-            
-            for(Stage stage : stages)
-            {
-                if(stage.getId().equals(currentStage.getNextStage()))
-                {
-                	stage.start(owner);
-                    currentStage = stage;
-                    break;
-                }
-            }
-    	}
-    }
-    /**
      * Starts quest
      * @param character Game character
      * @return True was successfully started, false otherwise
@@ -205,7 +180,7 @@ public class Quest implements ScrollableContent, SaveElement
         if(active)
         {
         	currentStage.check(ot);
-            
+
             if(currentStage.isComplete())
             {
             	nextStage();
@@ -288,4 +263,29 @@ public class Quest implements ScrollableContent, SaveElement
 		}
 		return questE;
 	}
+    /**
+     * Changes current stage
+     */
+    private void nextStage()
+    {
+    	if(active)
+    	{
+    		currentStage.complete(owner);
+            if(!complete && currentStage.isComplete() && currentStage.getNextStage().equals("end"))
+            {
+                complete();
+                return;
+            }
+            
+            for(Stage stage : stages)
+            {
+                if(stage.getId().equals(currentStage.getNextStage()))
+                {
+                	stage.start(owner);
+                    currentStage = stage;
+                    break;
+                }
+            }
+    	}
+    }
 }

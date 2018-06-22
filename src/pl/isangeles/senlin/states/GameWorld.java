@@ -96,6 +96,7 @@ public class GameWorld extends BasicGameState implements SaveElement
 	private AudioPlayer gwMusic;
 	private Exit exitToNewArea;
 	private boolean changeAreaReq;
+	private boolean nextChapterReq;
 	private boolean combat;
 	private int waitForRender;
 	private final WorldTime updateTime = new WorldTime(0, 0);
@@ -127,6 +128,25 @@ public class GameWorld extends BasicGameState implements SaveElement
 	    activeScenario = chapter.getActiveScenario();
 	    activeScenario.addQuestsToStart(player);
         Global.setChapter(chapter);
+	}
+	/**
+	 * Sets game world for specified PC and chapter
+	 * @param player Player character
+	 * @param chapter Game module chapter 
+	 */
+	public void setupWorld(Character player, Chapter chapter)
+	{
+        this.player = player;
+        this.chapter = chapter;
+        activeScenario = chapter.getActiveScenario();
+        if(activeScenario == null)
+        	throw new NullPointerException("Initial scenario not found");
+        else
+            activeScenario.addQuestsToStart(player);
+        Global.setChapter(chapter);
+        player.setArea(null);
+        
+        System.gc(); //to clean old setup
 	}
 	/**
 	 * Sets specified GUI as game GUI
@@ -339,6 +359,10 @@ public class GameWorld extends BasicGameState implements SaveElement
             	else
             		waitForRender --;
             }
+            if(nextChapterReq)
+            {
+            	changeChapterNext(container, game);
+            }
             
             if(cui != null)
                 activeScenario.runScripts(cui, delta);
@@ -465,6 +489,13 @@ public class GameWorld extends BasicGameState implements SaveElement
         //}
     }
     /**
+     * Requests next chapter of game module
+     */
+    public void setNextChapterReq()
+    {
+    	nextChapterReq = true;
+    }
+    /**
      * Sets specified scenario as active scenario of game world(also sets area and centers camera)
      * @param scenario Game world scenario
      */
@@ -533,6 +564,33 @@ public class GameWorld extends BasicGameState implements SaveElement
             x = 0;
             y += 32;
         }
+    }
+    
+    private void changeChapterNext(GameContainer gc, StateBasedGame game)
+    {
+
+    	try
+    	{
+    		ChapterLoadingScreen rld = (ChapterLoadingScreen)game.getState(6);
+        	if(rld == null)
+        	{
+        		rld = new ChapterLoadingScreen();
+        		game.addState(rld);
+        	}
+        	
+        	nextChapterReq = false;
+        	//entering to reload screen
+    		rld.setupLoad(player);
+        	rld.init(gc, game);
+        	game.enterState(6);
+        	//ui.getCamera().centerAt(new Position(player.getPosition()));		
+    	}
+    	catch(ClassCastException | SlickException e)
+    	{
+        	changeAreaReq = false;
+    		Log.addSystem("game_world_change_scenario_fail-msg//fail to create reload state");
+    		return;
+    	}
     }
     /**
      * Changes active scenario to next scenario
