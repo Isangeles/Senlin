@@ -1,7 +1,7 @@
 /*
  * NewGameMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ import pl.isangeles.senlin.core.character.Race;
 import pl.isangeles.senlin.data.EffectsBase;
 import pl.isangeles.senlin.data.GuildsBase;
 import pl.isangeles.senlin.data.SkillsBase;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.*;
 import pl.isangeles.senlin.core.Attribute;
 import pl.isangeles.senlin.core.Attributes;
@@ -59,6 +60,7 @@ import pl.isangeles.senlin.core.Attributes;
  */
 public class NewGameMenu extends BasicGameState 
 {
+	private Sprite background;
 	private Switch strS;
 	private Switch conS;
 	private Switch dexS;
@@ -95,7 +97,8 @@ public class NewGameMenu extends BasicGameState
         	SkillsBase.load(Module.getSkillsPath(), container);
 			
 			attrPoints = new Attribute(5);
-			
+
+        	background = new Sprite(GConnector.getInput("field/mainMenuBg.png"), "menuBg", false);
 			strS = new Switch(container, "Strenght", 1, attrPoints, TConnector.getText("ui", "strInfo"));
 			conS = new Switch(container, "Constitution", 1, attrPoints, TConnector.getText("ui", "conInfo"));
 			dexS = new Switch(container, "Dexterity", 1, attrPoints, TConnector.getText("ui", "dexInfo"));
@@ -132,6 +135,7 @@ public class NewGameMenu extends BasicGameState
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException 
 	{
+		background.drawFullScreen();
 		strS.draw(200, 200, true);
 		conS.draw(500, 200, true);
 		dexS.draw(800, 200, true);

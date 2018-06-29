@@ -1,7 +1,7 @@
 /*
  * LoadMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.data.save.SaveEngine;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.TextButton;
@@ -51,7 +52,8 @@ import pl.isangeles.senlin.util.GConnector;
  */
 public class LoadMenu extends BasicGameState
 {
-    private Image bg;
+	private Sprite background;
+    private Image listBg;
     private Button backB;
     private Button loadB;
     private Button upB;
@@ -76,7 +78,8 @@ public class LoadMenu extends BasicGameState
     {
         try
         {
-            bg = new Image(GConnector.getInput("field/messageBG.png"), "loadMenuBg", false);
+        	background = new Sprite(GConnector.getInput("field/mainMenuBg.png"), "menuBg", false);
+            listBg = new Image(GConnector.getInput("field/messageBG.png"), "loadMenuBg", false);
             backB = new Button(GConnector.getInput("button/buttonS.png"), "loadMenuBack", false, "back", container);
             loadB = new Button(GConnector.getInput("button/buttonS.png"), "loadMenuLoad", false, "load", container);
             upB = new Button(GConnector.getInput("button/buttonUp.png"), "loadMenuUp", false, "", container);
@@ -105,7 +108,8 @@ public class LoadMenu extends BasicGameState
     {
         float bgX = Coords.getX("CE", -400);
         float bgY = Coords.getY("CE", -250);
-        bg.draw(bgX, bgY, Coords.getSize(800), Coords.getDis(500));
+        background.drawFullScreen();
+        listBg.draw(bgX, bgY, Coords.getSize(800), Coords.getDis(500));
         loadB.draw(bgX+Coords.getDis(700), bgY+Coords.getDis(460), false);
         backB.draw(bgX+Coords.getDis(20), bgY+Coords.getDis(460), false);
         upB.draw(bgX+Coords.getDis(700), bgY+Coords.getDis(25), false);

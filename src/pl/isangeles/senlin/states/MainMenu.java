@@ -1,7 +1,7 @@
 /*
  * MainMenu.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MainMenu extends BasicGameState
 {
+	private Sprite background;
 	private Sprite logo;
     private Button buttNewGame,
 		   	       buttLoadGame,
@@ -72,8 +73,9 @@ public class MainMenu extends BasicGameState
             	cursor = new GameCursor(container);
                 container.setMouseCursor(cursor, Math.round(10 * Settings.getScale()), 0);
         	}
+        	background = new Sprite(GConnector.getInput("field/mainMenuBg.png"), "menuBg", false);
             logo = new Sprite(GConnector.getInput("field/logox3green.png"), "menuLogo", false);
-        	buttNewGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "ngName"), container);
+            buttNewGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "ngName"), container);
         	buttLoadGame = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "lgName"), container);
         	buttOptions = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "settName"), container);
             buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "exitName"), container);
@@ -93,6 +95,7 @@ public class MainMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
+    	background.drawFullScreen();
     	logo.draw(0, 0, true);
     	buttNewGame.draw(0, 500);
     	buttLoadGame.draw(0, 650);

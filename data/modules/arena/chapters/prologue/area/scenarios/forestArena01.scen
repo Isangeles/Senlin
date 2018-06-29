@@ -2,7 +2,7 @@
 <scenario id="forestArena01">
     <mainarea id="forestArena01main" map="arenaForest01.tmx">
         <npcs>
-          <npc position="41;5">han01</npc>
+          <npc position="41;5" defaultPosition="41;5">han01</npc>
           <npc position="48;6">arenaMaster01</npc>
           <npc position="35;12">makk01</npc>
           <npc position="61;6">lau01</npc>
@@ -20,6 +20,7 @@
         </mobs>
         <quests>
           <quest trigger="ianD01_05-qAccept01">hunt01</quest>
+          <quest trigger="lauD01_04">qMagicTricks01</quest>
           <quest trigger="amD01_05">arena01</quest>
         </quests>
         <objects>

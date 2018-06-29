@@ -197,14 +197,14 @@ public class ScenarioParser
 				}
 				catch(NumberFormatException | DOMException | IOException | FontFormatException | SlickException e)
 				{
-					System.err.println("scenario_builder_fail msg///npc node corrupted:" + npcNode.getTextContent());
-					Log.addSystem("scenario_builder_fail msg///npc node corrupted:" + npcNode.getTextContent());
+					System.err.println("scenario_builder_fail_msg///npc node corrupted:" + npcNode.getTextContent());
+					Log.addSystem("scenario_builder_fail_msg///npc node corrupted:" + npcNode.getTextContent());
 					continue;
 				}
 				catch(NoSuchElementException e)
 				{
-					System.err.println("scenario_builder_fail msg///no such NPC in base:" + npcNode.getTextContent());
-					Log.addSystem("scenario_builder_fail msg///no such NPC in base:" + npcNode.getTextContent());
+					System.err.println("scenario_builder_fail_msg///no such NPC in base:" + npcNode.getTextContent());
+					Log.addSystem("scenario_builder_fail_msg///no such NPC in base:" + npcNode.getTextContent());
 					continue;
 				}
 			}

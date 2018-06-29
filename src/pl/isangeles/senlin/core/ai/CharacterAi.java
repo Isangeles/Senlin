@@ -1,7 +1,7 @@
 /*
  * CharacterAi.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.character.Attitude;
 import pl.isangeles.senlin.core.character.Character;
 import pl.isangeles.senlin.core.character.Race;
+import pl.isangeles.senlin.core.signal.CharacterSignal;
 import pl.isangeles.senlin.core.skill.Attack;
 import pl.isangeles.senlin.core.skill.Skill;
 import pl.isangeles.senlin.data.area.Area;
@@ -76,12 +77,27 @@ public class CharacterAi
 						saySomething(npc, "idle", true);
 				}
 				
-				for(Character nearbyChar : area.getNearbyCharacters(npc))
+				Targetable target = npc.getTarget();
+				if(target != null)
 				{
-					if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
+					//checks if combat target is out of range
+					if(npc.getSignals().get(CharacterSignal.FIGHTING) == target && !npc.isNearby(target))
 					{
-						attack(npc, nearbyChar);
-						useSkill(npc);
+						npc.setTarget(null);
+						npc.getSignals().stopCombat();
+					}
+				}
+				
+				List<Character> nearbyChars = area.getNearbyCharacters(npc);
+				if(!nearbyChars.isEmpty())
+				{
+					for(Character nearbyChar : nearbyChars)
+					{
+						if(npc.getAttitudeTo(nearbyChar) == Attitude.HOSTILE || nearbyChar.getAttitudeTo(npc) == Attitude.HOSTILE)
+						{
+							attack(npc, nearbyChar);
+							useSkill(npc);
+						}
 					}
 				}
 

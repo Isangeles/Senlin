@@ -107,7 +107,7 @@ public final class Settings
         }
         catch(FileNotFoundException | NoSuchElementException e)
         {
-        	mRenderType = "full";
+        	mRenderType = "light";
         }
         try
         {
@@ -169,7 +169,7 @@ public final class Settings
      */
     public static String[] getResList()
     {
-    	return new String[] {"1920x1080", "1600x800", "1280x720"};
+    	return new String[] {"1920x1080", "1600x900", "1280x720"};
     }
     /**
      * Returns array string with language options

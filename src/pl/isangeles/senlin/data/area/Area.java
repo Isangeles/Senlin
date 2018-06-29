@@ -86,7 +86,7 @@ public class Area implements SaveElement, ObjectiveTarget
      * @param exits List exits
      * @param idleMusic 
      * @param combatMusic
-     * @param mobsAreas List with mobs areaswdaasdawdawdsadwwdsadaw
+     * @param mobsAreas List with mobs
      */
     public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<TargetableObject> objects, List<Exit> exits,
 			Map<String, String> idleMusic, Map<String, String> combatMusic, List<MobsArea> mobsAreas)

@@ -45,6 +45,16 @@
     </qFlags>
   </quest>
 
+  <quest id="qMagicTricks01">
+    <stages>
+      <stage id="qMagicTricks01_s0" start="true" next="end">
+        <objectives>
+          <objective type="talk">hermitD01_01</objective>
+        </objectives>
+      </stage>
+    </stages>
+  </quest>
+
   <quest id="qDragonAmulet01">
     <stages>
       <stage id="qDragonAmulet01_s0" start="true" next="qDragonAmulet01_s1">

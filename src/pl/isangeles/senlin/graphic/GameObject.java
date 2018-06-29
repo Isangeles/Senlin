@@ -94,7 +94,6 @@ public abstract class GameObject extends Image
         }
         super.draw(this.x, this.y, scale);
         
-        
         if(gObjectMOA != null)
         {
         	gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
@@ -189,6 +188,21 @@ public abstract class GameObject extends Image
     		y *= scale;
     	}
     	super.draw(x, y);
+    	
+    	if(gObjectMOA != null)
+    	{
+    		gObjectMOA.setLocation(x-Global.getCameraPos()[0], y-Global.getCameraPos()[1]);
+    		
+    		if(gObjectMOA.isMouseOver())
+    			objectInfo.draw(x, y);
+    	}
+    }
+    /**
+     * Draws object at point 0,0 in the size of the screen
+     */
+    public void drawFullScreen()
+    {
+    	super.draw(x, y, Settings.getResolution()[0], Settings.getResolution()[1]);
     	
     	if(gObjectMOA != null)
     	{

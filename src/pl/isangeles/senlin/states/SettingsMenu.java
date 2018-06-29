@@ -38,6 +38,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import pl.isangeles.senlin.core.Attribute;
+import pl.isangeles.senlin.graphic.Sprite;
 import pl.isangeles.senlin.gui.Button;
 import pl.isangeles.senlin.gui.Message;
 import pl.isangeles.senlin.gui.ObjectSwitch;
@@ -56,6 +57,7 @@ import pl.isangeles.senlin.util.TConnector;
  */
 public class SettingsMenu extends BasicGameState
 {
+	private Sprite background;
 	private ObjectSwitch resolution;
 	private ObjectSwitch language;
 	private ObjectSwitch fow;
@@ -107,6 +109,7 @@ public class SettingsMenu extends BasicGameState
     			Setting mName = new Setting(val, val);
     			modulesNames.add(mName);
     		}
+        	background = new Sprite(GConnector.getInput("field/mainMenuBg.png"), "menuBg", false);
     		resolution = new ObjectSwitch(container, TConnector.getText("ui", "settRes"), resValues);
 			language = new ObjectSwitch(container, TConnector.getText("ui", "settLang"), langValues);
 			fow = new ObjectSwitch(container, TConnector.getText("ui", "settFow"), fowValues);
@@ -132,6 +135,7 @@ public class SettingsMenu extends BasicGameState
     public void render(GameContainer container, StateBasedGame game, Graphics g)
             throws SlickException
     {
+    	background.drawFullScreen();
     	resolution.draw(700, 400, true);
     	language.draw(700, 550, true);
     	fow.draw(700, 700, true);
