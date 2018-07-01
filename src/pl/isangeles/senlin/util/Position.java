@@ -1,7 +1,7 @@
 /*
  * Position.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,15 @@ public class Position
 		this.y = xy[1];
 	}
 	/**
+	 * Copy constructor
+	 * @param pos Position to copy
+	 */
+	public Position(Position pos)
+	{
+		x = pos.x;
+		y = pos.y;
+	}
+	/**
 	 * Constructs position from string in this form: [x position];[y position]
 	 * @param xSemicolonY String in this form: [x position];[y position]
 	 * @throws NumberFormatException
@@ -73,7 +82,7 @@ public class Position
 	 * Returns position as normal table with two values: x[0] and y[1]
 	 * @return Table with x[0] and y[1] position
 	 */
-	public int[] asTable()
+	public int[] toArray()
 	{
 	    return new int[]{x, y};
 	}
@@ -93,12 +102,19 @@ public class Position
 		return false;
 	}
 	
+	/**
+	 * format: [x];[y]
+	 */
 	@Override
 	public String toString()
 	{
 		return x + ";" + y;
 	}
-	
+	/**
+	 * Checks if specified position is equal to this position
+	 * @param pos Position to check
+	 * @return True if specified position is equal to this position, false otherwsie
+	 */
 	public boolean equals(Position pos)
 	{
 		if(x == pos.x && y == pos.y)

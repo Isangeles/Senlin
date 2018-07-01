@@ -545,7 +545,7 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
 
                 for(Exit exit : gw.getArea().getExits())
                 {
-                    if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().asTable()) <= 70)
+                    if(exit.isMouseOver() && player.getRangeFrom(exit.getPos().toArray()) <= 70)
                     	gw.setChangeAreaReq(exit);
                 }
                 

@@ -193,6 +193,10 @@ public class ScenarioParser
 					String npcId = npcE.getTextContent();
 					TilePosition npcPos = new TilePosition(npcE.getAttribute("position"));
 					Character npc = NpcBase.spawnAt(npcId, npcPos);
+					if(npcE.hasAttribute("defaultPosition"))
+						npc.setDefaultPosition(new TilePosition(npcE.getAttribute("defaultPosition")));
+					else
+						npc.setDefaultPosition(npcPos);
 					npcs.add(npc);
 				}
 				catch(NumberFormatException | DOMException | IOException | FontFormatException | SlickException e)

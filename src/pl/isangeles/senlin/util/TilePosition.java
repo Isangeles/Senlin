@@ -62,6 +62,16 @@ public class TilePosition
 		this.row = rowColumn[0];
 		this.column = rowColumn[1];
 	}
+	
+	/**
+	 * Copy constructor
+	 * @param pos Tile position to copy
+	 */
+	public TilePosition(TilePosition pos)
+	{
+		row = pos.row;
+		column = pos.column;
+	}
 	/**
 	 * Constructs position from string in this form: [row ID];[column ID]
 	 * @param xSemicolonY String in this form: [row ID];[column ID]
@@ -85,7 +95,7 @@ public class TilePosition
 	 * Returns position as normal table with two values: row[0] and column[1]
 	 * @return Table with row[0] and column[1] numbers
 	 */
-	public int[] asTable()
+	public int[] toArray()
 	{
 	    return new int[]{row, column};
 	}

@@ -83,12 +83,14 @@ public class MobsArea
 			for(int i = spawnedMobs.size(); i <  min + rng.nextInt(max); i ++)
 			{
 				TilePosition mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
+				Position mobPostion = mobTile.asPosition();
 				while(!area.isMovable(mobTile.row*TilePosition.TILE_WIDTH, mobTile.column*TilePosition.TILE_HEIGHT)) //TODO possibility of infinite loop if all area won't be 'moveable' 
 				{
 					mobTile = new TilePosition(startPoint.row + rng.nextInt(endPoint.row), startPoint.column + rng.nextInt(endPoint.column));
 				}
 				
 				Character mob = NpcBase.spawnIn(mobId, area, mobTile);
+				mob.setDefaultPosition(mobTile);
 				if(mob != null)
 				{
 					//mobsList.add(mob);

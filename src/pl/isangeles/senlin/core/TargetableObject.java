@@ -316,7 +316,7 @@ public class TargetableObject implements Targetable, SaveElement, Voicing
     @Override
     public int[] getPosition()
     {
-        return pos.asTable();
+        return pos.toArray();
     }
     /**
      * Returns object avatar

@@ -122,8 +122,9 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	private Health hp = new Health();
 	private Magicka mana = new Magicka(); 
 	private int learnPoints;
-	private int[] position = {-404, -404};
-	private int[] destPoint = {position[0], position[1]};
+	private Position defPosition = new Position(-404, -404); 
+	private Position position = new Position(-404, -404);
+	private Position destPoint = new Position(position.x, position.y);
 	private Attributes attributes;
 	private Defense defense = new Defense(this);
 	private Portrait portrait;
@@ -368,25 +369,40 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 		this.sex = sex;
 	}
 	/**
+	 * Sets specified tile position as default character position
+	 * @param tilePos Map tile position
+	 * @return True if specified position was successfully set, false otherwise
+	 */
+	public boolean setDefaultPosition(TilePosition tilePos)
+	{
+		return setDefaultPosition(tilePos.asPosition());
+	}
+	/**
+	 * Sets specified position as default character position
+	 * @param tilePos Map tile position
+	 * @return True if specified position was successfully set, false otherwise
+	 */
+	public boolean setDefaultPosition(Position pos)
+	{
+        if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
+        {
+        	defPosition = new Position(pos);
+    		return true;
+        }
+        else
+        {
+            Log.addSystem(serialId + "-fail to set position: " + pos);
+            return false;
+        }
+	}
+	/**
      * Instantly sets character position at specified tile position
      * @param tilePos Tile position(number of row and column)
      */
     public boolean setPosition(TilePosition tilePos)
     {
     	Position pos = tilePos.asPosition();
-        if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
-        {
-        	position[0] = (int)(pos.x);
-    		position[1] = (int)(pos.y);
-    		destPoint[0] = (int)(pos.x);
-    		destPoint[1] = (int)(pos.y);
-    		return true;
-        }
-        else
-        {
-            Log.addSystem(serialId + "-fail to set position: " + pos.x + ";" + pos.y);
-            return false;
-        }
+        return setPosition(pos);
     }
 	/**
      * Instantly sets character position
@@ -396,15 +412,15 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
     {   
         if(currentArea == null || pos.isIn(new Position(0, 0), new Position(currentArea.getMapSize().width, currentArea.getMapSize().height)))
         {
-        	position[0] = (int)(pos.x);
-    		position[1] = (int)(pos.y);
-    		destPoint[0] = (int)(pos.x);
-    		destPoint[1] = (int)(pos.y);
+        	position.x = (int)(pos.x);
+    		position.y = (int)(pos.y);
+    		destPoint.x = (int)(pos.x);
+    		destPoint.y = (int)(pos.y);
     		return true;
         }
         else
         {
-            Log.addSystem(serialId + "-fail to set position: " + pos.x + ";" + pos.y);
+            Log.addSystem(serialId + "-fail to set position: " + pos);
             return false;
         }
     }
@@ -516,7 +532,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void draw()
 	{
-		avatar.draw(position[0], position[1]);
+		avatar.draw(position.x, position.y);
 	}
 	/**
 	 * Draws character portrait
@@ -565,7 +581,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			attitude = Attitude.DEAD;
 			return CharacterOut.SUCCESS;
 		}
-	    if(position[0] == destPoint[0] && position[1] == destPoint[1])
+	    if(position.x == destPoint.x && position.y == destPoint.y)
         {
             avatar.move(false);
         }
@@ -580,45 +596,45 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
             		moveTo(target, 10);
             	}
                 avatar.move(true);
-                if(position[0] > destPoint[0])
+                if(position.x > destPoint.x)
                 {
-                    if(isMovable(position[0]-1, position[1], currentArea.getMap()))
+                    if(isMovable(position.x-1, position.y, currentArea.getMap()))
                     {
-                        position[0] -= 1;
+                        position.x -= 1;
                         avatar.goLeft();
                     }
                     else
-                    	destPoint[0] = position[0];
+                    	destPoint.x = position.x;
                 }
-                if(position[0] < destPoint[0])
+                if(position.x < destPoint.x)
                 {
-                    if(isMovable(position[0]+1, position[1], currentArea.getMap()))
+                    if(isMovable(position.x+1, position.y, currentArea.getMap()))
                     {
-                        position[0] += 1;
+                        position.x += 1;
                         avatar.goRight();
                     }
                     else
-                    	destPoint[0] = position[0];
+                    	destPoint.x = position.x;
                 }
-                if(position[1] > destPoint[1])
+                if(position.y > destPoint.y)
                 {
-                    if(isMovable(position[0], position[1]-1, currentArea.getMap()))
+                    if(isMovable(position.x, position.y-1, currentArea.getMap()))
                     {
-                        position[1] -= 1;
+                        position.y -= 1;
                         avatar.goUp();
                     }
                     else
-                    	destPoint[1] = position[1];
+                    	destPoint.y = position.y;
                 }
-                if(position[1] < destPoint[1])
+                if(position.y < destPoint.y)
                 {
-                    if(isMovable(position[0], position[1]+1, currentArea.getMap()))
+                    if(isMovable(position.x, position.y+1, currentArea.getMap()))
                     {
-                        position[1] += 1;
+                        position.y += 1;
                         avatar.goDown();
                     }
                     else
-                    	destPoint[1] = position[1];
+                    	destPoint.y = position.y;
                 }
         	}
         }
@@ -642,8 +658,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	{
 		signals.remove(CharacterSignal.FOLLOWING);
 		signals.remove(CharacterSignal.FIGHTING);
-		destPoint[0] = x;
-		destPoint[1] = y;
+		destPoint.x = x;
+		destPoint.y = y;
 	}
 	/**
 	 * Moves character to specified target position   
@@ -652,8 +668,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void moveTo(Targetable target)
 	{
 		signals.put(CharacterSignal.FOLLOWING, target);
-		destPoint[0] = target.getPosition()[0];
-		destPoint[1] = target.getPosition()[1];
+		destPoint.x = target.getPosition()[0];
+		destPoint.y = target.getPosition()[1];
 	}
 	/**
 	 * Moves character on maximal range from specified target
@@ -663,26 +679,34 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public void moveTo(Targetable target, int maxRange)
 	{
 		signals.put(CharacterSignal.FOLLOWING, target);
-		Position pos = new Position(position);
+		Position pos = new Position(position.x, position.y);
 		Position hitBoxStart = new Position(target.getPosition()[0] - maxRange, target.getPosition()[1] - maxRange);
 		Position hitBoxEnd = new Position(target.getPosition()[0] + maxRange, target.getPosition()[1] + maxRange);
 		
 		if(pos.isIn(hitBoxStart, hitBoxEnd))
 		{
-			destPoint[0] = pos.x;
-			destPoint[1] = pos.y;
+			destPoint.x = pos.x;
+			destPoint.y = pos.y;
 			return;
 		}
 		
-		if(target.getPosition()[0] > position[0])
-			destPoint[0] = target.getPosition()[0];// - Coords.getDis(maxRange);
-		if(target.getPosition()[0] < position[0])
-			destPoint[0] = target.getPosition()[0];// + Coords.getDis(maxRange);
+		if(target.getPosition()[0] > position.x)
+			destPoint.x = target.getPosition()[0];// - Coords.getDis(maxRange);
+		if(target.getPosition()[0] < position.x)
+			destPoint.x = target.getPosition()[0];// + Coords.getDis(maxRange);
 		
-		if(target.getPosition()[1] > position[1])
-			destPoint[1] = target.getPosition()[1];// - Coords.getDis(maxRange);
-		if(target.getPosition()[1] < position[1])
-			destPoint[1] = target.getPosition()[1];// + Coords.getDis(maxRange);
+		if(target.getPosition()[1] > position.y)
+			destPoint.y = target.getPosition()[1];// - Coords.getDis(maxRange);
+		if(target.getPosition()[1] < position.y)
+			destPoint.y = target.getPosition()[1];// + Coords.getDis(maxRange);
+	}
+	/**
+	 * Moves character to specified position  
+	 * @param pos XY position
+	 */
+	public void moveTo(Position pos)
+	{
+		moveTo(pos.x, pos.y);
 	}
 	/**
 	 * Moves character by specified values
@@ -691,8 +715,8 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public void moveBy(int moveX, int moveY)
 	{
-		destPoint[0] = position[0] + moveX;
-		destPoint[1] = position[1] + moveY;
+		destPoint.x = position.x + moveX;
+		destPoint.y = position.y + moveY;
 	}
 	/**
 	 * Checks if character avatar is in move
@@ -700,7 +724,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public boolean isMove()
 	{
-		if(position[0] != destPoint[0] || position[1] != destPoint[1])
+		if(position.x != destPoint.x || position.y != destPoint.y)
 			return true;
 		else
 			return false;
@@ -907,11 +931,19 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	public Flags getFlags()
 	{ return flags; }
 	/**
+	 * Returns default position
+	 * @return Default position 
+	 */
+	public Position getDefaultPosition()
+	{
+		return defPosition;
+	}
+	/**
 	 * Returns current character position
 	 * @return Table with x and y position
 	 */
 	public int[] getPosition()
-	{ return position; }
+	{ return position.toArray(); }
 	
 	public Position getDestPoint()
 	{
@@ -924,7 +956,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 	 */
 	public int getRangeFrom(int[] xyPos)
 	{
-		return (int)Math.hypot(xyPos[0]-position[0], xyPos[1]-position[1]);
+		return (int)Math.hypot(xyPos[0]-position.x, xyPos[1]-position.y);
 	}
 
 	/**
@@ -1487,11 +1519,12 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.appendChild(nameE);
         
         Element positionE = doc.createElement("position");
+        positionE.setAttribute("default", defPosition.toString());
         if(currentArea != null)
         	positionE.setAttribute("area", currentArea.getId());
         else
         	positionE.setAttribute("area", "none");
-        positionE.setTextContent(new TilePosition(position[0]/32, position[1]/32).toString());
+        positionE.setTextContent(new TilePosition(position).toString());
         charE.appendChild(positionE);
         
         return charE;

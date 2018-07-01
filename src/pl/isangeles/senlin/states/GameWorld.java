@@ -243,7 +243,7 @@ public class GameWorld extends BasicGameState implements SaveElement
             }
             for(Exit exit : area.getExits())
             {
-            	if(player.isNearby(exit.getPos().asTable()))
+            	if(player.isNearby(exit.getPos().toArray()))
             		exit.draw();
             }
             for(Character npc : area.getNpcs())

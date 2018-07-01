@@ -78,15 +78,18 @@ public class CharacterAi
 				}
 				
 				Targetable target = npc.getTarget();
-				if(target != null)
+				
+				if(npc.getSignals().get(CharacterSignal.FIGHTING) == null && npc.getSignals().get(CharacterSignal.FOLLOWING) == null)
 				{
-					//checks if combat target is out of range
-					if(npc.getSignals().get(CharacterSignal.FIGHTING) == target && !npc.isNearby(target))
-					{
-						npc.setTarget(null);
-						npc.getSignals().stopCombat();
-					}
+					//npc.moveTo(npc.getDefaultPosition());
 				}
+				else if(target != null && npc.getSignals().get(CharacterSignal.FIGHTING) == target && !npc.isNearby(target))//checks if combat target is out of range
+				{
+					npc.setTarget(null);
+					npc.getSignals().stopCombat();
+					npc.moveTo(npc.getDefaultPosition());
+				}
+					
 				
 				List<Character> nearbyChars = area.getNearbyCharacters(npc);
 				if(!nearbyChars.isEmpty())

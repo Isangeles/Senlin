@@ -217,7 +217,10 @@ public final class SSGParser
         }
         
         character.setName(charE.getElementsByTagName("name").item(0).getTextContent());
-        character.setPosition(new TilePosition(charE.getElementsByTagName("position").item(0).getTextContent()));
+        
+        Element positionE = (Element)charE.getElementsByTagName("position").item(0);
+        character.setDefaultPosition(new TilePosition(positionE.getAttribute("default")));
+        character.setPosition(new TilePosition(positionE.getTextContent()));
 
         return character;
     }
