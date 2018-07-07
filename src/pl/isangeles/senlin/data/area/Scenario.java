@@ -75,10 +75,10 @@ public class Scenario implements SaveElement
 		this.mainArea = mainArea;
 		this.subAreas = subAreas;
 		
-		mainArea.spawnMobs();
+		mainArea.spawnObjects();
 		for(Area area : subAreas)
 		{
-			area.spawnMobs();
+			area.spawnObjects();
 		}
 		
 		for(String qId : quests.keySet())
@@ -223,7 +223,7 @@ public class Scenario implements SaveElement
 	{
 		try 
 		{
-			mainArea.respawnMobs();
+			mainArea.respawnObjects();
 		} 
 		catch (ArrayIndexOutOfBoundsException | IOException | FontFormatException | SlickException e) 
 		{
@@ -234,7 +234,7 @@ public class Scenario implements SaveElement
 		{
 			try 
 			{
-				area.respawnMobs();
+				area.respawnObjects();
 			}
 			catch (ArrayIndexOutOfBoundsException | IOException | FontFormatException | SlickException e)
 			{

@@ -55,7 +55,7 @@ public class MainMenu extends BasicGameState
     private boolean newGameReq;
     private boolean loadGameReq;
     private boolean settingsReq;
-    private static AudioPlayer menuMusic = new AudioPlayer();
+    private static AudioPlayer menuMusic = new AudioPlayer(); //one player for all menus states
     private static GameCursor cursor;
     /* (non-Javadoc)
 	 * @see org.newdawn.slick.state.GameState#init(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
@@ -81,7 +81,16 @@ public class MainMenu extends BasicGameState
             buttExit = new Button(GConnector.getInput("button/menuButtonLongG.png"), "menuButtLong", false, TConnector.getText("menu", "exitName"), container);
             menuMusic.add("special", "mainTheme.ogg");
             menuMusic.addAll("special");
-            menuMusic.play(1.0f, Settings.getMusicVol(), "mainTheme.ogg");
+            
+            //starts music in background
+            Thread musicBg = new Thread() {
+            	public void run()
+            	{
+            		menuMusic.play(1.0f, Settings.getMusicVol(), "mainTheme.ogg");
+            	}
+            };
+            musicBg.start();
+            //menuMusic.play(1.0f, Settings.getMusicVol(), "mainTheme.ogg");
         }
         catch(IOException | FontFormatException e)
         {

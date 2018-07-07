@@ -1,7 +1,7 @@
 /*
  * TextInput.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,25 +112,44 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 	public void draw(float x, float y, boolean scaledPos)
 	{
 		super.draw(x, y, width, height, scaledPos);
-		textField.setLocation((int)(x*getScale()), (int)(y*getScale()));
-		fieldMOA.setLocation(x*getScale(), y*getScale());
+		if(scaledPos)
+		{
+			textField.setLocation((int)(x*getScale()), (int)(y*getScale()));
+			fieldMOA.setLocation(x*getScale(), y*getScale());
+		}
+		else
+		{
+			textField.setLocation((int)(x), (int)(y));
+			fieldMOA.setLocation(x, y);
+		}
 	}
-	
+	/**
+	 * Renders text field
+	 * @param g Graphics
+	 */
 	public void render(Graphics g)
 	{
 		textField.render(gc, g);
 	}
-	
+	/**
+	 * Returns current text in text field
+	 * @return String with text from text field
+	 */
 	public String getText()
 	{
 	    return textField.getText();
 	}
-	
+	/**
+	 * Clears text input
+	 */
 	public void clear()
 	{
 	    textField.setText("");
 	}
-	
+	/**
+	 * Toggles field border
+	 * @param border True to enable border, false to disable
+	 */
 	public void showBorder(boolean border)
 	{
 		if(!border)
@@ -138,7 +157,10 @@ public class TextInput extends InterfaceObject implements MouseListener, KeyList
 		else
 			textField.setBorderColor(Color.white);
 	}
-	
+	/**
+	 * Puts specified text into text field
+	 * @param text Text to set
+	 */
 	public void setText(String text)
 	{
 		textField.setText(text);

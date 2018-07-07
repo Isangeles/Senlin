@@ -1,7 +1,7 @@
 /*
  * SaveEngine.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <darek@pc-solus>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,6 +76,11 @@ public class SaveEngine
 	 */
 	public static void save(Character player, GameWorld world, UserInterface ui, String saveName) throws ParserConfigurationException, TransformerException
 	{
+		if(saveName.isEmpty())
+		{
+			Log.addSystem("Invalid save file name");
+			return;
+		}
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbf.newDocumentBuilder();
 		Document doc = builder.newDocument();

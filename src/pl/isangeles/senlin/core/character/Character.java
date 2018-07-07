@@ -1519,7 +1519,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
         charE.appendChild(nameE);
         
         Element positionE = doc.createElement("position");
-        positionE.setAttribute("default", defPosition.toString());
+        positionE.setAttribute("default", new TilePosition(defPosition).toString());
         if(currentArea != null)
         	positionE.setAttribute("area", currentArea.getId());
         else

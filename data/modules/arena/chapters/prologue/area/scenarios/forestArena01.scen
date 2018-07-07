@@ -9,15 +9,20 @@
           <npc position="64;11">ian01</npc>
           <npc position="36;13">bran01</npc>
         </npcs>
-        <mobs start="0;0" end="21;14" respawn="false">
-            <mob min="2" max="3">bandit01</mob>
-        </mobs>
-        <mobs start="3;45" end="28;32" respawn="true">
-            <mob min="2" max="4">goblin01</mob>
-        </mobs>
-        <mobs start="43;53" end="79;69" respawn="true">
-            <mob min="2" max="6">wolf01</mob>
-        </mobs>
+        <spawn>
+          <mobs start="0;0" end="21;14" respawn="false">
+              <spawnObject min="2" max="3">bandit01</spawnObject>
+          </mobs>
+          <mobs start="3;45" end="28;32" respawn="true">
+              <spawnObject min="2" max="4">goblin01</spawnObject>
+          </mobs>
+          <mobs start="43;53" end="79;69" respawn="true">
+              <spawnObject min="2" max="6">wolf01</spawnObject>
+          </mobs>
+          <sObjects start="43;53" end="79;69" respawn="true">
+              <spawnObject min="2" max="6">hAloe</spawnObject>
+          </sObjects>
+        </spawn>
         <quests>
           <quest trigger="ianD01_05-qAccept01">hunt01</quest>
           <quest trigger="lauD01_04">qMagicTricks01</quest>

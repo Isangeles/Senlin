@@ -9,9 +9,11 @@
             <npc position="67;120">marios01</npc>
             <npc position="64;109">amaj01</npc>
         </npcs>
-        <mobs start="44;173" end="105;216" respawn="true">
-            <mob min="3" max="10">wolf01</mob>
-        </mobs>
+	<spawn>
+		<mobs start="44;173" end="105;216" respawn="true">
+		    <mob min="3" max="10">wolf01</mob>
+		</mobs>
+	</spawn>
         <quests>
 			<quest trigger="amajD02T01_a0">amajDeal</quest>
 			<quest trigger="kifD01T03">bouveHunt01</quest>

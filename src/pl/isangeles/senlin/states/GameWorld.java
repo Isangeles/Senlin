@@ -35,7 +35,8 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.GLContext;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -327,7 +328,9 @@ public class GameWorld extends BasicGameState implements SaveElement
             else
             {
             	if(!gwMusic.isPlayling())
-                    gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+            	{
+            		gwMusic.playRandomFrom("idle", 1.0f, Settings.getMusicVol());
+            	}
             }
             
             CharacterOut out = player.update(delta);
@@ -369,8 +372,8 @@ public class GameWorld extends BasicGameState implements SaveElement
             
             if(day.getTime().equals(updateTime))
             {
-            	//Log.addSystem("game word update time"); //DEBUG
-            	activeScenario.respawnMobs(); //TODO causes significant game lag
+            	Log.addSystem("game word update time"); //DEBUG
+            	//activeScenario.respawnMobs(); //TODO causes significant game lag
             }
 		}
     	else

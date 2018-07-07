@@ -61,7 +61,7 @@ public class Area implements SaveElement, ObjectiveTarget
     private List<Exit> exits = new ArrayList<>();
 	private Map<String, String> idleMusic = new HashMap<>();
 	private Map<String, String> combatMusic = new HashMap<>();
-	private List<MobsArea> mobsAreas = new ArrayList<>();
+	private List<SpawnArea> spawnAreas = new ArrayList<>();
     /**
      * Empty area constructor
      * @param id Area ID
@@ -89,7 +89,7 @@ public class Area implements SaveElement, ObjectiveTarget
      * @param mobsAreas List with mobs
      */
     public Area(String id, TiledMap map, String mapFileName, Collection<Character> npcs, List<TargetableObject> objects, List<Exit> exits,
-			Map<String, String> idleMusic, Map<String, String> combatMusic, List<MobsArea> mobsAreas)
+			Map<String, String> idleMusic, Map<String, String> combatMusic, List<SpawnArea> mobsAreas)
     {
     	this.id = id;
         this.map = map;
@@ -102,7 +102,7 @@ public class Area implements SaveElement, ObjectiveTarget
 		this.combatMusic = combatMusic;
 		this.idleMusic = idleMusic;
 		
-    	this.mobsAreas = mobsAreas;
+    	this.spawnAreas = mobsAreas;
 		
         for(Character npc : characters)
         {
@@ -301,13 +301,12 @@ public class Area implements SaveElement, ObjectiveTarget
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public boolean spawnMobs() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
+	public boolean spawnObjects() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
 	{
 		boolean spawn = true;
-		for(MobsArea mobsArea : mobsAreas)
+		for(SpawnArea area : spawnAreas)
 		{
-			if(!getCharacters().addAll(mobsArea.spawnMobs(this)))
-				spawn = false;
+			spawn = area.spawn(this);
 		}
 		return spawn;
 	}
@@ -319,15 +318,14 @@ public class Area implements SaveElement, ObjectiveTarget
 	 * @throws FontFormatException
 	 * @throws SlickException
 	 */
-	public boolean respawnMobs() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
+	public boolean respawnObjects() throws ArrayIndexOutOfBoundsException, IOException, FontFormatException, SlickException
 	{
 		boolean spawn = true;
-		for(MobsArea mobsArea : mobsAreas)
+		for(SpawnArea area : spawnAreas)
 		{
-			if(mobsArea.isRespawnable())
+			if(area.isRespawnable())
 			{
-				if(!getCharacters().addAll(mobsArea.spawnMobs(this)))
-					spawn = false;
+				spawn = area.spawn(this);
 			}
 		}
 		return spawn;

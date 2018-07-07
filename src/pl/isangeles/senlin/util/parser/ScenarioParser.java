@@ -56,7 +56,9 @@ import pl.isangeles.senlin.data.ObjectsBase;
 import pl.isangeles.senlin.data.area.Area;
 import pl.isangeles.senlin.data.area.Exit;
 import pl.isangeles.senlin.data.area.MobsArea;
+import pl.isangeles.senlin.data.area.ObjectsArea;
 import pl.isangeles.senlin.data.area.Scenario;
+import pl.isangeles.senlin.data.area.SpawnArea;
 import pl.isangeles.senlin.util.DConnector;
 import pl.isangeles.senlin.util.Position;
 import pl.isangeles.senlin.util.Size;
@@ -152,21 +154,25 @@ public class ScenarioParser
 		Node combatNode = musicE.getElementsByTagName("combat").item(0);
 		Map<String, String> combatMusic = getMusicFromNode(combatNode);
 		
-		List<MobsArea> mobs = new ArrayList<>();
-		NodeList mobsNl = areaE.getElementsByTagName("mobs");
-		for(int j = 0; j < mobsNl.getLength(); j ++)
+		List<SpawnArea> mobs = new ArrayList<>();
+		Element spawnE = (Element)areaE.getElementsByTagName("spawn").item(0);
+		if(spawnE != null)
 		{
-			Node mobsNode = mobsNl.item(j);
-			if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			NodeList mobsNl = spawnE.getElementsByTagName("mobs");
+			for(int j = 0; j < mobsNl.getLength(); j ++)
 			{
-				try
+				Node mobsNode = mobsNl.item(j);
+				if(mobsNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 				{
-					mobs.add(getMobsAreaFromNode(mobsNode));
-				}
-				catch(NumberFormatException e)
-				{
-					Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
-					break;
+					try
+					{
+						mobs.add(getSpawnAreaFromNode(mobsNode));
+					}
+					catch(NumberFormatException e)
+					{
+						Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
+						break;
+					}
 				}
 			}
 		}
@@ -320,25 +326,26 @@ public class ScenarioParser
 	}
 	/**
 	 * Parses node to MobsArea object
-	 * @param mobsNode XML mobs node
+	 * @param spawnAreaNode XML mobs node
 	 * @return MobsArea object
 	 * @throws NumberFormatException
 	 */
-	private static MobsArea getMobsAreaFromNode(Node mobsNode) throws NumberFormatException
+	private static SpawnArea getSpawnAreaFromNode(Node spawnAreaNode) throws NumberFormatException
 	{
-		Element mobsE = (Element)mobsNode;
-		TilePosition areaStart = new TilePosition(mobsE.getAttribute("start"));
-		TilePosition areaEnd = new TilePosition(mobsE.getAttribute("end"));
-		boolean respawn = Boolean.parseBoolean(mobsE.getAttribute("respawn"));
+		Element spawnAreaE = (Element)spawnAreaNode;
+		String spawnAreaType = spawnAreaE.getTagName();
+		TilePosition areaStart = new TilePosition(spawnAreaE.getAttribute("start"));
+		TilePosition areaEnd = new TilePosition(spawnAreaE.getAttribute("end"));
+		boolean respawn = Boolean.parseBoolean(spawnAreaE.getAttribute("respawn"));
 		Map<String, Integer[]> mobCon = new HashMap<>();
 			
-		NodeList mobNl = mobsNode.getChildNodes();
-		for(int k = 0; k < mobNl.getLength(); k ++)
+		NodeList objectsNl = spawnAreaNode.getChildNodes();
+		for(int k = 0; k < objectsNl.getLength(); k ++)
 		{
-			Node mobNode = mobNl.item(k);
-			if(mobNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+			Node objectNode = objectsNl.item(k);
+			if(objectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
 			{
-				Element mobE = (Element)mobNode;
+				Element mobE = (Element)objectNode;
 				int min = 1;
 				int max = 1;
 				
@@ -350,8 +357,19 @@ public class ScenarioParser
 				mobCon.put(mobE.getTextContent(), new Integer[]{min, max});
 			}
 		}
-			
-		return new MobsArea(areaStart, areaEnd, mobCon, respawn);
+		SpawnArea area = null;
+	
+		switch(spawnAreaType)
+		{
+		case "mobs":
+			area = new MobsArea(areaStart, areaEnd, mobCon, respawn);
+			break;
+		case "objects":
+			area = new ObjectsArea(areaStart, areaEnd, mobCon, respawn);
+			break;
+		}
+		
+		return area;
 	}
 	/**
 	 * Parses specified music node to map with tracks names as keys and tracks categories as values
