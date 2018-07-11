@@ -1,9 +1,9 @@
 # Senlin
 
-Senlin is completly free and open source 2D cRPG game with isometric view. Game works on its own engine written from scratch in Java with Slick2D library. 
+Senlin is completly free and open source 2D cRPG game. Game works on its own engine written from scratch in Java with Slick2D library. 
 Game engine is completly modular, it means you can easly creats your own modules with maps, NPCs, items, quests and dialogues without any source code modification. 
-Engine dont use any binary files so all data files like items/quests/NPCs bases, scenarios, saved games, are easy to access and modifiy, most of them are in XML format.
-Currently in early development stage.
+Engine does not use any binary files, so all data files like items/quests/NPCs bases, scenarios, saved games, are easy to access and modifiy, most of them are in XML format.
+Currently available in alpha version.
 
 ## Installation
 
