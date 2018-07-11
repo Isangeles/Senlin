@@ -45,6 +45,21 @@
     </qFlags>
   </quest>
 
+  <quest id="qAloeLeaves01">
+    <stages>
+      <stage id="qAloeLeaves01_s0" start="true" next="qAloeLeaves01_s1">
+        <objectives>
+          <objective type="gather" amount="5">aloeL</objective>
+        </objectives>
+      </stage>
+      <stage id="qAloeLeaves01_s1" next="end">
+        <objectives>
+          <objective type="talk">kenD01_04</objective>
+        </objectives>
+      </stage>
+    </stages>
+  </quest>
+
   <quest id="qMagicTricks01">
     <stages>
       <stage id="qMagicTricks01_s0" start="true" next="end">

@@ -68,7 +68,7 @@ import pl.isangeles.senlin.util.TilePosition;
  * @author Isangeles
  *
  */
-public class ScenarioParser 
+public final class ScenarioParser 
 {
     /**
      * Private constructor to prevent initialization
@@ -166,12 +166,33 @@ public class ScenarioParser
 				{
 					try
 					{
-						mobs.add(getSpawnAreaFromNode(mobsNode));
+						SpawnArea area = getSpawnAreaFromNode(mobsNode);
+						if(area != null) 
+							mobs.add(area);
 					}
 					catch(NumberFormatException e)
 					{
-						Log.addSystem("scenario_builder_fail-msg///mobs area corrupted");
-						break;
+						Log.addSystem("scenario_builder_fail_msg:mobs area corrupted");
+						continue;
+					}
+				}
+			}
+			NodeList sObjectsNl = spawnE.getElementsByTagName("sObjects");
+			for(int j = 0; j < sObjectsNl.getLength(); j ++)
+			{
+				Node sObjectNode = sObjectsNl.item(j);
+				if(sObjectNode.getNodeType() == javax.xml.soap.Node.ELEMENT_NODE)
+				{
+					try
+					{
+						SpawnArea area = getSpawnAreaFromNode(sObjectNode);
+						if(area != null)
+							mobs.add(area);
+					}
+					catch(NumberFormatException e)
+					{
+						Log.addSystem("scenario_builder_fail_msg:spawn objects area corrupted");
+						continue;
 					}
 				}
 			}
@@ -357,6 +378,7 @@ public class ScenarioParser
 				mobCon.put(mobE.getTextContent(), new Integer[]{min, max});
 			}
 		}
+		//voodoo(?)
 		SpawnArea area = null;
 	
 		switch(spawnAreaType)
@@ -364,7 +386,7 @@ public class ScenarioParser
 		case "mobs":
 			area = new MobsArea(areaStart, areaEnd, mobCon, respawn);
 			break;
-		case "objects":
+		case "sObjects":
 			area = new ObjectsArea(areaStart, areaEnd, mobCon, respawn);
 			break;
 		}

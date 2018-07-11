@@ -31,6 +31,7 @@ import java.util.Random;
 
 import org.newdawn.slick.SlickException;
 
+import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.Targetable;
 import pl.isangeles.senlin.core.TargetableObject;
 import pl.isangeles.senlin.core.character.Character;
@@ -86,6 +87,7 @@ public class ObjectsArea extends SpawnArea
 				if(object != null)
 				{
 					spawnedObjects.add(object);
+					Log.addSystem(objectId + "_spawned"); //DEBUG 
 				}
 			}
 		}
