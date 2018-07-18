@@ -1,7 +1,7 @@
 /*
  * Skill.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@pc-solus>
+ * Copyright 2017 Dariusz Sikora <dev@isangeles.pl>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

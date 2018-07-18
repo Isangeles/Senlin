@@ -7,7 +7,7 @@ Currently available in alpha version.
 
 ## Installation
 
-Simply download and unpack build.
+Simply [download](https://github.com/Isangeles/Senlin/releases) and unpack build.
 
 ## Run
 
