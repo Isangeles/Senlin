@@ -115,17 +115,17 @@ public enum EffectType
 	    switch(this)
 	    {
 	    case NORMAL:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg");
 	    case FIRE:
 	    	return new Sound(AConnector.getInput("effects/spellHit.aif"), "spellHit.aif");    	
 	    case ICE:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO ice sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO ice sound
 	    case NATURE:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO nature sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO nature sound
 	    case MAGIC:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO magic sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO magic sound
     	default:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg");
 	    }
 	}
 	/**
@@ -139,17 +139,17 @@ public enum EffectType
 	    switch(this)
 	    {
 	    case NORMAL:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg");
 	    case FIRE:
 	    	return new Sound(AConnector.getInput("effects/firebCast.aif"), "firebCast.aif");
 	    case ICE:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO ice sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO ice sound
 	    case NATURE:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO nature sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO nature sound
 	    case MAGIC:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg"); //TODO magic sound
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg"); //TODO magic sound
     	default:
-	    	return new Sound(AConnector.getInput("effects/melee1.ogg"), "melee1.ogg");
+	    	return new Sound(AConnector.getInput("effects/hit01.ogg"), "hit01.ogg");
 	    }
 	}
 	/**

@@ -41,6 +41,8 @@ import pl.isangeles.senlin.util.Size;
  */
 public class SenlinGame extends StateBasedGame
 {	
+	public static String VERSION = "0.1.2";
+	
     public SenlinGame(String name)
     {
         super(name);
@@ -60,7 +62,7 @@ public class SenlinGame extends StateBasedGame
     {
         try 
         {
-        	AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
+        	AppGameContainer appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin " + VERSION), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
         	try
             {
             	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], Settings.isFullscreen());
@@ -70,7 +72,7 @@ public class SenlinGame extends StateBasedGame
             	System.err.println("engine_msg: Unsupported resolution: " + Settings.getResolution()[0] + "x" + Settings.getResolution()[1] + ", switching to system resolution...");
             	Settings.setResolution(Settings.getSystemResolution());
             	System.gc();
-            	appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin"), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
+            	appGC = new AppGameContainer(new ScalableGame(new SenlinGame("Senlin " + VERSION), (int)Settings.getResolution()[0], (int)Settings.getResolution()[1]));
             	appGC.setDisplayMode((int)Settings.getResolution()[0], (int)Settings.getResolution()[1], false);
             }            
             appGC.setTargetFrameRate(60);

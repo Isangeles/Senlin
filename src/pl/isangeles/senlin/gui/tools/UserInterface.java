@@ -60,7 +60,6 @@ import pl.isangeles.senlin.gui.GameCursor;
 import pl.isangeles.senlin.gui.InfoField;
 import pl.isangeles.senlin.gui.UiLayout;
 import pl.isangeles.senlin.gui.Warning;
-import pl.isangeles.senlin.gui.tools.*;
 /**
  * Class for graphical user interface
  * @author Isangeles
@@ -186,13 +185,13 @@ public class UserInterface implements MouseListener, KeyListener, SaveElement
         	loot.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
         
         if(trade.isOpenReq())
-        	trade.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        	trade.draw(Coords.getX("CE", -150), Coords.getY("CE", -200));
         
         if(train.isOpenReq())
-        	train.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        	train.draw(Coords.getX("CE", -150), Coords.getY("CE", -200));
         
         if(dialogue.isOpenReq())
-        	dialogue.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));
+        	dialogue.draw(Coords.getX("CE", -150), Coords.getY("CE", -200));
         
         if(reading.isOpenReq())
         	reading.draw(Coords.getX("CE", -100), Coords.getY("CE", -100));

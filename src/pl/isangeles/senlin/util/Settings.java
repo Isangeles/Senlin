@@ -148,9 +148,9 @@ public final class Settings
      * Returns resolution width and height
      * @return Table with width[0] and height[1]
      */
-    public static float[] getResolution()
+    public static int[] getResolution()
     {
-        return resolution.toTable();
+        return new int[]{(int)resolution.width, (int)resolution.height};
     }
     /**
      * Returns current system resolution
