@@ -1162,7 +1162,7 @@ public class Character implements Targetable, ObjectiveTarget, SaveElement
 			if(Character.class.isInstance(who))
 			{
 				Character ch = (Character)who;
-				ch.modExperience(level * 100);
+				ch.modExperience(level * 500);
 				ch.getQTracker().check(this);
 			}
 		}

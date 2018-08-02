@@ -306,10 +306,6 @@ public class Area implements SaveElement, ObjectiveTarget
 		boolean spawn = true;
 		for(SpawnArea area : spawnAreas)
 		{
-			if(ObjectsArea.class.isInstance(area))
-				Log.addSystem("spawn_objects_area");
-			else
-				Log.addSystem("spawn_mobs_area");
 			spawn = area.spawn(this);
 		}
 		return spawn;

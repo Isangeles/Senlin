@@ -86,7 +86,7 @@ class CharacterWindow extends InterfaceObject implements UiElement, MouseListene
 	{
 		super.draw(x, y, false);
 		
-		player.getPortrait().draw(x+getDis(12), y+getDis(40), getSize(125), getSize(185));
+		player.getPortrait().draw(x+getDis(12), y+getDis(40), 125f, 185f, false);
 		
 		upInfoA.draw(x+getDis(160), y+getDis(45));
 		upInfoB.draw(x+getDis(340), y+getDis(45));

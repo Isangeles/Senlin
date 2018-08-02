@@ -135,7 +135,7 @@ public final class ScenarioParser
 		String id = areaE.getAttribute("id");
 		String mapFile = areaE.getAttribute("map");
 
-		TiledMap map = new TiledMap(Module.getAreaPath() + File.separator + "map" + File.separator + mapFile);
+		TiledMap map = new TiledMap(Module.getAreaMapsPath() + File.separator + mapFile);
 
 		Node npcsNode = areaE.getElementsByTagName("npcs").item(0);
 		List<Character> npcs = getNpcsFromNode(npcsNode);

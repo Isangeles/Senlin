@@ -87,7 +87,7 @@ public class ObjectsArea extends SpawnArea
 				if(object != null)
 				{
 					spawnedObjects.add(object);
-					Log.addSystem(objectId + "_spawned"); //DEBUG 
+					//Log.addSystem(objectId + "_spawned"); // DEBUG 
 				}
 			}
 		}

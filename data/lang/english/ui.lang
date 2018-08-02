@@ -119,6 +119,7 @@ bonStats:Attributes bonus;
 bonDmg:Damage bonus;
 bonUndetect:Undetectable;
 bonResi:Resistance;
+modExp:Experience;
 effTime:Time;
 effDuration:Duration;
 waitWinTitle:Wait;

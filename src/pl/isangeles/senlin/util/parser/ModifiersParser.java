@@ -36,6 +36,7 @@ import pl.isangeles.senlin.core.bonus.ModifierType;
 import pl.isangeles.senlin.core.bonus.AttitudeModifier;
 import pl.isangeles.senlin.core.bonus.DamageBonus;
 import pl.isangeles.senlin.core.bonus.DualwieldBonus;
+import pl.isangeles.senlin.core.bonus.ExperienceModifier;
 import pl.isangeles.senlin.core.bonus.FlagModifier;
 import pl.isangeles.senlin.core.bonus.HealthBonus;
 import pl.isangeles.senlin.core.bonus.ResistanceBonus;
@@ -126,6 +127,10 @@ public final class ModifiersParser
 					case FLAG:
 						String flag = modifierE.getAttribute("flag");
 						modifiers.add(new FlagModifier(flag));
+						break;
+					case EXPERIENCE:
+						int expValue = Integer.parseInt(modifierE.getAttribute("value"));
+						modifiers.add(new ExperienceModifier(expValue));
 						break;
 					default:
 						break;

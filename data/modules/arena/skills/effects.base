@@ -8,7 +8,7 @@
     </effect>
     <effect id="heal01" duration="5" type="normal" icon="lunch.png">
         <modifiers></modifiers>
-        <dot>+1</dot>
+        <dot>+5</dot>
     </effect>
     <effect id="rage01" duration="15" type="normal" icon="rage.png">
         <modifiers>

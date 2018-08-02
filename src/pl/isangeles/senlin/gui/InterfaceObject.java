@@ -265,6 +265,7 @@ public abstract class InterfaceObject extends Image
     }  
     /**
      * Draws object with specific width and height
+     * All specified parameters are scaled to current resolution
      * @param x Position on x axis
      * @param y Position on y axis
      * @param width Width for object

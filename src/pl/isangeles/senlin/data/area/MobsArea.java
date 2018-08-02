@@ -83,7 +83,7 @@ public class MobsArea extends SpawnArea
 				if(mob != null)
 				{
 					spawnedObjects.add(mob);
-					//Log.addSystem(mobId + " spawned"); //DEBUG
+					//Log.addSystem(mobId + " spawned"); // DEBUG
 				}
 			}
 		}

@@ -23,10 +23,6 @@
 package pl.isangeles.senlin.core;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import org.newdawn.slick.GameContainer;
 
@@ -173,6 +169,19 @@ public final class Module
 		if(inModDir)
 		{
 			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "area"; 
+		}
+		else
+			return null;
+	}
+	/**
+	 * Returns path to maps directory in current module directory 
+	 * @return String with path to maps directory
+	 */
+	public static String getAreaMapsPath()
+	{
+		if(inModDir)
+		{
+			return "data" + File.separator + "modules" + File.separator + name + File.separator + "chapters" + File.separator + activeChapterName + File.separator + "area" + File.separator + "maps";
 		}
 		else
 			return null;

@@ -29,7 +29,7 @@ package pl.isangeles.senlin.core.bonus;
  */
 public enum ModifierType 
 {
-	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT, DUALWIELD, RESISTANCE, UNLOCK, ATTITUDE, FLAG;
+	NONE, STATS, HEALTH, MANA, HASTE, DODGE, DAMAGE, UNDETECT, DUALWIELD, RESISTANCE, UNLOCK, ATTITUDE, FLAG, EXPERIENCE;
 	/**
 	 * Converts specified type ID to modifier type enum
 	 * @param id String with modifier type ID
@@ -63,6 +63,8 @@ public enum ModifierType
 			return ModifierType.ATTITUDE;
 		case "flagModifier":
 			return ModifierType.FLAG;
+		case "experienceModifier":
+			return ModifierType.EXPERIENCE;
 		default:
 			return ModifierType.NONE;
 		}

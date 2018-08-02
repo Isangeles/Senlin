@@ -270,6 +270,9 @@
           <give>
             <item amount="1">mEPower01</item>
           </give>
+					<modPlayer>
+						<experienceModifier value="300" />
+					</modPlayer>
         </transfer>
       </mod>
     </text>
