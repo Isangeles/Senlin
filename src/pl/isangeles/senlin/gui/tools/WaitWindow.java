@@ -1,7 +1,7 @@
 /*
  * WaitWindow.java
  * 
- * Copyright 2017 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2017-2018 Dariusz Sikora <dev@isangeles.pl>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -240,6 +240,7 @@ class WaitWindow extends InterfaceObject implements UiElement, KeyListener, Mous
 			if(waitB.isMouseOver())
 			{
 				gw.getDay().getTime().addHours(waitTimeH);
+				gw.getPlayer().modHealth(5 * waitTimeH); // restore player HP during rest
 				waitTimeH = 0;
 				waitTimeM = 0;
 			}
