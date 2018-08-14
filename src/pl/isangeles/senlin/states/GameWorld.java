@@ -373,7 +373,16 @@ public class GameWorld extends BasicGameState implements SaveElement
             if(day.getTime().equals(updateTime))
             {
             	Log.addSystem("game word update time"); //DEBUG
-            	//activeScenario.respawnMobs(); //TODO causes significant game lag
+            	/*
+            	Runnable r = new Runnable() 
+            	{
+                    public void run() 
+                    {
+                    	activeScenario.respawnMobs(); //TODO 'no opengl context' problem
+                    }
+                };
+                new Thread(r).start();
+                */
             }
 		}
     	else

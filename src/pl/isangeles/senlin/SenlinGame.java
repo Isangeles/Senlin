@@ -41,7 +41,7 @@ import pl.isangeles.senlin.util.Size;
  */
 public class SenlinGame extends StateBasedGame
 {	
-	public static String VERSION = "0.1.2";
+	public static final String VERSION = "0.1.3";
 	
     public SenlinGame(String name)
     {
