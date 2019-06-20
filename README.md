@@ -1,13 +1,15 @@
 # Senlin
 Senlin is completely free and open source 2D cRPG game. Game works on its own engine written from scratch in Java with Slick2D library.
+
 Game engine is completely modular, it means you can easily create your own modules with maps, NPCs, items, quests and dialogues without any source code modification.
 Engine does not use any binary files, so all data files like item bases, scenarios, saved games, are easy to read and modify, most of them are in XML format.
+
 Currently available in alpha version.
 
 For more information/help check [game documentation](http://senlin.isangeles.pl/guide/).
 
 ## Installation
-Simply [download](https://github.com/Isangeles/Senlin/releases) and unpack build.
+Simply download and unpack [build](https://github.com/Isangeles/Senlin/releases).
 
 ## Run
 Simply run senlin executable(.sh on Linux or .exe on Windows).
@@ -15,7 +17,7 @@ Simply run senlin executable(.sh on Linux or .exe on Windows).
 If you have problem with game startup, try to change game resolution(in game.conf) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
 
 ## Build
-You can easily build project using [Gradle](https://gradle.org/).
+Easiest way to build project is to use [Gradle](https://gradle.org/).
 
 Navigate to main directory and run:
 ```
@@ -25,6 +27,7 @@ or to get executable files:
 ```
   gradle build
 ```
+Executable jar will be placed in build/libs.
 
 ## Screenshots
 ![sc1](screenshots/sc2.jpg)
