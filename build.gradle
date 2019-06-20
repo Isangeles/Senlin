@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "pl.isangeles.senlin.SenlinGame"
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+jar {
+    baseName = 'Senlin'
+    version = '0.1.3'
+}
+
+dependencies {
+  compile (name:'jinput', ext:'jar')
+  compile (name:'jogg-0.0.7', ext:'jar')
+  compile (name:'jorbis-0.0.15', ext:'jar')
+  compile (name:'lwjgl', ext:'jar')
+  compile (name:'slick', ext:'jar')
+}

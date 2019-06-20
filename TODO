@@ -1,6 +1,5 @@
-*Finish arena module
-*Finish senlin module
-*Improve characters sprite sheets
-*Add more mobs sprite sheets
-*Improve combat system
-*Implement area object respawn
+* Finish arena module
+* Finish senlin module
+* More spritesheets for mobs
+* Improve combat system
+* Auto-respawn for area objects
