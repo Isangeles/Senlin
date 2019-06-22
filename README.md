@@ -17,15 +17,19 @@ Simply run senlin executable(.sh on Linux or .exe on Windows).
 If you have problem with game startup, try to change game resolution(in game.conf) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
 
 ## Build
+JDK version 1.8 is required.
+
 Easiest way to build project is to use [Gradle](https://gradle.org/).
 
-Navigate to main directory and run:
+You can download Gradle yourself and use gradle command or run gradlew/gradlew.bat script to do this automatically.
+
+Navigate to main directory and run gradlew/gradlew.bat script:
 ```
-  gradle run
+  ./gradlew run
 ```
 or to get executable files:
 ```
-  gradle build
+  ./gradlew build
 ```
 Executable jar will be placed in build/libs.
 

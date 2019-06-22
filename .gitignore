@@ -40,9 +40,14 @@ flycheck_*.el
 
 # projectiles files
 .projectile
+.project
 
 # directory configuration
 .dir-locals.el
 
 # network security
 /network-security.data
+
+# build dir
+build/
+bin/

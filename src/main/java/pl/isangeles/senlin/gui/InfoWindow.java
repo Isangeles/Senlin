@@ -1,7 +1,7 @@
 /*
  * InfoWindow.java
  * 
- * Copyright 2018 Dariusz Sikora <darek@darek-PC-LinuxMint18>
+ * Copyright 2018 Dariusz Sikora <dev@isangeles.pl>
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
