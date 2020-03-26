@@ -1,113 +1,92 @@
 /*
  * Requirements.java
- * 
+ *
  * Copyright 2017-2018 Dariusz Sikora <dev@isangeles.pl>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 package pl.isangeles.senlin.core.req;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import pl.isangeles.senlin.cli.Log;
 import pl.isangeles.senlin.core.character.Character;
-import pl.isangeles.senlin.data.save.SaveElement;
 import pl.isangeles.senlin.util.TConnector;
 
 /**
  * Container class for requirements
- * @author Isangeles
  *
+ * @author Isangeles
  */
-public class Requirements extends ArrayList<Requirement>
-{
-    private static final long serialVersionUID = 1L;
-    /**
-     * Default constructor
-     */
-    public Requirements() {}
-    /**
-     * Requirements constructor 
-     * @param reqsList List with requirements
-     */
-    public Requirements(List<Requirement> reqsList)
-    {
-    	super();
-    	this.addAll(reqsList);
+public class Requirements extends ArrayList<Requirement> {
+  private static final long serialVersionUID = 1L;
+  /** Default constructor */
+  public Requirements() {}
+  /**
+   * Requirements constructor
+   *
+   * @param reqsList List with requirements
+   */
+  public Requirements(List<Requirement> reqsList) {
+    super();
+    this.addAll(reqsList);
+  }
+  /**
+   * Checks if all requirements are met by specified game character
+   *
+   * @param character Game character
+   * @return True if all requirement are met, false otherwise
+   */
+  public boolean isMetBy(Character character) {
+    boolean isMet = true;
+    for (Requirement req : this) {
+      if (!req.isMetBy(character)) {
+        isMet = false;
+      }
     }
-    /**
-     * Checks if all requirements are met by specified game character
-     * @param character Game character
-     * @return True if all requirement are met, false otherwise
-     */
-    public boolean isMetBy(Character character)
-    {
-        boolean isMet = true;
-        for(Requirement req : this)
-        {
-            if(!req.isMetBy(character))
-            {
-                isMet = false;
-            }
-        }
-        return isMet;
+    return isMet;
+  }
+  /**
+   * Takes all 'chargeable' requirements from specified character
+   *
+   * @param character Game character
+   */
+  public void chargeAll(Character character) {
+    for (Requirement req : this) {
+      req.charge(character);
     }
-    /**
-     * Takes all 'chargeable' requirements from specified character
-     * @param character Game character
-     */
-    public void chargeAll(Character character)
-    {
-        for(Requirement req : this)
-        {
-            req.charge(character);
-        }
+  }
+  /** Checks if there is any requirements */
+  public boolean isEmpty() {
+    if (super.isEmpty()) return true;
+    else {
+      for (Requirement req : this) {
+        if (req.getType() != RequirementType.NONE) return false;
+      }
+      return true;
     }
-    /**
-     * Checks if there is any requirements 
-     */
-    public boolean isEmpty()
-    {
-    	if(super.isEmpty())
-    		return true;
-    	else
-    	{
-    		for(Requirement req : this)
-    		{
-    			if(req.getType() != RequirementType.NONE)
-    				return false;
-    		}
-    		return true;
-    	}
+  }
+
+  @Override
+  public String toString() {
+    String text = TConnector.getText("ui", "reqName") + ":";
+    for (Requirement req : this) {
+      text += System.lineSeparator() + req.getInfo();
     }
-    
-    @Override
-    public String toString()
-    {
-    	String text = TConnector.getText("ui", "reqName") + ":";
-    	for(Requirement req : this)
-    	{
-    		text += System.lineSeparator() + req.getInfo();
-    	}
-    	return text;
-    }
+    return text;
+  }
 }
