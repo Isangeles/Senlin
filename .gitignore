@@ -54,3 +54,6 @@ bin/
 
 # gradle
 .gradle/
+
+# idea
+.idea/
