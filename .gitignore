@@ -51,3 +51,6 @@ flycheck_*.el
 # build dir
 build/
 bin/
+
+# gradle
+.gradle/
