@@ -38,9 +38,11 @@ flycheck_*.el
 # server auth directory
 /server/
 
-# projectiles files
+# projectiles files and dirs
 .projectile
 .project
+.idea/
+.buildconfig
 
 # directory configuration
 .dir-locals.el
@@ -55,5 +57,3 @@ bin/
 # gradle
 .gradle/
 
-# idea
-.idea/

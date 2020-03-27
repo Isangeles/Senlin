@@ -11,7 +11,7 @@ repositories {
 
 jar {
     baseName = 'Senlin'
-    version = '0.1.3'
+    version = '0.1.4'
     from {
         (configurations.runtime).collect {
             it.isDirectory() ? it : zipTree(it)
