@@ -1,7 +1,7 @@
 /*
  * SenlinGame.java
  *
- * Copyright 2017-2019 Dariusz Sikora <dev@isangeles.pl>
+ * Copyright 2017-2020 Dariusz Sikora <dev@isangeles.pl>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,25 +23,72 @@
 
 package pl.isangeles.senlin;
 
-import java.io.File;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import pl.isangeles.senlin.states.*;
+import pl.isangeles.senlin.states.LoadMenu;
+import pl.isangeles.senlin.states.MainMenu;
+import pl.isangeles.senlin.states.NewGameMenu;
+import pl.isangeles.senlin.states.SettingsMenu;
 import pl.isangeles.senlin.util.Settings;
 
+import java.io.File;
+import java.util.logging.Logger;
+
 /**
- * Main game class, contains all game states
+ * Main game class, contains all game states.
  *
  * @author Isangeles
  */
 public class SenlinGame extends StateBasedGame {
-  public static final String VERSION = "0.1.3";
+  public static final String VERSION = "0.1.4";
+  private static final Logger LOG = Logger.getLogger(SenlinGame.class.getName());
 
   public SenlinGame(String name) {
     super(name);
+  }
+
+  public static void main(String[] args) {
+    // Set path to native lwjgl libs.
+    System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+    // Start game container.
+    try {
+      AppGameContainer gameContainer = createGameContainer();
+      gameContainer.setTargetFrameRate(60);
+      // appGC.setClearEachFrame(false);
+      gameContainer.setIcon("icon.png");
+      gameContainer.start();
+    } catch (SlickException e) {
+      LOG.info(String.format("Unable to start game container: %s", e.getMessage()));
+    }
+  }
+
+  /**
+   * Creates new game container.
+   *
+   * @return Game container.
+   * @throws SlickException In case of exception while creating Slick AppGameContainer.
+   */
+  private static AppGameContainer createGameContainer() throws SlickException {
+    SenlinGame game = new SenlinGame("Senlin " + VERSION);
+    int resX = Settings.getResolution()[0];
+    int resY = Settings.getResolution()[1];
+    ScalableGame scalableGame = new ScalableGame(game, resX, resY);
+    AppGameContainer gameContainer = new AppGameContainer(scalableGame);
+    try {
+      gameContainer.setDisplayMode(resX, resY, Settings.isFullscreen());
+    } catch (SlickException e) {
+      LOG.info(
+          String.format(
+              "Unable to set display mode: %s, switching to system resolution...", e.getMessage()));
+      Settings.setResolution(Settings.getSystemResolution());
+      System.gc();
+      gameContainer = new AppGameContainer(scalableGame);
+      gameContainer.setDisplayMode(resX, resY, false);
+    }
+    return gameContainer;
   }
 
   @Override
@@ -51,48 +98,5 @@ public class SenlinGame extends StateBasedGame {
     this.addState(new SettingsMenu());
     this.addState(new LoadMenu());
     this.enterState(0);
-  }
-
-  public static void main(String[] args) {
-    // Set path to native lwjgl libs.
-    System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
-    // Create game container.
-    try {
-      AppGameContainer appGC =
-          new AppGameContainer(
-              new ScalableGame(
-                  new SenlinGame("Senlin " + VERSION),
-                  (int) Settings.getResolution()[0],
-                  (int) Settings.getResolution()[1]));
-      try {
-        appGC.setDisplayMode(
-            (int) Settings.getResolution()[0],
-            (int) Settings.getResolution()[1],
-            Settings.isFullscreen());
-      } catch (SlickException e) {
-        System.err.println(
-            "engine_msg: Unsupported resolution: "
-                + Settings.getResolution()[0]
-                + "x"
-                + Settings.getResolution()[1]
-                + ", switching to system resolution...");
-        Settings.setResolution(Settings.getSystemResolution());
-        System.gc();
-        appGC =
-            new AppGameContainer(
-                new ScalableGame(
-                    new SenlinGame("Senlin " + VERSION),
-                    (int) Settings.getResolution()[0],
-                    (int) Settings.getResolution()[1]));
-        appGC.setDisplayMode(
-            (int) Settings.getResolution()[0], (int) Settings.getResolution()[1], false);
-      }
-      appGC.setTargetFrameRate(60);
-      // appGC.setClearEachFrame(false);
-      appGC.setIcon("icon.png");
-      appGC.start();
-    } catch (SlickException e) {
-      System.err.println(e.getMessage());
-    }
   }
 }
