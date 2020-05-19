@@ -7,6 +7,7 @@ repositories {
     flatDir {
         dirs 'lib'
     }
+    mavenCentral()
 }
 
 jar {
@@ -23,9 +24,11 @@ jar {
 }
 
 dependencies {
-  compile (name:'jinput', ext:'jar')
-  compile (name:'jogg-0.0.7', ext:'jar')
-  compile (name:'jorbis-0.0.15', ext:'jar')
-  compile (name:'lwjgl', ext:'jar')
-  compile (name:'slick', ext:'jar')
+    compile(name: 'jinput', ext: 'jar')
+    compile(name: 'jogg-0.0.7', ext: 'jar')
+    compile(name: 'jorbis-0.0.15', ext: 'jar')
+    compile(name: 'lwjgl', ext: 'jar')
+    compile(name: 'slick', ext: 'jar')
+    // https://mvnrepository.com/artifact/jakarta.xml.soap/jakarta.xml.soap-api
+    compile group: 'jakarta.xml.soap', name: 'jakarta.xml.soap-api', version: '1.4.2'
 }
