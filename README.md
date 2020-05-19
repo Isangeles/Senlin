@@ -17,7 +17,7 @@ Simply run senlin executable(.sh on Linux or .exe on Windows).
 If you have problem with game startup, try to change game resolution(in game.conf) to your current resolution or one of these: 1920x1080, 1600x800, 1280x720.
 
 ## Build
-You can use OpenJDK 14, earlier versions should also work.
+OpenJDK 1.8 is recommended, but later versions should also work.
 
 The easiest way to build a project is to use [Gradle](https://gradle.org/).
 
